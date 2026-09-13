@@ -87,10 +87,7 @@ void main() {
           ),
         ],
         child: const Scaffold(
-          body: InstanceSelectorLoginEntry(
-            enabled: true,
-            onOpenSheet: _noop,
-          ),
+          body: InstanceSelectorLoginEntry(enabled: true, onOpenSheet: _noop),
         ),
       ),
     );
@@ -118,10 +115,7 @@ void main() {
           ),
         ],
         child: const Scaffold(
-          body: InstanceSelectorLoginEntry(
-            enabled: true,
-            onOpenSheet: _noop,
-          ),
+          body: InstanceSelectorLoginEntry(enabled: true, onOpenSheet: _noop),
         ),
       ),
     );
