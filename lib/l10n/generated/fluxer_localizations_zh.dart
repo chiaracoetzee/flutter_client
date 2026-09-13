@@ -6198,6 +6198,18 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageAddReaction => '添加反应';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => '编辑消息';
 
   @override

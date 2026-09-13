@@ -8357,6 +8357,22 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Double tap a message to",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
+    "doubleTapReactionEdit": "Edit",
+    "@doubleTapReactionEdit": {
+        "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Edit default",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Choose double tap emoji",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
+    },
     "chatMessageEdit": "Edit Message",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."

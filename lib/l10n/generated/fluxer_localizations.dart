@@ -10738,6 +10738,30 @@ abstract class FluxerLocalizations {
   /// **'Add Reaction'**
   String get chatMessageAddReaction;
 
+  /// Hint under quick reactions explaining double-tap to react.
+  ///
+  /// In en, this message translates to:
+  /// **'Double tap a message to'**
+  String get doubleTapReactionHint;
+
+  /// Button that opens the double-tap default emoji picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get doubleTapReactionEdit;
+
+  /// Title of the double-tap default emoji picker sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit default'**
+  String get doubleTapReactionEditTitle;
+
+  /// Subtitle of the double-tap default emoji picker sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose double tap emoji'**
+  String get doubleTapReactionEditSubtitle;
+
   /// Action label for editing a sent message.
   ///
   /// In en, this message translates to:

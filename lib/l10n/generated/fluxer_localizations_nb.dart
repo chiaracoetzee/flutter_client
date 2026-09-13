@@ -6599,6 +6599,18 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Legg til reaksjon';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Rediger melding';
 
   @override
