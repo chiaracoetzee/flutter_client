@@ -7434,6 +7434,9 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Dieses Video konnte nicht abgespielt werden.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Benachrichtigen Sie Benutzer mit dieser Rolle, die die Berechtigung haben, diesen Kanal anzuzeigen.';
 

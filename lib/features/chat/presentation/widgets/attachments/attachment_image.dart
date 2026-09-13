@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
@@ -126,6 +127,8 @@ class AttachmentImage extends ConsumerWidget {
                                   '${channelId}_${messageId}_${attachment.id}',
                               fit: BoxFit.contain,
                               placeholder: _buildImagePlaceholder(context),
+                              errorPlaceholder:
+                                  const MediaLoadErrorPlaceholder(),
                             )
                           : _AttachmentStaticImage(
                               imageUrl: buildHdrAwareImageUrl(
@@ -268,12 +271,15 @@ class _AttachmentStaticImage extends StatelessWidget {
         }
         return CachedNetworkImage(
           imageUrl: imageUrl,
+          width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
+          height: constraints.maxHeight.isFinite ? constraints.maxHeight : null,
           memCacheWidth: memCacheWidth,
           memCacheHeight: memCacheHeight,
           fit: BoxFit.contain,
           fadeInDuration: Duration.zero,
           fadeOutDuration: Duration.zero,
           placeholder: (BuildContext _, String _) => placeholder,
+          errorBuilder: (_, _, _) => const MediaLoadErrorPlaceholder(),
         );
       },
     );

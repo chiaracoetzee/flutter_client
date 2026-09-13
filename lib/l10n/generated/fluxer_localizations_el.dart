@@ -7425,6 +7425,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η αναπαραγωγή αυτού του βίντεο.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Ειδοποιήστε τους χρήστες με αυτόν τον ρόλο που έχουν δικαίωμα προβολής αυτού του καναλιού.';
 

@@ -7399,6 +7399,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Nu s-a putut reda acest videoclip.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Notifică utilizatorii cu acest rol care au permisiunea de a vedea acest canal.';
 

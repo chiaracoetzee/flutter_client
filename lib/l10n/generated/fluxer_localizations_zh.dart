@@ -6898,6 +6898,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => '无法播放此视频。';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       '通知具有此角色的用户，他们有权查看此频道。';
 

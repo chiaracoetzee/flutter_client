@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/features/ui/media_viewer/touch_media_viewer_page.dart';
@@ -169,6 +170,26 @@ void main() {
       await tester.pump();
 
       expect(find.byTooltip('Media options'), findsNothing);
+    });
+
+    testWidgets('shows a load-failed placeholder when the image URL is empty', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _app(
+          const AttachmentMediaViewerShell(
+            items: [AttachmentMediaViewerItem(url: '', filename: 'image.png')],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(MediaLoadErrorPlaceholder), findsWidgets);
     });
 
     testWidgets('keeps desktop buttons on desktop layout', (tester) async {

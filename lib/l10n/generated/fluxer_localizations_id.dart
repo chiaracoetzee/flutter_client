@@ -7354,6 +7354,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Tidak dapat memutar video ini.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Beri tahu pengguna dengan peran ini yang memiliki izin untuk melihat saluran ini.';
 

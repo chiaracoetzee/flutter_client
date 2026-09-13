@@ -7381,6 +7381,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Toto video se nepodařilo přehrát.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Upozornit uživatele s touto rolí, kteří mají oprávnění zobrazit tento kanál.';
 

@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
@@ -716,14 +717,14 @@ class _AttachmentMediaViewerShellState
       mode: hdrDisplayMode,
       contentType: item.contentType,
     );
-    final Widget image = CachedNetworkImage(
-      imageUrl: imageUrl,
-      fit: BoxFit.contain,
-      errorBuilder: (_, _, _) => ColoredBox(
-        color: context.colors.backgroundSecondaryAlt,
-        child: const Center(child: Icon(PhosphorIconsBold.image)),
-      ),
-    );
+    const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
+    final Widget image = imageUrl.isEmpty
+        ? errorPlaceholder
+        : CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.contain,
+            errorBuilder: (_, _, _) => errorPlaceholder,
+          );
     final Widget media = MatureMediaOverlay(
       channelId: widget.channelId,
       isMatureMedia: item.isMatureMedia,
@@ -953,15 +954,7 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
                             color: context.colors.spoilerBackground,
                             child: const SizedBox.expand(),
                           )
-                        : CachedNetworkImage(
-                            imageUrl: buildHdrAwareDisplayImageUrl(
-                              url: item.url,
-                              proxyUrl: item.proxyUrl,
-                              mode: hdrDisplayMode,
-                              contentType: item.contentType,
-                            ),
-                            fit: BoxFit.cover,
-                          ),
+                        : _thumbnailImage(item, hdrDisplayMode),
                   ),
                 ),
               ),
@@ -971,6 +964,29 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
         separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemCount: items.length,
       ),
+    );
+  }
+
+  Widget _thumbnailImage(
+    AttachmentMediaViewerItem item,
+    HdrDisplayMode hdrDisplayMode,
+  ) {
+    final String imageUrl = buildHdrAwareDisplayImageUrl(
+      url: item.url,
+      proxyUrl: item.proxyUrl,
+      mode: hdrDisplayMode,
+      contentType: item.contentType,
+    );
+    if (imageUrl.isEmpty) {
+      return const MediaLoadErrorPlaceholder(showLabel: false);
+    }
+    const Widget errorPlaceholder = MediaLoadErrorPlaceholder(showLabel: false);
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: double.infinity,
+      errorBuilder: (_, _, _) => errorPlaceholder,
     );
   }
 }

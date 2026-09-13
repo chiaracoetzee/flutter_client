@@ -7322,6 +7322,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Could not play this video.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Notify users with this role who have permission to view this channel.';
 
@@ -35609,6 +35612,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get chatVideoPlaybackFailed => 'Could not play this video.';
+
+  @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>

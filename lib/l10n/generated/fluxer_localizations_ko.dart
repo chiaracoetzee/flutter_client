@@ -7049,6 +7049,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => '이 동영상을 재생할 수 없습니다.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       '이 채널을 볼 권한이 있는 이 역할의 사용자에게 알립니다.';
 

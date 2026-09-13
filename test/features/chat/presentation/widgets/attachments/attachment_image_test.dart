@@ -131,6 +131,12 @@ void main() {
 
     expect(find.byType(EmbedAnimatedImage), findsNothing);
     expect(find.byType(CachedNetworkImage), findsOneWidget);
+    expect(
+      tester
+          .widget<CachedNetworkImage>(find.byType(CachedNetworkImage))
+          .errorBuilder,
+      isNotNull,
+    );
   });
 
   testWidgets('shows an ALT badge when the attachment has a description', (

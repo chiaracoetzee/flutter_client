@@ -7360,6 +7360,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Không thể phát video này.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Thông báo cho những người dùng có vai trò này và có quyền xem kênh.';
 

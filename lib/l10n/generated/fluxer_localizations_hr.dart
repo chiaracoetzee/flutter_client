@@ -7382,6 +7382,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ne možemo reproducirati ovaj videozapis.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Obavijesti korisnike s ovom ulogom koji imaju dopuštenje za pregled ovog kanala.';
 

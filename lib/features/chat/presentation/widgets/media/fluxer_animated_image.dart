@@ -15,6 +15,7 @@ class FluxerAnimatedImage extends StatelessWidget {
     this.staticUrl,
     this.fit = BoxFit.cover,
     this.placeholder,
+    this.errorPlaceholder,
     super.key,
   });
 
@@ -29,8 +30,11 @@ class FluxerAnimatedImage extends StatelessWidget {
 
   final BoxFit fit;
 
-  /// Shown while loading, on error, and when the resolved URL is empty.
+  /// Shown while loading and when the resolved URL is empty.
   final Widget? placeholder;
+
+  /// Shown when the image fails to load. Defaults to [placeholder].
+  final Widget? errorPlaceholder;
 
   bool get _loadAnimated => loadAnimated ?? playing;
 
@@ -42,7 +46,7 @@ class FluxerAnimatedImage extends StatelessWidget {
         ? null
         : resolvedStaticUrl;
     if (animatedUrl.isEmpty && posterUrl == null) {
-      return placeholder ?? const SizedBox.shrink();
+      return errorPlaceholder ?? placeholder ?? const SizedBox.shrink();
     }
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -56,6 +60,7 @@ class FluxerAnimatedImage extends StatelessWidget {
           devicePixelRatio: animatedImagePixelRatio(devicePixelRatio),
         );
         final Widget fallback = placeholder ?? const SizedBox.shrink();
+        final Widget errorChild = errorPlaceholder ?? fallback;
         final Widget? poster = posterUrl == null
             ? null
             : CachedNetworkImage(
@@ -68,38 +73,30 @@ class FluxerAnimatedImage extends StatelessWidget {
                 fadeInDuration: Duration.zero,
                 fadeOutDuration: Duration.zero,
                 placeholder: (_, _) => fallback,
-                errorBuilder: (_, _, _) => fallback,
+                errorBuilder: (_, _, _) => errorChild,
               );
         final Widget loading = poster ?? fallback;
-        if (!_loadAnimated || animatedUrl.isEmpty) {
-          return SizedBox(
-            width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
-            height: constraints.maxHeight.isFinite
-                ? constraints.maxHeight
-                : null,
-            child: loading,
-          );
-        }
-        final String sizedAnimatedUrl = buildMediaProxyUrl(
-          animatedUrl,
-          width: animatedProxySize.width,
-          height: animatedProxySize.height,
-        );
         return SizedBox(
           width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
           height: constraints.maxHeight.isFinite ? constraints.maxHeight : null,
-          child: TickerMode(
-            key: const ValueKey<String>('fluxer-animated-image-ticker'),
-            enabled: playing,
-            child: CachedNetworkImage(
-              imageUrl: sizedAnimatedUrl,
-              fit: fit,
-              fadeInDuration: Duration.zero,
-              fadeOutDuration: Duration.zero,
-              placeholder: (_, _) => loading,
-              errorBuilder: (_, _, _) => loading,
-            ),
-          ),
+          child: !_loadAnimated || animatedUrl.isEmpty
+              ? loading
+              : TickerMode(
+                  key: const ValueKey<String>('fluxer-animated-image-ticker'),
+                  enabled: playing,
+                  child: CachedNetworkImage(
+                    imageUrl: buildMediaProxyUrl(
+                      animatedUrl,
+                      width: animatedProxySize.width,
+                      height: animatedProxySize.height,
+                    ),
+                    fit: fit,
+                    fadeInDuration: Duration.zero,
+                    fadeOutDuration: Duration.zero,
+                    placeholder: (_, _) => loading,
+                    errorBuilder: (_, _, _) => errorChild,
+                  ),
+                ),
         );
       },
     );

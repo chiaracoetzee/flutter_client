@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
@@ -314,7 +315,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
                 fit: StackFit.expand,
                 children: <Widget>[
                   if (displayUrl.isEmpty)
-                    const ColoredBox(color: Colors.black)
+                    const MediaLoadErrorPlaceholder()
                   else
                     CachedNetworkImage(
                       imageUrl: displayUrl,
@@ -324,7 +325,7 @@ class AttachmentMediaGrid extends ConsumerWidget {
                       fadeInDuration: Duration.zero,
                       fadeOutDuration: Duration.zero,
                       errorBuilder: (_, _, _) =>
-                          const ColoredBox(color: Colors.black),
+                          const MediaLoadErrorPlaceholder(),
                     ),
                   if (isVideo) const VideoPlayButtonOverlay(),
                 ],

@@ -7422,6 +7422,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Не удалось воспроизвести это видео.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Уведомить пользователей с этой ролью, которые имеют разрешение на просмотр этого канала.';
 

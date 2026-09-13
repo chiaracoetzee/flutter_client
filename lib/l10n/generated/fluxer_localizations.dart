@@ -12022,6 +12022,12 @@ abstract class FluxerLocalizations {
   /// **'Could not play this video.'**
   String get chatVideoPlaybackFailed;
 
+  /// Shown when an attached, embedded, or viewed image fails to download or decode.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load this image.'**
+  String get chatImageCouldNotLoad;
+
   /// Secondary line in the @ mention autocomplete when the row is a mentionable guild role.
   ///
   /// In en, this message translates to:

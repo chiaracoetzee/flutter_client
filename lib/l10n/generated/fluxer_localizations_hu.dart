@@ -7406,6 +7406,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'A videó nem játszható le.';
 
   @override
+  String get chatImageCouldNotLoad => 'Could not load this image.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Értesíti az ezzel a szerepkörrel rendelkező felhasználókat, akiknek van engedélyük a csatorna megtekintésére.';
 
