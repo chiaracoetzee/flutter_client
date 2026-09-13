@@ -8,11 +8,11 @@ import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_play
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/service/voice_message_send.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
-import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
-import 'package:fluxer_app/features/chat/utils/voice_message_waveform.dart';
+import 'package:fluxer_app/features/chat/services/voice_message_send.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/voice_message_waveform.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

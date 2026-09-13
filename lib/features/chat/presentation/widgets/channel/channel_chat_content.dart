@@ -19,7 +19,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
-import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';

@@ -24,7 +24,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
-import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';

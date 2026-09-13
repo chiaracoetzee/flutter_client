@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/utils/guild_composer_barrier_l10n.dart';
+import 'package:fluxer_app/features/chat/utils/composer/guild_composer_barrier_l10n.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/phone_add_sheet.dart';

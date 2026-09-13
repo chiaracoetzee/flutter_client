@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_bind
 import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_playback.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

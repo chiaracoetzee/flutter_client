@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
-import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/material_ui.dart';

@@ -9,7 +9,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_sto
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/privacy_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/sidebar_synced_field.dart';
-import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
 import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
 import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
 import 'package:riverpod_annotation/riverpod_annotation.dart';

@@ -7,8 +7,8 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as prefs;
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
-import 'package:fluxer_app/features/accessibility/motion_preferences.dart';
-import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/domain/motion_preferences.dart';
+import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';

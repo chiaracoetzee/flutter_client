@@ -1,6 +1,6 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
-import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 /// Renders an animated image through Flutter's native image pipeline.

@@ -16,7 +16,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/themes/coal.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/core/theme/themes/light.dart';
-import 'package:fluxer_app/features/accessibility/text_scale.dart';
+import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_dart/export.dart';

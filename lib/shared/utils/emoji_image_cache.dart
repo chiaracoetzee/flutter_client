@@ -2,8 +2,8 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
-import 'package:fluxer_app/features/accessibility/effective_motion_preferences_provider.dart';
-import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
+import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class CachedEmojiImage extends ConsumerStatefulWidget {

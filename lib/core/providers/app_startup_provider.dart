@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
@@ -35,7 +36,6 @@ import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_liste
 import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_provider.dart';
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';

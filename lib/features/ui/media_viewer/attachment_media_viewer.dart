@@ -10,9 +10,9 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
-import 'package:fluxer_app/features/chat/utils/favorite_media_utils.dart';
-import 'package:fluxer_app/features/chat/utils/hdr_aware_image_url.dart';
-import 'package:fluxer_app/features/chat/utils/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
+import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';

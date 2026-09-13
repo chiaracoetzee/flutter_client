@@ -1,6 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
+import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
