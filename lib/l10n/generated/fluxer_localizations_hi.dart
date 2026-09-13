@@ -10875,6 +10875,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'इंस्टेंस यूआरएल दर्ज करें (जैसे fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Fluxer पर रीसेट करें';
 
   @override
@@ -10896,9 +10900,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'इंस्टेंस से कनेक्ट करें';
-
-  @override
-  String get connectToDifferentInstance => 'किसी दूसरे इंस्टेंस से कनेक्ट करें';
 
   @override
   String get changeInstance => 'बदलें';

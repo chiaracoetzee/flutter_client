@@ -7061,9 +7061,13 @@
     "@instanceUrlLabel": {
         "description": "Label for the self-hosted instance URL input on the login screen."
     },
-    "instanceUrlPlaceholder": "Enter instance URL (e.g. fluxer.app)",
+    "instanceUrlPlaceholder": "fluxer.app",
     "@instanceUrlPlaceholder": {
-        "description": "Placeholder for the self-hosted instance URL input."
+        "description": "Placeholder for the instance URL input."
+    },
+    "instanceUrlHelper": "Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Reset to Fluxer",
     "@resetToDefaultInstance": {
@@ -7097,10 +7101,6 @@
     "instanceSheetTitle": "Connect to instance",
     "@instanceSheetTitle": {
         "description": "Title for the self-hosted instance connection bottom sheet."
-    },
-    "connectToDifferentInstance": "Connect to a different instance",
-    "@connectToDifferentInstance": {
-        "description": "Subtle link on the login screen to open the instance connection sheet."
     },
     "changeInstance": "Change",
     "@changeInstance": {

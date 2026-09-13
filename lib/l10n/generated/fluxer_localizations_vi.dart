@@ -10898,6 +10898,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Nhập URL của phiên bản (ví dụ: fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Đặt lại về Fluxer';
 
   @override
@@ -10919,9 +10923,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Kết nối tới máy chủ';
-
-  @override
-  String get connectToDifferentInstance => 'Kết nối tới một phiên bản khác';
 
   @override
   String get changeInstance => 'Thay đổi';

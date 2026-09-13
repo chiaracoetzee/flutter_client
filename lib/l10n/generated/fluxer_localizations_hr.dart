@@ -10918,6 +10918,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get instanceUrlPlaceholder => 'Unesite URL instance (npr. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Vrati na Fluxer';
 
   @override
@@ -10939,9 +10943,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Poveži se na instancu';
-
-  @override
-  String get connectToDifferentInstance => 'Poveži se na drugu instancu';
 
   @override
   String get changeInstance => 'Promijeni';

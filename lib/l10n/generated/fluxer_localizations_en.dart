@@ -10821,7 +10821,11 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get instanceUrlLabel => 'Instance URL';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder => 'fluxer.app';
+
+  @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
 
   @override
   String get resetToDefaultInstance => 'Reset to Fluxer';
@@ -10845,9 +10849,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Connect to instance';
-
-  @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
 
   @override
   String get changeInstance => 'Change';
@@ -24989,9 +24990,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get instanceSheetTitle => 'Connect to instance';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
-
-  @override
   String get changeInstance => 'Change';
 
   @override
@@ -39113,7 +39111,11 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get instanceUrlLabel => 'Instance URL';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder => 'fluxer.app';
+
+  @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
 
   @override
   String get resetToDefaultInstance => 'Reset to Fluxer';
@@ -39137,9 +39139,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get instanceSheetTitle => 'Connect to instance';
-
-  @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
 
   @override
   String get changeInstance => 'Change';

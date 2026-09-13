@@ -11016,6 +11016,10 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Въведете URL на инстанцията (напр. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Възстановяване до Fluxer';
 
   @override
@@ -11037,9 +11041,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Свързване към инстанция';
-
-  @override
-  String get connectToDifferentInstance => 'Свързване към различен инстанс';
 
   @override
   String get changeInstance => 'Промяна';

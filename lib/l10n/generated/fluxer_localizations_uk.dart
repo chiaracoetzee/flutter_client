@@ -10992,6 +10992,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Введіть URL екземпляра (наприклад, fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Скинути до Fluxer';
 
   @override
@@ -11013,9 +11017,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Підключитися до екземпляра';
-
-  @override
-  String get connectToDifferentInstance => 'Підключитися до іншого екземпляра';
 
   @override
   String get changeInstance => 'Змінити';

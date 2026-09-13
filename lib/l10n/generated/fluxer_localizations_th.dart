@@ -10792,6 +10792,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get instanceUrlPlaceholder => 'ป้อน URL อินสแตนซ์ (เช่น fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'รีเซ็ตเป็น Fluxer';
 
   @override
@@ -10813,9 +10817,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'เชื่อมต่อกับอินสแตนซ์';
-
-  @override
-  String get connectToDifferentInstance => 'เชื่อมต่อกับอินสแตนซ์อื่น';
 
   @override
   String get changeInstance => 'เปลี่ยน';

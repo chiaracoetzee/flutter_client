@@ -10406,6 +10406,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get instanceUrlPlaceholder => '인스턴스 URL 입력 (예: fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Fluxer로 재설정';
 
   @override
@@ -10427,9 +10431,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => '인스턴스에 연결';
-
-  @override
-  String get connectToDifferentInstance => '다른 인스턴스에 연결';
 
   @override
   String get changeInstance => '변경';

@@ -11004,6 +11004,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Įveskite instance URL (pvz., fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Atstatyti į Fluxer';
 
   @override
@@ -11025,9 +11029,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Prisijungti prie serverio';
-
-  @override
-  String get connectToDifferentInstance => 'Prisijungti prie kito serverio';
 
   @override
   String get changeInstance => 'Keisti';

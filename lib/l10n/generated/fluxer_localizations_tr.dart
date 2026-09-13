@@ -10895,6 +10895,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Sunucu URL\'sini girin (ör. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Fluxer\'a sıfırla';
 
   @override
@@ -10916,9 +10920,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Sunucuya bağlan';
-
-  @override
-  String get connectToDifferentInstance => 'Farklı bir sunucuya bağlan';
 
   @override
   String get changeInstance => 'Değiştir';

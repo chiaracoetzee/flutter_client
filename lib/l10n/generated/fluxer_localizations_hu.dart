@@ -10980,6 +10980,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Add meg a példány URL-jét (pl. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Visszaállítás Fluxer-re';
 
   @override
@@ -11001,9 +11005,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Csatlakozás instanchoz';
-
-  @override
-  String get connectToDifferentInstance => 'Csatlakozás egy másik instanchoz';
 
   @override
   String get changeInstance => 'Váltás';

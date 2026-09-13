@@ -10735,6 +10735,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'הזן כתובת URL של מופע (לדוגמה, fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'אפס ל-Fluxer';
 
   @override
@@ -10756,9 +10760,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'התחבר למופע';
-
-  @override
-  String get connectToDifferentInstance => 'התחבר למופע אחר';
 
   @override
   String get changeInstance => 'שנה';

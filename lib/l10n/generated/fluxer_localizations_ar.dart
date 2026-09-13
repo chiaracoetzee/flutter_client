@@ -10795,6 +10795,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get instanceUrlPlaceholder => 'أدخل عنوان URL للمثيل (مثل fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'إعادة الضبط إلى Fluxer';
 
   @override
@@ -10816,9 +10820,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'الاتصال بخادم';
-
-  @override
-  String get connectToDifferentInstance => 'الاتصال بخادم مختلف';
 
   @override
   String get changeInstance => 'تغيير';

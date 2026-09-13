@@ -10916,6 +10916,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Zadejte URL instance (např. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Obnovit na Fluxer';
 
   @override
@@ -10937,9 +10941,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Připojit k instanci';
-
-  @override
-  String get connectToDifferentInstance => 'Připojit k jiné instanci';
 
   @override
   String get changeInstance => 'Změnit';

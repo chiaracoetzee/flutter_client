@@ -10932,6 +10932,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Voer instantie-URL in (bijv. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Terugzetten naar Fluxer';
 
   @override
@@ -10953,9 +10957,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Verbinden met instantie';
-
-  @override
-  String get connectToDifferentInstance => 'Verbind met een andere instantie';
 
   @override
   String get changeInstance => 'Wijzigen';

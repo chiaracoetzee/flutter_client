@@ -11020,6 +11020,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Εισαγάγετε διεύθυνση URL παρουσίας (π.χ. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Επαναφορά στο Fluxer';
 
   @override
@@ -11041,9 +11045,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Σύνδεση στην παρουσία';
-
-  @override
-  String get connectToDifferentInstance => 'Σύνδεση σε διαφορετική παρουσία';
 
   @override
   String get changeInstance => 'Αλλαγή';

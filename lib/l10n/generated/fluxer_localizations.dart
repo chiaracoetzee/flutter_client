@@ -18030,11 +18030,17 @@ abstract class FluxerLocalizations {
   /// **'Instance URL'**
   String get instanceUrlLabel;
 
-  /// Placeholder for the self-hosted instance URL input.
+  /// Placeholder for the instance URL input.
   ///
   /// In en, this message translates to:
-  /// **'Enter instance URL (e.g. fluxer.app)'**
+  /// **'fluxer.app'**
   String get instanceUrlPlaceholder;
+
+  /// Helper text explaining official vs self-hosted instance URLs.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.'**
+  String get instanceUrlHelper;
 
   /// Tooltip for the button that resets the instance URL to the official Fluxer instance.
   ///
@@ -18077,12 +18083,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Connect to instance'**
   String get instanceSheetTitle;
-
-  /// Subtle link on the login screen to open the instance connection sheet.
-  ///
-  /// In en, this message translates to:
-  /// **'Connect to a different instance'**
-  String get connectToDifferentInstance;
 
   /// Link to change the connected Fluxer instance.
   ///

@@ -11053,6 +11053,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Entrez l\'URL de l\'instance (par ex. fluxer.app)';
 
   @override
+  String get instanceUrlHelper =>
+      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+
+  @override
   String get resetToDefaultInstance => 'Réinitialiser à Fluxer';
 
   @override
@@ -11074,9 +11078,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get instanceSheetTitle => 'Se connecter à une instance';
-
-  @override
-  String get connectToDifferentInstance => 'Se connecter à une autre instance';
 
   @override
   String get changeInstance => 'Changer';
