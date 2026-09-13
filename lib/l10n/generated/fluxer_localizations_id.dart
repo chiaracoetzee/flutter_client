@@ -6605,6 +6605,18 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Tambah Reaksi';
 
   @override
+  String get doubleTapReactionHint => 'Double tap a message to';
+
+  @override
+  String get doubleTapReactionEdit => 'Edit';
+
+  @override
+  String get doubleTapReactionEditTitle => 'Edit default';
+
+  @override
+  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+
+  @override
   String get chatMessageEdit => 'Edit Pesan';
 
   @override

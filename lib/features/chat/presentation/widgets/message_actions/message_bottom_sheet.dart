@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/double_tap_reaction_hint.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
@@ -717,7 +718,7 @@ class _MessageBottomSheetBody extends ConsumerWidget {
               },
               onAddMore: () => _pop(context, MessageAction.addReaction),
             ),
-            const SizedBox(height: 8),
+            DoubleTapReactionHint(channelId: message.channelId),
           ],
           FluxerBottomSheetGroupColumn(
             children: [if (url != null) _linkGroup(context, url), ...groups],

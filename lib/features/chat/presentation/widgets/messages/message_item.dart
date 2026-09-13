@@ -41,6 +41,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_translation_
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
+import 'package:fluxer_app/features/chat/utils/messages/double_tap_reaction.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_accessibility_summary.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/messages/spoiler_utils.dart';
@@ -631,6 +632,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           : null,
       onSecondaryTapUp: !useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) => _showContextMenu(context, details.globalPosition)
+          : null,
+      onDoubleTap:
+          !widget.inboxPreviewMode &&
+              widget.canAddReactions &&
+              widget.onReaction != null &&
+              !isFailed &&
+              !isSending
+          ? () => dispatchStoredDoubleTapReaction(ref, widget.onReaction)
           : null,
       child: MouseRegion(
         onEnter: (_) => _hovered.value = true,
