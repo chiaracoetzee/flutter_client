@@ -224,6 +224,23 @@ class ChatViewState {
     this.revealedCollapsedGroupKey,
   }) : _writeAuthorization = null;
 
+  static const ChatViewState empty = ChatViewState(
+    channelId: '',
+    messages: [],
+    replyingTo: null,
+    replyMentioning: false,
+    editingMessage: null,
+    messageText: '',
+    scrollToBottomSignal: 0,
+    isLoading: false,
+    isSyncingMessages: false,
+    isLoadingMore: false,
+    isLoadingNewer: false,
+    hasMoreMessages: true,
+    hasMoreNewerMessages: false,
+    errorMessage: null,
+  );
+
   const ChatViewState._(
     this._writeAuthorization, {
     required this.channelId,
@@ -622,8 +639,39 @@ class ChatViewModel extends _$ChatViewModel {
       <String, DateTime>{};
   MessageRealtimeFrameBatcher? _frameBatcher;
 
+  void _resetAccountLocalState() {
+    _channelSwitchGeneration++;
+    _windowGeneration++;
+    _parkedWindows.clear();
+    _lastReconciledGatewayGenerationByChannel.clear();
+    _lastReconciledForegroundGenerationByChannel.clear();
+    _lastReconciledConnectivityGapGenerationByChannel.clear();
+    _lastNetworkRefreshByChannel.clear();
+    _localMutations.clear();
+    _inFlightOptimisticMessages.clear();
+    _pendingDeleteFutures.clear();
+    _loadedUnreadBoundaryKeys.clear();
+    _realtimeQueue.clear();
+    _swapCommits.clear();
+    _armedSwap = null;
+    _switchInFlightRequest = null;
+    _switchInFlightFuture = null;
+    _pendingSessionResync = false;
+    _contiguityTrusted = false;
+  }
+
   @override
   ChatViewState build() {
+    ref.listen<String?>(currentUserIdProvider, (
+      String? previous,
+      String? next,
+    ) {
+      if (previous == next) {
+        return;
+      }
+      _resetAccountLocalState();
+      state = ChatViewState.empty;
+    });
     final bus = ref.watch(messageRealtimeBusProvider);
     unawaited(_eventsSub?.cancel());
     _frameBatcher?.dispose();
@@ -669,22 +717,7 @@ class ChatViewModel extends _$ChatViewModel {
         _frameBatcher?.dispose();
         unawaited(_eventsSub?.cancel());
       });
-    return const ChatViewState(
-      channelId: '',
-      messages: [],
-      replyingTo: null,
-      replyMentioning: false,
-      editingMessage: null,
-      messageText: '',
-      scrollToBottomSignal: 0,
-      isLoading: false,
-      isSyncingMessages: false,
-      isLoadingMore: false,
-      isLoadingNewer: false,
-      hasMoreMessages: true,
-      hasMoreNewerMessages: false,
-      errorMessage: null,
-    );
+    return ChatViewState.empty;
   }
 
   void _syncReadAckEligibility(ChatReadViewportState viewport) {

@@ -32,7 +32,5 @@ Map<String, dynamic> normalizePremiumStateBillingJson(
 }
 
 PremiumStateResponse decodePremiumStateResponse(Map<String, dynamic> json) {
-  return PremiumStateResponse.fromJson(
-    normalizePremiumStateResponseJson(json),
-  );
+  return PremiumStateResponse.fromJson(normalizePremiumStateResponseJson(json));
 }
