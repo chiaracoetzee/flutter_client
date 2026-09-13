@@ -364,7 +364,6 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     );
 
     // Remove higher index first to avoid shifting.
-    final first = sourceIndex < targetIndex ? sourceIndex : targetIndex;
     if (sourceIndex > targetIndex) {
       items
         ..removeAt(sourceIndex)
@@ -374,7 +373,10 @@ class OrganizedGuildList extends _$OrganizedGuildList {
         ..removeAt(targetIndex)
         ..removeAt(sourceIndex);
     }
-    items.insert(first < items.length ? first : items.length, folder);
+    final int insertIndex = sourceIndex < targetIndex
+        ? targetIndex - 1
+        : targetIndex;
+    items.insert(insertIndex.clamp(0, items.length), folder);
 
     _commitLocalMutation(items);
   }
