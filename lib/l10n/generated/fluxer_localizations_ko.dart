@@ -4882,6 +4882,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get accessibilityAlwaysUnderlineLinksLabel => '링크 항상 밑줄 표시';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel => '취소선 텍스트 흐리게 표시';
 
   @override

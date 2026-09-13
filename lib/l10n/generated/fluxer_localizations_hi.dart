@@ -5079,6 +5079,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'लिंक को हमेशा रेखांकित करें';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel =>
       'स्ट्राइकथ्रू टेक्स्ट को हल्का करें';
 

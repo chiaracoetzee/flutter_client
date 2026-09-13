@@ -4891,6 +4891,14 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get accessibilityAlwaysUnderlineLinksLabel => 'リンクに常に下線を表示';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel => '取り消し線のテキストを薄く表示する';
 
   @override

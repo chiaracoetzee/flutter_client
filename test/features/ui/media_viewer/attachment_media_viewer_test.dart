@@ -197,6 +197,58 @@ void main() {
       expect(find.byType(TouchMediaViewerPage), findsNothing);
     });
 
+    testWidgets('shows attachment description in the desktop info pill', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _mouseApp(
+          const AttachmentMediaViewerShell(
+            items: [
+              AttachmentMediaViewerItem(
+                url: _testAttachmentImageUrl,
+                filename: _testAttachmentImageFilename,
+                description: 'A waving cat',
+              ),
+            ],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.text('A waving cat'), findsOneWidget);
+    });
+
+    testWidgets('shows attachment description on mobile layouts', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _touchApp(
+          const AttachmentMediaViewerShell(
+            items: [
+              AttachmentMediaViewerItem(
+                url: _testAttachmentImageUrl,
+                filename: _testAttachmentImageFilename,
+                description: 'A waving cat',
+              ),
+            ],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.text('A waving cat'), findsOneWidget);
+    });
+
     testWidgets('shows favorite button when message action scope is provided', (
       tester,
     ) async {

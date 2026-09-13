@@ -5102,6 +5102,14 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Sottolinea sempre i link';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel =>
       'Attenua il testo barrato';
 

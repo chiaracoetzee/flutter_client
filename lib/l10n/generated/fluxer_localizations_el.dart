@@ -5127,6 +5127,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Να υπογραμμίζονται πάντα οι σύνδεσμοι';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel =>
       'Αμύδρωση διαγραμμένου κειμένου';
 

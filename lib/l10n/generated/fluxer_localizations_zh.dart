@@ -4785,6 +4785,14 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get accessibilityAlwaysUnderlineLinksLabel => '始终显示链接下划线';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel => '调暗删除线文本';
 
   @override

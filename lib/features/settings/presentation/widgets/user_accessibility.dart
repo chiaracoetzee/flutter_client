@@ -74,6 +74,15 @@ class UserAccessibility extends ConsumerWidget {
                     ),
                   ),
                   FluxerSettingsSwitchItem.grouped(
+                    label: l10n.accessibilityShowAltTextOnImagesLabel,
+                    description:
+                        l10n.accessibilityShowAltTextOnImagesDescription,
+                    value: appearance.showAltTextOnImages,
+                    onChanged: (value) => unawaited(
+                      appearanceNotifier.setShowAltTextOnImages(value: value),
+                    ),
+                  ),
+                  FluxerSettingsSwitchItem.grouped(
                     label: l10n.accessibilityDimStrikethroughTextLabel,
                     value: appearance.dimStrikethroughText,
                     onChanged: (value) => unawaited(

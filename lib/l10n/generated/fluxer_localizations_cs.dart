@@ -5085,6 +5085,14 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get accessibilityAlwaysUnderlineLinksLabel => 'Vždy podtrhávat odkazy';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel =>
       'Ztlumit přeškrtnutý text';
 

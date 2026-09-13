@@ -5113,6 +5113,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Mindig aláhúzza a hivatkozásokat';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel =>
       'Áthúzott szöveg halványítása';
 

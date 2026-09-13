@@ -5087,6 +5087,14 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bağlantıların her zaman altını çiz';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel =>
       'Üstü çizili metni soluklaştır';
 

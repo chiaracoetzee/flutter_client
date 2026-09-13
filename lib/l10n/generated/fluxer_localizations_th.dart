@@ -5041,6 +5041,14 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get accessibilityAlwaysUnderlineLinksLabel => 'ขีดเส้นใต้ลิงก์เสมอ';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel => 'หรี่ข้อความขีดทับ';
 
   @override

@@ -8330,6 +8330,18 @@ abstract class FluxerLocalizations {
   /// **'Always underline links'**
   String get accessibilityAlwaysUnderlineLinksLabel;
 
+  /// Toggle label for showing image alternative text as a caption.
+  ///
+  /// In en, this message translates to:
+  /// **'Show alternative text on images'**
+  String get accessibilityShowAltTextOnImagesLabel;
+
+  /// Description for the show alternative text on images toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Display alternative text below images when it is available.'**
+  String get accessibilityShowAltTextOnImagesDescription;
+
   /// Toggle label for dimming strikethrough text in messages.
   ///
   /// In en, this message translates to:

@@ -5093,6 +5093,14 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Links altijd onderstrepen';
 
   @override
+  String get accessibilityShowAltTextOnImagesLabel =>
+      'Show alternative text on images';
+
+  @override
+  String get accessibilityShowAltTextOnImagesDescription =>
+      'Display alternative text below images when it is available.';
+
+  @override
   String get accessibilityDimStrikethroughTextLabel =>
       'Doorgestreepte tekst dimmen';
 
