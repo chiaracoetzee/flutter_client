@@ -682,6 +682,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && _uiEpoch == scheduledEpoch) {
           _publishDemandGeometry();
+          if (messages.isEmpty) {
+            _syncReadViewport();
+          }
         }
       });
     }
@@ -2165,7 +2168,26 @@ class _MessageListState extends ConsumerState<MessageList> {
   /// flag that can trigger an auto-ack - is withheld while a jump owns the
   /// viewport, since the position mid-jump is not where the user is reading.
   void _syncReadViewport({bool ignoreJumpTarget = false}) {
-    if (!_anchorResolved || !_scrollController.hasClients) {
+    if (!_anchorResolved) {
+      return;
+    }
+    final ChatViewState chatState = ref.read(chatViewModelProvider);
+    if (chatState.messages.isEmpty) {
+      if (chatState.isLoading || chatState.hasMoreNewerMessages) {
+        return;
+      }
+      // Welcome / empty states do not mount a scroll view, so there is no
+      // metrics callback. Viewing that empty live tail still marks read.
+      _readViewport.updateViewport(
+        channelId: _viewportChannelId,
+        nearLoadedTail: true,
+        distanceFromBottom: 0,
+        viewportHeight: 0,
+        sampledTailId: null,
+      );
+      return;
+    }
+    if (!_scrollController.hasClients) {
       return;
     }
     final bool jumpOwnsViewport = !ignoreJumpTarget && _isJumpOwningViewport();
@@ -2184,9 +2206,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       // advances the tail (terminal newer page, live create) makes this
       // publication stale for auto-ack until post-layout geometry
       // republishes with the fresh token.
-      sampledTailId: newestServerBackedMessageId(
-        ref.read(chatViewModelProvider).messages,
-      ),
+      sampledTailId: newestServerBackedMessageId(chatState.messages),
     );
   }
 

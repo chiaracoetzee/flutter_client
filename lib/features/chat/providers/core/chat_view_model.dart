@@ -4175,12 +4175,16 @@ class ChatViewModel extends _$ChatViewModel {
     }
     final String? visibleTailId = newestServerBackedMessageId(state.messages);
     if (!force && visibleTailId == null) {
-      if (!state.hasMoreNewerMessages) {
+      final ChatReadViewportState viewport = ref.read(chatReadViewportProvider);
+      if (isAutoAckEligible(
+        viewport: viewport,
+        channelId: channelId,
+        hasMoreNewerMessages: state.hasMoreNewerMessages,
+        currentTailId: null,
+      )) {
         final database = ref.read(fluxerDatabaseProvider);
         final readState = await database.readStateDao.getReadState(channelId);
-        if (readState != null &&
-            !readState.manual &&
-            (readState.lastMessageId?.isNotEmpty ?? false)) {
+        if (!(readState?.manual ?? false)) {
           await ref.read(readStateRepositoryProvider).ackLatest(channelId);
         }
       }
