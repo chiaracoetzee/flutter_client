@@ -4347,6 +4347,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'ธีมมืด';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'ธีมถ่าน';
 
   @override

@@ -166,6 +166,7 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     ),
     keywords: [
       _l((l10n) => l10n.lookAndFeelThemeDark),
+      _l((l10n) => l10n.lookAndFeelThemeDarkLegacy),
       _l((l10n) => l10n.lookAndFeelThemeLight),
     ],
   ),
@@ -740,6 +741,7 @@ List<UserSettingsSearchLabel> _extraKeywordsForScrollField(String scrollId) {
     case 'theme':
       return [
         _l((l10n) => l10n.lookAndFeelThemeDark),
+        _l((l10n) => l10n.lookAndFeelThemeDarkLegacy),
         _l((l10n) => l10n.lookAndFeelThemeLight),
         _l((l10n) => l10n.lookAndFeelThemeCoal),
         _l((l10n) => l10n.lookAndFeelThemeSystem),

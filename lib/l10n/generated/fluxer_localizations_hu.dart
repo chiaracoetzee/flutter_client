@@ -4409,6 +4409,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Sötét téma';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Szén téma';
 
   @override

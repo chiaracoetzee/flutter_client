@@ -4371,6 +4371,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Chủ đề tối';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Chủ đề Than';
 
   @override

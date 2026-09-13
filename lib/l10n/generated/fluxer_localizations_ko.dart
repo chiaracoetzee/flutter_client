@@ -4227,6 +4227,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get lookAndFeelThemeDark => '어두운 테마';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => '석탄 테마';
 
   @override

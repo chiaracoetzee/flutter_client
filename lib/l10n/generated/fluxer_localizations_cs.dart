@@ -4384,6 +4384,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Tmavý motiv';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Uhelný motiv';
 
   @override

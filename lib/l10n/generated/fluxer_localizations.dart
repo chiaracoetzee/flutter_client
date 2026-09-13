@@ -7163,6 +7163,12 @@ abstract class FluxerLocalizations {
   /// **'Dark Theme'**
   String get lookAndFeelThemeDark;
 
+  /// Label on the legacy dark theme swatch button.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark (Legacy) Theme'**
+  String get lookAndFeelThemeDarkLegacy;
+
   /// Label on the coal (pitch-black) theme swatch button.
   ///
   /// In en, this message translates to:

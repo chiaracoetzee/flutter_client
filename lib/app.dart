@@ -85,6 +85,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
         );
         darkThemeData = null;
       case FluxerThemeMode.dark:
+      case FluxerThemeMode.darkLegacy:
       case FluxerThemeMode.coal:
         themeMode = ThemeMode.dark;
         theme = buildFluxerTheme(

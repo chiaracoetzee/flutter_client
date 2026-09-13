@@ -4408,6 +4408,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Тъмна тема';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Тема „Въглен“';
 
   @override

@@ -4349,6 +4349,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'السمة الداكنة';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'سمة الفحم';
 
   @override

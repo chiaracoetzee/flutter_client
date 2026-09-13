@@ -4153,6 +4153,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get lookAndFeelThemeDark => '深色主题';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => '煤黑色主题';
 
   @override

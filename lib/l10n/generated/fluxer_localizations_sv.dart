@@ -4378,6 +4378,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Mörkt tema';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Kolsvart tema';
 
   @override

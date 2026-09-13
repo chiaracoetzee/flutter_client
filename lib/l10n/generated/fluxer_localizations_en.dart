@@ -4360,6 +4360,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Dark Theme';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Coal Theme';
 
   @override
@@ -18501,6 +18504,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get lookAndFeelThemeDark => 'Dark Theme';
 
   @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+
+  @override
   String get lookAndFeelThemeCoal => 'Coal Theme';
 
   @override
@@ -32636,6 +32642,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get lookAndFeelThemeDark => 'Dark Theme';
+
+  @override
+  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
 
   @override
   String get lookAndFeelThemeCoal => 'Coal Theme';
