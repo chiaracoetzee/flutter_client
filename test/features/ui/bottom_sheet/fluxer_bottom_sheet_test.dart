@@ -564,6 +564,90 @@ void main() {
       },
     );
 
+    testWidgets(
+      'tapping an action while the sheet is opening does not pop the host route',
+      (tester) async {
+        final _PopCountingObserver observer = _PopCountingObserver();
+        final GlobalKey<NavigatorState> nestedKey = GlobalKey<NavigatorState>();
+
+        await tester.pumpWidget(
+          buildTestApp(
+            Navigator(
+              key: nestedKey,
+              observers: <NavigatorObserver>[observer],
+              onGenerateRoute: (RouteSettings settings) {
+                return MaterialPageRoute<void>(
+                  settings: settings,
+                  builder: (BuildContext context) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        unawaited(() async {
+                          final String? result =
+                              await FluxerBottomSheet.showScrollable<String>(
+                                context,
+                                builder:
+                                    (
+                                      BuildContext sheetContext,
+                                      ScrollController scrollController,
+                                      VoidCallback close,
+                                    ) {
+                                      return ListView(
+                                        controller: scrollController,
+                                        children: <Widget>[
+                                          ListTile(
+                                            title: const Text('Choose'),
+                                            onTap: () => Navigator.pop(
+                                              sheetContext,
+                                              'go',
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                              );
+                          if (result == null || !context.mounted) {
+                            return;
+                          }
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (!context.mounted) {
+                              return;
+                            }
+                            unawaited(
+                              FluxerBottomSheet.show(
+                                context,
+                                useRootNavigator: true,
+                                title: 'Follow up',
+                                builder: (BuildContext _, VoidCallback close) {
+                                  return const Text('Follow up body');
+                                },
+                              ),
+                            );
+                          });
+                        }());
+                      },
+                      child: const Text('Open'),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        );
+
+        await tester.tap(find.text('Open'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 50));
+        expect(find.text('Choose'), findsOneWidget);
+
+        await tester.tap(find.text('Choose'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Open'), findsOneWidget);
+        expect(find.text('Follow up'), findsOneWidget);
+        expect(observer.pops, 1);
+      },
+    );
+
     testWidgets('partial handle drag springs the sheet back to the nearest '
         'snap', (tester) async {
       await tester.pumpWidget(
