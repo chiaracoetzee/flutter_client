@@ -409,6 +409,7 @@ Future<void> _pumpJoinHarness(
         gatewayConnectionProvider.overrideWithValue(gateway),
         currentUserIdProvider.overrideWithValue(_userId),
         voiceSessionProvider.overrideWith(() => voiceSession),
+        matureContentAgreementsProvider.overrideWith(_LoadedAgreements.new),
         shouldShowMatureContentGateProvider(
           _channelId,
         ).overrideWith((ref) => gateReason != MatureContentGateReason.none),
@@ -501,9 +502,17 @@ class _RecordingVoiceSession extends VoiceSession {
     bool initialSelfDeaf = false,
     bool initialSelfVideo = false,
     bool forceJoin = false,
+    bool skipChannelGate = false,
   }) async {
     connectCallCount++;
     lastForceJoin = forceJoin;
     return true;
+  }
+}
+
+class _LoadedAgreements extends MatureContentAgreements {
+  @override
+  MatureContentAgreementsState build() {
+    return const MatureContentAgreementsState(isLoaded: true);
   }
 }
