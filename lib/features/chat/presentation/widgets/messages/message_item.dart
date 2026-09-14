@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/sw
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/forward_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_long_press_highlight.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
@@ -253,6 +254,7 @@ class MessageItem extends ConsumerStatefulWidget {
 
 class _MessageItemState extends ConsumerState<MessageItem> {
   final _hovered = ValueNotifier<bool>(false);
+  final _pressHighlight = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
   bool _animateJumpHighlight = false;
@@ -277,6 +279,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   @override
   void dispose() {
     _hovered.dispose();
+    _pressHighlight.dispose();
     _reactionPickerOpen.dispose();
     super.dispose();
   }
@@ -444,37 +447,43 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   Future<void> _showActions(BuildContext context, Offset globalPosition) async {
-    final RenderObject? renderObject = context.findRenderObject();
-    final String? linkUrl = renderObject is RenderBox
-        ? fluxerMarkdownLinkHrefAt(renderObject, globalPosition)
-        : null;
-    final frecent = await _loadQuickReactionItems();
-    if (!context.mounted) {
-      return;
+    try {
+      final RenderObject? renderObject = context.findRenderObject();
+      final String? linkUrl = renderObject is RenderBox
+          ? fluxerMarkdownLinkHrefAt(renderObject, globalPosition)
+          : null;
+      final frecent = await _loadQuickReactionItems();
+      if (!context.mounted) {
+        return;
+      }
+      FluxerHaptics.medium();
+      final VoidCallback? onDelete = widget.onDelete;
+      final MessageAction? action = await showMessageBottomSheet(
+        context,
+        message: widget.message,
+        isOwnMessage: widget.message.authorId == widget.currentUserId,
+        isDmChannel: widget.isDmChannel,
+        canDelete: widget.canDelete,
+        canReport: _canReportThisMessage,
+        canAddReactions: widget.canAddReactions,
+        canPinMessage: widget.canPinMessage,
+        canManageMessages: widget.canManageMessages,
+        canSendMessages: widget.canSendMessages,
+        developerMode: ref.read(
+          userSettingsViewModelProvider.select((s) => s.developerMode),
+        ),
+        isSendDisabled: widget.isSendDisabled,
+        quickItems: frecent,
+        onQuickReaction: _dispatchQuickReaction,
+        attachmentCallbacks: _videoActionScope.callbacks,
+        linkUrl: linkUrl,
+      );
+      _dispatchMenuAction(action, onDelete: onDelete, isMobile: true);
+    } finally {
+      if (mounted) {
+        _pressHighlight.value = false;
+      }
     }
-    FluxerHaptics.medium();
-    final VoidCallback? onDelete = widget.onDelete;
-    final MessageAction? action = await showMessageBottomSheet(
-      context,
-      message: widget.message,
-      isOwnMessage: widget.message.authorId == widget.currentUserId,
-      isDmChannel: widget.isDmChannel,
-      canDelete: widget.canDelete,
-      canReport: _canReportThisMessage,
-      canAddReactions: widget.canAddReactions,
-      canPinMessage: widget.canPinMessage,
-      canManageMessages: widget.canManageMessages,
-      canSendMessages: widget.canSendMessages,
-      developerMode: ref.read(
-        userSettingsViewModelProvider.select((s) => s.developerMode),
-      ),
-      isSendDisabled: widget.isSendDisabled,
-      quickItems: frecent,
-      onQuickReaction: _dispatchQuickReaction,
-      attachmentCallbacks: _videoActionScope.callbacks,
-      linkUrl: linkUrl,
-    );
-    _dispatchMenuAction(action, onDelete: onDelete, isMobile: true);
   }
 
   Future<void> _showContextMenu(BuildContext context, Offset position) async {
@@ -628,7 +637,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
 
     final body = FluxerGestureDetector(
       onLongPressStart: useTouchMessageActions && !widget.inboxPreviewMode
-          ? (details) => _showActions(context, details.globalPosition)
+          ? (details) {
+              _pressHighlight.value = true;
+              unawaited(_showActions(context, details.globalPosition));
+            }
           : null,
       onSecondaryTapUp: !useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) => _showContextMenu(context, details.globalPosition)
@@ -653,6 +665,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             color: rowBackgroundColor,
             border: rowBorder,
           ),
+          hoverTintColor: hoverTintColor,
           padding: widget.inboxPreviewMode
               ? EdgeInsets.only(
                   left: hasLeftAccentBar ? 7 : 8,
@@ -668,13 +681,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 ),
           child: Stack(
             children: [
-              ValueListenableBuilder<bool>(
-                valueListenable: _hovered,
-                builder: (context, hovered, _) =>
-                    hovered && hoverTintColor != null
-                    ? Positioned.fill(child: ColoredBox(color: hoverTintColor))
-                    : const SizedBox.shrink(),
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -910,26 +916,47 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   Widget _messageRowChrome({
     required Decoration decoration,
     required EdgeInsets padding,
+    required Color? hoverTintColor,
     required Widget child,
   }) {
+    final Widget stacked = Stack(
+      children: [
+        Positioned.fill(
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _pressHighlight,
+            builder: (context, active, _) {
+              return MessageLongPressHighlight(active: active);
+            },
+          ),
+        ),
+        Positioned.fill(
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _hovered,
+            builder: (context, hovered, _) {
+              if (!hovered || hoverTintColor == null) {
+                return const SizedBox.shrink();
+              }
+              return ColoredBox(color: hoverTintColor);
+            },
+          ),
+        ),
+        Padding(padding: padding, child: child),
+      ],
+    );
     if (!_animateJumpHighlight && !widget.isJumpHighlighted) {
-      return DecoratedBox(
-        decoration: decoration,
-        child: Padding(padding: padding, child: child),
-      );
+      return DecoratedBox(decoration: decoration, child: stacked);
     }
     return AnimatedContainer(
       duration: context.motion.slow,
       curve: _kJumpHighlightFadeCurve,
       decoration: decoration,
-      padding: padding,
       onEnd: () {
         if (!mounted || widget.isJumpHighlighted) {
           return;
         }
         setState(() => _animateJumpHighlight = false);
       },
-      child: child,
+      child: stacked,
     );
   }
 

@@ -2547,18 +2547,16 @@ class _MessageListState extends ConsumerState<MessageList> {
                 ? () => requestOpenChannelPins(ref)
                 : null,
             onLongPress: useTouchMessageActions
-                ? () => unawaited(
-                    showSystemMessageActionsSheet(
-                      context,
-                      ref,
-                      message: message,
-                      guildId: guildId,
-                      isDmChannel: isDmChannel,
-                      canDelete: canDelete,
-                      canAddReactions: canAddReactionsForMessage,
-                      canManageMessages: channelCanManageMessages,
-                      currentUserId: currentUserId,
-                    ),
+                ? () => showSystemMessageActionsSheet(
+                    context,
+                    ref,
+                    message: message,
+                    guildId: guildId,
+                    isDmChannel: isDmChannel,
+                    canDelete: canDelete,
+                    canAddReactions: canAddReactionsForMessage,
+                    canManageMessages: channelCanManageMessages,
+                    currentUserId: currentUserId,
                   )
                 : null,
             onSecondaryTapUp: !useTouchMessageActions
