@@ -118,7 +118,10 @@ DioException _dioError({required int statusCode}) {
   return DioException(
     requestOptions: options,
     type: DioExceptionType.badResponse,
-    response: Response<dynamic>(requestOptions: options, statusCode: statusCode),
+    response: Response<dynamic>(
+      requestOptions: options,
+      statusCode: statusCode,
+    ),
   );
 }
 
@@ -144,9 +147,9 @@ void main() {
 
     test('failed push does not requeue on the 500ms debounce', () async {
       usersApi.pushError = _dioError(statusCode: 500);
-      await container.read(soundPreferencesProvider.notifier).setMasterVolume(
-        80,
-      );
+      await container
+          .read(soundPreferencesProvider.notifier)
+          .setMasterVolume(80);
       await flushSyncedPreferencesDebounce(store);
 
       expect(usersApi.pushCount, 1);
@@ -156,9 +159,9 @@ void main() {
 
     test('429 does not also arm the 500ms debounce', () async {
       usersApi.pushError = _dioError(statusCode: 429);
-      await container.read(soundPreferencesProvider.notifier).setMasterVolume(
-        80,
-      );
+      await container
+          .read(soundPreferencesProvider.notifier)
+          .setMasterVolume(80);
       await flushSyncedPreferencesDebounce(store);
 
       expect(usersApi.pushCount, 1);
