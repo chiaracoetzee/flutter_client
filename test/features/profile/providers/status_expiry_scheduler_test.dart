@@ -8,13 +8,16 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
-import 'package:fluxer_app/features/profile/providers/user_status_service.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
 
 class _SettingsAdapter implements HttpClientAdapter {
+  _SettingsAdapter({this.statusCode = 400});
+
+  final int statusCode;
   final List<Map<String, Object?>> bodies = <Map<String, Object?>>[];
 
   @override
@@ -34,8 +37,8 @@ class _SettingsAdapter implements HttpClientAdapter {
       bodies.add(Map<String, Object?>.from(jsonDecode(raw) as Map));
     }
     return ResponseBody.fromString(
-      jsonEncode(_testUserSettings(status: 'online').toJson()),
-      200,
+      '{}',
+      statusCode,
       headers: <String, List<String>>{
         Headers.contentTypeHeader: <String>[Headers.jsonContentType],
       },
@@ -46,7 +49,11 @@ class _SettingsAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-UserSettingsResponse _testUserSettings({required String status}) {
+UserSettingsResponse _testUserSettings({
+  required String status,
+  DateTime? statusResetsAt,
+  String? statusResetsTo,
+}) {
   return UserSettingsResponse.fromJson(<String, Object?>{
     'status': status,
     'theme': 'dark',
@@ -83,82 +90,67 @@ UserSettingsResponse _testUserSettings({required String status}) {
     'suppress_unprivileged_self_mentions_bypass_user_ids': <String>[],
     'staff_dm_access_user_ids': <String>[],
     'time_format': 0,
+    if (statusResetsAt != null)
+      'status_resets_at': statusResetsAt.toIso8601String(),
+    'status_resets_to': ?statusResetsTo,
   });
 }
 
-void main() {
-  group('UserStatusService', () {
-    late db.FluxerDatabase database;
-    late _SettingsAdapter adapter;
-    late ProviderContainer container;
+Future<void> _drainEventQueue() async {
+  for (int i = 0; i < 20; i++) {
+    await Future<void>.delayed(Duration.zero);
+  }
+}
 
-    setUp(() async {
-      database = openTestDatabase();
-      adapter = _SettingsAdapter();
+void main() {
+  group('StatusExpiryScheduler', () {
+    late _SettingsAdapter adapter;
+
+    Future<void> openScheduler({required int statusCode}) async {
+      final db.FluxerDatabase database = openTestDatabase();
+      adapter = _SettingsAdapter(statusCode: statusCode);
+      final UserSettingsResponse expiredInvisible = _testUserSettings(
+        status: 'invisible',
+        statusResetsAt: DateTime.utc(2020),
+        statusResetsTo: 'online',
+      );
       await database.userSettingsDao.upsertSettings(
         db.UserSettingsTableCompanion.insert(
           userId: 'user-1',
-          data: jsonEncode(_testUserSettings(status: 'online').toJson()),
+          data: jsonEncode(expiredInvisible.toJson()),
         ),
       );
       await database.userDao.upsertUser(
         db.UsersCompanion.insert(id: 'user-1', username: 'user'),
       );
       final Dio dio = Dio()..httpClientAdapter = adapter;
-      container = ProviderContainer(
+      final ProviderContainer container = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(database),
           fluxerDioProvider.overrideWithValue(dio),
           currentUserIdProvider.overrideWith(_FakeCurrentUserId.new),
-          userSettingsStatusProvider.overrideWithValue(
-            _testUserSettings(status: 'online'),
-          ),
+          userSettingsStatusProvider.overrideWithValue(expiredInvisible),
         ],
       );
+      addTearDown(container.dispose);
       container.read(currentUserIdProvider.notifier).set('user-1');
-    });
+      container.read(statusExpirySchedulerProvider);
+      await _drainEventQueue();
+    }
 
-    tearDown(() {
-      container.dispose();
-    });
-
-    test(
-      'setPresenceStatus clears reset fields for permanent status',
-      () async {
-        await container
-            .read(userStatusServiceProvider)
-            .setPresenceStatus(status: PresenceStatus.invisible);
-        expect(adapter.bodies, hasLength(1));
-        expect(adapter.bodies.single['status'], 'invisible');
-        expect(adapter.bodies.single.containsKey('status_resets_at'), isTrue);
-        expect(adapter.bodies.single['status_resets_at'], isNull);
-        expect(adapter.bodies.single.containsKey('status_resets_to'), isTrue);
-        expect(adapter.bodies.single['status_resets_to'], isNull);
-      },
-    );
-
-    test('setPresenceStatus sends timed status with reset fields', () async {
-      await container
-          .read(userStatusServiceProvider)
-          .setPresenceStatus(
-            status: PresenceStatus.idle,
-            duration: const Duration(hours: 1),
-          );
-      expect(adapter.bodies, hasLength(1));
-      expect(adapter.bodies.single['status'], 'idle');
-      expect(adapter.bodies.single['status_resets_at'], isNotNull);
-      expect(adapter.bodies.single['status_resets_to'], 'online');
-    });
-
-    test('applyScheduledStatusReset clears reset fields', () async {
-      await container
-          .read(userStatusServiceProvider)
-          .applyScheduledStatusReset(fallbackStatus: PresenceStatus.online);
+    test('sends null reset fields when an expired reset fails', () async {
+      await openScheduler(statusCode: 400);
       expect(adapter.bodies, hasLength(1));
       expect(adapter.bodies.single['status'], 'online');
-      expect(adapter.bodies.single.containsKey('status_resets_at'), isTrue);
       expect(adapter.bodies.single['status_resets_at'], isNull);
-      expect(adapter.bodies.single.containsKey('status_resets_to'), isTrue);
+      expect(adapter.bodies.single['status_resets_to'], isNull);
+    });
+
+    test('clears an expired invisible status once', () async {
+      await openScheduler(statusCode: 200);
+      expect(adapter.bodies, hasLength(1));
+      expect(adapter.bodies.single['status'], 'online');
+      expect(adapter.bodies.single['status_resets_at'], isNull);
       expect(adapter.bodies.single['status_resets_to'], isNull);
     });
   });
