@@ -1,6 +1,36 @@
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 
+bool chatMessagesFromOtherChannel({
+  required String channelId,
+  required List<Message> messages,
+}) {
+  if (channelId.isEmpty || messages.isEmpty) {
+    return false;
+  }
+  return messages.any(
+    (Message message) =>
+        message.channelId.isNotEmpty && message.channelId != channelId,
+  );
+}
+
+bool chatWindowMismatchesChannel({
+  required String expectedChannelId,
+  required String channelId,
+  required List<Message> messages,
+}) {
+  if (expectedChannelId.isEmpty) {
+    return false;
+  }
+  if (channelId != expectedChannelId) {
+    return true;
+  }
+  return chatMessagesFromOtherChannel(
+    channelId: expectedChannelId,
+    messages: messages,
+  );
+}
+
 bool isMessageIdInNetworkPageRange({
   required String messageId,
   required String oldestId,
