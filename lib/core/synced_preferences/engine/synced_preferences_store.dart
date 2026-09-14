@@ -62,6 +62,7 @@ class SyncedPreferencesStore {
   String _lastKnownGoodWire = '';
   pb.SyncedPreferences _local = SyncedPreferencesEngine.createEmpty();
   pb.SyncedPreferences _wire = SyncedPreferencesEngine.createEmpty();
+  pb.SyncedPreferences? _hydrateBaselineWire;
   bool _hasHydrated = false;
   bool _isApplyingRemote = false;
   bool _isPushInFlight = false;
@@ -99,6 +100,7 @@ class SyncedPreferencesStore {
     _lastKnownGoodWire = '';
     _local = SyncedPreferencesEngine.createEmpty();
     _wire = SyncedPreferencesEngine.createEmpty();
+    _hydrateBaselineWire = null;
     _hasHydrated = false;
     _isApplyingRemote = false;
     _isPushInFlight = false;
@@ -163,16 +165,23 @@ class SyncedPreferencesStore {
     for (final field in mergeResult.dirtyFields) {
       _dirtyFields.add(field);
     }
+    final previousWire = _wire;
     _wire = mergeResult.wire;
     _local = mergeResult.merged;
     if (encoded.isNotEmpty && decodeStatus == _DecodeStatus.success) {
       _lastKnownGoodWire = encoded;
     }
-    await _reconcileRegisteredFields(
-      incoming: incoming,
-      wasFirstHydrate: wasFirstHydrate,
-      protectedFields: protectedFields,
-    );
+    _hydrateBaselineWire = previousWire;
+    try {
+      await _reconcileRegisteredFields(
+        incoming: incoming,
+        wasFirstHydrate: wasFirstHydrate,
+        protectedFields: protectedFields,
+        recentlyAckedFields: recentlyAcked,
+      );
+    } finally {
+      _hydrateBaselineWire = null;
+    }
     if (encoded.isNotEmpty && decodeStatus == _DecodeStatus.success) {
       _clearStaleDirtyForAbsentServerFields(incoming: incoming);
     }
@@ -215,6 +224,7 @@ class SyncedPreferencesStore {
     required pb.SyncedPreferences incoming,
     required bool wasFirstHydrate,
     required Set<SyncedPreferenceField> protectedFields,
+    required Set<SyncedPreferenceField> recentlyAckedFields,
   }) async {
     for (final entry in _adapters.entries) {
       final field = entry.key;
@@ -224,12 +234,34 @@ class SyncedPreferencesStore {
       final hasLocal = adapter.hasLocalData(local);
       final hasRemote = remote != null && adapter.hasRemoteData(remote);
       final isProtected = protectedFields.contains(field);
+      final isRecentlyAcked = recentlyAckedFields.contains(field);
       if (!isProtected && !_dirtyFields.contains(field)) {
         if (remote != null) {
-          if (!_statesEqual(adapter, local, remote)) {
-            await _applyAdapterRemote(adapter, remote);
+          if (isRecentlyAcked &&
+              adapter.ignoreAckedRemoteShrink(local, remote)) {
+            _restoreAckedFieldFromBaseline(adapter, local);
+            continue;
           }
-          _dirtyFields.remove(field);
+          if (isRecentlyAcked && adapter.mergeAckedInbound(local, remote)) {
+            final target = adapter.mergeForMigration(
+              local: local,
+              remote: remote,
+            );
+            if (!_statesEqual(adapter, local, target)) {
+              await _applyAdapterRemote(adapter, target);
+            }
+            if (!_statesEqual(adapter, target, remote)) {
+              _dirtyFields.add(field);
+              scheduleFlush();
+            } else {
+              _dirtyFields.remove(field);
+            }
+          } else if (!_statesEqual(adapter, local, remote)) {
+            await _applyAdapterRemote(adapter, remote);
+            _dirtyFields.remove(field);
+          } else {
+            _dirtyFields.remove(field);
+          }
         } else if (hasLocal && encodedIsEmpty()) {
           _dirtyFields.add(field);
           scheduleFlush();
@@ -314,12 +346,28 @@ class SyncedPreferencesStore {
     await _applyAdapterRemote(adapter, cleared);
   }
 
+  void _restoreAckedFieldFromBaseline(
+    SyncedFieldAdapter<Object?> adapter,
+    Object? local,
+  ) {
+    final baseline = _hydrateBaselineWire;
+    if (baseline == null) {
+      return;
+    }
+    _wire = SyncedPreferencesEngine.copyField(
+      target: _wire,
+      source: baseline,
+      field: adapter.field,
+    );
+    _local = _applyAdapterToProto(_local, adapter, local, wire: baseline);
+  }
+
   FavoritesLocalState? _readSyncedLocalFavorites() {
     final adapter = _adapters[SyncedPreferenceField.favorites];
     if (adapter is! FavoritesSyncedField) {
       return null;
     }
-    return adapter.readFromProto(_local);
+    return adapter.readFromProto(_hydrateBaselineWire ?? _wire);
   }
 
   void _clearStaleDirtyForAbsentServerFields({
