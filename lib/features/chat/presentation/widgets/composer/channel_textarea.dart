@@ -12,7 +12,6 @@ import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
-import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
@@ -258,8 +257,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   bool _isApplyingWireText = false;
   bool _composerFocused = false;
   String? _lastWireTextPushedToState;
-
-  bool get _isDesktop => isFluxerDesktopOs;
 
   Widget _wideComposerIconButton({
     required BuildContext context,
@@ -845,7 +842,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   @override
   Widget build(BuildContext context) {
-    _enterToSendEnabled = _isDesktop || (kIsWeb && isWideLayout(context));
+    _enterToSendEnabled = composerHardwareEnterSends(
+      isWeb: kIsWeb,
+      isWideLayout: isWideLayout(context),
+    );
     ref
       ..listen<String>(
         chatViewModelProvider.select((state) => state.messageText),
