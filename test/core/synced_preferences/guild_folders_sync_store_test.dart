@@ -292,5 +292,27 @@ void main() {
         expect(container.read(folderExpandedStateProvider), isEmpty);
       },
     );
+
+    test(
+      'applies other-session folder replace after a local push ack',
+      () async {
+        final store = container.read(syncedPreferencesStoreProvider);
+        await store.hydrateFromUserSettings(
+          _testUserSettings(syncedPreferences: ''),
+        );
+
+        container.read(folderExpandedStateProvider.notifier).toggle(7);
+        await _waitForDebounce(store);
+        expect(usersApi.pushCount, 1);
+
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithExpandedFolders({8}),
+          ),
+        );
+
+        expect(container.read(folderExpandedStateProvider), {8});
+      },
+    );
   });
 }
