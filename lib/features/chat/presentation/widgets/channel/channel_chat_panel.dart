@@ -110,10 +110,11 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
   Widget _buildStatusOverlay({
     required bool showNeko,
     required bool showSlowmode,
+    required String channelId,
   }) {
     return ChannelChatComposerBoundary(
       leadingStatus: const TypingIndicatorBar(),
-      trailingStatuses: const <Widget>[SlowmodeIndicator()],
+      trailingStatuses: <Widget>[SlowmodeIndicator(channelId: channelId)],
       neko: showNeko ? const NekoSprite() : null,
       nekoBottom: showSlowmode
           ? _kChannelChatNekoBottomAboveSlowmode
@@ -236,6 +237,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                             child: _buildStatusOverlay(
                               showNeko: showNeko,
                               showSlowmode: showSlowmode,
+                              channelId: listChannelId,
                             ),
                           ),
                           _ChannelChatScrollOverlay(
