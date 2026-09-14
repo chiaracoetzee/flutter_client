@@ -228,6 +228,132 @@ void main() {
       expect(sheetController.size, lessThan(initialSize));
     });
 
+    testWidgets('scrollable sheet header drag resizes the sheet', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      title: 'Community Name',
+                      initialChildSize: 0.7,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 20,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final Finder handle = find.byType(FluxerBottomSheetDragHandle);
+      final double initialTop = tester.getTopLeft(handle).dy;
+
+      await tester.drag(find.text('Community Name'), const Offset(0, 80));
+      await tester.pumpAndSettle();
+
+      expect(tester.getTopLeft(handle).dy, greaterThan(initialTop));
+      expect(find.text('Scroll Item 0'), findsOneWidget);
+    });
+
+    testWidgets('scrollable sheet dismisses from header drag', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      title: 'Community Name',
+                      initialChildSize: 0.7,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 20,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      expect(find.text('Community Name'), findsOneWidget);
+
+      await tester.drag(find.text('Community Name'), const Offset(0, 300));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Community Name'), findsNothing);
+      expect(find.text('Open'), findsOneWidget);
+    });
+
+    testWidgets('content sheet dismisses from header drag', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.show(
+                      context,
+                      title: 'Notification Settings',
+                      builder: (context, close) {
+                        return const Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Text('Sheet Content'),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      expect(find.text('Notification Settings'), findsOneWidget);
+
+      await tester.drag(
+        find.text('Notification Settings'),
+        const Offset(0, 200),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Notification Settings'), findsNothing);
+      expect(find.text('Open'), findsOneWidget);
+    });
+
     testWidgets('scrollable sheet dismisses from handle without double pop', (
       tester,
     ) async {
