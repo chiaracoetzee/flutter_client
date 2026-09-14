@@ -171,6 +171,7 @@ Future<void> openGuildChannelContent({
       channelId: channel.id,
       guildId: guildId,
       channelType: channel.type,
+      channel: channel,
     );
     if (!context.mounted || !canProceed) {
       return;
@@ -211,6 +212,7 @@ Future<void> openGuildChannelContent({
       context: context,
       guildId: guildId,
       channelId: channel.id,
+      channel: channel,
       initialSelfMute: initialSelfMute,
       initialSelfDeaf: initialSelfDeaf,
     );
@@ -245,6 +247,7 @@ Future<void> openGuildChannelContent({
           channelId: channel.id,
           guildId: guildId,
           channelType: channel.type,
+          channel: channel,
         );
         if (!context.mounted || !canProceed) {
           return;

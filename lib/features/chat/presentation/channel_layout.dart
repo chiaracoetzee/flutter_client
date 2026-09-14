@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 
 /// Wrapper screen for the chat area content.
 /// Takes guildId and channelId from go_router params.
@@ -109,16 +110,15 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
             : const GuildNotFoundScreen(),
       );
     }
-    final Channel? channel = ref
-        .watch(channelByIdProvider(widget.channelId))
-        .value;
-    final bool isMemberListVisible = ref.watch(
-      channelListViewModelProvider.select(
-        (ChannelListState state) => state.isMemberListVisibleForChannel(
-          channelId: widget.channelId,
-          channelType: channel?.type,
-        ),
-      ),
+    final ChannelListState channelList = ref.watch(
+      channelListViewModelProvider,
+    );
+    final Channel? channel =
+        ref.watch(channelByIdProvider(widget.channelId)).value ??
+        findChannelById(channelList, widget.channelId);
+    final bool isMemberListVisible = channelList.isMemberListVisibleForChannel(
+      channelId: widget.channelId,
+      channelType: channel?.type,
     );
     final bool isLinkChannel = channel?.type == ChannelType.guildLink;
     final bool isCategoryChannel = channel?.type == ChannelType.guildCategory;
@@ -127,7 +127,10 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
     final AsyncValue<bool> showGateAsync = ref.watch(
       shouldShowMatureContentGateProvider(widget.channelId),
     );
-    final bool showMatureContentGate = showGateAsync.value ?? false;
+    final bool showMatureContentGate = showGateAsync.maybeWhen(
+      data: (bool show) => show,
+      orElse: () => isVoiceChannel,
+    );
     final ChannelHeaderSearchState searchState = ref.watch(
       channelHeaderSearchProvider,
     );

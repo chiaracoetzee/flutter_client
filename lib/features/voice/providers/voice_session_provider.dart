@@ -19,6 +19,7 @@ import 'package:fluxer_app/core/system_permissions/system_permission_result.dart
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
@@ -391,6 +392,7 @@ class VoiceSession extends _$VoiceSession {
       guildId: target.guildId,
       channelId: target.channelId,
       forceJoin: true,
+      skipChannelGate: true,
     );
   }
 
@@ -421,6 +423,7 @@ class VoiceSession extends _$VoiceSession {
     bool initialSelfDeaf = false,
     bool initialSelfVideo = false,
     bool forceJoin = false,
+    bool skipChannelGate = false,
   }) async {
     _startWithVideoAfterConnect = false;
     talker.info(
@@ -478,6 +481,17 @@ class VoiceSession extends _$VoiceSession {
         errorMessage: isGuildVoiceJoin
             ? kVoiceSessionErrorNoConnectPermission
             : kVoiceSessionErrorDirectCallNotEligible,
+      );
+      return false;
+    }
+    if (!skipChannelGate &&
+        await isChannelGateBlocking(
+          container: ref.container,
+          channelId: channelId,
+        )) {
+      talker.info(
+        '[Voice] Join aborted: content warning gate required '
+        '(channelId=$channelId).',
       );
       return false;
     }
