@@ -480,8 +480,11 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
     final String? expectedChannelId = widget.expectedChannelId;
     if (expectedChannelId != null &&
-        expectedChannelId.isNotEmpty &&
-        channelId != expectedChannelId) {
+        chatWindowMismatchesChannel(
+          expectedChannelId: expectedChannelId,
+          channelId: channelId,
+          messages: messages,
+        )) {
       return const MessageListMismatchPlaceholder();
     }
     final String? stickyUnreadId = ref.watch(

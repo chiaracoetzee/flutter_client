@@ -1190,8 +1190,28 @@ class ChatViewModel extends _$ChatViewModel {
   ) {
     return _mergeInFlightSends(
       channelId,
-      _applyPendingLocalMutations(messages, fetchOrdinal),
+      _applyPendingLocalMutations(
+        _retainMessagesForChannel(channelId, messages),
+        fetchOrdinal,
+      ),
     );
+  }
+
+  List<Message> _retainMessagesForChannel(
+    String channelId,
+    List<Message> messages,
+  ) {
+    if (!chatMessagesFromOtherChannel(
+      channelId: channelId,
+      messages: messages,
+    )) {
+      return messages;
+    }
+    return <Message>[
+      for (final Message message in messages)
+        if (message.channelId.isEmpty || message.channelId == channelId)
+          message,
+    ];
   }
 
   void _registerInFlightOptimisticSend(Message message) {
@@ -1961,6 +1981,73 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
+  void _bindIncomingChannelWindow({
+    required String channelId,
+    required bool loadMessages,
+    required String? targetMessageId,
+  }) {
+    final _ParkedChannelWindow? parked = _parkedWindows[channelId];
+    final bool restoreParked =
+        loadMessages &&
+        (targetMessageId == null || targetMessageId.isEmpty) &&
+        parked != null &&
+        parked.messages.isNotEmpty;
+    if (restoreParked) {
+      _replaceLiveWindow(
+        channelId: channelId,
+        messages: _mergeInFlightSends(channelId, parked.messages),
+        isLoading: false,
+        isSyncingMessages: false,
+        hasMoreMessages: parked.hasMoreMessages,
+        hasMoreNewerMessages: parked.hasMoreNewerMessages,
+      );
+      _invalidateMessageCacheTrust();
+      _deferMessageReferencesLoaded(
+        channelId: channelId,
+        messages: parked.messages,
+      );
+      return;
+    }
+    _replaceLiveWindow(
+      channelId: channelId,
+      messages: const <Message>[],
+      isLoading: loadMessages,
+      isSyncingMessages: false,
+      hasMoreMessages: true,
+      hasMoreNewerMessages: false,
+    );
+  }
+
+  void _replaceLiveWindow({
+    required String channelId,
+    required List<Message> messages,
+    required bool isLoading,
+    required bool isSyncingMessages,
+    required bool hasMoreMessages,
+    required bool hasMoreNewerMessages,
+  }) {
+    state = _switchedChannelState(
+      channelId: channelId,
+      messages: messages,
+      draft: (text: '', reply: null),
+      replyMentioning: false,
+      scrollToBottomSignal: state.scrollToBottomSignal,
+      isLoading: isLoading,
+      isSyncingMessages: isSyncingMessages,
+      isLoadingMore: false,
+      isLoadingNewer: false,
+      hasMoreMessages: hasMoreMessages,
+      hasMoreNewerMessages: hasMoreNewerMessages,
+      replaceWindow: true,
+    );
+  }
+
+  bool _isBlankLoadingFor(String channelId) {
+    return state.channelId == channelId &&
+        state.messages.isEmpty &&
+        state.isLoading;
+  }
+
   ChatViewState _switchedChannelState({
     required String channelId,
     required List<Message> messages,
@@ -2054,9 +2141,8 @@ class ChatViewModel extends _$ChatViewModel {
     });
   }
 
-  /// Switches the open channel. A request identical to the one already running
-  /// joins it: isLoading and isSyncingMessages are written only after the first
-  /// await, so same-frame callers cannot see each other.
+  /// Switches the open channel. An identical request already running joins
+  /// that future. A different request supersedes it via the switch generation.
   Future<void> switchChannel(
     String channelId, {
     String? targetMessageId,
@@ -2147,34 +2233,47 @@ class ChatViewModel extends _$ChatViewModel {
         _stickySnapshotArmed = true;
       }
       final String previousChannelId = state.channelId;
-      final bool isChannelChange =
-          previousChannelId.isNotEmpty && previousChannelId != channelId;
+      final bool isChannelChange = previousChannelId != channelId;
       if (isChannelChange) {
-        _parkLoadedWindow(previousChannelId);
-        _contiguity.invalidate();
-        final String previousText = state.messageText;
-        final Message? previousReply = state.replyingTo;
-        final bool? previousReplyMentioning = previousReply == null
-            ? null
-            : state.replyMentioning;
-        _draftSaveTimer?.cancel();
-        _draftSaveTimer = null;
-        _readAckRetryTimer?.cancel();
-        _clearManualUnread(previousChannelId);
-        _clearLoadedUnreadBoundaryKeys(previousChannelId);
-        ref
-            .read(messageReferencesProvider.notifier)
-            .clearChannel(previousChannelId);
-        if (state.editingMessage == null) {
-          unawaited(
-            _persistComposerDraftForChannel(
-              channelId: previousChannelId,
-              content: previousText,
-              reply: previousReply,
-              replyMentioning: previousReplyMentioning,
-            ),
-          );
+        if (previousChannelId.isNotEmpty) {
+          _parkLoadedWindow(previousChannelId);
+          _contiguity.invalidate();
+          final String previousText = state.messageText;
+          final Message? previousReply = state.replyingTo;
+          final bool? previousReplyMentioning = previousReply == null
+              ? null
+              : state.replyMentioning;
+          _draftSaveTimer?.cancel();
+          _draftSaveTimer = null;
+          _readAckRetryTimer?.cancel();
+          _clearManualUnread(previousChannelId);
+          _clearLoadedUnreadBoundaryKeys(previousChannelId);
+          ref
+              .read(messageReferencesProvider.notifier)
+              .clearChannel(previousChannelId);
+          if (state.editingMessage == null) {
+            unawaited(
+              _persistComposerDraftForChannel(
+                channelId: previousChannelId,
+                content: previousText,
+                reply: previousReply,
+                replyMentioning: previousReplyMentioning,
+              ),
+            );
+          }
+        } else if (state.messages.isNotEmpty) {
+          _contiguity.invalidate();
         }
+        _windowGeneration++;
+        if (_armedSwap != null) {
+          _armedSwap = null;
+          _pumpRealtimeQueue();
+        }
+        _bindIncomingChannelWindow(
+          channelId: channelId,
+          loadMessages: loadMessages,
+          targetMessageId: targetMessageId,
+        );
       }
       final Future<({String text, Message? reply, bool replyMentioning})>
       draftFuture = _readComposerDraft(channelId);
@@ -2184,9 +2283,17 @@ class ChatViewModel extends _$ChatViewModel {
           return;
         }
         mark('draft');
+        if (isChannelChange) {
+          _applyComposerDraftIfCurrent(
+            channelId: channelId,
+            draft: (text: loadedDraft.text, reply: loadedDraft.reply),
+            replyMentioning: loadedDraft.replyMentioning,
+          );
+          return;
+        }
         state = _switchedChannelState(
           channelId: channelId,
-          messages: isChannelChange ? const [] : state.messages,
+          messages: state.messages,
           draft: (text: loadedDraft.text, reply: loadedDraft.reply),
           replyMentioning: loadedDraft.replyMentioning,
           scrollToBottomSignal: state.scrollToBottomSignal,
@@ -2194,9 +2301,9 @@ class ChatViewModel extends _$ChatViewModel {
           isSyncingMessages: false,
           isLoadingMore: false,
           isLoadingNewer: false,
-          hasMoreMessages: isChannelChange || state.hasMoreMessages,
-          hasMoreNewerMessages: !isChannelChange && state.hasMoreNewerMessages,
-          replaceWindow: isChannelChange,
+          hasMoreMessages: state.hasMoreMessages,
+          hasMoreNewerMessages: state.hasMoreNewerMessages,
+          replaceWindow: false,
         );
         return;
       }
@@ -2223,20 +2330,16 @@ class ChatViewModel extends _$ChatViewModel {
           scrollToMessage(targetMessageId);
           return;
         }
-        state = _switchedChannelState(
-          channelId: channelId,
-          messages: const [],
-          draft: (text: '', reply: null),
-          replyMentioning: false,
-          scrollToBottomSignal: state.scrollToBottomSignal,
-          isLoading: true,
-          isSyncingMessages: false,
-          isLoadingMore: false,
-          isLoadingNewer: false,
-          hasMoreMessages: true,
-          hasMoreNewerMessages: false,
-          replaceWindow: true,
-        );
+        if (!_isBlankLoadingFor(channelId)) {
+          _replaceLiveWindow(
+            channelId: channelId,
+            messages: const <Message>[],
+            isLoading: true,
+            isSyncingMessages: false,
+            hasMoreMessages: true,
+            hasMoreNewerMessages: false,
+          );
+        }
         highlightJumpMessage(targetMessageId);
         await _loadMessages(
           channelId,
@@ -2306,29 +2409,31 @@ class ChatViewModel extends _$ChatViewModel {
         if (!hasUnread) {
           mark('reads');
           final bool willRefresh = _shouldRefreshChannelFromNetwork(channelId);
-          state = _switchedChannelState(
-            channelId: channelId,
-            messages: _finalizeLoadedMessages(
-              channelId,
-              parked.messages,
-              cacheOrdinal,
-            ),
-            draft: (text: '', reply: null),
-            replyMentioning: false,
-            scrollToBottomSignal: state.scrollToBottomSignal,
-            isLoading: false,
-            isSyncingMessages: willRefresh,
-            isLoadingMore: false,
-            isLoadingNewer: false,
-            hasMoreMessages: parked.hasMoreMessages,
-            hasMoreNewerMessages: parked.hasMoreNewerMessages,
-            replaceWindow: true,
-          );
-          _invalidateMessageCacheTrust();
-          _deferMessageReferencesLoaded(
-            channelId: channelId,
-            messages: parked.messages,
-          );
+          if (chatWindowMismatchesChannel(
+            expectedChannelId: channelId,
+            channelId: state.channelId,
+            messages: state.messages,
+          )) {
+            _replaceLiveWindow(
+              channelId: channelId,
+              messages: _finalizeLoadedMessages(
+                channelId,
+                parked.messages,
+                cacheOrdinal,
+              ),
+              isLoading: false,
+              isSyncingMessages: willRefresh,
+              hasMoreMessages: parked.hasMoreMessages,
+              hasMoreNewerMessages: parked.hasMoreNewerMessages,
+            );
+            _invalidateMessageCacheTrust();
+            _deferMessageReferencesLoaded(
+              channelId: channelId,
+              messages: parked.messages,
+            );
+          } else if (willRefresh && !state.isSyncingMessages) {
+            state = state.copyWith(isSyncingMessages: true);
+          }
           if (willRefresh) {
             unawaited(
               _refreshMessagesFromNetwork(
@@ -2369,19 +2474,16 @@ class ChatViewModel extends _$ChatViewModel {
             incompleteCache ||
             proveTailFromLatestPage ||
             _shouldRefreshChannelFromNetwork(channelId);
-        state = _switchedChannelState(
+        if (state.channelId != channelId) {
+          return;
+        }
+        _replaceLiveWindow(
           channelId: channelId,
           messages: _finalizeLoadedMessages(channelId, cached, cacheOrdinal),
-          draft: (text: '', reply: null),
-          replyMentioning: false,
-          scrollToBottomSignal: state.scrollToBottomSignal,
           isLoading: false,
           isSyncingMessages: willRefresh,
-          isLoadingMore: false,
-          isLoadingNewer: false,
           hasMoreMessages: incompleteCache || cached.length >= _kPageSize,
           hasMoreNewerMessages: false,
-          replaceWindow: true,
         );
         _invalidateMessageCacheTrust();
         _deferMessageReferencesLoaded(channelId: channelId, messages: cached);
@@ -2404,20 +2506,19 @@ class ChatViewModel extends _$ChatViewModel {
         );
         return;
       }
-      state = _switchedChannelState(
-        channelId: channelId,
-        messages: const [],
-        draft: (text: '', reply: null),
-        replyMentioning: false,
-        scrollToBottomSignal: state.scrollToBottomSignal,
-        isLoading: true,
-        isSyncingMessages: false,
-        isLoadingMore: false,
-        isLoadingNewer: false,
-        hasMoreMessages: true,
-        hasMoreNewerMessages: false,
-        replaceWindow: true,
-      );
+      if (state.channelId != channelId) {
+        return;
+      }
+      if (!_isBlankLoadingFor(channelId)) {
+        _replaceLiveWindow(
+          channelId: channelId,
+          messages: const <Message>[],
+          isLoading: true,
+          isSyncingMessages: false,
+          hasMoreMessages: true,
+          hasMoreNewerMessages: false,
+        );
+      }
       String? aroundUnreadId;
       if (hasUnread) {
         final db.ReadState? unreadReadState = await ref
@@ -4927,19 +5028,21 @@ class ChatViewModel extends _$ChatViewModel {
     );
 
     talker.debug('[ChatViewModel] send optimistic channelId=$channelId');
-    state = state.copyWith(
-      replyingTo: null,
-      replyMentioning: false,
-      messageText: clearMessageText ? '' : state.messageText,
-      write: (
-        messages: [...state.messages, optimisticMessage],
-        origin: MessagesOrigin.ownSend,
-      ),
-      errorMessage: null,
-      scrollToBottomSignal: _scrollToBottomSignalAfterSend(),
-      stickyUnreadMessageId: null,
-      pendingAutoAckMessageId: _pendingAutoAckCovering(optimisticMessage.id),
-    );
+    if (state.channelId == channelId) {
+      state = state.copyWith(
+        replyingTo: null,
+        replyMentioning: false,
+        messageText: clearMessageText ? '' : state.messageText,
+        write: (
+          messages: [...state.messages, optimisticMessage],
+          origin: MessagesOrigin.ownSend,
+        ),
+        errorMessage: null,
+        scrollToBottomSignal: _scrollToBottomSignalAfterSend(),
+        stickyUnreadMessageId: null,
+        pendingAutoAckMessageId: _pendingAutoAckCovering(optimisticMessage.id),
+      );
+    }
     if (clearMessageText) {
       unawaited(
         ref
