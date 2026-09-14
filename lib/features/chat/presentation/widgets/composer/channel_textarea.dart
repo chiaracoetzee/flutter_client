@@ -778,6 +778,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                   textAlignVertical: textAlignVertical,
                                   textCapitalization:
                                       TextCapitalization.sentences,
+                                  autocorrect: true,
+                                  enableInlinePrediction: true,
                                   contextMenuBuilder:
                                       clipboardScope.buildContextMenu,
                                   contentInsertionConfiguration:
