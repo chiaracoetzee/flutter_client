@@ -22,11 +22,13 @@ const int _kSecondsPerHour = 3600;
 /// Floating pill shown next to the chat input when slowmode is active.
 class SlowmodeIndicator extends ConsumerStatefulWidget {
   const SlowmodeIndicator({
+    this.channelId,
     this.leadingSpacing = 0,
     this.compact = false,
     super.key,
   });
 
+  final String? channelId;
   final double leadingSpacing;
   final bool compact;
 
@@ -103,9 +105,9 @@ class _SlowmodeIndicatorState extends ConsumerState<SlowmodeIndicator>
   @override
   Widget build(BuildContext context) {
     ref.listen<int>(slowmodeIndicatorShakeProvider, (_, _) => _playShake());
-    final channelId = ref.watch(
-      chatViewModelProvider.select((s) => s.channelId),
-    );
+    final String channelId =
+        widget.channelId ??
+        ref.watch(chatViewModelProvider.select((s) => s.channelId));
     if (channelId.isEmpty) {
       _ensureTicker(false);
       return const SizedBox.shrink();
