@@ -69,7 +69,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     );
     _sessionReporter = ChatAttachmentAudioSessionReporter(
       binding: _mediaSessionBinding,
-      attachment: widget.attachment,
+      attachment: () => widget.attachment,
       title: () => FluxerLocalizations.of(context).voiceMessageTitle,
       totalDuration: () => _mediaSessionTotalDuration,
       playbackRate: () => _playbackRate,
