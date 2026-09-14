@@ -1415,6 +1415,16 @@ class VoiceSession extends _$VoiceSession {
     _intentionalLiveKitTeardown = true;
     final String reasonSuffix = reason == null ? '' : ' after $reason';
     try {
+      final LocalParticipant? localParticipant = room.localParticipant;
+      if (localParticipant != null) {
+        try {
+          await localParticipant.setCameraEnabled(false);
+        } on Object catch (error) {
+          talker.debug(
+            '[Voice] failed to disable camera on disconnect: $error',
+          );
+        }
+      }
       await room.disconnect();
     } on Object catch (e) {
       talker.warning('[Voice] failed to disconnect$reasonSuffix: $e');
@@ -1706,18 +1716,25 @@ class VoiceSession extends _$VoiceSession {
     if (_togglingVideo) {
       return;
     }
-    final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
-    final VoiceCameraFacing nextFacing = settings.cameraFacing.switched();
-    await ref.read(voiceSettingsProvider.notifier).setCameraFacing(nextFacing);
-    final Room? room = s.liveKitRoom;
-    if (room != null) {
+    _togglingVideo = true;
+    try {
+      final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
+      final VoiceCameraFacing nextFacing = settings.cameraFacing.switched();
       await ref
-          .read(voiceSettingsApplicatorProvider)
-          .refreshCamera(
-            room: room,
-            settings: ref.read(voiceSettingsProvider),
-            cameraEnabled: true,
-          );
+          .read(voiceSettingsProvider.notifier)
+          .setCameraFacing(nextFacing);
+      final Room? room = s.liveKitRoom;
+      if (room != null) {
+        await ref
+            .read(voiceSettingsApplicatorProvider)
+            .refreshCamera(
+              room: room,
+              settings: ref.read(voiceSettingsProvider),
+              cameraEnabled: true,
+            );
+      }
+    } finally {
+      _togglingVideo = false;
     }
   }
 
@@ -2842,8 +2859,7 @@ class VoiceSession extends _$VoiceSession {
     if (lp == null) {
       return;
     }
-    final CameraCaptureOptions opts =
-        room.roomOptions.defaultCameraCaptureOptions;
+    final CameraCaptureOptions opts = _cameraCaptureOptions();
     for (final LocalTrackPublication<LocalVideoTrack> pub
         in lp.videoTrackPublications) {
       if (pub.isScreenShare) {
