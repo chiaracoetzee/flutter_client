@@ -454,6 +454,10 @@ const double _kDragHandleHitHeight = 28;
 /// Sheet extents are fractions of the viewport; below this they are equal.
 const double _kSheetSizeEpsilon = 0.001;
 
+/// Pointer travel that counts as a drag. Opening-animation size changes must
+/// not be treated as a user drag or a tap will snap-dismiss the sheet.
+const double _kSheetPointerDragSlop = 18;
+
 /// Captures downward vertical drags on sheet body content to dismiss the sheet.
 ///
 /// Pair with [NeverScrollableScrollPhysics] (or a scroll view already at the top)
@@ -532,9 +536,12 @@ class _FluxerDraggableScrollableSheetState
   /// True once this route is popping. Stops a leftover pointer snap from
   /// popping the route that replaced this sheet.
   bool _dismissed = false;
+  bool _routeDidEnter = false;
   bool _snapQueued = false;
   int _activePointers = 0;
   double _pointerDownSize = 0;
+  Offset _pointerDownPosition = Offset.zero;
+  bool _pointerDragged = false;
   double _lastSize = 0;
   int _lastSizeUs = 0;
   double _sizePerSecond = 0;
@@ -572,7 +579,15 @@ class _FluxerDraggableScrollableSheetState
   }
 
   void _markDismissedIfRouteClosing(AnimationStatus status) {
-    if (status == AnimationStatus.reverse) {
+    if (status == AnimationStatus.forward ||
+        status == AnimationStatus.completed) {
+      _routeDidEnter = true;
+      return;
+    }
+    // Routes start dismissed. After enter, reverse/dismissed means we're popping.
+    if (_routeDidEnter &&
+        (status == AnimationStatus.reverse ||
+            status == AnimationStatus.dismissed)) {
       _dismissed = true;
     }
   }
@@ -602,7 +617,11 @@ class _FluxerDraggableScrollableSheetState
       return;
     }
     final ModalRoute<dynamic>? route = ModalRoute.of(context);
-    if (route != null && !route.isCurrent) {
+    final AnimationStatus? status = _routeAnimation?.status;
+    // Exit animation keeps this route isCurrent; don't pop the route below.
+    if (status == AnimationStatus.reverse ||
+        (_routeDidEnter && status == AnimationStatus.dismissed) ||
+        (route != null && !route.isCurrent)) {
       return;
     }
     widget.onDismiss();
@@ -613,9 +632,21 @@ class _FluxerDraggableScrollableSheetState
     if (_activePointers == 1) {
       _sizePerSecond = 0;
       _releaseDownVelocity = 0;
+      _pointerDragged = false;
+      _pointerDownPosition = event.position;
       _pointerDownSize = _sheetController.isAttached
           ? _sheetController.size
           : 0;
+    }
+  }
+
+  void _onPointerMove(PointerMoveEvent event) {
+    if (_pointerDragged) {
+      return;
+    }
+    if ((event.position - _pointerDownPosition).distance >
+        _kSheetPointerDragSlop) {
+      _pointerDragged = true;
     }
   }
 
@@ -641,13 +672,13 @@ class _FluxerDraggableScrollableSheetState
   }
 
   void _queueSnap() {
-    if (_snapQueued || _dismissed) {
+    if (_snapQueued || _dismissed || !_pointerDragged) {
       return;
     }
     _snapQueued = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _snapQueued = false;
-      if (!mounted || _dismissed || _activePointers > 0) {
+      if (!mounted || _dismissed || !_pointerDragged || _activePointers > 0) {
         return;
       }
       _snapOrDismiss(velocity: _releaseDownVelocity);
@@ -655,7 +686,10 @@ class _FluxerDraggableScrollableSheetState
   }
 
   void _snapOrDismiss({double velocity = 0}) {
-    if (_dismissed || !mounted || !_sheetController.isAttached) {
+    if (_dismissed ||
+        !_pointerDragged ||
+        !mounted ||
+        !_sheetController.isAttached) {
       return;
     }
     final double size = _sheetController.size;
@@ -717,6 +751,7 @@ class _FluxerDraggableScrollableSheetState
       constraints: BoxConstraints(maxHeight: widget.maxHeight),
       child: Listener(
         onPointerDown: _onPointerDown,
+        onPointerMove: _onPointerMove,
         onPointerUp: _onPointerReleased,
         onPointerCancel: _onPointerReleased,
         child: NotificationListener<DraggableScrollableNotification>(
