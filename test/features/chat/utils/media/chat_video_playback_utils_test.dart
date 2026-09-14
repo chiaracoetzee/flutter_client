@@ -159,6 +159,34 @@ void main() {
     });
   });
 
+  group('mediaKitVolumeFromNormalized', () {
+    test('maps full UI volume to media_kit 100', () {
+      expect(mediaKitVolumeFromNormalized(1), kMediaKitMaxVolume);
+    });
+
+    test('maps half UI volume to 50', () {
+      expect(mediaKitVolumeFromNormalized(0.5), 50);
+    });
+
+    test('clamps out of range values', () {
+      expect(mediaKitVolumeFromNormalized(-1), 0);
+      expect(mediaKitVolumeFromNormalized(2), kMediaKitMaxVolume);
+    });
+  });
+
+  group('mediaKitPlayerVolume', () {
+    test('returns 0 when muted', () {
+      expect(mediaKitPlayerVolume(normalizedVolume: 1, isMuted: true), 0);
+    });
+
+    test('returns scaled volume when unmuted', () {
+      expect(
+        mediaKitPlayerVolume(normalizedVolume: 1, isMuted: false),
+        kMediaKitMaxVolume,
+      );
+    });
+  });
+
   group('resolvePlaybackUrl', () {
     test('returns direct media URL for non-YouTube sources', () async {
       const ChatVideoSource source = ChatVideoSource(
