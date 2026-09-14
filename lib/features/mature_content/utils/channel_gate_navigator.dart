@@ -51,10 +51,18 @@ Future<bool> isChannelGateBlocking({
   Channel? channel,
 }) async {
   await container.read(matureContentAgreementsProvider.notifier).ensureLoaded();
-  if (await container.read(
-    shouldShowMatureContentGateProvider(channelId).future,
-  )) {
-    return true;
+  final ProviderSubscription<AsyncValue<bool>> gateSub = container.listen(
+    shouldShowMatureContentGateProvider(channelId),
+    (_, _) {},
+  );
+  try {
+    if (await container.read(
+      shouldShowMatureContentGateProvider(channelId).future,
+    )) {
+      return true;
+    }
+  } finally {
+    gateSub.close();
   }
   final ChannelListState channelList = container.read(
     channelListViewModelProvider,
