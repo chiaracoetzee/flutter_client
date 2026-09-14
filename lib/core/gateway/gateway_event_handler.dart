@@ -234,6 +234,8 @@ class GatewayEventHandler {
   bool _hasCommittedReady = false;
   bool _disposed = false;
 
+  String? get _selfUserId => _currentUserId ?? currentUserId;
+
   void dispose() {
     _disposed = true;
     _presenceUpdateBatcher.dispose();
@@ -1481,10 +1483,11 @@ class GatewayEventHandler {
         : channelResolution.dmChannel?.lastMessageId;
     final msg = Message.fromSdk(
       event.message,
-      currentUserId: currentUserId,
+      currentUserId: _selfUserId,
     ).copyWith(isMentioned: mentionsCurrentUser);
 
     _emit(() => onTypingClear?.call(msg.channelId, msg.authorId));
+    _notifyOwnMessageCreated(event);
 
     if (event.message.webhookId == null) {
       unawaited(
@@ -1611,6 +1614,21 @@ class GatewayEventHandler {
     }
   }
 
+  void _notifyOwnMessageCreated(MessageCreateEvent event) {
+    final String? selfUserId = _selfUserId;
+    if (selfUserId == null ||
+        event.message.author.id != selfUserId ||
+        event.message.webhookId != null) {
+      return;
+    }
+    _emit(
+      () => onOwnMessageCreated?.call(
+        event.message.channelId,
+        event.message.timestamp,
+      ),
+    );
+  }
+
   Future<UserGuildSettingsResponse?> _guildSettingsForStorage(
     String guildStorageId,
   ) async {
@@ -1630,7 +1648,7 @@ class GatewayEventHandler {
     required String? previousChannelLastMessageId,
     required MessageMentionContext mentionCtx,
   }) async {
-    final isOwnMessage = msg.authorId == currentUserId;
+    final isOwnMessage = _selfUserId != null && msg.authorId == _selfUserId;
     final readState = await database.readStateDao.getReadState(msg.channelId);
     final ackMessageId = readState?.lastMessageId;
     final readStateKnown = ackMessageId != null;
@@ -1679,7 +1697,6 @@ class GatewayEventHandler {
           clearSticky: true,
           markDmRead: true,
         );
-        _emit(() => onOwnMessageCreated?.call(msg.channelId, msg.timestamp));
         return;
       case ReadStateIncomingMessageKind.ackAutomaticMessage:
       case ReadStateIncomingMessageKind.ackBlockedMessage:
