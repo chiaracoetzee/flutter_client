@@ -62,6 +62,7 @@ import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart'
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/core/message_pagination_coordinator.dart';
+import 'package:fluxer_app/features/chat/providers/messages/channel_spoiler_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
@@ -479,6 +480,10 @@ class _MessageListState extends ConsumerState<MessageList> {
       chatViewModelProvider.select((ChatViewState s) => s.channelId),
     );
     final String? expectedChannelId = widget.expectedChannelId;
+    final String spoilerChannelId = expectedChannelId ?? channelId;
+    if (spoilerChannelId.isNotEmpty) {
+      ref.watch(channelSpoilerSyncProvider(spoilerChannelId).notifier);
+    }
     if (expectedChannelId != null &&
         chatWindowMismatchesChannel(
           expectedChannelId: expectedChannelId,
