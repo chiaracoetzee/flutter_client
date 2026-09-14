@@ -1220,10 +1220,15 @@ class GatewayEventHandler {
     if (userId == null) {
       return;
     }
+    final existingRow = await database.userSettingsDao.getSettings(userId);
+    final existing = existingRow == null
+        ? null
+        : _tryDecodeJsonObject(existingRow.data);
+    final merged = <String, dynamic>{...?existing, ...event.data};
     await database.userSettingsDao.upsertSettings(
       db.UserSettingsTableCompanion(
         userId: Value(userId),
-        data: Value(jsonEncode(event.settings.toJson())),
+        data: Value(jsonEncode(merged)),
       ),
     );
     await database.userDao.updateUserPresence(

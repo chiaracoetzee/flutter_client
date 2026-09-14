@@ -686,7 +686,6 @@ class SyncedPreferencesStore {
     if (_pushTimer?.isActive ?? false) {
       protected.addAll(_dirtyFields);
     }
-    protected.addAll(_recentlyAckedFields());
     return protected;
   }
 
