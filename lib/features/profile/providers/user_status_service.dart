@@ -78,6 +78,8 @@ class UserStatusService {
     }
     final UserSettingsUpdateRequest request = UserSettingsUpdateRequest(
       status: fallbackStatus,
+      statusResetsAt: null,
+      statusResetsTo: null,
     );
     await _patchSettings(
       userId: userId,
