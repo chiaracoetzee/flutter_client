@@ -194,6 +194,7 @@ class _AttachmentAudioBody extends StatelessWidget {
                       children: [
                         Expanded(
                           child: PlaybackSeekGestureTarget(
+                            enabled: controller.isPlaying,
                             onSeekFraction: (double fraction) {
                               unawaited(
                                 controller.seekToRelativePosition(fraction),
