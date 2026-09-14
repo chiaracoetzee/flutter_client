@@ -19,6 +19,22 @@ ChatInlineVideoOffscreenAction resolveInlineVideoOffscreenAction({
 
 const double kDefaultChatVideoAspectRatio = 16 / 9;
 
+const double kMediaKitMaxVolume = 100;
+
+double mediaKitVolumeFromNormalized(double volume) {
+  return volume.clamp(0, 1) * kMediaKitMaxVolume;
+}
+
+double mediaKitPlayerVolume({
+  required double normalizedVolume,
+  required bool isMuted,
+}) {
+  if (isMuted) {
+    return 0;
+  }
+  return mediaKitVolumeFromNormalized(normalizedVolume);
+}
+
 double resolveChatVideoAspectRatio({int? width, int? height}) {
   if (width != null && height != null && width > 0 && height > 0) {
     return width / height;

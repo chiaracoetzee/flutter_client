@@ -71,7 +71,6 @@ class _ChatMobileFullscreenVideoPage extends ConsumerStatefulWidget {
 class _ChatMobileFullscreenVideoPageState
     extends ConsumerState<_ChatMobileFullscreenVideoPage> {
   static const Duration _hudHideDelay = Duration(seconds: 3);
-  static const double _kUnmutedVolume = 100;
 
   Player? _player;
   mkv.VideoController? _controller;
@@ -133,7 +132,7 @@ class _ChatMobileFullscreenVideoPageState
       final Player player = MediaKitPlayerLifecycleCoordinator.instance
           .createPlayer();
       _player = player;
-      unawaited(player.setVolume(_kUnmutedVolume));
+      unawaited(player.setVolume(kMediaKitMaxVolume));
       _controller = mkv.VideoController(player);
       unawaited(
         applyChatVideoHdrProperties(
@@ -337,7 +336,7 @@ class _ChatMobileFullscreenVideoPageState
     if (_isMuted) {
       await _player?.setVolume(0);
     } else {
-      await _player?.setVolume(_kUnmutedVolume);
+      await _player?.setVolume(kMediaKitMaxVolume);
     }
     if (mounted) {
       setState(() {});
