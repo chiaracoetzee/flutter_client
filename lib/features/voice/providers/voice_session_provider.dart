@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
 import 'package:fluxer_app/features/voice/utils/entrance_sound_playback.dart';
 import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/voice_audio_route_recovery.dart';
+import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_permissions.dart';
@@ -120,6 +121,7 @@ class VoiceSession extends _$VoiceSession {
   bool _ensuringMicrophone = false;
   StreamSubscription<List<MediaDevice>>? _mediaDeviceChangeSubscription;
   Timer? _audioRouteRecoveryTimer;
+  final List<Timer> _speakerOutputRetryTimers = <Timer>[];
   Set<String>? _lastKnownInputDeviceIds;
   Set<String>? _pendingRecoveryInputIds;
   bool _isRecoveringAudioRoute = false;
@@ -1337,6 +1339,7 @@ class VoiceSession extends _$VoiceSession {
     _cancelConnectWatchdog();
     _cancelLiveKitConnectWatchdog();
     _cancelDeferredServerDisconnect();
+    _cancelSpeakerOutputRetry();
     _startWithVideoAfterConnect = false;
     unawaited(
       playFluxerSoundEffect(
@@ -1395,6 +1398,7 @@ class VoiceSession extends _$VoiceSession {
     _cancelConnectWatchdog();
     _cancelLiveKitConnectWatchdog();
     _cancelDeferredServerDisconnect();
+    _cancelSpeakerOutputRetry();
     _detachMediaDeviceChangeListener();
     _detachLocalParticipantListener();
     _detachRoomEventsListener();
@@ -2299,6 +2303,27 @@ class VoiceSession extends _$VoiceSession {
     await _applyAudioOutputDevice(settings.outputDeviceId);
   }
 
+  void _cancelSpeakerOutputRetry() {
+    for (final Timer timer in _speakerOutputRetryTimers) {
+      timer.cancel();
+    }
+    _speakerOutputRetryTimers.clear();
+  }
+
+  void _scheduleSpeakerOutputRetry() {
+    _cancelSpeakerOutputRetry();
+    for (final Duration delay in kVoiceCallKitSpeakerReapplyDelays) {
+      _speakerOutputRetryTimers.add(
+        Timer(delay, () {
+          if (!state.isInVoice) {
+            return;
+          }
+          unawaited(_applyVoiceOutputRouting(ref.read(voiceSettingsProvider)));
+        }),
+      );
+    }
+  }
+
   Future<void> _applyAudioOutputDevice(String outputDeviceId) async {
     if (outputDeviceId == kDefaultVoiceDeviceId || outputDeviceId.isEmpty) {
       return;
@@ -2326,6 +2351,14 @@ class VoiceSession extends _$VoiceSession {
         previous.preferSpeakerOutput != next.preferSpeakerOutput;
     if (outputRoutingChanged) {
       await _applyVoiceOutputRouting(next);
+      if (shouldReapplySpeakerOutputOnPreferenceChange(
+        isInVoice: state.isInVoice,
+        speakerPreferenceChanged:
+            previous != null &&
+            previous.preferSpeakerOutput != next.preferSpeakerOutput,
+      )) {
+        _scheduleSpeakerOutputRetry();
+      }
     }
     final Room? room = state.liveKitRoom;
     if (room == null || !state.isConnected) {

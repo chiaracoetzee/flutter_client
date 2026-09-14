@@ -4,9 +4,9 @@ import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.
 import 'package:fluxer_app/features/voice/utils/camera_resolution_presets.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_audio_publish_options.dart';
-import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
+import 'package:fluxer_app/features/voice/utils/voice_speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -425,25 +425,16 @@ class VoiceSettingsApplicator {
   Future<void> applySpeakerOutput({
     required VoiceSettingsState settings,
   }) async {
-    if (!AudioManager.instance.canSwitchSpeakerphone) {
-      return;
+    if (AudioManager.instance.canSwitchSpeakerphone) {
+      await AudioManager.instance.setSpeakerOutputPreferred(
+        settings.preferSpeakerOutput,
+        force: settings.preferSpeakerOutput,
+      );
+      try {
+        await Helper.setSpeakerphoneOn(settings.preferSpeakerOutput);
+      } on Object catch (_) {}
     }
-    // CallKit stays on earpiece unless speaker is forced.
-    final bool forceSpeaker = shouldForceSpeakerOutputForCallKit(
-      preferSpeakerOutput: settings.preferSpeakerOutput,
-      callKitOwnsAudioSession: _callKitOwnsAudioSession(),
-    );
-    await AudioManager.instance.setSpeakerOutputPreferred(
-      settings.preferSpeakerOutput,
-      force: forceSpeaker,
-    );
-  }
-
-  bool _callKitOwnsAudioSession() {
-    return AudioManager.instance.managementMode ==
-        // LiveKit experimental API.
-        // ignore: experimental_member_use
-        AudioSessionManagementMode.externalCallSystem;
+    await applyIosSpeakerPortOverride(speaker: settings.preferSpeakerOutput);
   }
 
   String? _resolveDeviceId(String deviceId) {
