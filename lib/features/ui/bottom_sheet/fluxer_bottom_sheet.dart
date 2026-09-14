@@ -158,12 +158,13 @@ class FluxerBottomSheet {
             keyboardBottomInset: keyboardInset,
           );
           final bool isMenuVariant = variant == FluxerBottomSheetVariant.menu;
-          final hasHeader =
-              title != null ||
-              subtitle != null ||
-              leading != null ||
-              trailing != null ||
-              onBack != null;
+          final bool hasHeader = _hasSheetHeader(
+            title: title,
+            subtitle: subtitle,
+            leading: leading,
+            trailing: trailing,
+            onBack: onBack,
+          );
 
           final content = AnimatedPadding(
             duration: sheetContext.motion.normal,
@@ -176,40 +177,36 @@ class FluxerBottomSheet {
                           maxHeight
                     : mediaQuery.size.height - topPadding - layout.s4,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (showDragHandle)
-                    FluxerBottomSheetDragHandle(
-                      onDismiss: enableDrag ? close : null,
-                    ),
-                  if (!showDragHandle && hasHeader) SizedBox(height: layout.s4),
-                  if (hasHeader) ...[
-                    FluxerBottomSheetHeader(
-                      title: title ?? '',
-                      subtitle: subtitle,
-                      leading: leading,
-                      trailing: trailing,
-                      onBack: onBack,
-                    ),
-                    SizedBox(
-                      height: variant == FluxerBottomSheetVariant.menu
-                          ? layout.s3
-                          : layout.s2,
+              child: _FluxerBottomSheetDragScope(
+                onDismiss: enableDrag ? close : null,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (showDragHandle) const FluxerBottomSheetDragHandle(),
+                    if (!showDragHandle && hasHeader)
+                      SizedBox(height: layout.s4),
+                    if (hasHeader)
+                      _FluxerBottomSheetHeaderBlock(
+                        title: title ?? '',
+                        subtitle: subtitle,
+                        leading: leading,
+                        trailing: trailing,
+                        onBack: onBack,
+                        gap: isMenuVariant ? layout.s3 : layout.s2,
+                      ),
+                    Flexible(
+                      child: _FluxerBottomSheetInsetChild(
+                        bottomPadding: bottomPadding,
+                        child: isMenuVariant
+                            ? Builder(
+                                builder: (scopedContext) =>
+                                    builder(scopedContext, close),
+                              )
+                            : builder(sheetContext, close),
+                      ),
                     ),
                   ],
-                  Flexible(
-                    child: _FluxerBottomSheetInsetChild(
-                      bottomPadding: bottomPadding,
-                      child: isMenuVariant
-                          ? Builder(
-                              builder: (scopedContext) =>
-                                  builder(scopedContext, close),
-                            )
-                          : builder(sheetContext, close),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           );
@@ -289,12 +286,13 @@ class FluxerBottomSheet {
             keyboardBottomInset: keyboardInset,
           );
           final double bottomScrollPadding = bottomPadding;
-          final hasHeader =
-              title != null ||
-              subtitle != null ||
-              leading != null ||
-              trailing != null ||
-              onBack != null;
+          final bool hasHeader = _hasSheetHeader(
+            title: title,
+            subtitle: subtitle,
+            leading: leading,
+            trailing: trailing,
+            onBack: onBack,
+          );
 
           final double availableHeight =
               mediaQuery.size.height - mediaQuery.viewPadding.top - layout.s4;
@@ -379,6 +377,20 @@ Widget _wrapSheetBackHandler({
   );
 }
 
+bool _hasSheetHeader({
+  String? title,
+  Widget? subtitle,
+  Widget? leading,
+  Widget? trailing,
+  VoidCallback? onBack,
+}) {
+  return title != null ||
+      subtitle != null ||
+      leading != null ||
+      trailing != null ||
+      onBack != null;
+}
+
 // ---------------------------------------------------------------------------
 // Structural widgets
 // ---------------------------------------------------------------------------
@@ -446,7 +458,7 @@ const double _kSheetSizeEpsilon = 0.001;
 ///
 /// Pair with [NeverScrollableScrollPhysics] (or a scroll view already at the top)
 /// so inner scrollables do not claim the drag.
-class FluxerBottomSheetDismissDragTarget extends StatefulWidget {
+class FluxerBottomSheetDismissDragTarget extends StatelessWidget {
   const FluxerBottomSheetDismissDragTarget({
     required this.onDismiss,
     required this.child,
@@ -457,40 +469,11 @@ class FluxerBottomSheetDismissDragTarget extends StatefulWidget {
   final Widget child;
 
   @override
-  State<FluxerBottomSheetDismissDragTarget> createState() =>
-      _FluxerBottomSheetDismissDragTargetState();
-}
-
-class _FluxerBottomSheetDismissDragTargetState
-    extends State<FluxerBottomSheetDismissDragTarget> {
-  double _dragDistance = 0;
-
-  void _handleVerticalDragStart(DragStartDetails details) {
-    _dragDistance = 0;
-  }
-
-  void _handleVerticalDragUpdate(DragUpdateDetails details) {
-    _dragDistance += details.delta.dy;
-  }
-
-  void _handleVerticalDragEnd(DragEndDetails details) {
-    if (fluxerBottomSheetShouldDismissAfterDrag(
-      dragDistance: _dragDistance,
-      velocity: details.primaryVelocity ?? 0,
-    )) {
-      widget.onDismiss();
-    }
-    _dragDistance = 0;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FluxerGestureDetector(
+    return FluxerBottomSheetDragArea(
+      onDismiss: onDismiss,
       behavior: HitTestBehavior.translucent,
-      onVerticalDragStart: _handleVerticalDragStart,
-      onVerticalDragUpdate: _handleVerticalDragUpdate,
-      onVerticalDragEnd: _handleVerticalDragEnd,
-      child: widget.child,
+      child: child,
     );
   }
 }
@@ -764,42 +747,45 @@ class _FluxerDraggableScrollableSheetState
                         maxHeight: layoutHeight,
                         child: SizedBox(
                           height: layoutHeight,
-                          child: Column(
-                            children: [
-                              if (widget.showDragHandle)
-                                FluxerBottomSheetDragHandle(
-                                  sheetController: _sheetController,
-                                  minChildSize: widget.minChildSize,
-                                  maxChildSize: widget.maxChildSize,
-                                  onDismiss: _dismiss,
-                                  includeTopPadding: !widget.disableTopPadding,
-                                ),
-                              if (!widget.showDragHandle && widget.hasHeader)
-                                SizedBox(height: layout.s4),
-                              if (widget.hasHeader) ...[
-                                FluxerBottomSheetHeader(
-                                  title: widget.title ?? '',
-                                  subtitle: widget.subtitle,
-                                  leading: widget.leading,
-                                  trailing: widget.trailing,
-                                  onBack: widget.onBack,
-                                ),
-                                SizedBox(height: layout.s2),
-                              ],
-                              Expanded(
-                                child: FluxerBottomSheetScope(
-                                  bottomScrollPadding:
-                                      widget.bottomScrollPadding,
-                                  child: Builder(
-                                    builder: (scopedContext) => widget.builder(
-                                      scopedContext,
-                                      scrollController,
-                                      _dismiss,
+                          child: _FluxerBottomSheetDragScope(
+                            sheetController: _sheetController,
+                            minChildSize: widget.minChildSize,
+                            maxChildSize: widget.maxChildSize,
+                            onDismiss: _dismiss,
+                            child: Column(
+                              children: [
+                                if (widget.showDragHandle)
+                                  FluxerBottomSheetDragHandle(
+                                    includeTopPadding:
+                                        !widget.disableTopPadding,
+                                  ),
+                                if (!widget.showDragHandle && widget.hasHeader)
+                                  SizedBox(height: layout.s4),
+                                if (widget.hasHeader)
+                                  _FluxerBottomSheetHeaderBlock(
+                                    title: widget.title ?? '',
+                                    subtitle: widget.subtitle,
+                                    leading: widget.leading,
+                                    trailing: widget.trailing,
+                                    onBack: widget.onBack,
+                                    gap: layout.s2,
+                                  ),
+                                Expanded(
+                                  child: FluxerBottomSheetScope(
+                                    bottomScrollPadding:
+                                        widget.bottomScrollPadding,
+                                    child: Builder(
+                                      builder: (scopedContext) =>
+                                          widget.builder(
+                                            scopedContext,
+                                            scrollController,
+                                            _dismiss,
+                                          ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -815,15 +801,129 @@ class _FluxerDraggableScrollableSheetState
   }
 }
 
-class FluxerBottomSheetDragHandle extends StatefulWidget {
+class _FluxerBottomSheetDragScope extends InheritedWidget {
+  const _FluxerBottomSheetDragScope({
+    required super.child,
+    this.sheetController,
+    this.minChildSize = 0,
+    this.maxChildSize = 1,
+    this.onDismiss,
+  });
+
+  final DraggableScrollableController? sheetController;
+  final double minChildSize;
+  final double maxChildSize;
+  final VoidCallback? onDismiss;
+
+  static _FluxerBottomSheetDragScope? maybeOf(BuildContext context) {
+    return context.getInheritedWidgetOfExactType<_FluxerBottomSheetDragScope>();
+  }
+
+  @override
+  bool updateShouldNotify(_FluxerBottomSheetDragScope oldWidget) {
+    return sheetController != oldWidget.sheetController ||
+        minChildSize != oldWidget.minChildSize ||
+        maxChildSize != oldWidget.maxChildSize ||
+        onDismiss != oldWidget.onDismiss;
+  }
+}
+
+class FluxerBottomSheetDragArea extends StatefulWidget {
+  const FluxerBottomSheetDragArea({
+    required this.child,
+    super.key,
+    this.sheetController,
+    this.minChildSize,
+    this.maxChildSize,
+    this.onDismiss,
+    this.behavior = HitTestBehavior.opaque,
+  });
+
+  final Widget child;
+  final DraggableScrollableController? sheetController;
+  final double? minChildSize;
+  final double? maxChildSize;
+  final VoidCallback? onDismiss;
+  final HitTestBehavior behavior;
+
+  @override
+  State<FluxerBottomSheetDragArea> createState() =>
+      _FluxerBottomSheetDragAreaState();
+}
+
+class _FluxerBottomSheetDragAreaState extends State<FluxerBottomSheetDragArea> {
+  double _dragDistance = 0;
+
+  _FluxerBottomSheetDragScope? get _scope =>
+      _FluxerBottomSheetDragScope.maybeOf(context);
+
+  DraggableScrollableController? get _controller =>
+      widget.sheetController ?? _scope?.sheetController;
+
+  VoidCallback? get _onDismiss => widget.onDismiss ?? _scope?.onDismiss;
+
+  bool get _canDrag => _controller != null || _onDismiss != null;
+
+  void _handleVerticalDragStart(DragStartDetails details) {
+    _dragDistance = 0;
+  }
+
+  void _handleVerticalDragUpdate(DragUpdateDetails details) {
+    _dragDistance += details.delta.dy;
+    final DraggableScrollableController? controller = _controller;
+    if (controller == null || !controller.isAttached) {
+      return;
+    }
+    final double currentSize = controller.size;
+    if (currentSize <= 0) {
+      return;
+    }
+    controller.jumpTo(
+      fluxerBottomSheetSizeAfterDrag(
+        currentSize: currentSize,
+        deltaDy: details.delta.dy,
+        availablePixels: controller.pixels / currentSize,
+        minChildSize: widget.minChildSize ?? _scope?.minChildSize ?? 0,
+        maxChildSize: widget.maxChildSize ?? _scope?.maxChildSize ?? 1,
+      ),
+    );
+  }
+
+  void _handleVerticalDragEnd(DragEndDetails details) {
+    final double velocity = details.primaryVelocity ?? 0;
+    final double dragDistance = _dragDistance;
+    _dragDistance = 0;
+    final DraggableScrollableController? controller = _controller;
+    if (controller != null && controller.isAttached) {
+      return;
+    }
+    if (fluxerBottomSheetShouldDismissAfterDrag(
+      dragDistance: dragDistance,
+      velocity: velocity,
+    )) {
+      _onDismiss?.call();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FluxerGestureDetector(
+      behavior: widget.behavior,
+      onVerticalDragStart: _canDrag ? _handleVerticalDragStart : null,
+      onVerticalDragUpdate: _canDrag ? _handleVerticalDragUpdate : null,
+      onVerticalDragEnd: _canDrag ? _handleVerticalDragEnd : null,
+      child: widget.child,
+    );
+  }
+}
+
+class FluxerBottomSheetDragHandle extends StatelessWidget {
   const FluxerBottomSheetDragHandle({
     super.key,
     this.sheetController,
     this.minChildSize = 0,
     this.maxChildSize = 1,
     this.onDismiss,
-    this.onVerticalDragUpdate,
-    this.onVerticalDragEnd,
     this.includeTopPadding = true,
   });
 
@@ -831,101 +931,69 @@ class FluxerBottomSheetDragHandle extends StatefulWidget {
   final double minChildSize;
   final double maxChildSize;
   final VoidCallback? onDismiss;
-  final GestureDragUpdateCallback? onVerticalDragUpdate;
-  final GestureDragEndCallback? onVerticalDragEnd;
   final bool includeTopPadding;
-
-  @override
-  State<FluxerBottomSheetDragHandle> createState() =>
-      _FluxerBottomSheetDragHandleState();
-}
-
-class _FluxerBottomSheetDragHandleState
-    extends State<FluxerBottomSheetDragHandle> {
-  double _dragDistance = 0;
-
-  bool get _hasDragHandlers =>
-      widget.sheetController != null ||
-      widget.onDismiss != null ||
-      widget.onVerticalDragUpdate != null ||
-      widget.onVerticalDragEnd != null;
-
-  void _handleVerticalDragStart(DragStartDetails details) {
-    _dragDistance = 0;
-  }
-
-  void _handleVerticalDragUpdate(DragUpdateDetails details) {
-    if (widget.onVerticalDragUpdate != null) {
-      widget.onVerticalDragUpdate!(details);
-      return;
-    }
-    _dragDistance += details.delta.dy;
-    final DraggableScrollableController? controller = widget.sheetController;
-    if (controller == null || !controller.isAttached) {
-      // No live scrollable to resize (non-scrollable sheet, or a scrollable
-      // sheet currently rendering an empty/loading state): the accumulated
-      // distance alone drives the dismiss decision on drag end.
-      return;
-    }
-    final double currentSize = controller.size;
-    if (currentSize <= 0) {
-      return;
-    }
-    final double availablePixels = controller.pixels / currentSize;
-    controller.jumpTo(
-      fluxerBottomSheetSizeAfterDrag(
-        currentSize: currentSize,
-        deltaDy: details.delta.dy,
-        availablePixels: availablePixels,
-        minChildSize: widget.minChildSize,
-        maxChildSize: widget.maxChildSize,
-      ),
-    );
-  }
-
-  void _handleVerticalDragEnd(DragEndDetails details) {
-    if (widget.onVerticalDragEnd != null) {
-      widget.onVerticalDragEnd!(details);
-      return;
-    }
-    final double velocity = details.primaryVelocity ?? 0;
-    final double dragDistance = _dragDistance;
-    _dragDistance = 0;
-    if (widget.sheetController != null && widget.sheetController!.isAttached) {
-      // Scrollable sheets snap (or dismiss) from the parent pointer-up hook.
-      return;
-    }
-    if (fluxerBottomSheetShouldDismissAfterDrag(
-      dragDistance: dragDistance,
-      velocity: velocity,
-    )) {
-      widget.onDismiss?.call();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
-    final double topPadding = widget.includeTopPadding ? layout.s2 : 0;
-    final Widget pill = Container(
-      width: 32,
-      height: 4,
-      decoration: BoxDecoration(
-        color: context.colors.backgroundModifierAccent,
-        borderRadius: BorderRadius.circular(2),
-      ),
-    );
-    return FluxerGestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onVerticalDragStart: _hasDragHandlers ? _handleVerticalDragStart : null,
-      onVerticalDragUpdate: _hasDragHandlers ? _handleVerticalDragUpdate : null,
-      onVerticalDragEnd: _hasDragHandlers ? _handleVerticalDragEnd : null,
+    final double topPadding = includeTopPadding ? layout.s2 : 0;
+    return FluxerBottomSheetDragArea(
+      sheetController: sheetController,
+      minChildSize: sheetController == null ? null : minChildSize,
+      maxChildSize: sheetController == null ? null : maxChildSize,
+      onDismiss: onDismiss,
       child: SizedBox(
         height: topPadding + _kDragHandleHitHeight + layout.s2,
         child: Padding(
           padding: EdgeInsets.only(top: topPadding, bottom: layout.s2),
-          child: Center(child: pill),
+          child: Center(
+            child: Container(
+              width: 32,
+              height: 4,
+              decoration: BoxDecoration(
+                color: context.colors.backgroundModifierAccent,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class _FluxerBottomSheetHeaderBlock extends StatelessWidget {
+  const _FluxerBottomSheetHeaderBlock({
+    required this.title,
+    required this.gap,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.onBack,
+  });
+
+  final String title;
+  final double gap;
+  final Widget? subtitle;
+  final Widget? leading;
+  final Widget? trailing;
+  final VoidCallback? onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    return FluxerBottomSheetDragArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FluxerBottomSheetHeader(
+            title: title,
+            subtitle: subtitle,
+            leading: leading,
+            trailing: trailing,
+            onBack: onBack,
+          ),
+          SizedBox(height: gap),
+        ],
       ),
     );
   }
