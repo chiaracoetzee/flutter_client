@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart' as l10n;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -165,7 +166,16 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
             child: scaled,
           );
         }
-        return scaled;
+        final ThemeData materialTheme = Theme.of(context);
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value:
+              materialTheme.appBarTheme.systemOverlayStyle ??
+              fluxerSystemUiOverlayStyle(
+                brightness: materialTheme.brightness,
+                navigationBarColor: materialTheme.scaffoldBackgroundColor,
+              ),
+          child: scaled,
+        );
       },
     );
   }
