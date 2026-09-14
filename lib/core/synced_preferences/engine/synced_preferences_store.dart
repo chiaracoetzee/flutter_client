@@ -29,7 +29,7 @@ const int _kRateLimitBackoffCapMs = 60000;
 const int _kRateLimitRetryAfterMinMs = 250;
 
 Duration syncedPreferencesRateLimitRetryDelay({
-  required int consecutive429s,
+  required int attempt,
   int? retryAfterMs,
 }) {
   if (retryAfterMs != null && retryAfterMs > 0) {
@@ -40,7 +40,7 @@ Duration syncedPreferencesRateLimitRetryDelay({
       ),
     );
   }
-  final int exp = consecutive429s.clamp(1, _kRateLimitMaxAttempts);
+  final int exp = attempt.clamp(1, _kRateLimitMaxAttempts);
   return Duration(
     milliseconds: (1000 * (1 << exp)).clamp(0, _kRateLimitBackoffCapMs),
   );
@@ -72,9 +72,9 @@ class SyncedPreferencesStore {
   pb.SyncedPreferences? _inFlightSnapshot;
   final Map<SyncedPreferenceField, DateTime> _recentlyAckedUntil = {};
   Timer? _pushTimer;
-  Timer? _rateLimitTimer;
+  Timer? _pushRetryTimer;
   int _pushGeneration = 0;
-  int _rateLimitAttempts = 0;
+  int _pushRetryAttempts = 0;
 
   void registerDefaultAdapters() {
     registerDefaultSyncedFieldAdapters(
@@ -110,13 +110,16 @@ class SyncedPreferencesStore {
     _inFlightSnapshot = null;
     _recentlyAckedUntil.clear();
     _pushGeneration++;
-    _rateLimitAttempts = 0;
+    _pushRetryAttempts = 0;
   }
 
   void markSessionChanging() {}
 
   void markDirty(SyncedPreferenceField field) {
     _dirtyFields.add(field);
+    _pushRetryAttempts = 0;
+    _pushRetryTimer?.cancel();
+    _pushRetryTimer = null;
     scheduleFlush();
   }
 
@@ -552,7 +555,7 @@ class SyncedPreferencesStore {
       _dirtyFields.addAll(stillChanged);
       _pendingPush = _dirtyFields.isNotEmpty;
       _markFieldsAcked(fieldsInRequest);
-      _rateLimitAttempts = 0;
+      _pushRetryAttempts = 0;
       talker.debug(
         '[SyncedPreferences] Pushed ${fieldsInRequest.length} field(s) '
         '(${encoded.length} bytes, '
@@ -561,13 +564,14 @@ class SyncedPreferencesStore {
       );
     } on SyncedPreferencesWireEncodeException catch (error, stackTrace) {
       talker.error('[SyncedPreferences] Wire encode failed', error, stackTrace);
+      _pendingPush = false;
     } on Object catch (error, stackTrace) {
       if (_isRateLimitError(error)) {
-        _scheduleRateLimitRetry(error);
         talker.warning('[SyncedPreferences] Push rate-limited, will retry');
-        return;
+      } else {
+        talker.error('[SyncedPreferences] Push failed', error, stackTrace);
       }
-      talker.error('[SyncedPreferences] Push failed', error, stackTrace);
+      _schedulePushRetry(error);
     } finally {
       _isPushInFlight = false;
       _inFlightFields.clear();
@@ -765,7 +769,10 @@ class SyncedPreferencesStore {
   }
 
   void _flushPendingPush() {
-    if (!_pendingPush || _isApplyingRemote || _isPushInFlight) {
+    if (!_pendingPush ||
+        _isApplyingRemote ||
+        _isPushInFlight ||
+        (_pushRetryTimer?.isActive ?? false)) {
       return;
     }
     scheduleFlush();
@@ -782,22 +789,28 @@ class SyncedPreferencesStore {
     });
   }
 
-  void _scheduleRateLimitRetry(Object error) {
-    _pendingPush = true;
+  void _schedulePushRetry(Object error) {
     _pushTimer?.cancel();
-    _rateLimitTimer?.cancel();
-    _rateLimitAttempts = (_rateLimitAttempts + 1).clamp(
+    _pushTimer = null;
+    _pushRetryTimer?.cancel();
+    if (_pushRetryAttempts >= _kRateLimitMaxAttempts) {
+      _pendingPush = false;
+      _pushRetryTimer = null;
+      return;
+    }
+    _pendingPush = true;
+    _pushRetryAttempts = (_pushRetryAttempts + 1).clamp(
       1,
       _kRateLimitMaxAttempts,
     );
-    final int? retryAfterMs = error is DioException
+    final int? retryAfterMs = error is DioException && _isRateLimitError(error)
         ? retryAfterMsFromDioException(error)
         : null;
     final delay = syncedPreferencesRateLimitRetryDelay(
-      consecutive429s: _rateLimitAttempts,
+      attempt: _pushRetryAttempts,
       retryAfterMs: retryAfterMs,
     );
-    _rateLimitTimer = Timer(delay, () {
+    _pushRetryTimer = Timer(delay, () {
       if (!_ref.mounted) {
         return;
       }
@@ -808,8 +821,8 @@ class SyncedPreferencesStore {
   void _cancelScheduledWork() {
     _pushTimer?.cancel();
     _pushTimer = null;
-    _rateLimitTimer?.cancel();
-    _rateLimitTimer = null;
+    _pushRetryTimer?.cancel();
+    _pushRetryTimer = null;
   }
 
   @visibleForTesting
@@ -823,14 +836,20 @@ class SyncedPreferencesStore {
   }
 
   @visibleForTesting
-  void triggerRateLimitRetryForTest() {
-    _rateLimitTimer?.cancel();
-    _rateLimitTimer = null;
+  void triggerPushRetryForTest() {
+    _pushRetryTimer?.cancel();
+    _pushRetryTimer = null;
     if (!_ref.mounted) {
       return;
     }
     unawaited(_flushPush());
   }
+
+  @visibleForTesting
+  bool get hasDebouncedPushScheduledForTest => _pushTimer?.isActive ?? false;
+
+  @visibleForTesting
+  bool get hasPushRetryScheduledForTest => _pushRetryTimer?.isActive ?? false;
 
   bool _isRateLimitError(Object error) {
     if (error is DioException) {
