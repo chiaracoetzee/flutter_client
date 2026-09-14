@@ -188,6 +188,14 @@ bool isComposerSubmitKey(LogicalKeyboardKey key) {
       key == LogicalKeyboardKey.numpadEnter;
 }
 
+/// Hardware Enter sends on native, and on web when the layout is wide.
+bool composerHardwareEnterSends({
+  required bool isWeb,
+  required bool isWideLayout,
+}) {
+  return !isWeb || isWideLayout;
+}
+
 /// Routes hardware-keyboard navigation keys to an open autocomplete menu.
 ///
 /// Returns [KeyEventResult.handled] when the key drove the menu (arrows move
