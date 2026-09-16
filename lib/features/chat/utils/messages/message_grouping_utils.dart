@@ -8,7 +8,27 @@ bool isDisplaySystemMessage(Message message) =>
 bool _isSuppressNotifications(Message message) =>
     (message.flags & messageFlagSuppressNotifications) != 0;
 
+String? _normalizeString(String? s) {
+  if (s == null || s.trim().isEmpty) {
+    return null;
+  }
+  return s.trim();
+}
+
 bool authorsShareGroupIdentity(Message current, Message previous) {
+  if (current.isPersona != previous.isPersona) {
+    return false;
+  }
+  if (current.isPersona && previous.isPersona) {
+    if (current.personaId != previous.personaId ||
+        current.personaName != previous.personaName ||
+        _normalizeString(current.personaAvatar) !=
+            _normalizeString(previous.personaAvatar) ||
+        _normalizeString(current.personaTag) !=
+            _normalizeString(previous.personaTag)) {
+      return false;
+    }
+  }
   if (current.authorIsBot || previous.authorIsBot) {
     if (current.authorName != previous.authorName ||
         current.authorAvatar != previous.authorAvatar) {
