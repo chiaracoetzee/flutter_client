@@ -135,35 +135,62 @@ MatchResult matchPersona(
             ),
           );
         }
-      } else if (hasAttachments &&
-          prefix.isNotEmpty &&
-          (text.startsWith(prefix) || text.trim() == prefix.trim())) {
-        final remainder = text.startsWith(prefix)
-            ? text.substring(prefix.length).trim()
-            : '';
-        if (remainder.isEmpty) {
-          candidates.add(
-            _CandidateMatch(
-              persona: persona,
-              totalLen: prefix.length,
-              innerContent: '',
-            ),
-          );
-        }
-      } else if (hasAttachments &&
-          suffix.isNotEmpty &&
-          (text.endsWith(suffix) || text.trim() == suffix.trim())) {
-        final remainder = text.endsWith(suffix)
-            ? text.substring(0, text.length - suffix.length).trim()
-            : '';
-        if (remainder.isEmpty) {
-          candidates.add(
-            _CandidateMatch(
-              persona: persona,
-              totalLen: suffix.length,
-              innerContent: '',
-            ),
-          );
+      } else if (hasAttachments || allowEmptyContent) {
+        final trimmed = text.trim();
+        final hasPrefix = prefix.isNotEmpty;
+        final hasSuffix = suffix.isNotEmpty;
+
+        if (hasPrefix && hasSuffix) {
+          // Two-sided tag: ALWAYS requires both prefix and suffix
+          if (trimmed.startsWith(prefix.trim()) &&
+              trimmed.endsWith(suffix.trim())) {
+            final innerStart = prefix.trim().length;
+            final innerEnd = trimmed.length - suffix.trim().length;
+            final inner = innerEnd >= innerStart
+                ? trimmed.substring(innerStart, innerEnd).trim()
+                : '';
+            if (inner.isEmpty) {
+              candidates.add(
+                _CandidateMatch(
+                  persona: persona,
+                  totalLen: prefix.length + suffix.length,
+                  innerContent: '',
+                ),
+              );
+            }
+          }
+        } else if (hasPrefix && !hasSuffix) {
+          // Prefix-only tag
+          if (trimmed == prefix.trim() || trimmed.startsWith(prefix)) {
+            final remainder = trimmed.startsWith(prefix)
+                ? trimmed.substring(prefix.length).trim()
+                : '';
+            if (remainder.isEmpty) {
+              candidates.add(
+                _CandidateMatch(
+                  persona: persona,
+                  totalLen: prefix.length,
+                  innerContent: '',
+                ),
+              );
+            }
+          }
+        } else if (!hasPrefix && hasSuffix) {
+          // Suffix-only tag
+          if (trimmed == suffix.trim() || trimmed.endsWith(suffix)) {
+            final remainder = trimmed.endsWith(suffix)
+                ? trimmed.substring(0, trimmed.length - suffix.length).trim()
+                : '';
+            if (remainder.isEmpty) {
+              candidates.add(
+                _CandidateMatch(
+                  persona: persona,
+                  totalLen: suffix.length,
+                  innerContent: '',
+                ),
+              );
+            }
+          }
         }
       }
     }

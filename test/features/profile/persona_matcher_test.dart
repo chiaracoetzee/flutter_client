@@ -9,7 +9,7 @@ void main() {
     id: 'persona_alice',
     name: 'Alice',
     personaTags: [
-      PersonaTag(prefix: 'A:', suffix: null),
+      PersonaTag(prefix: 'A:'),
     ],
   );
 
@@ -17,8 +17,8 @@ void main() {
     id: 'persona_bob',
     name: 'Bob',
     personaTags: [
-      PersonaTag(prefix: 'B:', suffix: null),
-      PersonaTag(prefix: null, suffix: '-B'),
+      PersonaTag(prefix: 'B:'),
+      PersonaTag(suffix: '-B'),
     ],
   );
 
@@ -34,7 +34,7 @@ void main() {
     id: 'persona_alice_long',
     name: 'AliceLong',
     personaTags: [
-      PersonaTag(prefix: 'ALICE:', suffix: null),
+      PersonaTag(prefix: 'ALICE:'),
     ],
   );
 
@@ -95,11 +95,25 @@ void main() {
       expect(res.strippedContent, isEmpty);
     });
 
+    test('double backslash with message clears latch and preserves message', () {
+      final res = matchPersona(r'\\ hello unlatched', personas, bob.id, false);
+      expect(res.clearedLatch, isTrue);
+      expect(res.wasEscaped, isTrue);
+      expect(res.matched, isFalse);
+      expect(res.strippedContent, 'hello unlatched');
+    });
+
     test('backslash escape disables tag matching and strips escape prefix', () {
       final res = matchPersona(r'\ A: this is escaped', personas, null, false);
       expect(res.wasEscaped, isTrue);
       expect(res.matched, isFalse);
       expect(res.strippedContent, 'A: this is escaped');
+    });
+
+    test('returns unmatched for regular message with no latch and no tag', () {
+      final res = matchPersona('plain message', personas, null, false);
+      expect(res.matched, isFalse);
+      expect(res.strippedContent, 'plain message');
     });
 
     test('matches latched persona for pending attachments even with empty text', () {
@@ -110,6 +124,67 @@ void main() {
 
     test('returns unmatched when text is empty and no attachments', () {
       final res = matchPersona('', personas, alice.id, false);
+      expect(res.matched, isFalse);
+    });
+
+    test('matches tag with attachment when text is only prefix or suffix', () {
+      final prefixOnly = matchPersona('A:', personas, null, true);
+      expect(prefixOnly.matched, isTrue);
+      expect(prefixOnly.persona?.id, alice.id);
+      expect(prefixOnly.strippedContent, isEmpty);
+
+      final suffixOnly = matchPersona('-B', personas, null, true);
+      expect(suffixOnly.matched, isTrue);
+      expect(suffixOnly.persona?.id, bob.id);
+      expect(suffixOnly.strippedContent, isEmpty);
+
+      final bracketEmpty = matchPersona('[]', personas, null, true);
+      expect(bracketEmpty.matched, isTrue);
+      expect(bracketEmpty.persona?.id, bracketMan.id);
+      expect(bracketEmpty.strippedContent, isEmpty);
+
+      final bracketSpace = matchPersona('[ ]', personas, null, true);
+      expect(bracketSpace.matched, isTrue);
+      expect(bracketSpace.persona?.id, bracketMan.id);
+      expect(bracketSpace.strippedContent, isEmpty);
+
+      final openBracketOnly = matchPersona('[', personas, null, true);
+      expect(openBracketOnly.matched, isFalse);
+
+      final closeBracketOnly = matchPersona(']', personas, null, true);
+      expect(closeBracketOnly.matched, isFalse);
+
+      const spacedPrefixPersona = Persona(
+        id: 'p_spaced_prefix',
+        name: 'SpacedPrefix',
+        personaTags: [PersonaTag(prefix: 'D: ')],
+      );
+      final spacedPrefixMatch = matchPersona('D:', [spacedPrefixPersona], null, true);
+      expect(spacedPrefixMatch.matched, isTrue);
+      expect(spacedPrefixMatch.persona?.id, spacedPrefixPersona.id);
+      expect(spacedPrefixMatch.strippedContent, isEmpty);
+
+      const spacedSuffixPersona = Persona(
+        id: 'p_spaced_suffix',
+        name: 'SpacedSuffix',
+        personaTags: [PersonaTag(suffix: ' -S')],
+      );
+      final spacedSuffixMatch = matchPersona('-S', [spacedSuffixPersona], null, true);
+      expect(spacedSuffixMatch.matched, isTrue);
+      expect(spacedSuffixMatch.persona?.id, spacedSuffixPersona.id);
+      expect(spacedSuffixMatch.strippedContent, isEmpty);
+    });
+
+    test('ignores persona tags when autoTagDisabled is true', () {
+      const disabledPersona = Persona(
+        id: 'persona_disabled',
+        name: 'Disabled',
+        autoTagDisabled: true,
+        personaTags: [
+          PersonaTag(prefix: 'D:'),
+        ],
+      );
+      final res = matchPersona('D: test', [disabledPersona], null, false);
       expect(res.matched, isFalse);
     });
   });
@@ -130,6 +205,17 @@ void main() {
     test('previews nothing when escaped', () {
       final preview = previewPersona(r'\ A: typing...', personas, null, false);
       expect(preview.persona, isNull);
+    });
+
+    test('previews nothing when latch cleared with double backslash', () {
+      final preview = previewPersona(r'\\ typing...', personas, bob.id, false);
+      expect(preview.persona, isNull);
+    });
+
+    test('previews nothing for regular message with no latch and no tag', () {
+      final preview = previewPersona('just typing', personas, null, false);
+      expect(preview.persona, isNull);
+      expect(preview.isFromTag, isFalse);
     });
   });
 }
