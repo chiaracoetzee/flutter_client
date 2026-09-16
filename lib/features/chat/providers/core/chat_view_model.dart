@@ -4701,13 +4701,13 @@ class ChatViewModel extends _$ChatViewModel {
   Future<void> sendMessage({
     String? text,
     bool tts = false,
-    Map<String, dynamic>? subprofile,
+    Map<String, dynamic>? personaData,
   }) async {
     await _sendContent(
       text ?? state.messageText.trim(),
       clearMessageText: true,
       tts: tts,
-      subprofile: subprofile,
+      personaData: personaData,
     );
   }
 
@@ -4765,7 +4765,7 @@ class ChatViewModel extends _$ChatViewModel {
     List<String> stickerIds = const [],
     String? favoriteMemeId,
     bool tts = false,
-    Map<String, dynamic>? subprofile,
+    Map<String, dynamic>? personaData,
   }) async {
     if (_isPreparingSend) {
       return;
@@ -4778,7 +4778,7 @@ class ChatViewModel extends _$ChatViewModel {
         stickerIds: stickerIds,
         favoriteMemeId: favoriteMemeId,
         tts: tts,
-        subprofile: subprofile,
+        personaData: personaData,
       );
     } on Object catch (error, st) {
       talker.error('[ChatViewModel] send failed unexpectedly', error, st);
@@ -4929,7 +4929,7 @@ class ChatViewModel extends _$ChatViewModel {
     List<String> stickerIds = const [],
     String? favoriteMemeId,
     bool tts = false,
-    Map<String, dynamic>? subprofile,
+    Map<String, dynamic>? personaData,
   }) async {
     final String channelId = state.channelId;
     if (channelId.isEmpty) {
@@ -5060,7 +5060,7 @@ class ChatViewModel extends _$ChatViewModel {
           ? <String>[state.replyingTo!.authorId]
           : const <String>[],
       flags: messageFlags,
-      subprofile: subprofile,
+      personaData: personaData,
     );
 
     talker.debug('[ChatViewModel] send optimistic channelId=$channelId');
@@ -5102,7 +5102,7 @@ class ChatViewModel extends _$ChatViewModel {
           optimisticMessageId: optimisticMessage.id,
           messageFlags: messageFlags,
           tts: tts,
-          subprofile: subprofile,
+          personaData: personaData,
         ),
       );
       return;
@@ -5122,7 +5122,7 @@ class ChatViewModel extends _$ChatViewModel {
         uploadNotifier: uploadNotifier,
         messageFlags: messageFlags,
         tts: tts,
-        subprofile: subprofile,
+        personaData: personaData,
       ),
     );
   }
@@ -5138,7 +5138,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String optimisticMessageId,
     int? messageFlags,
     bool tts = false,
-    Map<String, dynamic>? subprofile,
+    Map<String, dynamic>? personaData,
   }) async {
     try {
       final Message sent = await ref
@@ -5153,7 +5153,7 @@ class ChatViewModel extends _$ChatViewModel {
             favoriteMemeId: favoriteMemeId,
             messageFlags: messageFlags,
             tts: tts,
-            subprofile: subprofile,
+            personaData: personaData,
           );
       unawaited(_recordSlowmodeSendOnSuccess(channelId));
       _commitDeliveredOptimisticSend(
@@ -5183,7 +5183,7 @@ class ChatViewModel extends _$ChatViewModel {
     required CloudUploadController uploadNotifier,
     int? messageFlags,
     bool tts = false,
-    Map<String, dynamic>? subprofile,
+    Map<String, dynamic>? personaData,
   }) async {
     try {
       final prepared = await uploadNotifier.prepareSessionForSend(
@@ -5214,7 +5214,7 @@ class ChatViewModel extends _$ChatViewModel {
             attachmentFiles: prepared.attachmentFiles,
             messageFlags: messageFlags,
             tts: tts,
-            subprofile: subprofile,
+            personaData: personaData,
           );
       _finishAttachmentUploadSession(clientNonce, uploadNotifier);
       unawaited(_recordSlowmodeSendOnSuccess(channelId));
@@ -6561,15 +6561,15 @@ class ChatViewModel extends _$ChatViewModel {
     List<Attachment> attachments = const <Attachment>[],
     List<String> mentionedUserIds = const <String>[],
     int flags = 0,
-    Map<String, dynamic>? subprofile,
+    Map<String, dynamic>? personaData,
   }) {
     final DateTime now = DateTime.now();
-    final String? pId = subprofile?['id'] as String?;
-    final String? pName = subprofile?['name'] as String?;
-    final String? pAvatar = subprofile?['avatar'] as String?;
-    final String? pTag = (subprofile?['display_tag_text'] as String?) ??
-        (subprofile?['system_name'] as String?);
-    final String? pTagIcon = subprofile?['display_tag_icon'] as String?;
+    final String? pId = personaData?['id'] as String?;
+    final String? pName = personaData?['name'] as String?;
+    final String? pAvatar = personaData?['avatar'] as String?;
+    final String? pTag = (personaData?['display_tag_text'] as String?) ??
+        (personaData?['system_name'] as String?);
+    final String? pTagIcon = personaData?['display_tag_icon'] as String?;
 
     return Message(
       id: clientNonce,
@@ -6577,7 +6577,7 @@ class ChatViewModel extends _$ChatViewModel {
       authorId: currentUserId ?? '',
       authorName: pName ?? authorName,
       authorAvatar: pAvatar ?? authorAvatar,
-      authorAvatarColor: (subprofile?['color'] as num?)?.toInt() ?? authorAvatarColor,
+      authorAvatarColor: (personaData?['color'] as num?)?.toInt() ?? authorAvatarColor,
       authorIsBot: authorIsBot,
       authorIsSystem: authorIsSystem,
       content: content,
