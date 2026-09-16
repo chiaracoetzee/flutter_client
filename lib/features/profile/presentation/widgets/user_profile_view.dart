@@ -14,9 +14,16 @@ import 'package:fluxer_app/core/router/route_names.dart' show RoutePaths;
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/profile/domain/public_persona.dart';
+import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
+import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/domain/member_role_management.dart';
@@ -708,10 +715,352 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     );
   }
 
+  Widget _buildPersonaProfile(BuildContext context, Message message) {
+    final colors = context.colors;
+    final layout = context.layout;
+    final textStyles = context.textStyles;
+    final l10n = FluxerLocalizations.of(context);
+
+    final AsyncValue<PublicPersona?> publicPersonaAsync =
+        (message.personaId != null && message.personaId!.isNotEmpty)
+            ? ref.watch(
+                publicPersonaProvider(
+                  (userId: message.authorId, personaId: message.personaId!),
+                ),
+              )
+            : const AsyncValue<PublicPersona?>.data(null);
+    final PublicPersona? publicPersona = publicPersonaAsync.value;
+
+    final AsyncValue<UserProfileFullResponse?> rootProfileAsync = ref.watch(
+      userProfileProvider(userId: message.authorId, guildId: widget.guildId),
+    );
+    final UserProfileFullResponse? rootProfile = rootProfileAsync.value;
+
+    final String displayName =
+        publicPersona?.name ?? message.personaName ?? message.authorName;
+    final String? personaAvatarUrl =
+        publicPersona?.avatarUrl ?? message.personaAvatar;
+    final String? personaTag =
+        publicPersona?.systemName ?? message.personaTag;
+    final String? personaBio = publicPersona?.bio;
+    final String? pronouns = publicPersona?.pronouns;
+    final int? personaColor = publicPersona?.color;
+
+    final String rootDisplayName = rootProfile?.guildMember?.nick ??
+        rootProfile?.user.globalName ??
+        rootProfile?.user.username ??
+        message.authorName;
+    final String rootUsername =
+        rootProfile?.user.username ?? message.authorName;
+    final String? rootAvatarUrl = rootProfile?.user.avatar != null
+        ? FluxerMediaUrl.userAvatar(
+            userId: message.authorId,
+            hash: rootProfile!.user.avatar!,
+            size: MediaProxySizes.avatarDefault,
+          )
+        : message.authorAvatar;
+    final int? rootAvatarColor =
+        rootProfile?.user.avatarColor ?? message.authorAvatarColor;
+
+    final Color bannerColor = personaColor != null && personaColor != 0
+        ? Color(personaColor | 0xFF000000)
+        : resolveGuildProfileBannerColor(
+            bannerColor: null,
+            accentColor: rootProfile?.userProfile.accentColor,
+            avatarColor: rootAvatarColor,
+          );
+
+    final String ownUserId = ref.watch(userSettingsViewModelProvider).userId;
+    final bool isCurrentUser = ownUserId == message.authorId;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.backgroundPrimary,
+        borderRadius: BorderRadius.vertical(top: layout.radiusXxl.topLeft),
+      ),
+      child: CustomScrollView(
+        controller: widget.scrollController,
+        physics: const ClampingScrollPhysics(),
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: _kBannerHeight + _kAvatarOverlap,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: _kBannerHeight,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.vertical(
+                        top: layout.radiusXxl.topLeft,
+                      ),
+                      child: UserProfileBanner(
+                        bannerUrl: null,
+                        bannerColor: bannerColor,
+                      ),
+                    ),
+                  ),
+                  if (widget.showTopHandle)
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: layout.s3),
+                        child: Center(
+                          child: Container(
+                            width: 40,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.5),
+                              borderRadius: BorderRadius.circular(9999),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  Positioned(
+                    left: layout.s4,
+                    top: _kBannerHeight - _kAvatarOverlap,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: colors.backgroundPrimary,
+                          width: 4,
+                        ),
+                      ),
+                      child: FluxerAvatar.user(
+                        userId: message.authorId,
+                        imageUrl: personaAvatarUrl,
+                        fallbackText: displayName,
+                        avatarColor: rootAvatarColor,
+                        size: _kAvatarSize,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              layout.s4,
+              layout.s3,
+              layout.s4,
+              layout.s4 + FluxerBottomSheet.scrollBottomPaddingOf(context),
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate.fixed(<Widget>[
+                Wrap(
+                  spacing: layout.s2,
+                  runSpacing: layout.s1,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text(
+                      displayName,
+                      style: textStyles.heading.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: colors.textPrimary,
+                      ),
+                    ),
+                    if (personaTag != null && personaTag.trim().isNotEmpty)
+                      FluxerUserTag(
+                        isSystem: false,
+                        label: personaTag.trim(),
+                      ),
+                  ],
+                ),
+                if (pronouns != null &&
+                    pronouns.trim().isNotEmpty &&
+                    pronouns.trim() != personaTag?.trim()) ...[
+                  SizedBox(height: layout.s1),
+                  Text(
+                    pronouns.trim(),
+                    style: textStyles.bodySmall.copyWith(
+                      color: colors.textPrimaryMuted,
+                    ),
+                  ),
+                ],
+                if (publicPersonaAsync.isLoading && personaBio == null) ...[
+                  SizedBox(height: layout.s3),
+                  Container(
+                    height: 14,
+                    width: 180,
+                    decoration: BoxDecoration(
+                      color: colors.backgroundSecondary,
+                      borderRadius: layout.radiusSm,
+                    ),
+                  ),
+                ] else if (personaBio != null &&
+                    personaBio.trim().isNotEmpty) ...[
+                  SizedBox(height: layout.s3),
+                  MessageMarkdown(
+                    data: personaBio.trim(),
+                    guildId: widget.guildId,
+                    markdownContext: FluxerMarkdownContext.restrictedUserBio,
+                    baseStyle: textStyles.bodySmall.copyWith(
+                      color: colors.textChat,
+                      height: 1.35,
+                    ),
+                  ),
+                ],
+                SizedBox(height: layout.s4),
+                Container(
+                  height: 1,
+                  color: colors.borderColor,
+                ),
+                SizedBox(height: layout.s4),
+                Text(
+                  'Main account',
+                  style: textStyles.label.copyWith(
+                    color: colors.textPrimary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: layout.s2),
+                FluxerGestureDetector(
+                  onTap: () {
+                    _requestClose();
+                    unawaited(
+                      FluxerUserProfileSheet.show(
+                        context,
+                        userId: message.authorId,
+                        guildId: widget.guildId,
+                        isWebhook: false,
+                        message: null,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: layout.s3,
+                      vertical: layout.s3,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.backgroundSecondary,
+                      borderRadius: layout.radiusLg,
+                    ),
+                    child: Row(
+                      children: [
+                        FluxerAvatar.user(
+                          userId: message.authorId,
+                          imageUrl: rootAvatarUrl,
+                          fallbackText: rootDisplayName,
+                          avatarColor: rootAvatarColor,
+                          size: 36,
+                        ),
+                        SizedBox(width: layout.s3),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                rootDisplayName,
+                                style: textStyles.bodyMedium.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: colors.textPrimary,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                '@$rootUsername',
+                                style: textStyles.bodySmall.copyWith(
+                                  color: colors.textPrimaryMuted,
+                                  fontSize: 13,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                        PhosphorIcon(
+                          PhosphorIconsBold.caretRight,
+                          size: 16,
+                          color: colors.textPrimaryMuted,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: layout.s4),
+                if (isCurrentUser)
+                  SizedBox(
+                    width: double.infinity,
+                    child: FluxerButton.primary(
+                      label: 'Edit persona',
+                      icon: PhosphorIconsFill.pencil,
+                      onPressed: () async {
+                        final PublicPersona current = (publicPersona ??
+                            PublicPersona(
+                              id: message.personaId ?? '',
+                              name: displayName,
+                              avatarUrl: personaAvatarUrl,
+                              systemName: personaTag,
+                              pronouns: pronouns,
+                              color: personaColor,
+                              bio: personaBio,
+                            )).copyWith(
+                          systemName: (publicPersona?.systemName != null &&
+                                  publicPersona!.systemName!.trim().isNotEmpty)
+                              ? publicPersona!.systemName
+                              : personaTag,
+                        );
+                        final PublicPersona? updated =
+                            await EditPersonaSheet.show(
+                          context,
+                          persona: current,
+                        );
+                        if (updated != null && mounted) {
+                          ref.invalidate(
+                            publicPersonaProvider(
+                              (
+                                userId: message.authorId,
+                                personaId: message.personaId ?? '',
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  )
+                else
+                  SizedBox(
+                    width: double.infinity,
+                    child: FluxerButton.primary(
+                      label: l10n.userProfileMessage,
+                      icon: PhosphorIconsFill.chatTeardrop,
+                      onPressed: () => _handleMessage(
+                        message.authorId,
+                        false,
+                        rootDisplayName,
+                      ),
+                    ),
+                  ),
+              ]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.isWebhook) {
       return _buildWebhookProfile(context);
+    }
+    if (widget.message?.isPersona ?? false) {
+      return _buildPersonaProfile(context, widget.message!);
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final AsyncValue<Friend?> relationshipAsync = ref.watch(
