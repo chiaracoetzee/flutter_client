@@ -11,16 +11,20 @@ object InAppBrowserTasks {
                 ?: return
         val currentTaskId = (context as? Activity)?.taskId
         for (task in activityManager.appTasks) {
-            if (currentTaskId != null && task.taskInfo.taskId == currentTaskId) {
+            val taskInfo = task.taskInfo ?: continue
+            if (currentTaskId != null && taskInfo.taskId == currentTaskId) {
                 continue
             }
-            if (isInAppBrowserTask(task.taskInfo)) {
+            if (isInAppBrowserTask(taskInfo)) {
                 task.finishAndRemoveTask()
             }
         }
     }
 
-    fun isInAppBrowserTask(info: ActivityManager.RecentTaskInfo): Boolean {
+    fun isInAppBrowserTask(info: ActivityManager.RecentTaskInfo?): Boolean {
+        if (info == null) {
+            return false
+        }
         return isInAppBrowserActivityClass(info.baseActivity?.className) ||
             isInAppBrowserActivityClass(info.topActivity?.className)
     }
