@@ -19,6 +19,10 @@ Message _message({
   List<String> mentionedUserIds = const <String>[],
   List<MessageSnapshot> messageSnapshots = const <MessageSnapshot>[],
   MessageReference? messageReference,
+  String? personaId,
+  String? personaName,
+  String? personaAvatar,
+  String? personaTag,
 }) {
   return Message(
     id: id,
@@ -38,6 +42,10 @@ Message _message({
     mentionedUserIds: mentionedUserIds,
     messageSnapshots: messageSnapshots,
     messageReference: messageReference,
+    personaId: personaId,
+    personaName: personaName,
+    personaAvatar: personaAvatar,
+    personaTag: personaTag,
   );
 }
 
