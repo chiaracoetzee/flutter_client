@@ -2239,7 +2239,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             ? matchResult.strippedContent
             : baseContent;
 
-    Map<String, dynamic>? subprofile;
+    Map<String, dynamic>? personaData;
     if (matchResult.matched && matchResult.persona != null) {
       final p = matchResult.persona!;
       final systemTag = ref.read(systemDisplayTagProvider);
@@ -2254,7 +2254,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               ? systemTag.iconUrl!.trim()
               : null;
 
-      subprofile = <String, dynamic>{
+      personaData = <String, dynamic>{
         'id': p.id,
         'name': p.name,
         if (p.avatarUrl != null) 'avatar': p.avatarUrl,
@@ -2275,7 +2275,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
 
     _resetComposerInputAfterSend();
-    unawaited(vm.sendMessage(text: finalOutgoingText.trim(), tts: tts, subprofile: subprofile));
+    unawaited(vm.sendMessage(text: finalOutgoingText.trim(), tts: tts, personaData: personaData));
   }
 
   Future<bool> _tryReactionShorthand(
