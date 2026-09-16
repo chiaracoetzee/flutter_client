@@ -19,6 +19,10 @@ Message _message({
   List<String> mentionedUserIds = const <String>[],
   List<MessageSnapshot> messageSnapshots = const <MessageSnapshot>[],
   MessageReference? messageReference,
+  String? personaId,
+  String? personaName,
+  String? personaAvatar,
+  String? personaTag,
 }) {
   return Message(
     id: id,
@@ -38,6 +42,10 @@ Message _message({
     mentionedUserIds: mentionedUserIds,
     messageSnapshots: messageSnapshots,
     messageReference: messageReference,
+    personaId: personaId,
+    personaName: personaName,
+    personaAvatar: personaAvatar,
+    personaTag: personaTag,
   );
 }
 
@@ -410,3 +418,29 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that message_grouping_utils_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by message_grouping_utils_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Message Function({
+    required String id,
+    required String authorId,
+    required String authorName,
+    String? authorAvatar,
+    bool authorIsBot,
+    String? webhookId,
+    DateTime? timestamp,
+    int flags,
+    int type,
+    String? replyToId,
+    bool mentionEveryone,
+    List<String> mentionRoles,
+    List<String> mentionedUserIds,
+    List<MessageSnapshot> messageSnapshots,
+    MessageReference? messageReference,
+  })
+  message,
+});
+// ignore: unreachable_from_main // Fork: used by message_grouping_utils_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (message: _message);
