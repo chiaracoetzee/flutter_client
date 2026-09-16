@@ -68,6 +68,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 export 'gateway_connection_provider.dart';
 export 'gateway_reconnect_provider.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+
 part 'gateway_provider.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -611,6 +615,9 @@ Future<void> _handleUserSettingsHydrate(
   if (!ref.mounted) {
     return;
   }
+  ref
+      .read(systemDisplayTagProvider.notifier)
+      .updateFromBlob(settings.syncedPreferences);
   await notifier.applyServerSettings(settings);
 }
 
