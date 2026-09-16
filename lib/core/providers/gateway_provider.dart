@@ -22,6 +22,7 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
 import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
@@ -520,5 +521,6 @@ Future<void> _handleUserSettingsHydrate(
   if (!ref.mounted) {
     return;
   }
+  ref.read(systemDisplayTagProvider.notifier).updateFromBlob(settings.syncedPreferences);
   await notifier.applyServerSettings(settings);
 }
