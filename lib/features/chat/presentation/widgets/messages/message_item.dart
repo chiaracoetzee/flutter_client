@@ -346,14 +346,44 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         (msg.personaTag != null && msg.personaTag!.trim().isNotEmpty)
             ? msg.personaTag!.trim()
             : null;
+    final String? tagIcon =
+        (msg.personaTagIcon != null && msg.personaTagIcon!.trim().isNotEmpty)
+            ? msg.personaTagIcon!.trim()
+            : null;
 
     final Widget badge;
     if (tagText != null) {
       badge = FluxerUserTag(
         isSystem: false,
         label: tagText,
+        iconUrl: tagIcon,
+      );
+    } else if (tagIcon != null) {
+      badge = ClipOval(
+        child: SizedBox(
+          width: 16,
+          height: 16,
+          child: CachedNetworkImage(
+            imageUrl: tagIcon,
+            width: 16,
+            height: 16,
+            fit: BoxFit.cover,
+            errorWidget: (_, __, ___) => const SizedBox(width: 16, height: 16),
+          ),
+        ),
       );
     } else {
+      final userSettings = ref.read(userSettingsViewModelProvider);
+      final String? rootAvatarUrl =
+          (msg.authorAvatar != null && msg.authorAvatar!.isNotEmpty)
+              ? FluxerMediaUrl.userAvatar(
+                  userId: msg.authorId,
+                  hash: msg.authorAvatar,
+                )
+              : (msg.authorId == userSettings.userId
+                  ? userSettings.avatarUrl
+                  : null);
+
       badge = ClipOval(
         child: SizedBox(
           width: 16,
@@ -363,9 +393,12 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               'persona-owner-avatar-${msg.authorId}-${msg.authorAvatar ?? ''}',
             ),
             userId: msg.authorId,
-            imageUrl: msg.authorAvatar,
+            imageUrl: rootAvatarUrl,
             fallbackText: msg.authorName,
-            avatarColor: msg.authorAvatarColor,
+            avatarColor: msg.authorAvatarColor ??
+                (msg.authorId == userSettings.userId
+                    ? userSettings.avatarColor
+                    : null),
             size: 16,
             showStatus: false,
           ),
