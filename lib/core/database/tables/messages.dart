@@ -48,6 +48,10 @@ class Messages extends Table {
   TextColumn get translationTargetLanguage => text().nullable()();
   BoolColumn get translationShowOriginal =>
       boolean().withDefault(const Constant(false))();
+  TextColumn get personaId => text().nullable()();
+  TextColumn get personaName => text().nullable()();
+  TextColumn get personaAvatar => text().nullable()();
+  TextColumn get personaTag => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
