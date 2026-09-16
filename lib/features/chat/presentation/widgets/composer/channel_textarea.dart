@@ -101,6 +101,13 @@ import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+
 const double _kComposerDisabledOpacity = 0.6;
 
 const double _kTouchComposerActionSpacing = 8;
@@ -1814,6 +1821,30 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                           ),
                         ),
                       ),
+                      ListenableBuilder(
+                        listenable: _controller,
+                        builder: (BuildContext context, Widget? _) {
+                          final bool hasPersonas = ref.watch(
+                            myPersonasProvider.select(
+                              (v) => (v.asData?.value ?? const []).isNotEmpty,
+                            ),
+                          );
+                          if (!hasPersonas) return const SizedBox.shrink();
+                          final bool hasAttachments = ref.watch(
+                            cloudUploadControllerProvider(channelId).select(
+                              (CloudComposerAttachments a) =>
+                                  a.items.isNotEmpty,
+                            ),
+                          );
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 2, right: 6),
+                            child: PersonaComposerPill(
+                              text: _controller.text,
+                              hasAttachments: hasAttachments,
+                            ),
+                          );
+                        },
+                      ),
                       Expanded(
                         child: MobileComposerTextGrowth(
                           child: _buildComposerField(
@@ -2188,14 +2219,109 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           );
       return;
     }
+
+    // Check in-chat unlatch command: "\\" clears active persona latch
+    final String trimmed = baseContent.trim();
+    if (trimmed == r'\\') {
+      final activeState = ref.read(activePersonaProvider);
+      if (activeState.isLatched || activeState.activePersonaId != null) {
+        ref.read(activePersonaProvider.notifier).unlatch();
+        _clearSlashSession();
+        _controller.clear();
+        vm.updateMessageText('');
+        FluxerHaptics.light();
+        ref
+            .read(toastProvider.notifier)
+            .show(const FluxerToast(message: 'Active persona cleared'));
+        return;
+      }
+    }
+
+    // Match persona tags or active latched persona
+    final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
+    final activeState = ref.read(activePersonaProvider);
+    final bool hasPendingAttachments = ref.read(
+      cloudUploadControllerProvider(
+        channelId,
+      ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
+    );
+
+    final String? latchedId = activeState.isLatched
+        ? activeState.activePersonaId
+        : null;
+    final MatchResult matchResult = matchPersona(
+      baseContent,
+      personas,
+      latchedId,
+      hasPendingAttachments,
+    );
+
+    if (matchResult.clearedLatch ||
+        (matchResult.wasEscaped && activeState.mode == PersonaMode.last)) {
+      ref.read(activePersonaProvider.notifier).unlatch();
+    } else if (matchResult.matched && matchResult.persona != null) {
+      ref
+          .read(activePersonaProvider.notifier)
+          .recordUsage(matchResult.persona!.id);
+      if (activeState.mode == PersonaMode.last &&
+          activeState.activePersonaId != matchResult.persona!.id) {
+        ref
+            .read(activePersonaProvider.notifier)
+            .setActivePersona(matchResult.persona!.id, mode: PersonaMode.last);
+      }
+    }
+
+    final String finalOutgoingText =
+        matchResult.matched || matchResult.wasEscaped
+        ? matchResult.strippedContent
+        : baseContent;
+
+    Map<String, dynamic>? subprofile;
+    if (matchResult.matched && matchResult.persona != null) {
+      final p = matchResult.persona!;
+      final systemTag = ref.read(systemDisplayTagProvider);
+      final String? tagText =
+          (p.systemName != null && p.systemName!.trim().isNotEmpty)
+          ? p.systemName!.trim()
+          : (systemTag.text != null && systemTag.text!.trim().isNotEmpty
+                ? systemTag.text!.trim()
+                : null);
+      final String? tagIcon =
+          (systemTag.iconUrl != null && systemTag.iconUrl!.trim().isNotEmpty)
+          ? systemTag.iconUrl!.trim()
+          : null;
+
+      subprofile = <String, dynamic>{
+        'id': p.id,
+        'name': p.name,
+        if (p.avatarUrl != null) 'avatar': p.avatarUrl,
+        if (p.color != null) 'avatar_color': p.color,
+        'display_tag_text': ?tagText,
+        'system_name': ?tagText,
+        'display_tag_icon': ?tagIcon,
+        if (p.pronouns != null) 'pronouns': p.pronouns,
+        if (p.color != null) 'color': p.color,
+        if (p.bio != null) 'bio': p.bio,
+      };
+    }
+
     FluxerHaptics.send();
-    final bool proceed = await _confirmMentionsIfNeeded(channelId, baseContent);
+    final bool proceed = await _confirmMentionsIfNeeded(
+      channelId,
+      finalOutgoingText,
+    );
     if (!proceed) {
       return;
     }
 
     _resetComposerInputAfterSend();
-    unawaited(vm.sendMessage(text: baseContent.trim(), tts: tts));
+    unawaited(
+      vm.sendMessage(
+        text: finalOutgoingText.trim(),
+        tts: tts,
+        subprofile: subprofile,
+      ),
+    );
   }
 
   Future<bool> _tryReactionShorthand(
