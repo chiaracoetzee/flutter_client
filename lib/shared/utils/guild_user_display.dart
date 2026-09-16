@@ -232,6 +232,16 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   String? channelNickname,
   String productName = InstanceConstants.defaultProductName,
 }) {
+  if (message.isPersona) {
+    final String personaName = message.personaName ?? message.authorName;
+    return GuildUserDisplay(
+      displayName: personaName,
+      accountDisplayName: personaName,
+      avatarUrl: message.personaAvatar,
+      avatarColor: message.authorAvatarColor,
+      pronouns: message.personaTag,
+    );
+  }
   final GuildUserDisplay messageDisplay = resolveGuildUserDisplayFromMessage(
     userId: message.authorId,
     fallbackDisplayName: resolveSystemBotDisplayName(

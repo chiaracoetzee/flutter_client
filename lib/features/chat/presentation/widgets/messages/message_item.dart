@@ -388,8 +388,61 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         userId: msg.authorId,
         guildId: guildId,
         isWebhook: msg.isWebhookMessage,
-        message: msg.isWebhookMessage ? msg : null,
+        message: (msg.isWebhookMessage || msg.isPersona) ? msg : null,
       ),
+    );
+  }
+
+  void _openRootUserProfile(BuildContext context, Message msg) {
+    if (!_canOpenAuthorProfile(msg)) {
+      return;
+    }
+    final String? guildId =
+        widget.previewRoleGuildId ?? ref.read(contextualGuildIdProvider);
+    unawaited(
+      FluxerUserProfileSheet.show(
+        context,
+        userId: msg.authorId,
+        guildId: guildId,
+      ),
+    );
+  }
+
+  Widget _buildPersonaAccountBadge(BuildContext context, Message msg) {
+    final String? tagText =
+        (msg.personaTag != null && msg.personaTag!.trim().isNotEmpty)
+        ? msg.personaTag!.trim()
+        : null;
+
+    final Widget badge;
+    if (tagText != null) {
+      badge = FluxerUserTag(label: tagText);
+    } else {
+      badge = ClipOval(
+        child: SizedBox(
+          width: 16,
+          height: 16,
+          child: FluxerAvatar.user(
+            key: ValueKey<String>(
+              'persona-owner-avatar-${msg.authorId}-${msg.authorAvatar ?? ''}',
+            ),
+            userId: msg.authorId,
+            imageUrl: msg.authorAvatar,
+            fallbackText: msg.authorName,
+            avatarColor: msg.authorAvatarColor,
+            size: 16,
+            showStatus: false,
+          ),
+        ),
+      );
+    }
+
+    return FluxerGestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: _canOpenAuthorProfile(msg)
+          ? () => _openRootUserProfile(context, msg)
+          : null,
+      child: badge,
     );
   }
 
@@ -1588,7 +1641,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       runSpacing: 2,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        ..._authorTags(context, msg),
+        if (msg.isPersona)
+          _buildPersonaAccountBadge(context, msg)
+        else
+          ..._authorTags(context, msg),
         if (showAvatar)
           _AuthorProfileTapTarget(
             onPointerDown: (int pointer) =>
@@ -1934,10 +1990,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                             ),
                           ),
                         ),
-                        for (final Widget tag in _authorTags(context, msg)) ...[
+                        if (msg.isPersona) ...[
                           const SizedBox(width: 6),
-                          tag,
-                        ],
+                          _buildPersonaAccountBadge(context, msg),
+                        ] else
+                          for (final Widget tag in _authorTags(
+                            context,
+                            msg,
+                          )) ...[const SizedBox(width: 6), tag],
                       ],
                     ),
                   ),
