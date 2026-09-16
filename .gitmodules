@@ -1,7 +1,7 @@
 [submodule "dart_sdk"]
 	path = dart_sdk
-	url = https://github.com/fluxerapp/dart_sdk.git
-	branch = main
+	url = https://github.com/chiaracoetzee/dart_sdk.git
+	branch = features/subprofiles
 [submodule "fluxer"]
 	path = fluxer
 	url = https://github.com/fluxerapp/fluxer.git
