@@ -147,6 +147,27 @@ class SyncedPreferencesWireCodec {
     return _extractFieldChunks(bytes, fieldNumber);
   }
 
+  static String? decodeStringFromChunk(Uint8List chunk) {
+    var offset = 0;
+    while (offset < chunk.length && (chunk[offset] & 0x80) != 0) {
+      offset++;
+    }
+    offset++;
+    if (offset >= chunk.length) return null;
+
+    var length = 0;
+    var shift = 0;
+    while (offset < chunk.length) {
+      final byte = chunk[offset++];
+      length |= (byte & 0x7f) << shift;
+      if ((byte & 0x80) == 0) break;
+      shift += 7;
+    }
+
+    if (offset + length > chunk.length) return null;
+    return utf8.decode(chunk.sublist(offset, offset + length));
+  }
+
   static List<SyncedPreferenceWireChunk> parseTopLevelFieldChunks(
     Uint8List bytes,
   ) {
