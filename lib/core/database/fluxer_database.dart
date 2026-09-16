@@ -141,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 90;
+  int get schemaVersion => 91;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1356,6 +1356,36 @@ class FluxerDatabase extends _$FluxerDatabase {
             userPreferencesTable,
             userPreferencesTable.showAltTextOnImages,
           );
+        }
+      }
+      if (from < 91) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'persona_id',
+        )) {
+          await m.addColumn(messages, messages.personaId);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'persona_name',
+        )) {
+          await m.addColumn(messages, messages.personaName);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'persona_avatar',
+        )) {
+          await m.addColumn(messages, messages.personaAvatar);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'persona_tag',
+        )) {
+          await m.addColumn(messages, messages.personaTag);
         }
       }
     },
