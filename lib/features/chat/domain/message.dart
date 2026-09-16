@@ -958,6 +958,14 @@ class Message {
   final MessageCall? call;
   final bool tts;
   final MessageTranslation? translation;
+  final String? personaId;
+  final String? personaName;
+  final String? personaAvatar;
+  final String? personaTag;
+
+  bool get isPersona =>
+      (personaName != null && personaName!.isNotEmpty) ||
+      (personaId != null && personaId!.isNotEmpty);
 
   const Message({
     required this.id,
@@ -996,6 +1004,10 @@ class Message {
     this.call,
     this.tts = false,
     this.translation,
+    this.personaId,
+    this.personaName,
+    this.personaAvatar,
+    this.personaTag,
   });
 
   factory Message.fromSdk(MessageResponseSchema sdk, {String? currentUserId}) {
@@ -1052,6 +1064,12 @@ class Message {
       clientNonce: sdk.nonce,
       call: messageCallFromSdk(sdk.call),
       tts: sdk.tts,
+      personaId: sdk.subprofile?.id ?? sdk.personaId,
+      personaName: sdk.subprofile?.name ?? sdk.personaName,
+      personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
+      personaTag: sdk.subprofile?.displayTagText ??
+          sdk.subprofile?.systemName ??
+          sdk.personaTag,
     );
   }
 
@@ -1103,6 +1121,12 @@ class Message {
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
       call: messageCallFromReferencedSdk(sdk.call),
+      personaId: sdk.subprofile?.id ?? sdk.personaId,
+      personaName: sdk.subprofile?.name ?? sdk.personaName,
+      personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
+      personaTag: sdk.subprofile?.displayTagText ??
+          sdk.subprofile?.systemName ??
+          sdk.personaTag,
     );
   }
 
@@ -1271,6 +1295,10 @@ class Message {
               jsonDecode(row.callJson!) as Map<String, dynamic>,
             ),
       translation: translationFromRow(row),
+      personaId: row.personaId,
+      personaName: row.personaName,
+      personaAvatar: row.personaAvatar,
+      personaTag: row.personaTag,
     );
   }
 
@@ -1363,7 +1391,11 @@ class Message {
           other.mentionChannels,
           (mention) => mention.toJson(),
         ) &&
-        _translationEquals(translation, other.translation);
+        _translationEquals(translation, other.translation) &&
+        personaId == other.personaId &&
+        personaName == other.personaName &&
+        personaAvatar == other.personaAvatar &&
+        personaTag == other.personaTag;
   }
 
   static bool _translationEquals(MessageTranslation? a, MessageTranslation? b) {
@@ -1478,6 +1510,10 @@ class Message {
       clientNonce: Value(clientNonce),
       sendError: Value(sendError),
       callJson: Value(call == null ? null : jsonEncode(call!.toJson())),
+      personaId: Value(personaId),
+      personaName: Value(personaName),
+      personaAvatar: Value(personaAvatar),
+      personaTag: Value(personaTag),
     );
   }
 
@@ -1518,6 +1554,10 @@ class Message {
     Object? call = _unset,
     bool? tts,
     Object? translation = _unset,
+    Object? personaId = _unset,
+    Object? personaName = _unset,
+    Object? personaAvatar = _unset,
+    Object? personaTag = _unset,
   }) {
     return Message(
       id: id ?? this.id,
@@ -1560,6 +1600,14 @@ class Message {
       translation: translation == _unset
           ? this.translation
           : translation as MessageTranslation?,
+      personaId: personaId == _unset ? this.personaId : personaId as String?,
+      personaName: personaName == _unset
+          ? this.personaName
+          : personaName as String?,
+      personaAvatar: personaAvatar == _unset
+          ? this.personaAvatar
+          : personaAvatar as String?,
+      personaTag: personaTag == _unset ? this.personaTag : personaTag as String?,
     );
   }
 
@@ -1606,6 +1654,10 @@ class Message {
       type: incoming.type,
       flags: incoming.flags,
       call: incoming.call ?? call,
+      personaId: incoming.personaId ?? personaId,
+      personaName: incoming.personaName ?? personaName,
+      personaAvatar: incoming.personaAvatar ?? personaAvatar,
+      personaTag: incoming.personaTag ?? personaTag,
       translation: contentChanged ? null : _unset,
     );
   }

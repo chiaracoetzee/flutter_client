@@ -19,6 +19,10 @@ Message _message({
   List<String> mentionedUserIds = const <String>[],
   List<MessageSnapshot> messageSnapshots = const <MessageSnapshot>[],
   MessageReference? messageReference,
+  String? personaId,
+  String? personaName,
+  String? personaAvatar,
+  String? personaTag,
 }) {
   return Message(
     id: id,
@@ -38,6 +42,10 @@ Message _message({
     mentionedUserIds: mentionedUserIds,
     messageSnapshots: messageSnapshots,
     messageReference: messageReference,
+    personaId: personaId,
+    personaName: personaName,
+    personaAvatar: personaAvatar,
+    personaTag: personaTag,
   );
 }
 
@@ -279,6 +287,128 @@ void main() {
         ],
       );
       expect(shouldGroupMessages(forwarded, first), isTrue);
+    });
+
+    test('does not group when transitioning from root account to persona', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaTag: 'SYS',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('does not group when transitioning from persona back to root account', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaTag: 'SYS',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('does not group consecutive messages from different personas of same user', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaTag: 'SYS',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p2',
+        personaName: 'Persona 2',
+        personaTag: 'SYS',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('groups consecutive messages from the same persona', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaAvatar: 'avatar_1',
+        personaTag: 'SYS',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaAvatar: 'avatar_1',
+        personaTag: 'SYS',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isTrue);
+    });
+
+    test('does not group if persona avatar differs', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaAvatar: 'avatar_a',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaAvatar: 'avatar_b',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('does not group if persona tag differs', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaTag: 'TAG_A',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaTag: 'TAG_B',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
     });
   });
 
