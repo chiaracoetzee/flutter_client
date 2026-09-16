@@ -25,7 +25,7 @@ class PersonaPickerSheet {
   static Future<void> show(BuildContext context) {
     return FluxerBottomSheet.showScrollable<void>(
       context,
-      title: 'Select Identity',
+      title: 'Select Persona',
       useRootNavigator: true,
       minChildSize: 0.55,
       showDragHandle: true,
@@ -150,7 +150,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Identity Settings',
+              'Persona Settings',
               style: textStyles.label.copyWith(
                 color: colors.textSecondary,
                 fontWeight: FontWeight.w600,
