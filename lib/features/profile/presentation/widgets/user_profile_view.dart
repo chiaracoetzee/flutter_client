@@ -741,7 +741,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final String? personaAvatarUrl =
         publicPersona?.avatarUrl ?? message.personaAvatar;
     final String? personaTag =
-        publicPersona?.systemName ?? message.personaTag;
+        message.personaTag ?? publicPersona?.systemName;
     final String? personaBio = publicPersona?.bio;
     final String? pronouns = publicPersona?.pronouns;
     final int? personaColor = publicPersona?.color;
@@ -1000,21 +1000,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       label: l10n.personaEditPersona,
                       icon: PhosphorIconsFill.pencil,
                       onPressed: () async {
-                        final PublicPersona current = (publicPersona ??
+                        final PublicPersona current = publicPersona ??
                             PublicPersona(
                               id: message.personaId ?? '',
                               name: displayName,
                               avatarUrl: personaAvatarUrl,
-                              systemName: personaTag,
                               pronouns: pronouns,
                               color: personaColor,
                               bio: personaBio,
-                            )).copyWith(
-                          systemName: (publicPersona?.systemName != null &&
-                                  publicPersona!.systemName!.trim().isNotEmpty)
-                              ? publicPersona!.systemName
-                              : personaTag,
-                        );
+                            );
                         final PublicPersona? updated =
                             await EditPersonaSheet.show(
                           context,
