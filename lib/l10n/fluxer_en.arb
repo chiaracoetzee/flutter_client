@@ -16897,5 +16897,177 @@
     "homeQuickActionDms": "DMs",
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
+    },
+    "personaSelectTitle": "Select Persona",
+    "@personaSelectTitle": {
+        "description": "Title of the persona selection modal sheet."
+    },
+    "personaSettingsHeader": "Persona Settings",
+    "@personaSettingsHeader": {
+        "description": "Header for persona settings row in the persona picker sheet."
+    },
+    "personaManageAction": "Manage",
+    "@personaManageAction": {
+        "description": "Action button to open settings to manage personas."
+    },
+    "personaSearchPlaceholder": "Search personas, tags, pronouns...",
+    "@personaSearchPlaceholder": {
+        "description": "Placeholder in the persona picker search input."
+    },
+    "personaModeOff": "Off",
+    "@personaModeOff": {
+        "description": "Label for Off mode in persona active mode selector."
+    },
+    "personaModeManual": "Manual",
+    "@personaModeManual": {
+        "description": "Label for Manual mode in persona active mode selector."
+    },
+    "personaModeLast": "Last Used",
+    "@personaModeLast": {
+        "description": "Label for Last Used mode in persona active mode selector."
+    },
+    "personaModeOffDescription": "Sends as root account unless proxy tags are typed.",
+    "@personaModeOffDescription": {
+        "description": "Helper text explaining Off persona mode."
+    },
+    "personaModeManualDescription": "Always sends as selected persona until changed.",
+    "@personaModeManualDescription": {
+        "description": "Helper text explaining Manual persona mode."
+    },
+    "personaModeLastDescription": "Auto-switches to the persona used in your last message.",
+    "@personaModeLastDescription": {
+        "description": "Helper text explaining Last Used persona mode."
+    },
+    "personaRecentHeader": "RECENT PERSONAS",
+    "@personaRecentHeader": {
+        "description": "Section header for recently used personas."
+    },
+    "personaAllHeader": "ALL PERSONAS ({count})",
+    "@personaAllHeader": {
+        "description": "Section header for all user personas with count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaSearchResultsHeader": "SEARCH RESULTS ({count})",
+    "@personaSearchResultsHeader": {
+        "description": "Section header for search results with count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "personaRootAccountLabel": "Root Account (Default)",
+    "@personaRootAccountLabel": {
+        "description": "Label for the user's default/root account in persona picker."
+    },
+    "personaEmptyState": "No personas configured yet. Create one via Manage Personas.",
+    "@personaEmptyState": {
+        "description": "Empty state text when user has no personas."
+    },
+    "personaEmptySearch": "No matching personas found.",
+    "@personaEmptySearch": {
+        "description": "Empty state text when search yields no personas."
+    },
+    "personaEditTitle": "Edit Persona",
+    "@personaEditTitle": {
+        "description": "Title of the edit persona sheet."
+    },
+    "personaCreateTitle": "Create Persona",
+    "@personaCreateTitle": {
+        "description": "Title of the create persona sheet."
+    },
+    "personaDisplayNameLabel": "Display Name",
+    "@personaDisplayNameLabel": {
+        "description": "Form label for persona display name field."
+    },
+    "personaSystemTagLabel": "System Tag / Badge",
+    "@personaSystemTagLabel": {
+        "description": "Form label for persona system tag or badge field."
+    },
+    "personaPronounsLabel": "Pronouns",
+    "@personaPronounsLabel": {
+        "description": "Form label for persona pronouns field."
+    },
+    "personaPronounsHint": "e.g. they/them",
+    "@personaPronounsHint": {
+        "description": "Hint text for persona pronouns input."
+    },
+    "personaBioLabel": "Bio / About Me",
+    "@personaBioLabel": {
+        "description": "Form label for persona biography field."
+    },
+    "personaBioHint": "Tell others about this persona...",
+    "@personaBioHint": {
+        "description": "Hint text for persona biography input."
+    },
+    "personaSaveChanges": "Save Changes",
+    "@personaSaveChanges": {
+        "description": "Button to save changes in edit persona sheet."
+    },
+    "personaUpdatedToast": "Persona updated",
+    "@personaUpdatedToast": {
+        "description": "Toast message displayed when persona is successfully updated."
+    },
+    "personaUpdateFailedToast": "Failed to update persona: {error}",
+    "@personaUpdateFailedToast": {
+        "description": "Toast message displayed when persona update fails.",
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "personaSectionTitle": "Personas",
+    "@personaSectionTitle": {
+        "description": "Title for the personas settings section."
+    },
+    "personaDisplayNameHint": "Persona name",
+    "@personaDisplayNameHint": {
+        "description": "Hint text for persona display name input."
+    },
+    "personaSystemTagHint": "e.g. SYSTEM NAME",
+    "@personaSystemTagHint": {
+        "description": "Hint text for persona system tag or badge input."
+    },
+    "personaSendingAsTag": "Sending as {name} (Matched by tag)",
+    "@personaSendingAsTag": {
+        "description": "Tooltip when composer will send as persona matched by tag.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "personaSendingAsLatched": "Sending as {name} (Latched)",
+    "@personaSendingAsLatched": {
+        "description": "Tooltip when composer will send as latched persona.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "personaSendingAsRoot": "Sending as @{username}",
+    "@personaSendingAsRoot": {
+        "description": "Tooltip when composer will send as root user account.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "personaMainAccount": "Main account",
+    "@personaMainAccount": {
+        "description": "Header for root account section in persona profile card."
+    },
+    "personaEditPersona": "Edit persona",
+    "@personaEditPersona": {
+        "description": "Button to edit persona in persona profile card."
     }
 }
+
+
