@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_she
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -916,7 +917,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                 ),
                 SizedBox(height: layout.s4),
                 Text(
-                  'Main account',
+                  l10n.fork.personaMainAccount,
                   style: textStyles.label.copyWith(
                     color: colors.textPrimary,
                     fontSize: 14,
@@ -997,7 +998,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   SizedBox(
                     width: double.infinity,
                     child: FluxerButton.primary(
-                      label: 'Edit persona',
+                      label: l10n.fork.personaEditPersona,
                       icon: PhosphorIconsFill.pencil,
                       onPressed: () async {
                         final PublicPersona current = (publicPersona ??
