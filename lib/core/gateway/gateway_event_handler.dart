@@ -116,6 +116,7 @@ typedef ThreadGateChangedCallback =
 typedef ThreadMemberListUpdateCallback =
     void Function(ThreadMemberListUpdateEvent event);
 typedef ForumUnreadsCallback = void Function(ForumUnreadsEvent event);
+typedef UserPersonasUpdateCallback = void Function(String eventType, dynamic data);
 
 String? _presenceCustomStatusFromMap(Map<String, dynamic> presence) {
   final Map<String, dynamic>? customStatusMap =
@@ -190,6 +191,7 @@ class GatewayEventHandler {
     this.onThreadGateChanged,
     this.onThreadMemberListUpdate,
     this.onForumUnreads,
+    this.onUserPersonasUpdate,
   }) {
     final ReactionWriteBatcher? batcher = reactionWriteBatcher;
     if (batcher == null) {
@@ -266,6 +268,7 @@ class GatewayEventHandler {
   final ThreadGateChangedCallback? onThreadGateChanged;
   final ThreadMemberListUpdateCallback? onThreadMemberListUpdate;
   final ForumUnreadsCallback? onForumUnreads;
+  final UserPersonasUpdateCallback? onUserPersonasUpdate;
 
   late final PresenceUpdateBatcher _presenceUpdateBatcher =
       PresenceUpdateBatcher(database: database, currentUserId: currentUserId);
@@ -765,7 +768,12 @@ class GatewayEventHandler {
         talker.warning('[Gateway] Error: [${e.code}] ${e.message}');
         _emit(() => onGatewayError?.call(e));
       case UnknownGatewayEvent():
-        if (event.eventType == 'MESSAGE_UPDATE') {
+        if (event.eventType == 'USER_PERSONA_CREATE' ||
+            event.eventType == 'USER_PERSONA_UPDATE' ||
+            event.eventType == 'USER_PERSONA_DELETE' ||
+            event.eventType == 'USER_PERSONAS_UPDATE') {
+          _emit(() => onUserPersonasUpdate?.call(event.eventType, event.data));
+        } else if (event.eventType == 'MESSAGE_UPDATE') {
           talker.warning(
             '[Gateway] Failed to parse MESSAGE_UPDATE: ${event.data}',
           );
