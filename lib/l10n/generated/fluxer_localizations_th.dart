@@ -14532,233 +14532,233 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get personaSelectTitle => 'Select Persona';
+  String get personaSelectTitle => 'เลือก Persona';
 
   @override
-  String get personaSettingsHeader => 'Persona Settings';
+  String get personaSettingsHeader => 'การตั้งค่า Persona';
 
   @override
-  String get personaManageAction => 'Manage';
+  String get personaManageAction => 'จัดการ';
 
   @override
-  String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
+  String get personaSearchPlaceholder => 'ค้นหา Persona, แท็ก, คำสรรพนาม...';
 
   @override
-  String get personaModeOff => 'Off';
+  String get personaModeOff => 'ปิด';
 
   @override
-  String get personaModeManual => 'Manual';
+  String get personaModeManual => 'ดำเนินการเอง';
 
   @override
-  String get personaModeLast => 'Last Used';
+  String get personaModeLast => 'ใช้งานล่าสุด';
 
   @override
   String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
+      'ส่งในชื่อบัญชีหลัก เว้นแต่จะพิมพ์แท็ก Persona';
 
   @override
   String get personaModeManualDescription =>
-      'Always sends as selected persona until changed.';
+      'ส่งในชื่อ Persona ที่เลือกไว้เสมอจนกว่าจะมีการเปลี่ยนแปลง';
 
   @override
   String get personaModeLastDescription =>
-      'Auto-switches to the persona used in your last message.';
+      'สลับไปยัง Persona ที่ใช้ในข้อความล่าสุดของคุณโดยอัตโนมัติ';
 
   @override
-  String get personaRecentHeader => 'RECENT PERSONAS';
+  String get personaRecentHeader => 'PERSONA ล่าสุด';
 
   @override
   String personaAllHeader(int count) {
-    return 'ALL PERSONAS ($count)';
+    return 'PERSONA ทั้งหมด ($count)';
   }
 
   @override
   String personaSearchResultsHeader(int count) {
-    return 'SEARCH RESULTS ($count)';
+    return 'ผลการค้นหา ($count)';
   }
 
   @override
-  String get personaRootAccountLabel => 'Root Account (Default)';
+  String get personaRootAccountLabel => 'บัญชีหลัก (ค่าเริ่มต้น)';
 
   @override
   String get personaEmptyState =>
-      'No personas configured yet. Create one via Manage Personas.';
+      'ยังไม่ได้ตั้งค่า Persona สร้างได้ผ่านจัดการ Persona';
 
   @override
-  String get personaEmptySearch => 'No matching personas found.';
+  String get personaEmptySearch => 'ไม่พบ Persona ที่ตรงกัน';
 
   @override
-  String get personaEditTitle => 'Edit Persona';
+  String get personaEditTitle => 'แก้ไข Persona';
 
   @override
-  String get personaCreateTitle => 'Create Persona';
+  String get personaCreateTitle => 'สร้าง Persona';
 
   @override
-  String get personaDisplayNameLabel => 'Display Name';
+  String get personaDisplayNameLabel => 'ชื่อที่แสดง';
 
   @override
-  String get personaPronounsLabel => 'Pronouns';
+  String get personaPronounsLabel => 'คำสรรพนาม';
 
   @override
-  String get personaPronounsHint => 'e.g. they/them';
+  String get personaPronounsHint => 'เช่น they/them';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'ประวัติส่วนตัว / เกี่ยวกับฉัน';
 
   @override
-  String get personaBioHint => 'Tell others about this persona...';
+  String get personaBioHint => 'บอกเล่าเกี่ยวกับ Persona นี้ให้ผู้อื่นรู้...';
 
   @override
-  String get personaSaveChanges => 'Save Changes';
+  String get personaSaveChanges => 'บันทึกการเปลี่ยนแปลง';
 
   @override
-  String get personaUpdatedToast => 'Persona updated';
+  String get personaUpdatedToast => 'อัปเดต Persona แล้ว';
 
   @override
   String personaUpdateFailedToast(String error) {
-    return 'Failed to update persona: $error';
+    return 'อัปเดต Persona ไม่สำเร็จ: $error';
   }
 
   @override
-  String get personaSectionTitle => 'Personas';
+  String get personaSectionTitle => 'Persona';
 
   @override
-  String get personaDisplayNameHint => 'Persona name';
+  String get personaDisplayNameHint => 'ชื่อ Persona';
 
   @override
   String personaSendingAsTag(String name) {
-    return 'Sending as $name (Matched by tag)';
+    return 'กำลังส่งในชื่อ $name (ตรงกับแท็ก)';
   }
 
   @override
   String personaSendingAsLatched(String name) {
-    return 'Sending as $name (Latched)';
+    return 'กำลังส่งในชื่อ $name (ล็อคแล้ว)';
   }
 
   @override
   String personaSendingAsRoot(String username) {
-    return 'Sending as @$username';
+    return 'กำลังส่งในชื่อ @$username';
   }
 
   @override
-  String get personaMainAccount => 'Main account';
+  String get personaMainAccount => 'บัญชีหลัก';
 
   @override
-  String get personaEditPersona => 'Edit persona';
+  String get personaEditPersona => 'แก้ไข Persona';
 
   @override
-  String get userSettingsNavPersonas => 'Personas';
+  String get userSettingsNavPersonas => 'Persona';
 
   @override
   String get personaSettingsDescription =>
-      'Configure your active persona mode, custom display tag, and manage individual personas.';
+      'กำหนดค่าโหมด Persona ที่ใช้งานอยู่ แท็กแสดงผลแบบกำหนดเอง และจัดการแต่ละ Persona';
 
   @override
-  String get personaDisplayTagSection => 'Display Tag';
+  String get personaDisplayTagSection => 'แท็กแสดงผล';
 
   @override
   String get personaDisplayTagDescription =>
-      'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.';
+      'แท็กแสดงผลจะปรากฏถัดจากชื่อ Persona ทั้งหมดในข้อความ หากไม่ได้ตั้งค่าแท็กแสดงผล จะแสดงรูปโปรไฟล์บัญชีของคุณแทน';
 
   @override
-  String get personaDisplayTagLabel => 'Display Tag Text';
+  String get personaDisplayTagLabel => 'ข้อความแท็กแสดงผล';
 
   @override
-  String get personaDisplayTagHint => 'e.g. SYS';
+  String get personaDisplayTagHint => 'เช่น SYS';
 
   @override
-  String get personaDisplayTagIconLabel => 'Display Tag Icon';
+  String get personaDisplayTagIconLabel => 'ไอคอนแท็กแสดงผล';
 
   @override
-  String get personaUploadTagIcon => 'Upload Icon';
+  String get personaUploadTagIcon => 'อัปโหลดไอคอน';
 
   @override
-  String get personaChangeTagIcon => 'Change Icon';
+  String get personaChangeTagIcon => 'เปลี่ยนไอคอน';
 
   @override
-  String get personaRemoveTagIcon => 'Remove Icon';
+  String get personaRemoveTagIcon => 'ลบไอคอน';
 
   @override
-  String get personaChatPreviewTitle => 'Chat Preview';
+  String get personaChatPreviewTitle => 'ตัวอย่างแชท';
 
   @override
   String get personaChatPreviewSampleMessage =>
-      'Hello! This is a preview of how messages look with your display tag and active persona.';
+      'สวัสดี! นี่คือตัวอย่างลักษณะข้อความที่แสดงพร้อมแท็กแสดงผลและ Persona ที่ใช้งานอยู่ของคุณ';
 
   @override
-  String get personaListTitle => 'Configured Personas';
+  String get personaListTitle => 'Persona ที่ตั้งค่าไว้';
 
   @override
-  String get personaAddButton => 'Add Persona';
+  String get personaAddButton => 'เพิ่ม Persona';
 
   @override
-  String get personaActiveBadge => 'Active';
+  String get personaActiveBadge => 'ใช้งานอยู่';
 
   @override
-  String get personaMakeActive => 'Set Active';
+  String get personaMakeActive => 'ตั้งเป็นใช้งานอยู่';
 
   @override
-  String get personaDeactivate => 'Deactivate';
+  String get personaDeactivate => 'ปิดใช้งาน';
 
   @override
-  String get personaDeleteTitle => 'Delete Persona';
+  String get personaDeleteTitle => 'ลบ Persona';
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'คุณแน่ใจหรือไม่ว่าต้องการลบ \"$name\"? การดำเนินการนี้ไม่สามารถย้อนกลับได้';
   }
 
   @override
-  String get personaDeleteConfirm => 'Delete';
+  String get personaDeleteConfirm => 'ลบ';
 
   @override
-  String get personaDeletedToast => 'Persona deleted';
+  String get personaDeletedToast => 'ลบ Persona แล้ว';
 
   @override
-  String get personaCreatedToast => 'Persona created';
+  String get personaCreatedToast => 'สร้าง Persona แล้ว';
 
   @override
   String personaCreateFailedToast(String error) {
-    return 'Failed to create persona: $error';
+    return 'สร้าง Persona ไม่สำเร็จ: $error';
   }
 
   @override
-  String get personaAvatarLabel => 'Avatar';
+  String get personaAvatarLabel => 'รูปโปรไฟล์';
 
   @override
-  String get personaChangeAvatar => 'Change Avatar';
+  String get personaChangeAvatar => 'เปลี่ยนรูปโปรไฟล์';
 
   @override
-  String get personaRemoveAvatar => 'Remove Avatar';
+  String get personaRemoveAvatar => 'ลบรูปโปรไฟล์';
 
   @override
-  String get personaUploadAvatar => 'Upload Avatar';
+  String get personaUploadAvatar => 'อัปโหลดรูปโปรไฟล์';
 
   @override
-  String get personaTagsLabel => 'Persona Tags';
+  String get personaTagsLabel => 'แท็ก Persona';
 
   @override
-  String get personaTagPrefixLabel => 'Prefix';
+  String get personaTagPrefixLabel => 'คำนำหน้า';
 
   @override
-  String get personaTagSuffixLabel => 'Suffix';
+  String get personaTagSuffixLabel => 'คำต่อท้าย';
 
   @override
-  String get personaAutoTagLabel => 'Disable auto-tagging';
+  String get personaAutoTagLabel => 'ปิดใช้งานการแท็กอัตโนมัติ';
 
   @override
   String get personaAutoTagDescription =>
-      'Prevent messages from automatically matching these tags.';
+      'ป้องกันไม่ให้ข้อความตรงกับแท็กเหล่านี้โดยอัตโนมัติ';
 
   @override
-  String get personaVisibilityLabel => 'Visibility';
+  String get personaVisibilityLabel => 'การมองเห็น';
 
   @override
-  String get personaVisibilityUnlisted => 'Unlisted';
+  String get personaVisibilityUnlisted => 'ไม่แสดงในรายการ';
 
   @override
-  String get personaVisibilityPublic => 'Public';
+  String get personaVisibilityPublic => 'สาธารณะ';
 
   @override
-  String get personaVisibilityPrivate => 'Private';
+  String get personaVisibilityPrivate => 'ส่วนตัว';
 }
