@@ -24,6 +24,10 @@ class _ComposerRow {
     required this.onApply,
     this.subtitle,
     this.mentionMember,
+    this.avatarUserId,
+    this.avatarImageUrl,
+    this.avatarFallbackText,
+    this.avatarColor,
     this.titleColor,
     this.channelRowType,
     this.emojiSurrogates,
@@ -39,6 +43,10 @@ class _ComposerRow {
   final VoidCallback onApply;
   final String? subtitle;
   final Member? mentionMember;
+  final String? avatarUserId;
+  final String? avatarImageUrl;
+  final String? avatarFallbackText;
+  final int? avatarColor;
   final Color? titleColor;
   final ChannelType? channelRowType;
   final String? emojiSurrogates;
@@ -864,8 +872,112 @@ class ComposerAutocompleteFieldState
         );
       }
     }
+    // Tier 2: Recent room personas from loaded channel messages
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    final List<Message> channelMessages =
+        ref.read(chatViewModelProvider).messages;
+    final List<_ComposerRow> recentPersonaRows = <_ComposerRow>[];
+    final Set<String> seenPersonaIds = <String>{};
+
+    for (final Message msg in channelMessages.reversed) {
+      final String? pid = msg.personaId;
+      final String? pName = msg.personaName;
+      if (pid == null || pid.isEmpty || pName == null || pName.isEmpty) {
+        continue;
+      }
+      if (seenPersonaIds.contains(pid)) {
+        continue;
+      }
+      if (msg.authorId != currentUserId) {
+        final pub = ref.read(
+          publicPersonaProvider((userId: msg.authorId, personaId: pid)),
+        ).value;
+        if (pub != null && pub.visibility == 'private') {
+          continue;
+        }
+      }
+      if (q.isNotEmpty && !pName.toLowerCase().contains(q)) {
+        continue;
+      }
+      seenPersonaIds.add(pid);
+      final String ownerTag = '@${msg.authorName}';
+      recentPersonaRows.add(
+        _ComposerRow(
+          title: pName,
+          subtitle: ownerTag,
+          avatarUserId: msg.authorId,
+          avatarImageUrl: msg.personaAvatar,
+          avatarColor: msg.authorAvatarColor,
+          avatarFallbackText: pName,
+          onApply: () => _applyPersonaMention(
+            userId: msg.authorId,
+            personaId: pid,
+            personaName: pName,
+          ),
+        ),
+      );
+      if (recentPersonaRows.length >= 5) {
+        break;
+      }
+    }
+
+    // Tier 3: Public personas from server directory endpoint
+    final List<_ComposerRow> remotePersonaRows = <_ComposerRow>[];
+    if (q.isNotEmpty && _channelId.isNotEmpty) {
+      try {
+        final Dio dio = ref.read(fluxerDioProvider);
+        final Response<dynamic> resp = await dio.get<dynamic>(
+          '/channels/$_channelId/persona-mentions',
+          queryParameters: <String, dynamic>{'q': q, 'limit': 10},
+        );
+        if (generation != _syncGeneration) {
+          return;
+        }
+        final dynamic data = resp.data;
+        final List<dynamic> list;
+        if (data is List) {
+          list = data;
+        } else if (data is Map && data['personas'] is List) {
+          list = data['personas'] as List<dynamic>;
+        } else {
+          list = const [];
+        }
+        for (final item in list) {
+          if (item is! Map) continue;
+          final map = Map<String, dynamic>.from(item);
+          final String pid = map['id'] as String? ?? '';
+          final String pName = map['name'] as String? ?? '';
+          final String ownerId = map['owner_user_id'] as String? ?? '';
+          final String ownerUsername = map['owner_username'] as String? ?? '';
+          if (pid.isEmpty || pName.isEmpty || ownerId.isEmpty) continue;
+          if (seenPersonaIds.contains(pid)) continue;
+          seenPersonaIds.add(pid);
+          final String? avatarUrl = map['avatar_url'] as String?;
+          final int? color = (map['avatar_color'] as num?)?.toInt() ??
+              (map['color'] as num?)?.toInt();
+          remotePersonaRows.add(
+            _ComposerRow(
+              title: pName,
+              subtitle: ownerUsername.isNotEmpty ? '@$ownerUsername' : null,
+              avatarUserId: ownerId,
+              avatarImageUrl: avatarUrl,
+              avatarColor: color,
+              avatarFallbackText: pName,
+              onApply: () => _applyPersonaMention(
+                userId: ownerId,
+                personaId: pid,
+                personaName: pName,
+              ),
+            ),
+          );
+        }
+      } catch (_) {}
+    }
+
     final List<_ComposerRow> rows = <_ComposerRow>[
       ...memberRows,
+      ...recentPersonaRows,
+      ...remotePersonaRows,
       ...specialRows,
     ];
     if (roleRows.isNotEmpty) {
@@ -1507,12 +1619,14 @@ class ComposerAutocompleteFieldState
           titleColor: r.titleColor,
           onTap: r.onApply,
           channelRowType: r.channelRowType,
-          userAvatarUserId: m?.id,
-          userAvatarImageUrl: m == null
-              ? null
-              : FluxerMediaUrl.userAvatar(userId: m.id, hash: m.avatar),
-          userAvatarFallbackText: m != null ? r.title : null,
-          userAvatarColor: m?.avatarColor,
+          userAvatarUserId: r.avatarUserId ?? m?.id,
+          userAvatarImageUrl: r.avatarImageUrl ??
+              (m == null
+                  ? null
+                  : FluxerMediaUrl.userAvatar(userId: m.id, hash: m.avatar)),
+          userAvatarFallbackText:
+              r.avatarFallbackText ?? (m != null ? r.title : null),
+          userAvatarColor: r.avatarColor ?? m?.avatarColor,
           userAvatarStatus: status,
           emojiSurrogates: r.emojiSurrogates,
           emojiImageUrl: r.emojiImageUrl,
@@ -1698,6 +1812,66 @@ class ComposerAutocompleteFieldState
         text: next,
         selection: TextSelection.collapsed(
           offset: start + member.id.length + 4,
+        ),
+      );
+      _afterApply();
+      return;
+    }
+  }
+
+  void _applyPersonaMention({
+    required String userId,
+    required String personaId,
+    required String personaName,
+  }) {
+    final ComposerSlashSession? session = widget.slashSession;
+    if (session != null &&
+        session.isActive &&
+        session.focusedSlot?.option.type == ComposerCommandOptionType.user) {
+      session.applySlotPayload(
+        index: session.focusedSlotIndex,
+        display: '@$personaName',
+        wire: '<@$userId:$personaId>',
+      );
+      session.focusNextSlot();
+      _afterApply();
+      return;
+    }
+    for (final ComposerAutocompleteTriggerKind kind
+        in <ComposerAutocompleteTriggerKind>[
+          ComposerAutocompleteTriggerKind.commandArgMention,
+          ComposerAutocompleteTriggerKind.commandArg,
+          ComposerAutocompleteTriggerKind.mention,
+        ]) {
+      final ComposerAutocompleteTrigger? trigger = _autocompleteTriggerForApply(
+        kind,
+      );
+      if (trigger == null) {
+        continue;
+      }
+      final int start = composerAutocompleteReplacementStart(
+        textUpToCursor: widget.controller.text.substring(0, trigger.matchEnd),
+        trigger: trigger,
+      );
+      if (widget.controller is ComposerMentionController) {
+        (widget.controller as ComposerMentionController)
+            .insertUserMentionPlaceholder(
+              matchStart: start,
+              matchEnd: trigger.matchEnd,
+              userId: userId,
+              personaId: personaId,
+              displayName: personaName,
+            );
+        _afterApply();
+        return;
+      }
+      final String full = widget.controller.text;
+      final String next =
+          '${full.substring(0, start)}<@$userId:$personaId> ${full.substring(trigger.matchEnd)}';
+      widget.controller.value = TextEditingValue(
+        text: next,
+        selection: TextSelection.collapsed(
+          offset: start + userId.length + personaId.length + 5,
         ),
       );
       _afterApply();
