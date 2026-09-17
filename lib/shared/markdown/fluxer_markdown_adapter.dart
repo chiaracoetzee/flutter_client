@@ -71,8 +71,19 @@ Widget _fluxerUserMentionBuilder(
   final MessageMarkdownBinding? binding = MessageMarkdownBinding.maybeOf(
     context,
   );
+  final int colonIndex = id.indexOf(':');
+  final String userId;
+  final String? personaId;
+  if (colonIndex != -1) {
+    userId = id.substring(0, colonIndex);
+    personaId = id.substring(colonIndex + 1);
+  } else {
+    userId = id;
+    personaId = null;
+  }
   return UserMention(
-    userId: id,
+    userId: userId,
+    personaId: personaId,
     channelId: binding?.channelId,
     guildId: binding?.guildId,
     baseStyle: style,
