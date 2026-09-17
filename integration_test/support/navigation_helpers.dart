@@ -15,7 +15,16 @@ Future<void> openGuildChannel(WidgetTester tester) async {
   await tester.pump();
   await tester.pump(const Duration(seconds: 2));
 
-  await tester.tap(find.byKey(const ValueKey<String>(channelId)));
+  final Finder channelTile = find.byKey(const ValueKey<String>(channelId));
+  final Finder channelList = find
+      .descendant(
+        of: find.byKey(const ValueKey<String>(guildId)),
+        matching: find.byType(Scrollable),
+      )
+      .first;
+  await pumpUntil(tester, channelList);
+  await tester.scrollUntilVisible(channelTile, 200, scrollable: channelList);
+  await tester.tap(channelTile);
   await tester.pump();
   await pumpUntil(
     tester,
