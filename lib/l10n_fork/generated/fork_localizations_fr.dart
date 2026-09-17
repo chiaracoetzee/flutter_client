@@ -69,10 +69,10 @@ class ForkLocalizationsFr extends ForkLocalizations {
   String get personaEditTitle => 'Modifier le persona';
 
   @override
-  String get personaDisplayNameLabel => 'Nom affiché';
+  String get personaCreateTitle => 'Créer un persona';
 
   @override
-  String get personaSystemTagLabel => 'Badge / Nom de système';
+  String get personaDisplayNameLabel => 'Nom affiché';
 
   @override
   String get personaPronounsLabel => 'Pronoms';
@@ -98,10 +98,10 @@ class ForkLocalizationsFr extends ForkLocalizations {
   }
 
   @override
-  String get personaDisplayNameHint => 'Nom du persona';
+  String get personaSectionTitle => 'Personas';
 
   @override
-  String get personaSystemTagHint => 'ex. NOM DU SYSTÈME';
+  String get personaDisplayNameHint => 'Nom du persona';
 
   @override
   String personaSendingAsTag(String name) {
