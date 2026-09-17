@@ -8,6 +8,7 @@ enum UserSettingsSection {
   blockedUsers,
   linkedDevices,
   connections,
+  personas,
   lookAndFeel,
   accessibility,
   chat,
