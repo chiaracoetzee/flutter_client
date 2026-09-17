@@ -234,7 +234,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               .read(toastProvider.notifier)
               .show(
                 FluxerToast(
-                  message: l10n.personaCreatedToast,
+                  message: l10n.fork.personaCreatedToast,
                   variant: FluxerToastVariant.success,
                 ),
               );
@@ -255,7 +255,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               FluxerToast(
                 message: widget.persona != null
                     ? l10n.fork.personaUpdateFailedToast(err.toString())
-                    : l10n.personaCreateFailedToast(err.toString()),
+                    : l10n.fork.personaCreateFailedToast(err.toString()),
                 variant: FluxerToastVariant.danger,
               ),
             );
@@ -329,8 +329,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                 children: [
                   FluxerButton.secondary(
                     label: _avatarUrl != null
-                        ? l10n.personaChangeAvatar
-                        : l10n.personaUploadAvatar,
+                        ? l10n.fork.personaChangeAvatar
+                        : l10n.fork.personaUploadAvatar,
                     icon: PhosphorIconsFill.uploadSimple,
                     size: FluxerButtonSize.small,
                     fitContent: true,
@@ -342,7 +342,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                   if (_avatarUrl != null) ...[
                     SizedBox(height: layout.s2),
                     FluxerButton.ghost(
-                      label: l10n.personaRemoveAvatar,
+                      label: l10n.fork.personaRemoveAvatar,
                       icon: PhosphorIconsFill.trash,
                       size: FluxerButtonSize.small,
                       fitContent: true,
@@ -381,7 +381,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
 
         // Persona Tags
         Text(
-          l10n.personaTagsLabel,
+          l10n.fork.personaTagsLabel,
           style: textStyles.label.copyWith(color: colors.textPrimary),
         ),
         SizedBox(height: layout.s1),
@@ -390,7 +390,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             Expanded(
               child: FluxerInput(
                 controller: _prefixController,
-                label: l10n.personaTagPrefixLabel,
+                label: l10n.fork.personaTagPrefixLabel,
                 hint: '[',
                 maxLength: 20,
                 enabled: !_isSaving,
@@ -400,7 +400,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             Expanded(
               child: FluxerInput(
                 controller: _suffixController,
-                label: l10n.personaTagSuffixLabel,
+                label: l10n.fork.personaTagSuffixLabel,
                 hint: ']',
                 maxLength: 20,
                 enabled: !_isSaving,
@@ -412,7 +412,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
 
         // Visibility Radio Selector
         Text(
-          l10n.personaVisibilityLabel,
+          l10n.fork.personaVisibilityLabel,
           style: textStyles.label.copyWith(color: colors.textPrimary),
         ),
         SizedBox(height: layout.s2),
@@ -421,15 +421,15 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           items: [
             FluxerRadioItem(
               value: 'unlisted',
-              label: l10n.personaVisibilityUnlisted,
+              label: l10n.fork.personaVisibilityUnlisted,
             ),
             FluxerRadioItem(
               value: 'public',
-              label: l10n.personaVisibilityPublic,
+              label: l10n.fork.personaVisibilityPublic,
             ),
             FluxerRadioItem(
               value: 'private',
-              label: l10n.personaVisibilityPrivate,
+              label: l10n.fork.personaVisibilityPrivate,
             ),
           ],
           onChanged: (val) {
