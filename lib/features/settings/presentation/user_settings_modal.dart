@@ -75,6 +75,10 @@ import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/presentation/widgets/user_persona_settings.dart';
+
 String _userSettingsFooterText(AppRuntimeInfo info, FluxerLocalizations l10n) {
   final int? betaNumber = AppBuildConfig.betaNumber;
   final String environmentLabel = AppBuildConfig.isBeta && betaNumber != null
@@ -1001,6 +1005,10 @@ Widget _buildUserSettingsSectionBody({
       return scrollController == null
           ? const UserConnections()
           : UserConnections(scrollController: scrollController);
+    case UserSettingsSection.personas:
+      return scrollController == null
+          ? const UserPersonaSettings()
+          : UserPersonaSettings(scrollController: scrollController);
     case UserSettingsSection.advanced:
       return scrollController == null
           ? const UserAdvancedSettings()
