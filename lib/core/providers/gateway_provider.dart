@@ -474,7 +474,17 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
     }),
     onUserPersonasUpdate: (eventType, data) => ifMounted(() {
-      talker.info('[Gateway] Received $eventType, reloading personas');
+      talker.info('[Gateway] Received $eventType');
+      if (eventType == 'USER_PERSONA_SETTINGS_UPDATE') {
+        if (data is Map<String, dynamic>) {
+          ref.read(personaSettingsProvider.notifier).updateFromGateway(data);
+        } else if (data is Map) {
+          ref
+              .read(personaSettingsProvider.notifier)
+              .updateFromGateway(Map<String, dynamic>.from(data));
+        }
+        return;
+      }
       unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
       if (data is Map) {
         final id = data['persona_id'] ??
