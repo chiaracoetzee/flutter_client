@@ -24330,7 +24330,7 @@ abstract class FluxerLocalizations {
   /// Helper text explaining Off persona mode.
   ///
   /// In en, this message translates to:
-  /// **'Sends as root account unless proxy tags are typed.'**
+  /// **'Sends as root account unless persona tags are typed.'**
   String get personaModeOffDescription;
 
   /// Helper text explaining Manual persona mode.
@@ -24399,12 +24399,6 @@ abstract class FluxerLocalizations {
   /// **'Display Name'**
   String get personaDisplayNameLabel;
 
-  /// Form label for persona system tag or badge field.
-  ///
-  /// In en, this message translates to:
-  /// **'System Tag / Badge'**
-  String get personaSystemTagLabel;
-
   /// Form label for persona pronouns field.
   ///
   /// In en, this message translates to:
@@ -24459,12 +24453,6 @@ abstract class FluxerLocalizations {
   /// **'Persona name'**
   String get personaDisplayNameHint;
 
-  /// Hint text for persona system tag or badge input.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. SYSTEM NAME'**
-  String get personaSystemTagHint;
-
   /// Tooltip when composer will send as persona matched by tag.
   ///
   /// In en, this message translates to:
@@ -24494,6 +24482,222 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Edit persona'**
   String get personaEditPersona;
+
+  /// Navigation item label for Personas in user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Personas'**
+  String get userSettingsNavPersonas;
+
+  /// Description at the top of the persona settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure your active persona mode, custom display tag, and manage individual personas.'**
+  String get personaSettingsDescription;
+
+  /// Header for display tag section in persona settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Tag'**
+  String get personaDisplayTagSection;
+
+  /// Description explaining what the display tag does.
+  ///
+  /// In en, this message translates to:
+  /// **'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.'**
+  String get personaDisplayTagDescription;
+
+  /// Label for the display tag text input.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Tag Text'**
+  String get personaDisplayTagLabel;
+
+  /// Placeholder for the display tag text input.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. SYS'**
+  String get personaDisplayTagHint;
+
+  /// Label for display tag icon upload in persona settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Tag Icon'**
+  String get personaDisplayTagIconLabel;
+
+  /// Button to upload an icon for the display tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Icon'**
+  String get personaUploadTagIcon;
+
+  /// Button to change the display tag icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Icon'**
+  String get personaChangeTagIcon;
+
+  /// Button to remove the display tag icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Icon'**
+  String get personaRemoveTagIcon;
+
+  /// Title of the live chat message preview card in persona settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat Preview'**
+  String get personaChatPreviewTitle;
+
+  /// Sample message body shown in the chat preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello! This is a preview of how messages look with your display tag and active persona.'**
+  String get personaChatPreviewSampleMessage;
+
+  /// Title of the configured personas list in settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Configured Personas'**
+  String get personaListTitle;
+
+  /// Button to create a new persona in settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Persona'**
+  String get personaAddButton;
+
+  /// Badge indicating this persona is currently active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get personaActiveBadge;
+
+  /// Button to make this persona the active one.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Active'**
+  String get personaMakeActive;
+
+  /// Button to unlatch or deactivate the current persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivate'**
+  String get personaDeactivate;
+
+  /// Title of confirmation dialog when deleting a persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Persona'**
+  String get personaDeleteTitle;
+
+  /// Confirmation message when deleting a persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{name}\"? This cannot be undone.'**
+  String personaDeleteMessage(String name);
+
+  /// Confirmation button to delete a persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get personaDeleteConfirm;
+
+  /// Toast shown after deleting a persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona deleted'**
+  String get personaDeletedToast;
+
+  /// Toast shown after successfully creating a new persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona created'**
+  String get personaCreatedToast;
+
+  /// Toast shown when persona creation fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create persona: {error}'**
+  String personaCreateFailedToast(String error);
+
+  /// Label for persona avatar uploader in form.
+  ///
+  /// In en, this message translates to:
+  /// **'Avatar'**
+  String get personaAvatarLabel;
+
+  /// Button to change persona avatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Avatar'**
+  String get personaChangeAvatar;
+
+  /// Button to remove persona avatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Avatar'**
+  String get personaRemoveAvatar;
+
+  /// Button to upload persona avatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Avatar'**
+  String get personaUploadAvatar;
+
+  /// Label for persona tags section in persona form.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona Tags'**
+  String get personaTagsLabel;
+
+  /// Label for tag prefix input.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefix'**
+  String get personaTagPrefixLabel;
+
+  /// Label for tag suffix input.
+  ///
+  /// In en, this message translates to:
+  /// **'Suffix'**
+  String get personaTagSuffixLabel;
+
+  /// Toggle to disable auto-tagging for persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable auto-tagging'**
+  String get personaAutoTagLabel;
+
+  /// Description for auto-tag disable toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prevent messages from automatically matching these tags.'**
+  String get personaAutoTagDescription;
+
+  /// Label for persona visibility selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Visibility'**
+  String get personaVisibilityLabel;
+
+  /// Label for unlisted visibility option.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlisted'**
+  String get personaVisibilityUnlisted;
+
+  /// Label for public visibility option.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get personaVisibilityPublic;
+
+  /// Label for private visibility option.
+  ///
+  /// In en, this message translates to:
+  /// **'Private'**
+  String get personaVisibilityPrivate;
 }
 
 class _FluxerLocalizationsDelegate
