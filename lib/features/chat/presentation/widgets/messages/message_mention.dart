@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show FutureProviderFamily;
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -14,13 +15,18 @@ import 'package:fluxer_app/features/channels/utils/channel_mention_utils.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_access_denied_sheet.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -248,6 +254,7 @@ class _MentionPill extends StatelessWidget {
 class UserMention extends ConsumerWidget {
   const UserMention({
     required this.userId,
+    this.personaId,
     this.channelId,
     this.guildId,
     this.baseStyle,
@@ -255,6 +262,7 @@ class UserMention extends ConsumerWidget {
   });
 
   final String userId;
+  final String? personaId;
   final String? channelId;
   final String? guildId;
   final TextStyle? baseStyle;
@@ -263,6 +271,79 @@ class UserMention extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String? resolvedGuildId =
         guildId ?? resolveGuildIdForChannel(ref, channelId);
+
+    if (personaId != null && personaId!.isNotEmpty) {
+      final String? currentUserId = ref.watch(currentUserIdProvider);
+      final Persona? myPersona = currentUserId == userId
+          ? ref.watch(myPersonasProvider).asData?.value.cast<Persona?>().firstWhere(
+              (p) => p?.id == personaId,
+              orElse: () => null,
+            )
+          : null;
+      final PublicPersona? publicPersona = ref.watch(
+        publicPersonaProvider((userId: userId, personaId: personaId!)),
+      ).value;
+
+      final Message? recentMsg = ref.watch(
+        chatViewModelProvider.select((s) {
+          for (final m in s.messages) {
+            if (m.personaId == personaId && (m.personaName?.isNotEmpty ?? false)) {
+              return m;
+            }
+          }
+          return null;
+        }),
+      );
+
+      final String personaName = myPersona?.name ??
+          publicPersona?.name ??
+          recentMsg?.personaName ??
+          watchMentionUserDisplayName(
+            ref: ref,
+            userId: userId,
+            channelId: channelId,
+            guildId: guildId,
+          );
+
+      final int? personaColorInt = myPersona?.color ??
+          publicPersona?.color ??
+          recentMsg?.authorAvatarColor;
+
+      final Color? personaColor =
+          (personaColorInt != null && personaColorInt != 0)
+              ? Color(personaColorInt | 0xFF000000)
+              : null;
+      final Color? fillColor = personaColor?.withValues(alpha: 0.1);
+
+      final colors = context.colors;
+      final style = (baseStyle ?? context.textStyles.messageText).copyWith(
+        color: personaColor ?? colors.markupMentionText,
+        fontWeight: FontWeight.w500,
+      );
+
+      return FluxerGestureDetector(
+        onTap: () => unawaited(
+          FluxerUserProfileSheet.show(
+            context,
+            userId: userId,
+            personaId: personaId,
+            guildId: resolvedGuildId,
+          ),
+        ),
+        child: _MentionPill(
+          baseStyle: style,
+          fillColor: fillColor,
+          child: Text(
+            '@$personaName',
+            style: style,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            softWrap: false,
+          ),
+        ),
+      );
+    }
+
     final String name = watchMentionUserDisplayName(
       ref: ref,
       userId: userId,
