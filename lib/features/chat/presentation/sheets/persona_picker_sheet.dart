@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -10,8 +10,6 @@ import 'package:fluxer_app/features/settings/presentation/user_settings_modal.da
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
-import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
@@ -28,7 +26,6 @@ class PersonaPickerSheet {
       title: 'Select Persona',
       useRootNavigator: true,
       minChildSize: 0.55,
-      showDragHandle: true,
       builder: (sheetContext, scrollController, close) {
         return _PersonaPickerBody(
           scrollController: scrollController,
@@ -66,6 +63,11 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
         setState(() => _query = q);
       }
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+      }
+    });
   }
 
   @override
@@ -76,21 +78,23 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
 
   void _selectPersona(String personaId) {
     FluxerHaptics.light();
-    ref
-        .read(activePersonaProvider.notifier)
-        .setActivePersona(personaId, latch: true);
+    unawaited(
+      ref
+          .read(activePersonaProvider.notifier)
+          .setActivePersona(personaId),
+    );
     widget.onClose();
   }
 
   void _resetToRoot() {
     FluxerHaptics.light();
-    ref.read(activePersonaProvider.notifier).unlatch();
+    unawaited(ref.read(activePersonaProvider.notifier).unlatch());
     widget.onClose();
   }
 
   void _openManagePersonas() {
     widget.onClose();
-    UserSettingsModal.show(context);
+    unawaited(UserSettingsModal.show(context));
   }
 
   @override
@@ -107,10 +111,18 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
     final personas = personasAsync.asData?.value ?? const [];
 
     final filteredPersonas = personas.where((p) {
-      if (_query.isEmpty) return true;
-      if (p.name.toLowerCase().contains(_query)) return true;
-      if (p.systemName?.toLowerCase().contains(_query) ?? false) return true;
-      if (p.pronouns?.toLowerCase().contains(_query) ?? false) return true;
+      if (_query.isEmpty) {
+        return true;
+      }
+      if (p.name.toLowerCase().contains(_query)) {
+        return true;
+      }
+      if (p.systemName?.toLowerCase().contains(_query) ?? false) {
+        return true;
+      }
+      if (p.pronouns?.toLowerCase().contains(_query) ?? false) {
+        return true;
+      }
       return p.personaTags.any((t) =>
           (t.prefix?.toLowerCase().contains(_query) ?? false) ||
           (t.suffix?.toLowerCase().contains(_query) ?? false));
@@ -213,7 +225,9 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
               2 => PersonaMode.last,
               _ => PersonaMode.off,
             };
-            ref.read(activePersonaProvider.notifier).setMode(newMode);
+            unawaited(
+              ref.read(activePersonaProvider.notifier).setMode(newMode),
+            );
           },
         ),
         SizedBox(height: layout.s1),
