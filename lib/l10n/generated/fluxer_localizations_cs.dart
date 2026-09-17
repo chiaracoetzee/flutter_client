@@ -14710,7 +14710,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get personaModeOffDescription =>
-      'Sends as root account unless proxy tags are typed.';
+      'Sends as root account unless persona tags are typed.';
 
   @override
   String get personaModeManualDescription =>
@@ -14753,9 +14753,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get personaDisplayNameLabel => 'Display Name';
 
   @override
-  String get personaSystemTagLabel => 'System Tag / Badge';
-
-  @override
   String get personaPronounsLabel => 'Pronouns';
 
   @override
@@ -14785,9 +14782,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get personaDisplayNameHint => 'Persona name';
 
   @override
-  String get personaSystemTagHint => 'e.g. SYSTEM NAME';
-
-  @override
   String personaSendingAsTag(String name) {
     return 'Sending as $name (Matched by tag)';
   }
@@ -14807,4 +14801,120 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get personaEditPersona => 'Edit persona';
+
+  @override
+  String get userSettingsNavPersonas => 'Personas';
+
+  @override
+  String get personaSettingsDescription =>
+      'Configure your active persona mode, custom display tag, and manage individual personas.';
+
+  @override
+  String get personaDisplayTagSection => 'Display Tag';
+
+  @override
+  String get personaDisplayTagDescription =>
+      'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.';
+
+  @override
+  String get personaDisplayTagLabel => 'Display Tag Text';
+
+  @override
+  String get personaDisplayTagHint => 'e.g. SYS';
+
+  @override
+  String get personaDisplayTagIconLabel => 'Display Tag Icon';
+
+  @override
+  String get personaUploadTagIcon => 'Upload Icon';
+
+  @override
+  String get personaChangeTagIcon => 'Change Icon';
+
+  @override
+  String get personaRemoveTagIcon => 'Remove Icon';
+
+  @override
+  String get personaChatPreviewTitle => 'Chat Preview';
+
+  @override
+  String get personaChatPreviewSampleMessage =>
+      'Hello! This is a preview of how messages look with your display tag and active persona.';
+
+  @override
+  String get personaListTitle => 'Configured Personas';
+
+  @override
+  String get personaAddButton => 'Add Persona';
+
+  @override
+  String get personaActiveBadge => 'Active';
+
+  @override
+  String get personaMakeActive => 'Set Active';
+
+  @override
+  String get personaDeactivate => 'Deactivate';
+
+  @override
+  String get personaDeleteTitle => 'Delete Persona';
+
+  @override
+  String personaDeleteMessage(String name) {
+    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+  }
+
+  @override
+  String get personaDeleteConfirm => 'Delete';
+
+  @override
+  String get personaDeletedToast => 'Persona deleted';
+
+  @override
+  String get personaCreatedToast => 'Persona created';
+
+  @override
+  String personaCreateFailedToast(String error) {
+    return 'Failed to create persona: $error';
+  }
+
+  @override
+  String get personaAvatarLabel => 'Avatar';
+
+  @override
+  String get personaChangeAvatar => 'Change Avatar';
+
+  @override
+  String get personaRemoveAvatar => 'Remove Avatar';
+
+  @override
+  String get personaUploadAvatar => 'Upload Avatar';
+
+  @override
+  String get personaTagsLabel => 'Persona Tags';
+
+  @override
+  String get personaTagPrefixLabel => 'Prefix';
+
+  @override
+  String get personaTagSuffixLabel => 'Suffix';
+
+  @override
+  String get personaAutoTagLabel => 'Disable auto-tagging';
+
+  @override
+  String get personaAutoTagDescription =>
+      'Prevent messages from automatically matching these tags.';
+
+  @override
+  String get personaVisibilityLabel => 'Visibility';
+
+  @override
+  String get personaVisibilityUnlisted => 'Unlisted';
+
+  @override
+  String get personaVisibilityPublic => 'Public';
+
+  @override
+  String get personaVisibilityPrivate => 'Private';
 }
