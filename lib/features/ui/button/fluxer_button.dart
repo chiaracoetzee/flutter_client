@@ -427,22 +427,25 @@ class _FluxerButtonState extends State<FluxerButton> {
       );
     }
 
+    final shouldFlex = !widget.fitContent && !widget.isSquare;
+
     if (widget.child != null) {
-      contentWidgets.add(Flexible(child: widget.child!));
-    } else if (widget.label != null) {
       contentWidgets.add(
-        Flexible(
-          child: Text(
-            widget.label!,
-            style: context.textStyles.categoryName.copyWith(
-              fontSize: widget.size.fontSize,
-              color: foreground,
-              height: 1.4,
-            ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
+        shouldFlex ? Flexible(child: widget.child!) : widget.child!,
+      );
+    } else if (widget.label != null) {
+      final labelWidget = Text(
+        widget.label!,
+        style: context.textStyles.categoryName.copyWith(
+          fontSize: widget.size.fontSize,
+          color: foreground,
+          height: 1.4,
         ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      );
+      contentWidgets.add(
+        shouldFlex ? Flexible(child: labelWidget) : labelWidget,
       );
     }
 
