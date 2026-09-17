@@ -203,6 +203,7 @@ class MessageListViewport extends StatelessWidget {
     required double effectiveAnchor,
   }) {
     return CustomScrollView(
+      key: const ValueKey<String>('message-list'),
       controller: controller,
       center: centerKey,
       anchor: effectiveAnchor,
