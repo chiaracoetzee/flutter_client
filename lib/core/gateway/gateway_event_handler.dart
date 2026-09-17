@@ -39,7 +39,11 @@ void _logGatewayDebug(void Function() log) {
   }(), 'gateway debug logging');
 }
 
-typedef TypingCallback = void Function(String channelId, String userId);
+typedef TypingCallback = void Function(
+  String channelId,
+  String userId, [
+  MessageSubprofileResponse? subprofile,
+]);
 typedef VoiceStateCallback = void Function(VoiceState state);
 typedef VoiceBulkCallback = void Function(List<VoiceState> states);
 typedef CallCreateCallback = void Function(CallCreateEvent event);
@@ -1960,7 +1964,7 @@ class GatewayEventHandler {
     if (guildId != null && member != null) {
       unawaited(_hydrateTypingMemberIfMissing(guildId, member));
     }
-    _emit(() => onTypingStart?.call(event.channelId, event.userId));
+    _emit(() => onTypingStart?.call(event.channelId, event.userId, event.subprofile));
   }
 
   // Hydrate the typer's member only when absent, mirroring the web client.
