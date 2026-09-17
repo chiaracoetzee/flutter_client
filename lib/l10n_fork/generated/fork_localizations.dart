@@ -263,17 +263,17 @@ abstract class ForkLocalizations {
   /// **'Edit Persona'**
   String get personaEditTitle;
 
+  /// Title of the create persona sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Persona'**
+  String get personaCreateTitle;
+
   /// Form label for persona display name field.
   ///
   /// In en, this message translates to:
   /// **'Display Name'**
   String get personaDisplayNameLabel;
-
-  /// Form label for persona system tag or badge field.
-  ///
-  /// In en, this message translates to:
-  /// **'System Tag / Badge'**
-  String get personaSystemTagLabel;
 
   /// Form label for persona pronouns field.
   ///
@@ -317,17 +317,17 @@ abstract class ForkLocalizations {
   /// **'Failed to update persona: {error}'**
   String personaUpdateFailedToast(String error);
 
+  /// Title for the personas settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Personas'**
+  String get personaSectionTitle;
+
   /// Hint text for persona display name input.
   ///
   /// In en, this message translates to:
   /// **'Persona name'**
   String get personaDisplayNameHint;
-
-  /// Hint text for persona system tag or badge input.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. SYSTEM NAME'**
-  String get personaSystemTagHint;
 
   /// Tooltip when composer will send as persona matched by tag.
   ///
