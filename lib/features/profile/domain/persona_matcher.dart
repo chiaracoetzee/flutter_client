@@ -85,7 +85,7 @@ MatchResult matchPersona(
     );
   }
 
-  // Check single backslash: "\ [message]" escapes proxy tag matching and suppresses latch
+  // Check single backslash: "\ [message]" escapes persona tag matching and suppresses latch
   if (text.startsWith(r'\')) {
     final rawRest = text.substring(1);
     final stripped = rawRest.startsWith(' ') ? rawRest.substring(1) : rawRest;
