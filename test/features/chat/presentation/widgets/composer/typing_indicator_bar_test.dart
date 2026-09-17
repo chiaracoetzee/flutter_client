@@ -189,3 +189,21 @@ void main() {
     container.read(typingIndicatorsProvider.notifier).clearAll();
   });
 }
+
+// Fork: upstream's helpers that typing_indicator_bar_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by typing_indicator_bar_fork_test.dart.
+FluxerDatabase get forkDatabase => _database;
+// ignore: unreachable_from_main // Fork: used by typing_indicator_bar_fork_test.dart.
+set forkDatabase(FluxerDatabase value) => _database = value;
+// ignore: unreachable_from_main // Fork: used by typing_indicator_bar_fork_test.dart.
+const String forkKTyperUserId = _kTyperUserId;
+// ignore: unreachable_from_main // Fork: used by typing_indicator_bar_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Future<void> Function(WidgetTester tester, {required bool compact})
+  pumpTypingIndicatorBar,
+});
+// ignore: unreachable_from_main // Fork: used by typing_indicator_bar_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  pumpTypingIndicatorBar: _pumpTypingIndicatorBar,
+);
