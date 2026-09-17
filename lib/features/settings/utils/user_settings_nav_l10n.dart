@@ -2,6 +2,9 @@ import 'package:fluxer_app/features/settings/domain/user_settings_nav_group.dart
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
+// Fork imports.
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 String userSettingsSectionLabel(
   FluxerLocalizations l10n,
   UserSettingsSection section,
@@ -26,7 +29,7 @@ String userSettingsSectionLabel(
     case UserSettingsSection.connections:
       return l10n.userSettingsNavConnections;
     case UserSettingsSection.personas:
-      return l10n.userSettingsNavPersonas;
+      return l10n.fork.userSettingsNavPersonas;
     case UserSettingsSection.lookAndFeel:
       return l10n.userSettingsNavLookAndFeel;
     case UserSettingsSection.themeColors:
