@@ -203,10 +203,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
       ref.read(voiceSessionProvider.notifier).handleGatewayResumed();
     }),
-    onTypingStart: (channelId, userId) => ifMounted(() {
-      ref.read(typingIndicatorsProvider.notifier).addTyping(channelId, userId);
+    onTypingStart: (channelId, userId, [subprofile]) => ifMounted(() {
+      ref
+          .read(typingIndicatorsProvider.notifier)
+          .addTyping(channelId, userId, subprofile: subprofile);
     }),
-    onTypingClear: (channelId, userId) => ifMounted(() {
+    onTypingClear: (channelId, userId, [_]) => ifMounted(() {
       ref
           .read(typingIndicatorsProvider.notifier)
           .removeTyping(channelId, userId);
@@ -515,8 +517,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       }
       unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
       if (data is Map) {
+        final persona = data['persona'];
         final id = data['persona_id'] ??
-            (data['persona'] is Map ? data['persona']['id'] : data['id']);
+            (persona is Map ? persona['id'] : data['id']);
         if (id is String && id.isNotEmpty) {
           ref.invalidate(publicPersonaProvider((userId: '', personaId: id)));
         }
