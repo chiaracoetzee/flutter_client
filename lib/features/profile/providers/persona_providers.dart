@@ -88,8 +88,16 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
       }
 
       final personas = list
-          .whereType<Map<String, dynamic>>()
-          .map(Persona.fromJson)
+          .map((item) {
+            if (item is Map<String, dynamic>) {
+              return Persona.fromJson(item);
+            }
+            if (item is Map) {
+              return Persona.fromJson(Map<String, dynamic>.from(item));
+            }
+            return null;
+          })
+          .whereType<Persona>()
           .toList();
 
       state = AsyncValue.data(personas);
@@ -105,6 +113,10 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
 
   Future<void> refresh() async {
     state = const AsyncValue.loading();
+    await _loadPersonas();
+  }
+
+  Future<void> reloadSilently() async {
     await _loadPersonas();
   }
 

@@ -71,6 +71,7 @@ export 'gateway_reconnect_provider.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 
 part 'gateway_provider.g.dart';
 
@@ -564,6 +565,18 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onEntranceSoundPlay: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
+    }),
+    onUserPersonasUpdate: (eventType, data) => ifMounted(() {
+      talker.info('[Gateway] Received $eventType, reloading personas');
+      unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+      if (data is Map) {
+        final id =
+            data['persona_id'] ??
+            (data['persona'] is Map ? data['persona']['id'] : data['id']);
+        if (id is String && id.isNotEmpty) {
+          ref.invalidate(publicPersonaProvider((userId: '', personaId: id)));
+        }
+      }
     }),
     resolveParentThreadActor: (String guildId, String parentId) => ref.mounted
         // One-off snapshot; read does not retain the autoDispose family.
