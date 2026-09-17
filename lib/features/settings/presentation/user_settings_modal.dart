@@ -40,6 +40,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_linked_de
 import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_feel.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_messages_media.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_settings.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_persona_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_plutonium_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_privacy_dashboard.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.dart';
@@ -836,6 +837,10 @@ Widget _buildUserSettingsSectionContent({
       return scrollController == null
           ? const UserConnections()
           : UserConnections(scrollController: scrollController);
+    case UserSettingsSection.personas:
+      return scrollController == null
+          ? const UserPersonaSettings()
+          : UserPersonaSettings(scrollController: scrollController);
     case UserSettingsSection.advanced:
       return scrollController == null
           ? const UserAdvancedSettings()
