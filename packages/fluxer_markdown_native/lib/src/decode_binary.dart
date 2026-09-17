@@ -173,6 +173,7 @@ final class _Cursor {
       }(),
       5 => const MdEveryoneMention(),
       6 => const MdHereMention(),
+      7 => MdUserMention(readString(), personaId: readString()),
       _ => throw FormatException('Unknown mention kind tag: $kind'),
     };
   }
