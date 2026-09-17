@@ -14523,7 +14523,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get personaModeOffDescription =>
-      'Envoie avec le compte principal sauf si des balises de proxy sont saisies.';
+      'Envoie avec le compte principal sauf si les balises de persona sont saisies.';
 
   @override
   String get personaModeManualDescription =>
@@ -14566,9 +14566,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get personaDisplayNameLabel => 'Nom affiché';
 
   @override
-  String get personaSystemTagLabel => 'Badge / Nom de système';
-
-  @override
   String get personaPronounsLabel => 'Pronoms';
 
   @override
@@ -14598,9 +14595,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get personaDisplayNameHint => 'Nom du persona';
 
   @override
-  String get personaSystemTagHint => 'ex. NOM DU SYSTÈME';
-
-  @override
   String personaSendingAsTag(String name) {
     return 'Envoi en tant que $name (Associé par balise)';
   }
@@ -14620,4 +14614,120 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get personaEditPersona => 'Modifier le persona';
+
+  @override
+  String get userSettingsNavPersonas => 'Personas';
+
+  @override
+  String get personaSettingsDescription =>
+      'Configurez votre mode de persona actif, votre badge d\'affichage personnalisé et gérez vos personas.';
+
+  @override
+  String get personaDisplayTagSection => 'Badge d\'affichage';
+
+  @override
+  String get personaDisplayTagDescription =>
+      'Le badge d\'affichage apparaîtra à côté du nom de toutes vos personas dans les messages. Si aucun badge n\'est configuré, votre photo de profil de compte sera affichée.';
+
+  @override
+  String get personaDisplayTagLabel => 'Texte du badge';
+
+  @override
+  String get personaDisplayTagHint => 'ex. SYS';
+
+  @override
+  String get personaDisplayTagIconLabel => 'Icône du badge';
+
+  @override
+  String get personaUploadTagIcon => 'Importer une icône';
+
+  @override
+  String get personaChangeTagIcon => 'Modifier l\'icône';
+
+  @override
+  String get personaRemoveTagIcon => 'Supprimer l\'icône';
+
+  @override
+  String get personaChatPreviewTitle => 'Aperçu du chat';
+
+  @override
+  String get personaChatPreviewSampleMessage =>
+      'Bonjour ! Ceci est un aperçu de l\'affichage des messages avec votre badge d\'affichage et votre persona actif.';
+
+  @override
+  String get personaListTitle => 'Personas configurés';
+
+  @override
+  String get personaAddButton => 'Ajouter un persona';
+
+  @override
+  String get personaActiveBadge => 'Actif';
+
+  @override
+  String get personaMakeActive => 'Définir comme actif';
+
+  @override
+  String get personaDeactivate => 'Désactiver';
+
+  @override
+  String get personaDeleteTitle => 'Supprimer le persona';
+
+  @override
+  String personaDeleteMessage(String name) {
+    return 'Voulez-vous vraiment supprimer « $name » ? Cette action est irréversible.';
+  }
+
+  @override
+  String get personaDeleteConfirm => 'Supprimer';
+
+  @override
+  String get personaDeletedToast => 'Persona supprimé';
+
+  @override
+  String get personaCreatedToast => 'Persona créé';
+
+  @override
+  String personaCreateFailedToast(String error) {
+    return 'Échec de la création du persona : $error';
+  }
+
+  @override
+  String get personaAvatarLabel => 'Avatar';
+
+  @override
+  String get personaChangeAvatar => 'Modifier l\'avatar';
+
+  @override
+  String get personaRemoveAvatar => 'Supprimer l\'avatar';
+
+  @override
+  String get personaUploadAvatar => 'Importer un avatar';
+
+  @override
+  String get personaTagsLabel => 'Balises de persona';
+
+  @override
+  String get personaTagPrefixLabel => 'Préfixe';
+
+  @override
+  String get personaTagSuffixLabel => 'Suffixe';
+
+  @override
+  String get personaAutoTagLabel => 'Désactiver l\'association automatique';
+
+  @override
+  String get personaAutoTagDescription =>
+      'Empêche les messages de correspondre automatiquement à ces balises.';
+
+  @override
+  String get personaVisibilityLabel => 'Visibilité';
+
+  @override
+  String get personaVisibilityUnlisted => 'Non répertorié';
+
+  @override
+  String get personaVisibilityPublic => 'Public';
+
+  @override
+  String get personaVisibilityPrivate => 'Privé';
 }
