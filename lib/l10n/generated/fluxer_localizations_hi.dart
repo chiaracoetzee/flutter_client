@@ -14611,210 +14611,210 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get personaSelectTitle => 'Select Persona';
+  String get personaSelectTitle => 'परसोना चुनें';
 
   @override
-  String get personaSettingsHeader => 'Persona Settings';
+  String get personaSettingsHeader => 'परसोना सेटिंग्स';
 
   @override
-  String get personaManageAction => 'Manage';
+  String get personaManageAction => 'मैनेज करें';
 
   @override
-  String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
+  String get personaSearchPlaceholder => 'परसोना, टैग, प्रोनाउन खोजें...';
 
   @override
-  String get personaModeOff => 'Off';
+  String get personaModeOff => 'बंद';
 
   @override
-  String get personaModeManual => 'Manual';
+  String get personaModeManual => 'मैनुअल';
 
   @override
-  String get personaModeLast => 'Last Used';
+  String get personaModeLast => 'पिछली बार इस्तेमाल किया गया';
 
   @override
   String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
+      'जब तक परसोना टैग टाइप नहीं किए जाते, तब तक रूट अकाउंट से भेजता है।';
 
   @override
   String get personaModeManualDescription =>
-      'Always sends as selected persona until changed.';
+      'बदले जाने तक हमेशा चुने गए परसोना के रूप में भेजता है।';
 
   @override
   String get personaModeLastDescription =>
-      'Auto-switches to the persona used in your last message.';
+      'आपके पिछले मैसेज में इस्तेमाल किए गए परसोना पर अपने आप स्विच हो जाता है।';
 
   @override
-  String get personaRecentHeader => 'RECENT PERSONAS';
+  String get personaRecentHeader => 'हालिया परसोना';
 
   @override
   String personaAllHeader(int count) {
-    return 'ALL PERSONAS ($count)';
+    return 'सभी परसोना ($count)';
   }
 
   @override
   String personaSearchResultsHeader(int count) {
-    return 'SEARCH RESULTS ($count)';
+    return 'खोज के नतीजे ($count)';
   }
 
   @override
-  String get personaRootAccountLabel => 'Root Account (Default)';
+  String get personaRootAccountLabel => 'रूट अकाउंट (डिफ़ॉल्ट)';
 
   @override
   String get personaEmptyState =>
-      'No personas configured yet. Create one via Manage Personas.';
+      'अभी तक कोई परसोना कॉन्फ़िगर नहीं किया गया है। \'परसोना मैनेज करें\' के ज़रिए एक बनाएं।';
 
   @override
-  String get personaEmptySearch => 'No matching personas found.';
+  String get personaEmptySearch => 'कोई मेल खाने वाला परसोना नहीं मिला।';
 
   @override
-  String get personaEditTitle => 'Edit Persona';
+  String get personaEditTitle => 'परसोना एडिट करें';
 
   @override
-  String get personaCreateTitle => 'Create Persona';
+  String get personaCreateTitle => 'परसोना बनाएँ';
 
   @override
-  String get personaDisplayNameLabel => 'Display Name';
+  String get personaDisplayNameLabel => 'डिस्प्ले नाम';
 
   @override
-  String get personaPronounsLabel => 'Pronouns';
+  String get personaPronounsLabel => 'सर्वनाम';
 
   @override
-  String get personaPronounsHint => 'e.g. they/them';
+  String get personaPronounsHint => 'जैसे वह/वे';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'बायो / मेरे बारे में';
 
   @override
-  String get personaBioHint => 'Tell others about this persona...';
+  String get personaBioHint => 'दूसरों को इस परसोना के बारे में बताएं...';
 
   @override
-  String get personaSaveChanges => 'Save Changes';
+  String get personaSaveChanges => 'बदलाव सेव करें';
 
   @override
-  String get personaUpdatedToast => 'Persona updated';
+  String get personaUpdatedToast => 'परसोना अपडेट हो गया';
 
   @override
   String personaUpdateFailedToast(String error) {
-    return 'Failed to update persona: $error';
+    return 'परसोना अपडेट नहीं हो सका: $error';
   }
 
   @override
-  String get personaSectionTitle => 'Personas';
+  String get personaSectionTitle => 'परसोना';
 
   @override
-  String get personaDisplayNameHint => 'Persona name';
+  String get personaDisplayNameHint => 'परसोना का नाम';
 
   @override
   String personaSendingAsTag(String name) {
-    return 'Sending as $name (Matched by tag)';
+    return '$name के तौर पर भेज रहे हैं (टैग द्वारा मैच किया गया)';
   }
 
   @override
   String personaSendingAsLatched(String name) {
-    return 'Sending as $name (Latched)';
+    return '$name के तौर पर भेज रहे हैं (लॉक किया गया)';
   }
 
   @override
   String personaSendingAsRoot(String username) {
-    return 'Sending as @$username';
+    return '@$username के तौर पर भेज रहे हैं';
   }
 
   @override
-  String get personaMainAccount => 'Main account';
+  String get personaMainAccount => 'मेन अकाउंट';
 
   @override
-  String get personaEditPersona => 'Edit persona';
+  String get personaEditPersona => 'परसोना एडिट करें';
 
   @override
-  String get userSettingsNavPersonas => 'Personas';
+  String get userSettingsNavPersonas => 'परसोना';
 
   @override
   String get personaSettingsDescription =>
-      'Configure your active persona mode, custom display tag, and manage individual personas.';
+      'अपना एक्टिव परसोना मोड, कस्टम डिस्प्ले टैग कॉन्फ़िगर करें और अलग-अलग परसोना मैनेज करें।';
 
   @override
-  String get personaDisplayTagSection => 'Display Tag';
+  String get personaDisplayTagSection => 'डिस्प्ले टैग';
 
   @override
   String get personaDisplayTagDescription =>
-      'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.';
+      'डिस्प्ले टैग मैसेज में सभी परसोना नाम के आगे दिखाई देगा। यदि कोई डिस्प्ले टैग सेट नहीं है, तो आपकी अकाउंट प्रोफ़ाइल पिक्चर दिखाई जाएगी।';
 
   @override
-  String get personaDisplayTagLabel => 'Display Tag Text';
+  String get personaDisplayTagLabel => 'डिस्प्ले टैग टेक्स्ट';
 
   @override
-  String get personaDisplayTagHint => 'e.g. SYS';
+  String get personaDisplayTagHint => 'जैसे SYS';
 
   @override
-  String get personaDisplayTagIconLabel => 'Display Tag Icon';
+  String get personaDisplayTagIconLabel => 'डिस्प्ले टैग आइकॉन';
 
   @override
-  String get personaUploadTagIcon => 'Upload Icon';
+  String get personaUploadTagIcon => 'आइकॉन अपलोड करें';
 
   @override
-  String get personaChangeTagIcon => 'Change Icon';
+  String get personaChangeTagIcon => 'आइकॉन बदलें';
 
   @override
-  String get personaRemoveTagIcon => 'Remove Icon';
+  String get personaRemoveTagIcon => 'आइकॉन हटाएँ';
 
   @override
-  String get personaChatPreviewTitle => 'Chat Preview';
+  String get personaChatPreviewTitle => 'चैट प्रीव्यू';
 
   @override
   String get personaChatPreviewSampleMessage =>
-      'Hello! This is a preview of how messages look with your display tag and active persona.';
+      'नमस्ते! यह एक प्रीव्यू है कि आपके डिस्प्ले टैग और एक्टिव परसोना के साथ मैसेज कैसे दिखते हैं।';
 
   @override
-  String get personaListTitle => 'Configured Personas';
+  String get personaListTitle => 'कॉन्फ़िगर किए गए परसोना';
 
   @override
-  String get personaAddButton => 'Add Persona';
+  String get personaAddButton => 'परसोना जोड़ें';
 
   @override
-  String get personaActiveBadge => 'Active';
+  String get personaActiveBadge => 'सक्रिय';
 
   @override
-  String get personaMakeActive => 'Set Active';
+  String get personaMakeActive => 'एक्टिव सेट करें';
 
   @override
-  String get personaDeactivate => 'Deactivate';
+  String get personaDeactivate => 'निष्क्रिय करें';
 
   @override
-  String get personaDeleteTitle => 'Delete Persona';
+  String get personaDeleteTitle => 'परसोना डिलीट करें';
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'क्या आप वाकई \"$name\" को डिलीट करना चाहते हैं? इसे पहले जैसा नहीं किया जा सकता।';
   }
 
   @override
-  String get personaDeleteConfirm => 'Delete';
+  String get personaDeleteConfirm => 'मिटाएँ';
 
   @override
-  String get personaDeletedToast => 'Persona deleted';
+  String get personaDeletedToast => 'परसोना डिलीट हो गया';
 
   @override
-  String get personaCreatedToast => 'Persona created';
+  String get personaCreatedToast => 'परसोना बन गया';
 
   @override
   String personaCreateFailedToast(String error) {
-    return 'Failed to create persona: $error';
+    return 'परसोना नहीं बनाया जा सका: $error';
   }
 
   @override
-  String get personaAvatarLabel => 'Avatar';
+  String get personaAvatarLabel => 'अवतार';
 
   @override
-  String get personaChangeAvatar => 'Change Avatar';
+  String get personaChangeAvatar => 'अवतार बदलें';
 
   @override
-  String get personaRemoveAvatar => 'Remove Avatar';
+  String get personaRemoveAvatar => 'अवतार हटाएँ';
 
   @override
-  String get personaUploadAvatar => 'Upload Avatar';
+  String get personaUploadAvatar => 'अवतार अपलोड करें';
 
   @override
-  String get personaTagsLabel => 'Persona Tags';
+  String get personaTagsLabel => 'परसोना टैग';
 
   @override
   String get personaTagPrefixLabel => 'Prefix';
@@ -14823,21 +14823,21 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get personaTagSuffixLabel => 'Suffix';
 
   @override
-  String get personaAutoTagLabel => 'Disable auto-tagging';
+  String get personaAutoTagLabel => 'ऑटो-टैगिंग बंद करें';
 
   @override
   String get personaAutoTagDescription =>
-      'Prevent messages from automatically matching these tags.';
+      'मैसेज को अपने आप इन टैग से मेल खाने से रोकें।';
 
   @override
-  String get personaVisibilityLabel => 'Visibility';
+  String get personaVisibilityLabel => 'विज़िबिलिटी';
 
   @override
-  String get personaVisibilityUnlisted => 'Unlisted';
+  String get personaVisibilityUnlisted => 'अनलिस्टेड';
 
   @override
-  String get personaVisibilityPublic => 'Public';
+  String get personaVisibilityPublic => 'पब्लिक';
 
   @override
-  String get personaVisibilityPrivate => 'Private';
+  String get personaVisibilityPrivate => 'प्राइवेट';
 }
