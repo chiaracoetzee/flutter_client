@@ -25,6 +25,8 @@ String userSettingsSectionLabel(
       return l10n.userSettingsNavLinkedDevices;
     case UserSettingsSection.connections:
       return l10n.userSettingsNavConnections;
+    case UserSettingsSection.personas:
+      return l10n.userSettingsNavPersonas;
     case UserSettingsSection.lookAndFeel:
       return l10n.userSettingsNavLookAndFeel;
     case UserSettingsSection.accessibility:
