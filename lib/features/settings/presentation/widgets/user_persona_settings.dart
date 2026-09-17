@@ -133,15 +133,15 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
 
     final bool? confirmed = await FluxerModal.show<bool>(
       context,
-      title: l10n.personaDeleteTitle,
-      description: l10n.personaDeleteMessage(persona.name),
+      title: l10n.fork.personaDeleteTitle,
+      description: l10n.fork.personaDeleteMessage(persona.name),
       centered: true,
       actionsBuilder: (pop) => [
         TextButton(onPressed: () => pop(false), child: Text(l10n.cancel)),
         TextButton(
           onPressed: () => pop(true),
           child: Text(
-            l10n.personaDeleteConfirm,
+            l10n.fork.personaDeleteConfirm,
             style: TextStyle(color: colors.textDanger),
           ),
         ),
@@ -166,7 +166,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
             .read(toastProvider.notifier)
             .show(
               FluxerToast(
-                message: l10n.personaDeletedToast,
+                message: l10n.fork.personaDeletedToast,
                 variant: FluxerToastVariant.success,
               ),
             );
@@ -231,7 +231,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
           FluxerSettingsSection(
             sectionId: 'persona-settings-mode',
             title: l10n.fork.personaSectionTitle,
-            description: l10n.personaSettingsDescription,
+            description: l10n.fork.personaSettingsDescription,
             isFirst: true,
             children: [
               FluxerRadioGroup<PersonaMode>(
@@ -263,13 +263,13 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
           // Section 2: System Display Tag
           FluxerSettingsSection(
             sectionId: 'persona-settings-display-tag',
-            title: l10n.personaDisplayTagSection,
-            description: l10n.personaDisplayTagDescription,
+            title: l10n.fork.personaDisplayTagSection,
+            description: l10n.fork.personaDisplayTagDescription,
             children: [
               FluxerInput(
                 controller: _tagTextController,
-                label: l10n.personaDisplayTagLabel,
-                hint: l10n.personaDisplayTagHint,
+                label: l10n.fork.personaDisplayTagLabel,
+                hint: l10n.fork.personaDisplayTagHint,
                 maxLength: 32,
                 onChanged: _onTagTextChanged,
               ),
@@ -277,7 +277,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
 
               // Display Tag Icon
               Text(
-                l10n.personaDisplayTagIconLabel,
+                l10n.fork.personaDisplayTagIconLabel,
                 style: textStyles.label.copyWith(color: colors.textPrimary),
               ),
               SizedBox(height: layout.s1_5),
@@ -309,7 +309,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     FluxerButton.secondary(
                       size: FluxerButtonSize.small,
                       fitContent: true,
-                      label: l10n.personaChangeTagIcon,
+                      label: l10n.fork.personaChangeTagIcon,
                       icon: PhosphorIconsBold.image,
                       isLoading: _isUploadingTagIcon,
                       onPressed: _isUploadingTagIcon ? null : _pickTagIcon,
@@ -317,7 +317,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     FluxerButton.ghost(
                       size: FluxerButtonSize.small,
                       fitContent: true,
-                      label: l10n.personaRemoveTagIcon,
+                      label: l10n.fork.personaRemoveTagIcon,
                       icon: PhosphorIconsBold.trash,
                       onPressed: _isUploadingTagIcon ? null : _removeTagIcon,
                     ),
@@ -325,7 +325,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     FluxerButton.primary(
                       size: FluxerButtonSize.small,
                       fitContent: true,
-                      label: l10n.personaUploadTagIcon,
+                      label: l10n.fork.personaUploadTagIcon,
                       icon: PhosphorIconsBold.uploadSimple,
                       isLoading: _isUploadingTagIcon,
                       onPressed: _isUploadingTagIcon ? null : _pickTagIcon,
@@ -347,7 +347,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.personaChatPreviewTitle.toUpperCase(),
+                      l10n.fork.personaChatPreviewTitle.toUpperCase(),
                       style: textStyles.smallText.copyWith(
                         color: colors.textPrimaryMuted,
                         fontWeight: FontWeight.bold,
@@ -403,7 +403,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                               ),
                               SizedBox(height: layout.s1),
                               Text(
-                                l10n.personaChatPreviewSampleMessage,
+                                l10n.fork.personaChatPreviewSampleMessage,
                                 style: textStyles.bodySmall.copyWith(
                                   color: colors.textSecondary,
                                 ),
@@ -422,11 +422,11 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
           // Section 3: Configured Personas List
           FluxerSettingsSection(
             sectionId: 'persona-settings-list',
-            title: '${l10n.personaListTitle} (${personas.length})',
+            title: '${l10n.fork.personaListTitle} (${personas.length})',
             titleTrailing: FluxerButton.primary(
               size: FluxerButtonSize.small,
               fitContent: true,
-              label: l10n.personaAddButton,
+              label: l10n.fork.personaAddButton,
               icon: PhosphorIconsBold.plus,
               onPressed: () => EditPersonaSheet.show(context),
             ),
@@ -466,7 +466,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                       FluxerButton.primary(
                         size: FluxerButtonSize.small,
                         fitContent: true,
-                        label: l10n.personaAddButton,
+                        label: l10n.fork.personaAddButton,
                         icon: PhosphorIconsBold.plus,
                         onPressed: () => EditPersonaSheet.show(context),
                       ),
@@ -631,7 +631,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                 FluxerButton.secondary(
                   size: FluxerButtonSize.small,
                   fitContent: true,
-                  label: l10n.personaActiveBadge,
+                  label: l10n.fork.personaActiveBadge,
                   icon: PhosphorIconsFill.lockSimple,
                   onPressed: () =>
                       ref.read(activePersonaProvider.notifier).unlatch(),
@@ -640,7 +640,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                 FluxerButton.secondary(
                   size: FluxerButtonSize.small,
                   fitContent: true,
-                  label: l10n.personaMakeActive,
+                  label: l10n.fork.personaMakeActive,
                   icon: PhosphorIconsBold.lockSimpleOpen,
                   onPressed: () => ref
                       .read(activePersonaProvider.notifier)
