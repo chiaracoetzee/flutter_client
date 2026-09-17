@@ -49,7 +49,7 @@ void main() {
   final List<Persona> personas = [alice, bob, bracketMan, doubleBracketMan, longAlice];
 
   group('PersonaMatcher', () {
-    test('matches prefix proxy tag and strips prefix', () {
+    test('matches prefix persona tag and strips prefix', () {
       final res = matchPersona('A: hello world', personas, null, false);
       expect(res.matched, isTrue);
       expect(res.persona?.id, alice.id);
@@ -57,7 +57,7 @@ void main() {
       expect(res.isFromTag, isTrue);
     });
 
-    test('matches suffix proxy tag and strips suffix', () {
+    test('matches suffix persona tag and strips suffix', () {
       final res = matchPersona('hello there -B', personas, null, false);
       expect(res.matched, isTrue);
       expect(res.persona?.id, bob.id);
