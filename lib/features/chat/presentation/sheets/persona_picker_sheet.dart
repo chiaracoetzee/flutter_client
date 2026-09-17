@@ -121,9 +121,6 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
       if (p.name.toLowerCase().contains(_query)) {
         return true;
       }
-      if (p.systemName?.toLowerCase().contains(_query) ?? false) {
-        return true;
-      }
       if (p.pronouns?.toLowerCase().contains(_query) ?? false) {
         return true;
       }
@@ -492,7 +489,7 @@ class _PersonaListTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Row 1: Name + System Name badge
+                  // Row 1: Name
                   Row(
                     children: [
                       Flexible(
@@ -505,28 +502,6 @@ class _PersonaListTile extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      if (persona.systemName != null &&
-                          persona.systemName!.isNotEmpty) ...[
-                        SizedBox(width: layout.s1),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 5,
-                            vertical: 1,
-                          ),
-                          decoration: BoxDecoration(
-                            color: colors.backgroundSecondaryLighter,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            '[${persona.systemName}]',
-                            style: textStyles.label.copyWith(
-                              color: colors.textSecondary,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
                     ],
                   ),
                   // Row 2: Pronouns + Tag Syntax
