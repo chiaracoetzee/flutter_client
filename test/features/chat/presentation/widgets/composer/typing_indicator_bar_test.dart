@@ -26,6 +26,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_dart/models/message_subprofile_response.dart';
+
 const String _kTyperUserId = 'user-1';
 
 late ProviderContainer container;
@@ -188,4 +192,30 @@ void main() {
     );
     container.read(typingIndicatorsProvider.notifier).clearAll();
   });
+
+  testWidgets(
+    'typing indicator renders persona name when subprofile is provided',
+    (WidgetTester tester) async {
+      await _pumpTypingIndicatorBar(tester, compact: false);
+      container.read(typingIndicatorsProvider.notifier).clearAll();
+      container
+          .read(typingIndicatorsProvider.notifier)
+          .addTyping(
+            'channel-1',
+            _kTyperUserId,
+            subprofile: const MessageSubprofileResponse(
+              id: 'persona-1',
+              name: 'Ruby Rose',
+              avatar: 'avatars/ruby.png',
+              avatarColor: 0xff0000,
+              displayTagText: 'ROSE',
+            ),
+          );
+      await tester.pump();
+
+      expect(find.textContaining('Ruby Rose'), findsOneWidget);
+      expect(find.textContaining('is typing'), findsOneWidget);
+      container.read(typingIndicatorsProvider.notifier).clearAll();
+    },
+  );
 }
