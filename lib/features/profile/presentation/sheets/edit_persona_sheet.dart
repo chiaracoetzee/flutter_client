@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -123,6 +126,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           (userId: '', personaId: widget.persona.id),
         ),
       );
+      unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
 
       ref.read(toastProvider.notifier).show(
         const FluxerToast(
