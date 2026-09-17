@@ -78,13 +78,13 @@
     "@personaEditTitle": {
         "description": "Title of the edit persona sheet."
     },
+    "personaCreateTitle": "Create Persona",
+    "@personaCreateTitle": {
+        "description": "Title of the create persona sheet."
+    },
     "personaDisplayNameLabel": "Display Name",
     "@personaDisplayNameLabel": {
         "description": "Form label for persona display name field."
-    },
-    "personaSystemTagLabel": "System Tag / Badge",
-    "@personaSystemTagLabel": {
-        "description": "Form label for persona system tag or badge field."
     },
     "personaPronounsLabel": "Pronouns",
     "@personaPronounsLabel": {
@@ -119,13 +119,13 @@
             }
         }
     },
+    "personaSectionTitle": "Personas",
+    "@personaSectionTitle": {
+        "description": "Title for the personas settings section."
+    },
     "personaDisplayNameHint": "Persona name",
     "@personaDisplayNameHint": {
         "description": "Hint text for persona display name input."
-    },
-    "personaSystemTagHint": "e.g. SYSTEM NAME",
-    "@personaSystemTagHint": {
-        "description": "Hint text for persona system tag or badge input."
     },
     "personaSendingAsTag": "Sending as {name} (Matched by tag)",
     "@personaSendingAsTag": {
