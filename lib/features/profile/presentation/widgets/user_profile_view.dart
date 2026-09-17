@@ -916,7 +916,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                 ),
                 SizedBox(height: layout.s4),
                 Text(
-                  'Main account',
+                  l10n.personaMainAccount,
                   style: textStyles.label.copyWith(
                     color: colors.textPrimary,
                     fontSize: 14,
@@ -997,7 +997,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   SizedBox(
                     width: double.infinity,
                     child: FluxerButton.primary(
-                      label: 'Edit persona',
+                      label: l10n.personaEditPersona,
                       icon: PhosphorIconsFill.pencil,
                       onPressed: () async {
                         final PublicPersona current = (publicPersona ??

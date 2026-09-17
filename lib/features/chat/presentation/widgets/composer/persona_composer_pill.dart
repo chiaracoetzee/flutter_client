@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
@@ -8,6 +10,7 @@ import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -32,6 +35,7 @@ class PersonaComposerPill extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
+    final l10n = FluxerLocalizations.of(context);
     final activeState = ref.watch(activePersonaProvider);
     final userSettings = ref.watch(userSettingsViewModelProvider);
 
@@ -62,10 +66,10 @@ class PersonaComposerPill extends ConsumerWidget {
         effectivePersona?.color ?? userSettings.avatarColor;
 
     final String tooltip = isFromTag && effectivePersona != null
-        ? 'Sending as ${effectivePersona.name} (Matched by tag)'
+        ? l10n.personaSendingAsTag(effectivePersona.name)
         : isLatched && effectivePersona != null
-            ? 'Sending as ${effectivePersona.name} (Latched)'
-            : 'Sending as @${userSettings.username}';
+            ? l10n.personaSendingAsLatched(effectivePersona.name)
+            : l10n.personaSendingAsRoot(userSettings.username);
 
     return Tooltip(
       message: tooltip,
@@ -73,7 +77,7 @@ class PersonaComposerPill extends ConsumerWidget {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           FluxerHaptics.light();
-          PersonaPickerSheet.show(context);
+          unawaited(PersonaPickerSheet.show(context));
         },
         child: Container(
           width: 34,
