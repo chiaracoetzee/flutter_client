@@ -17395,7 +17395,7 @@
     "@personaModeLast": {
         "description": "Label for Last Used mode in persona active mode selector."
     },
-    "personaModeOffDescription": "Sends as root account unless proxy tags are typed.",
+    "personaModeOffDescription": "Sends as root account unless persona tags are typed.",
     "@personaModeOffDescription": {
         "description": "Helper text explaining Off persona mode."
     },
@@ -17453,10 +17453,6 @@
     "@personaDisplayNameLabel": {
         "description": "Form label for persona display name field."
     },
-    "personaSystemTagLabel": "System Tag / Badge",
-    "@personaSystemTagLabel": {
-        "description": "Form label for persona system tag or badge field."
-    },
     "personaPronounsLabel": "Pronouns",
     "@personaPronounsLabel": {
         "description": "Form label for persona pronouns field."
@@ -17498,10 +17494,6 @@
     "@personaDisplayNameHint": {
         "description": "Hint text for persona display name input."
     },
-    "personaSystemTagHint": "e.g. SYSTEM NAME",
-    "@personaSystemTagHint": {
-        "description": "Hint text for persona system tag or badge input."
-    },
     "personaSendingAsTag": "Sending as {name} (Matched by tag)",
     "@personaSendingAsTag": {
         "description": "Tooltip when composer will send as persona matched by tag.",
@@ -17536,6 +17528,160 @@
     "personaEditPersona": "Edit persona",
     "@personaEditPersona": {
         "description": "Button to edit persona in persona profile card."
+    },
+    "userSettingsNavPersonas": "Personas",
+    "@userSettingsNavPersonas": {
+        "description": "Navigation item label for Personas in user settings."
+    },
+    "personaSettingsDescription": "Configure your active persona mode, custom display tag, and manage individual personas.",
+    "@personaSettingsDescription": {
+        "description": "Description at the top of the persona settings section."
+    },
+    "personaDisplayTagSection": "Display Tag",
+    "@personaDisplayTagSection": {
+        "description": "Header for display tag section in persona settings."
+    },
+    "personaDisplayTagDescription": "Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.",
+    "@personaDisplayTagDescription": {
+        "description": "Description explaining what the display tag does."
+    },
+    "personaDisplayTagLabel": "Display Tag Text",
+    "@personaDisplayTagLabel": {
+        "description": "Label for the display tag text input."
+    },
+    "personaDisplayTagHint": "e.g. SYS",
+    "@personaDisplayTagHint": {
+        "description": "Placeholder for the display tag text input."
+    },
+    "personaDisplayTagIconLabel": "Display Tag Icon",
+    "@personaDisplayTagIconLabel": {
+        "description": "Label for display tag icon upload in persona settings."
+    },
+    "personaUploadTagIcon": "Upload Icon",
+    "@personaUploadTagIcon": {
+        "description": "Button to upload an icon for the display tag."
+    },
+    "personaChangeTagIcon": "Change Icon",
+    "@personaChangeTagIcon": {
+        "description": "Button to change the display tag icon."
+    },
+    "personaRemoveTagIcon": "Remove Icon",
+    "@personaRemoveTagIcon": {
+        "description": "Button to remove the display tag icon."
+    },
+    "personaChatPreviewTitle": "Chat Preview",
+    "@personaChatPreviewTitle": {
+        "description": "Title of the live chat message preview card in persona settings."
+    },
+    "personaChatPreviewSampleMessage": "Hello! This is a preview of how messages look with your display tag and active persona.",
+    "@personaChatPreviewSampleMessage": {
+        "description": "Sample message body shown in the chat preview."
+    },
+    "personaListTitle": "Configured Personas",
+    "@personaListTitle": {
+        "description": "Title of the configured personas list in settings."
+    },
+    "personaAddButton": "Add Persona",
+    "@personaAddButton": {
+        "description": "Button to create a new persona in settings."
+    },
+    "personaActiveBadge": "Active",
+    "@personaActiveBadge": {
+        "description": "Badge indicating this persona is currently active."
+    },
+    "personaMakeActive": "Set Active",
+    "@personaMakeActive": {
+        "description": "Button to make this persona the active one."
+    },
+    "personaDeactivate": "Deactivate",
+    "@personaDeactivate": {
+        "description": "Button to unlatch or deactivate the current persona."
+    },
+    "personaDeleteTitle": "Delete Persona",
+    "@personaDeleteTitle": {
+        "description": "Title of confirmation dialog when deleting a persona."
+    },
+    "personaDeleteMessage": "Are you sure you want to delete \"{name}\"? This cannot be undone.",
+    "@personaDeleteMessage": {
+        "description": "Confirmation message when deleting a persona.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "personaDeleteConfirm": "Delete",
+    "@personaDeleteConfirm": {
+        "description": "Confirmation button to delete a persona."
+    },
+    "personaDeletedToast": "Persona deleted",
+    "@personaDeletedToast": {
+        "description": "Toast shown after deleting a persona."
+    },
+    "personaCreatedToast": "Persona created",
+    "@personaCreatedToast": {
+        "description": "Toast shown after successfully creating a new persona."
+    },
+    "personaCreateFailedToast": "Failed to create persona: {error}",
+    "@personaCreateFailedToast": {
+        "description": "Toast shown when persona creation fails.",
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "personaAvatarLabel": "Avatar",
+    "@personaAvatarLabel": {
+        "description": "Label for persona avatar uploader in form."
+    },
+    "personaChangeAvatar": "Change Avatar",
+    "@personaChangeAvatar": {
+        "description": "Button to change persona avatar."
+    },
+    "personaRemoveAvatar": "Remove Avatar",
+    "@personaRemoveAvatar": {
+        "description": "Button to remove persona avatar."
+    },
+    "personaUploadAvatar": "Upload Avatar",
+    "@personaUploadAvatar": {
+        "description": "Button to upload persona avatar."
+    },
+    "personaTagsLabel": "Persona Tags",
+    "@personaTagsLabel": {
+        "description": "Label for persona tags section in persona form."
+    },
+    "personaTagPrefixLabel": "Prefix",
+    "@personaTagPrefixLabel": {
+        "description": "Label for tag prefix input."
+    },
+    "personaTagSuffixLabel": "Suffix",
+    "@personaTagSuffixLabel": {
+        "description": "Label for tag suffix input."
+    },
+    "personaAutoTagLabel": "Disable auto-tagging",
+    "@personaAutoTagLabel": {
+        "description": "Toggle to disable auto-tagging for persona."
+    },
+    "personaAutoTagDescription": "Prevent messages from automatically matching these tags.",
+    "@personaAutoTagDescription": {
+        "description": "Description for auto-tag disable toggle."
+    },
+    "personaVisibilityLabel": "Visibility",
+    "@personaVisibilityLabel": {
+        "description": "Label for persona visibility selector."
+    },
+    "personaVisibilityUnlisted": "Unlisted",
+    "@personaVisibilityUnlisted": {
+        "description": "Label for unlisted visibility option."
+    },
+    "personaVisibilityPublic": "Public",
+    "@personaVisibilityPublic": {
+        "description": "Label for public visibility option."
+    },
+    "personaVisibilityPrivate": "Private",
+    "@personaVisibilityPrivate": {
+        "description": "Label for private visibility option."
     }
 }
 
