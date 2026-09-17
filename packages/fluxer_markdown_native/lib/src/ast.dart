@@ -260,7 +260,10 @@ sealed class MdMentionKind {
   factory MdMentionKind.fromJson(Map<String, Object?> json) {
     final kind = json['kind']! as String;
     return switch (kind) {
-      'User' => MdUserMention(json['id']! as String),
+      'User' => MdUserMention(
+        json['id']! as String,
+        personaId: json['personaId'] as String?,
+      ),
       'Channel' => MdChannelMention(json['id']! as String),
       'Role' => MdRoleMention(json['id']! as String),
       'Command' => MdCommandMention(
@@ -284,8 +287,9 @@ sealed class MdMentionKind {
 }
 
 final class MdUserMention extends MdMentionKind {
-  const MdUserMention(this.id);
+  const MdUserMention(this.id, {this.personaId});
   final String id;
+  final String? personaId;
 }
 
 final class MdChannelMention extends MdMentionKind {
