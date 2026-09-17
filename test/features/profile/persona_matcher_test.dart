@@ -30,6 +30,14 @@ void main() {
     ],
   );
 
+  const doubleBracketMan = Persona(
+    id: 'persona_double_bracket',
+    name: 'DoubleBracketMan',
+    personaTags: [
+      PersonaTag(prefix: '[[', suffix: ']]'),
+    ],
+  );
+
   const longAlice = Persona(
     id: 'persona_alice_long',
     name: 'AliceLong',
@@ -38,7 +46,7 @@ void main() {
     ],
   );
 
-  final List<Persona> personas = [alice, bob, bracketMan, longAlice];
+  final List<Persona> personas = [alice, bob, bracketMan, doubleBracketMan, longAlice];
 
   group('PersonaMatcher', () {
     test('matches prefix proxy tag and strips prefix', () {
@@ -216,6 +224,57 @@ void main() {
       final preview = previewPersona('just typing', personas, null, false);
       expect(preview.persona, isNull);
       expect(preview.isFromTag, isFalse);
+    });
+
+    test('prefers DoubleBracketMan over BracketMan in preview and match', () {
+      // previewPersona with message
+      final previewMsg = previewPersona('[[Hello]]', personas, null, false);
+      expect(previewMsg.persona?.id, doubleBracketMan.id);
+      expect(previewMsg.isFromTag, isTrue);
+
+      // matchPersona with message
+      final matchMsg = matchPersona('[[Hello]]', personas, null, false);
+      expect(matchMsg.matched, isTrue);
+      expect(matchMsg.persona?.id, doubleBracketMan.id);
+      expect(matchMsg.strippedContent, 'Hello');
+
+      // previewPersona with empty tag
+      final previewEmpty = previewPersona('[[]]', personas, null, false);
+      expect(previewEmpty.persona?.id, doubleBracketMan.id);
+      expect(previewEmpty.isFromTag, isTrue);
+
+      // previewPersona with space
+      final previewSpace = previewPersona('[[  ]]', personas, null, false);
+      expect(previewSpace.persona?.id, doubleBracketMan.id);
+      expect(previewSpace.isFromTag, isTrue);
+
+      // matchPersona with attachments and empty tags
+      final matchAttach = matchPersona('[[]]', personas, null, true);
+      expect(matchAttach.matched, isTrue);
+      expect(matchAttach.persona?.id, doubleBracketMan.id);
+      expect(matchAttach.strippedContent, isEmpty);
+    });
+
+    test('breaks ties by longer prefix when total length is equal', () {
+      const p1 = Persona(
+        id: 'p_prefix2',
+        name: 'PrefixTwo',
+        personaTags: [PersonaTag(prefix: '##')], // totalLen = 2, prefixLen = 2
+      );
+      const p2 = Persona(
+        id: 'p_wrap1',
+        name: 'WrapOne',
+        personaTags: [PersonaTag(prefix: '#', suffix: '#')], // totalLen = 2, prefixLen = 1
+      );
+      final tiePersonas = [p2, p1];
+
+      // Input '##hello#' could match p1 (prefix '##') with remainder 'hello#'
+      // or p2 (prefix '#', suffix '#') with remainder '#hello'
+      // Both have totalLen = 2, but p1 has prefixLen = 2 vs p2's prefixLen = 1
+      final res = matchPersona('##hello#', tiePersonas, null, false);
+      expect(res.matched, isTrue);
+      expect(res.persona?.id, p1.id);
+      expect(res.strippedContent, 'hello#');
     });
   });
 }
