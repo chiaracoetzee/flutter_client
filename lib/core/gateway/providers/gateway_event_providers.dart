@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_dart/models/message_subprofile_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'gateway_event_providers.g.dart';
@@ -142,6 +143,7 @@ const Duration kTypingExpiry = Duration(seconds: 10);
 @Riverpod(keepAlive: true)
 class TypingIndicators extends _$TypingIndicators {
   Timer? _expiryTimer;
+  final Map<String, Map<String, MessageSubprofileResponse>> _subprofiles = {};
 
   @override
   Map<String, Map<String, DateTime>> build() {
@@ -149,7 +151,11 @@ class TypingIndicators extends _$TypingIndicators {
     return const <String, Map<String, DateTime>>{};
   }
 
-  void addTyping(String channelId, String userId) {
+  void addTyping(
+    String channelId,
+    String userId, {
+    MessageSubprofileResponse? subprofile,
+  }) {
     final DateTime expiresAt = clock.now().add(kTypingExpiry);
     final Map<String, Map<String, DateTime>> next =
         Map<String, Map<String, DateTime>>.from(state);
@@ -158,11 +164,26 @@ class TypingIndicators extends _$TypingIndicators {
     );
     channelEntries[userId] = expiresAt;
     next[channelId] = channelEntries;
+
+    if (subprofile != null) {
+      _subprofiles.putIfAbsent(channelId, () => <String, MessageSubprofileResponse>{})[userId] = subprofile;
+    } else {
+      _subprofiles[channelId]?.remove(userId);
+      if (_subprofiles[channelId]?.isEmpty ?? false) {
+        _subprofiles.remove(channelId);
+      }
+    }
+
     state = next;
     _scheduleExpiry(clock.now());
   }
 
   void removeTyping(String channelId, String userId) {
+    _subprofiles[channelId]?.remove(userId);
+    if (_subprofiles[channelId]?.isEmpty ?? false) {
+      _subprofiles.remove(channelId);
+    }
+
     final Map<String, DateTime>? existing = state[channelId];
     if (existing == null || !existing.containsKey(userId)) {
       return;
@@ -184,8 +205,12 @@ class TypingIndicators extends _$TypingIndicators {
   void clearAll() {
     _expiryTimer?.cancel();
     _expiryTimer = null;
+    _subprofiles.clear();
     state = const <String, Map<String, DateTime>>{};
   }
+
+  MessageSubprofileResponse? getSubprofile(String channelId, String userId) =>
+      _subprofiles[channelId]?[userId];
 
   void _scheduleExpiry(DateTime now) {
     _expiryTimer?.cancel();
@@ -210,6 +235,14 @@ class TypingIndicators extends _$TypingIndicators {
   void _pruneExpired() {
     _expiryTimer = null;
     final DateTime now = clock.now();
+    _subprofiles.forEach((String chId, Map<String, MessageSubprofileResponse> entries) {
+      entries.removeWhere((String uId, _) {
+        final DateTime? exp = state[chId]?[uId];
+        return exp == null || !exp.isAfter(now);
+      });
+    });
+    _subprofiles.removeWhere((_, entries) => entries.isEmpty);
+
     Map<String, Map<String, DateTime>>? next;
     state.forEach((String channelId, Map<String, DateTime> entries) {
       if (!entries.values.any((DateTime e) => !e.isAfter(now))) {
@@ -232,6 +265,20 @@ class TypingIndicators extends _$TypingIndicators {
     _scheduleExpiry(now);
   }
 }
+
+/// Returns the active typing subprofile for a user in a channel if any.
+// ignore: specify_nonobvious_property_types
+final channelTypingSubprofileProvider =
+    Provider.family<MessageSubprofileResponse?, (String channelId, String userId)>(
+  (Ref ref, (String channelId, String userId) args) {
+    ref.watch(
+      typingIndicatorsProvider.select((m) => m[args.$1]?[args.$2]),
+    );
+    return ref
+        .read(typingIndicatorsProvider.notifier)
+        .getSubprofile(args.$1, args.$2);
+  },
+);
 
 /// Tracks voice state per gateway [VoiceState.connectionId] (or a synthetic key
 /// when [VoiceState.connectionId] is null) so the same user can have multiple
