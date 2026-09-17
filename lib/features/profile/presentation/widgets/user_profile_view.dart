@@ -80,11 +80,13 @@ class UserProfileView extends ConsumerStatefulWidget {
     this.useCurrentUserCache = false,
     this.showTopHandle = false,
     this.isWebhook = false,
+    this.personaId,
     this.message,
     super.key,
   });
 
   final String userId;
+  final String? personaId;
   final String? guildId;
   final bool autoFocusNote;
   final ScrollController scrollController;
@@ -725,33 +727,37 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     );
   }
 
-  Widget _buildPersonaProfile(BuildContext context, Message message) {
+  Widget _buildPersonaProfile(BuildContext context, Message? message) {
     final colors = context.colors;
     final layout = context.layout;
     final textStyles = context.textStyles;
     final l10n = FluxerLocalizations.of(context);
 
+    final String effectivePersonaId =
+        widget.personaId ?? message?.personaId ?? '';
+    final String effectiveUserId = message?.authorId ?? widget.userId;
+
     final AsyncValue<PublicPersona?> publicPersonaAsync =
-        (message.personaId != null && message.personaId!.isNotEmpty)
+        effectivePersonaId.isNotEmpty
             ? ref.watch(
                 publicPersonaProvider(
-                  (userId: message.authorId, personaId: message.personaId!),
+                  (userId: effectiveUserId, personaId: effectivePersonaId),
                 ),
               )
             : const AsyncValue<PublicPersona?>.data(null);
     final PublicPersona? publicPersona = publicPersonaAsync.value;
 
     final AsyncValue<UserProfileFullResponse?> rootProfileAsync = ref.watch(
-      userProfileProvider(userId: message.authorId, guildId: widget.guildId),
+      userProfileProvider(userId: effectiveUserId, guildId: widget.guildId),
     );
     final UserProfileFullResponse? rootProfile = rootProfileAsync.value;
 
     final String displayName =
-        publicPersona?.name ?? message.personaName ?? message.authorName;
+        publicPersona?.name ?? message?.personaName ?? rootProfile?.user.globalName ?? rootProfile?.user.username ?? message?.authorName ?? '';
     final String? personaAvatarUrl =
-        publicPersona?.avatarUrl ?? message.personaAvatar;
+        publicPersona?.avatarUrl ?? message?.personaAvatar;
     final String? personaTag =
-        message.personaTag ?? publicPersona?.systemName;
+        message?.personaTag ?? publicPersona?.systemName;
     final String? personaBio = publicPersona?.bio;
     final String? pronouns = publicPersona?.pronouns;
     final int? personaColor = publicPersona?.color;
@@ -759,17 +765,18 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final String rootDisplayName = rootProfile?.guildMember?.nick ??
         rootProfile?.user.globalName ??
         rootProfile?.user.username ??
-        message.authorName;
+        message?.authorName ??
+        '';
     final String rootUsername =
-        rootProfile?.user.username ?? message.authorName;
+        rootProfile?.user.username ?? message?.authorName ?? '';
     final String? rootAvatarUrl = rootProfile?.user.avatar != null
         ? FluxerMediaUrl.userAvatar(
-            userId: message.authorId,
+            userId: effectiveUserId,
             hash: rootProfile!.user.avatar!,
           )
-        : message.authorAvatar;
+        : message?.authorAvatar;
     final int? rootAvatarColor =
-        rootProfile?.user.avatarColor ?? message.authorAvatarColor;
+        rootProfile?.user.avatarColor ?? message?.authorAvatarColor;
 
     final Color bannerColor = personaColor != null && personaColor != 0
         ? Color(personaColor | 0xFF000000)
@@ -780,7 +787,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           );
 
     final String ownUserId = ref.watch(userSettingsViewModelProvider).userId;
-    final bool isCurrentUser = ownUserId == message.authorId;
+    final bool isCurrentUser = ownUserId == effectiveUserId;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -843,7 +850,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         ),
                       ),
                       child: FluxerAvatar.user(
-                        userId: message.authorId,
+                        userId: effectiveUserId,
                         imageUrl: personaAvatarUrl,
                         fallbackText: displayName,
                         avatarColor: rootAvatarColor,
@@ -938,7 +945,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     unawaited(
                       FluxerUserProfileSheet.show(
                         context,
-                        userId: message.authorId,
+                        userId: effectiveUserId,
                         guildId: widget.guildId,
                       ),
                     );
@@ -955,7 +962,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     child: Row(
                       children: [
                         FluxerAvatar.user(
-                          userId: message.authorId,
+                          userId: effectiveUserId,
                           imageUrl: rootAvatarUrl,
                           fallbackText: rootDisplayName,
                           avatarColor: rootAvatarColor,
@@ -1008,7 +1015,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       onPressed: () async {
                         final PublicPersona current = publicPersona ??
                             PublicPersona(
-                              id: message.personaId ?? '',
+                              id: effectivePersonaId,
                               name: displayName,
                               avatarUrl: personaAvatarUrl,
                               pronouns: pronouns,
@@ -1024,8 +1031,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                           ref.invalidate(
                             publicPersonaProvider(
                               (
-                                userId: message.authorId,
-                                personaId: message.personaId ?? '',
+                                userId: effectiveUserId,
+                                personaId: effectivePersonaId,
                               ),
                             ),
                           );
@@ -1040,7 +1047,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       label: l10n.userProfileMessage,
                       icon: PhosphorIconsFill.chatTeardrop,
                       onPressed: () => _handleMessage(
-                        message.authorId,
+                        effectiveUserId,
                         false,
                         rootDisplayName,
                       ),
@@ -1059,8 +1066,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     if (widget.isWebhook) {
       return _buildWebhookProfile(context);
     }
-    if (widget.message?.isPersona ?? false) {
-      return _buildPersonaProfile(context, widget.message!);
+    if ((widget.personaId != null && widget.personaId!.isNotEmpty) ||
+        (widget.message?.isPersona ?? false)) {
+      return _buildPersonaProfile(context, widget.message);
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final AsyncValue<Friend?> relationshipAsync = ref.watch(
