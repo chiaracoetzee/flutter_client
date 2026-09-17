@@ -10,13 +10,41 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 
-String _composerMentionUserLabel(WidgetRef ref, String userId) {
+String _composerMentionUserLabel(
+  WidgetRef ref,
+  String userId, {
+  String? personaId,
+}) {
+  if (personaId != null && personaId.isNotEmpty) {
+    final myPersonas = ref.read(myPersonasProvider).asData?.value;
+    if (myPersonas != null) {
+      for (final p in myPersonas) {
+        if (p.id == personaId) {
+          return p.name;
+        }
+      }
+    }
+    final publicPersona = ref.read(
+      publicPersonaProvider((userId: userId, personaId: personaId)),
+    ).value;
+    if (publicPersona != null) {
+      return publicPersona.name;
+    }
+    final messages = ref.read(chatViewModelProvider).messages;
+    for (final m in messages) {
+      if (m.personaId == personaId && (m.personaName?.isNotEmpty ?? false)) {
+        return m.personaName!;
+      }
+    }
+  }
   final String channelId = ref.read(chatViewModelProvider).channelId;
   if (channelId.isEmpty) {
     return shortMentionWireIdFallback(userId);
@@ -215,12 +243,23 @@ class ComposerMentionController extends InlineTokenTextEditingController {
           ),
         );
       } else if (userId != null) {
+        final int colonIdx = userId.indexOf(':');
+        final String cleanUserId;
+        final String? personaId;
+        if (colonIdx != -1) {
+          cleanUserId = userId.substring(0, colonIdx);
+          personaId = userId.substring(colonIdx + 1);
+        } else {
+          cleanUserId = userId;
+          personaId = null;
+        }
+        final String wire = personaId != null ? '<@$cleanUserId:$personaId>' : '<@$cleanUserId>';
         display.write(
           allocate(
             MentionInlineToken(
-              wireText: '<@$userId>',
+              wireText: wire,
               resolveVisibleText: () =>
-                  '@${_composerMentionUserLabel(_ref, userId)}',
+                  '@${_composerMentionUserLabel(_ref, cleanUserId, personaId: personaId)}',
             ),
           ),
         );
@@ -249,15 +288,19 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     required int matchStart,
     required int matchEnd,
     required String userId,
+    String? personaId,
     String? displayName,
   }) {
+    final String wireText = (personaId != null && personaId.isNotEmpty)
+        ? '<@$userId:$personaId>'
+        : '<@$userId>';
     replaceRangeWithToken(
       matchStart,
       matchEnd,
       MentionInlineToken(
-        wireText: '<@$userId>',
+        wireText: wireText,
         resolveVisibleText: () =>
-            '@${displayName ?? _composerMentionUserLabel(_ref, userId)}',
+            '@${displayName ?? _composerMentionUserLabel(_ref, userId, personaId: personaId)}',
       ),
       ensureTrailingSpace: true,
     );
