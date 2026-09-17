@@ -14499,233 +14499,235 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get personaSelectTitle => 'Select Persona';
+  String get personaSelectTitle => 'Επιλογή persona';
 
   @override
-  String get personaSettingsHeader => 'Persona Settings';
+  String get personaSettingsHeader => 'Ρυθμίσεις persona';
 
   @override
-  String get personaManageAction => 'Manage';
+  String get personaManageAction => 'Διαχείριση';
 
   @override
-  String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
+  String get personaSearchPlaceholder =>
+      'Αναζήτηση persona, ετικετών, αντωνυμιών...';
 
   @override
-  String get personaModeOff => 'Off';
+  String get personaModeOff => 'Ανενεργό';
 
   @override
-  String get personaModeManual => 'Manual';
+  String get personaModeManual => 'Μη αυτόματα';
 
   @override
-  String get personaModeLast => 'Last Used';
+  String get personaModeLast => 'Τελευταία χρήση';
 
   @override
   String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
+      'Αποστέλλεται από τον κύριο λογαριασμό εκτός εάν πληκτρολογηθούν ετικέτες persona.';
 
   @override
   String get personaModeManualDescription =>
-      'Always sends as selected persona until changed.';
+      'Αποστέλλεται πάντα ως η επιλεγμένη persona μέχρι να αλλάξει.';
 
   @override
   String get personaModeLastDescription =>
-      'Auto-switches to the persona used in your last message.';
+      'Μεταβαίνει αυτόματα στην persona που χρησιμοποιήθηκε στο τελευταίο σας μήνυμα.';
 
   @override
-  String get personaRecentHeader => 'RECENT PERSONAS';
+  String get personaRecentHeader => 'ΠΡΟΣΦΑΤΕΣ PERSONA';
 
   @override
   String personaAllHeader(int count) {
-    return 'ALL PERSONAS ($count)';
+    return 'ΟΛΕΣ ΟΙ PERSONA ($count)';
   }
 
   @override
   String personaSearchResultsHeader(int count) {
-    return 'SEARCH RESULTS ($count)';
+    return 'ΑΠΟΤΕΛΕΣΜΑΤΑ ΑΝΑΖΗΤΗΣΗΣ ($count)';
   }
 
   @override
-  String get personaRootAccountLabel => 'Root Account (Default)';
+  String get personaRootAccountLabel => 'Κύριος λογαριασμός (Προεπιλογή)';
 
   @override
   String get personaEmptyState =>
-      'No personas configured yet. Create one via Manage Personas.';
+      'Δεν έχουν ρυθμιστεί ακόμη persona. Δημιουργήστε μία μέσω της Διαχείρισης persona.';
 
   @override
-  String get personaEmptySearch => 'No matching personas found.';
+  String get personaEmptySearch => 'Δεν βρέθηκαν αντίστοιχες persona.';
 
   @override
-  String get personaEditTitle => 'Edit Persona';
+  String get personaEditTitle => 'Επεξεργασία persona';
 
   @override
-  String get personaCreateTitle => 'Create Persona';
+  String get personaCreateTitle => 'Δημιουργία persona';
 
   @override
-  String get personaDisplayNameLabel => 'Display Name';
+  String get personaDisplayNameLabel => 'Όνομα εμφάνισης';
 
   @override
-  String get personaPronounsLabel => 'Pronouns';
+  String get personaPronounsLabel => 'Αντωνυμίες';
 
   @override
-  String get personaPronounsHint => 'e.g. they/them';
+  String get personaPronounsHint => 'π.χ. αυτοί/αυτές';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'Βιογραφικό / Σχετικά με εμένα';
 
   @override
-  String get personaBioHint => 'Tell others about this persona...';
+  String get personaBioHint => 'Πείτε στους άλλους για αυτήν την persona...';
 
   @override
-  String get personaSaveChanges => 'Save Changes';
+  String get personaSaveChanges => 'Αποθήκευση αλλαγών';
 
   @override
-  String get personaUpdatedToast => 'Persona updated';
+  String get personaUpdatedToast => 'Η persona ενημερώθηκε';
 
   @override
   String personaUpdateFailedToast(String error) {
-    return 'Failed to update persona: $error';
+    return 'Αποτυχία ενημέρωσης persona: $error';
   }
 
   @override
-  String get personaSectionTitle => 'Personas';
+  String get personaSectionTitle => 'Persona';
 
   @override
-  String get personaDisplayNameHint => 'Persona name';
+  String get personaDisplayNameHint => 'Όνομα persona';
 
   @override
   String personaSendingAsTag(String name) {
-    return 'Sending as $name (Matched by tag)';
+    return 'Αποστολή ως $name (Ταιριάζει με ετικέτα)';
   }
 
   @override
   String personaSendingAsLatched(String name) {
-    return 'Sending as $name (Latched)';
+    return 'Αποστολή ως $name (Κλειδωμένο)';
   }
 
   @override
   String personaSendingAsRoot(String username) {
-    return 'Sending as @$username';
+    return 'Αποστολή ως @$username';
   }
 
   @override
-  String get personaMainAccount => 'Main account';
+  String get personaMainAccount => 'Κύριος λογαριασμός';
 
   @override
-  String get personaEditPersona => 'Edit persona';
+  String get personaEditPersona => 'Επεξεργασία persona';
 
   @override
-  String get userSettingsNavPersonas => 'Personas';
+  String get userSettingsNavPersonas => 'Persona';
 
   @override
   String get personaSettingsDescription =>
-      'Configure your active persona mode, custom display tag, and manage individual personas.';
+      'Ρυθμίστε τη λειτουργία ενεργής persona, την προσαρμοσμένη ετικέτα εμφάνισης και διαχειριστείτε μεμονωμένες persona.';
 
   @override
-  String get personaDisplayTagSection => 'Display Tag';
+  String get personaDisplayTagSection => 'Ετικέτα εμφάνισης';
 
   @override
   String get personaDisplayTagDescription =>
-      'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.';
+      'Η ετικέτα εμφάνισης θα εμφανίζεται δίπλα σε όλα τα ονόματα persona στα μηνύματα. Αν δεν οριστεί ετικέτα εμφάνισης, θα εμφανίζεται η εικόνα προφίλ του λογαριασμού σας.';
 
   @override
-  String get personaDisplayTagLabel => 'Display Tag Text';
+  String get personaDisplayTagLabel => 'Κείμενο ετικέτας εμφάνισης';
 
   @override
-  String get personaDisplayTagHint => 'e.g. SYS';
+  String get personaDisplayTagHint => 'π.χ. SYS';
 
   @override
-  String get personaDisplayTagIconLabel => 'Display Tag Icon';
+  String get personaDisplayTagIconLabel => 'Εικονίδιο ετικέτας εμφάνισης';
 
   @override
-  String get personaUploadTagIcon => 'Upload Icon';
+  String get personaUploadTagIcon => 'Ανέβασμα εικονιδίου';
 
   @override
-  String get personaChangeTagIcon => 'Change Icon';
+  String get personaChangeTagIcon => 'Αλλαγή εικονιδίου';
 
   @override
-  String get personaRemoveTagIcon => 'Remove Icon';
+  String get personaRemoveTagIcon => 'Αφαίρεση εικονιδίου';
 
   @override
-  String get personaChatPreviewTitle => 'Chat Preview';
+  String get personaChatPreviewTitle => 'Προεπισκόπηση συνομιλίας';
 
   @override
   String get personaChatPreviewSampleMessage =>
-      'Hello! This is a preview of how messages look with your display tag and active persona.';
+      'Γεια σας! Αυτή είναι μια προεπισκόπηση του πώς φαίνονται τα μηνύματα με την ετικέτα εμφάνισης και την ενεργή persona σας.';
 
   @override
-  String get personaListTitle => 'Configured Personas';
+  String get personaListTitle => 'Διαμορφωμένες persona';
 
   @override
-  String get personaAddButton => 'Add Persona';
+  String get personaAddButton => 'Προσθήκη persona';
 
   @override
-  String get personaActiveBadge => 'Active';
+  String get personaActiveBadge => 'Ενεργό';
 
   @override
-  String get personaMakeActive => 'Set Active';
+  String get personaMakeActive => 'Ορισμός ως ενεργό';
 
   @override
-  String get personaDeactivate => 'Deactivate';
+  String get personaDeactivate => 'Απενεργοποίηση';
 
   @override
-  String get personaDeleteTitle => 'Delete Persona';
+  String get personaDeleteTitle => 'Διαγραφή persona';
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'Είστε σίγουροι ότι θέλετε να διαγράψετε το \"$name\"; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
   }
 
   @override
-  String get personaDeleteConfirm => 'Delete';
+  String get personaDeleteConfirm => 'Διαγραφή';
 
   @override
-  String get personaDeletedToast => 'Persona deleted';
+  String get personaDeletedToast => 'Η persona διαγράφηκε';
 
   @override
-  String get personaCreatedToast => 'Persona created';
+  String get personaCreatedToast => 'Η persona δημιουργήθηκε';
 
   @override
   String personaCreateFailedToast(String error) {
-    return 'Failed to create persona: $error';
+    return 'Αποτυχία δημιουργίας persona: $error';
   }
 
   @override
-  String get personaAvatarLabel => 'Avatar';
+  String get personaAvatarLabel => 'Εικόνα προφίλ';
 
   @override
-  String get personaChangeAvatar => 'Change Avatar';
+  String get personaChangeAvatar => 'Αλλαγή εικόνας προφίλ';
 
   @override
-  String get personaRemoveAvatar => 'Remove Avatar';
+  String get personaRemoveAvatar => 'Αφαίρεση εικόνας προφίλ';
 
   @override
-  String get personaUploadAvatar => 'Upload Avatar';
+  String get personaUploadAvatar => 'Ανέβασμα εικόνας προφίλ';
 
   @override
-  String get personaTagsLabel => 'Persona Tags';
+  String get personaTagsLabel => 'Ετικέτες persona';
 
   @override
-  String get personaTagPrefixLabel => 'Prefix';
+  String get personaTagPrefixLabel => 'Πρόθεμα';
 
   @override
-  String get personaTagSuffixLabel => 'Suffix';
+  String get personaTagSuffixLabel => 'Επίθημα';
 
   @override
-  String get personaAutoTagLabel => 'Disable auto-tagging';
+  String get personaAutoTagLabel =>
+      'Απενεργοποίηση αυτόματης αντιστοίχισης ετικετών';
 
   @override
   String get personaAutoTagDescription =>
-      'Prevent messages from automatically matching these tags.';
+      'Αποτροπή της αυτόματης αντιστοίχισης μηνυμάτων με αυτές τις ετικέτες.';
 
   @override
-  String get personaVisibilityLabel => 'Visibility';
+  String get personaVisibilityLabel => 'Ορατότητα';
 
   @override
-  String get personaVisibilityUnlisted => 'Unlisted';
+  String get personaVisibilityUnlisted => 'Μη καταχωρισμένο';
 
   @override
-  String get personaVisibilityPublic => 'Public';
+  String get personaVisibilityPublic => 'Δημόσιο';
 
   @override
-  String get personaVisibilityPrivate => 'Private';
+  String get personaVisibilityPrivate => 'Ιδιωτικό';
 }
