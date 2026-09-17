@@ -24,7 +24,6 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
 import 'package:fluxer_app/features/bookmarks/providers/saved_messages_provider.dart';
-import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
@@ -49,6 +48,8 @@ import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart'
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
@@ -558,6 +559,17 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onEntranceSoundPlay: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
+    }),
+    onUserPersonasUpdate: (eventType, data) => ifMounted(() {
+      talker.info('[Gateway] Received $eventType, reloading personas');
+      unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+      if (data is Map) {
+        final id = data['persona_id'] ??
+            (data['persona'] is Map ? data['persona']['id'] : data['id']);
+        if (id is String && id.isNotEmpty) {
+          ref.invalidate(publicPersonaProvider((userId: '', personaId: id)));
+        }
+      }
     }),
     resolveParentThreadActor: (String guildId, String parentId) => ref.mounted
         // One-off snapshot; read does not retain the autoDispose family.
