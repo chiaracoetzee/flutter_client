@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 
@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_sto
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wire_codec.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -194,6 +195,18 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
     }
   }
 
+  void syncFromSettings({
+    required PersonaMode mode,
+    required String? activeId,
+    required bool isLatched,
+  }) {
+    state = state.copyWith(
+      mode: mode,
+      activePersonaId: () => activeId,
+      isLatched: isLatched,
+    );
+  }
+
   Future<void> setMode(PersonaMode mode) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_kPrefMode, mode.toPrefString());
@@ -218,6 +231,18 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
       await prefs.setBool(_kPrefLatched, latched);
       state = state.copyWith(mode: mode, isLatched: latched);
     }
+
+    try {
+      unawaited(
+        ref
+            .read(personaSettingsProvider.notifier)
+            .updateSettings(
+              activePersonaMode: mode.toPrefString(),
+              activePersonaId: mode == PersonaMode.off ? () => null : null,
+              isLatched: mode == PersonaMode.off ? false : null,
+            ),
+      );
+    } catch (_) {}
   }
 
   Future<void> setActivePersona(
@@ -246,6 +271,18 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
       activePersonaId: () => id != null && id.isNotEmpty ? id : null,
       isLatched: id != null && id.isNotEmpty && latch,
     );
+
+    try {
+      unawaited(
+        ref
+            .read(personaSettingsProvider.notifier)
+            .updateSettings(
+              activePersonaId: () => id != null && id.isNotEmpty ? id : null,
+              isLatched: id != null && id.isNotEmpty && latch,
+              activePersonaMode: effectiveMode.toPrefString(),
+            ),
+      );
+    } catch (_) {}
   }
 
   Future<void> unlatch({bool preserveMode = false}) async {
@@ -264,6 +301,18 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
       activePersonaId: () => null,
       isLatched: false,
     );
+
+    try {
+      unawaited(
+        ref
+            .read(personaSettingsProvider.notifier)
+            .updateSettings(
+              isLatched: false,
+              activePersonaId: () => null,
+              activePersonaMode: newMode.toPrefString(),
+            ),
+      );
+    } catch (_) {}
   }
 
   Future<void> recordUsage(String personaId) async {
@@ -451,9 +500,134 @@ class SystemDisplayTagNotifier extends Notifier<SystemDisplayTag> {
       _saveToPrefs(parsed.text, parsed.iconUrl);
     }
   }
+
+  void syncFromSettings({required String? text, required String? iconUrl}) {
+    state = SystemDisplayTag(text: text, iconUrl: iconUrl);
+    _saveToPrefs(text, iconUrl);
+  }
+
+  Future<void> updateDisplayTag(String? text, String? iconUrl) async {
+    state = SystemDisplayTag(text: text, iconUrl: iconUrl);
+    await _saveToPrefs(text, iconUrl);
+    await ref
+        .read(personaSettingsProvider.notifier)
+        .updateSettings(
+          displayTagText: text ?? '',
+          displayTagIcon: () => iconUrl,
+        );
+  }
 }
 
 final systemDisplayTagProvider =
     NotifierProvider<SystemDisplayTagNotifier, SystemDisplayTag>(
       SystemDisplayTagNotifier.new,
+    );
+
+// -----------------------------------------------------------------------------
+// PersonaSettingsNotifier & Provider
+// -----------------------------------------------------------------------------
+
+class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
+  @override
+  AsyncValue<PersonaSettings> build() {
+    _loadSettings();
+    return const AsyncValue.loading();
+  }
+
+  Future<void> _loadSettings() async {
+    try {
+      final Dio dio = ref.read(fluxerDioProvider);
+      final Response<dynamic> response = await dio.get<dynamic>(
+        '/users/@me/personas/settings',
+      );
+      final dynamic data = response.data;
+      if (data is Map<String, dynamic>) {
+        final settings = PersonaSettings.fromJson(data);
+        state = AsyncValue.data(settings);
+        _syncToLegacyProviders(settings);
+      } else if (data is Map) {
+        final settings = PersonaSettings.fromJson(
+          Map<String, dynamic>.from(data),
+        );
+        state = AsyncValue.data(settings);
+        _syncToLegacyProviders(settings);
+      }
+    } catch (err, st) {
+      talker.warning(
+        '[PersonaSettingsNotifier] Failed to load persona settings: $err',
+        err,
+        st,
+      );
+      state = AsyncValue.error(err, st);
+    }
+  }
+
+  Future<void> reloadSilently() async {
+    await _loadSettings();
+  }
+
+  void updateFromGateway(Map<String, dynamic> data) {
+    final settings = PersonaSettings.fromJson(data);
+    state = AsyncValue.data(settings);
+    _syncToLegacyProviders(settings);
+  }
+
+  void _syncToLegacyProviders(PersonaSettings settings) {
+    ref
+        .read(activePersonaProvider.notifier)
+        .syncFromSettings(
+          mode: PersonaMode.fromString(settings.activePersonaMode),
+          activeId: settings.activePersonaId,
+          isLatched: settings.isLatched,
+        );
+    ref
+        .read(systemDisplayTagProvider.notifier)
+        .syncFromSettings(
+          text: settings.displayTagText,
+          iconUrl: settings.displayTagIcon,
+        );
+  }
+
+  Future<void> updateSettings({
+    String? activePersonaMode,
+    String? Function()? activePersonaId,
+    bool? isLatched,
+    String? displayTagText,
+    String? Function()? displayTagIcon,
+  }) async {
+    final current = state.asData?.value ?? const PersonaSettings();
+    final updated = current.copyWith(
+      activePersonaMode: activePersonaMode,
+      activePersonaId: activePersonaId,
+      isLatched: isLatched,
+      displayTagText: displayTagText,
+      displayTagIcon: displayTagIcon,
+    );
+    state = AsyncValue.data(updated);
+    _syncToLegacyProviders(updated);
+
+    try {
+      final Dio dio = ref.read(fluxerDioProvider);
+      final body = <String, dynamic>{
+        'active_persona_mode': ?activePersonaMode,
+        if (activePersonaId != null) 'active_persona_id': activePersonaId(),
+        'is_latched': ?isLatched,
+        'display_tag_text': ?displayTagText,
+        if (displayTagIcon != null) 'display_tag_icon': displayTagIcon(),
+      };
+      await dio.patch<dynamic>('/users/@me/personas/settings', data: body);
+    } catch (err, st) {
+      talker.error(
+        '[PersonaSettingsNotifier] Failed to update settings: $err',
+        err,
+        st,
+      );
+      rethrow;
+    }
+  }
+}
+
+final personaSettingsProvider =
+    NotifierProvider<PersonaSettingsNotifier, AsyncValue<PersonaSettings>>(
+      PersonaSettingsNotifier.new,
     );
