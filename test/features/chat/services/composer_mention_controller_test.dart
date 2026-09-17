@@ -108,6 +108,53 @@ void main() {
     expect(controller.toWireText().trim(), '<@123>');
   });
 
+  testWidgets(
+    'stores persona mention display label and renders wire text with personaId',
+    (WidgetTester tester) async {
+      final ComposerMentionController controller = await _pumpController(tester);
+
+      controller.insertUserMentionPlaceholder(
+        matchStart: 0,
+        matchEnd: 0,
+        userId: '1481621807877361924',
+        personaId: '1550229100331794432',
+        displayName: 'Bob the Fox',
+      );
+      await tester.pump();
+
+      expect(find.text('@Bob the Fox'), findsOneWidget);
+      expect(
+        controller.toWireText().trim(),
+        '<@1481621807877361924:1550229100331794432>',
+      );
+    },
+  );
+
+  testWidgets(
+    'insertUserMentionPlaceholder with personaId replaces full autocomplete range',
+    (WidgetTester tester) async {
+      final ComposerMentionController controller = await _pumpController(tester);
+
+      controller
+        ..text = '@bob'
+        ..selection = const TextSelection.collapsed(offset: 4)
+        ..insertUserMentionPlaceholder(
+          matchStart: 0,
+          matchEnd: 4,
+          userId: '1481621807877361924',
+          personaId: '1550229100331794432',
+          displayName: 'Bob the Fox',
+        );
+      await tester.pump();
+
+      expect(find.text('@Bob the Fox'), findsOneWidget);
+      expect(
+        controller.toWireText().trim(),
+        '<@1481621807877361924:1550229100331794432>',
+      );
+    },
+  );
+
   testWidgets('stores the role mention display label and renders wire text', (
     WidgetTester tester,
   ) async {
