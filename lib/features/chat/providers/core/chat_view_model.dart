@@ -70,6 +70,8 @@ import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.d
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
+import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
@@ -5084,6 +5086,7 @@ class ChatViewModel extends _$ChatViewModel {
       );
     }
     if (clearMessageText) {
+      ref.read(typingSenderProvider.notifier).clearChannel(channelId);
       unawaited(
         ref
             .read(fluxerDatabaseProvider)
@@ -6204,8 +6207,52 @@ class ChatViewModel extends _$ChatViewModel {
     if (perms != null && perms.isResolved && !perms.canSendMessages) {
       return;
     }
+    Map<String, dynamic>? personaData;
+    final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
+    if (personas.isNotEmpty) {
+      final activeState = ref.read(activePersonaProvider);
+      final String? latchedId =
+          activeState.isLatched ? activeState.activePersonaId : null;
+      final bool hasPendingAttachments =
+          ref.read(cloudUploadControllerProvider(channelId)).items.isNotEmpty;
+      final PreviewResult preview = previewPersona(
+        text,
+        personas,
+        latchedId,
+        hasPendingAttachments,
+      );
+      if (preview.persona != null) {
+        final p = preview.persona!;
+        final systemTag = ref.read(systemDisplayTagProvider);
+        final String? tagText =
+            (systemTag.text != null && systemTag.text!.trim().isNotEmpty)
+                ? systemTag.text!.trim()
+                : null;
+        final String? tagIcon =
+            (systemTag.iconUrl != null && systemTag.iconUrl!.trim().isNotEmpty)
+                ? systemTag.iconUrl!.trim()
+                : null;
+
+        personaData = <String, dynamic>{
+          'id': p.id,
+          'name': p.name,
+          'avatar': ?p.avatarUrl,
+          'avatar_color': ?p.color,
+          'display_tag_text': ?tagText,
+          'system_name': ?tagText,
+          'display_tag_icon': ?tagIcon,
+          'pronouns': ?p.pronouns,
+          'color': ?p.color,
+          'bio': ?p.bio,
+        };
+      }
+    }
+
     unawaited(
-      ref.read(typingSenderProvider.notifier).notifyUserTyping(channelId),
+      ref.read(typingSenderProvider.notifier).notifyUserTyping(
+            channelId,
+            personaData: personaData,
+          ),
     );
   }
 

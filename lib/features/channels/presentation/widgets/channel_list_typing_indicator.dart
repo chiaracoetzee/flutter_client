@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/typing_indicator_text.dart';
@@ -66,7 +67,11 @@ class ChannelListTypingIndicator extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 4),
       child: FluxerTooltip(
-        richMessage: _TypingTooltipText(userIds: userIds, guildId: guildId),
+        richMessage: _TypingTooltipText(
+          userIds: userIds,
+          guildId: guildId,
+          channelId: channelId,
+        ),
         child: RepaintBoundary(
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -74,7 +79,11 @@ class ChannelListTypingIndicator extends ConsumerWidget {
               FluxerLoadingSpinner(color: indicatorColor),
               if (mode == ChannelTypingIndicatorMode.avatars) ...[
                 const SizedBox(width: 4),
-                _TypingAvatarStack(userIds: userIds, guildId: guildId),
+                _TypingAvatarStack(
+                  userIds: userIds,
+                  guildId: guildId,
+                  channelId: channelId,
+                ),
               ],
             ],
           ),
@@ -85,10 +94,15 @@ class ChannelListTypingIndicator extends ConsumerWidget {
 }
 
 class _TypingAvatarStack extends ConsumerWidget {
-  const _TypingAvatarStack({required this.userIds, required this.guildId});
+  const _TypingAvatarStack({
+    required this.userIds,
+    required this.guildId,
+    required this.channelId,
+  });
 
   final List<String> userIds;
   final String guildId;
+  final String channelId;
 
   GuildUserDisplay _resolveTypingUserDisplay({
     required WidgetRef ref,
@@ -98,21 +112,38 @@ class _TypingAvatarStack extends ConsumerWidget {
     final String? friendNickname = ref
         .watch(friendNicknameProvider(userId))
         .value;
+    GuildUserDisplay baseDisplay;
     final GuildUserDisplay? guildDisplay = ref
         .watch(guildUserDisplayProvider((userId, guildId)))
         .value;
     if (guildDisplay != null) {
-      return guildDisplay;
-    }
-    if (user != null) {
-      return resolveGuildUserDisplayFromRows(
+      baseDisplay = guildDisplay;
+    } else if (user != null) {
+      baseDisplay = resolveGuildUserDisplayFromRows(
         user: user,
         member: null,
         guildId: guildId,
         friendNickname: friendNickname,
       );
+    } else {
+      baseDisplay = fallbackTypingUserDisplay(userId);
     }
-    return fallbackTypingUserDisplay(userId);
+
+    final subprofile = ref.watch(
+      channelTypingSubprofileProvider((channelId, userId)),
+    );
+    if (subprofile != null) {
+      return GuildUserDisplay(
+        displayName: subprofile.name,
+        accountDisplayName: subprofile.name,
+        avatarUrl: subprofile.avatar ?? baseDisplay.avatarUrl,
+        avatarColor: subprofile.avatarColor ?? baseDisplay.avatarColor,
+        pronouns: subprofile.displayTagText ??
+            subprofile.systemName ??
+            baseDisplay.pronouns,
+      );
+    }
+    return baseDisplay;
   }
 
   @override
@@ -160,10 +191,15 @@ class _TypingAvatarStack extends ConsumerWidget {
 }
 
 class _TypingTooltipText extends ConsumerWidget {
-  const _TypingTooltipText({required this.userIds, required this.guildId});
+  const _TypingTooltipText({
+    required this.userIds,
+    required this.guildId,
+    required this.channelId,
+  });
 
   final List<String> userIds;
   final String guildId;
+  final String channelId;
 
   GuildUserDisplay _resolveTypingUserDisplay({
     required WidgetRef ref,
@@ -173,21 +209,38 @@ class _TypingTooltipText extends ConsumerWidget {
     final String? friendNickname = ref
         .watch(friendNicknameProvider(userId))
         .value;
+    GuildUserDisplay baseDisplay;
     final GuildUserDisplay? guildDisplay = ref
         .watch(guildUserDisplayProvider((userId, guildId)))
         .value;
     if (guildDisplay != null) {
-      return guildDisplay;
-    }
-    if (user != null) {
-      return resolveGuildUserDisplayFromRows(
+      baseDisplay = guildDisplay;
+    } else if (user != null) {
+      baseDisplay = resolveGuildUserDisplayFromRows(
         user: user,
         member: null,
         guildId: guildId,
         friendNickname: friendNickname,
       );
+    } else {
+      baseDisplay = fallbackTypingUserDisplay(userId);
     }
-    return fallbackTypingUserDisplay(userId);
+
+    final subprofile = ref.watch(
+      channelTypingSubprofileProvider((channelId, userId)),
+    );
+    if (subprofile != null) {
+      return GuildUserDisplay(
+        displayName: subprofile.name,
+        accountDisplayName: subprofile.name,
+        avatarUrl: subprofile.avatar ?? baseDisplay.avatarUrl,
+        avatarColor: subprofile.avatarColor ?? baseDisplay.avatarColor,
+        pronouns: subprofile.displayTagText ??
+            subprofile.systemName ??
+            baseDisplay.pronouns,
+      );
+    }
+    return baseDisplay;
   }
 
   @override
@@ -227,11 +280,20 @@ class _TypingTooltipText extends ConsumerWidget {
         final Color? roleColor = ref.watch(
           memberRoleColorProvider((user.userId, guildId)),
         );
+        final subprofile = ref.watch(
+          channelTypingSubprofileProvider((channelId, user.userId)),
+        );
+        Color? personaColor;
+        if (subprofile?.avatarColor != null) {
+          personaColor = Color(subprofile!.avatarColor! | 0xFF000000);
+        } else if (subprofile?.color != null) {
+          personaColor = Color(subprofile!.color! | 0xFF000000);
+        }
         spans.add(
           TextSpan(
             text: user.display.displayName,
             style: baseStyle.copyWith(
-              color: roleColor ?? colors.textPrimary,
+              color: personaColor ?? roleColor ?? colors.textPrimary,
               fontWeight: FontWeight.w600,
             ),
           ),
