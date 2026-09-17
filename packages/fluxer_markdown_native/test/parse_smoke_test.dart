@@ -47,6 +47,13 @@ void main() {
     expect(timestamp.style, MdTimestampStyle.relativeTime);
   });
 
+  test('user persona mention parses id and personaId', () {
+    final mention = parseFluxerMarkdown('<@1234:5678>').single as MdMention;
+    final user = mention.kind as MdUserMention;
+    expect(user.id, '1234');
+    expect(user.personaId, '5678');
+  });
+
   test('code block language rules', () {
     final block =
         parseFluxerMarkdown('```dart\nvoid main() {}\n```').single
