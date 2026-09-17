@@ -342,7 +342,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  Widget _buildPersonaAccountBadge(BuildContext context, Message msg) {
+  Widget _buildPersonaAccountBadge(
+    BuildContext context,
+    Message msg, {
+    bool forceIconOnly = false,
+  }) {
     final String? tagText =
         (msg.personaTag != null && msg.personaTag!.trim().isNotEmpty)
             ? msg.personaTag!.trim()
@@ -358,6 +362,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         isSystem: false,
         label: tagText,
         iconUrl: tagIcon,
+        forceIconOnly: forceIconOnly,
       );
     } else if (tagIcon != null) {
       badge = ClipOval(
@@ -407,12 +412,207 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       );
     }
 
-    return FluxerGestureDetector(
+    final Widget interactiveBadge = FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: _canOpenAuthorProfile(msg)
           ? () => _openRootUserProfile(context, msg)
           : null,
       child: badge,
+    );
+
+    if (tagText != null && forceIconOnly) {
+      return Tooltip(
+        message: tagText,
+        child: interactiveBadge,
+      );
+    }
+
+    return interactiveBadge;
+  }
+
+  Widget _buildAuthorHeaderRow(
+    BuildContext context,
+    Message msg,
+    GuildUserDisplay authorDisplay,
+    Color? roleColor,
+  ) {
+    final TextStyle nameStyle = context.textStyles.username.copyWith(
+      color: roleColor ?? context.colors.textChat,
+      fontWeight: FontWeight.w600,
+    );
+
+    final bool isBotOrSystem = messageAuthorShowsUserTag(
+      authorIsBot: msg.authorIsBot,
+      authorIsSystem: msg.authorIsSystem,
+    );
+    final bool hasBadge = msg.isPersona || isBotOrSystem;
+
+    Widget buildNameWidget({double? maxWidth}) {
+      final textWidget = Text(
+        authorDisplay.displayName,
+        style: nameStyle,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      );
+      final gesture = FluxerGestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: _canOpenAuthorProfile(msg)
+            ? () => _openAuthorProfile(context, msg)
+            : null,
+        child: textWidget,
+      );
+      if (maxWidth != null) {
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxWidth),
+          child: gesture,
+        );
+      }
+      return gesture;
+    }
+
+    if (!hasBadge) {
+      return buildNameWidget();
+    }
+
+    final String? personaTagText =
+        (msg.personaTag != null && msg.personaTag!.trim().isNotEmpty)
+            ? msg.personaTag!.trim()
+            : null;
+    final String? personaTagIcon =
+        (msg.personaTagIcon != null && msg.personaTagIcon!.trim().isNotEmpty)
+            ? msg.personaTagIcon!.trim()
+            : null;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double maxAvailable = constraints.maxWidth;
+        if (!maxAvailable.isFinite || maxAvailable <= 0) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(child: buildNameWidget()),
+              const SizedBox(width: 6),
+              if (msg.isPersona)
+                _buildPersonaAccountBadge(context, msg)
+              else
+                FluxerUserTag(
+                  isSystem: messageAuthorUserTagIsSystem(
+                    authorIsSystem: msg.authorIsSystem,
+                  ),
+                ),
+            ],
+          );
+        }
+
+        // Measure natural name width
+        final TextPainter namePainter = TextPainter(
+          text: TextSpan(text: authorDisplay.displayName, style: nameStyle),
+          maxLines: 1,
+          textDirection: Directionality.of(context),
+        )..layout();
+        final double naturalNameWidth = namePainter.width;
+
+        const double gap = 6.0;
+
+        if (msg.isPersona) {
+          // Calculate natural badge width (full text + icon if any)
+          double fullBadgeWidth;
+          if (personaTagText != null) {
+            final TextPainter tagPainter = TextPainter(
+              text: TextSpan(
+                text: personaTagText.toUpperCase(),
+                style: context.textStyles.smallText.copyWith(fontSize: 10),
+              ),
+              maxLines: 1,
+              textDirection: Directionality.of(context),
+            )..layout();
+            fullBadgeWidth =
+                tagPainter.width + (personaTagIcon != null ? 23.5 : 11.0);
+          } else if (personaTagIcon != null) {
+            fullBadgeWidth = 16.0;
+          } else {
+            fullBadgeWidth = 16.0;
+          }
+
+          // Priority 1: Full name and full tag fit completely without shortening name
+          if (naturalNameWidth + gap + fullBadgeWidth <= maxAvailable) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                buildNameWidget(),
+                const SizedBox(width: gap),
+                _buildPersonaAccountBadge(context, msg),
+              ],
+            );
+          }
+
+          // Priority 2: Full name and tag icon (if there is one) fit completely without shortening name
+          final bool hasIcon = personaTagIcon != null || personaTagText == null;
+          final double iconBadgeWidth = (personaTagText != null) ? 18.0 : 16.0;
+
+          if (hasIcon && (naturalNameWidth + gap + iconBadgeWidth <= maxAvailable)) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                buildNameWidget(),
+                const SizedBox(width: gap),
+                _buildPersonaAccountBadge(context, msg, forceIconOnly: true),
+              ],
+            );
+          }
+
+          // Priority 3: Omit tag completely so name is not shortened at all
+          return buildNameWidget(maxWidth: maxAvailable);
+        }
+
+        // Bot or system user tag handling
+        final l10n = FluxerLocalizations.of(context);
+        final String botTagText = messageAuthorUserTagIsSystem(
+          authorIsSystem: msg.authorIsSystem,
+        )
+            ? l10n.userTagSystem
+            : l10n.userTagBot;
+        final TextPainter tagPainter = TextPainter(
+          text: TextSpan(
+            text: botTagText.toUpperCase(),
+            style: context.textStyles.smallText.copyWith(fontSize: 10),
+          ),
+          maxLines: 1,
+          textDirection: Directionality.of(context),
+        )..layout();
+        final double botTagWidth = tagPainter.width + 11.0;
+
+        if (naturalNameWidth + gap + botTagWidth <= maxAvailable) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              buildNameWidget(),
+              const SizedBox(width: gap),
+              FluxerUserTag(
+                isSystem: messageAuthorUserTagIsSystem(
+                  authorIsSystem: msg.authorIsSystem,
+                ),
+              ),
+            ],
+          );
+        }
+
+        // If bot name is very long, give name remaining space with ellipsis
+        final double nameMaxWidth =
+            (maxAvailable - gap - botTagWidth).clamp(0.0, double.infinity);
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            buildNameWidget(maxWidth: nameMaxWidth),
+            const SizedBox(width: gap),
+            FluxerUserTag(
+              isSystem: messageAuthorUserTagIsSystem(
+                authorIsSystem: msg.authorIsSystem,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -1824,41 +2024,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               child: Row(
                 children: [
                   Flexible(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          child: FluxerGestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: _canOpenAuthorProfile(msg)
-                                ? () => _openAuthorProfile(context, msg)
-                                : null,
-                            child: Text(
-                              authorDisplay.displayName,
-                              style: context.textStyles.username.copyWith(
-                                color: roleColor ?? context.colors.textChat,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                        if (msg.isPersona) ...[
-                          const SizedBox(width: 6),
-                          _buildPersonaAccountBadge(context, msg),
-                        ] else if (messageAuthorShowsUserTag(
-                          authorIsBot: msg.authorIsBot,
-                          authorIsSystem: msg.authorIsSystem,
-                        )) ...[
-                          const SizedBox(width: 6),
-                          FluxerUserTag(
-                            isSystem: messageAuthorUserTagIsSystem(
-                              authorIsSystem: msg.authorIsSystem,
-                            ),
-                          ),
-                        ],
-                      ],
+                    child: _buildAuthorHeaderRow(
+                      context,
+                      msg,
+                      authorDisplay,
+                      roleColor,
                     ),
                   ),
                   const SizedBox(width: 6),
