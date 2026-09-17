@@ -18,6 +18,10 @@ import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:material_ui/material_ui.dart' as material;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+
 const double _kAvatarSize = 12;
 const int _kMaxVisibleAvatars = 5;
 const double _kStatusFontSize = 12;
@@ -42,16 +46,25 @@ class TypingIndicatorBar extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     return IgnorePointer(
-      child: _TypingPill(userIds: activeUserIds, compact: compact),
+      child: _TypingPill(
+        userIds: activeUserIds,
+        compact: compact,
+        channelId: channelId,
+      ),
     );
   }
 }
 
 class _TypingPill extends ConsumerWidget {
-  const _TypingPill({required this.userIds, required this.compact});
+  const _TypingPill({
+    required this.userIds,
+    required this.compact,
+    required this.channelId,
+  });
 
   final List<String> userIds;
   final bool compact;
+  final String channelId;
 
   GuildUserDisplay _resolveTypingUserDisplay({
     required WidgetRef ref,
@@ -62,38 +75,57 @@ class _TypingPill extends ConsumerWidget {
     final String? friendNickname = ref
         .watch(friendNicknameProvider(userId))
         .value;
+    GuildUserDisplay baseDisplay;
     if (guildId != null) {
       final GuildUserDisplay? guildDisplay = ref
           .watch(guildUserDisplayProvider((userId, guildId)))
           .value;
       if (guildDisplay != null) {
-        return guildDisplay;
-      }
-      if (user != null) {
-        return resolveGuildUserDisplayFromRows(
+        baseDisplay = guildDisplay;
+      } else if (user != null) {
+        baseDisplay = resolveGuildUserDisplayFromRows(
           user: user,
           member: null,
           guildId: guildId,
           friendNickname: friendNickname,
         );
+      } else {
+        baseDisplay = fallbackTypingUserDisplay(userId);
       }
-      return fallbackTypingUserDisplay(userId);
+    } else {
+      final GuildUserDisplay? dbDisplay = ref
+          .watch(guildUserDisplayFromDbProvider((userId, null)))
+          .value;
+      if (dbDisplay != null) {
+        baseDisplay = dbDisplay;
+      } else if (user != null) {
+        baseDisplay = resolveGuildUserDisplayFromRows(
+          user: user,
+          member: null,
+          guildId: null,
+          friendNickname: friendNickname,
+        );
+      } else {
+        baseDisplay = fallbackTypingUserDisplay(userId);
+      }
     }
-    final GuildUserDisplay? dbDisplay = ref
-        .watch(guildUserDisplayFromDbProvider((userId, null)))
-        .value;
-    if (dbDisplay != null) {
-      return dbDisplay;
-    }
-    if (user != null) {
-      return resolveGuildUserDisplayFromRows(
-        user: user,
-        member: null,
-        guildId: null,
-        friendNickname: friendNickname,
+
+    final subprofile = ref.watch(
+      channelTypingSubprofileProvider((channelId, userId)),
+    );
+    if (subprofile != null) {
+      return GuildUserDisplay(
+        displayName: subprofile.name,
+        accountDisplayName: subprofile.name,
+        avatarUrl: subprofile.avatar ?? baseDisplay.avatarUrl,
+        avatarColor: subprofile.avatarColor ?? baseDisplay.avatarColor,
+        pronouns:
+            subprofile.displayTagText ??
+            subprofile.systemName ??
+            baseDisplay.pronouns,
       );
     }
-    return fallbackTypingUserDisplay(userId);
+    return baseDisplay;
   }
 
   @override
@@ -148,7 +180,14 @@ class _TypingPill extends ConsumerWidget {
           avatarStack,
           SizedBox(width: compact ? 8 : 8),
           Flexible(
-            child: _buildText(context, ref, total, resolvedUsers, guildId),
+            child: _buildText(
+              context,
+              ref,
+              total,
+              resolvedUsers,
+              guildId,
+              channelId,
+            ),
           ),
         ],
       ),
@@ -199,6 +238,7 @@ class _TypingPill extends ConsumerWidget {
     int total,
     List<({String userId, GuildUserDisplay display})> resolved,
     String? guildId,
+    String channelId,
   ) {
     final l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
@@ -230,11 +270,20 @@ class _TypingPill extends ConsumerWidget {
         final roleColor = guildId == null
             ? null
             : ref.watch(memberRoleColorProvider((user.userId, guildId)));
+        final subprofile = ref.watch(
+          channelTypingSubprofileProvider((channelId, user.userId)),
+        );
+        Color? personaColor;
+        if (subprofile?.avatarColor != null) {
+          personaColor = Color(subprofile!.avatarColor! | 0xFF000000);
+        } else if (subprofile?.color != null) {
+          personaColor = Color(subprofile!.color! | 0xFF000000);
+        }
         spans.add(
           TextSpan(
             text: user.display.displayName,
             style: baseStyle.copyWith(
-              color: roleColor ?? colors.textPrimary,
+              color: personaColor ?? roleColor ?? colors.textPrimary,
               fontWeight: FontWeight.w600,
             ),
           ),
