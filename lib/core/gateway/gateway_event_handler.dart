@@ -46,7 +46,11 @@ void _logGatewayDebug(void Function() log) {
   }(), 'gateway debug logging');
 }
 
-typedef TypingCallback = void Function(String channelId, String userId);
+typedef TypingCallback = void Function(
+  String channelId,
+  String userId, [
+  MessageSubprofileResponse? subprofile,
+]);
 typedef VoiceStateCallback = void Function(VoiceState state);
 typedef VoiceBulkCallback = void Function(List<VoiceState> states);
 typedef GuildVoiceStatesSnapshotCallback =
@@ -2206,7 +2210,7 @@ class GatewayEventHandler {
 
   void _handleTypingStart(TypingStartEvent event) {
     _hydrateEmbeddedMember(event.guildId, event.member);
-    _emit(() => onTypingStart?.call(event.channelId, event.userId));
+    _emit(() => onTypingStart?.call(event.channelId, event.userId, event.subprofile));
   }
 
   void _hydrateEmbeddedMember(String? guildId, GuildMemberResponse? member) {
