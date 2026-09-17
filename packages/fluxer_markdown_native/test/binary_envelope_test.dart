@@ -61,6 +61,14 @@ void main() {
     expect((spoiler.children.single as MdText).content, 'hidden');
   });
 
+  test('decodes persona user mention', () {
+    final mention =
+        parseFluxerMarkdownBinary('<@1234:5678>').single as MdMention;
+    final user = mention.kind as MdUserMention;
+    expect(user.id, '1234');
+    expect(user.personaId, '5678');
+  });
+
   test('decodes custom emoji fields', () {
     final emoji =
         parseFluxerMarkdownBinary('<a:party_blob:99>').single as MdEmoji;
@@ -76,7 +84,7 @@ void main() {
     const corpus = [
       '# h\n**b** *e* `c` ||s||',
       '> [!NOTE]\n> body\n\n1. a\n2. b\n\n| x | y |\n|---|---|\n| 1 | 2 |',
-      '>>> multi\nline quote with <@1> <#2> <@&3> </cmd:4>',
+      '>>> multi\nline quote with <@1> <#2> <@&3> </cmd:4> <@5:p5>',
       '```\nraw\n```\ntrailing [t](https://e.com/a) https://e.com/b',
       '-# subtext\n<t:1:R> <id:guide> @everyone',
       '',
@@ -153,7 +161,8 @@ String describeAst(MdNode node) {
 }
 
 String _describeMention(MdMentionKind kind) => switch (kind) {
-  MdUserMention(:final id) => 'user:$id',
+  MdUserMention(:final id, :final personaId) =>
+    personaId != null ? 'user:$id:$personaId' : 'user:$id',
   MdChannelMention(:final id) => 'channel:$id',
   MdRoleMention(:final id) => 'role:$id',
   MdCommandMention(
