@@ -14453,233 +14453,233 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get personaSelectTitle => 'Select Persona';
+  String get personaSelectTitle => 'בחר פרסונה';
 
   @override
-  String get personaSettingsHeader => 'Persona Settings';
+  String get personaSettingsHeader => 'הגדרות פרסונה';
 
   @override
-  String get personaManageAction => 'Manage';
+  String get personaManageAction => 'ניהול';
 
   @override
-  String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
+  String get personaSearchPlaceholder => 'חפש פרסונות, תגיות, כינויי גוף...';
 
   @override
-  String get personaModeOff => 'Off';
+  String get personaModeOff => 'כבוי';
 
   @override
-  String get personaModeManual => 'Manual';
+  String get personaModeManual => 'ידני';
 
   @override
-  String get personaModeLast => 'Last Used';
+  String get personaModeLast => 'שימוש אחרון';
 
   @override
   String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
+      'שולח מהחשבון הראשי אלא אם מוקלדות תגיות פרסונה.';
 
   @override
   String get personaModeManualDescription =>
-      'Always sends as selected persona until changed.';
+      'שולח תמיד בתור הפרסונה שנבחרה עד לשינוי.';
 
   @override
   String get personaModeLastDescription =>
-      'Auto-switches to the persona used in your last message.';
+      'עובר אוטומטית לפרסונה ששימשה בהודעה האחרונה שלך.';
 
   @override
-  String get personaRecentHeader => 'RECENT PERSONAS';
+  String get personaRecentHeader => 'פרסונות אחרונות';
 
   @override
   String personaAllHeader(int count) {
-    return 'ALL PERSONAS ($count)';
+    return 'כל הפרסונות ($count)';
   }
 
   @override
   String personaSearchResultsHeader(int count) {
-    return 'SEARCH RESULTS ($count)';
+    return 'תוצאות חיפוש ($count)';
   }
 
   @override
-  String get personaRootAccountLabel => 'Root Account (Default)';
+  String get personaRootAccountLabel => 'חשבון ראשי (ברירת מחדל)';
 
   @override
   String get personaEmptyState =>
-      'No personas configured yet. Create one via Manage Personas.';
+      'עדיין לא הוגדרו פרסונות. צור אחת דרך נהל פרסונות.';
 
   @override
-  String get personaEmptySearch => 'No matching personas found.';
+  String get personaEmptySearch => 'לא נמצאו פרסונות תואמות.';
 
   @override
-  String get personaEditTitle => 'Edit Persona';
+  String get personaEditTitle => 'ערוך פרסונה';
 
   @override
-  String get personaCreateTitle => 'Create Persona';
+  String get personaCreateTitle => 'צור פרסונה';
 
   @override
-  String get personaDisplayNameLabel => 'Display Name';
+  String get personaDisplayNameLabel => 'שם לתצוגה';
 
   @override
-  String get personaPronounsLabel => 'Pronouns';
+  String get personaPronounsLabel => 'כינויי גוף';
 
   @override
-  String get personaPronounsHint => 'e.g. they/them';
+  String get personaPronounsHint => 'לדוגמה: הוא/היא';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'אודות / אודותיי';
 
   @override
-  String get personaBioHint => 'Tell others about this persona...';
+  String get personaBioHint => 'ספר לאחרים על פרסונה זו...';
 
   @override
-  String get personaSaveChanges => 'Save Changes';
+  String get personaSaveChanges => 'שמור שינויים';
 
   @override
-  String get personaUpdatedToast => 'Persona updated';
+  String get personaUpdatedToast => 'הפרסונה עודכנה';
 
   @override
   String personaUpdateFailedToast(String error) {
-    return 'Failed to update persona: $error';
+    return 'עדכון הפרסונה נכשל: $error';
   }
 
   @override
-  String get personaSectionTitle => 'Personas';
+  String get personaSectionTitle => 'פרסונות';
 
   @override
-  String get personaDisplayNameHint => 'Persona name';
+  String get personaDisplayNameHint => 'שם הפרסונה';
 
   @override
   String personaSendingAsTag(String name) {
-    return 'Sending as $name (Matched by tag)';
+    return 'שולח בתור $name (הותאם לפי תגית)';
   }
 
   @override
   String personaSendingAsLatched(String name) {
-    return 'Sending as $name (Latched)';
+    return 'שולח בתור $name (נעול)';
   }
 
   @override
   String personaSendingAsRoot(String username) {
-    return 'Sending as @$username';
+    return 'שולח בתור @$username';
   }
 
   @override
-  String get personaMainAccount => 'Main account';
+  String get personaMainAccount => 'חשבון ראשי';
 
   @override
-  String get personaEditPersona => 'Edit persona';
+  String get personaEditPersona => 'ערוך פרסונה';
 
   @override
-  String get userSettingsNavPersonas => 'Personas';
+  String get userSettingsNavPersonas => 'פרסונות';
 
   @override
   String get personaSettingsDescription =>
-      'Configure your active persona mode, custom display tag, and manage individual personas.';
+      'הגדר את מצב הפרסונה הפעילה, תגית תצוגה מותאמת אישית ונהל פרסונות בודדות.';
 
   @override
-  String get personaDisplayTagSection => 'Display Tag';
+  String get personaDisplayTagSection => 'תגית תצוגה';
 
   @override
   String get personaDisplayTagDescription =>
-      'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.';
+      'תגית התצוגה תופיע לצד כל שמות הפרסונות בהודעות. אם לא הוגדרה תגית תצוגה, תוצג תמונת הפרופיל של החשבון שלך.';
 
   @override
-  String get personaDisplayTagLabel => 'Display Tag Text';
+  String get personaDisplayTagLabel => 'טקסט תגית תצוגה';
 
   @override
-  String get personaDisplayTagHint => 'e.g. SYS';
+  String get personaDisplayTagHint => 'לדוגמה: SYS';
 
   @override
-  String get personaDisplayTagIconLabel => 'Display Tag Icon';
+  String get personaDisplayTagIconLabel => 'אייקון תגית תצוגה';
 
   @override
-  String get personaUploadTagIcon => 'Upload Icon';
+  String get personaUploadTagIcon => 'העלאת אייקון';
 
   @override
-  String get personaChangeTagIcon => 'Change Icon';
+  String get personaChangeTagIcon => 'שינוי אייקון';
 
   @override
-  String get personaRemoveTagIcon => 'Remove Icon';
+  String get personaRemoveTagIcon => 'הסר אייקון';
 
   @override
-  String get personaChatPreviewTitle => 'Chat Preview';
+  String get personaChatPreviewTitle => 'תצוגה מקדימה של הצ\'אט';
 
   @override
   String get personaChatPreviewSampleMessage =>
-      'Hello! This is a preview of how messages look with your display tag and active persona.';
+      'שלום! זוהי תצוגה מקדימה של איך הודעות ייראו עם תגית התצוגה והפרסונה הפעילה שלך.';
 
   @override
-  String get personaListTitle => 'Configured Personas';
+  String get personaListTitle => 'פרסונות מוגדרות';
 
   @override
-  String get personaAddButton => 'Add Persona';
+  String get personaAddButton => 'הוסף פרסונה';
 
   @override
-  String get personaActiveBadge => 'Active';
+  String get personaActiveBadge => 'פעיל';
 
   @override
-  String get personaMakeActive => 'Set Active';
+  String get personaMakeActive => 'הגדר כפעיל';
 
   @override
-  String get personaDeactivate => 'Deactivate';
+  String get personaDeactivate => 'השבתה';
 
   @override
-  String get personaDeleteTitle => 'Delete Persona';
+  String get personaDeleteTitle => 'מחק פרסונה';
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'האם אתה בטוח שברצונך למחוק את \"$name\"? לא ניתן לבטל פעולה זו.';
   }
 
   @override
-  String get personaDeleteConfirm => 'Delete';
+  String get personaDeleteConfirm => 'מחק';
 
   @override
-  String get personaDeletedToast => 'Persona deleted';
+  String get personaDeletedToast => 'הפרסונה נמחקה';
 
   @override
-  String get personaCreatedToast => 'Persona created';
+  String get personaCreatedToast => 'הפרסונה נוצרה';
 
   @override
   String personaCreateFailedToast(String error) {
-    return 'Failed to create persona: $error';
+    return 'יצירת הפרסונה נכשלה: $error';
   }
 
   @override
-  String get personaAvatarLabel => 'Avatar';
+  String get personaAvatarLabel => 'תמונת פרופיל';
 
   @override
-  String get personaChangeAvatar => 'Change Avatar';
+  String get personaChangeAvatar => 'שנה תמונת פרופיל';
 
   @override
-  String get personaRemoveAvatar => 'Remove Avatar';
+  String get personaRemoveAvatar => 'הסר תמונת פרופיל';
 
   @override
-  String get personaUploadAvatar => 'Upload Avatar';
+  String get personaUploadAvatar => 'העלה תמונת פרופיל';
 
   @override
-  String get personaTagsLabel => 'Persona Tags';
+  String get personaTagsLabel => 'תגיות פרסונה';
 
   @override
-  String get personaTagPrefixLabel => 'Prefix';
+  String get personaTagPrefixLabel => 'קידומת';
 
   @override
-  String get personaTagSuffixLabel => 'Suffix';
+  String get personaTagSuffixLabel => 'סיומת';
 
   @override
-  String get personaAutoTagLabel => 'Disable auto-tagging';
+  String get personaAutoTagLabel => 'השבת התאמת תגיות אוטומטית';
 
   @override
   String get personaAutoTagDescription =>
-      'Prevent messages from automatically matching these tags.';
+      'מנע מהודעות להתאים אוטומטית לתגיות אלו.';
 
   @override
-  String get personaVisibilityLabel => 'Visibility';
+  String get personaVisibilityLabel => 'נראות';
 
   @override
-  String get personaVisibilityUnlisted => 'Unlisted';
+  String get personaVisibilityUnlisted => 'לא רשום';
 
   @override
-  String get personaVisibilityPublic => 'Public';
+  String get personaVisibilityPublic => 'ציבורי';
 
   @override
-  String get personaVisibilityPrivate => 'Private';
+  String get personaVisibilityPrivate => 'פרטי';
 }
