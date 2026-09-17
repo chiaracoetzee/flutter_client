@@ -9,6 +9,8 @@ import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -19,9 +21,10 @@ class EditPersonaSheet {
     BuildContext context, {
     required PublicPersona persona,
   }) {
+    final l10n = FluxerLocalizations.of(context);
     return FluxerBottomSheet.showScrollable<PublicPersona?>(
       context,
-      title: 'Edit Persona',
+      title: l10n.fork.personaEditTitle,
       useRootNavigator: true,
       minChildSize: 0.5,
       builder: (sheetContext, scrollController, close) {
@@ -84,6 +87,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     if (name.isEmpty) {
       return;
     }
+    final l10n = FluxerLocalizations.of(context);
     setState(() => _isSaving = true);
     try {
       final Dio dio = ref.read(fluxerDioProvider);
@@ -127,32 +131,33 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       );
       unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
 
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            const FluxerToast(
-              message: 'Persona updated',
-              variant: FluxerToastVariant.success,
-            ),
-          );
-
       if (mounted) {
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.fork.personaUpdatedToast,
+                variant: FluxerToastVariant.success,
+              ),
+            );
         Navigator.of(context, rootNavigator: true).pop(updated);
       }
-    } catch (err, st) {
+    } on Object catch (err, st) {
       talker.error(
         '[EditPersonaSheet] Failed to update persona: $err',
         err,
         st,
       );
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            const FluxerToast(
-              message: 'Failed to update persona',
-              variant: FluxerToastVariant.danger,
-            ),
-          );
+      if (mounted) {
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.fork.personaUpdateFailedToast(err.toString()),
+                variant: FluxerToastVariant.danger,
+              ),
+            );
+      }
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);
@@ -163,6 +168,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
+    final l10n = FluxerLocalizations.of(context);
     return ListView(
       controller: widget.scrollController,
       padding: EdgeInsets.fromLTRB(
@@ -174,8 +180,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       children: [
         FluxerInput(
           controller: _nameController,
-          label: 'Display Name',
-          hint: 'Persona name',
+          label: l10n.fork.personaDisplayNameLabel,
+          hint: l10n.fork.personaDisplayNameHint,
           maxLength: 100,
           enabled: !_isSaving,
           autofocus: true,
@@ -183,24 +189,24 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         SizedBox(height: layout.s3),
         FluxerInput(
           controller: _tagController,
-          label: 'System Tag / Badge',
-          hint: 'e.g. TEST SYSTEM',
+          label: l10n.fork.personaSystemTagLabel,
+          hint: l10n.fork.personaSystemTagHint,
           maxLength: 100,
           enabled: !_isSaving,
         ),
         SizedBox(height: layout.s3),
         FluxerInput(
           controller: _pronounsController,
-          label: 'Pronouns',
-          hint: 'e.g. they/them',
+          label: l10n.fork.personaPronounsLabel,
+          hint: l10n.fork.personaPronounsHint,
           maxLength: 100,
           enabled: !_isSaving,
         ),
         SizedBox(height: layout.s3),
         FluxerInput.multiline(
           controller: _bioController,
-          label: 'Bio / About Me',
-          hint: 'Tell others about this persona...',
+          label: l10n.fork.personaBioLabel,
+          hint: l10n.fork.personaBioHint,
           maxLines: 5,
           maxLength: 1024,
           showCounter: true,
@@ -210,7 +216,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         SizedBox(
           width: double.infinity,
           child: FluxerButton.primary(
-            label: 'Save Changes',
+            label: l10n.fork.personaSaveChanges,
             icon: PhosphorIconsFill.check,
             isLoading: _isSaving,
             onPressed: _isSaving ? null : _save,
