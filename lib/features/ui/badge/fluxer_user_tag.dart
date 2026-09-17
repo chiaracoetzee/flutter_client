@@ -8,12 +8,14 @@ class FluxerUserTag extends StatelessWidget {
     this.isSystem = false,
     this.label,
     this.iconUrl,
+    this.forceIconOnly = false,
     super.key,
   });
 
   final bool isSystem;
   final String? label;
   final String? iconUrl;
+  final bool forceIconOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +24,12 @@ class FluxerUserTag extends StatelessWidget {
         label ?? (isSystem ? l10n.userTagSystem : l10n.userTagBot);
     final colors = context.colors;
     final hasIcon = iconUrl != null && iconUrl!.trim().isNotEmpty;
+    final bool iconOnly = forceIconOnly && hasIcon;
 
     return Container(
       constraints: const BoxConstraints(minHeight: 15),
       padding: EdgeInsets.symmetric(
-        horizontal: hasIcon ? 4.5 : 5.5,
+        horizontal: iconOnly ? 3.5 : (hasIcon ? 4.5 : 5.5),
         vertical: 2,
       ),
       decoration: BoxDecoration(
@@ -48,16 +51,21 @@ class FluxerUserTag extends StatelessWidget {
                 errorWidget: (_, __, ___) => const SizedBox.shrink(),
               ),
             ),
-            const SizedBox(width: 3.5),
+            if (!iconOnly) const SizedBox(width: 3.5),
           ],
-          Text(
-            text.toUpperCase(),
-            style: context.textStyles.smallText.copyWith(
-              color: colors.brandPrimaryFill,
-              fontSize: 10,
-              height: 1,
+          if (!iconOnly)
+            Flexible(
+              child: Text(
+                text.toUpperCase(),
+                style: context.textStyles.smallText.copyWith(
+                  color: colors.brandPrimaryFill,
+                  fontSize: 10,
+                  height: 1,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
-          ),
         ],
       ),
     );
