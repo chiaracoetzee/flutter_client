@@ -17,6 +17,10 @@ import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+
 part 'app_ui_lifecycle_provider.g.dart';
 
 bool isAppUiForegroundLifecycle(
@@ -138,6 +142,7 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     }
     if (!wasForeground && isForeground) {
       unawaited(ref.read(wellKnownProvider.notifier).refresh());
+      unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
     }
     unawaited(
       AppMediaAudioSession.instance.setForeground(foreground: isForeground),
