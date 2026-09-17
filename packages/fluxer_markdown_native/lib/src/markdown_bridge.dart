@@ -286,7 +286,10 @@ md.Element _convertLink(MdLink link) {
 }
 
 md.Node _convertMention(MdMentionKind kind) => switch (kind) {
-  MdUserMention(:final id) => md.Element('mention-user', [md.Text(id)]),
+  MdUserMention(:final id, :final personaId) => md.Element(
+    'mention-user',
+    [md.Text(personaId != null && personaId.isNotEmpty ? '$id:$personaId' : id)],
+  ),
   MdChannelMention(:final id) => md.Element('mention-channel', [md.Text(id)]),
   MdRoleMention(:final id) => md.Element('mention-role', [md.Text(id)]),
   MdEveryoneMention() => md.Element('mention-everyone', [md.Text('@everyone')]),
