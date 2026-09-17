@@ -24362,6 +24362,216 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Custom status cleared.'**
   String get assistantOkCustomStatusCleared;
+
+  /// Title of the persona selection modal sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Persona'**
+  String get personaSelectTitle;
+
+  /// Header for persona settings row in the persona picker sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona Settings'**
+  String get personaSettingsHeader;
+
+  /// Action button to open settings to manage personas.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get personaManageAction;
+
+  /// Placeholder in the persona picker search input.
+  ///
+  /// In en, this message translates to:
+  /// **'Search personas, tags, pronouns...'**
+  String get personaSearchPlaceholder;
+
+  /// Label for Off mode in persona active mode selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get personaModeOff;
+
+  /// Label for Manual mode in persona active mode selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get personaModeManual;
+
+  /// Label for Last Used mode in persona active mode selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Used'**
+  String get personaModeLast;
+
+  /// Helper text explaining Off persona mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Sends as root account unless proxy tags are typed.'**
+  String get personaModeOffDescription;
+
+  /// Helper text explaining Manual persona mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Always sends as selected persona until changed.'**
+  String get personaModeManualDescription;
+
+  /// Helper text explaining Last Used persona mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-switches to the persona used in your last message.'**
+  String get personaModeLastDescription;
+
+  /// Section header for recently used personas.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT PERSONAS'**
+  String get personaRecentHeader;
+
+  /// Section header for all user personas with count.
+  ///
+  /// In en, this message translates to:
+  /// **'ALL PERSONAS ({count})'**
+  String personaAllHeader(int count);
+
+  /// Section header for search results with count.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH RESULTS ({count})'**
+  String personaSearchResultsHeader(int count);
+
+  /// Label for the user's default/root account in persona picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Root Account (Default)'**
+  String get personaRootAccountLabel;
+
+  /// Empty state text when user has no personas.
+  ///
+  /// In en, this message translates to:
+  /// **'No personas configured yet. Create one via Manage Personas.'**
+  String get personaEmptyState;
+
+  /// Empty state text when search yields no personas.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching personas found.'**
+  String get personaEmptySearch;
+
+  /// Title of the edit persona sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Persona'**
+  String get personaEditTitle;
+
+  /// Title of the create persona sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Persona'**
+  String get personaCreateTitle;
+
+  /// Form label for persona display name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name'**
+  String get personaDisplayNameLabel;
+
+  /// Form label for persona system tag or badge field.
+  ///
+  /// In en, this message translates to:
+  /// **'System Tag / Badge'**
+  String get personaSystemTagLabel;
+
+  /// Form label for persona pronouns field.
+  ///
+  /// In en, this message translates to:
+  /// **'Pronouns'**
+  String get personaPronounsLabel;
+
+  /// Hint text for persona pronouns input.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. they/them'**
+  String get personaPronounsHint;
+
+  /// Form label for persona biography field.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio / About Me'**
+  String get personaBioLabel;
+
+  /// Hint text for persona biography input.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell others about this persona...'**
+  String get personaBioHint;
+
+  /// Button to save changes in edit persona sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get personaSaveChanges;
+
+  /// Toast message displayed when persona is successfully updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona updated'**
+  String get personaUpdatedToast;
+
+  /// Toast message displayed when persona update fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update persona: {error}'**
+  String personaUpdateFailedToast(String error);
+
+  /// Title for the personas settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Personas'**
+  String get personaSectionTitle;
+
+  /// Hint text for persona display name input.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona name'**
+  String get personaDisplayNameHint;
+
+  /// Hint text for persona system tag or badge input.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. SYSTEM NAME'**
+  String get personaSystemTagHint;
+
+  /// Tooltip when composer will send as persona matched by tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending as {name} (Matched by tag)'**
+  String personaSendingAsTag(String name);
+
+  /// Tooltip when composer will send as latched persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending as {name} (Latched)'**
+  String personaSendingAsLatched(String name);
+
+  /// Tooltip when composer will send as root user account.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending as @{username}'**
+  String personaSendingAsRoot(String username);
+
+  /// Header for root account section in persona profile card.
+  ///
+  /// In en, this message translates to:
+  /// **'Main account'**
+  String get personaMainAccount;
+
+  /// Button to edit persona in persona profile card.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit persona'**
+  String get personaEditPersona;
 }
 
 class _FluxerLocalizationsDelegate
