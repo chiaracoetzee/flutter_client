@@ -13971,233 +13971,228 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get personaSelectTitle => 'Select Persona';
+  String get personaSelectTitle => '페르소나 선택';
 
   @override
-  String get personaSettingsHeader => 'Persona Settings';
+  String get personaSettingsHeader => '페르소나 설정';
 
   @override
-  String get personaManageAction => 'Manage';
+  String get personaManageAction => '관리';
 
   @override
-  String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
+  String get personaSearchPlaceholder => '페르소나, 태그, 대명사 검색...';
 
   @override
-  String get personaModeOff => 'Off';
+  String get personaModeOff => '꺼짐';
 
   @override
-  String get personaModeManual => 'Manual';
+  String get personaModeManual => '수동';
 
   @override
-  String get personaModeLast => 'Last Used';
+  String get personaModeLast => '최근 사용됨';
 
   @override
-  String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
+  String get personaModeOffDescription => '페르소나 태그를 입력하지 않는 한 기본 계정으로 전송됩니다.';
 
   @override
-  String get personaModeManualDescription =>
-      'Always sends as selected persona until changed.';
+  String get personaModeManualDescription => '변경할 때까지 항상 선택한 페르소나로 전송됩니다.';
 
   @override
-  String get personaModeLastDescription =>
-      'Auto-switches to the persona used in your last message.';
+  String get personaModeLastDescription => '마지막 메시지에서 사용한 페르소나로 자동 전환됩니다.';
 
   @override
-  String get personaRecentHeader => 'RECENT PERSONAS';
+  String get personaRecentHeader => '최근 페르소나';
 
   @override
   String personaAllHeader(int count) {
-    return 'ALL PERSONAS ($count)';
+    return '모든 페르소나 ($count)';
   }
 
   @override
   String personaSearchResultsHeader(int count) {
-    return 'SEARCH RESULTS ($count)';
+    return '검색 결과 ($count)';
   }
 
   @override
-  String get personaRootAccountLabel => 'Root Account (Default)';
+  String get personaRootAccountLabel => '기본 계정 (기본값)';
 
   @override
-  String get personaEmptyState =>
-      'No personas configured yet. Create one via Manage Personas.';
+  String get personaEmptyState => '아직 구성된 페르소나가 없습니다. 페르소나 관리에서 생성하세요.';
 
   @override
-  String get personaEmptySearch => 'No matching personas found.';
+  String get personaEmptySearch => '일치하는 페르소나를 찾을 수 없습니다.';
 
   @override
-  String get personaEditTitle => 'Edit Persona';
+  String get personaEditTitle => '페르소나 편집';
 
   @override
-  String get personaCreateTitle => 'Create Persona';
+  String get personaCreateTitle => '페르소나 생성';
 
   @override
-  String get personaDisplayNameLabel => 'Display Name';
+  String get personaDisplayNameLabel => '표시 이름';
 
   @override
-  String get personaPronounsLabel => 'Pronouns';
+  String get personaPronounsLabel => '대명사';
 
   @override
-  String get personaPronounsHint => 'e.g. they/them';
+  String get personaPronounsHint => '예: they/them';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => '소개 / 자기소개';
 
   @override
-  String get personaBioHint => 'Tell others about this persona...';
+  String get personaBioHint => '이 페르소나에 대해 알려주세요...';
 
   @override
-  String get personaSaveChanges => 'Save Changes';
+  String get personaSaveChanges => '변경 사항 저장';
 
   @override
-  String get personaUpdatedToast => 'Persona updated';
+  String get personaUpdatedToast => '페르소나 업데이트됨';
 
   @override
   String personaUpdateFailedToast(String error) {
-    return 'Failed to update persona: $error';
+    return '페르소나 업데이트 실패: $error';
   }
 
   @override
-  String get personaSectionTitle => 'Personas';
+  String get personaSectionTitle => '페르소나';
 
   @override
-  String get personaDisplayNameHint => 'Persona name';
+  String get personaDisplayNameHint => '페르소나 이름';
 
   @override
   String personaSendingAsTag(String name) {
-    return 'Sending as $name (Matched by tag)';
+    return '$name 님으로 보내는 중 (태그로 일치)';
   }
 
   @override
   String personaSendingAsLatched(String name) {
-    return 'Sending as $name (Latched)';
+    return '$name 님으로 보내는 중 (고정됨)';
   }
 
   @override
   String personaSendingAsRoot(String username) {
-    return 'Sending as @$username';
+    return '@$username 님으로 보내는 중';
   }
 
   @override
-  String get personaMainAccount => 'Main account';
+  String get personaMainAccount => '기본 계정';
 
   @override
-  String get personaEditPersona => 'Edit persona';
+  String get personaEditPersona => '페르소나 편집';
 
   @override
-  String get userSettingsNavPersonas => 'Personas';
+  String get userSettingsNavPersonas => '페르소나';
 
   @override
   String get personaSettingsDescription =>
-      'Configure your active persona mode, custom display tag, and manage individual personas.';
+      '활성 페르소나 모드와 사용자 지정 표시 태그를 구성하고 개별 페르소나를 관리하세요.';
 
   @override
-  String get personaDisplayTagSection => 'Display Tag';
+  String get personaDisplayTagSection => '표시 태그';
 
   @override
   String get personaDisplayTagDescription =>
-      'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.';
+      '메시지의 모든 페르소나 이름 옆에 표시 태그가 나타납니다. 표시 태그를 설정하지 않으면 계정 프로필 사진이 표시됩니다.';
 
   @override
-  String get personaDisplayTagLabel => 'Display Tag Text';
+  String get personaDisplayTagLabel => '표시 태그 텍스트';
 
   @override
-  String get personaDisplayTagHint => 'e.g. SYS';
+  String get personaDisplayTagHint => '예: SYS';
 
   @override
-  String get personaDisplayTagIconLabel => 'Display Tag Icon';
+  String get personaDisplayTagIconLabel => '표시 태그 아이콘';
 
   @override
-  String get personaUploadTagIcon => 'Upload Icon';
+  String get personaUploadTagIcon => '아이콘 업로드';
 
   @override
-  String get personaChangeTagIcon => 'Change Icon';
+  String get personaChangeTagIcon => '아이콘 변경';
 
   @override
-  String get personaRemoveTagIcon => 'Remove Icon';
+  String get personaRemoveTagIcon => '아이콘 삭제';
 
   @override
-  String get personaChatPreviewTitle => 'Chat Preview';
+  String get personaChatPreviewTitle => '채팅 미리보기';
 
   @override
   String get personaChatPreviewSampleMessage =>
-      'Hello! This is a preview of how messages look with your display tag and active persona.';
+      '안녕하세요! 표시 태그와 활성 페르소나가 적용된 메시지가 어떻게 표시되는지 보여주는 미리보기입니다.';
 
   @override
-  String get personaListTitle => 'Configured Personas';
+  String get personaListTitle => '구성된 페르소나';
 
   @override
-  String get personaAddButton => 'Add Persona';
+  String get personaAddButton => '페르소나 추가';
 
   @override
-  String get personaActiveBadge => 'Active';
+  String get personaActiveBadge => '활성';
 
   @override
-  String get personaMakeActive => 'Set Active';
+  String get personaMakeActive => '활성 상태로 설정';
 
   @override
-  String get personaDeactivate => 'Deactivate';
+  String get personaDeactivate => '비활성화';
 
   @override
-  String get personaDeleteTitle => 'Delete Persona';
+  String get personaDeleteTitle => '페르소나 삭제';
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return '\"$name\"을(를) 삭제하시겠어요? 이 작업은 되돌릴 수 없습니다.';
   }
 
   @override
-  String get personaDeleteConfirm => 'Delete';
+  String get personaDeleteConfirm => '삭제';
 
   @override
-  String get personaDeletedToast => 'Persona deleted';
+  String get personaDeletedToast => '페르소나 삭제됨';
 
   @override
-  String get personaCreatedToast => 'Persona created';
+  String get personaCreatedToast => '페르소나 생성됨';
 
   @override
   String personaCreateFailedToast(String error) {
-    return 'Failed to create persona: $error';
+    return '페르소나 생성 실패: $error';
   }
 
   @override
-  String get personaAvatarLabel => 'Avatar';
+  String get personaAvatarLabel => '아바타';
 
   @override
-  String get personaChangeAvatar => 'Change Avatar';
+  String get personaChangeAvatar => '아바타 변경';
 
   @override
-  String get personaRemoveAvatar => 'Remove Avatar';
+  String get personaRemoveAvatar => '아바타 삭제';
 
   @override
-  String get personaUploadAvatar => 'Upload Avatar';
+  String get personaUploadAvatar => '아바타 업로드';
 
   @override
-  String get personaTagsLabel => 'Persona Tags';
+  String get personaTagsLabel => '페르소나 태그';
 
   @override
-  String get personaTagPrefixLabel => 'Prefix';
+  String get personaTagPrefixLabel => '접두사';
 
   @override
-  String get personaTagSuffixLabel => 'Suffix';
+  String get personaTagSuffixLabel => '접미사';
 
   @override
-  String get personaAutoTagLabel => 'Disable auto-tagging';
+  String get personaAutoTagLabel => '자동 태그 비활성화';
 
   @override
-  String get personaAutoTagDescription =>
-      'Prevent messages from automatically matching these tags.';
+  String get personaAutoTagDescription => '메시지가 이러한 태그와 자동으로 일치하지 않도록 방지합니다.';
 
   @override
-  String get personaVisibilityLabel => 'Visibility';
+  String get personaVisibilityLabel => '공개 범위';
 
   @override
-  String get personaVisibilityUnlisted => 'Unlisted';
+  String get personaVisibilityUnlisted => '일부 공개';
 
   @override
-  String get personaVisibilityPublic => 'Public';
+  String get personaVisibilityPublic => '공개';
 
   @override
-  String get personaVisibilityPrivate => 'Private';
+  String get personaVisibilityPrivate => '비공개';
 }

@@ -14633,233 +14633,234 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get personaSelectTitle => 'Select Persona';
+  String get personaSelectTitle => 'Vyberte personu';
 
   @override
-  String get personaSettingsHeader => 'Persona Settings';
+  String get personaSettingsHeader => 'Nastavení person';
 
   @override
-  String get personaManageAction => 'Manage';
+  String get personaManageAction => 'Spravovat';
 
   @override
-  String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
+  String get personaSearchPlaceholder => 'Hledat persony, značky, zájmena...';
 
   @override
-  String get personaModeOff => 'Off';
+  String get personaModeOff => 'Vypnuto';
 
   @override
-  String get personaModeManual => 'Manual';
+  String get personaModeManual => 'Ručně';
 
   @override
-  String get personaModeLast => 'Last Used';
+  String get personaModeLast => 'Naposledy použito';
 
   @override
   String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
+      'Odesílá se z hlavního účtu, pokud nejsou zadány značky persony.';
 
   @override
   String get personaModeManualDescription =>
-      'Always sends as selected persona until changed.';
+      'Vždy odesílá jako vybraná persona až do změny.';
 
   @override
   String get personaModeLastDescription =>
-      'Auto-switches to the persona used in your last message.';
+      'Automaticky přepne na personu použitou v poslední zprávě.';
 
   @override
-  String get personaRecentHeader => 'RECENT PERSONAS';
+  String get personaRecentHeader => 'NEDÁVNÉ PERSONY';
 
   @override
   String personaAllHeader(int count) {
-    return 'ALL PERSONAS ($count)';
+    return 'VŠECHNY PERSONY ($count)';
   }
 
   @override
   String personaSearchResultsHeader(int count) {
-    return 'SEARCH RESULTS ($count)';
+    return 'VÝSLEDKY VYHLEDÁVÁNÍ ($count)';
   }
 
   @override
-  String get personaRootAccountLabel => 'Root Account (Default)';
+  String get personaRootAccountLabel => 'Hlavní účet (Výchozí)';
 
   @override
   String get personaEmptyState =>
-      'No personas configured yet. Create one via Manage Personas.';
+      'Zatím nejsou nastaveny žádné persony. Vytvořte si ji v nabídce „Spravovat persony“.';
 
   @override
-  String get personaEmptySearch => 'No matching personas found.';
+  String get personaEmptySearch =>
+      'Nebyly nalezeny žádné odpovídající persony.';
 
   @override
-  String get personaEditTitle => 'Edit Persona';
+  String get personaEditTitle => 'Upravit personu';
 
   @override
-  String get personaCreateTitle => 'Create Persona';
+  String get personaCreateTitle => 'Vytvořit personu';
 
   @override
-  String get personaDisplayNameLabel => 'Display Name';
+  String get personaDisplayNameLabel => 'Zobrazované jméno';
 
   @override
-  String get personaPronounsLabel => 'Pronouns';
+  String get personaPronounsLabel => 'Zájmena';
 
   @override
-  String get personaPronounsHint => 'e.g. they/them';
+  String get personaPronounsHint => 'např. oni/jejich';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'O mně';
 
   @override
-  String get personaBioHint => 'Tell others about this persona...';
+  String get personaBioHint => 'Řekněte ostatním něco o této personě...';
 
   @override
-  String get personaSaveChanges => 'Save Changes';
+  String get personaSaveChanges => 'Uložit změny';
 
   @override
-  String get personaUpdatedToast => 'Persona updated';
+  String get personaUpdatedToast => 'Persona aktualizována';
 
   @override
   String personaUpdateFailedToast(String error) {
-    return 'Failed to update persona: $error';
+    return 'Nepodařilo se aktualizovat personu: $error';
   }
 
   @override
-  String get personaSectionTitle => 'Personas';
+  String get personaSectionTitle => 'Persony';
 
   @override
-  String get personaDisplayNameHint => 'Persona name';
+  String get personaDisplayNameHint => 'Jméno persony';
 
   @override
   String personaSendingAsTag(String name) {
-    return 'Sending as $name (Matched by tag)';
+    return 'Odesílá se jako $name (Přiřazeno podle značky)';
   }
 
   @override
   String personaSendingAsLatched(String name) {
-    return 'Sending as $name (Latched)';
+    return 'Odesílá se jako $name (Uzamčeno)';
   }
 
   @override
   String personaSendingAsRoot(String username) {
-    return 'Sending as @$username';
+    return 'Odesílá se jako @$username';
   }
 
   @override
-  String get personaMainAccount => 'Main account';
+  String get personaMainAccount => 'Hlavní účet';
 
   @override
-  String get personaEditPersona => 'Edit persona';
+  String get personaEditPersona => 'Upravit personu';
 
   @override
-  String get userSettingsNavPersonas => 'Personas';
+  String get userSettingsNavPersonas => 'Persony';
 
   @override
   String get personaSettingsDescription =>
-      'Configure your active persona mode, custom display tag, and manage individual personas.';
+      'Nakonfigurujte si režim aktivní persony, vlastní zobrazovanou značku a spravujte jednotlivé persony.';
 
   @override
-  String get personaDisplayTagSection => 'Display Tag';
+  String get personaDisplayTagSection => 'Zobrazovaná značka';
 
   @override
   String get personaDisplayTagDescription =>
-      'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.';
+      'Zobrazovaná značka se objeví vedle jmen všech person ve zprávách. Pokud není nastavena žádná zobrazovaná značka, zobrazí se vaše profilová fotka účtu.';
 
   @override
-  String get personaDisplayTagLabel => 'Display Tag Text';
+  String get personaDisplayTagLabel => 'Text zobrazované značky';
 
   @override
-  String get personaDisplayTagHint => 'e.g. SYS';
+  String get personaDisplayTagHint => 'např. SYS';
 
   @override
-  String get personaDisplayTagIconLabel => 'Display Tag Icon';
+  String get personaDisplayTagIconLabel => 'Ikona zobrazované značky';
 
   @override
-  String get personaUploadTagIcon => 'Upload Icon';
+  String get personaUploadTagIcon => 'Nahrát ikonu';
 
   @override
-  String get personaChangeTagIcon => 'Change Icon';
+  String get personaChangeTagIcon => 'Změnit ikonu';
 
   @override
-  String get personaRemoveTagIcon => 'Remove Icon';
+  String get personaRemoveTagIcon => 'Odebrat ikonu';
 
   @override
-  String get personaChatPreviewTitle => 'Chat Preview';
+  String get personaChatPreviewTitle => 'Náhled chatu';
 
   @override
   String get personaChatPreviewSampleMessage =>
-      'Hello! This is a preview of how messages look with your display tag and active persona.';
+      'Ahoj! Toto je náhled toho, jak vypadají zprávy s vaší zobrazovanou značkou a aktivní personou.';
 
   @override
-  String get personaListTitle => 'Configured Personas';
+  String get personaListTitle => 'Nakonfigurované persony';
 
   @override
-  String get personaAddButton => 'Add Persona';
+  String get personaAddButton => 'Přidat personu';
 
   @override
-  String get personaActiveBadge => 'Active';
+  String get personaActiveBadge => 'Aktivní';
 
   @override
-  String get personaMakeActive => 'Set Active';
+  String get personaMakeActive => 'Nastavit jako aktivní';
 
   @override
-  String get personaDeactivate => 'Deactivate';
+  String get personaDeactivate => 'Deaktivovat';
 
   @override
-  String get personaDeleteTitle => 'Delete Persona';
+  String get personaDeleteTitle => 'Smazat personu';
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'Opravdu chcete smazat „$name“? Tuto akci nelze vrátit zpět.';
   }
 
   @override
-  String get personaDeleteConfirm => 'Delete';
+  String get personaDeleteConfirm => 'Smazat';
 
   @override
-  String get personaDeletedToast => 'Persona deleted';
+  String get personaDeletedToast => 'Persona smazána';
 
   @override
-  String get personaCreatedToast => 'Persona created';
+  String get personaCreatedToast => 'Persona vytvořena';
 
   @override
   String personaCreateFailedToast(String error) {
-    return 'Failed to create persona: $error';
+    return 'Nepodařilo se vytvořit personu: $error';
   }
 
   @override
   String get personaAvatarLabel => 'Avatar';
 
   @override
-  String get personaChangeAvatar => 'Change Avatar';
+  String get personaChangeAvatar => 'Změnit avatar';
 
   @override
-  String get personaRemoveAvatar => 'Remove Avatar';
+  String get personaRemoveAvatar => 'Odebrat avatar';
 
   @override
-  String get personaUploadAvatar => 'Upload Avatar';
+  String get personaUploadAvatar => 'Nahrát avatar';
 
   @override
-  String get personaTagsLabel => 'Persona Tags';
+  String get personaTagsLabel => 'Značky persony';
 
   @override
-  String get personaTagPrefixLabel => 'Prefix';
+  String get personaTagPrefixLabel => 'Předpona';
 
   @override
-  String get personaTagSuffixLabel => 'Suffix';
+  String get personaTagSuffixLabel => 'Přípona';
 
   @override
-  String get personaAutoTagLabel => 'Disable auto-tagging';
+  String get personaAutoTagLabel => 'Zakázat automatické přiřazování';
 
   @override
   String get personaAutoTagDescription =>
-      'Prevent messages from automatically matching these tags.';
+      'Zabrání automatickému přiřazování zpráv k těmto značkám.';
 
   @override
-  String get personaVisibilityLabel => 'Visibility';
+  String get personaVisibilityLabel => 'Viditelnost';
 
   @override
-  String get personaVisibilityUnlisted => 'Unlisted';
+  String get personaVisibilityUnlisted => 'Neuvedeno';
 
   @override
-  String get personaVisibilityPublic => 'Public';
+  String get personaVisibilityPublic => 'Veřejné';
 
   @override
-  String get personaVisibilityPrivate => 'Private';
+  String get personaVisibilityPrivate => 'Soukromé';
 }
