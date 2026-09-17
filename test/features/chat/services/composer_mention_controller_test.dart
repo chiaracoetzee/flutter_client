@@ -375,3 +375,13 @@ void main() {
     expect(controller.toWireText(), 'hello world');
   });
 }
+
+// Fork: upstream's helpers that composer_mention_controller_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by composer_mention_controller_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Future<ComposerMentionController> Function(WidgetTester tester)
+  pumpController,
+});
+// ignore: unreachable_from_main // Fork: used by composer_mention_controller_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (pumpController: _pumpController);
