@@ -698,7 +698,8 @@ class GatewayEventHandler {
         if (event.eventType == 'USER_PERSONA_CREATE' ||
             event.eventType == 'USER_PERSONA_UPDATE' ||
             event.eventType == 'USER_PERSONA_DELETE' ||
-            event.eventType == 'USER_PERSONAS_UPDATE') {
+            event.eventType == 'USER_PERSONAS_UPDATE' ||
+            event.eventType == 'USER_PERSONA_SETTINGS_UPDATE') {
           _emit(() => onUserPersonasUpdate?.call(event.eventType, event.data));
         } else if (event.eventType == 'MESSAGE_UPDATE') {
           talker.warning(
