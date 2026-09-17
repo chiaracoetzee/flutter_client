@@ -2206,11 +2206,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       final p = matchResult.persona!;
       final systemTag = ref.read(systemDisplayTagProvider);
       final String? tagText =
-          (p.systemName != null && p.systemName!.trim().isNotEmpty)
-              ? p.systemName!.trim()
-              : (systemTag.text != null && systemTag.text!.trim().isNotEmpty
-                  ? systemTag.text!.trim()
-                  : null);
+          (systemTag.text != null && systemTag.text!.trim().isNotEmpty)
+              ? systemTag.text!.trim()
+              : null;
       final String? tagIcon =
           (systemTag.iconUrl != null && systemTag.iconUrl!.trim().isNotEmpty)
               ? systemTag.iconUrl!.trim()
