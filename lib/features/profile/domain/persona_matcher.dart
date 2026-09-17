@@ -30,11 +30,15 @@ class PreviewResult {
 class _CandidateMatch {
   const _CandidateMatch({
     required this.persona,
+    required this.prefixLen,
+    required this.suffixLen,
     required this.totalLen,
     required this.innerContent,
   });
 
   final Persona persona;
+  final int prefixLen;
+  final int suffixLen;
   final int totalLen;
   final String innerContent;
 }
@@ -92,13 +96,19 @@ MatchResult matchPersona(
   final candidates = <_CandidateMatch>[];
 
   for (final persona in personas) {
-    if (persona.autoTagDisabled) continue;
-    if (persona.personaTags.isEmpty) continue;
+    if (persona.autoTagDisabled) {
+      continue;
+    }
+    if (persona.personaTags.isEmpty) {
+      continue;
+    }
 
     for (final tag in persona.personaTags) {
       final prefix = tag.prefix ?? '';
       final suffix = tag.suffix ?? '';
-      if (prefix.isEmpty && suffix.isEmpty) continue;
+      if (prefix.isEmpty && suffix.isEmpty) {
+        continue;
+      }
 
       if (text.startsWith(prefix) && text.endsWith(suffix)) {
         final innerStart = prefix.length;
@@ -109,6 +119,8 @@ MatchResult matchPersona(
             candidates.add(
               _CandidateMatch(
                 persona: persona,
+                prefixLen: prefix.length,
+                suffixLen: suffix.length,
                 totalLen: prefix.length + suffix.length,
                 innerContent: inner,
               ),
@@ -117,6 +129,8 @@ MatchResult matchPersona(
             candidates.add(
               _CandidateMatch(
                 persona: persona,
+                prefixLen: prefix.length,
+                suffixLen: suffix.length,
                 totalLen: prefix.length + suffix.length,
                 innerContent: '',
               ),
@@ -127,6 +141,8 @@ MatchResult matchPersona(
           candidates.add(
             _CandidateMatch(
               persona: persona,
+              prefixLen: prefix.length,
+              suffixLen: suffix.length,
               totalLen: prefix.length + suffix.length,
               innerContent: '',
             ),
@@ -150,6 +166,8 @@ MatchResult matchPersona(
               candidates.add(
                 _CandidateMatch(
                   persona: persona,
+                  prefixLen: prefix.length,
+                  suffixLen: suffix.length,
                   totalLen: prefix.length + suffix.length,
                   innerContent: '',
                 ),
@@ -166,6 +184,8 @@ MatchResult matchPersona(
               candidates.add(
                 _CandidateMatch(
                   persona: persona,
+                  prefixLen: prefix.length,
+                  suffixLen: 0,
                   totalLen: prefix.length,
                   innerContent: '',
                 ),
@@ -182,6 +202,8 @@ MatchResult matchPersona(
               candidates.add(
                 _CandidateMatch(
                   persona: persona,
+                  prefixLen: 0,
+                  suffixLen: suffix.length,
                   totalLen: suffix.length,
                   innerContent: '',
                 ),
@@ -194,8 +216,14 @@ MatchResult matchPersona(
   }
 
   if (candidates.isNotEmpty) {
-    // Longest match wins
-    candidates.sort((a, b) => b.totalLen.compareTo(a.totalLen));
+    // Longest match wins. If total length is tied, prefer longer prefix match.
+    candidates.sort((a, b) {
+      final totalCmp = b.totalLen.compareTo(a.totalLen);
+      if (totalCmp != 0) {
+        return totalCmp;
+      }
+      return b.prefixLen.compareTo(a.prefixLen);
+    });
     final best = candidates.first;
     return MatchResult(
       matched: true,
