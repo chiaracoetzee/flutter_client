@@ -96,6 +96,7 @@ typedef VoiceServerUpdateCallback = void Function(VoiceServerUpdateEvent event);
 typedef VoiceStateAckCallback = void Function(VoiceStateAckEvent event);
 typedef DefaultHideMutedChannelsResolver = bool Function();
 typedef GatewayErrorCallback = void Function(GatewayErrorEvent event);
+typedef UserPersonasUpdateCallback = void Function(String eventType, dynamic data);
 
 String? _presenceCustomStatusFromMap(Map<String, dynamic> presence) {
   final Map<String, dynamic>? customStatusMap =
@@ -160,6 +161,7 @@ class GatewayEventHandler {
     this.onWebhooksUpdate,
     this.onEntranceSoundPlay,
     this.resolveDefaultHideMutedChannels,
+    this.onUserPersonasUpdate,
   }) {
     final ReactionWriteBatcher? batcher = reactionWriteBatcher;
     if (batcher == null) {
@@ -225,6 +227,7 @@ class GatewayEventHandler {
   final WebhooksUpdateCallback? onWebhooksUpdate;
   final EntranceSoundPlayCallback? onEntranceSoundPlay;
   final DefaultHideMutedChannelsResolver? resolveDefaultHideMutedChannels;
+  final UserPersonasUpdateCallback? onUserPersonasUpdate;
 
   late final PresenceUpdateBatcher _presenceUpdateBatcher =
       PresenceUpdateBatcher(database: database, currentUserId: currentUserId);
@@ -684,7 +687,12 @@ class GatewayEventHandler {
         talker.warning('[Gateway] Error: [${e.code}] ${e.message}');
         _emit(() => onGatewayError?.call(e));
       case UnknownGatewayEvent():
-        if (event.eventType == 'MESSAGE_UPDATE') {
+        if (event.eventType == 'USER_PERSONA_CREATE' ||
+            event.eventType == 'USER_PERSONA_UPDATE' ||
+            event.eventType == 'USER_PERSONA_DELETE' ||
+            event.eventType == 'USER_PERSONAS_UPDATE') {
+          _emit(() => onUserPersonasUpdate?.call(event.eventType, event.data));
+        } else if (event.eventType == 'MESSAGE_UPDATE') {
           talker.warning(
             '[Gateway] Failed to parse MESSAGE_UPDATE: ${event.data}',
           );
