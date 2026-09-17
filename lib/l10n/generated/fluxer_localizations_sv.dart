@@ -14328,210 +14328,210 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get personaSelectTitle => 'Select Persona';
+  String get personaSelectTitle => 'Välj persona';
 
   @override
-  String get personaSettingsHeader => 'Persona Settings';
+  String get personaSettingsHeader => 'Personainställningar';
 
   @override
-  String get personaManageAction => 'Manage';
+  String get personaManageAction => 'Hantera';
 
   @override
-  String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
+  String get personaSearchPlaceholder => 'Sök personas, taggar, pronomen...';
 
   @override
-  String get personaModeOff => 'Off';
+  String get personaModeOff => 'Av';
 
   @override
-  String get personaModeManual => 'Manual';
+  String get personaModeManual => 'Manuellt';
 
   @override
-  String get personaModeLast => 'Last Used';
+  String get personaModeLast => 'Senast använd';
 
   @override
   String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
+      'Skickar som huvudkonto såvida inte personataggar skrivs.';
 
   @override
   String get personaModeManualDescription =>
-      'Always sends as selected persona until changed.';
+      'Skickar alltid som vald persona tills det ändras.';
 
   @override
   String get personaModeLastDescription =>
-      'Auto-switches to the persona used in your last message.';
+      'Växlar automatiskt till den persona som användes i ditt senaste meddelande.';
 
   @override
-  String get personaRecentHeader => 'RECENT PERSONAS';
+  String get personaRecentHeader => 'SENASTE PERSONAS';
 
   @override
   String personaAllHeader(int count) {
-    return 'ALL PERSONAS ($count)';
+    return 'ALLA PERSONAS ($count)';
   }
 
   @override
   String personaSearchResultsHeader(int count) {
-    return 'SEARCH RESULTS ($count)';
+    return 'SÖKRESULTAT ($count)';
   }
 
   @override
-  String get personaRootAccountLabel => 'Root Account (Default)';
+  String get personaRootAccountLabel => 'Huvudkonto (standard)';
 
   @override
   String get personaEmptyState =>
-      'No personas configured yet. Create one via Manage Personas.';
+      'Inga personas har konfigurerats än. Skapa en via Hantera personas.';
 
   @override
-  String get personaEmptySearch => 'No matching personas found.';
+  String get personaEmptySearch => 'Hittade inga matchande personas.';
 
   @override
-  String get personaEditTitle => 'Edit Persona';
+  String get personaEditTitle => 'Redigera persona';
 
   @override
-  String get personaCreateTitle => 'Create Persona';
+  String get personaCreateTitle => 'Skapa persona';
 
   @override
-  String get personaDisplayNameLabel => 'Display Name';
+  String get personaDisplayNameLabel => 'Visningsnamn';
 
   @override
-  String get personaPronounsLabel => 'Pronouns';
+  String get personaPronounsLabel => 'Pronomen';
 
   @override
-  String get personaPronounsHint => 'e.g. they/them';
+  String get personaPronounsHint => 't.ex. hen/henom';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'Presentation / Om mig';
 
   @override
-  String get personaBioHint => 'Tell others about this persona...';
+  String get personaBioHint => 'Berätta för andra om denna persona...';
 
   @override
-  String get personaSaveChanges => 'Save Changes';
+  String get personaSaveChanges => 'Spara ändringar';
 
   @override
-  String get personaUpdatedToast => 'Persona updated';
+  String get personaUpdatedToast => 'Persona uppdaterad';
 
   @override
   String personaUpdateFailedToast(String error) {
-    return 'Failed to update persona: $error';
+    return 'Kunde inte uppdatera persona: $error';
   }
 
   @override
   String get personaSectionTitle => 'Personas';
 
   @override
-  String get personaDisplayNameHint => 'Persona name';
+  String get personaDisplayNameHint => 'Personanamn';
 
   @override
   String personaSendingAsTag(String name) {
-    return 'Sending as $name (Matched by tag)';
+    return 'Skickar som $name (matchad av tagg)';
   }
 
   @override
   String personaSendingAsLatched(String name) {
-    return 'Sending as $name (Latched)';
+    return 'Skickar som $name (låst)';
   }
 
   @override
   String personaSendingAsRoot(String username) {
-    return 'Sending as @$username';
+    return 'Skickar som @$username';
   }
 
   @override
-  String get personaMainAccount => 'Main account';
+  String get personaMainAccount => 'Huvudkonto';
 
   @override
-  String get personaEditPersona => 'Edit persona';
+  String get personaEditPersona => 'Redigera persona';
 
   @override
   String get userSettingsNavPersonas => 'Personas';
 
   @override
   String get personaSettingsDescription =>
-      'Configure your active persona mode, custom display tag, and manage individual personas.';
+      'Konfigurera ditt aktiva persona-läge, anpassade visningstagg och hantera enskilda personas.';
 
   @override
-  String get personaDisplayTagSection => 'Display Tag';
+  String get personaDisplayTagSection => 'Visningstagg';
 
   @override
   String get personaDisplayTagDescription =>
-      'Display tag will appear next to all persona names in messages. If no display tag is set, your account profile picture will be shown.';
+      'Visningstaggen visas bredvid alla personanamn i meddelanden. Om ingen visningstagg anges, visas din kontoprofilbild.';
 
   @override
-  String get personaDisplayTagLabel => 'Display Tag Text';
+  String get personaDisplayTagLabel => 'Visningstaggtext';
 
   @override
-  String get personaDisplayTagHint => 'e.g. SYS';
+  String get personaDisplayTagHint => 't.ex. SYS';
 
   @override
-  String get personaDisplayTagIconLabel => 'Display Tag Icon';
+  String get personaDisplayTagIconLabel => 'Ikon för visningstagg';
 
   @override
-  String get personaUploadTagIcon => 'Upload Icon';
+  String get personaUploadTagIcon => 'Ladda upp ikon';
 
   @override
-  String get personaChangeTagIcon => 'Change Icon';
+  String get personaChangeTagIcon => 'Ändra ikon';
 
   @override
-  String get personaRemoveTagIcon => 'Remove Icon';
+  String get personaRemoveTagIcon => 'Ta bort ikon';
 
   @override
-  String get personaChatPreviewTitle => 'Chat Preview';
+  String get personaChatPreviewTitle => 'Förhandsvisning av chatt';
 
   @override
   String get personaChatPreviewSampleMessage =>
-      'Hello! This is a preview of how messages look with your display tag and active persona.';
+      'Hej! Detta är en förhandsvisning av hur meddelanden ser ut med din visningstagg och aktiva persona.';
 
   @override
-  String get personaListTitle => 'Configured Personas';
+  String get personaListTitle => 'Konfigurerade personas';
 
   @override
-  String get personaAddButton => 'Add Persona';
+  String get personaAddButton => 'Lägg till persona';
 
   @override
-  String get personaActiveBadge => 'Active';
+  String get personaActiveBadge => 'Aktiv';
 
   @override
-  String get personaMakeActive => 'Set Active';
+  String get personaMakeActive => 'Sätt som aktiv';
 
   @override
-  String get personaDeactivate => 'Deactivate';
+  String get personaDeactivate => 'Inaktivera';
 
   @override
-  String get personaDeleteTitle => 'Delete Persona';
+  String get personaDeleteTitle => 'Ta bort persona';
 
   @override
   String personaDeleteMessage(String name) {
-    return 'Are you sure you want to delete \"$name\"? This cannot be undone.';
+    return 'Är du säker på att du vill ta bort \"$name\"? Detta kan inte ångras.';
   }
 
   @override
-  String get personaDeleteConfirm => 'Delete';
+  String get personaDeleteConfirm => 'Ta bort';
 
   @override
-  String get personaDeletedToast => 'Persona deleted';
+  String get personaDeletedToast => 'Persona borttagen';
 
   @override
-  String get personaCreatedToast => 'Persona created';
+  String get personaCreatedToast => 'Persona skapad';
 
   @override
   String personaCreateFailedToast(String error) {
-    return 'Failed to create persona: $error';
+    return 'Kunde inte skapa persona: $error';
   }
 
   @override
   String get personaAvatarLabel => 'Avatar';
 
   @override
-  String get personaChangeAvatar => 'Change Avatar';
+  String get personaChangeAvatar => 'Ändra avatar';
 
   @override
-  String get personaRemoveAvatar => 'Remove Avatar';
+  String get personaRemoveAvatar => 'Ta bort avatar';
 
   @override
-  String get personaUploadAvatar => 'Upload Avatar';
+  String get personaUploadAvatar => 'Ladda upp avatar';
 
   @override
-  String get personaTagsLabel => 'Persona Tags';
+  String get personaTagsLabel => 'Personataggar';
 
   @override
   String get personaTagPrefixLabel => 'Prefix';
@@ -14540,21 +14540,21 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get personaTagSuffixLabel => 'Suffix';
 
   @override
-  String get personaAutoTagLabel => 'Disable auto-tagging';
+  String get personaAutoTagLabel => 'Inaktivera automatisk matchning';
 
   @override
   String get personaAutoTagDescription =>
-      'Prevent messages from automatically matching these tags.';
+      'Förhindrar att meddelanden automatiskt matchar dessa taggar.';
 
   @override
-  String get personaVisibilityLabel => 'Visibility';
+  String get personaVisibilityLabel => 'Synlighet';
 
   @override
-  String get personaVisibilityUnlisted => 'Unlisted';
+  String get personaVisibilityUnlisted => 'Olistad';
 
   @override
-  String get personaVisibilityPublic => 'Public';
+  String get personaVisibilityPublic => 'Offentlig';
 
   @override
-  String get personaVisibilityPrivate => 'Private';
+  String get personaVisibilityPrivate => 'Privat';
 }
