@@ -13,6 +13,8 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -21,9 +23,10 @@ class PersonaPickerSheet {
   PersonaPickerSheet._();
 
   static Future<void> show(BuildContext context) {
+    final l10n = FluxerLocalizations.of(context);
     return FluxerBottomSheet.showScrollable<void>(
       context,
-      title: 'Select Persona',
+      title: l10n.fork.personaSelectTitle,
       useRootNavigator: true,
       minChildSize: 0.55,
       builder: (sheetContext, scrollController, close) {
@@ -102,6 +105,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
+    final l10n = FluxerLocalizations.of(context);
 
     final personasAsync = ref.watch(myPersonasProvider);
     final activeState = ref.watch(activePersonaProvider);
@@ -142,10 +146,9 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
     };
 
     final modeDescription = switch (activeState.mode) {
-      PersonaMode.off => 'Sends as root account unless proxy tags are typed.',
-      PersonaMode.manual => 'Always sends as selected persona until changed.',
-      PersonaMode.last =>
-        'Auto-switches to the persona used in your last message.',
+      PersonaMode.off => l10n.fork.personaModeOffDescription,
+      PersonaMode.manual => l10n.fork.personaModeManualDescription,
+      PersonaMode.last => l10n.fork.personaModeLastDescription,
     };
 
     return ListView(
@@ -162,7 +165,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Persona Settings',
+              l10n.fork.personaSettingsHeader,
               style: textStyles.label.copyWith(
                 color: colors.textSecondary,
                 fontWeight: FontWeight.w600,
@@ -186,7 +189,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
                     ),
                     SizedBox(width: layout.s1),
                     Text(
-                      'Manage',
+                      l10n.fork.personaManageAction,
                       style: textStyles.label.copyWith(
                         color: colors.textSecondary,
                         fontWeight: FontWeight.w600,
@@ -203,7 +206,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
         // Search Input
         FluxerInput(
           controller: _searchController,
-          hint: 'Search personas, tags, pronouns...',
+          hint: l10n.fork.personaSearchPlaceholder,
           prefixIcon: const Icon(PhosphorIconsBold.magnifyingGlass, size: 16),
           suffixIcon: _query.isNotEmpty ? const Icon(PhosphorIconsBold.x, size: 16) : null,
           onSuffixTap: _query.isNotEmpty ? () => _searchController.clear() : null,
@@ -213,10 +216,10 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
         // Mode Segmented Tabs
         FluxerSegmentedTabs(
           expanded: true,
-          tabs: const [
-            FluxerTab(label: 'Off'),
-            FluxerTab(label: 'Manual'),
-            FluxerTab(label: 'Last Used'),
+          tabs: [
+            FluxerTab(label: l10n.fork.personaModeOff),
+            FluxerTab(label: l10n.fork.personaModeManual),
+            FluxerTab(label: l10n.fork.personaModeLast),
           ],
           selectedIndex: modeIndex,
           onChanged: (index) {
@@ -245,10 +248,11 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
         ),
         SizedBox(height: layout.s3),
 
+
         // Recent Shelf (if available & no active search)
         if (recents.isNotEmpty) ...[
           Text(
-            'RECENT PERSONAS',
+            l10n.fork.personaRecentHeader,
             style: textStyles.label.copyWith(
               color: colors.textTertiary,
               fontSize: 11,
@@ -354,7 +358,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
                         ),
                       ),
                       Text(
-                        'Root Account (Default)',
+                        l10n.fork.personaRootAccountLabel,
                         style: textStyles.bodySmall.copyWith(
                           color: colors.textTertiary,
                         ),
@@ -380,8 +384,8 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
         // Section Title: All Personas / Search Results
         Text(
           _query.isNotEmpty
-              ? 'SEARCH RESULTS (${filteredPersonas.length})'
-              : 'ALL PERSONAS (${filteredPersonas.length})',
+              ? l10n.fork.personaSearchResultsHeader(filteredPersonas.length)
+              : l10n.fork.personaAllHeader(filteredPersonas.length),
           style: textStyles.label.copyWith(
             color: colors.textTertiary,
             fontSize: 11,
@@ -397,14 +401,15 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
             child: Center(
               child: Text(
                 personas.isEmpty
-                    ? 'No personas configured yet. Create one via Manage Personas.'
-                    : 'No matching personas found.',
+                    ? l10n.fork.personaEmptyState
+                    : l10n.fork.personaEmptySearch,
                 style: textStyles.bodySmall.copyWith(
                   color: colors.textTertiary,
                 ),
               ),
             ),
           )
+
         else
           for (final persona in filteredPersonas) ...[
             _PersonaListTile(
