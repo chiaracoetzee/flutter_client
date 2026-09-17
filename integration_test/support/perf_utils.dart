@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
 import 'scroll_utils.dart';
+import 'test_config.dart';
 
 Future<void> traceScrollPerf(
   IntegrationTestWidgetsFlutterBinding binding,
@@ -10,7 +11,7 @@ Future<void> traceScrollPerf(
   required Finder scrollTarget,
   // A fling plus pause costs ~7.8k timeline events, the ring buffer holds
   // ~32k: more than three flings and the earlier ones are evicted.
-  int flingCount = 3,
+  int flingCount = IntegrationTestConfig.perfFlingCount,
   Offset direction = const Offset(0, -1200),
   Duration pause = const Duration(milliseconds: 150),
 }) async {
@@ -35,7 +36,11 @@ Future<void> traceScrollPerf(
       },
       // 'all' floods the ~32k event VM timeline ring buffer: the API stream
       // alone was 86% of it, evicting the scroll that was being measured.
-      streams: const <String>['Dart', 'Embedder', 'GC'],
+      streams: IntegrationTestConfig.perfStreams
+          .split(',')
+          .map((String stream) => stream.trim())
+          .where((String stream) => stream.isNotEmpty)
+          .toList(),
       reportKey: reportKey,
     );
   } finally {

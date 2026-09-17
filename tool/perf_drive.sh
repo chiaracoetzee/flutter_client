@@ -44,6 +44,12 @@ fi
 if [ -n "${TEST_LAB_CHANNEL_ID:-}" ]; then
   DART_DEFINES+=(--dart-define=TEST_LAB_CHANNEL_ID="$TEST_LAB_CHANNEL_ID")
 fi
+if [ -n "${PERF_STREAMS:-}" ]; then
+  DART_DEFINES+=(--dart-define=PERF_STREAMS="$PERF_STREAMS")
+fi
+if [ -n "${PERF_FLING_COUNT:-}" ]; then
+  DART_DEFINES+=(--dart-define=PERF_FLING_COUNT="$PERF_FLING_COUNT")
+fi
 
 flutter drive \
   --profile \
@@ -59,6 +65,16 @@ SUMMARIES=(build/perf/*.timeline_summary.json)
 shopt -u nullglob
 
 if [ "${#SUMMARIES[@]}" -eq 0 ]; then
+  if [ -n "${PERF_STREAMS:-}" ] && [[ "${PERF_STREAMS}" != *Embedder* ]]; then
+    shopt -s nullglob
+    TIMELINES=(build/perf/*.timeline.json)
+    shopt -u nullglob
+    echo "no summaries: PERF_STREAMS lacks Embedder, raw timelines only"
+    for timeline in "${TIMELINES[@]}"; do
+      echo "  ${timeline}"
+    done
+    exit 0
+  fi
   echo "error: no summaries written to build/perf; did the test call traceAction with a reportKey?" >&2
   exit 1
 fi
