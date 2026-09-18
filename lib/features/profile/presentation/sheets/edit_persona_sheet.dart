@@ -156,7 +156,25 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       final suffix = _suffixController.text.trim();
       final List<Map<String, dynamic>> tags = [];
       if (prefix.isNotEmpty || suffix.isNotEmpty) {
-        tags.add({'prefix': prefix, 'suffix': suffix});
+        tags.add(PersonaTag(
+          prefix: prefix.isNotEmpty ? prefix : null,
+          suffix: suffix.isNotEmpty ? suffix : null,
+        ).toJson());
+      }
+
+      // Preserve any secondary tags configured on this persona
+      if (widget.persona != null && widget.persona!.personaTags.length > 1) {
+        for (int i = 1; i < widget.persona!.personaTags.length; i++) {
+          final t = widget.persona!.personaTags[i];
+          final pfx = t.prefix?.trim();
+          final sfx = t.suffix?.trim();
+          if ((pfx != null && pfx.isNotEmpty) || (sfx != null && sfx.isNotEmpty)) {
+            tags.add(PersonaTag(
+              prefix: (pfx != null && pfx.isNotEmpty) ? pfx : null,
+              suffix: (sfx != null && sfx.isNotEmpty) ? sfx : null,
+            ).toJson());
+          }
+        }
       }
 
       final payload = <String, dynamic>{
