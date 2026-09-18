@@ -39,6 +39,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_availability_provider
 import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -325,6 +326,8 @@ class AppStartup extends _$AppStartup {
     unawaited(
       ref.read(serviceStatusMaintenanceReadProvider.notifier).refresh(),
     );
+    unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+    unawaited(ref.read(personaSettingsProvider.notifier).reloadSilently());
 
     await (launchPluginWarm ?? _warmLaunchNavigationPlugins());
     if (!ref.mounted) {
