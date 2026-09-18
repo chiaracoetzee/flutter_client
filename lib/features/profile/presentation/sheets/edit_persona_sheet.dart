@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -140,8 +141,73 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   Future<void> _save() async {
     final String name = _nameController.text.trim();
     if (name.isEmpty) {
+      ref.read(toastProvider.notifier).show(
+            const FluxerToast(
+              message: 'Please enter a persona display name',
+              variant: FluxerToastVariant.danger,
+            ),
+          );
       return;
     }
+    if (name.length > 100) {
+      ref.read(toastProvider.notifier).show(
+            const FluxerToast(
+              message: 'Persona display name must be 100 characters or less',
+              variant: FluxerToastVariant.danger,
+            ),
+          );
+      return;
+    }
+
+    final prefix = _prefixController.text.trim();
+    final suffix = _suffixController.text.trim();
+    if (prefix.length > 32) {
+      ref.read(toastProvider.notifier).show(
+            const FluxerToast(
+              message: 'Persona tag prefix must be 32 characters or less',
+              variant: FluxerToastVariant.danger,
+            ),
+          );
+      return;
+    }
+    if (suffix.length > 32) {
+      ref.read(toastProvider.notifier).show(
+            const FluxerToast(
+              message: 'Persona tag suffix must be 32 characters or less',
+              variant: FluxerToastVariant.danger,
+            ),
+          );
+      return;
+    }
+
+    // Client-side duplicate tag collision check against own personas
+    if (prefix.isNotEmpty || suffix.isNotEmpty) {
+      final existingPersonas =
+          ref.read(myPersonasProvider).asData?.value ?? const [];
+      final currentId = widget.persona?.id;
+      for (final other in existingPersonas) {
+        if (currentId != null && other.id == currentId) continue;
+        for (final otherTag in other.personaTags) {
+          final otherPrefix = (otherTag.prefix ?? '').trim();
+          final otherSuffix = (otherTag.suffix ?? '').trim();
+          if (otherPrefix.isEmpty && otherSuffix.isEmpty) continue;
+          if (otherPrefix == prefix && otherSuffix == suffix) {
+            final tagDisplay = otherTag.displayPattern.isNotEmpty
+                ? otherTag.displayPattern
+                : '$prefix...$suffix';
+            ref.read(toastProvider.notifier).show(
+                  FluxerToast(
+                    message:
+                        "The tag '$tagDisplay' is already in use by '${other.name}'.",
+                    variant: FluxerToastVariant.danger,
+                  ),
+                );
+            return;
+          }
+        }
+      }
+    }
+
     final l10n = FluxerLocalizations.of(context);
     setState(() => _isSaving = true);
     try {
@@ -152,8 +218,6 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       final String? bio =
           _bioController.text.trim().isEmpty ? null : _bioController.text.trim();
 
-      final prefix = _prefixController.text.trim();
-      final suffix = _suffixController.text.trim();
       final List<Map<String, dynamic>> tags = [];
       if (prefix.isNotEmpty || suffix.isNotEmpty) {
         tags.add(PersonaTag(
@@ -259,12 +323,13 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       }
     } on Object catch (err, st) {
       talker.error('[EditPersonaSheet] Save failed: $err', err, st);
+      final String errorMessage = userFacingErrorMessage(err, err.toString());
       if (mounted) {
         ref.read(toastProvider.notifier).show(
               FluxerToast(
                 message: widget.persona != null
-                    ? l10n.personaUpdateFailedToast(err.toString())
-                    : l10n.personaCreateFailedToast(err.toString()),
+                    ? l10n.personaUpdateFailedToast(errorMessage)
+                    : l10n.personaCreateFailedToast(errorMessage),
                 variant: FluxerToastVariant.danger,
               ),
             );
@@ -398,7 +463,6 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               child: FluxerInput(
                 controller: _prefixController,
                 label: l10n.personaTagPrefixLabel,
-                hint: '[',
                 maxLength: 20,
                 enabled: !_isSaving,
               ),
@@ -408,7 +472,6 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               child: FluxerInput(
                 controller: _suffixController,
                 label: l10n.personaTagSuffixLabel,
-                hint: ']',
                 maxLength: 20,
                 enabled: !_isSaving,
               ),
