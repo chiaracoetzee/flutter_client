@@ -238,7 +238,7 @@ async def main():
         f"Initial Repository Context:\n"
         f"{conflict_summary}\n\n"
         f"Begin immediately by using your tools: inspect the conflicted files, check their context, "
-        f"resolve the conflicts, stage them with git add, continue the rebase, and run the flutter and dart test suites.\n"
+        f"resolve the conflicts, stage them with git add, continue the rebase, and run the flutter and dart test suites along with `flutter analyze`.\n"
         f"If human intervention is required, write your diagnostic report to `/tmp/rebase_escalation_reason.md` and exit."
     )
 

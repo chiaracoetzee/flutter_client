@@ -158,6 +158,8 @@ jobs:
           (cd packages/fluxer_markdown_native && dart test)
           (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)
           flutter test test/features/chat/services/composer_mention_controller_test.dart test/features/chat/presentation/widgets/messages/message_mention_test.dart
+          echo "Running baseline static code analysis..."
+          flutter analyze
 
       - name: Attempt Git Rebase against upstream/canary
         id: attempt_rebase
@@ -212,6 +214,8 @@ jobs:
           (cd packages/fluxer_markdown_native && dart test)
           (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)
           flutter test test/features/chat/services/composer_mention_controller_test.dart test/features/chat/presentation/widgets/messages/message_mention_test.dart
+          echo "Running post-rebase static code analysis..."
+          flutter analyze
 
       - name: Push Rebased Branch
         if: steps.check_upstream.outputs.skip_rebase != 'true' && (github.event_name == 'schedule' || inputs.dry_run == false || inputs.dry_run == 'false')
