@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/api/retry_after.dart';
 
 String? apiErrorCodeFromDioException(DioException error) {
   final Object? data = error.response?.data;
-  if (data is Map<String, dynamic>) {
+  if (data is Map) {
     final Object? code = data['code'];
     if (code is String && code.isNotEmpty) {
       return code;
@@ -24,13 +24,35 @@ int? retryAfterMsFromDioException(DioException error) {
 
 String? apiMessageFromDioException(DioException error) {
   final Object? data = error.response?.data;
-  if (data is Map<String, dynamic>) {
-    final String? fieldMessage = _invalidFormBodyMessage(data);
-    if (fieldMessage != null) {
-      return fieldMessage;
+  if (data is Map) {
+    // Fork: the first validation error with its field, from either response shape
+    // (e.g. Zod / InputValidationError). Runs before upstream's INVALID_FORM_BODY
+    // message below so persona forms keep naming the field.
+    final dynamic nestedData = data['data'];
+    final dynamic errors =
+        nestedData is Map ? nestedData['errors'] : data['errors'];
+    if (errors is List && errors.isNotEmpty) {
+      final firstError = errors.first;
+      if (firstError is Map) {
+        final dynamic firstMsg = firstError['message'];
+        final dynamic firstField = firstError['path'] ?? firstError['field'];
+        if (firstMsg is String && firstMsg.isNotEmpty) {
+          if (firstField is String && firstField.isNotEmpty) {
+            return '$firstField: $firstMsg';
+          }
+          return firstMsg;
+        }
+      }
     }
-    final String? message = data['message'] as String?;
-    if (message != null && message.isNotEmpty) {
+
+    if (data is Map<String, dynamic>) {
+      final String? fieldMessage = _invalidFormBodyMessage(data);
+      if (fieldMessage != null) {
+        return fieldMessage;
+      }
+    }
+    final dynamic message = data['message'];
+    if (message is String && message.isNotEmpty) {
       return message;
     }
   }
