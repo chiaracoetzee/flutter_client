@@ -39,7 +39,7 @@ MD_TRANSCRIPT_FILE = "/tmp/rebase_transcript.md"
 APP_DATA_DIR = "/tmp/antigravity_data"
 LOG_SAVE_DIR = "/tmp/antigravity_data/sessions"
 CONVERSATION_ID = "flutter-client-rebase-automation-session"
-TIMEOUT_SECONDS = 600  # 10 minute internal timeout
+TIMEOUT_SECONDS = 1080  # 18 minute internal timeout (matches 20m CI step)
 
 
 class MarkdownLogger:
@@ -208,10 +208,16 @@ async def main():
         "2. CLEANLY ADOPT UPSTREAM: Incorporate upstream UI refactors, Flutter/Dart updates, and new features from canary.\n"
         "3. RESOLVE CONFLICTS: Read conflicted files, inspect surrounding context, remove conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`), "
         "and stage resolved files with `git add`.\n"
-        "   - TIP: If Protobuf generated files (e.g. in `packages/schema/src/gen/`) conflict, you can cleanly regenerate them at any point using: `pnpm --filter @fluxer/schema generate`.\n"
+        "   - LOCALIZATIONS & GENERATED CODE TIP: If localization files under `lib/l10n/` or `lib/l10n/generated/` conflict, resolve any conflict in the source `.arb` files (e.g. `lib/l10n/fluxer_en.arb`), then run `flutter gen-l10n` to automatically regenerate all Dart files under `lib/l10n/generated/`, and run `git add lib/l10n/`. Do NOT attempt to manually edit files in `lib/l10n/generated/`.\n"
+        "   - BUILD RUNNER TIP: If model or Riverpod generated code (`*.g.dart`) needs updating, run `dart run build_runner build`.\n"
         "4. CONTINUE REBASE: Use `git -c core.editor=true rebase --continue` to advance through commits until the rebase is finished.\n"
-        "5. RUN TESTS & FIX REGRESSIONS: Run test suites (`pnpm --filter @fluxer/schema test src/domains/persona/`, `pnpm --filter fluxer_app test src/features/persona/`, `pnpm --filter fluxer_api test src/api/persona/tests/`). "
-        "If tests fail, inspect the failures, view related files across the repo, fix the code, and re-run tests until green.\n\n"
+        "5. RUN TESTS & FIX REGRESSIONS: Run the targeted test suite to verify subprofile features:\n"
+        "   - Persona unit & widget tests: `flutter test test/features/chat/services/composer_mention_controller_test.dart test/features/chat/presentation/widgets/messages/message_mention_test.dart`\n"
+        "   - Native markdown tests: `(cd packages/fluxer_markdown_native && dart test)`\n"
+        "   - Dart SDK tests: `(cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)`\n"
+        "   - Code analysis: `flutter analyze`\n"
+        "   Do NOT run bare `flutter test` across all files in the repository without arguments, as running hundreds of unrelated UI tests can exceed the runner time limit.\n"
+        "   If tests fail, inspect the failures, view related files across the repo, fix the code, and re-run tests until green.\n\n"
         "6. HUMAN INTERVENTION ESCALATION CRITERIA:\n"
         "If you determine that a conflict or regression CANNOT be safely resolved autonomously—for example:\n"
         "   - Upstream has fundamentally rewritten or removed a core architectural subsystem that subprofiles depend on,\n"
