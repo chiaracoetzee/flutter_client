@@ -138,6 +138,19 @@ jobs:
           (cd packages/fluxer_markdown_native && dart pub get)
           (cd dart_sdk && dart pub get)
 
+      - name: Restore build_runner cache
+        if: steps.check_upstream.outputs.skip_rebase != 'true'
+        uses: actions/cache@v4
+        with:
+          path: .dart_tool/build
+          key: ${{ runner.os }}-build-runner-${{ hashFiles('pubspec.lock', 'lib/**', 'build.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-runner-
+
+      - name: Run code generation (pre-rebase)
+        if: steps.check_upstream.outputs.skip_rebase != 'true'
+        run: dart run build_runner build
+
       - name: Run Baseline Pre-Rebase Test Gate
         if: steps.check_upstream.outputs.skip_rebase != 'true'
         run: |
@@ -186,6 +199,10 @@ jobs:
           else
             echo "Submodules already up to date."
           fi
+
+      - name: Run code generation (post-rebase)
+        if: steps.check_upstream.outputs.skip_rebase != 'true'
+        run: dart run build_runner build
 
       - name: Run Post-Rebase Test Verification Gate
         id: test_gate
