@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/api/retry_after.dart';
 
 String? apiErrorCodeFromDioException(DioException error) {
   final Object? data = error.response?.data;
-  if (data is Map<String, dynamic>) {
+  if (data is Map) {
     final Object? code = data['code'];
     if (code is String && code.isNotEmpty) {
       return code;
@@ -24,13 +24,36 @@ int? retryAfterMsFromDioException(DioException error) {
 
 String? apiMessageFromDioException(DioException error) {
   final Object? data = error.response?.data;
-  if (data is Map<String, dynamic>) {
-    final String? fieldMessage = _invalidFormBodyMessage(data);
-    if (fieldMessage != null) {
-      return fieldMessage;
+  if (data is Map) {
+    if (data is Map<String, dynamic>) {
+      final String? fieldMessage = _invalidFormBodyMessage(data);
+      if (fieldMessage != null) {
+        return fieldMessage;
+      }
     }
-    final String? message = data['message'] as String?;
-    if (message != null && message.isNotEmpty) {
+    // Fork: the first validation error with its field, for the response shapes
+    // upstream's INVALID_FORM_BODY message above does not read (errors nested
+    // under data, or under another code).
+    final dynamic nestedData = data['data'];
+    final dynamic errors = nestedData is Map
+        ? nestedData['errors']
+        : data['errors'];
+    if (errors is List && errors.isNotEmpty) {
+      final firstError = errors.first;
+      if (firstError is Map) {
+        final dynamic firstMsg = firstError['message'];
+        final dynamic firstField = firstError['path'] ?? firstError['field'];
+        if (firstMsg is String && firstMsg.isNotEmpty) {
+          if (firstField is String && firstField.isNotEmpty) {
+            return '$firstField: $firstMsg';
+          }
+          return firstMsg;
+        }
+      }
+    }
+
+    final dynamic message = data['message'];
+    if (message is String && message.isNotEmpty) {
       return message;
     }
   }
