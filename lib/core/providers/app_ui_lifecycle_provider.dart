@@ -142,7 +142,13 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     }
     if (!wasForeground && isForeground) {
       unawaited(ref.read(wellKnownProvider.notifier).refresh());
-      unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+      // Fork: refresh personas where the signed-in app already uses them.
+      if (ref.exists(myPersonasProvider)) {
+        unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+      }
+      if (ref.exists(personaSettingsProvider)) {
+        unawaited(ref.read(personaSettingsProvider.notifier).reloadSilently());
+      }
     }
     unawaited(
       AppMediaAudioSession.instance.setForeground(foreground: isForeground),
