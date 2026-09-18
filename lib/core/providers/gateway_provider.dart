@@ -185,6 +185,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(gatewayFullRecoveryProvider.notifier).bump();
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
+      unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+      unawaited(ref.read(personaSettingsProvider.notifier).reloadSilently());
     }),
     onResumed: () => ifMounted(() {
       talker.info('[Gateway] RESUMED, light recovery');
