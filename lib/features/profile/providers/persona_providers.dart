@@ -138,6 +138,10 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
       state = AsyncValue.data(current.where((p) => p.id != id).toList());
     });
   }
+
+  void reset() {
+    state = const AsyncValue.data([]);
+  }
 }
 
 final myPersonasProvider =
@@ -337,6 +341,17 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
       await prefs.setString(_kPrefFrecency, jsonEncode(serializable));
     } catch (_) {}
   }
+
+  Future<void> reset() async {
+    state = const ActivePersonaState();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_kPrefMode);
+      await prefs.remove(_kPrefId);
+      await prefs.remove(_kPrefLatched);
+      await prefs.remove(_kPrefFrecency);
+    } catch (_) {}
+  }
 }
 
 final activePersonaProvider =
@@ -509,6 +524,15 @@ class SystemDisplayTagNotifier extends Notifier<SystemDisplayTag> {
           displayTagIcon: () => iconUrl,
         );
   }
+
+  Future<void> reset() async {
+    state = const SystemDisplayTag();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_kPrefTagText);
+      await prefs.remove(_kPrefTagIcon);
+    } catch (_) {}
+  }
 }
 
 final systemDisplayTagProvider =
@@ -611,6 +635,15 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
       );
       rethrow;
     }
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncValue.loading();
+    await _loadSettings();
+  }
+
+  void reset() {
+    state = const AsyncValue.data(PersonaSettings());
   }
 }
 
