@@ -4,5 +4,6 @@
 	branch = features/subprofiles
 [submodule "fluxer"]
 	path = fluxer
-	url = https://github.com/fluxerapp/fluxer.git
+	url = https://github.com/chiaracoetzee/fluxer-subprofiles.git
+	branch = features/subprofiles
 	shallow = true
