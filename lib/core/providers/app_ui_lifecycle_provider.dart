@@ -114,6 +114,7 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     if (!wasForeground && isForeground) {
       unawaited(ref.read(wellKnownProvider.notifier).refresh());
       unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+      unawaited(ref.read(personaSettingsProvider.notifier).reloadSilently());
     }
     if ((Platform.isIOS || Platform.isAndroid) &&
         isForeground &&
