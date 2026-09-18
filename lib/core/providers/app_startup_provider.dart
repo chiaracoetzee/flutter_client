@@ -64,6 +64,10 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+
 part 'app_startup_provider.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -395,6 +399,8 @@ class AppStartup extends _$AppStartup {
     unawaited(
       ref.read(serviceStatusMaintenanceReadProvider.notifier).refresh(),
     );
+    unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
+    unawaited(ref.read(personaSettingsProvider.notifier).reloadSilently());
 
     await (launchPluginWarm ?? _warmLaunchNavigationPlugins());
     if (!ref.mounted) {
