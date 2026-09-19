@@ -87,8 +87,11 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? sequentialFileSend,
     $core.bool? mobileSplashZoomAnimation,
     $core.bool? showAltTextOnImages,
+    $core.double? mobileFontSize,
+    $core.double? mobileMessageGroupSpacing,
+    $core.double? mobileCompactMessageGroupSpacing,
   }) {
-    final result = create();
+    final result = AccessibilitySettings._();
     if (saturationFactor != null) result.saturationFactor = saturationFactor;
     if (alwaysUnderlineLinks != null)
       result.alwaysUnderlineLinks = alwaysUnderlineLinks;
@@ -210,6 +213,12 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.mobileSplashZoomAnimation = mobileSplashZoomAnimation;
     if (showAltTextOnImages != null)
       result.showAltTextOnImages = showAltTextOnImages;
+    if (mobileFontSize != null) result.mobileFontSize = mobileFontSize;
+    if (mobileMessageGroupSpacing != null)
+      result.mobileMessageGroupSpacing = mobileMessageGroupSpacing;
+    if (mobileCompactMessageGroupSpacing != null)
+      result.mobileCompactMessageGroupSpacing =
+          mobileCompactMessageGroupSpacing;
     return result;
   }
 
@@ -217,16 +226,16 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
 
   factory AccessibilitySettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      AccessibilitySettings()..mergeFromBuffer(data, registry);
   factory AccessibilitySettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      AccessibilitySettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'AccessibilitySettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: AccessibilitySettings.$_createMessage)
     ..aD(1, _omitFieldNames ? '' : 'saturationFactor')
     ..aOB(2, _omitFieldNames ? '' : 'alwaysUnderlineLinks')
     ..aOB(3, _omitFieldNames ? '' : 'enableTextSelection')
@@ -301,6 +310,9 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(63, _omitFieldNames ? '' : 'sequentialFileSend')
     ..aOB(64, _omitFieldNames ? '' : 'mobileSplashZoomAnimation')
     ..aOB(65, _omitFieldNames ? '' : 'showAltTextOnImages')
+    ..aD(66, _omitFieldNames ? '' : 'mobileFontSize')
+    ..aD(67, _omitFieldNames ? '' : 'mobileMessageGroupSpacing')
+    ..aD(68, _omitFieldNames ? '' : 'mobileCompactMessageGroupSpacing')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -315,12 +327,16 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use AccessibilitySettings() / AccessibilitySettings.new instead')
   static AccessibilitySettings create() => AccessibilitySettings._();
+  static $pb.GeneratedMessage $_createMessage() => AccessibilitySettings._();
   @$core.override
-  AccessibilitySettings createEmptyInstance() => create();
+  AccessibilitySettings createEmptyInstance() => AccessibilitySettings._();
   @$core.pragma('dart2js:noInline')
   static AccessibilitySettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<AccessibilitySettings>(create);
+      $pb.GeneratedMessage.$_defaultFor<AccessibilitySettings>(
+          AccessibilitySettings.$_createMessage);
   static AccessibilitySettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -918,6 +934,34 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   $core.bool hasShowAltTextOnImages() => $_has(64);
   @$pb.TagNumber(65)
   void clearShowAltTextOnImages() => $_clearField(65);
+
+  @$pb.TagNumber(66)
+  $core.double get mobileFontSize => $_getN(65);
+  @$pb.TagNumber(66)
+  set mobileFontSize($core.double value) => $_setDouble(65, value);
+  @$pb.TagNumber(66)
+  $core.bool hasMobileFontSize() => $_has(65);
+  @$pb.TagNumber(66)
+  void clearMobileFontSize() => $_clearField(66);
+
+  @$pb.TagNumber(67)
+  $core.double get mobileMessageGroupSpacing => $_getN(66);
+  @$pb.TagNumber(67)
+  set mobileMessageGroupSpacing($core.double value) => $_setDouble(66, value);
+  @$pb.TagNumber(67)
+  $core.bool hasMobileMessageGroupSpacing() => $_has(66);
+  @$pb.TagNumber(67)
+  void clearMobileMessageGroupSpacing() => $_clearField(67);
+
+  @$pb.TagNumber(68)
+  $core.double get mobileCompactMessageGroupSpacing => $_getN(67);
+  @$pb.TagNumber(68)
+  set mobileCompactMessageGroupSpacing($core.double value) =>
+      $_setDouble(67, value);
+  @$pb.TagNumber(68)
+  $core.bool hasMobileCompactMessageGroupSpacing() => $_has(67);
+  @$pb.TagNumber(68)
+  void clearMobileCompactMessageGroupSpacing() => $_clearField(68);
 }
 
 class AccessibilityOverrides extends $pb.GeneratedMessage {
@@ -926,7 +970,7 @@ class AccessibilityOverrides extends $pb.GeneratedMessage {
     $core.bool? animateEmojiDirty,
     $core.bool? animateStickersDirty,
   }) {
-    final result = create();
+    final result = AccessibilityOverrides._();
     if (gifAutoplayDirty != null) result.gifAutoplayDirty = gifAutoplayDirty;
     if (animateEmojiDirty != null) result.animateEmojiDirty = animateEmojiDirty;
     if (animateStickersDirty != null)
@@ -938,16 +982,16 @@ class AccessibilityOverrides extends $pb.GeneratedMessage {
 
   factory AccessibilityOverrides.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      AccessibilityOverrides()..mergeFromBuffer(data, registry);
   factory AccessibilityOverrides.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      AccessibilityOverrides()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'AccessibilityOverrides',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: AccessibilityOverrides.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'gifAutoplayDirty')
     ..aOB(2, _omitFieldNames ? '' : 'animateEmojiDirty')
     ..aOB(3, _omitFieldNames ? '' : 'animateStickersDirty')
@@ -965,12 +1009,16 @@ class AccessibilityOverrides extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use AccessibilityOverrides() / AccessibilityOverrides.new instead')
   static AccessibilityOverrides create() => AccessibilityOverrides._();
+  static $pb.GeneratedMessage $_createMessage() => AccessibilityOverrides._();
   @$core.override
-  AccessibilityOverrides createEmptyInstance() => create();
+  AccessibilityOverrides createEmptyInstance() => AccessibilityOverrides._();
   @$core.pragma('dart2js:noInline')
   static AccessibilityOverrides getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<AccessibilityOverrides>(create);
+      $pb.GeneratedMessage.$_defaultFor<AccessibilityOverrides>(
+          AccessibilityOverrides.$_createMessage);
   static AccessibilityOverrides? _defaultInstance;
 
   @$pb.TagNumber(1)
