@@ -73,7 +73,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".canary"
             versionNameSuffix = "-canary"
-            manifestPlaceholders["appLabel"] = "Fluxer Canary"
+            manifestPlaceholders["appLabel"] = "Fluxer Temple"
             manifestPlaceholders["buildEnvironment"] = "canary"
         }
         create("stable") {
