@@ -1,12 +1,13 @@
 abstract final class InstanceConstants {
   static const int apiCodeVersion = 1;
-  static const String defaultApiBaseUrl = 'https://api.fluxer.app/v1';
-  static const String defaultInstanceInputUrl = 'fluxer.app';
-  static const String defaultMarketingBaseUrl = 'https://fluxer.app';
+  static const String defaultApiBaseUrl = 'https://temple.hypersystem.xyz/api';
+  static const String defaultInstanceInputUrl = 'temple.hypersystem.xyz';
+  static const String defaultMarketingBaseUrl = 'https://temple.hypersystem.xyz';
   static const String defaultProductName = 'Fluxer';
   static const int maxRecentInstances = 5;
 
   static const Set<String> officialInstanceHosts = <String>{
+    'temple.hypersystem.xyz',
     'fluxer.app',
     'web.fluxer.app',
     'api.fluxer.app',
