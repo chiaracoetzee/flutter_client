@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_override_scope.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -20,11 +21,48 @@ void main() {
     brightness: Brightness.light,
   );
 
+  testWidgets('override colors leave ThemeData on the app theme', (
+    WidgetTester tester,
+  ) async {
+    final FluxerColorTheme mixed = overlayChatWallpaperColors(
+      current: lightColors,
+      source: darkColors,
+    );
+    late Color fluxerColor;
+    late Color themeColor;
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: Theme(
+          data: lightTheme,
+          child: FluxerColorOverrideScope(
+            colors: mixed,
+            textStyles: overlayChatWallpaperTextStyles(
+              current: FluxerTextTheme.fromColors(lightColors),
+              colors: mixed,
+            ),
+            child: Builder(
+              builder: (BuildContext context) {
+                fluxerColor = context.colors.textChat;
+                themeColor = Theme.of(
+                  context,
+                ).extension<FluxerColorTheme>()!.textChat;
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    expect(fluxerColor, darkColors.textChat);
+    expect(themeColor, lightColors.textChat);
+  });
+
   testWidgets('ChatSurfaceTheme builder uses the app theme', (
     WidgetTester tester,
   ) async {
-    final ThemeData overlay = overlayChatWallpaperTextTheme(
-      theme: lightTheme,
+    final FluxerColorTheme mixed = overlayChatWallpaperColors(
+      current: lightColors,
       source: darkColors,
     );
     late Color captured;
@@ -32,9 +70,13 @@ void main() {
       Directionality(
         textDirection: TextDirection.ltr,
         child: Theme(
-          data: overlay,
-          child: ChatAppThemeScope(
-            theme: lightTheme,
+          data: lightTheme,
+          child: FluxerColorOverrideScope(
+            colors: mixed,
+            textStyles: overlayChatWallpaperTextStyles(
+              current: FluxerTextTheme.fromColors(lightColors),
+              colors: mixed,
+            ),
             child: ChatSurfaceTheme(
               builder: (BuildContext context) {
                 captured = context.colors.textChat;
@@ -46,9 +88,5 @@ void main() {
       ),
     );
     expect(captured, lightColors.textChat);
-    expect(
-      overlay.extension<FluxerColorTheme>()!.textChat,
-      darkColors.textChat,
-    );
   });
 }

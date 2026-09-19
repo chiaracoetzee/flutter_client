@@ -150,13 +150,11 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
       expressionPanelOpen: isExpressionOpen,
       attachmentPanelOpen: isAttachmentOpen,
     );
-    final Widget messageList = ChatWallpaperTextTheme(
-      child: MessageList(
-        key: ValueKey<String>(listChannelId),
-        expectedChannelId: listChannelId,
-        targetMessageId: widget.targetMessageId,
-        visible: widget.loadMessages,
-      ),
+    final Widget messageList = MessageList(
+      key: ValueKey<String>(listChannelId),
+      expectedChannelId: listChannelId,
+      targetMessageId: widget.targetMessageId,
+      visible: widget.loadMessages,
     );
     return Stack(
       fit: StackFit.expand,
@@ -220,27 +218,36 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         clipBehavior: Clip.none,
                         children: <Widget>[
                           Positioned.fill(
-                            child: ChatListKeyboardDismiss(
-                              child: stripKeyboardInsets
-                                  ? MediaQuery.removeViewInsets(
-                                      context: context,
-                                      removeBottom: true,
-                                      child: messageList,
-                                    )
-                                  : messageList,
-                            ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            height: WideComposerLayout.fadeHeightFor(
-                              isMobile: isMobile,
-                            ),
-                            child: _buildStatusOverlay(
-                              showNeko: showNeko,
-                              showSlowmode: showSlowmode,
-                              channelId: listChannelId,
+                            child: ChatWallpaperTextTheme(
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: <Widget>[
+                                  Positioned.fill(
+                                    child: ChatListKeyboardDismiss(
+                                      child: stripKeyboardInsets
+                                          ? MediaQuery.removeViewInsets(
+                                              context: context,
+                                              removeBottom: true,
+                                              child: messageList,
+                                            )
+                                          : messageList,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    height: WideComposerLayout.fadeHeightFor(
+                                      isMobile: isMobile,
+                                    ),
+                                    child: _buildStatusOverlay(
+                                      showNeko: showNeko,
+                                      showSlowmode: showSlowmode,
+                                      channelId: listChannelId,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           _ChannelChatScrollOverlay(

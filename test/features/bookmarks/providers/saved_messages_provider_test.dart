@@ -23,10 +23,7 @@ class _ScriptedSavedMessagesRepository extends SavedMessagesRepository {
   _ScriptedSavedMessagesRepository({
     required super.database,
     required this._pages,
-  }) : super(
-         client: FluxerClient(Dio()),
-         currentUserId: 'me',
-       );
+  }) : super(client: FluxerClient(Dio()), currentUserId: 'me');
 
   final List<SavedMessagesFetchPage> _pages;
   final List<Completer<SavedMessagesFetchPage>> _gates =

@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
-import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/core/theme/themes/light.dart';
 import 'package:fluxer_app/features/chat/utils/wallpaper/chat_wallpaper_text_overlay.dart';
@@ -13,16 +11,8 @@ void main() {
   final FluxerColorTheme lightColors = buildLightColorTheme();
   final FluxerColorTheme darkColors = buildDarkColorTheme();
   final FluxerTextTheme lightText = FluxerTextTheme.fromColors(lightColors);
-  final FluxerLayoutTheme layout = FluxerLayoutTheme.scaled();
 
-  final ThemeData lightTheme = buildFluxerTheme(
-    colorTheme: lightColors,
-    textTheme: lightText,
-    layoutTheme: layout,
-    brightness: Brightness.light,
-  );
-
-  group('overlayChatWallpaperTextTheme', () {
+  group('overlayChatWallpaperColors', () {
     test('copies dark text tokens onto a light theme', () {
       const ChatWallpaperState starfield = ChatWallpaperState(
         kind: ChatWallpaperKind.starfield,
@@ -35,12 +25,14 @@ void main() {
         isTrue,
       );
 
-      final ThemeData overlay = overlayChatWallpaperTextTheme(
-        theme: lightTheme,
+      final FluxerColorTheme colors = overlayChatWallpaperColors(
+        current: lightColors,
         source: darkColors,
       );
-      final FluxerColorTheme colors = overlay.extension<FluxerColorTheme>()!;
-      final FluxerTextTheme text = overlay.extension<FluxerTextTheme>()!;
+      final FluxerTextTheme text = overlayChatWallpaperTextStyles(
+        current: lightText,
+        colors: colors,
+      );
 
       expect(colors.textChat, darkColors.textChat);
       expect(colors.textPrimaryMuted, darkColors.textPrimaryMuted);
@@ -51,7 +43,6 @@ void main() {
       expect(text.messageText.color, darkColors.textChat);
       expect(text.messageText.fontSize, lightText.messageText.fontSize);
       expect(text.timestamp.color, darkColors.textPrimaryMuted);
-      expect(overlay.extension<FluxerLayoutTheme>(), layout);
     });
 
     test('is a no-op when default wallpaper is selected', () {

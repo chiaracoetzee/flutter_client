@@ -1,6 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
-import 'package:fluxer_app/material_ui.dart';
 
 FluxerColorTheme overlayChatWallpaperColors({
   required FluxerColorTheme current,
@@ -49,27 +48,4 @@ FluxerTextTheme overlayChatWallpaperTextStyles({
     quote: current.quote.copyWith(color: colors.textSecondary),
     quoteLink: current.quoteLink.copyWith(color: colors.textLink),
   );
-}
-
-ThemeData overlayChatWallpaperTextTheme({
-  required ThemeData theme,
-  required FluxerColorTheme source,
-}) {
-  final FluxerColorTheme current = theme.extension<FluxerColorTheme>()!;
-  final FluxerColorTheme mixed = overlayChatWallpaperColors(
-    current: current,
-    source: source,
-  );
-  final FluxerTextTheme currentText = theme.extension<FluxerTextTheme>()!;
-  final List<ThemeExtension<dynamic>> extensions = <ThemeExtension<dynamic>>[
-    mixed,
-    overlayChatWallpaperTextStyles(current: currentText, colors: mixed),
-  ];
-  for (final ThemeExtension<dynamic> extension in theme.extensions.values) {
-    if (extension is FluxerColorTheme || extension is FluxerTextTheme) {
-      continue;
-    }
-    extensions.add(extension);
-  }
-  return theme.copyWith(extensions: extensions);
 }

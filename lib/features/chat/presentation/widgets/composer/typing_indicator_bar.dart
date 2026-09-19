@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_override_scope.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
@@ -219,7 +220,8 @@ class _TypingPill extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final Color surfaceColor = composerStatusSurfaceColor(context);
-    final List<Shadow>? shadows = compact
+    final bool wallpaperText = FluxerColorOverrideScope.isActiveOf(context);
+    final List<Shadow>? shadows = compact || wallpaperText
         ? null
         : wideComposerStatusTextShadows(surfaceColor);
     final baseStyle = context.textStyles.timestamp.copyWith(
