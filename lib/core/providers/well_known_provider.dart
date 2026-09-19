@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
@@ -20,10 +21,7 @@ class WellKnown extends _$WellKnown {
       InstanceEndpoints.apply(cached);
       return cached;
     }
-    final WellKnownFluxerResponse response = await ref
-        .watch(fluxerClientProvider)
-        .instance
-        .getWellKnownFluxer();
+    final WellKnownFluxerResponse response = await _fetchWellKnown(snapshot);
     if (!_applyIfMounted(response)) {
       return response;
     }
@@ -36,10 +34,8 @@ class WellKnown extends _$WellKnown {
       state = const AsyncLoading<WellKnownFluxerResponse>();
     }
     try {
-      final WellKnownFluxerResponse response = await ref
-          .read(fluxerClientProvider)
-          .instance
-          .getWellKnownFluxer();
+      final InstanceConfigSnapshot snapshot = ref.read(activeInstanceProvider);
+      final WellKnownFluxerResponse response = await _fetchWellKnown(snapshot);
       if (!_applyIfMounted(response)) {
         return;
       }
@@ -50,6 +46,30 @@ class WellKnown extends _$WellKnown {
         return;
       }
       state = AsyncError<WellKnownFluxerResponse>(error, stackTrace);
+    }
+  }
+
+  Future<WellKnownFluxerResponse> _fetchWellKnown(
+    InstanceConfigSnapshot snapshot,
+  ) async {
+    try {
+      return await ref.read(fluxerClientProvider).instance.getWellKnownFluxer();
+    } on Object catch (error) {
+      talker.debug(
+        '[WellKnown] Direct getWellKnownFluxer failed, trying InstanceDiscoveryService: $error',
+      );
+      try {
+        final InstanceConfigSnapshot discovered =
+            await InstanceDiscoveryService().connectToEndpoint(
+              snapshot.apiBaseUrl,
+            );
+        if (discovered.wellKnown != null) {
+          return discovered.wellKnown!;
+        }
+      } on Object catch (_) {
+        // Ignore discovery failure and rethrow original error
+      }
+      rethrow;
     }
   }
 
