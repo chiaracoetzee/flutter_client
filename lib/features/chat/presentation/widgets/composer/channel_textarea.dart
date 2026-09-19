@@ -89,7 +89,6 @@ import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.d
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
-import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
