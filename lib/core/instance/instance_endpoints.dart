@@ -4,11 +4,11 @@ import 'package:fluxer_dart/export.dart';
 // Preserves the global endpoint holder API used across provider and link code.
 // ignore: avoid_classes_with_only_static_members
 abstract final class InstanceEndpoints {
-  static const String defaultMedia = 'https://fluxerusercontent.com';
-  static const String defaultStaticCdn = 'https://fluxerstatic.com';
-  static const String defaultInvite = 'https://fluxer.app';
-  static const String defaultGift = 'https://fluxer.app/gift';
-  static const String defaultWebApp = 'https://web.fluxer.app';
+  static const String defaultMedia = 'https://temple.hypersystem.xyz/media';
+  static const String defaultStaticCdn = 'https://temple.hypersystem.xyz';
+  static const String defaultInvite = 'https://temple.hypersystem.xyz/invite';
+  static const String defaultGift = 'https://temple.hypersystem.xyz/gift';
+  static const String defaultWebApp = 'https://temple.hypersystem.xyz';
 
   static String staticCdn = defaultStaticCdn;
   static String media = defaultMedia;
