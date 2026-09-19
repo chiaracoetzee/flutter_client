@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
-import 'package:fluxer_app/core/instance/instance_endpoints.dart';
-import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_dart/export.dart';
 
 class InstanceConfigSnapshot {
@@ -23,10 +21,13 @@ class InstanceConfigSnapshot {
     required WellKnownFluxerResponse wellKnown,
     required InstanceEndpointNormalizer normalizer,
   }) {
-    final InstanceEndpointsSchema endpoints = wellKnown.endpoints;
-    final String apiBaseUrl = _resolveApiBaseUrl(endpoints);
-    final String gatewayUrl = endpoints.gateway.trim();
-    final String displayDomain = normalizer.extractDisplayDomain(apiBaseUrl);
+    final String apiBaseUrl = normalizer.resolveApiBaseUrl(wellKnown);
+    final String gatewayUrl = normalizer.resolveGatewayUrl(wellKnown);
+    final String displayDomain = normalizer.displayDomainForSnapshot(
+      apiBaseUrl: apiBaseUrl,
+      gatewayUrl: gatewayUrl,
+    );
+
     return InstanceConfigSnapshot(
       apiBaseUrl: apiBaseUrl,
       gatewayUrl: gatewayUrl,
@@ -53,145 +54,72 @@ class InstanceConfigSnapshot {
     );
   }
 
-  InstanceConfigSnapshot withWellKnown(WellKnownFluxerResponse wellKnown) {
-    return InstanceConfigSnapshot(
-      apiBaseUrl: apiBaseUrl,
-      gatewayUrl: gatewayUrl,
-      displayDomain: displayDomain,
-      wellKnown: wellKnown,
-    );
-  }
-
-  static WellKnownFluxerResponse? _wellKnownFromJson(Object? value) {
-    if (value is! Map) {
+  static WellKnownFluxerResponse? _wellKnownFromJson(dynamic value) {
+    if (value is! Map<String, dynamic>) {
       return null;
     }
     try {
-      return WellKnownFluxerResponse.fromJson(Map<String, dynamic>.from(value));
-    } on Object {
+      return WellKnownFluxerResponse.fromJson(value);
+    } catch (_) {
       return null;
     }
   }
 
-  String toJson() {
-    return jsonEncode(<String, dynamic>{
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
       'api_base_url': apiBaseUrl,
       'gateway_url': gatewayUrl,
       'display_domain': displayDomain,
-      if (wellKnown != null) 'well_known': wellKnown!.toJson(),
-    });
+      'well_known': wellKnown?.toJson(),
+    };
   }
 
-  void apply() {
-    switch (wellKnown) {
-      case final WellKnownFluxerResponse response:
-        InstanceEndpoints.apply(response);
-      case null:
-        InstanceEndpoints.resetToDefaults();
+  String toJson() => jsonEncode(toMap());
+
+  InstanceConfigSnapshot copyWith({
+    String? apiBaseUrl,
+    String? gatewayUrl,
+    String? displayDomain,
+    WellKnownFluxerResponse? wellKnown,
+  }) {
+    return InstanceConfigSnapshot(
+      apiBaseUrl: apiBaseUrl ?? this.apiBaseUrl,
+      gatewayUrl: gatewayUrl ?? this.gatewayUrl,
+      displayDomain: displayDomain ?? this.displayDomain,
+      wellKnown: wellKnown ?? this.wellKnown,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
     }
+    return other is InstanceConfigSnapshot &&
+        other.apiBaseUrl == apiBaseUrl &&
+        other.gatewayUrl == gatewayUrl &&
+        other.displayDomain == displayDomain &&
+        _wellKnownEquals(other.wellKnown, wellKnown);
   }
 
-  InstanceSsoSchema? get ssoConfig => wellKnown?.sso;
+  @override
+  int get hashCode => Object.hash(
+    apiBaseUrl,
+    gatewayUrl,
+    displayDomain,
+    wellKnown?.toJson().toString(),
+  );
 
-  bool get isSsoEnabled => ssoConfig?.enabled ?? false;
-
-  bool get isSsoEnforced {
-    final InstanceSsoSchema? config = ssoConfig;
-    return config != null && config.enabled && config.enforced;
-  }
-
-  bool get isSsoOptional {
-    final InstanceSsoSchema? config = ssoConfig;
-    return config != null && config.enabled && !config.enforced;
-  }
-
-  bool get isRegistrationClosed =>
-      wellKnown?.registration.mode == InstanceRegistrationModeSchema.closed;
-
-  /// Terms of service URL to show during registration, null when this instance
-  /// has none to offer.
-  String? get termsUrl =>
-      _legalUrl(wellKnown?.appPublic.legal.termsUrl, 'terms');
-
-  /// Privacy policy URL to show during registration, null when this instance
-  /// has none to offer.
-  String? get privacyUrl =>
-      _legalUrl(wellKnown?.appPublic.legal.privacyUrl, 'privacy');
-
-  /// Self-hosted instances only get the documents their operator configured;
-  /// everything else falls back to the instance marketing site.
-  String? _legalUrl(String? configured, String marketingPath) {
-    if (configured != null) {
-      return configured;
+  static bool _wellKnownEquals(
+    WellKnownFluxerResponse? a,
+    WellKnownFluxerResponse? b,
+  ) {
+    if (identical(a, b)) {
+      return true;
     }
-    if (wellKnown?.features.selfHosted ?? false) {
-      return null;
-    }
-    final String marketing =
-        wellKnown?.endpoints.marketing ??
-        InstanceConstants.defaultMarketingBaseUrl;
-    return '$marketing/$marketingPath';
-  }
-
-  String get productName {
-    final String? name = wellKnown?.appPublic.branding.productName.trim();
-    if (name == null || name.isEmpty) {
-      return InstanceConstants.defaultProductName;
-    }
-    return name;
-  }
-
-  String? get instanceDisplayName {
-    final String name = productName;
-    if (name == InstanceConstants.defaultProductName && wellKnown == null) {
-      return null;
-    }
-    if (wellKnown == null) {
-      return null;
-    }
-    return name;
-  }
-
-  bool get emailsEnabled => wellKnown?.features.emailsEnabled ?? true;
-
-  bool get collectDateOfBirth =>
-      wellKnown?.appPublic.registration.collectDateOfBirth ?? true;
-
-  bool canPublicRegister({String? registrationUrlCode}) {
-    return InstanceRuntimeConfig.fromWellKnown(
-      wellKnown,
-    ).canPublicRegister(registrationUrlCode: registrationUrlCode);
-  }
-
-  static String _resolveApiBaseUrl(InstanceEndpointsSchema endpoints) {
-    final String apiPublic = endpoints.apiPublic.trim();
-    if (apiPublic.isNotEmpty && _isOfficialApiPublicUrl(apiPublic)) {
-      return '${_stripTrailingSlashes(apiPublic)}/v1';
-    }
-    final String apiClient = endpoints.apiClient.trim();
-    if (apiClient.isNotEmpty) {
-      return _stripTrailingSlashes(apiClient);
-    }
-    return _stripTrailingSlashes(endpoints.api.trim());
-  }
-
-  static const Set<String> _officialApiPublicHosts = <String>{
-    'fluxer.com',
-    'canary.fluxer.com',
-  };
-
-  static bool _isOfficialApiPublicUrl(String apiPublic) {
-    try {
-      final String host = Uri.parse(apiPublic).host.toLowerCase();
-      return _officialApiPublicHosts.contains(host);
-    } on FormatException {
+    if (a == null || b == null) {
       return false;
     }
-  }
-
-  static final RegExp _trailingSlashes = RegExp(r'/+$');
-
-  static String _stripTrailingSlashes(String value) {
-    return value.replaceAll(_trailingSlashes, '');
+    return a.toJson().toString() == b.toJson().toString();
   }
 }

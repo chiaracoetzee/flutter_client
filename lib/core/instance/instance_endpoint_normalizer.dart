@@ -40,7 +40,9 @@ class InstanceEndpointNormalizer {
   }
 
   String describeApiEndpoint(String endpoint) {
-    if (endpoint.isEmpty || isOfficialInstanceInput(endpoint)) {
+    if (endpoint.isEmpty ||
+        isOfficialInstanceInput(endpoint) ||
+        endpoint == InstanceConstants.defaultApiBaseUrl) {
       return InstanceConstants.defaultInstanceInputUrl;
     }
     try {
