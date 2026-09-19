@@ -468,5 +468,80 @@ void main() {
         isTrue,
       );
     });
+
+    test(
+      'hydrate with desktop fontSize does not overwrite mobile chatFontSize',
+      () async {
+        final store = container.read(syncedPreferencesStoreProvider);
+        await container.read(themePreferenceProvider.notifier).load('u1');
+        expect(container.read(themePreferenceProvider).chatFontSize, 16);
+
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithAccessibility(
+              accessibility_pb.AccessibilitySettings(
+                fontSize: 14,
+                saturationFactor: 1.0,
+              ),
+            ),
+          ),
+        );
+
+        // Desktop fontSize 14 must not overwrite mobile chatFontSize (remains default 16).
+        expect(container.read(themePreferenceProvider).chatFontSize, 16);
+      },
+    );
+
+    test('hydrate with mobileFontSize updates mobile chatFontSize', () async {
+      final store = container.read(syncedPreferencesStoreProvider);
+      await container.read(themePreferenceProvider.notifier).load('u1');
+      await _waitForDebounce(store);
+      expect(container.read(themePreferenceProvider).chatFontSize, 16);
+
+      await store.hydrateFromUserSettings(
+        _testUserSettings(
+          syncedPreferences: _settingsWithAccessibility(
+            accessibility_pb.AccessibilitySettings(
+              mobileFontSize: 20,
+              fontSize: 14,
+              saturationFactor: 1.0,
+            ),
+          ),
+        ),
+      );
+
+      // Mobile chatFontSize must adopt mobileFontSize (20), not desktop fontSize (14).
+      expect(container.read(themePreferenceProvider).chatFontSize, 20);
+    });
+
+    test(
+      'changing chatFontSize pushes mobileFontSize and preserves desktop fontSize',
+      () async {
+        final store = container.read(syncedPreferencesStoreProvider);
+        await container.read(themePreferenceProvider.notifier).load('u1');
+        await container.read(appearancePreferencesProvider.notifier).load('u1');
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithAccessibility(
+              accessibility_pb.AccessibilitySettings(
+                fontSize: 14,
+                saturationFactor: 1.0,
+              ),
+            ),
+          ),
+        );
+
+        await container
+            .read(themePreferenceProvider.notifier)
+            .setChatFontSize(20);
+        await _waitForDebounce(store);
+
+        expect(usersApi.pushCount, 1);
+        final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+        final synced = pb.SyncedPreferences.fromBuffer(bytes);
+        expect(synced.accessibility.mobileFontSize, 20);
+        expect(synced.accessibility.fontSize, 14);
+      },
+    );
   });
 }
