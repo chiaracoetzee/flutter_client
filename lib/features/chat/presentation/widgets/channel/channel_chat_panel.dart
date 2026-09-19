@@ -82,6 +82,7 @@ class ChannelChatPanel extends ConsumerStatefulWidget {
     this.targetMessageId,
     this.loadMessages = true,
     this.showInlineEmojiPicker = true,
+    this.applyWallpaper = true,
     this.onClose,
     super.key,
   });
@@ -90,6 +91,7 @@ class ChannelChatPanel extends ConsumerStatefulWidget {
   final String? targetMessageId;
   final bool loadMessages;
   final bool showInlineEmojiPicker;
+  final bool applyWallpaper;
   final VoidCallback? onClose;
 
   @override
@@ -108,12 +110,20 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     super.dispose();
   }
 
+  Widget _maybeWallpaperText(Widget child) {
+    if (!widget.applyWallpaper) {
+      return child;
+    }
+    return ChatWallpaperTextTheme(child: child);
+  }
+
   Widget _buildStatusOverlay({
     required bool showNeko,
     required bool showSlowmode,
     required String channelId,
   }) {
     return ChannelChatComposerBoundary(
+      applyWallpaper: widget.applyWallpaper,
       leadingStatus: const TypingIndicatorBar(),
       trailingStatuses: <Widget>[SlowmodeIndicator(channelId: channelId)],
       neko: showNeko ? const NekoSprite() : null,
@@ -159,7 +169,10 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        const ChatWallpaperBackdrop(),
+        if (widget.applyWallpaper)
+          const ChatWallpaperBackdrop()
+        else
+          ColoredBox(color: context.colors.chatBackground),
         LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             double sheetContentHeight = 0;
@@ -218,8 +231,8 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         clipBehavior: Clip.none,
                         children: <Widget>[
                           Positioned.fill(
-                            child: ChatWallpaperTextTheme(
-                              child: Stack(
+                            child: _maybeWallpaperText(
+                              Stack(
                                 clipBehavior: Clip.none,
                                 children: <Widget>[
                                   Positioned.fill(
@@ -408,6 +421,7 @@ class ChannelChatComposerBoundary extends StatelessWidget {
   const ChannelChatComposerBoundary({
     required this.leadingStatus,
     required this.trailingStatuses,
+    this.applyWallpaper = true,
     this.neko,
     this.nekoBottom = _kChannelChatNekoBottom,
     super.key,
@@ -415,6 +429,7 @@ class ChannelChatComposerBoundary extends StatelessWidget {
 
   final Widget leadingStatus;
   final List<Widget> trailingStatuses;
+  final bool applyWallpaper;
   final Widget? neko;
   final double nekoBottom;
 
@@ -426,7 +441,10 @@ class ChannelChatComposerBoundary extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
-        const ChatWallpaperComposerFade(),
+        if (applyWallpaper)
+          const ChatWallpaperComposerFade()
+        else
+          WideComposerFade(surfaceColor: context.colors.chatBackground),
         Positioned(
           left: statusRailPadding,
           right: statusRailPadding,

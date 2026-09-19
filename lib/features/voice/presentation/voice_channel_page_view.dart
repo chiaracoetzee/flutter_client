@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -173,18 +174,25 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
       useDesktopChat: useDesktopChat,
       channelName: name,
     );
-    final Widget content = inThisChannel
-        ? _buildConnected(context, usePhoneVoiceOverlay: usePhoneVoiceOverlay)
-        : _buildEmpty(channel: channel);
-    if (!useDesktopChat) {
-      return content;
-    }
-    return _wrapWithDesktopChat(
-      context,
-      content: content,
-      channelName: name,
-      textChatSupported: textChatSupported,
-      jumpTarget: jumpTarget,
+    return ChatSurfaceTheme(
+      builder: (BuildContext context) {
+        final Widget content = inThisChannel
+            ? _buildConnected(
+                context,
+                usePhoneVoiceOverlay: usePhoneVoiceOverlay,
+              )
+            : _buildEmpty(channel: channel);
+        if (!useDesktopChat) {
+          return content;
+        }
+        return _wrapWithDesktopChat(
+          context,
+          content: content,
+          channelName: name,
+          textChatSupported: textChatSupported,
+          jumpTarget: jumpTarget,
+        );
+      },
     );
   }
 
@@ -397,6 +405,7 @@ class _DesktopVoiceChatDock extends StatelessWidget {
             child: VoiceChannelChatSurface(
               channelId: channelId,
               targetMessageId: targetMessageId,
+              applyWallpaper: false,
               onClose: onClose,
             ),
           ),

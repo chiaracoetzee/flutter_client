@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_header.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_results_panel.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
@@ -199,10 +200,17 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
             targetMessageId: widget.messageId,
             showTopBar: false,
           );
-    final Widget header = _VoiceChannelHeader(
-      channelId: widget.channelId,
-      forceVoiceCallStyle: forceVoiceCallStyle,
-    );
+    final Widget header = isVoiceChannel
+        ? ChatSurfaceTheme(
+            builder: (BuildContext context) => _VoiceChannelHeader(
+              channelId: widget.channelId,
+              forceVoiceCallStyle: forceVoiceCallStyle,
+            ),
+          )
+        : _VoiceChannelHeader(
+            channelId: widget.channelId,
+            forceVoiceCallStyle: forceVoiceCallStyle,
+          );
     final bool hideableVoiceHeader =
         forceVoiceCallStyle && isPhoneVoiceOverlay(context);
     final bool showsVoiceOverlay =

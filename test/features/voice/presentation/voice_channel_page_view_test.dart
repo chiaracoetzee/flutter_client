@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/channels/providers/channel_list_view_model.d
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_backdrop.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -59,6 +60,7 @@ void main() {
     ) async {
       await _pumpPage(tester);
       expect(find.byType(VoiceChannelJoinEmptyState), findsOneWidget);
+      expect(find.byType(ChatWallpaperBackdrop), findsNothing);
       expect(find.byType(VoiceChannelJoinButton), findsOneWidget);
       expect(find.text('Join voice channel'), findsOneWidget);
       expect(

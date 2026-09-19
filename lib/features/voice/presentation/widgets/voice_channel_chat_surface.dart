@@ -16,12 +16,14 @@ class VoiceChannelChatSurface extends ConsumerStatefulWidget {
   const VoiceChannelChatSurface({
     required this.channelId,
     this.targetMessageId,
+    this.applyWallpaper = true,
     this.onClose,
     super.key,
   });
 
   final String channelId;
   final String? targetMessageId;
+  final bool applyWallpaper;
   final VoidCallback? onClose;
 
   @override
@@ -141,6 +143,7 @@ class _VoiceChannelChatSurfaceState
       child: ChannelChatPanel(
         displayChannelId: widget.channelId,
         targetMessageId: widget.targetMessageId,
+        applyWallpaper: widget.applyWallpaper,
         onClose: widget.onClose,
       ),
     );
