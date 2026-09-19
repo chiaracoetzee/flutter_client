@@ -135,25 +135,23 @@ class _TypingPill extends ConsumerWidget {
       reason: ChatSpinnerReason.typing,
       color: compact ? colors.textSecondary : colors.textChat,
     );
-    final Widget avatarStack = ColoredBox(
-      color: compact ? Colors.transparent : surfaceColor,
-      child: FluxerAvatarStack(
-        size: _kAvatarSize,
-        maxVisible: _kMaxVisibleAvatars,
-        overlap: -4,
-        outlineWidth: 1,
-        avatars: [
-          for (final user in resolvedUsers)
-            FluxerAvatar.user(
-              userId: user.userId,
-              imageUrl: user.display.avatarUrl,
-              fallbackText: user.display.displayName,
-              avatarColor: user.display.avatarColor,
-              size: _kAvatarSize,
-              showStatus: false,
-            ),
-        ],
-      ),
+    final Widget avatarStack = FluxerAvatarStack(
+      size: _kAvatarSize,
+      maxVisible: _kMaxVisibleAvatars,
+      overlap: -4,
+      outlineWidth: 1,
+      outlineColor: surfaceColor,
+      avatars: [
+        for (final user in resolvedUsers)
+          FluxerAvatar.user(
+            userId: user.userId,
+            imageUrl: user.display.avatarUrl,
+            fallbackText: user.display.displayName,
+            avatarColor: user.display.avatarColor,
+            size: _kAvatarSize,
+            showStatus: false,
+          ),
+      ],
     );
     final Widget content = SizedBox(
       height: WideComposerLayout.statusLineHeight,
