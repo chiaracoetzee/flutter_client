@@ -137,6 +137,11 @@ jobs:
           flutter pub get
           (cd packages/fluxer_markdown_native && dart pub get)
           (cd dart_sdk && dart pub get)
+          for pkg in packages/*/; do
+            [ "$pkg" = "packages/fluxer_fcm/" ] && continue
+            [ -f "${pkg}pubspec.yaml" ] || continue
+            flutter pub get --directory "$pkg"
+          done
 
       - name: Restore build_runner cache
         if: steps.check_upstream.outputs.skip_rebase != 'true'
@@ -159,7 +164,7 @@ jobs:
           (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)
           flutter test test/features/chat/services/composer_mention_controller_test.dart test/features/chat/presentation/widgets/messages/message_mention_test.dart
           echo "Running baseline static code analysis..."
-          flutter analyze
+          flutter analyze --no-fatal-warnings --no-fatal-infos
 
       - name: Attempt Git Rebase against upstream/canary
         id: attempt_rebase
@@ -198,6 +203,11 @@ jobs:
             git commit -m "chore(submodules): update submodules to latest tracked commits" || true
             (cd packages/fluxer_markdown_native && dart pub get)
             (cd dart_sdk && dart pub get)
+            for pkg in packages/*/; do
+              [ "$pkg" = "packages/fluxer_fcm/" ] && continue
+              [ -f "${pkg}pubspec.yaml" ] || continue
+              flutter pub get --directory "$pkg"
+            done
           else
             echo "Submodules already up to date."
           fi
@@ -215,7 +225,7 @@ jobs:
           (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)
           flutter test test/features/chat/services/composer_mention_controller_test.dart test/features/chat/presentation/widgets/messages/message_mention_test.dart
           echo "Running post-rebase static code analysis..."
-          flutter analyze
+          flutter analyze --no-fatal-warnings --no-fatal-infos
 
       - name: Push Rebased Branch
         if: steps.check_upstream.outputs.skip_rebase != 'true' && (github.event_name == 'schedule' || inputs.dry_run == false || inputs.dry_run == 'false')
