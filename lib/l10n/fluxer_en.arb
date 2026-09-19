@@ -16599,6 +16599,22 @@
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
+    "guildSettingsDeleteCommunity": "Delete community",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Community deleted",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Couldn't delete this community",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "guildSettingsCategoryExpressions": "EXPRESSIONS",
     "@guildSettingsCategoryExpressions": {
         "description": "Sidebar category for emoji and stickers."

@@ -22419,6 +22419,30 @@ abstract class FluxerLocalizations {
   /// **'Community Settings'**
   String get guildSettingsCommunitySettings;
 
+  /// Destructive footer button in community settings. Opens the delete-community confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete community'**
+  String get guildSettingsDeleteCommunity;
+
+  /// Confirmation copy for deleting a community.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.'**
+  String get guildSettingsDeleteCommunityConfirm;
+
+  /// Success toast after a community is deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Community deleted'**
+  String get guildSettingsCommunityDeleted;
+
+  /// Error toast when deleting a community fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete this community'**
+  String get guildSettingsDeleteCommunityFailed;
+
   /// Sidebar category for emoji and stickers.
   ///
   /// In en, this message translates to:

@@ -13415,6 +13415,20 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'إعدادات المجتمع';
 
   @override
+  String get guildSettingsDeleteCommunity => 'Delete community';
+
+  @override
+  String get guildSettingsDeleteCommunityConfirm =>
+      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+
+  @override
+  String get guildSettingsCommunityDeleted => 'Community deleted';
+
+  @override
+  String get guildSettingsDeleteCommunityFailed =>
+      'Couldn\'t delete this community';
+
+  @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
 
   @override
