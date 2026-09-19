@@ -100,6 +100,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
           .whereType<Persona>()
           .toList();
 
+      if (!ref.mounted) return;
       state = AsyncValue.data(personas);
     } catch (err, st) {
       talker.warning(
@@ -107,6 +108,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
         err,
         st,
       );
+      if (!ref.mounted) return;
       state = AsyncValue.error(err, st);
     }
   }
@@ -557,6 +559,7 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
       final Response<dynamic> response =
           await dio.get<dynamic>('/users/@me/personas/settings');
       final dynamic data = response.data;
+      if (!ref.mounted) return;
       if (data is Map<String, dynamic>) {
         final settings = PersonaSettings.fromJson(data);
         state = AsyncValue.data(settings);
@@ -573,6 +576,7 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
         err,
         st,
       );
+      if (!ref.mounted) return;
       state = AsyncValue.error(err, st);
     }
   }
