@@ -344,8 +344,13 @@ class AppearancePreferences extends _$AppearancePreferences {
         dmMessagePreviewMode: value.dmMessagePreviewMode,
         showFavorites: value.showFavorites,
         useSystemLocaleForTimeFormat: value.useSystemLocaleForTimeFormat,
-        messageGroupSpacing: value.messageGroupSpacing,
-        compactMessageGroupSpacing: value.compactMessageGroupSpacing,
+        messageGroupSpacing: value.hasMobileMessageGroupSpacingInProto
+            ? value.messageGroupSpacing
+            : state.messageGroupSpacing,
+        compactMessageGroupSpacing:
+            value.hasMobileCompactMessageGroupSpacingInProto
+                ? value.compactMessageGroupSpacing
+                : state.compactMessageGroupSpacing,
         showUserAvatarsInCompactMode: value.showUserAvatarsInCompactMode,
         showMediaDeleteButton: value.showMediaDeleteButton,
         showMediaDownloadButton: value.showMediaDownloadButton,
