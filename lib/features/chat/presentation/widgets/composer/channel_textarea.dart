@@ -104,7 +104,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
-import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 
