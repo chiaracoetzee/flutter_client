@@ -5,6 +5,17 @@ syntax = "proto3";
 package fluxer.user.preferences.v1;
 
 message AccessibilitySettings {
+  // Fork fields. The fork numbers its own fields from 2200 up, in this block; never give a
+  // fork field the next number after upstream's last one. Upstream numbers its fields in
+  // sequence, and the settings are stored by number, so a fork field in that range is read
+  // as upstream's next field once upstream adds it (field 65 did that on 2026-10-16).
+  // show_alt_text_on_images is 65 in upstream's mobile app, which upstream's web app uses for
+  // double_click_message_actions; the fork follows the monorepo's numbering for both.
+  optional bool show_alt_text_on_images = 2223;
+  optional double mobile_font_size = 2224;
+  optional double mobile_message_group_spacing = 2225;
+  optional double mobile_compact_message_group_spacing = 2226;
+
   optional double saturation_factor = 1;
   bool always_underline_links = 2;
   optional bool enable_text_selection = 3;
@@ -78,7 +89,6 @@ message AccessibilitySettings {
   optional bool dim_strikethrough_text = 62;
   optional bool sequential_file_send = 63;
   optional bool mobile_splash_zoom_animation = 64;
-  optional bool show_alt_text_on_images = 65;
 }
 
 message AccessibilityOverrides {
