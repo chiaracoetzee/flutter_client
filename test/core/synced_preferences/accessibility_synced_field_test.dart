@@ -105,6 +105,23 @@ void main() {
       expect(restored.hasZoomLevelInProto, isFalse);
     });
 
+    test(
+      'ignores desktop fontSize and messageGroupSpacing when mobile layout fields are omitted',
+      () {
+        final proto = accessibility_pb.AccessibilitySettings(
+          fontSize: 24,
+          messageGroupSpacing: 0,
+          compactMessageGroupSpacing: 0,
+        );
+        final restored = AccessibilitySyncedField.fromProto(proto);
+        expect(restored.chatFontSize, 16);
+        expect(restored.messageGroupSpacing, 16);
+        expect(restored.compactMessageGroupSpacing, 0);
+        expect(restored.hasMobileFontSizeInProto, isFalse);
+        expect(restored.hasMobileMessageGroupSpacingInProto, isFalse);
+      },
+    );
+
     test('normalizes empty custom theme css to null on read', () {
       final restored = AccessibilitySyncedField.fromProto(
         accessibility_pb.AccessibilitySettings(customThemeCss: '   '),
@@ -220,6 +237,8 @@ void main() {
         autoSendKlipyGifs: true,
         syncReducedMotionWithSystem: false,
         reducedMotionOverride: true,
+        fontSize: 24,
+        messageGroupSpacing: 0,
       );
       final pushed = AccessibilitySyncedField.toProtoForPush(
         local: local,
@@ -230,6 +249,10 @@ void main() {
       expect(pushed.hideKeyboardHints, isTrue);
       expect(pushed.syncReducedMotionWithSystem, isTrue);
       expect(pushed.reducedMotionOverride, isFalse);
+      expect(pushed.fontSize, 24);
+      expect(pushed.messageGroupSpacing, 0);
+      expect(pushed.mobileFontSize, 16);
+      expect(pushed.mobileMessageGroupSpacing, 16);
     });
 
     test('roundtrips motion and underline accessibility fields', () {
@@ -335,6 +358,40 @@ void main() {
         isTrue,
       );
     });
+
+    test(
+      'mergeForMigration keeps local font size and spacing when remote omits mobile fields',
+      () {
+        final field = _splashZoomField();
+        const local = AccessibilityLocalState(
+          hideKeyboardHints: false,
+          channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+          showSelectedChannelTypingIndicator: false,
+          showFadedUnreadOnMutedChannels: false,
+          dmMessagePreviewMode: DmMessagePreviewMode.all,
+          showFavorites: true,
+          useSystemLocaleForTimeFormat: false,
+          messageGroupSpacing: 18,
+          compactMessageGroupSpacing: 2,
+          saturationFactor: 1,
+          customThemeCss: null,
+          chatFontSize: 18,
+          scaleFactor: 1,
+          hasMobileFontSizeInProto: true,
+          hasMobileMessageGroupSpacingInProto: true,
+          advanced: kDefaultAdvancedAccessibility,
+        );
+        final remote = AccessibilitySyncedField.fromProto(
+          accessibility_pb.AccessibilitySettings(
+            fontSize: 24,
+            messageGroupSpacing: 0,
+          ),
+        );
+        final merged = field.mergeForMigration(local: local, remote: remote);
+        expect(merged.chatFontSize, 18);
+        expect(merged.messageGroupSpacing, 18);
+      },
+    );
 
     test('toProtoForPush keeps wire custom theme css when local has none', () {
       const local = AccessibilityLocalState(
