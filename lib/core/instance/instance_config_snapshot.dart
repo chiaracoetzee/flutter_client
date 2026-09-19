@@ -38,8 +38,8 @@ class InstanceConfigSnapshot {
   factory InstanceConfigSnapshot.officialDefault() {
     return const InstanceConfigSnapshot(
       apiBaseUrl: InstanceConstants.defaultApiBaseUrl,
-      gatewayUrl: InstanceConstants.defaultGatewayUrl,
-      displayDomain: InstanceConstants.defaultInstanceInputUrl,
+      gatewayUrl: 'wss://temple.hypersystem.xyz/gateway',
+      displayDomain: 'temple.hypersystem.xyz',
     );
   }
 
