@@ -51,13 +51,13 @@ Future<void> applyThemeCustomizationFromAccessibilityProto(
 ) async {
   final bool hasSaturation = accessibility.hasSaturationFactor();
   final bool hasCustomThemeCssField = accessibility.hasCustomThemeCss();
-  final bool hasFontSize = accessibility.hasFontSize();
+  final bool hasMobileFontSize = accessibility.hasMobileFontSize();
   final bool hasZoomLevel = accessibility.hasZoomLevel();
   final String? normalizedCss = hasCustomThemeCssField
       ? normalizeCustomThemeCss(accessibility.customThemeCss)
       : null;
   final bool hasCustomThemeCss = normalizedCss != null;
-  if (!hasSaturation && !hasCustomThemeCss && !hasFontSize && !hasZoomLevel) {
+  if (!hasSaturation && !hasCustomThemeCss && !hasMobileFontSize && !hasZoomLevel) {
     return;
   }
   await apply(
@@ -65,13 +65,15 @@ Future<void> applyThemeCustomizationFromAccessibilityProto(
         ? clampSaturationFactor(accessibility.saturationFactor)
         : null,
     customThemeCss: normalizedCss,
-    chatFontSize: hasFontSize ? snapChatFontSize(accessibility.fontSize) : null,
+    chatFontSize: hasMobileFontSize
+        ? snapChatFontSize(accessibility.mobileFontSize)
+        : null,
     scaleFactor: hasZoomLevel
         ? clampLayoutZoomLevel(protoZoomLevelToFactor(accessibility.zoomLevel))
         : null,
     updateSaturationFactor: hasSaturation,
     updateCustomThemeCss: hasCustomThemeCss,
-    updateChatFontSize: hasFontSize,
+    updateChatFontSize: hasMobileFontSize,
     updateScaleFactor: hasZoomLevel,
   );
 }
