@@ -23,7 +23,6 @@
     "personaPronounsHint": "例如：they/them",
     "personaBioLabel": "個人簡介 / 關於我",
     "personaBioHint": "向其他人介紹這個人格...",
-    "personaSaveChanges": "儲存變更",
     "personaUpdatedToast": "人格已更新",
     "personaUpdateFailedToast": "更新人格失敗：{error}",
     "personaSectionTitle": "人格",
