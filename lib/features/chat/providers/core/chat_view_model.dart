@@ -6286,16 +6286,60 @@ class ChatViewModel extends _$ChatViewModel {
     unawaited(_restoreComposerDraftFromDb());
   }
 
+  Map<String, dynamic> _buildPersonaPayload(Persona persona) {
+    final systemTag = ref.read(systemDisplayTagProvider);
+    final String? tagText =
+        (systemTag.text != null && systemTag.text!.trim().isNotEmpty)
+            ? systemTag.text!.trim()
+            : null;
+    final String? tagIcon =
+        (systemTag.iconUrl != null && systemTag.iconUrl!.trim().isNotEmpty)
+            ? systemTag.iconUrl!.trim()
+            : null;
+    return <String, dynamic>{
+      'id': persona.id,
+      'name': persona.name,
+      if (persona.avatarUrl != null) 'avatar': persona.avatarUrl,
+      if (persona.color != null) 'avatar_color': persona.color,
+      if (tagText != null) 'display_tag_text': tagText,
+      if (tagText != null) 'system_name': tagText,
+      if (tagIcon != null) 'display_tag_icon': tagIcon,
+      if (persona.pronouns != null) 'pronouns': persona.pronouns,
+      if (persona.color != null) 'color': persona.color,
+      if (persona.bio != null) 'bio': persona.bio,
+    };
+  }
+
   Future<void> saveEditedMessage({String? text}) async {
     final Message? editingMessage = state.editingMessage;
     if (editingMessage == null) {
       return;
     }
-    final String sanitized = _maybeSanitizeOutgoing(
-      (text ?? state.messageText).trim(),
+    final String rawText = (text ?? state.messageText).trim();
+    final List<Persona> personas =
+        ref.read(myPersonasProvider).asData?.value ?? const [];
+
+    final EditMatchResult editMatch = matchEditMessage(
+      content: rawText,
+      personas: personas,
+      currentPersonaId: editingMessage.personaId,
+      hasAttachments: editingMessage.hasAttachments,
     );
-    final String editedContent = hasVisibleContent(sanitized) ? sanitized : '';
-    if (editedContent.isEmpty || editedContent == editingMessage.content) {
+
+    final String sanitized = _maybeSanitizeOutgoing(
+      editMatch.finalContent.trim(),
+    );
+    final String editedContent = hasVisibleContent(sanitized)
+        ? sanitized
+        : (editingMessage.hasAttachments ? '' : '');
+
+    final bool personaChanged = (editMatch.isRootAccount &&
+            editingMessage.personaId != null) ||
+        (editMatch.persona != null &&
+            editMatch.persona!.id != editingMessage.personaId);
+    final bool contentChanged = editedContent != editingMessage.content;
+
+    if (!contentChanged && !personaChanged) {
       talker.debug(
         '[ChatViewModel] edit save noop messageId=${editingMessage.id}',
       );
@@ -6312,10 +6356,26 @@ class ChatViewModel extends _$ChatViewModel {
       await _restoreComposerDraftFromDb();
       return;
     }
+
+    if (editedContent.isEmpty && !editingMessage.hasAttachments) {
+      return;
+    }
+
     final int maxMessageLength = ref.read(maxMessageLengthProvider);
     if (editedContent.length > maxMessageLength) {
       return;
     }
+
+    Map<String, dynamic>? personaData;
+    if (editMatch.shouldUpdatePersona) {
+      if (editMatch.persona != null) {
+        personaData = _buildPersonaPayload(editMatch.persona!);
+        ref.read(activePersonaProvider.notifier).recordUsage(editMatch.persona!.id);
+      } else if (editMatch.isRootAccount) {
+        personaData = null;
+      }
+    }
+
     try {
       final Message updatedMessage = await ref
           .read(messageRepositoryProvider)
@@ -6323,6 +6383,8 @@ class ChatViewModel extends _$ChatViewModel {
             channelId: editingMessage.channelId,
             messageId: editingMessage.id,
             content: editedContent,
+            personaData: personaData,
+            updatePersona: editMatch.shouldUpdatePersona,
           );
       final List<Message>? nextMessages = _replaceById(
         state.messages,
@@ -6347,31 +6409,8 @@ class ChatViewModel extends _$ChatViewModel {
     required Message message,
     required Persona? persona,
   }) async {
-    Map<String, dynamic>? personaData;
-    if (persona != null) {
-      final systemTag = ref.read(systemDisplayTagProvider);
-      final String? tagText =
-          (systemTag.text != null && systemTag.text!.trim().isNotEmpty)
-              ? systemTag.text!.trim()
-              : null;
-      final String? tagIcon =
-          (systemTag.iconUrl != null && systemTag.iconUrl!.trim().isNotEmpty)
-              ? systemTag.iconUrl!.trim()
-              : null;
-
-      personaData = <String, dynamic>{
-        'id': persona.id,
-        'name': persona.name,
-        'avatar': ?persona.avatarUrl,
-        'avatar_color': ?persona.color,
-        'display_tag_text': ?tagText,
-        'system_name': ?tagText,
-        'display_tag_icon': ?tagIcon,
-        'pronouns': ?persona.pronouns,
-        'color': ?persona.color,
-        'bio': ?persona.bio,
-      };
-    }
+    final Map<String, dynamic>? personaData =
+        persona != null ? _buildPersonaPayload(persona) : null;
 
     try {
       final Message updatedMessage = await ref
@@ -6439,16 +6478,55 @@ class ChatViewModel extends _$ChatViewModel {
         global: global,
       ),
     );
-    if (newContent == target.content) {
+    final List<Persona> personas =
+        ref.read(myPersonasProvider).asData?.value ?? const [];
+    final EditMatchResult editMatch = matchEditMessage(
+      content: newContent,
+      personas: personas,
+      currentPersonaId: target.personaId,
+      hasAttachments: target.hasAttachments,
+    );
+
+    final String sanitized = _maybeSanitizeOutgoing(
+      editMatch.finalContent.trim(),
+    );
+    final String editedContent = hasVisibleContent(sanitized)
+        ? sanitized
+        : (target.hasAttachments ? '' : '');
+
+    final bool personaChanged = (editMatch.isRootAccount &&
+            target.personaId != null) ||
+        (editMatch.persona != null &&
+            editMatch.persona!.id != target.personaId);
+    final bool contentChanged = editedContent != target.content;
+
+    if (!contentChanged && !personaChanged) {
       return;
     }
+
+    if (editedContent.isEmpty && !target.hasAttachments) {
+      return;
+    }
+
+    Map<String, dynamic>? personaData;
+    if (editMatch.shouldUpdatePersona) {
+      if (editMatch.persona != null) {
+        personaData = _buildPersonaPayload(editMatch.persona!);
+        ref.read(activePersonaProvider.notifier).recordUsage(editMatch.persona!.id);
+      } else if (editMatch.isRootAccount) {
+        personaData = null;
+      }
+    }
+
     try {
       final Message updatedMessage = await ref
           .read(messageRepositoryProvider)
           .editMessage(
             channelId: target.channelId,
             messageId: target.id,
-            content: newContent,
+            content: editedContent,
+            personaData: personaData,
+            updatePersona: editMatch.shouldUpdatePersona,
           );
       final List<Message>? nextMessages = _replaceById(
         state.messages,
