@@ -9,6 +9,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
   ForkLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => '切换人格';
+
+  @override
   String get personaSelectTitle => '选择人格';
 
   @override
@@ -241,6 +244,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
 /// The translations for Chinese, using the Han script (`zh_Hant`).
 class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   ForkLocalizationsZhHant() : super('zh_Hant');
+
+  @override
+  String get chatMessageChangePersona => '切換人格';
 
   @override
   String get personaSelectTitle => '選擇人格';
