@@ -25,7 +25,9 @@ bool authorsShareGroupIdentity(Message current, Message previous) {
         _normalizeString(current.personaAvatar) !=
             _normalizeString(previous.personaAvatar) ||
         _normalizeString(current.personaTag) !=
-            _normalizeString(previous.personaTag)) {
+            _normalizeString(previous.personaTag) ||
+        _normalizeString(current.personaTagIcon) !=
+            _normalizeString(previous.personaTagIcon)) {
       return false;
     }
   }
