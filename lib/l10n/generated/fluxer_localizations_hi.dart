@@ -7943,6 +7943,13 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'क्या आप वाकई इस संदेश से सभी प्रतिक्रियाएँ हटाना चाहते हैं?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'मैसेज अनपिन करें';
 
   @override

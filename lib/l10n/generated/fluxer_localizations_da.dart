@@ -7949,6 +7949,13 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Er du sikker på, at du vil fjerne alle reaktioner fra denne besked?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Fjern pin fra besked';
 
   @override

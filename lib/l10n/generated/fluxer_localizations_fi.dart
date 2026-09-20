@@ -7969,6 +7969,13 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Haluatko varmasti poistaa kaikki reaktiot tästä viestistä?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Poista viestin kiinnitys';
 
   @override

@@ -7996,6 +7996,13 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Ești sigur că vrei să elimini toate reacțiile de la acest mesaj?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Anulează fixarea mesajului';
 
   @override

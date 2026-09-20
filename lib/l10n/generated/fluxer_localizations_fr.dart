@@ -8052,6 +8052,13 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Êtes-vous sûr de vouloir supprimer toutes les réactions de ce message ?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Détacher le message';
 
   @override

@@ -7957,6 +7957,13 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Bạn có chắc chắn muốn xóa tất cả các phản ứng khỏi tin nhắn này không?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Bỏ ghim tin nhắn';
 
   @override

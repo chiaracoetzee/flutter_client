@@ -7954,6 +7954,13 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Är du säker på att du vill ta bort alla reaktioner från det här meddelandet?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Ta bort nål från meddelande';
 
   @override

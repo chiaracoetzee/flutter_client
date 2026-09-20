@@ -7622,6 +7622,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '이 메시지의 모든 반응을 삭제하시겠습니까?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => '메시지 고정 해제';
 
   @override

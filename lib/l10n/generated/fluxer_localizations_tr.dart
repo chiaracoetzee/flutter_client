@@ -7957,6 +7957,13 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu mesajdaki tüm tepkileri kaldırmak istediğinizden emin misiniz?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Mesajı sabitlemeyi kaldır';
 
   @override

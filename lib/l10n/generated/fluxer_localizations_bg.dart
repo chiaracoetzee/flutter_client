@@ -8023,6 +8023,13 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Сигурни ли сте, че искате да премахнете всички реакции от това съобщение?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Откачи съобщението';
 
   @override

@@ -13038,6 +13038,18 @@ abstract class FluxerLocalizations {
   /// **'Are you sure you want to remove all reactions from this message?'**
   String get chatMessageRemoveAllReactionsConfirmDescription;
 
+  /// Confirm button label on the pin message confirmation modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get chatMessagePinConfirm;
+
+  /// Body text for the pin message confirmation modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin this message to the channel for everyone to see.'**
+  String get chatMessagePinConfirmDescription;
+
   /// Title for the unpin message confirmation sheet.
   ///
   /// In en, this message translates to:

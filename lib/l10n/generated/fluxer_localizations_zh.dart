@@ -7464,6 +7464,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '您确定要移除此消息的所有反应吗？';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => '取消固定消息';
 
   @override

@@ -7979,6 +7979,13 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Weet je zeker dat je alle reacties van dit bericht wilt verwijderen?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Bericht losmaken';
 
   @override

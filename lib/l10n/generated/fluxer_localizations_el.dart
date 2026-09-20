@@ -8023,6 +8023,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Είστε σίγουροι ότι θέλετε να αφαιρέσετε όλες τις αντιδράσεις από αυτό το μήνυμα;';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Αποκαθήλωση μηνύματος';
 
   @override

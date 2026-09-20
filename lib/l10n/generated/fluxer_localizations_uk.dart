@@ -8018,6 +8018,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ви впевнені, що хочете видалити всі реакції з цього повідомлення?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Відкріпити повідомлення';
 
   @override

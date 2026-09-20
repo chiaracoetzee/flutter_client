@@ -7635,6 +7635,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'このメッセージからすべてのリアクションを削除してもよろしいですか？';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'メッセージのピン留めを解除';
 
   @override

@@ -8000,6 +8000,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Biztosan el szeretné távolítani az összes reakciót erről az üzenetről?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Üzenet leválasztása';
 
   @override

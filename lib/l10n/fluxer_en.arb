@@ -10043,6 +10043,14 @@
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
+    "chatMessagePinConfirm": "Pin",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Pin this message to the channel for everyone to see.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "chatMessageUnpinConfirmTitle": "Unpin message",
     "@chatMessageUnpinConfirmTitle": {
         "description": "Title for the unpin message confirmation sheet."

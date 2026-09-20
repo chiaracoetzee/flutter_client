@@ -7890,6 +7890,13 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'คุณแน่ใจหรือไม่ว่าต้องการลบอิโมจิทั้งหมดออกจากข้อความนี้';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'ยกเลิกการปักหมุดข้อความ';
 
   @override
