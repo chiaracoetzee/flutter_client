@@ -52,6 +52,7 @@ class Messages extends Table {
   TextColumn get personaName => text().nullable()();
   TextColumn get personaAvatar => text().nullable()();
   TextColumn get personaTag => text().nullable()();
+  TextColumn get personaTagIcon => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
