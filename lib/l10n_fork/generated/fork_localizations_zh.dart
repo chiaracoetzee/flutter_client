@@ -85,9 +85,6 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get personaBioHint => '向他人介绍此人格...';
 
   @override
-  String get personaSaveChanges => '保存更改';
-
-  @override
   String get personaUpdatedToast => '人格已更新';
 
   @override
@@ -320,9 +317,6 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaBioHint => '向其他人介紹這個人格...';
-
-  @override
-  String get personaSaveChanges => '儲存變更';
 
   @override
   String get personaUpdatedToast => '人格已更新';
