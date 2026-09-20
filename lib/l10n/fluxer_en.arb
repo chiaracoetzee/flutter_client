@@ -17682,8 +17682,33 @@
     "personaVisibilityPrivate": "Private",
     "@personaVisibilityPrivate": {
         "description": "Label for private visibility option."
+    },
+    "personaNameRequired": "Please enter a persona display name",
+    "personaNameTooLong": "Persona display name must be 100 characters or less",
+    "personaTagPrefixTooLong": "Persona tag prefix must be 32 characters or less",
+    "personaTagSuffixTooLong": "Persona tag suffix must be 32 characters or less",
+    "personaTagCollisionError": "The tag '{tag}' is already in use by '{name}'.",
+    "@personaNameRequired": {
+        "description": "Validation toast error when saving a persona with an empty display name."
+    },
+    "@personaNameTooLong": {
+        "description": "Validation toast error when persona display name exceeds 100 characters."
+    },
+    "@personaTagPrefixTooLong": {
+        "description": "Validation toast error when persona tag prefix exceeds 32 characters."
+    },
+    "@personaTagSuffixTooLong": {
+        "description": "Validation toast error when persona tag suffix exceeds 32 characters."
+    },
+    "@personaTagCollisionError": {
+        "description": "Validation toast error when a persona prefix/suffix matches an existing persona's tag.",
+        "placeholders": {
+            "tag": {
+                "type": "String"
+            },
+            "name": {
+                "type": "String"
+            }
+        }
     }
 }
-
-
-

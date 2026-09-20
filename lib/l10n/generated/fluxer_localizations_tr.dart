@@ -14891,4 +14891,24 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Gizli';
+
+  @override
+  String get personaNameRequired => 'Lütfen bir persona görünen adı girin';
+
+  @override
+  String get personaNameTooLong =>
+      'Persona görünen adı en fazla 100 karakter olmalıdır';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Persona etiket öneki en fazla 32 karakter olmalıdır';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Persona etiket soneki en fazla 32 karakter olmalıdır';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return '\'$tag\' etiketi zaten \'$name\' tarafından kullanılıyor.';
+  }
 }

@@ -14898,4 +14898,25 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privat';
+
+  @override
+  String get personaNameRequired =>
+      'Indtast venligst et visningsnavn for personaen';
+
+  @override
+  String get personaNameTooLong =>
+      'Personaens visningsnavn må højst være på 100 tegn';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Persona-tagpræfiks må højst være på 32 tegn';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Persona-tagsuffiks må højst være på 32 tegn';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Tagget \'$tag\' er allerede i brug af \'$name\'.';
+  }
 }

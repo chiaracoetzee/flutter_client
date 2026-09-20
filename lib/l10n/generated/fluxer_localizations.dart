@@ -24776,6 +24776,36 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Private'**
   String get personaVisibilityPrivate;
+
+  /// Validation toast error when saving a persona with an empty display name.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a persona display name'**
+  String get personaNameRequired;
+
+  /// Validation toast error when persona display name exceeds 100 characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona display name must be 100 characters or less'**
+  String get personaNameTooLong;
+
+  /// Validation toast error when persona tag prefix exceeds 32 characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona tag prefix must be 32 characters or less'**
+  String get personaTagPrefixTooLong;
+
+  /// Validation toast error when persona tag suffix exceeds 32 characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona tag suffix must be 32 characters or less'**
+  String get personaTagSuffixTooLong;
+
+  /// Validation toast error when a persona prefix/suffix matches an existing persona's tag.
+  ///
+  /// In en, this message translates to:
+  /// **'The tag \'{tag}\' is already in use by \'{name}\'.'**
+  String personaTagCollisionError(String tag, String name);
 }
 
 class _FluxerLocalizationsDelegate

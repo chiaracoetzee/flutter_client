@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "Matomumas",
     "personaVisibilityUnlisted": "Neįtrauktas į sąrašą",
     "personaVisibilityPublic": "Viešas",
-    "personaVisibilityPrivate": "Privatus"
+    "personaVisibilityPrivate": "Privatus",
+    "personaNameRequired": "Įveskite personos rodomą vardą",
+    "personaNameTooLong": "Personos rodomas vardas negali viršyti 100 simbolių",
+    "personaTagPrefixTooLong": "Personos žymos priešdėlis negali viršyti 32 simbolių",
+    "personaTagSuffixTooLong": "Personos žymos galūnė negali viršyti 32 simbolių",
+    "personaTagCollisionError": "Žymą „{tag}“ jau naudoja „{name}“."
 }
