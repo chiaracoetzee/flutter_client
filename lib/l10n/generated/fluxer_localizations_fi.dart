@@ -6942,6 +6942,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatMessageEdit => 'Muokkaa viestiä';
 
   @override
+  String get chatMessageChangePersona => 'Vaihda persoonaa';
+
+  @override
   String get chatMessageReply => 'Vastaa';
 
   @override
