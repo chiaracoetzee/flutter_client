@@ -9,6 +9,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
   ForkLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Mudar persona';
+
+  @override
   String get personaSelectTitle => 'Selecionar persona';
 
   @override
@@ -252,6 +255,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
 class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   ForkLocalizationsPtBr() : super('pt_BR');
+
+  @override
+  String get chatMessageChangePersona => 'Mudar persona';
 
   @override
   String get personaSelectTitle => 'Selecionar persona';
