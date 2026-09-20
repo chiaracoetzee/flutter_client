@@ -590,7 +590,6 @@ Future<void> _handleUserSettingsHydrate(
   if (!ref.mounted) {
     return;
   }
-  ref.read(systemDisplayTagProvider.notifier).updateFromBlob(settings.syncedPreferences);
   await notifier.applyServerSettings(settings);
 }
 
