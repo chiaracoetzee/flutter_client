@@ -90,9 +90,6 @@ class ForkLocalizationsId extends ForkLocalizations {
       'Ceritakan tentang persona ini kepada yang lain...';
 
   @override
-  String get personaSaveChanges => 'Simpan perubahan';
-
-  @override
   String get personaUpdatedToast => 'Persona diperbarui';
 
   @override

@@ -23,7 +23,6 @@
     "personaPronounsHint": "pl. ő/ők",
     "personaBioLabel": "Bemutatkozás / Rólam",
     "personaBioHint": "Mesélj másoknak erről a personáról...",
-    "personaSaveChanges": "Változtatások mentése",
     "personaUpdatedToast": "Persona frissítve",
     "personaUpdateFailedToast": "Nem sikerült frissíteni a personát: {error}",
     "personaSectionTitle": "Personák",

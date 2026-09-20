@@ -89,9 +89,6 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get personaBioHint => 'Spune-le celorlalți despre această persona...';
 
   @override
-  String get personaSaveChanges => 'Salvează modificările';
-
-  @override
   String get personaUpdatedToast => 'Persona actualizată';
 
   @override
