@@ -14924,4 +14924,24 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Soukromé';
+
+  @override
+  String get personaNameRequired => 'Zadejte zobrazované jméno persony';
+
+  @override
+  String get personaNameTooLong =>
+      'Zobrazované jméno persony musí mít maximálně 100 znaků';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Předpona tagu persony musí mít maximálně 32 znaků';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Přípona tagu persony musí mít maximálně 32 znaků';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Tag \'$tag\' již používá \'$name\'.';
+  }
 }

@@ -14755,4 +14755,23 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'خاص';
+
+  @override
+  String get personaNameRequired => 'يرجى إدخال اسم عرض الشخصية';
+
+  @override
+  String get personaNameTooLong => 'يجب أن يكون اسم عرض الشخصية 100 حرف أو أقل';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'يجب أن تكون بادئة علامة الشخصية 32 حرفًا أو أقل';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'يجب أن تكون لاحقة علامة الشخصية 32 حرفًا أو أقل';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'العلامة \'$tag\' مستخدمة بالفعل بواسطة \'$name\'.';
+  }
 }

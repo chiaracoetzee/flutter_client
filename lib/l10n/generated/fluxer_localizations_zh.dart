@@ -13987,6 +13987,23 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => '私密';
+
+  @override
+  String get personaNameRequired => '请输入人格显示名称';
+
+  @override
+  String get personaNameTooLong => '人格显示名称不能超过 100 个字符';
+
+  @override
+  String get personaTagPrefixTooLong => '人格标签前缀不能超过 32 个字符';
+
+  @override
+  String get personaTagSuffixTooLong => '人格标签后缀不能超过 32 个字符';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return '标签“$tag”已被“$name”使用。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -27542,4 +27559,21 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get personaVisibilityPrivate => '私人';
+
+  @override
+  String get personaNameRequired => '請輸入人格顯示名稱';
+
+  @override
+  String get personaNameTooLong => '人格顯示名稱不得超過 100 個字元';
+
+  @override
+  String get personaTagPrefixTooLong => '人格標籤前綴不得超過 32 個字元';
+
+  @override
+  String get personaTagSuffixTooLong => '人格標籤後綴不得超過 32 個字元';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return '標籤「$tag」已被「$name」使用。';
+  }
 }

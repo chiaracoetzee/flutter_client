@@ -14862,6 +14862,27 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privada';
+
+  @override
+  String get personaNameRequired =>
+      'Introduza um nome de exibição para a persona';
+
+  @override
+  String get personaNameTooLong =>
+      'O nome da persona deve ter 100 carateres ou menos';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'O prefixo da tag da persona deve ter 32 carateres ou menos';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'O sufixo da tag da persona deve ter 32 carateres ou menos';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'A tag \'$tag\' já está a ser usada por \'$name\'.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -29418,4 +29439,25 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get personaVisibilityPrivate => 'Privada';
+
+  @override
+  String get personaNameRequired =>
+      'Por favor, insira um nome de exibição para a persona';
+
+  @override
+  String get personaNameTooLong =>
+      'O nome de exibição da persona deve ter 100 caracteres ou menos';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'O prefixo da tag da persona deve ter 32 caracteres ou menos';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'O sufixo da tag da persona deve ter 32 caracteres ou menos';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'A tag \'$tag\' já está em uso por \'$name\'.';
+  }
 }

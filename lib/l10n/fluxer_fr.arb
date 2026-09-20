@@ -16890,6 +16890,10 @@
     "personaVisibilityLabel": "Visibilité",
     "personaVisibilityUnlisted": "Non répertorié",
     "personaVisibilityPublic": "Public",
-    "personaVisibilityPrivate": "Privé"
+    "personaVisibilityPrivate": "Privé",
+    "personaNameRequired": "Veuillez saisir un nom d'affichage de persona",
+    "personaNameTooLong": "Le nom d'affichage du persona doit comporter 100 caractères ou moins",
+    "personaTagPrefixTooLong": "Le préfixe de balise de persona doit comporter 32 caractères ou moins",
+    "personaTagSuffixTooLong": "Le suffixe de balise de persona doit comporter 32 caractères ou moins",
+    "personaTagCollisionError": "La balise « {tag} » est déjà utilisée par « {name} »."
 }
-

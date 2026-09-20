@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "公開設定",
     "personaVisibilityUnlisted": "限定公開",
     "personaVisibilityPublic": "公開",
-    "personaVisibilityPrivate": "非公開"
+    "personaVisibilityPrivate": "非公開",
+    "personaNameRequired": "ペルソナの表示名を入力してください",
+    "personaNameTooLong": "ペルソナの表示名は100文字以内で入力してください",
+    "personaTagPrefixTooLong": "ペルソナタグの接頭辞は32文字以内で入力してください",
+    "personaTagSuffixTooLong": "ペルソナタグの接尾辞は32文字以内で入力してください",
+    "personaTagCollisionError": "タグ「{tag}」は既に「{name}」によって使用されています。"
 }

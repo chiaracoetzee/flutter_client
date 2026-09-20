@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "공개 범위",
     "personaVisibilityUnlisted": "일부 공개",
     "personaVisibilityPublic": "공개",
-    "personaVisibilityPrivate": "비공개"
+    "personaVisibilityPrivate": "비공개",
+    "personaNameRequired": "페르소나 표시 이름을 입력해 주세요",
+    "personaNameTooLong": "페르소나 표시 이름은 100자 이하여야 합니다",
+    "personaTagPrefixTooLong": "페르소나 태그 접두사는 32자 이하여야 합니다",
+    "personaTagSuffixTooLong": "페르소나 태그 접미사는 32자 이하여야 합니다",
+    "personaTagCollisionError": "'{tag}' 태그는 이미 '{name}'에서 사용 중입니다."
 }
