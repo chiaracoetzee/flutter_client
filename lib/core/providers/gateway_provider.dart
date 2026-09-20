@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
@@ -502,8 +503,48 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         final persona = data['persona'];
         final id = data['persona_id'] ??
             (persona is Map ? persona['id'] : data['id']);
+        final currentUid = ref.read(currentUserIdProvider) ??
+            currentUserId ??
+            ref.read(userSettingsViewModelProvider).userId;
+        final ownerId = (persona is Map &&
+                persona['user_id'] != null &&
+                persona['user_id'].toString().isNotEmpty)
+            ? persona['user_id'].toString()
+            : currentUid;
+
         if (id is String && id.isNotEmpty) {
-          ref.invalidate(publicPersonaProvider((userId: '', personaId: id)));
+          if (ownerId != null && ownerId.isNotEmpty) {
+            ref.invalidate(
+              publicPersonaProvider((userId: ownerId, personaId: id)),
+            );
+          }
+          if (currentUid != null &&
+              currentUid.isNotEmpty &&
+              currentUid != ownerId) {
+            ref.invalidate(
+              publicPersonaProvider((userId: currentUid, personaId: id)),
+            );
+          }
+
+          if (eventType == 'USER_PERSONA_DELETE') {
+            ref.read(myPersonasProvider.notifier).removePersona(id);
+          }
+        }
+
+        if (persona is Map) {
+          try {
+            final map = persona is Map<String, dynamic>
+                ? persona
+                : Map<String, dynamic>.from(persona);
+            final p = Persona.fromJson(map);
+            ref.read(myPersonasProvider.notifier).upsertPersona(p);
+          } catch (e, st) {
+            talker.warning(
+              '[Gateway] Failed to parse persona from gateway: $e',
+              e,
+              st,
+            );
+          }
         }
       }
     }),
