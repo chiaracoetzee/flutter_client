@@ -23,7 +23,6 @@
     "personaPronounsHint": "de ex. ea/el",
     "personaBioLabel": "Biografie / Despre mine",
     "personaBioHint": "Spune-le celorlalți despre această persona...",
-    "personaSaveChanges": "Salvează modificările",
     "personaUpdatedToast": "Persona actualizată",
     "personaUpdateFailedToast": "Nu s-a putut actualiza persona: {error}",
     "personaSectionTitle": "Personas",

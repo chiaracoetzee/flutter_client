@@ -23,7 +23,6 @@
     "personaPronounsHint": "مثال: هو/هي",
     "personaBioLabel": "نبذة شخصية / نبذة عني",
     "personaBioHint": "أخبر الآخرين عن هذه الشخصية...",
-    "personaSaveChanges": "حفظ التغييرات",
     "personaUpdatedToast": "تم تحديث الشخصية",
     "personaUpdateFailedToast": "فشل تحديث الشخصية: {error}",
     "personaSectionTitle": "الشخصيات",

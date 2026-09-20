@@ -89,9 +89,6 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get personaBioHint => 'أخبر الآخرين عن هذه الشخصية...';
 
   @override
-  String get personaSaveChanges => 'حفظ التغييرات';
-
-  @override
   String get personaUpdatedToast => 'تم تحديث الشخصية';
 
   @override
