@@ -16894,5 +16894,10 @@
     "personaVisibilityLabel": "能見度",
     "personaVisibilityUnlisted": "不公開",
     "personaVisibilityPublic": "公開",
-    "personaVisibilityPrivate": "私人"
+    "personaVisibilityPrivate": "私人",
+    "personaNameRequired": "請輸入人格顯示名稱",
+    "personaNameTooLong": "人格顯示名稱不得超過 100 個字元",
+    "personaTagPrefixTooLong": "人格標籤前綴不得超過 32 個字元",
+    "personaTagSuffixTooLong": "人格標籤後綴不得超過 32 個字元",
+    "personaTagCollisionError": "標籤「{tag}」已被「{name}」使用。"
 }

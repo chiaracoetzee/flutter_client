@@ -14250,4 +14250,21 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => '비공개';
+
+  @override
+  String get personaNameRequired => '페르소나 표시 이름을 입력해 주세요';
+
+  @override
+  String get personaNameTooLong => '페르소나 표시 이름은 100자 이하여야 합니다';
+
+  @override
+  String get personaTagPrefixTooLong => '페르소나 태그 접두사는 32자 이하여야 합니다';
+
+  @override
+  String get personaTagSuffixTooLong => '페르소나 태그 접미사는 32자 이하여야 합니다';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return '\'$tag\' 태그는 이미 \'$name\'에서 사용 중입니다.';
+  }
 }

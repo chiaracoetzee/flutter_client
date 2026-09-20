@@ -16919,5 +16919,10 @@
     "personaVisibilityLabel": "Vizibilitate",
     "personaVisibilityUnlisted": "Nelistată",
     "personaVisibilityPublic": "Publică",
-    "personaVisibilityPrivate": "Privată"
+    "personaVisibilityPrivate": "Privată",
+    "personaNameRequired": "Te rugăm să introduci un nume afișat pentru persona",
+    "personaNameTooLong": "Numele afișat al personei trebuie să aibă maximum 100 de caractere",
+    "personaTagPrefixTooLong": "Prefixul etichetei personei trebuie să aibă maximum 32 de caractere",
+    "personaTagSuffixTooLong": "Sufixul etichetei personei trebuie să aibă maximum 32 de caractere",
+    "personaTagCollisionError": "Eticheta '{tag}' este deja folosită de '{name}'."
 }
