@@ -23,7 +23,6 @@
     "personaPronounsHint": "ej. ella/él",
     "personaBioLabel": "Biografía / Sobre mí",
     "personaBioHint": "Cuéntale a los demás sobre esta persona...",
-    "personaSaveChanges": "Guardar cambios",
     "personaUpdatedToast": "Persona actualizada",
     "personaUpdateFailedToast": "Error al actualizar la persona: {error}",
     "personaSectionTitle": "Personas",
