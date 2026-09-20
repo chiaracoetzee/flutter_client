@@ -7053,6 +7053,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get chatMessageEdit => 'Editar mensaje';
 
   @override
+  String get chatMessageChangePersona => 'Cambiar persona';
+
+  @override
   String get chatMessageReply => 'Responder';
 
   @override
@@ -22385,6 +22388,9 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get chatMessageEdit => 'Editar mensaje';
+
+  @override
+  String get chatMessageChangePersona => 'Cambiar persona';
 
   @override
   String get chatMessageReply => 'Responder';
