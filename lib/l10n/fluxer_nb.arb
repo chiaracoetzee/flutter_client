@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "Synlighet",
     "personaVisibilityUnlisted": "Uoppført",
     "personaVisibilityPublic": "Offentlig",
-    "personaVisibilityPrivate": "Privat"
+    "personaVisibilityPrivate": "Privat",
+    "personaNameRequired": "Vennligst oppgi et visningsnavn for personaen",
+    "personaNameTooLong": "Visningsnavnet for personaen kan maksimalt være 100 tegn",
+    "personaTagPrefixTooLong": "Persona-taggprefikset kan maksimalt være 32 tegn",
+    "personaTagSuffixTooLong": "Persona-taggsuffikset kan maksimalt være 32 tegn",
+    "personaTagCollisionError": "Taggen '{tag}' er allerede i bruk av '{name}'."
 }

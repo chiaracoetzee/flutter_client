@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "Visibilità",
     "personaVisibilityUnlisted": "Non in elenco",
     "personaVisibilityPublic": "Pubblica",
-    "personaVisibilityPrivate": "Privata"
+    "personaVisibilityPrivate": "Privata",
+    "personaNameRequired": "Inserisci un nome visualizzato per la persona",
+    "personaNameTooLong": "Il nome visualizzato della persona deve contenere massimo 100 caratteri",
+    "personaTagPrefixTooLong": "Il prefisso del tag della persona deve contenere massimo 32 caratteri",
+    "personaTagSuffixTooLong": "Il suffisso del tag della persona deve contenere massimo 32 caratteri",
+    "personaTagCollisionError": "Il tag '{tag}' è già utilizzato da '{name}'."
 }
