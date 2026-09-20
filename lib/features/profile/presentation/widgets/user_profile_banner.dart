@@ -7,19 +7,22 @@ class UserProfileBanner extends StatelessWidget {
   const UserProfileBanner({
     required this.bannerUrl,
     required this.bannerColor,
+    this.height = _kBannerHeight,
     super.key,
   });
 
   final String? bannerUrl;
   final Color bannerColor;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: _kBannerHeight,
+      height: height,
       width: double.infinity,
       child: bannerUrl != null
           ? CachedNetworkImage(
+              key: ValueKey(bannerUrl),
               imageUrl: bannerUrl!,
               fit: BoxFit.cover,
               errorBuilder: (_, _, _) => ColoredBox(color: bannerColor),

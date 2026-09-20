@@ -85,9 +85,6 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get personaBioHint => 'このペルソナについて紹介...';
 
   @override
-  String get personaSaveChanges => '変更を保存';
-
-  @override
   String get personaUpdatedToast => 'ペルソナを更新しました';
 
   @override
