@@ -6983,6 +6983,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get chatMessageEdit => 'Rediger melding';
 
   @override
+  String get chatMessageChangePersona => 'Endre persona';
+
+  @override
   String get chatMessageReply => 'Svar';
 
   @override
