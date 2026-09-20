@@ -6524,6 +6524,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageEdit => '编辑消息';
 
   @override
+  String get chatMessageChangePersona => '切换人格';
+
+  @override
   String get chatMessageReply => '回复';
 
   @override
@@ -20197,6 +20200,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get chatMessageEdit => '編輯訊息';
+
+  @override
+  String get chatMessageChangePersona => '切換人格';
 
   @override
   String get chatMessageReply => '回覆';

@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -233,6 +234,13 @@ class _ContextMenuPage extends ConsumerWidget {
           icon: PhosphorIconsBold.pencilSimple,
           shortcut: shortcut('E'),
           onTap: () => pop(MessageAction.edit),
+        ),
+      if (permissions.isOwnMessage &&
+          (ref.watch(myPersonasProvider).asData?.value.isNotEmpty ?? false))
+        _MenuItem(
+          label: l10n.chatMessageChangePersona,
+          icon: PhosphorIconsBold.userSwitch,
+          onTap: () => pop(MessageAction.changePersona),
         ),
       _MenuItem(
         label: l10n.chatMessageReply,

@@ -5586,6 +5586,10 @@
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
     },
+    "chatMessageChangePersona": "ペルソナを変更",
+    "@chatMessageChangePersona": {
+        "description": "Action label for changing the persona of a message."
+    },
     "chatMessageReply": "返信する",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
