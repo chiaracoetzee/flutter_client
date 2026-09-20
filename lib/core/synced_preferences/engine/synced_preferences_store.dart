@@ -115,30 +115,6 @@ class SyncedPreferencesStore {
 
   String get wireBlob => _wireBlob;
 
-  String? get displayTagText {
-    if (_wireBlob.isEmpty) return null;
-    try {
-      final bytes = SyncedPreferencesEngine.decodeBytes(_wireBlob);
-      final chunks = SyncedPreferencesWireCodec.extractFieldChunks(bytes, 124);
-      if (chunks.isEmpty) return null;
-      return SyncedPreferencesWireCodec.decodeStringFromChunk(chunks.last);
-    } catch (_) {
-      return null;
-    }
-  }
-
-  String? get displayTagIcon {
-    if (_wireBlob.isEmpty) return null;
-    try {
-      final bytes = SyncedPreferencesEngine.decodeBytes(_wireBlob);
-      final chunks = SyncedPreferencesWireCodec.extractFieldChunks(bytes, 125);
-      if (chunks.isEmpty) return null;
-      return SyncedPreferencesWireCodec.decodeStringFromChunk(chunks.last);
-    } catch (_) {
-      return null;
-    }
-  }
-
   void markSessionChanging() {}
 
   void markDirty(SyncedPreferenceField field) {
