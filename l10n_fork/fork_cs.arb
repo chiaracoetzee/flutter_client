@@ -23,7 +23,6 @@
     "personaPronounsHint": "např. oni/jejich",
     "personaBioLabel": "O mně",
     "personaBioHint": "Řekněte ostatním něco o této personě...",
-    "personaSaveChanges": "Uložit změny",
     "personaUpdatedToast": "Persona aktualizována",
     "personaUpdateFailedToast": "Nepodařilo se aktualizovat personu: {error}",
     "personaSectionTitle": "Persony",

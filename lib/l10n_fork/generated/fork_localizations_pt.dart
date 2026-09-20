@@ -90,9 +90,6 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get personaBioHint => 'Conta aos outros sobre esta persona...';
 
   @override
-  String get personaSaveChanges => 'Guardar alterações';
-
-  @override
   String get personaUpdatedToast => 'Persona atualizada';
 
   @override
@@ -336,9 +333,6 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaBioHint => 'Conte aos outros sobre essa persona...';
-
-  @override
-  String get personaSaveChanges => 'Salvar alterações';
 
   @override
   String get personaUpdatedToast => 'Persona atualizada';
