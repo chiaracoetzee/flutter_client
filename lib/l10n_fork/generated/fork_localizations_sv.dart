@@ -9,6 +9,9 @@ class ForkLocalizationsSv extends ForkLocalizations {
   ForkLocalizationsSv([String locale = 'sv']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Byt persona';
+
+  @override
   String get personaSelectTitle => 'Välj persona';
 
   @override

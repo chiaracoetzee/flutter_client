@@ -9,6 +9,9 @@ class ForkLocalizationsTh extends ForkLocalizations {
   ForkLocalizationsTh([String locale = 'th']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'เปลี่ยน Persona';
+
+  @override
   String get personaSelectTitle => 'เลือก Persona';
 
   @override
