@@ -969,6 +969,7 @@ class Message {
   final String? personaId;
   final String? personaName;
   final String? personaAvatar;
+  final String? personaBanner;
   final String? personaTag;
   final String? personaTagIcon;
 
@@ -1017,6 +1018,7 @@ class Message {
     this.personaId,
     this.personaName,
     this.personaAvatar,
+    this.personaBanner,
     this.personaTag,
     this.personaTagIcon,
   });
@@ -1079,6 +1081,7 @@ class Message {
       personaId: sdk.subprofile?.id ?? sdk.personaId,
       personaName: sdk.subprofile?.name ?? sdk.personaName,
       personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
+      personaBanner: sdk.subprofile?.banner,
       personaTag: sdk.subprofile?.displayTagText ??
           sdk.subprofile?.systemName ??
           sdk.personaTag,
@@ -1138,6 +1141,7 @@ class Message {
       personaId: sdk.subprofile?.id ?? sdk.personaId,
       personaName: sdk.subprofile?.name ?? sdk.personaName,
       personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
+      personaBanner: sdk.subprofile?.banner,
       personaTag: sdk.subprofile?.displayTagText ??
           sdk.subprofile?.systemName ??
           sdk.personaTag,
@@ -1415,6 +1419,7 @@ class Message {
         personaId == other.personaId &&
         personaName == other.personaName &&
         personaAvatar == other.personaAvatar &&
+        personaBanner == other.personaBanner &&
         personaTag == other.personaTag &&
         personaTagIcon == other.personaTagIcon;
   }
@@ -1581,6 +1586,7 @@ class Message {
     Object? personaId = _unset,
     Object? personaName = _unset,
     Object? personaAvatar = _unset,
+    Object? personaBanner = _unset,
     Object? personaTag = _unset,
     Object? personaTagIcon = _unset,
   }) {
@@ -1635,6 +1641,9 @@ class Message {
       personaAvatar: personaAvatar == _unset
           ? this.personaAvatar
           : personaAvatar as String?,
+      personaBanner: personaBanner == _unset
+          ? this.personaBanner
+          : personaBanner as String?,
       personaTag: personaTag == _unset ? this.personaTag : personaTag as String?,
       personaTagIcon: personaTagIcon == _unset
           ? this.personaTagIcon
@@ -1689,6 +1698,7 @@ class Message {
       personaId: incoming.personaId,
       personaName: incoming.personaName,
       personaAvatar: incoming.personaAvatar,
+      personaBanner: incoming.personaBanner,
       personaTag: incoming.personaTag,
       personaTagIcon: incoming.personaTagIcon,
       translation: contentChanged ? null : _unset,

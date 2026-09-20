@@ -90,9 +90,6 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String get personaBioHint => 'Разкажете на другите за тази персона...';
 
   @override
-  String get personaSaveChanges => 'Запазване на промените';
-
-  @override
   String get personaUpdatedToast => 'Персоната е обновена';
 
   @override
