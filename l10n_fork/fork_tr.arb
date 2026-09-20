@@ -23,7 +23,6 @@
     "personaPronounsHint": "örn. o/onlar",
     "personaBioLabel": "Biyografi / Hakkımda",
     "personaBioHint": "Diğerlerine bu personadan bahset...",
-    "personaSaveChanges": "Değişiklikleri kaydet",
     "personaUpdatedToast": "Persona güncellendi",
     "personaUpdateFailedToast": "Persona güncellenemedi: {error}",
     "personaSectionTitle": "Personalar",
