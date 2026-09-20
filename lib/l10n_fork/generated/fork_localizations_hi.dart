@@ -89,9 +89,6 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get personaBioHint => 'दूसरों को इस परसोना के बारे में बताएं...';
 
   @override
-  String get personaSaveChanges => 'बदलाव सेव करें';
-
-  @override
   String get personaUpdatedToast => 'परसोना अपडेट हो गया';
 
   @override

@@ -23,7 +23,6 @@
     "personaPronounsHint": "bijv. die/hen",
     "personaBioLabel": "Bio / Over mij",
     "personaBioHint": "Vertel anderen over deze persona...",
-    "personaSaveChanges": "Wijzigingen opslaan",
     "personaUpdatedToast": "Persona bijgewerkt",
     "personaUpdateFailedToast": "Kon persona niet bijwerken: {error}",
     "personaSectionTitle": "Persona's",

@@ -2196,6 +2196,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         'id': p.id,
         'name': p.name,
         if (p.avatarUrl != null) 'avatar': p.avatarUrl,
+        if (p.bannerUrl != null) 'banner': p.bannerUrl,
         if (p.color != null) 'avatar_color': p.color,
         if (tagText != null) 'display_tag_text': tagText,
         if (tagText != null) 'system_name': tagText,

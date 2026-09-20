@@ -23,7 +23,6 @@
     "personaPronounsHint": "例: they/them",
     "personaBioLabel": "自己紹介",
     "personaBioHint": "このペルソナについて紹介...",
-    "personaSaveChanges": "変更を保存",
     "personaUpdatedToast": "ペルソナを更新しました",
     "personaUpdateFailedToast": "ペルソナの更新に失敗しました: {error}",
     "personaSectionTitle": "ペルソナ",
