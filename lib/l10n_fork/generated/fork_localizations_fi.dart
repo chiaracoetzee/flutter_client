@@ -9,6 +9,9 @@ class ForkLocalizationsFi extends ForkLocalizations {
   ForkLocalizationsFi([String locale = 'fi']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Vaihda persoonaa';
+
+  @override
   String get personaSelectTitle => 'Valitse persoona';
 
   @override

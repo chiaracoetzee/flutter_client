@@ -161,6 +161,12 @@ abstract class ForkLocalizations {
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   ];
 
+  /// Action label for changing the persona of a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Persona'**
+  String get chatMessageChangePersona;
+
   /// Title of the persona selection modal sheet.
   ///
   /// In en, this message translates to:
