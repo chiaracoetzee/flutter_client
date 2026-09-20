@@ -144,13 +144,14 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   }
 
   Future<void> _save() async {
+    final l10n = FluxerLocalizations.of(context);
     final String name = _nameController.text.trim();
     if (name.isEmpty) {
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Please enter a persona display name',
+            FluxerToast(
+              message: l10n.fork.personaNameRequired,
               variant: FluxerToastVariant.danger,
             ),
           );
@@ -160,8 +161,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Persona display name must be 100 characters or less',
+            FluxerToast(
+              message: l10n.fork.personaNameTooLong,
               variant: FluxerToastVariant.danger,
             ),
           );
@@ -174,8 +175,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Persona tag prefix must be 32 characters or less',
+            FluxerToast(
+              message: l10n.fork.personaTagPrefixTooLong,
               variant: FluxerToastVariant.danger,
             ),
           );
@@ -185,8 +186,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Persona tag suffix must be 32 characters or less',
+            FluxerToast(
+              message: l10n.fork.personaTagSuffixTooLong,
               variant: FluxerToastVariant.danger,
             ),
           );
@@ -199,11 +200,15 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           ref.read(myPersonasProvider).asData?.value ?? const [];
       final currentId = widget.persona?.id;
       for (final other in existingPersonas) {
-        if (currentId != null && other.id == currentId) continue;
+        if (currentId != null && other.id == currentId) {
+          continue;
+        }
         for (final otherTag in other.personaTags) {
           final otherPrefix = (otherTag.prefix ?? '').trim();
           final otherSuffix = (otherTag.suffix ?? '').trim();
-          if (otherPrefix.isEmpty && otherSuffix.isEmpty) continue;
+          if (otherPrefix.isEmpty && otherSuffix.isEmpty) {
+            continue;
+          }
           if (otherPrefix == prefix && otherSuffix == suffix) {
             final tagDisplay = otherTag.displayPattern.isNotEmpty
                 ? otherTag.displayPattern
@@ -212,8 +217,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                 .read(toastProvider.notifier)
                 .show(
                   FluxerToast(
-                    message:
-                        "The tag '$tagDisplay' is already in use by '${other.name}'.",
+                    message: l10n.fork.personaTagCollisionError(
+                      tagDisplay,
+                      other.name,
+                    ),
                     variant: FluxerToastVariant.danger,
                   ),
                 );
@@ -223,7 +230,6 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       }
     }
 
-    final l10n = FluxerLocalizations.of(context);
     setState(() => _isSaving = true);
     try {
       final Dio dio = ref.read(fluxerDioProvider);
