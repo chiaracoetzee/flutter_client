@@ -226,4 +226,24 @@ class ForkLocalizationsNl extends ForkLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privé';
+
+  @override
+  String get personaNameRequired => 'Voer een weergavenaam voor de persona in';
+
+  @override
+  String get personaNameTooLong =>
+      'Weergavenaam van persona mag maximaal 100 tekens bevatten';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Persona-tagvoorvoegsel mag maximaal 32 tekens bevatten';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Persona-tagachtervoegsel mag maximaal 32 tekens bevatten';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'De tag \'$tag\' is al in gebruik door \'$name\'.';
+  }
 }
