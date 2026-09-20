@@ -34,6 +34,8 @@ class UserPersonaSettings extends ConsumerStatefulWidget {
 
 class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
   late final TextEditingController _tagTextController;
+  late final TextEditingController _searchController;
+  String _searchQuery = '';
   Timer? _tagTextDebounce;
   bool _isUploadingTagIcon = false;
 
@@ -42,12 +44,20 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     super.initState();
     final initialTag = ref.read(systemDisplayTagProvider).text ?? '';
     _tagTextController = TextEditingController(text: initialTag);
+    _searchController = TextEditingController();
+    _searchController.addListener(() {
+      final q = _searchController.text.trim().toLowerCase();
+      if (q != _searchQuery) {
+        setState(() => _searchQuery = q);
+      }
+    });
   }
 
   @override
   void dispose() {
     _tagTextDebounce?.cancel();
     _tagTextController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -197,6 +207,27 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     }
 
     final List<Persona> personas = personasAsync.asData?.value ?? const [];
+
+    final List<Persona> filteredPersonas = personas.where((p) {
+      if (_searchQuery.isEmpty) {
+        return true;
+      }
+      if (p.name.toLowerCase().contains(_searchQuery)) {
+        return true;
+      }
+      if (p.systemName?.toLowerCase().contains(_searchQuery) ?? false) {
+        return true;
+      }
+      if (p.pronouns?.toLowerCase().contains(_searchQuery) ?? false) {
+        return true;
+      }
+      if (p.bio?.toLowerCase().contains(_searchQuery) ?? false) {
+        return true;
+      }
+      return p.personaTags.any((t) =>
+          (t.prefix?.toLowerCase().contains(_searchQuery) ?? false) ||
+          (t.suffix?.toLowerCase().contains(_searchQuery) ?? false));
+    }).toList();
 
     final Persona? activePersona = activeState.activePersonaId != null
         ? personas
@@ -423,7 +454,9 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
           // Section 3: Configured Personas List
           FluxerSettingsSection(
             sectionId: 'persona-settings-list',
-            title: '${l10n.fork.personaListTitle} (${personas.length})',
+            title: _searchQuery.isNotEmpty
+                ? '${l10n.fork.personaListTitle} (${filteredPersonas.length})'
+                : '${l10n.fork.personaListTitle} (${personas.length})',
             titleTrailing: FluxerButton.primary(
               size: FluxerButtonSize.small,
               fitContent: true,
@@ -432,6 +465,21 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
               onPressed: () => EditPersonaSheet.show(context),
             ),
             children: [
+              if (personas.isNotEmpty) ...[
+                FluxerInput(
+                  controller: _searchController,
+                  hint: l10n.fork.personaSearchPlaceholder,
+                  prefixIcon:
+                      const Icon(PhosphorIconsBold.magnifyingGlass, size: 16),
+                  suffixIcon: _searchQuery.isNotEmpty
+                      ? const Icon(PhosphorIconsBold.x, size: 16)
+                      : null,
+                  onSuffixTap: _searchQuery.isNotEmpty
+                      ? () => _searchController.clear()
+                      : null,
+                ),
+                SizedBox(height: layout.s2),
+              ],
               if (personasAsync.isLoading && personas.isEmpty)
                 const Center(
                   child: Padding(
@@ -474,8 +522,35 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     ],
                   ),
                 )
+              else if (filteredPersonas.isEmpty)
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(layout.s4),
+                  decoration: BoxDecoration(
+                    color: colors.backgroundSecondary,
+                    borderRadius: BorderRadius.circular(layout.s2),
+                    border: Border.all(color: colors.borderColor),
+                  ),
+                  child: Column(
+                    children: [
+                      PhosphorIcon(
+                        PhosphorIconsBold.magnifyingGlass,
+                        size: 36,
+                        color: colors.textPrimaryMuted,
+                      ),
+                      SizedBox(height: layout.s2),
+                      Text(
+                        l10n.fork.personaEmptySearch,
+                        style: textStyles.bodySmall.copyWith(
+                          color: colors.textPrimaryMuted,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                )
               else
-                ...personas.map(
+                ...filteredPersonas.map(
                   (persona) => _buildPersonaCard(
                     context,
                     persona,
