@@ -6991,6 +6991,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatMessageEdit => 'Redigera meddelande';
 
   @override
+  String get chatMessageChangePersona => 'Byt persona';
+
+  @override
   String get chatMessageReply => 'Svara';
 
   @override
