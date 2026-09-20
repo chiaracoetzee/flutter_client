@@ -305,12 +305,6 @@ abstract class ForkLocalizations {
   /// **'Tell others about this persona...'**
   String get personaBioHint;
 
-  /// Button to save changes in edit persona sheet.
-  ///
-  /// In en, this message translates to:
-  /// **'Save Changes'**
-  String get personaSaveChanges;
-
   /// Toast message displayed when persona is successfully updated.
   ///
   /// In en, this message translates to:

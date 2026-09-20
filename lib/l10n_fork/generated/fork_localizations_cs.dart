@@ -90,9 +90,6 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get personaBioHint => 'Řekněte ostatním něco o této personě...';
 
   @override
-  String get personaSaveChanges => 'Uložit změny';
-
-  @override
   String get personaUpdatedToast => 'Persona aktualizována';
 
   @override
