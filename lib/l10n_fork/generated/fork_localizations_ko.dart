@@ -9,6 +9,9 @@ class ForkLocalizationsKo extends ForkLocalizations {
   ForkLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => '페르소나 변경';
+
+  @override
   String get personaSelectTitle => '페르소나 선택';
 
   @override

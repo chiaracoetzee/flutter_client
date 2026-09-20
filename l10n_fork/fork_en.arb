@@ -1,5 +1,9 @@
 {
     "@@locale": "en",
+    "chatMessageChangePersona": "Change Persona",
+    "@chatMessageChangePersona": {
+        "description": "Action label for changing the persona of a message."
+    },
     "personaSelectTitle": "Select Persona",
     "@personaSelectTitle": {
         "description": "Title of the persona selection modal sheet."

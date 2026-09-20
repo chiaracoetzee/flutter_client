@@ -9,6 +9,9 @@ class ForkLocalizationsEs extends ForkLocalizations {
   ForkLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Cambiar persona';
+
+  @override
   String get personaSelectTitle => 'Seleccionar persona';
 
   @override
@@ -253,6 +256,9 @@ class ForkLocalizationsEs extends ForkLocalizations {
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
 class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   ForkLocalizationsEs419() : super('es_419');
+
+  @override
+  String get chatMessageChangePersona => 'Cambiar persona';
 
   @override
   String get personaSelectTitle => 'Seleccionar persona';
