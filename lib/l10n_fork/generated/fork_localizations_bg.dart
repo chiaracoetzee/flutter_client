@@ -9,6 +9,9 @@ class ForkLocalizationsBg extends ForkLocalizations {
   ForkLocalizationsBg([String locale = 'bg']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Промяна на персона';
+
+  @override
   String get personaSelectTitle => 'Изберете персона';
 
   @override
