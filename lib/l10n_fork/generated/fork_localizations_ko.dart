@@ -85,9 +85,6 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get personaBioHint => '이 페르소나에 대해 알려주세요...';
 
   @override
-  String get personaSaveChanges => '변경 사항 저장';
-
-  @override
   String get personaUpdatedToast => '페르소나 업데이트됨';
 
   @override

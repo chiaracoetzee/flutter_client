@@ -90,9 +90,6 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String get personaBioHint => 'Fortæl andre om denne persona...';
 
   @override
-  String get personaSaveChanges => 'Gem ændringer';
-
-  @override
   String get personaUpdatedToast => 'Persona opdateret';
 
   @override

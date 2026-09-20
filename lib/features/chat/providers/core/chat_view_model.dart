@@ -6898,6 +6898,7 @@ class ChatViewModel extends _$ChatViewModel {
           'id': p.id,
           'name': p.name,
           'avatar': ?p.avatarUrl,
+          'banner': ?p.bannerUrl,
           'avatar_color': ?p.color,
           'display_tag_text': ?tagText,
           'system_name': ?tagText,
@@ -6967,6 +6968,7 @@ class ChatViewModel extends _$ChatViewModel {
       'id': persona.id,
       'name': persona.name,
       if (persona.avatarUrl != null) 'avatar': persona.avatarUrl,
+      if (persona.bannerUrl != null) 'banner': persona.bannerUrl,
       if (persona.color != null) 'avatar_color': persona.color,
       'display_tag_text': ?tagText,
       'system_name': ?tagText,
@@ -7645,6 +7647,7 @@ class ChatViewModel extends _$ChatViewModel {
     final String? pId = personaData?['id'] as String?;
     final String? pName = personaData?['name'] as String?;
     final String? pAvatar = personaData?['avatar'] as String?;
+    final String? pBanner = personaData?['banner'] as String?;
     final String? pTag = (personaData?['display_tag_text'] as String?) ??
         (personaData?['system_name'] as String?);
     final String? pTagIcon = personaData?['display_tag_icon'] as String?;
@@ -7675,6 +7678,7 @@ class ChatViewModel extends _$ChatViewModel {
       personaId: pId,
       personaName: pName,
       personaAvatar: pAvatar,
+      personaBanner: pBanner,
       personaTag: pTag,
       personaTagIcon: pTagIcon,
     );

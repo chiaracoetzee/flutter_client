@@ -89,9 +89,6 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get personaBioHint => 'บอกเล่าเกี่ยวกับ Persona นี้ให้ผู้อื่นรู้...';
 
   @override
-  String get personaSaveChanges => 'บันทึกการเปลี่ยนแปลง';
-
-  @override
   String get personaUpdatedToast => 'อัปเดต Persona แล้ว';
 
   @override
