@@ -16919,5 +16919,10 @@
     "personaVisibilityLabel": "נראות",
     "personaVisibilityUnlisted": "לא רשום",
     "personaVisibilityPublic": "ציבורי",
-    "personaVisibilityPrivate": "פרטי"
+    "personaVisibilityPrivate": "פרטי",
+    "personaNameRequired": "נא להזין שם תצוגה לפרסונה",
+    "personaNameTooLong": "שם התצוגה של הפרסונה חייב להכיל עד 100 תווים",
+    "personaTagPrefixTooLong": "קידומת התגית של הפרסונה חייבת להכיל עד 32 תווים",
+    "personaTagSuffixTooLong": "סיומת התגית של הפרסונה חייבת להכיל עד 32 תווים",
+    "personaTagCollisionError": "התגית '{tag}' כבר בשימוש על ידי '{name}'."
 }

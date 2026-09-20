@@ -16919,5 +16919,10 @@
     "personaVisibilityLabel": "Visibilitas",
     "personaVisibilityUnlisted": "Tidak terdaftar",
     "personaVisibilityPublic": "Publik",
-    "personaVisibilityPrivate": "Privat"
+    "personaVisibilityPrivate": "Privat",
+    "personaNameRequired": "Silakan masukkan nama tampilan persona",
+    "personaNameTooLong": "Nama tampilan persona harus 100 karakter atau kurang",
+    "personaTagPrefixTooLong": "Awalan tag persona harus 32 karakter atau kurang",
+    "personaTagSuffixTooLong": "Akhiran tag persona harus 32 karakter atau kurang",
+    "personaTagCollisionError": "Tag '{tag}' sudah digunakan oleh '{name}'."
 }
