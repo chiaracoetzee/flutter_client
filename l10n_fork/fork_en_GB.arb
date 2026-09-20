@@ -1,4 +1,5 @@
 {
+    "chatMessageChangePersona": "Change Persona",
     "personaSelectTitle": "Select Persona",
     "personaSettingsHeader": "Persona Settings",
     "personaManageAction": "Manage",
