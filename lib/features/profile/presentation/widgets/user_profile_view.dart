@@ -742,12 +742,22 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     );
     final UserProfileFullResponse? rootProfile = rootProfileAsync.value;
 
-    final String displayName =
-        publicPersona?.name ?? message?.personaName ?? rootProfile?.user.globalName ?? rootProfile?.user.username ?? message?.authorName ?? '';
-    final String? personaAvatarUrl =
-        publicPersona?.avatarUrl ?? message?.personaAvatar;
-    final String? personaTag =
-        message?.personaTag ?? publicPersona?.systemName;
+    final String displayName = publicPersona != null
+        ? publicPersona.name
+        : (message?.personaName ??
+            rootProfile?.user.globalName ??
+            rootProfile?.user.username ??
+            message?.authorName ??
+            '');
+    final String? personaAvatarUrl = publicPersona != null
+        ? publicPersona.avatarUrl
+        : message?.personaAvatar;
+    final String? personaBannerUrl = publicPersona != null
+        ? publicPersona.bannerUrl
+        : message?.personaBanner;
+    final String? personaTag = publicPersona != null
+        ? (publicPersona.systemName ?? message?.personaTag)
+        : message?.personaTag;
     final String? personaBio = publicPersona?.bio;
     final String? pronouns = publicPersona?.pronouns;
     final int? personaColor = publicPersona?.color;
@@ -805,7 +815,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         top: layout.radiusXxl.topLeft,
                       ),
                       child: UserProfileBanner(
-                        bannerUrl: null,
+                        key: ValueKey(personaBannerUrl),
+                        bannerUrl: personaBannerUrl,
                         bannerColor: bannerColor,
                       ),
                     ),
@@ -1012,6 +1023,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                               id: effectivePersonaId,
                               name: displayName,
                               avatarUrl: personaAvatarUrl,
+                              bannerUrl: personaBannerUrl,
                               pronouns: pronouns,
                               color: personaColor,
                               bio: personaBio,
