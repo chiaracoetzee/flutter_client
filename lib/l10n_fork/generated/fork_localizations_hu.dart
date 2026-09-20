@@ -89,9 +89,6 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get personaBioHint => 'Mesélj másoknak erről a personáról...';
 
   @override
-  String get personaSaveChanges => 'Változtatások mentése';
-
-  @override
   String get personaUpdatedToast => 'Persona frissítve';
 
   @override
