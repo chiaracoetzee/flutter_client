@@ -6940,6 +6940,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatMessageEdit => 'แก้ไขข้อความ';
 
   @override
+  String get chatMessageChangePersona => 'เปลี่ยน Persona';
+
+  @override
   String get chatMessageReply => 'ตอบกลับ';
 
   @override

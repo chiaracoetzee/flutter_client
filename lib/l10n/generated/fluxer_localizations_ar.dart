@@ -6936,6 +6936,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get chatMessageEdit => 'تعديل الرسالة';
 
   @override
+  String get chatMessageChangePersona => 'تغيير الشخصية';
+
+  @override
   String get chatMessageReply => 'رد';
 
   @override

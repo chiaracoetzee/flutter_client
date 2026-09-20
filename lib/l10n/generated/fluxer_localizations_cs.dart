@@ -7003,6 +7003,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageEdit => 'Upravit zprávu';
 
   @override
+  String get chatMessageChangePersona => 'Změnit personu';
+
+  @override
   String get chatMessageReply => 'Odpovědět';
 
   @override

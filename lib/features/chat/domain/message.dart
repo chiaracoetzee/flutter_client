@@ -1665,11 +1665,11 @@ class Message {
       type: incoming.type,
       flags: incoming.flags,
       call: incoming.call ?? call,
-      personaId: incoming.personaId ?? personaId,
-      personaName: incoming.personaName ?? personaName,
-      personaAvatar: incoming.personaAvatar ?? personaAvatar,
-      personaTag: incoming.personaTag ?? personaTag,
-      personaTagIcon: incoming.personaTagIcon ?? personaTagIcon,
+      personaId: incoming.personaId,
+      personaName: incoming.personaName,
+      personaAvatar: incoming.personaAvatar,
+      personaTag: incoming.personaTag,
+      personaTagIcon: incoming.personaTagIcon,
       translation: contentChanged ? null : _unset,
     );
   }
