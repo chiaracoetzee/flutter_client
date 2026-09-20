@@ -9,6 +9,9 @@ class ForkLocalizationsVi extends ForkLocalizations {
   ForkLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Đổi persona';
+
+  @override
   String get personaSelectTitle => 'Chọn persona';
 
   @override
