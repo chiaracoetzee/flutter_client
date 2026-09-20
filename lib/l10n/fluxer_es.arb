@@ -16889,5 +16889,10 @@
     "personaVisibilityLabel": "Visibilidad",
     "personaVisibilityUnlisted": "Oculta",
     "personaVisibilityPublic": "Pública",
-    "personaVisibilityPrivate": "Privada"
+    "personaVisibilityPrivate": "Privada",
+    "personaNameRequired": "Introduce un nombre para mostrar de la persona",
+    "personaNameTooLong": "El nombre de la persona debe tener 100 caracteres o menos",
+    "personaTagPrefixTooLong": "El prefijo de la etiqueta debe tener 32 caracteres o menos",
+    "personaTagSuffixTooLong": "El sufijo de la etiqueta debe tener 32 caracteres o menos",
+    "personaTagCollisionError": "La etiqueta '{tag}' ya está en uso por '{name}'."
 }

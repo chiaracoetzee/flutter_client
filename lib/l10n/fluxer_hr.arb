@@ -16915,5 +16915,10 @@
     "personaVisibilityLabel": "Vidljivost",
     "personaVisibilityUnlisted": "Nenavedeno",
     "personaVisibilityPublic": "Javno",
-    "personaVisibilityPrivate": "Privatno"
+    "personaVisibilityPrivate": "Privatno",
+    "personaNameRequired": "Unesite prikazano ime persone",
+    "personaNameTooLong": "Prikazano ime persone mora imati najviše 100 znakova",
+    "personaTagPrefixTooLong": "Prefiks oznake persone mora imati najviše 32 znaka",
+    "personaTagSuffixTooLong": "Sufiks oznake persone mora imati najviše 32 znaka",
+    "personaTagCollisionError": "Oznaku '{tag}' već koristi '{name}'."
 }

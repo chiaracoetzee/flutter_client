@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "Näkyvyys",
     "personaVisibilityUnlisted": "Piilotettu",
     "personaVisibilityPublic": "Julkinen",
-    "personaVisibilityPrivate": "Yksityinen"
+    "personaVisibilityPrivate": "Yksityinen",
+    "personaNameRequired": "Anna persoonan näyttönimi",
+    "personaNameTooLong": "Persoonan näyttönimi saa olla enintään 100 merkkiä",
+    "personaTagPrefixTooLong": "Persoonatunnisteen etuliite saa olla enintään 32 merkkiä",
+    "personaTagSuffixTooLong": "Persoonatunnisteen jälkiliite saa olla enintään 32 merkkiä",
+    "personaTagCollisionError": "Tunniste '{tag}' on jo käytössä persoonalla '{name}'."
 }

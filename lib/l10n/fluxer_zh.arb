@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "可见性",
     "personaVisibilityUnlisted": "未列出",
     "personaVisibilityPublic": "公开",
-    "personaVisibilityPrivate": "私密"
+    "personaVisibilityPrivate": "私密",
+    "personaNameRequired": "请输入人格显示名称",
+    "personaNameTooLong": "人格显示名称不能超过 100 个字符",
+    "personaTagPrefixTooLong": "人格标签前缀不能超过 32 个字符",
+    "personaTagSuffixTooLong": "人格标签后缀不能超过 32 个字符",
+    "personaTagCollisionError": "标签“{tag}”已被“{name}”使用。"
 }

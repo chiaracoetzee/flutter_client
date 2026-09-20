@@ -15023,4 +15023,25 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Приватна';
+
+  @override
+  String get personaNameRequired =>
+      'Будь ласка, введіть відображуване ім\'я персони';
+
+  @override
+  String get personaNameTooLong =>
+      'Відображуване ім\'я персони має містити не більше 100 символів';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Префікс тегу персони має містити не більше 32 символів';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Суфікс тегу персони має містити не більше 32 символів';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Тег \'$tag\' уже використовується персоною \'$name\'.';
+  }
 }

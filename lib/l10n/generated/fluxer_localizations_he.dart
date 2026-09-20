@@ -14691,4 +14691,24 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'פרטי';
+
+  @override
+  String get personaNameRequired => 'נא להזין שם תצוגה לפרסונה';
+
+  @override
+  String get personaNameTooLong =>
+      'שם התצוגה של הפרסונה חייב להכיל עד 100 תווים';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'קידומת התגית של הפרסונה חייבת להכיל עד 32 תווים';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'סיומת התגית של הפרסונה חייבת להכיל עד 32 תווים';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'התגית \'$tag\' כבר בשימוש על ידי \'$name\'.';
+  }
 }

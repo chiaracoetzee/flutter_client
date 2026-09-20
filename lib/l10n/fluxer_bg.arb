@@ -16915,5 +16915,10 @@
     "personaVisibilityLabel": "Видимост",
     "personaVisibilityUnlisted": "Скрита",
     "personaVisibilityPublic": "Публична",
-    "personaVisibilityPrivate": "Лична"
+    "personaVisibilityPrivate": "Лична",
+    "personaNameRequired": "Моля, въведете екранно име на персоната",
+    "personaNameTooLong": "Екранното име на персоната трябва да е до 100 знака",
+    "personaTagPrefixTooLong": "Префиксът на тага на персоната трябва да е до 32 знака",
+    "personaTagSuffixTooLong": "Суфиксът на тага на персоната трябва да е до 32 знака",
+    "personaTagCollisionError": "Тагът '{tag}' вече се използва от '{name}'."
 }
