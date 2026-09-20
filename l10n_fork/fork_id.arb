@@ -23,7 +23,6 @@
     "personaPronounsHint": "mis. they/them",
     "personaBioLabel": "Bio / Tentang Saya",
     "personaBioHint": "Ceritakan tentang persona ini kepada yang lain...",
-    "personaSaveChanges": "Simpan perubahan",
     "personaUpdatedToast": "Persona diperbarui",
     "personaUpdateFailedToast": "Gagal memperbarui persona: {error}",
     "personaSectionTitle": "Persona",

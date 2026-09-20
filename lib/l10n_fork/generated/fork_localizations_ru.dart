@@ -89,9 +89,6 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String get personaBioHint => 'Расскажите другим об этой персоне...';
 
   @override
-  String get personaSaveChanges => 'Сохранить изменения';
-
-  @override
   String get personaUpdatedToast => 'Персона обновлена';
 
   @override
