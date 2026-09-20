@@ -103,6 +103,7 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 part 'message_list_settings_layer.dart';
 
@@ -2406,6 +2407,12 @@ class _MessageListState extends ConsumerState<MessageList> {
     final double tail = _loadedTailExtent(position);
     if (position.pixels < tail) {
       position.jumpTo(tail);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        VisibilityDetectorController.instance.notifyNow();
+      });
     }
   }
 
