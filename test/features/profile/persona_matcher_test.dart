@@ -277,4 +277,132 @@ void main() {
       expect(res.strippedContent, 'hello#');
     });
   });
+
+  group('matchEditMessage', () {
+    test('root message edited with persona tag prepended switches to persona', () {
+      final res = matchEditMessage(
+        content: '[Hello Alice!]',
+        personas: personas,
+        currentPersonaId: null,
+      );
+      expect(res.finalContent, 'Hello Alice!');
+      expect(res.shouldUpdatePersona, isTrue);
+      expect(res.isRootAccount, isFalse);
+      expect(res.persona?.id, bracketMan.id);
+    });
+
+    test('persona message edited with another persona tag prepended switches persona', () {
+      final res = matchEditMessage(
+        content: 'B: Hello Bob!',
+        personas: personas,
+        currentPersonaId: alice.id,
+      );
+      expect(res.finalContent, 'Hello Bob!');
+      expect(res.shouldUpdatePersona, isTrue);
+      expect(res.isRootAccount, isFalse);
+      expect(res.persona?.id, bob.id);
+    });
+
+    test('persona message edited without tags preserves persona', () {
+      final res = matchEditMessage(
+        content: 'Plain edit with no tags',
+        personas: personas,
+        currentPersonaId: alice.id,
+      );
+      expect(res.finalContent, 'Plain edit with no tags');
+      expect(res.shouldUpdatePersona, isFalse);
+    });
+
+    test('persona message edited with leading backslash unproxies to root', () {
+      final res1 = matchEditMessage(
+        content: r'\Plain edit meant for root',
+        personas: personas,
+        currentPersonaId: alice.id,
+      );
+      expect(res1.finalContent, 'Plain edit meant for root');
+      expect(res1.shouldUpdatePersona, isTrue);
+      expect(res1.isRootAccount, isTrue);
+      expect(res1.persona, isNull);
+
+      final res2 = matchEditMessage(
+        content: r'\\ Plain edit meant for root',
+        personas: personas,
+        currentPersonaId: alice.id,
+      );
+      expect(res2.finalContent, 'Plain edit meant for root');
+      expect(res2.shouldUpdatePersona, isTrue);
+      expect(res2.isRootAccount, isTrue);
+      expect(res2.persona, isNull);
+    });
+
+    test('root message edited without tags remains root', () {
+      final res = matchEditMessage(
+        content: 'Plain root edit',
+        personas: personas,
+        currentPersonaId: null,
+      );
+      expect(res.finalContent, 'Plain root edit');
+      expect(res.shouldUpdatePersona, isFalse);
+    });
+
+    test('attachment message edited with tag only sets persona with empty content', () {
+      final res = matchEditMessage(
+        content: 'B:',
+        personas: personas,
+        currentPersonaId: null,
+        hasAttachments: true,
+      );
+      expect(res.finalContent, '');
+      expect(res.shouldUpdatePersona, isTrue);
+      expect(res.persona?.id, bob.id);
+    });
+
+    test('attachment message edited with backslash only unproxies to root with empty content', () {
+      final res = matchEditMessage(
+        content: r'\\',
+        personas: personas,
+        currentPersonaId: alice.id,
+        hasAttachments: true,
+      );
+      expect(res.finalContent, '');
+      expect(res.shouldUpdatePersona, isTrue);
+      expect(res.isRootAccount, isTrue);
+    });
+
+    test('text message edited with tag only sets persona and empty content', () {
+      final res = matchEditMessage(
+        content: 'B:',
+        personas: personas,
+        currentPersonaId: alice.id,
+        hasAttachments: false,
+      );
+      expect(res.finalContent, '');
+      expect(res.shouldUpdatePersona, isTrue);
+      expect(res.persona?.id, bob.id);
+    });
+
+    test('text message edited with backslash only unproxies to root and empty content', () {
+      final res = matchEditMessage(
+        content: r'\',
+        personas: personas,
+        currentPersonaId: alice.id,
+        hasAttachments: false,
+      );
+      expect(res.finalContent, '');
+      expect(res.shouldUpdatePersona, isTrue);
+      expect(res.isRootAccount, isTrue);
+    });
+
+    test('captioned attachment message edited with prepended tag sets persona and preserves caption', () {
+      final res = matchEditMessage(
+        content: 'B: Look at my dog',
+        personas: personas,
+        currentPersonaId: alice.id,
+        hasAttachments: true,
+      );
+      expect(res.finalContent, 'Look at my dog');
+      expect(res.shouldUpdatePersona, isTrue);
+      expect(res.persona?.id, bob.id);
+    });
+  });
 }
