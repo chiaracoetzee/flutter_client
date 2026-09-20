@@ -10,7 +10,6 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -727,7 +726,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                 icon: PhosphorIconsBold.pencilSimple,
                 onPressed: () => EditPersonaSheet.show(
                   context,
-                  persona: PublicPersona.fromJson(persona.toJson()),
+                  persona: persona.toPublicPersona(),
                 ),
               ),
               SizedBox(width: layout.s2),
