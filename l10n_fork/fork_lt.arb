@@ -23,7 +23,6 @@
     "personaPronounsHint": "pvz., jie/jų",
     "personaBioLabel": "Apie mane",
     "personaBioHint": "Papasakokite kitiems apie šią personą...",
-    "personaSaveChanges": "Išsaugoti pakeitimus",
     "personaUpdatedToast": "Persona atnaujinta",
     "personaUpdateFailedToast": "Nepavyko atnaujinti personos: {error}",
     "personaSectionTitle": "Personos",
