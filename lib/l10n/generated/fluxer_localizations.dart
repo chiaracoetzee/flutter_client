@@ -6539,6 +6539,60 @@ abstract class FluxerLocalizations {
   /// **'Unknown Platform'**
   String get linkedDevicesUnknownPlatform;
 
+  /// Tooltip and accessibility label for opening a linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get linkedDevicesViewDetails;
+
+  /// Title of the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Device details'**
+  String get linkedDevicesDetailsTitle;
+
+  /// Label for the operating system in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get linkedDevicesDetailsDevice;
+
+  /// Label for the client/platform in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get linkedDevicesDetailsClient;
+
+  /// Label for the approximate location in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get linkedDevicesDetailsLocation;
+
+  /// Label for the masked IP address in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'IP address'**
+  String get linkedDevicesDetailsIp;
+
+  /// Label for last activity time in the linked device details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Last used'**
+  String get linkedDevicesDetailsLastUsed;
+
+  /// Last-used value shown for the session currently making the request.
+  ///
+  /// In en, this message translates to:
+  /// **'Current session'**
+  String get linkedDevicesCurrentSession;
+
+  /// Fallback when a linked device detail such as last used time is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get linkedDevicesUnknown;
+
   /// Label shown in the slowmode indicator pill when slowmode is enabled for the channel but no cooldown is actively counting down.
   ///
   /// In en, this message translates to:

@@ -3838,6 +3838,33 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => '알 수 없는 플랫폼';
 
   @override
+  String get linkedDevicesViewDetails => 'View details';
+
+  @override
+  String get linkedDevicesDetailsTitle => 'Device details';
+
+  @override
+  String get linkedDevicesDetailsDevice => 'Device';
+
+  @override
+  String get linkedDevicesDetailsClient => 'Client';
+
+  @override
+  String get linkedDevicesDetailsLocation => 'Location';
+
+  @override
+  String get linkedDevicesDetailsIp => 'IP address';
+
+  @override
+  String get linkedDevicesDetailsLastUsed => 'Last used';
+
+  @override
+  String get linkedDevicesCurrentSession => 'Current session';
+
+  @override
+  String get linkedDevicesUnknown => 'Unknown';
+
+  @override
   String slowmodeLabel(String duration) {
     return '$duration 느린 모드';
   }
