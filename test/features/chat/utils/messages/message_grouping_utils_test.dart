@@ -23,6 +23,7 @@ Message _message({
   String? personaName,
   String? personaAvatar,
   String? personaTag,
+  String? personaTagIcon,
 }) {
   return Message(
     id: id,
@@ -46,6 +47,7 @@ Message _message({
     personaName: personaName,
     personaAvatar: personaAvatar,
     personaTag: personaTag,
+    personaTagIcon: personaTagIcon,
   );
 }
 
