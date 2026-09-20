@@ -23,7 +23,6 @@
     "personaPronounsHint": "f.eks. de/dem",
     "personaBioLabel": "Bio / Om mig",
     "personaBioHint": "Fortæl andre om denne persona...",
-    "personaSaveChanges": "Gem ændringer",
     "personaUpdatedToast": "Persona opdateret",
     "personaUpdateFailedToast": "Kunne ikke opdatere persona: {error}",
     "personaSectionTitle": "Personaer",

@@ -90,9 +90,6 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get personaBioHint => 'Recite drugima nešto o ovoj personi...';
 
   @override
-  String get personaSaveChanges => 'Spremi promjene';
-
-  @override
   String get personaUpdatedToast => 'Persona je ažurirana';
 
   @override
