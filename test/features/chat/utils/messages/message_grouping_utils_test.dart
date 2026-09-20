@@ -23,6 +23,7 @@ Message _message({
   String? personaName,
   String? personaAvatar,
   String? personaTag,
+  String? personaTagIcon,
 }) {
   return Message(
     id: id,
@@ -46,6 +47,7 @@ Message _message({
     personaName: personaName,
     personaAvatar: personaAvatar,
     personaTag: personaTag,
+    personaTagIcon: personaTagIcon,
   );
 }
 
@@ -406,6 +408,29 @@ void main() {
         personaId: 'p1',
         personaName: 'Persona 1',
         personaTag: 'TAG_B',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('does not group if persona tag icon differs', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaTag: 'TAG_A',
+        personaTagIcon: 'https://example.com/icon1.png',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Alice',
+        personaId: 'p1',
+        personaName: 'Persona 1',
+        personaTag: 'TAG_A',
+        personaTagIcon: 'https://example.com/icon2.png',
         timestamp: DateTime.utc(2026, 1, 1, 12, 1),
       );
       expect(shouldGroupMessages(second, first), isFalse);
