@@ -9431,5 +9431,10 @@
     "personaVisibilityLabel": "Visibilidade",
     "personaVisibilityUnlisted": "Não listada",
     "personaVisibilityPublic": "Pública",
-    "personaVisibilityPrivate": "Privada"
+    "personaVisibilityPrivate": "Privada",
+    "personaNameRequired": "Introduza um nome de exibição para a persona",
+    "personaNameTooLong": "O nome da persona deve ter 100 carateres ou menos",
+    "personaTagPrefixTooLong": "O prefixo da tag da persona deve ter 32 carateres ou menos",
+    "personaTagSuffixTooLong": "O sufixo da tag da persona deve ter 32 carateres ou menos",
+    "personaTagCollisionError": "A tag '{tag}' já está a ser usada por '{name}'."
 }

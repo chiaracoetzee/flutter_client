@@ -16894,5 +16894,10 @@
     "personaVisibilityLabel": "الرؤية",
     "personaVisibilityUnlisted": "غير مدرج",
     "personaVisibilityPublic": "عام",
-    "personaVisibilityPrivate": "خاص"
+    "personaVisibilityPrivate": "خاص",
+    "personaNameRequired": "يرجى إدخال اسم عرض الشخصية",
+    "personaNameTooLong": "يجب أن يكون اسم عرض الشخصية 100 حرف أو أقل",
+    "personaTagPrefixTooLong": "يجب أن تكون بادئة علامة الشخصية 32 حرفًا أو أقل",
+    "personaTagSuffixTooLong": "يجب أن تكون لاحقة علامة الشخصية 32 حرفًا أو أقل",
+    "personaTagCollisionError": "العلامة '{tag}' مستخدمة بالفعل بواسطة '{name}'."
 }

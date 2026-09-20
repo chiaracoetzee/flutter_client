@@ -16894,5 +16894,10 @@
     "personaVisibilityLabel": "Viditelnost",
     "personaVisibilityUnlisted": "Neuvedeno",
     "personaVisibilityPublic": "Veřejné",
-    "personaVisibilityPrivate": "Soukromé"
+    "personaVisibilityPrivate": "Soukromé",
+    "personaNameRequired": "Zadejte zobrazované jméno persony",
+    "personaNameTooLong": "Zobrazované jméno persony musí mít maximálně 100 znaků",
+    "personaTagPrefixTooLong": "Předpona tagu persony musí mít maximálně 32 znaků",
+    "personaTagSuffixTooLong": "Přípona tagu persony musí mít maximálně 32 znaků",
+    "personaTagCollisionError": "Tag '{tag}' již používá '{name}'."
 }

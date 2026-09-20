@@ -16919,5 +16919,10 @@
     "personaVisibilityLabel": "Chế độ hiển thị",
     "personaVisibilityUnlisted": "Không được liệt kê",
     "personaVisibilityPublic": "Công khai",
-    "personaVisibilityPrivate": "Riêng tư"
+    "personaVisibilityPrivate": "Riêng tư",
+    "personaNameRequired": "Vui lòng nhập tên hiển thị cho persona",
+    "personaNameTooLong": "Tên hiển thị của persona phải có từ 100 ký tự trở xuống",
+    "personaTagPrefixTooLong": "Tiền tố thẻ persona phải có từ 32 ký tự trở xuống",
+    "personaTagSuffixTooLong": "Hậu tố thẻ persona phải có từ 32 ký tự trở xuống",
+    "personaTagCollisionError": "Thẻ '{tag}' đã được '{name}' sử dụng."
 }
