@@ -827,8 +827,27 @@ class MessageRepository {
     required String channelId,
     required String messageId,
     required String content,
+    Map<String, dynamic>? personaData,
+    bool updatePersona = false,
   }) async {
     try {
+      if (updatePersona) {
+        final Response<Map<String, dynamic>> response = await _dio
+            .patch<Map<String, dynamic>>(
+              '/channels/$channelId/messages/$messageId',
+              data: <String, dynamic>{
+                'content': content,
+                'subprofile': personaData,
+              },
+            );
+        final Map<String, dynamic>? data = response.data;
+        if (data == null) {
+          throw Exception('Empty response from editMessage');
+        }
+        final MessageResponseSchema schema =
+            MessageResponseSchema.fromJson(data);
+        return await _persistSdkMessage(channelId: channelId, schema: schema);
+      }
       final MessageResponseSchema schema = await _client.channels.editMessage(
         channelId: channelId,
         messageId: messageId,
