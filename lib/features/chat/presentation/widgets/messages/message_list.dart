@@ -67,6 +67,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/core/message_pagination_coordinator.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_spoiler_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_grouping_utils.dart';
@@ -698,8 +699,13 @@ class _MessageListState extends ConsumerState<MessageList> {
         }
       });
     }
-    // Rebuild on keyboard view-size changes so ScrollMetricsNotification fires.
+    // Rebuild when the view or composer slot changes height.
     MediaQuery.sizeOf(context);
+    ref.watch(
+      bottomInputSlotProvider.select(
+        (BottomInputSlotState slot) => slot.slotHeight,
+      ),
+    );
     final int unreadCount = unreadSummary.displayUnreadCount;
     final bool viewportNearTail = ref.watch(
       chatReadViewportProvider.select(
@@ -1569,10 +1575,15 @@ class _MessageListState extends ConsumerState<MessageList> {
       _rawTrailingDistance(position).clamp(0, double.infinity);
 
   double _rawTrailingDistance(ScrollPosition position) =>
-      position.maxScrollExtent -
-      position.pixels -
-      _statusOverlayInset -
-      _trailingFillerExtent;
+      _rawTrailingDistanceAt(
+        maxScrollExtent: position.maxScrollExtent,
+        pixels: position.pixels,
+      );
+
+  double _rawTrailingDistanceAt({
+    required double maxScrollExtent,
+    required double pixels,
+  }) => maxScrollExtent - pixels - _statusOverlayInset - _trailingFillerExtent;
 
   /// Scroll offset of the newest loaded row's trailing edge: the live-tail
   /// landing spot, which is [ScrollMetrics.maxScrollExtent] only while no
@@ -2078,8 +2089,12 @@ class _MessageListState extends ConsumerState<MessageList> {
       _syncReadViewport();
       if (previousViewport != null &&
           viewport < previousViewport - kMessageListMetricsEpsilon &&
-          _pin.pinned) {
-        _schedulePinnedTailGlue();
+          !_isJumpOwningViewport() &&
+          _shouldGluePinnedTailOnViewportShrink(
+            previousMaxScrollExtent: previousExtent,
+            pixels: metrics.pixels,
+          )) {
+        _schedulePinnedTailGlue(ignorePin: true);
       }
     }
     if (_anchorId != null &&
@@ -2091,6 +2106,25 @@ class _MessageListState extends ConsumerState<MessageList> {
       _scheduleUnderfillBottomReanchor();
     }
     return false;
+  }
+
+  bool _shouldGluePinnedTailOnViewportShrink({
+    required double? previousMaxScrollExtent,
+    required double pixels,
+  }) {
+    if (previousMaxScrollExtent == null) {
+      return false;
+    }
+    final double preShrinkDistance = _rawTrailingDistanceAt(
+      maxScrollExtent: previousMaxScrollExtent,
+      pixels: pixels,
+    ).clamp(0, double.infinity);
+    return isNearTrailingEdge(
+      distanceFromTrailingEdge: preShrinkDistance,
+      threshold: _pin.pinned
+          ? kMessageListPinHoldDistance
+          : kMessageListReadBottomThreshold,
+    );
   }
 
   bool _isNearLiveTail() {
