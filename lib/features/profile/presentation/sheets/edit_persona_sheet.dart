@@ -316,9 +316,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         }
       }
 
-      unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
-
       if (mounted) {
+        unawaited(ref.read(myPersonasProvider.notifier).reloadSilently());
         Navigator.of(context, rootNavigator: true).pop(result);
       }
     } on Object catch (err, st) {
