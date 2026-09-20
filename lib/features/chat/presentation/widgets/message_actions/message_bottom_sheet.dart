@@ -38,12 +38,19 @@ import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 enum MessageAction {
   addReaction,
   viewReactions,
   removeAllReactions,
   retry,
   edit,
+  changePersona,
   reply,
   forward,
   copyText,
@@ -144,6 +151,25 @@ Future<void> dispatchMessageAction({
       }
     case MessageAction.edit:
       callbacks.onEdit?.call();
+    case MessageAction.changePersona:
+      final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+      _runAfterModalSettles(
+        context,
+        () => unawaited(
+          PersonaPickerSheet.show(
+            context,
+            showModes: false,
+            selectedPersonaId: message.personaId,
+            title: l10n.fork.chatMessageChangePersona,
+            onSelectPersona: (p) => ref
+                .read(chatViewModelProvider.notifier)
+                .changeMessagePersona(message: message, persona: p),
+            onSelectRoot: () => ref
+                .read(chatViewModelProvider.notifier)
+                .changeMessagePersona(message: message, persona: null),
+          ),
+        ),
+      );
     case MessageAction.delete:
       _runAfterModalSettles(context, () => callbacks.onDelete?.call());
     case MessageAction.retry:
@@ -383,6 +409,8 @@ List<Widget> buildMessageActionMenuGroups({
       permissions.isOwnMessage &&
       isUserMessage &&
       message.messageSnapshots.isEmpty;
+  final bool hasPersonas =
+      ref.watch(myPersonasProvider).asData?.value.isNotEmpty ?? false;
   final bool canShowPin = isUserMessage && permissions.canPinMessage;
   final bool canShowPublish = permissions.canPublish;
   final bool canShowBookmark = isUserMessage && supportsInteractiveActions;
@@ -453,6 +481,12 @@ List<Widget> buildMessageActionMenuGroups({
         icon: PhosphorIconsFill.pencilSimple,
         label: l10n.chatMessageEdit,
         onTap: () => onAction(MessageAction.edit),
+      ),
+    if (canShowEdit && hasPersonas)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.userSwitch,
+        label: l10n.fork.chatMessageChangePersona,
+        onTap: () => onAction(MessageAction.changePersona),
       ),
   ];
 
@@ -779,6 +813,7 @@ bool shouldCloseMediaViewerForMessageAction(MessageAction action) {
     MessageAction.reply ||
     MessageAction.forward ||
     MessageAction.edit ||
+    MessageAction.changePersona ||
     MessageAction.delete ||
     MessageAction.report ||
     MessageAction.viewReactions ||
