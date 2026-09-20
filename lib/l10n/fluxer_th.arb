@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "การมองเห็น",
     "personaVisibilityUnlisted": "ไม่แสดงในรายการ",
     "personaVisibilityPublic": "สาธารณะ",
-    "personaVisibilityPrivate": "ส่วนตัว"
+    "personaVisibilityPrivate": "ส่วนตัว",
+    "personaNameRequired": "โปรดป้อนชื่อที่แสดงของ Persona",
+    "personaNameTooLong": "ชื่อที่แสดงของ Persona ต้องมีความยาวไม่เกิน 100 ตัวอักษร",
+    "personaTagPrefixTooLong": "คำนำหน้าแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร",
+    "personaTagSuffixTooLong": "คำต่อท้ายแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร",
+    "personaTagCollisionError": "แท็ก '{tag}' ถูกใช้งานโดย '{name}' แล้ว"
 }

@@ -15049,4 +15049,24 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privat';
+
+  @override
+  String get personaNameRequired => 'Bitte gib einen Persona-Anzeigenamen ein';
+
+  @override
+  String get personaNameTooLong =>
+      'Der Persona-Anzeigename darf maximal 100 Zeichen lang sein';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Das Persona-Tag-Präfix darf maximal 32 Zeichen lang sein';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Das Persona-Tag-Suffix darf maximal 32 Zeichen lang sein';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Das Tag „$tag“ wird bereits von „$name“ verwendet.';
+  }
 }

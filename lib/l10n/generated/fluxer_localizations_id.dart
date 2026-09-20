@@ -14902,4 +14902,24 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privat';
+
+  @override
+  String get personaNameRequired => 'Silakan masukkan nama tampilan persona';
+
+  @override
+  String get personaNameTooLong =>
+      'Nama tampilan persona harus 100 karakter atau kurang';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Awalan tag persona harus 32 karakter atau kurang';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Akhiran tag persona harus 32 karakter atau kurang';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Tag \'$tag\' sudah digunakan oleh \'$name\'.';
+  }
 }
