@@ -14819,4 +14819,24 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'प्राइवेट';
+
+  @override
+  String get personaNameRequired => 'कृपया परसोना का डिस्प्ले नाम दर्ज करें';
+
+  @override
+  String get personaNameTooLong =>
+      'परसोना का डिस्प्ले नाम 100 वर्ण या उससे कम होना चाहिए';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'परसोना टैग उपसर्ग 32 वर्ण या उससे कम होना चाहिए';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'परसोना टैग प्रत्यय 32 वर्ण या उससे कम होना चाहिए';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'टैग \'$tag\' पहले से ही \'$name\' द्वारा उपयोग में है।';
+  }
 }

@@ -16894,5 +16894,10 @@
     "personaVisibilityLabel": "Видимість",
     "personaVisibilityUnlisted": "Прихована",
     "personaVisibilityPublic": "Публічна",
-    "personaVisibilityPrivate": "Приватна"
+    "personaVisibilityPrivate": "Приватна",
+    "personaNameRequired": "Будь ласка, введіть відображуване ім'я персони",
+    "personaNameTooLong": "Відображуване ім'я персони має містити не більше 100 символів",
+    "personaTagPrefixTooLong": "Префікс тегу персони має містити не більше 32 символів",
+    "personaTagSuffixTooLong": "Суфікс тегу персони має містити не більше 32 символів",
+    "personaTagCollisionError": "Тег '{tag}' уже використовується персоною '{name}'."
 }

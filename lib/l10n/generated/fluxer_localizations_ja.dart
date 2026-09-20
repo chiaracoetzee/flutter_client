@@ -14217,4 +14217,21 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => '非公開';
+
+  @override
+  String get personaNameRequired => 'ペルソナの表示名を入力してください';
+
+  @override
+  String get personaNameTooLong => 'ペルソナの表示名は100文字以内で入力してください';
+
+  @override
+  String get personaTagPrefixTooLong => 'ペルソナタグの接頭辞は32文字以内で入力してください';
+
+  @override
+  String get personaTagSuffixTooLong => 'ペルソナタグの接尾辞は32文字以内で入力してください';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'タグ「$tag」は既に「$name」によって使用されています。';
+  }
 }

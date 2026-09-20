@@ -16898,5 +16898,10 @@
     "personaVisibilityLabel": "Visibility",
     "personaVisibilityUnlisted": "Unlisted",
     "personaVisibilityPublic": "Public",
-    "personaVisibilityPrivate": "Private"
+    "personaVisibilityPrivate": "Private",
+    "personaNameRequired": "Please enter a persona display name",
+    "personaNameTooLong": "Persona display name must be 100 characters or less",
+    "personaTagPrefixTooLong": "Persona tag prefix must be 32 characters or less",
+    "personaTagSuffixTooLong": "Persona tag suffix must be 32 characters or less",
+    "personaTagCollisionError": "The tag '{tag}' is already in use by '{name}'."
 }

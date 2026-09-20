@@ -14858,4 +14858,24 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Yksityinen';
+
+  @override
+  String get personaNameRequired => 'Anna persoonan näyttönimi';
+
+  @override
+  String get personaNameTooLong =>
+      'Persoonan näyttönimi saa olla enintään 100 merkkiä';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Persoonatunnisteen etuliite saa olla enintään 32 merkkiä';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Persoonatunnisteen jälkiliite saa olla enintään 32 merkkiä';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Tunniste \'$tag\' on jo käytössä persoonalla \'$name\'.';
+  }
 }

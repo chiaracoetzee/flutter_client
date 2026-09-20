@@ -14691,4 +14691,24 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'ส่วนตัว';
+
+  @override
+  String get personaNameRequired => 'โปรดป้อนชื่อที่แสดงของ Persona';
+
+  @override
+  String get personaNameTooLong =>
+      'ชื่อที่แสดงของ Persona ต้องมีความยาวไม่เกิน 100 ตัวอักษร';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'คำนำหน้าแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'คำต่อท้ายแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'แท็ก \'$tag\' ถูกใช้งานโดย \'$name\' แล้ว';
+  }
 }

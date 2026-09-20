@@ -15020,4 +15020,24 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Ιδιωτικό';
+
+  @override
+  String get personaNameRequired => 'Εισαγάγετε ένα εμφανιζόμενο όνομα persona';
+
+  @override
+  String get personaNameTooLong =>
+      'Το εμφανιζόμενο όνομα persona πρέπει να περιέχει έως 100 χαρακτήρες';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Το πρόθεμα ετικέτας persona πρέπει να περιέχει έως 32 χαρακτήρες';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Το επίθημα ετικέτας persona πρέπει να περιέχει έως 32 χαρακτήρες';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Η ετικέτα \'$tag\' χρησιμοποιείται ήδη από την persona \'$name\'.';
+  }
 }

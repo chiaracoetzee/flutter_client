@@ -14738,6 +14738,26 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Private';
+
+  @override
+  String get personaNameRequired => 'Please enter a persona display name';
+
+  @override
+  String get personaNameTooLong =>
+      'Persona display name must be 100 characters or less';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Persona tag prefix must be 32 characters or less';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Persona tag suffix must be 32 characters or less';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'The tag \'$tag\' is already in use by \'$name\'.';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -29107,6 +29127,26 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get personaVisibilityPrivate => 'Private';
+
+  @override
+  String get personaNameRequired => 'Please enter a persona display name';
+
+  @override
+  String get personaNameTooLong =>
+      'Persona display name must be 100 characters or less';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Persona tag prefix must be 32 characters or less';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Persona tag suffix must be 32 characters or less';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'The tag \'$tag\' is already in use by \'$name\'.';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -43490,4 +43530,24 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get personaVisibilityPrivate => 'Private';
+
+  @override
+  String get personaNameRequired => 'Please enter a persona display name';
+
+  @override
+  String get personaNameTooLong =>
+      'Persona display name must be 100 characters or less';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Persona tag prefix must be 32 characters or less';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Persona tag suffix must be 32 characters or less';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'The tag \'$tag\' is already in use by \'$name\'.';
+  }
 }

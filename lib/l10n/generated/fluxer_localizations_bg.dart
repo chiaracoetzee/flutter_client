@@ -15005,4 +15005,24 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Лична';
+
+  @override
+  String get personaNameRequired => 'Моля, въведете екранно име на персоната';
+
+  @override
+  String get personaNameTooLong =>
+      'Екранното име на персоната трябва да е до 100 знака';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Префиксът на тага на персоната трябва да е до 32 знака';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Суфиксът на тага на персоната трябва да е до 32 знака';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Тагът \'$tag\' вече се използва от \'$name\'.';
+  }
 }
