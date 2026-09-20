@@ -283,3 +283,73 @@ PreviewResult previewPersona(
 
   return const PreviewResult();
 }
+
+class EditMatchResult {
+  const EditMatchResult({
+    required this.finalContent,
+    required this.shouldUpdatePersona,
+    this.persona,
+    this.isRootAccount = false,
+  });
+
+  final String finalContent;
+  final bool shouldUpdatePersona;
+  final Persona? persona;
+  final bool isRootAccount;
+}
+
+EditMatchResult matchEditMessage({
+  required String content,
+  required List<Persona> personas,
+  required String? currentPersonaId,
+  bool hasAttachments = false,
+}) {
+  final bool hasCurrentPersona =
+      currentPersonaId != null && currentPersonaId.isNotEmpty;
+
+  // If user typed \ or \\ to explicitly clear active persona / escape
+  if (content.startsWith(r'\') && hasCurrentPersona) {
+    String strippedContent;
+    if (content.startsWith(r'\\')) {
+      final rawRest = content.substring(2);
+      strippedContent =
+          rawRest.startsWith(' ') ? rawRest.substring(1) : rawRest;
+    } else {
+      final rawRest = content.substring(1);
+      strippedContent =
+          rawRest.startsWith(' ') ? rawRest.substring(1) : rawRest;
+    }
+    return EditMatchResult(
+      finalContent: strippedContent,
+      shouldUpdatePersona: true,
+      isRootAccount: true,
+      persona: null,
+    );
+  }
+
+  // In edit mode, check explicit persona tags without latched fallback
+  final result = matchPersona(
+    content,
+    personas,
+    null,
+    hasAttachments,
+    allowEmptyContent: true,
+  );
+
+  if (result.matched && result.persona != null) {
+    return EditMatchResult(
+      finalContent: result.strippedContent,
+      shouldUpdatePersona: true,
+      persona: result.persona,
+      isRootAccount: false,
+    );
+  }
+
+  return EditMatchResult(
+    finalContent: content,
+    shouldUpdatePersona: false,
+    persona: null,
+    isRootAccount: false,
+  );
+}
+
