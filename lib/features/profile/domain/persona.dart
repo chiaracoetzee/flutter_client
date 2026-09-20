@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:fluxer_app/features/profile/domain/public_persona.dart';
+
 class PersonaTag {
   const PersonaTag({
     this.prefix,
@@ -36,6 +38,7 @@ class Persona {
     required this.id,
     required this.name,
     this.avatarUrl,
+    this.bannerUrl,
     this.systemName,
     this.pronouns,
     this.color,
@@ -53,6 +56,7 @@ class Persona {
   final String id;
   final String name;
   final String? avatarUrl;
+  final String? bannerUrl;
   final String? systemName;
   final String? pronouns;
   final int? color;
@@ -71,8 +75,8 @@ class Persona {
         json['personaTags'] as List<dynamic>? ??
         const [];
     final tags = rawTags
-        .whereType<Map<String, dynamic>>()
-        .map(PersonaTag.fromJson)
+        .whereType<Map>()
+        .map((t) => PersonaTag.fromJson(Map<String, dynamic>.from(t)))
         .toList();
 
     int? lastUsed;
@@ -89,6 +93,9 @@ class Persona {
       avatarUrl: (json['avatar_url'] as String?) ??
           (json['avatarUrl'] as String?) ??
           (json['avatar'] as String?),
+      bannerUrl: (json['banner_url'] as String?) ??
+          (json['bannerUrl'] as String?) ??
+          (json['banner'] as String?),
       systemName: (json['system_name'] as String?) ??
           (json['systemName'] as String?) ??
           (json['display_tag_text'] as String?),
@@ -118,6 +125,7 @@ class Persona {
       'id': id,
       'name': name,
       if (avatarUrl != null) 'avatar_url': avatarUrl,
+      if (bannerUrl != null) 'banner_url': bannerUrl,
       if (systemName != null) 'system_name': systemName,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
@@ -137,6 +145,7 @@ class Persona {
     String? id,
     String? name,
     String? avatarUrl,
+    String? bannerUrl,
     String? systemName,
     String? pronouns,
     int? color,
@@ -154,6 +163,7 @@ class Persona {
       id: id ?? this.id,
       name: name ?? this.name,
       avatarUrl: avatarUrl ?? this.avatarUrl,
+      bannerUrl: bannerUrl ?? this.bannerUrl,
       systemName: systemName ?? this.systemName,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
@@ -166,6 +176,22 @@ class Persona {
       externalUuid: externalUuid ?? this.externalUuid,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  PublicPersona toPublicPersona() {
+    return PublicPersona(
+      id: id,
+      name: name,
+      avatarUrl: avatarUrl,
+      bannerUrl: bannerUrl,
+      systemName: systemName,
+      pronouns: pronouns,
+      color: color,
+      bio: bio,
+      visibility: visibility,
+      autoTagDisabled: autoTagDisabled,
+      personaTags: personaTags,
     );
   }
 }
