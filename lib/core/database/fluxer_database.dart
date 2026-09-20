@@ -1565,6 +1565,15 @@ class FluxerDatabase extends _$FluxerDatabase {
       if (from < 92) {
         if (!await _tableHasColumn(
           m.database,
+          tableName: 'messages',
+          columnName: 'persona_tag_icon',
+        )) {
+          await m.addColumn(messages, messages.personaTagIcon);
+        }
+      }
+      if (from < 92) {
+        if (!await _tableHasColumn(
+          m.database,
           tableName: 'user_preferences',
           columnName: 'sync_theme_colors_from_theme_studio',
         )) {
