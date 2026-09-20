@@ -11332,6 +11332,12 @@ abstract class FluxerLocalizations {
   /// **'Edit message'**
   String get chatMessageEdit;
 
+  /// Action label for changing the persona of a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Persona'**
+  String get chatMessageChangePersona;
+
   /// Action label for replying to a message.
   ///
   /// In en, this message translates to:

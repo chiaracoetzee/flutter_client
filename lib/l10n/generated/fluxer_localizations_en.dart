@@ -6912,6 +6912,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get chatMessageEdit => 'Edit message';
 
   @override
+  String get chatMessageChangePersona => 'Change Persona';
+
+  @override
   String get chatMessageReply => 'Reply';
 
   @override
@@ -21760,6 +21763,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatMessageEdit => 'Edit message';
 
   @override
+  String get chatMessageChangePersona => 'Change Persona';
+
+  @override
   String get chatMessageReply => 'Reply';
 
   @override
@@ -36234,6 +36240,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get chatMessageEdit => 'Edit message';
+
+  @override
+  String get chatMessageChangePersona => 'Change Persona';
 
   @override
   String get chatMessageReply => 'Reply';

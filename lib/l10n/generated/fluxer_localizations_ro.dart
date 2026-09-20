@@ -6986,6 +6986,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatMessageEdit => 'Editează mesajul';
 
   @override
+  String get chatMessageChangePersona => 'Schimbă persona';
+
+  @override
   String get chatMessageReply => 'Răspunde';
 
   @override
