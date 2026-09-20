@@ -14974,4 +14974,25 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privát';
+
+  @override
+  String get personaNameRequired =>
+      'Kérjük, add meg a persona megjelenített nevét';
+
+  @override
+  String get personaNameTooLong =>
+      'A persona megjelenített neve legfeljebb 100 karakter lehet';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'A persona címke előtagja legfeljebb 32 karakter lehet';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'A persona címke utótagja legfeljebb 32 karakter lehet';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'A(z) \'$tag\' címkét már használja \'$name\'.';
+  }
 }

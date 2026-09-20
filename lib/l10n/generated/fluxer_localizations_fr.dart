@@ -15089,4 +15089,25 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privé';
+
+  @override
+  String get personaNameRequired =>
+      'Veuillez saisir un nom d\'affichage de persona';
+
+  @override
+  String get personaNameTooLong =>
+      'Le nom d\'affichage du persona doit comporter 100 caractères ou moins';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Le préfixe de balise de persona doit comporter 32 caractères ou moins';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Le suffixe de balise de persona doit comporter 32 caractères ou moins';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'La balise « $tag » est déjà utilisée par « $name ».';
+  }
 }

@@ -14906,4 +14906,24 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privatno';
+
+  @override
+  String get personaNameRequired => 'Unesite prikazano ime persone';
+
+  @override
+  String get personaNameTooLong =>
+      'Prikazano ime persone mora imati najviše 100 znakova';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Prefiks oznake persone mora imati najviše 32 znaka';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Sufiks oznake persone mora imati najviše 32 znaka';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Oznaku \'$tag\' već koristi \'$name\'.';
+  }
 }

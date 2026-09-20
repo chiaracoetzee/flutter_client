@@ -14981,4 +14981,25 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privată';
+
+  @override
+  String get personaNameRequired =>
+      'Te rugăm să introduci un nume afișat pentru persona';
+
+  @override
+  String get personaNameTooLong =>
+      'Numele afișat al personei trebuie să aibă maximum 100 de caractere';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Prefixul etichetei personei trebuie să aibă maximum 32 de caractere';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Sufixul etichetei personei trebuie să aibă maximum 32 de caractere';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Eticheta \'$tag\' este deja folosită de \'$name\'.';
+  }
 }

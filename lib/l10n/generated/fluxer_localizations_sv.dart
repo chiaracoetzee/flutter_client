@@ -14868,4 +14868,24 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privat';
+
+  @override
+  String get personaNameRequired => 'Ange ett visningsnamn för personan';
+
+  @override
+  String get personaNameTooLong =>
+      'Personans visningsnamn får vara högst 100 tecken';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Personataggens prefix får vara högst 32 tecken';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Personataggens suffix får vara högst 32 tecken';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Taggen \'$tag\' används redan av \'$name\'.';
+  }
 }

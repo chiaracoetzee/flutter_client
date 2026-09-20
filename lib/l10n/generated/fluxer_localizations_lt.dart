@@ -15001,4 +15001,24 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privatus';
+
+  @override
+  String get personaNameRequired => 'Įveskite personos rodomą vardą';
+
+  @override
+  String get personaNameTooLong =>
+      'Personos rodomas vardas negali viršyti 100 simbolių';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Personos žymos priešdėlis negali viršyti 32 simbolių';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Personos žymos galūnė negali viršyti 32 simbolių';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Žymą „$tag“ jau naudoja „$name“.';
+  }
 }

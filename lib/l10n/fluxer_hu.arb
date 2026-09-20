@@ -16894,5 +16894,10 @@
     "personaVisibilityLabel": "Láthatóság",
     "personaVisibilityUnlisted": "Nem listázott",
     "personaVisibilityPublic": "Nyilvános",
-    "personaVisibilityPrivate": "Privát"
+    "personaVisibilityPrivate": "Privát",
+    "personaNameRequired": "Kérjük, add meg a persona megjelenített nevét",
+    "personaNameTooLong": "A persona megjelenített neve legfeljebb 100 karakter lehet",
+    "personaTagPrefixTooLong": "A persona címke előtagja legfeljebb 32 karakter lehet",
+    "personaTagSuffixTooLong": "A persona címke utótagja legfeljebb 32 karakter lehet",
+    "personaTagCollisionError": "A(z) '{tag}' címkét már használja '{name}'."
 }
