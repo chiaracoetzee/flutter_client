@@ -6940,6 +6940,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatMessageEdit => 'Rediger besked';
 
   @override
+  String get chatMessageChangePersona => 'Skift persona';
+
+  @override
   String get chatMessageReply => 'Svar';
 
   @override
