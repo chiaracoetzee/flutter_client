@@ -16915,5 +16915,10 @@
     "personaVisibilityLabel": "विज़िबिलिटी",
     "personaVisibilityUnlisted": "अनलिस्टेड",
     "personaVisibilityPublic": "पब्लिक",
-    "personaVisibilityPrivate": "प्राइवेट"
+    "personaVisibilityPrivate": "प्राइवेट",
+    "personaNameRequired": "कृपया परसोना का डिस्प्ले नाम दर्ज करें",
+    "personaNameTooLong": "परसोना का डिस्प्ले नाम 100 वर्ण या उससे कम होना चाहिए",
+    "personaTagPrefixTooLong": "परसोना टैग उपसर्ग 32 वर्ण या उससे कम होना चाहिए",
+    "personaTagSuffixTooLong": "परसोना टैग प्रत्यय 32 वर्ण या उससे कम होना चाहिए",
+    "personaTagCollisionError": "टैग '{tag}' पहले से ही '{name}' द्वारा उपयोग में है।"
 }

@@ -16915,5 +16915,10 @@
     "personaVisibilityLabel": "Zichtbaarheid",
     "personaVisibilityUnlisted": "Niet vermeld",
     "personaVisibilityPublic": "Openbaar",
-    "personaVisibilityPrivate": "Privé"
+    "personaVisibilityPrivate": "Privé",
+    "personaNameRequired": "Voer een weergavenaam voor de persona in",
+    "personaNameTooLong": "Weergavenaam van persona mag maximaal 100 tekens bevatten",
+    "personaTagPrefixTooLong": "Persona-tagvoorvoegsel mag maximaal 32 tekens bevatten",
+    "personaTagSuffixTooLong": "Persona-tagachtervoegsel mag maximaal 32 tekens bevatten",
+    "personaTagCollisionError": "De tag '{tag}' is al in gebruik door '{name}'."
 }
