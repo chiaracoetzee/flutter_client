@@ -1,4 +1,5 @@
 {
+    "chatMessageChangePersona": "เปลี่ยน Persona",
     "personaSelectTitle": "เลือก Persona",
     "personaSettingsHeader": "การตั้งค่า Persona",
     "personaManageAction": "จัดการ",
