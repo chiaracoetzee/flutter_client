@@ -6989,6 +6989,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get chatMessageEdit => 'Редактировать сообщение';
 
   @override
+  String get chatMessageChangePersona => 'Сменить персону';
+
+  @override
   String get chatMessageReply => 'Ответить';
 
   @override

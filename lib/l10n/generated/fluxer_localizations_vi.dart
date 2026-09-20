@@ -6934,6 +6934,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageEdit => 'Chỉnh sửa tin nhắn';
 
   @override
+  String get chatMessageChangePersona => 'Đổi persona';
+
+  @override
   String get chatMessageReply => 'Trả lời';
 
   @override

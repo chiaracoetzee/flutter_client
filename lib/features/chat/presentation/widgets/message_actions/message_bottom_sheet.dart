@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/presentation/modals/pin_message_confirm_modal.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/double_tap_reaction_hint.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
@@ -21,6 +22,7 @@ import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -42,6 +44,7 @@ enum MessageAction {
   removeAllReactions,
   retry,
   edit,
+  changePersona,
   reply,
   forward,
   copyText,
@@ -131,6 +134,25 @@ Future<void> dispatchMessageAction({
       _runAfterModalSettles(context, () => callbacks.onForward?.call());
     case MessageAction.edit:
       callbacks.onEdit?.call();
+    case MessageAction.changePersona:
+      final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+      _runAfterModalSettles(
+        context,
+        () => unawaited(
+          PersonaPickerSheet.show(
+            context,
+            showModes: false,
+            selectedPersonaId: message.personaId,
+            title: l10n.chatMessageChangePersona,
+            onSelectPersona: (p) => ref
+                .read(chatViewModelProvider.notifier)
+                .changeMessagePersona(message: message, persona: p),
+            onSelectRoot: () => ref
+                .read(chatViewModelProvider.notifier)
+                .changeMessagePersona(message: message, persona: null),
+          ),
+        ),
+      );
     case MessageAction.delete:
       _runAfterModalSettles(context, () => callbacks.onDelete?.call());
     case MessageAction.retry:
@@ -349,6 +371,8 @@ List<Widget> buildMessageActionMenuGroups({
       permissions.isOwnMessage &&
       isUserMessage &&
       message.messageSnapshots.isEmpty;
+  final bool hasPersonas =
+      ref.watch(myPersonasProvider).asData?.value.isNotEmpty ?? false;
   final bool canShowPin = isUserMessage && permissions.canPinMessage;
   final bool canShowBookmark = isUserMessage && supportsInteractiveActions;
   final bool canShowSuppressEmbeds = canSuppressEmbedsOnMessage(
@@ -411,6 +435,12 @@ List<Widget> buildMessageActionMenuGroups({
         icon: PhosphorIconsFill.pencilSimple,
         label: l10n.chatMessageEdit,
         onTap: () => onAction(MessageAction.edit),
+      ),
+    if (canShowEdit && hasPersonas)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.userSwitch,
+        label: l10n.chatMessageChangePersona,
+        onTap: () => onAction(MessageAction.changePersona),
       ),
   ];
 
@@ -721,6 +751,7 @@ bool shouldCloseMediaViewerForMessageAction(MessageAction action) {
     MessageAction.reply ||
     MessageAction.forward ||
     MessageAction.edit ||
+    MessageAction.changePersona ||
     MessageAction.delete ||
     MessageAction.report ||
     MessageAction.viewReactions ||
