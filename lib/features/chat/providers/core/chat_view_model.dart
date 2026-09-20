@@ -104,6 +104,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 
@@ -7225,6 +7226,66 @@ class ChatViewModel extends _$ChatViewModel {
         origin: MessagesOrigin.localMutation,
       ),
     );
+  }
+
+  Future<void> changeMessagePersona({
+    required Message message,
+    required Persona? persona,
+  }) async {
+    Map<String, dynamic>? personaData;
+    if (persona != null) {
+      final systemTag = ref.read(systemDisplayTagProvider);
+      final String? tagText =
+          (systemTag.text != null && systemTag.text!.trim().isNotEmpty)
+          ? systemTag.text!.trim()
+          : null;
+      final String? tagIcon =
+          (systemTag.iconUrl != null && systemTag.iconUrl!.trim().isNotEmpty)
+          ? systemTag.iconUrl!.trim()
+          : null;
+
+      personaData = <String, dynamic>{
+        'id': persona.id,
+        'name': persona.name,
+        'avatar': ?persona.avatarUrl,
+        'avatar_color': ?persona.color,
+        'display_tag_text': ?tagText,
+        'system_name': ?tagText,
+        'display_tag_icon': ?tagIcon,
+        'pronouns': ?persona.pronouns,
+        'color': ?persona.color,
+        'bio': ?persona.bio,
+      };
+    }
+
+    try {
+      final Message updatedMessage = await ref
+          .read(messageRepositoryProvider)
+          .editMessagePersona(
+            channelId: message.channelId,
+            messageId: message.id,
+            personaData: personaData,
+          );
+      final List<Message>? nextMessages = _replaceById(
+        state.messages,
+        updatedMessage,
+      );
+      state = state.copyWith(
+        write: (
+          messages: nextMessages ?? state.messages,
+          origin: MessagesOrigin.localMutation,
+        ),
+        errorMessage: null,
+      );
+      if (persona != null) {
+        unawaited(
+          ref.read(activePersonaProvider.notifier).recordUsage(persona.id),
+        );
+      }
+    } on Exception catch (e) {
+      debugPrint('[ChatViewModel] Failed to change message persona: $e');
+      state = state.copyWith(errorMessage: 'Failed to change message persona');
+    }
   }
 
   Future<void> applyComposerReplace({

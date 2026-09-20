@@ -9,6 +9,9 @@ class ForkLocalizationsId extends ForkLocalizations {
   ForkLocalizationsId([String locale = 'id']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Ganti persona';
+
+  @override
   String get personaSelectTitle => 'Pilih Persona';
 
   @override
