@@ -23,7 +23,6 @@
     "personaPronounsHint": "напр. те/тях",
     "personaBioLabel": "За мен",
     "personaBioHint": "Разкажете на другите за тази персона...",
-    "personaSaveChanges": "Запазване на промените",
     "personaUpdatedToast": "Персоната е обновена",
     "personaUpdateFailedToast": "Неуспешно обновяване на персоната: {error}",
     "personaSectionTitle": "Персони",
