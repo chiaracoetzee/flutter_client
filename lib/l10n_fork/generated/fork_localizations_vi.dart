@@ -89,9 +89,6 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get personaBioHint => 'Giới thiệu với người khác về persona này...';
 
   @override
-  String get personaSaveChanges => 'Lưu thay đổi';
-
-  @override
   String get personaUpdatedToast => 'Đã cập nhật persona';
 
   @override
