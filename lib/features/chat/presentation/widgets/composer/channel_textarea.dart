@@ -2177,8 +2177,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       chatViewModelProvider.select((s) => s.editingMessage != null),
     );
     if (isEditing) {
+      final _CustomEmojiSendContext emojiContext = _readCustomEmojiSendContext(
+        channelId,
+      );
+      final String resolved = resolveTypedCustomEmojiShortcodes(
+        wireText,
+        emojiContext.lookupMarkdown,
+      );
       FluxerHaptics.send();
-      unawaited(vm.sendMessage(text: wireText.trim()));
+      unawaited(vm.sendMessage(text: resolved.trim()));
       return;
     }
 
