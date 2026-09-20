@@ -17,6 +17,11 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 const _kMenuWidth = 220.0;
 
 Future<MessageAction?> showMessageContextMenu(
@@ -258,6 +263,13 @@ class _ContextMenuPage extends ConsumerWidget {
           icon: PhosphorIconsBold.pencilSimple,
           shortcut: shortcut('E'),
           onTap: () => pop(MessageAction.edit),
+        ),
+      if (permissions.isOwnMessage &&
+          (ref.watch(myPersonasProvider).asData?.value.isNotEmpty ?? false))
+        _MenuItem(
+          label: l10n.fork.chatMessageChangePersona,
+          icon: PhosphorIconsBold.userSwitch,
+          onTap: () => pop(MessageAction.changePersona),
         ),
       _MenuItem(
         label: l10n.chatMessageReply,

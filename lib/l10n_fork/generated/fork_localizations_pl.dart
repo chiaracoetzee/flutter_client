@@ -9,6 +9,9 @@ class ForkLocalizationsPl extends ForkLocalizations {
   ForkLocalizationsPl([String locale = 'pl']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Zmień personę';
+
+  @override
   String get personaSelectTitle => 'Wybierz personę';
 
   @override
