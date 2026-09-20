@@ -6,13 +6,9 @@ import 'dart:math' as math;
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_engine.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wire_codec.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
-import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum PersonaMode {
@@ -427,29 +423,7 @@ class SystemDisplayTagNotifier extends Notifier<SystemDisplayTag> {
 
   @override
   SystemDisplayTag build() {
-    _initFromPrefs();
-
-    // Check user settings immediately if available
-    final initialSettings = ref.watch(userSettingsStatusProvider);
-    if (initialSettings != null && initialSettings.syncedPreferences.isNotEmpty) {
-      final parsed = _parseBlob(initialSettings.syncedPreferences);
-      if (parsed.text != null || parsed.iconUrl != null) {
-        _saveToPrefs(parsed.text, parsed.iconUrl);
-        return parsed;
-      }
-    }
-
-    // Also check syncedPreferencesStore if available
-    final store = ref.watch(syncedPreferencesStoreProvider);
-    if (store.displayTagText != null || store.displayTagIcon != null) {
-      final fromStore = SystemDisplayTag(
-        text: store.displayTagText,
-        iconUrl: store.displayTagIcon,
-      );
-      _saveToPrefs(fromStore.text, fromStore.iconUrl);
-      return fromStore;
-    }
-
+    unawaited(_initFromPrefs());
     return const SystemDisplayTag();
   }
 
@@ -462,28 +436,6 @@ class SystemDisplayTagNotifier extends Notifier<SystemDisplayTag> {
         state = SystemDisplayTag(text: cachedText, iconUrl: cachedIcon);
       }
     } catch (_) {}
-  }
-
-  static SystemDisplayTag _parseBlob(String wireBlob) {
-    if (wireBlob.isEmpty) return const SystemDisplayTag();
-    try {
-      final bytes = SyncedPreferencesEngine.decodeBytes(wireBlob);
-      String? text;
-      final textChunks =
-          SyncedPreferencesWireCodec.extractFieldChunks(bytes, 124);
-      if (textChunks.isNotEmpty) {
-        text = SyncedPreferencesWireCodec.decodeStringFromChunk(textChunks.last);
-      }
-      String? icon;
-      final iconChunks =
-          SyncedPreferencesWireCodec.extractFieldChunks(bytes, 125);
-      if (iconChunks.isNotEmpty) {
-        icon = SyncedPreferencesWireCodec.decodeStringFromChunk(iconChunks.last);
-      }
-      return SystemDisplayTag(text: text, iconUrl: icon);
-    } catch (_) {
-      return const SystemDisplayTag();
-    }
   }
 
   Future<void> _saveToPrefs(String? text, String? icon) async {
@@ -502,20 +454,12 @@ class SystemDisplayTagNotifier extends Notifier<SystemDisplayTag> {
     } catch (_) {}
   }
 
-  void updateFromBlob(String wireBlob) {
-    final parsed = _parseBlob(wireBlob);
-    if (parsed.text != state.text || parsed.iconUrl != state.iconUrl) {
-      state = parsed;
-      _saveToPrefs(parsed.text, parsed.iconUrl);
-    }
-  }
-
   void syncFromSettings({
     required String? text,
     required String? iconUrl,
   }) {
     state = SystemDisplayTag(text: text, iconUrl: iconUrl);
-    _saveToPrefs(text, iconUrl);
+    unawaited(_saveToPrefs(text, iconUrl));
   }
 
   Future<void> updateDisplayTag(String? text, String? iconUrl) async {
@@ -655,5 +599,3 @@ final personaSettingsProvider =
     NotifierProvider<PersonaSettingsNotifier, AsyncValue<PersonaSettings>>(
   PersonaSettingsNotifier.new,
 );
-
-
