@@ -1322,7 +1322,7 @@ class Message {
       personaName: row.personaName,
       personaAvatar: row.personaAvatar,
       personaTag: row.personaTag,
-      personaTagIcon: null,
+      personaTagIcon: row.personaTagIcon,
     );
   }
 
@@ -1541,6 +1541,7 @@ class Message {
       personaName: Value(personaName),
       personaAvatar: Value(personaAvatar),
       personaTag: Value(personaTag),
+      personaTagIcon: Value(personaTagIcon),
     );
   }
 

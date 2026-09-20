@@ -145,7 +145,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 91;
+  int get schemaVersion => 92;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1561,6 +1561,15 @@ class FluxerDatabase extends _$FluxerDatabase {
           'CREATE INDEX IF NOT EXISTS idx_channels_guild_parent_type '
           'ON channels (guild_id, parent_id, type)',
         );
+      }
+      if (from < 92) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'persona_tag_icon',
+        )) {
+          await m.addColumn(messages, messages.personaTagIcon);
+        }
       }
     },
   );
