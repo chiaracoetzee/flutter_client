@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
-import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -213,6 +211,10 @@ void main() {
       expect(settings.displayTagText, 'Wonderland');
       expect(settings.displayTagIcon, 'hash_xyz');
 
+      final tag = container.read(systemDisplayTagProvider);
+      expect(tag.text, 'Wonderland');
+      expect(tag.iconUrl, 'hash_xyz');
+
       notifier.reset();
       final resetSettings = container.read(personaSettingsProvider).asData?.value;
       expect(resetSettings, isNotNull);
@@ -276,4 +278,3 @@ void main() {
     });
   });
 }
-
