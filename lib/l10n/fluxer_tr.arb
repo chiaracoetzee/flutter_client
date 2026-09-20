@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "Görünürlük",
     "personaVisibilityUnlisted": "Liste dışı",
     "personaVisibilityPublic": "Herkese açık",
-    "personaVisibilityPrivate": "Gizli"
+    "personaVisibilityPrivate": "Gizli",
+    "personaNameRequired": "Lütfen bir persona görünen adı girin",
+    "personaNameTooLong": "Persona görünen adı en fazla 100 karakter olmalıdır",
+    "personaTagPrefixTooLong": "Persona etiket öneki en fazla 32 karakter olmalıdır",
+    "personaTagSuffixTooLong": "Persona etiket soneki en fazla 32 karakter olmalıdır",
+    "personaTagCollisionError": "'{tag}' etiketi zaten '{name}' tarafından kullanılıyor."
 }

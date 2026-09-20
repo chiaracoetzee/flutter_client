@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "Ορατότητα",
     "personaVisibilityUnlisted": "Μη καταχωρισμένο",
     "personaVisibilityPublic": "Δημόσιο",
-    "personaVisibilityPrivate": "Ιδιωτικό"
+    "personaVisibilityPrivate": "Ιδιωτικό",
+    "personaNameRequired": "Εισαγάγετε ένα εμφανιζόμενο όνομα persona",
+    "personaNameTooLong": "Το εμφανιζόμενο όνομα persona πρέπει να περιέχει έως 100 χαρακτήρες",
+    "personaTagPrefixTooLong": "Το πρόθεμα ετικέτας persona πρέπει να περιέχει έως 32 χαρακτήρες",
+    "personaTagSuffixTooLong": "Το επίθημα ετικέτας persona πρέπει να περιέχει έως 32 χαρακτήρες",
+    "personaTagCollisionError": "Η ετικέτα '{tag}' χρησιμοποιείται ήδη από την persona '{name}'."
 }

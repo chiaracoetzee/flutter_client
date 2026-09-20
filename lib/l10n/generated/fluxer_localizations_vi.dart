@@ -14921,4 +14921,24 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Riêng tư';
+
+  @override
+  String get personaNameRequired => 'Vui lòng nhập tên hiển thị cho persona';
+
+  @override
+  String get personaNameTooLong =>
+      'Tên hiển thị của persona phải có từ 100 ký tự trở xuống';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'Tiền tố thẻ persona phải có từ 32 ký tự trở xuống';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'Hậu tố thẻ persona phải có từ 32 ký tự trở xuống';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'Thẻ \'$tag\' đã được \'$name\' sử dụng.';
+  }
 }

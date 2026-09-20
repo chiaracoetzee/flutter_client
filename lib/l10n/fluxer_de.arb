@@ -16890,5 +16890,10 @@
     "personaVisibilityLabel": "Sichtbarkeit",
     "personaVisibilityUnlisted": "Nicht gelistet",
     "personaVisibilityPublic": "Öffentlich",
-    "personaVisibilityPrivate": "Privat"
+    "personaVisibilityPrivate": "Privat",
+    "personaNameRequired": "Bitte gib einen Persona-Anzeigenamen ein",
+    "personaNameTooLong": "Der Persona-Anzeigename darf maximal 100 Zeichen lang sein",
+    "personaTagPrefixTooLong": "Das Persona-Tag-Präfix darf maximal 32 Zeichen lang sein",
+    "personaTagSuffixTooLong": "Das Persona-Tag-Suffix darf maximal 32 Zeichen lang sein",
+    "personaTagCollisionError": "Das Tag „{tag}“ wird bereits von „{name}“ verwendet."
 }
