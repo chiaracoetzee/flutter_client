@@ -23,7 +23,6 @@
     "personaPronounsHint": "npr. oni/njih",
     "personaBioLabel": "O meni",
     "personaBioHint": "Recite drugima nešto o ovoj personi...",
-    "personaSaveChanges": "Spremi promjene",
     "personaUpdatedToast": "Persona je ažurirana",
     "personaUpdateFailedToast": "Ažuriranje persone nije uspjelo: {error}",
     "personaSectionTitle": "Persone",

@@ -23,7 +23,6 @@
     "personaPronounsHint": "ex. iel/elle/il",
     "personaBioLabel": "Biographie / À propos",
     "personaBioHint": "Présentez ce persona aux autres…",
-    "personaSaveChanges": "Enregistrer les modifications",
     "personaUpdatedToast": "Persona mis à jour",
     "personaUpdateFailedToast": "Échec de la mise à jour du persona : {error}",
     "personaSectionTitle": "Personas",
