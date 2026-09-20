@@ -9,6 +9,9 @@ class ForkLocalizationsEn extends ForkLocalizations {
   ForkLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Change Persona';
+
+  @override
   String get personaSelectTitle => 'Select Persona';
 
   @override
@@ -252,6 +255,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   ForkLocalizationsEnGb() : super('en_GB');
 
   @override
+  String get chatMessageChangePersona => 'Change Persona';
+
+  @override
   String get personaSelectTitle => 'Select Persona';
 
   @override
@@ -493,6 +499,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 /// The translations for English, as used in the United States (`en_US`).
 class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   ForkLocalizationsEnUs() : super('en_US');
+
+  @override
+  String get chatMessageChangePersona => 'Change Persona';
 
   @override
   String get personaSelectTitle => 'Select Persona';

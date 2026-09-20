@@ -1,4 +1,5 @@
 {
+    "chatMessageChangePersona": "切换人格",
     "personaSelectTitle": "选择人格",
     "personaSettingsHeader": "人格设置",
     "personaManageAction": "管理",

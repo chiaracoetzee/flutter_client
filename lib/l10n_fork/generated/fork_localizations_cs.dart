@@ -9,6 +9,9 @@ class ForkLocalizationsCs extends ForkLocalizations {
   ForkLocalizationsCs([String locale = 'cs']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Změnit personu';
+
+  @override
   String get personaSelectTitle => 'Vyberte personu';
 
   @override

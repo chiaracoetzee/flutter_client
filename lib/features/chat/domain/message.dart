@@ -1686,11 +1686,11 @@ class Message {
       flags: incoming.flags,
       call: incoming.call ?? call,
       threadJson: incoming.threadJson ?? threadJson,
-      personaId: incoming.personaId ?? personaId,
-      personaName: incoming.personaName ?? personaName,
-      personaAvatar: incoming.personaAvatar ?? personaAvatar,
-      personaTag: incoming.personaTag ?? personaTag,
-      personaTagIcon: incoming.personaTagIcon ?? personaTagIcon,
+      personaId: incoming.personaId,
+      personaName: incoming.personaName,
+      personaAvatar: incoming.personaAvatar,
+      personaTag: incoming.personaTag,
+      personaTagIcon: incoming.personaTagIcon,
       translation: contentChanged ? null : _unset,
     );
   }
