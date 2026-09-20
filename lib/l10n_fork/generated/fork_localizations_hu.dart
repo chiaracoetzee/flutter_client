@@ -9,6 +9,9 @@ class ForkLocalizationsHu extends ForkLocalizations {
   ForkLocalizationsHu([String locale = 'hu']) : super(locale);
 
   @override
+  String get chatMessageChangePersona => 'Persona váltása';
+
+  @override
   String get personaSelectTitle => 'Persona kiválasztása';
 
   @override
