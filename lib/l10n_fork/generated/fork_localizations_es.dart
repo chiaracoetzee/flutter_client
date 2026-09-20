@@ -227,6 +227,27 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get personaVisibilityPrivate => 'Privada';
+
+  @override
+  String get personaNameRequired =>
+      'Introduce un nombre para mostrar de la persona';
+
+  @override
+  String get personaNameTooLong =>
+      'El nombre de la persona debe tener 100 caracteres o menos';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'El prefijo de la etiqueta debe tener 32 caracteres o menos';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'El sufijo de la etiqueta debe tener 32 caracteres o menos';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'La etiqueta \'$tag\' ya está en uso por \'$name\'.';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -452,4 +473,25 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get personaVisibilityPrivate => 'Privada';
+
+  @override
+  String get personaNameRequired =>
+      'Ingresa un nombre para mostrar de la persona';
+
+  @override
+  String get personaNameTooLong =>
+      'El nombre de la persona debe tener 100 caracteres o menos';
+
+  @override
+  String get personaTagPrefixTooLong =>
+      'El prefijo de la etiqueta debe tener 32 caracteres o menos';
+
+  @override
+  String get personaTagSuffixTooLong =>
+      'El sufijo de la etiqueta debe tener 32 caracteres o menos';
+
+  @override
+  String personaTagCollisionError(String tag, String name) {
+    return 'La etiqueta \'$tag\' ya está en uso por \'$name\'.';
+  }
 }

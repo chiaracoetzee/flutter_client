@@ -1,7 +1,11 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
-import 'package:test/test.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations_de.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations_fr.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 
 void main() {
   group('PersonaTag', () {
@@ -282,6 +286,36 @@ void main() {
       expect(untouched.id, original.id);
       expect(untouched.name, original.name);
       expect(untouched.bio, original.bio);
+    });
+  });
+
+  group('PersonaValidationLocalizations', () {
+    test('en localizations provide expected validation messages', () {
+      final l10n = FluxerLocalizationsEn();
+      expect(l10n.fork.personaNameRequired, 'Please enter a persona display name');
+      expect(l10n.fork.personaNameTooLong, 'Persona display name must be 100 characters or less');
+      expect(l10n.fork.personaTagPrefixTooLong, 'Persona tag prefix must be 32 characters or less');
+      expect(l10n.fork.personaTagSuffixTooLong, 'Persona tag suffix must be 32 characters or less');
+      expect(
+        l10n.fork.personaTagCollisionError('[tag]', 'Alice'),
+        "The tag '[tag]' is already in use by 'Alice'.",
+      );
+    });
+
+    test('de and fr localizations provide translated validation messages', () {
+      final l10nDe = FluxerLocalizationsDe();
+      expect(l10nDe.fork.personaNameRequired, 'Bitte gib einen Persona-Anzeigenamen ein');
+      expect(
+        l10nDe.fork.personaTagCollisionError('[tag]', 'Alice'),
+        'Das Tag „[tag]“ wird bereits von „Alice“ verwendet.',
+      );
+
+      final l10nFr = FluxerLocalizationsFr();
+      expect(l10nFr.fork.personaNameRequired, "Veuillez saisir un nom d'affichage de persona");
+      expect(
+        l10nFr.fork.personaTagCollisionError('[tag]', 'Alice'),
+        'La balise « [tag] » est déjà utilisée par « Alice ».',
+      );
     });
   });
 }
