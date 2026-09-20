@@ -5586,6 +5586,10 @@
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
     },
+    "chatMessageChangePersona": "Změnit personu",
+    "@chatMessageChangePersona": {
+        "description": "Action label for changing the persona of a message."
+    },
     "chatMessageReply": "Odpovědět",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."

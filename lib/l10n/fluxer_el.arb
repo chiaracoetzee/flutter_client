@@ -5586,6 +5586,10 @@
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
     },
+    "chatMessageChangePersona": "Αλλαγή persona",
+    "@chatMessageChangePersona": {
+        "description": "Action label for changing the persona of a message."
+    },
     "chatMessageReply": "Απάντηση",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."

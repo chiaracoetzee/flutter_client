@@ -6692,6 +6692,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessageEdit => 'メッセージを編集';
 
   @override
+  String get chatMessageChangePersona => 'ペルソナを変更';
+
+  @override
   String get chatMessageReply => '返信する';
 
   @override
