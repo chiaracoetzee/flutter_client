@@ -6949,6 +6949,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatMessageEdit => 'Mesajı düzenle';
 
   @override
+  String get chatMessageChangePersona => 'Personayı değiştir';
+
+  @override
   String get chatMessageReply => 'Yanıtla';
 
   @override

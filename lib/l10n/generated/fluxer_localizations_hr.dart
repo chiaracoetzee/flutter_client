@@ -6958,6 +6958,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageEdit => 'Uredi poruku';
 
   @override
+  String get chatMessageChangePersona => 'Promijeni personu';
+
+  @override
   String get chatMessageReply => 'Odgovori';
 
   @override

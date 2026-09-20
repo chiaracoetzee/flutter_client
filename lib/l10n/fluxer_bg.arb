@@ -8294,6 +8294,10 @@
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
     },
+    "chatMessageChangePersona": "Промяна на персона",
+    "@chatMessageChangePersona": {
+        "description": "Action label for changing the persona of a message."
+    },
     "chatMessageReply": "Отговор",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
