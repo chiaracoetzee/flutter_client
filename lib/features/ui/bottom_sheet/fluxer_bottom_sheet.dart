@@ -144,8 +144,12 @@ class FluxerBottomSheet {
         backgroundColor: Colors.transparent,
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
-          void close() =>
-              Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+          void close() {
+            if (canDismissNotifier != null && !canDismissNotifier.value) {
+              return;
+            }
+            Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+          }
 
           final mediaQuery = MediaQuery.of(sheetContext);
           final topPadding = mediaQuery.viewPadding.top;
@@ -273,8 +277,12 @@ class FluxerBottomSheet {
         backgroundColor: Colors.transparent,
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
-          void close() =>
-              Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+          void close() {
+            if (canDismissNotifier != null && !canDismissNotifier.value) {
+              return;
+            }
+            Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+          }
 
           final mediaQuery = MediaQuery.of(sheetContext);
           final double keyboardInset = manageKeyboardInset
@@ -327,6 +335,7 @@ class FluxerBottomSheet {
             bottomScrollPadding: bottomScrollPadding,
             sheetContext: sheetContext,
             builder: builder,
+            canDismissNotifier: canDismissNotifier,
           );
 
           return _buildSheetWithBackHandler(
@@ -502,6 +511,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
     required this.bottomScrollPadding,
     required this.sheetContext,
     required this.builder,
+    this.canDismissNotifier,
   });
 
   final double minChildSize;
@@ -522,6 +532,7 @@ class _FluxerDraggableScrollableSheet extends StatefulWidget {
   final double bottomScrollPadding;
   final BuildContext sheetContext;
   final FluxerScrollableBottomSheetBuilder builder;
+  final ValueNotifier<bool>? canDismissNotifier;
 
   @override
   State<_FluxerDraggableScrollableSheet> createState() =>
@@ -609,6 +620,9 @@ class _FluxerDraggableScrollableSheetState
   }
 
   void _dismiss() {
+    if (widget.canDismissNotifier != null && !widget.canDismissNotifier!.value) {
+      return;
+    }
     if (_dismissed) {
       return;
     }
@@ -709,6 +723,15 @@ class _FluxerDraggableScrollableSheetState
       availablePixels: availablePixels,
     );
     if (target == null) {
+      if (widget.canDismissNotifier != null &&
+          !widget.canDismissNotifier!.value) {
+        _sheetController.animateTo(
+          widget.minChildSize,
+          duration: widget.sheetContext.motion.panel,
+          curve: widget.sheetContext.motion.curve,
+        );
+        return;
+      }
       _dismiss();
       return;
     }
@@ -730,6 +753,10 @@ class _FluxerDraggableScrollableSheetState
   bool _handleExtentChanged(DraggableScrollableNotification notification) {
     if (!notification.shouldCloseOnMinExtent ||
         notification.extent > notification.minExtent) {
+      return false;
+    }
+    if (widget.canDismissNotifier != null &&
+        !widget.canDismissNotifier!.value) {
       return false;
     }
     if (_dismissed) {
