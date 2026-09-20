@@ -896,6 +896,28 @@ class MessageRepository {
     }
   }
 
+  Future<Message> editMessagePersona({
+    required String channelId,
+    required String messageId,
+    required Map<String, dynamic>? personaData,
+  }) async {
+    try {
+      final Response<Map<String, dynamic>> response = await _dio
+          .patch<Map<String, dynamic>>(
+            '/channels/$channelId/messages/$messageId',
+            data: <String, dynamic>{'subprofile': personaData},
+          );
+      final Map<String, dynamic>? data = response.data;
+      if (data == null) {
+        throw Exception('Empty response from editMessagePersona');
+      }
+      final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
+      return await _persistSdkMessage(channelId: channelId, schema: schema);
+    } on DioException catch (e) {
+      throw Exception(userFacingErrorMessage(e, 'Failed to change persona'));
+    }
+  }
+
   Future<Message> setMessageFlags({
     required String channelId,
     required String messageId,

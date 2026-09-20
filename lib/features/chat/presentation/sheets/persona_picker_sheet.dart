@@ -21,17 +21,28 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 class PersonaPickerSheet {
   PersonaPickerSheet._();
 
-  static Future<void> show(BuildContext context) {
+  static Future<void> show(
+    BuildContext context, {
+    bool showModes = true,
+    String? selectedPersonaId,
+    ValueChanged<Persona>? onSelectPersona,
+    VoidCallback? onSelectRoot,
+    String? title,
+  }) {
     final l10n = FluxerLocalizations.of(context);
     return FluxerBottomSheet.showScrollable<void>(
       context,
-      title: l10n.personaSelectTitle,
+      title: title ?? l10n.personaSelectTitle,
       useRootNavigator: true,
       minChildSize: 0.55,
       builder: (sheetContext, scrollController, close) {
         return _PersonaPickerBody(
           scrollController: scrollController,
           onClose: close,
+          showModes: showModes,
+          selectedPersonaId: selectedPersonaId,
+          onSelectPersona: onSelectPersona,
+          onSelectRoot: onSelectRoot,
         );
       },
     );
@@ -42,10 +53,18 @@ class _PersonaPickerBody extends ConsumerStatefulWidget {
   const _PersonaPickerBody({
     required this.scrollController,
     required this.onClose,
+    this.showModes = true,
+    this.selectedPersonaId,
+    this.onSelectPersona,
+    this.onSelectRoot,
   });
 
   final ScrollController scrollController;
   final VoidCallback onClose;
+  final bool showModes;
+  final String? selectedPersonaId;
+  final ValueChanged<Persona>? onSelectPersona;
+  final VoidCallback? onSelectRoot;
 
   @override
   ConsumerState<_PersonaPickerBody> createState() => _PersonaPickerBodyState();
@@ -80,17 +99,29 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
 
   void _selectPersona(String personaId) {
     FluxerHaptics.light();
-    unawaited(
-      ref
-          .read(activePersonaProvider.notifier)
-          .setActivePersona(personaId),
-    );
+    if (widget.onSelectPersona != null) {
+      final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
+      final Persona? p = personas.where((x) => x.id == personaId).firstOrNull;
+      if (p != null) {
+        widget.onSelectPersona!(p);
+      }
+    } else {
+      unawaited(
+        ref
+            .read(activePersonaProvider.notifier)
+            .setActivePersona(personaId),
+      );
+    }
     widget.onClose();
   }
 
   void _resetToRoot() {
     FluxerHaptics.light();
-    unawaited(ref.read(activePersonaProvider.notifier).unlatch());
+    if (widget.onSelectRoot != null) {
+      widget.onSelectRoot!();
+    } else {
+      unawaited(ref.read(activePersonaProvider.notifier).unlatch());
+    }
     widget.onClose();
   }
 
@@ -132,8 +163,17 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
         ? rankedPersonas.take(5).toList()
         : const <Persona>[];
 
-    final isRootActive =
-        !activeState.isLatched || activeState.activePersonaId == null;
+    final bool isCustomSelection = widget.selectedPersonaId != null;
+    final bool isRootActive = isCustomSelection
+        ? (widget.selectedPersonaId == null || widget.selectedPersonaId!.isEmpty)
+        : (!activeState.isLatched || activeState.activePersonaId == null);
+
+    bool isPersonaActive(String id) {
+      if (isCustomSelection) {
+        return widget.selectedPersonaId == id;
+      }
+      return activeState.isLatched && activeState.activePersonaId == id;
+    }
 
     final modeIndex = switch (activeState.mode) {
       PersonaMode.off => 0,
@@ -209,40 +249,40 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
         ),
         SizedBox(height: layout.s3),
 
-        // Mode Segmented Tabs
-        FluxerSegmentedTabs(
-          expanded: true,
-          tabs: [
-            FluxerTab(label: l10n.personaModeOff),
-            FluxerTab(label: l10n.personaModeManual),
-            FluxerTab(label: l10n.personaModeLast),
-          ],
-          selectedIndex: modeIndex,
-          onChanged: (index) {
-            final newMode = switch (index) {
-              1 => PersonaMode.manual,
-              2 => PersonaMode.last,
-              _ => PersonaMode.off,
-            };
-            unawaited(
-              ref.read(activePersonaProvider.notifier).setMode(newMode),
-            );
-          },
-        ),
-        SizedBox(height: layout.s1),
-
-        // Dynamic Microcopy
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: layout.s1),
-          child: Text(
-            modeDescription,
-            style: textStyles.bodySmall.copyWith(
-              color: colors.textTertiaryMuted,
-              fontSize: 12,
+        // Mode Segmented Tabs & Dynamic Microcopy
+        if (widget.showModes) ...[
+          FluxerSegmentedTabs(
+            expanded: true,
+            tabs: [
+              FluxerTab(label: l10n.personaModeOff),
+              FluxerTab(label: l10n.personaModeManual),
+              FluxerTab(label: l10n.personaModeLast),
+            ],
+            selectedIndex: modeIndex,
+            onChanged: (index) {
+              final newMode = switch (index) {
+                1 => PersonaMode.manual,
+                2 => PersonaMode.last,
+                _ => PersonaMode.off,
+              };
+              unawaited(
+                ref.read(activePersonaProvider.notifier).setMode(newMode),
+              );
+            },
+          ),
+          SizedBox(height: layout.s1),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: layout.s1),
+            child: Text(
+              modeDescription,
+              style: textStyles.bodySmall.copyWith(
+                color: colors.textTertiaryMuted,
+                fontSize: 12,
+              ),
             ),
           ),
-        ),
-        SizedBox(height: layout.s3),
+          SizedBox(height: layout.s3),
+        ],
 
 
         // Recent Shelf (if available & no active search)
@@ -273,14 +313,12 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
                           vertical: layout.s1,
                         ),
                         decoration: BoxDecoration(
-                          color: activeState.isLatched &&
-                                  activeState.activePersonaId == p.id
+                          color: isPersonaActive(p.id)
                               ? colors.backgroundModifierSelected
                               : colors.backgroundSecondary,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: activeState.isLatched &&
-                                    activeState.activePersonaId == p.id
+                            color: isPersonaActive(p.id)
                                 ? colors.brandPrimary
                                 : colors.borderColor,
                           ),
@@ -410,8 +448,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
           for (final persona in filteredPersonas) ...[
             _PersonaListTile(
               persona: persona,
-              isActive: activeState.isLatched &&
-                  activeState.activePersonaId == persona.id,
+              isActive: isPersonaActive(persona.id),
               onSelect: () => _selectPersona(persona.id),
               onLongPress: () async {
                 final updated = await EditPersonaSheet.show(

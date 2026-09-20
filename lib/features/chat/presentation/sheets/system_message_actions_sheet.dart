@@ -142,6 +142,7 @@ Future<void> showSystemMessageActionsSheet(
     case MessageAction.reply:
     case MessageAction.forward:
     case MessageAction.edit:
+    case MessageAction.changePersona:
     case MessageAction.pin:
     case MessageAction.bookmark:
     case MessageAction.suppressEmbeds:
