@@ -48,6 +48,8 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_placeholder_specs.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_scroll_metrics.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/messages/message_list_scroll_position.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_unread_review.dart';
@@ -217,7 +219,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _unreadOpenLayout = false;
   final MessageListPin _pin = MessageListPin();
   final AnimatedImagePlaybackController _animatedImagePlaybackController =
-      AnimatedImagePlaybackController();
+      AnimatedImagePlaybackController(suppressWhileScrolling: true);
   final MessageTileCache _tileCache = MessageTileCache();
   late final ChatViewModel _chatViewModel;
   late final ChatReadViewport _readViewport;
@@ -3190,7 +3192,7 @@ class _LiveTailScrollController extends ScrollController {
   ) {
     final double initialPixels = armedInitialOffset;
     armedInitialOffset = 0;
-    return ScrollPositionWithSingleContext(
+    return MessageListScrollPosition(
       physics: physics,
       context: context,
       initialPixels: initialPixels,
