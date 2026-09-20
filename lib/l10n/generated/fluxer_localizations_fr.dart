@@ -6995,6 +6995,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get chatMessageEdit => 'Modifier le message';
 
   @override
+  String get chatMessageChangePersona => 'Changer de persona';
+
+  @override
   String get chatMessageReply => 'Répondre';
 
   @override

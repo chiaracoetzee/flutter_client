@@ -6946,6 +6946,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageEdit => 'Üzenet szerkesztése';
 
   @override
+  String get chatMessageChangePersona => 'Persona váltása';
+
+  @override
   String get chatMessageReply => 'Válasz';
 
   @override

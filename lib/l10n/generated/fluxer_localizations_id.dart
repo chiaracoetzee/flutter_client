@@ -6904,6 +6904,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatMessageEdit => 'Edit Pesan';
 
   @override
+  String get chatMessageChangePersona => 'Ganti persona';
+
+  @override
   String get chatMessageReply => 'Balas';
 
   @override

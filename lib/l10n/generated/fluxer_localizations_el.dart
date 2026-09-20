@@ -6966,6 +6966,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessageEdit => 'Επεξεργασία μηνύματος';
 
   @override
+  String get chatMessageChangePersona => 'Αλλαγή persona';
+
+  @override
   String get chatMessageReply => 'Απάντηση';
 
   @override

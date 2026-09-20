@@ -6642,6 +6642,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageEdit => '메시지 수정';
 
   @override
+  String get chatMessageChangePersona => '페르소나 변경';
+
+  @override
   String get chatMessageReply => '답장';
 
   @override
