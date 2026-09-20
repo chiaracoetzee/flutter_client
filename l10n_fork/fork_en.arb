@@ -106,10 +106,6 @@
     "@personaBioHint": {
         "description": "Hint text for persona biography input."
     },
-    "personaSaveChanges": "Save Changes",
-    "@personaSaveChanges": {
-        "description": "Button to save changes in edit persona sheet."
-    },
     "personaUpdatedToast": "Persona updated",
     "@personaUpdatedToast": {
         "description": "Toast message displayed when persona is successfully updated."

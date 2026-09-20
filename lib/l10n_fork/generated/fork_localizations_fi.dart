@@ -90,9 +90,6 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String get personaBioHint => 'Kerro muille tästä persoonasta...';
 
   @override
-  String get personaSaveChanges => 'Tallenna muutokset';
-
-  @override
   String get personaUpdatedToast => 'Persoona päivitetty';
 
   @override

@@ -5,6 +5,7 @@ class PublicPersona {
     required this.id,
     required this.name,
     this.avatarUrl,
+    this.bannerUrl,
     this.systemName,
     this.pronouns,
     this.color,
@@ -17,6 +18,7 @@ class PublicPersona {
   final String id;
   final String name;
   final String? avatarUrl;
+  final String? bannerUrl;
   final String? systemName;
   final String? pronouns;
   final int? color;
@@ -44,7 +46,14 @@ class PublicPersona {
     return PublicPersona(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
-      avatarUrl: json['avatar_url'] as String? ?? json['avatar'] as String?,
+      avatarUrl:
+          json['avatar_url'] as String? ??
+          json['avatarUrl'] as String? ??
+          json['avatar'] as String?,
+      bannerUrl:
+          json['banner_url'] as String? ??
+          json['bannerUrl'] as String? ??
+          json['banner'] as String?,
       systemName:
           json['system_name'] as String? ?? json['display_tag_text'] as String?,
       pronouns: json['pronouns'] as String?,
@@ -61,6 +70,7 @@ class PublicPersona {
       'id': id,
       'name': name,
       if (avatarUrl != null) 'avatar_url': avatarUrl,
+      if (bannerUrl != null) 'banner_url': bannerUrl,
       if (systemName != null) 'system_name': systemName,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
@@ -75,6 +85,7 @@ class PublicPersona {
     String? id,
     String? name,
     String? avatarUrl,
+    String? bannerUrl,
     String? systemName,
     String? pronouns,
     int? color,
@@ -87,6 +98,7 @@ class PublicPersona {
       id: id ?? this.id,
       name: name ?? this.name,
       avatarUrl: avatarUrl ?? this.avatarUrl,
+      bannerUrl: bannerUrl ?? this.bannerUrl,
       systemName: systemName ?? this.systemName,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
@@ -94,6 +106,24 @@ class PublicPersona {
       visibility: visibility ?? this.visibility,
       autoTagDisabled: autoTagDisabled ?? this.autoTagDisabled,
       personaTags: personaTags ?? this.personaTags,
+    );
+  }
+
+  Persona toPersona({int useCount = 0, int? lastUsedAtMs}) {
+    return Persona(
+      id: id,
+      name: name,
+      avatarUrl: avatarUrl,
+      bannerUrl: bannerUrl,
+      systemName: systemName,
+      pronouns: pronouns,
+      color: color,
+      bio: bio,
+      visibility: visibility ?? 'unlisted',
+      autoTagDisabled: autoTagDisabled,
+      personaTags: personaTags,
+      useCount: useCount,
+      lastUsedAtMs: lastUsedAtMs,
     );
   }
 }

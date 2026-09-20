@@ -23,7 +23,6 @@
     "personaPronounsHint": "t.ex. hen/henom",
     "personaBioLabel": "Presentation / Om mig",
     "personaBioHint": "Berätta för andra om denna persona...",
-    "personaSaveChanges": "Spara ändringar",
     "personaUpdatedToast": "Persona uppdaterad",
     "personaUpdateFailedToast": "Kunde inte uppdatera persona: {error}",
     "personaSectionTitle": "Personas",
