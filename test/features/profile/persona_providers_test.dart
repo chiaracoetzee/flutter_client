@@ -204,6 +204,10 @@ void main() {
       expect(settings.displayTagText, 'Wonderland');
       expect(settings.displayTagIcon, 'hash_xyz');
 
+      final tag = container.read(systemDisplayTagProvider);
+      expect(tag.text, 'Wonderland');
+      expect(tag.iconUrl, 'hash_xyz');
+
       notifier.reset();
       final resetSettings = container
           .read(personaSettingsProvider)
