@@ -50,6 +50,12 @@ fi
 if [ -n "${PERF_FLING_COUNT:-}" ]; then
   DART_DEFINES+=(--dart-define=PERF_FLING_COUNT="$PERF_FLING_COUNT")
 fi
+if [ -n "${PERF_WIDGET_EVENTS:-}" ]; then
+  DART_DEFINES+=(--dart-define=PERF_WIDGET_EVENTS="$PERF_WIDGET_EVENTS")
+fi
+if [ -n "${PERF_SEMANTICS:-}" ]; then
+  DART_DEFINES+=(--dart-define=PERF_SEMANTICS="$PERF_SEMANTICS")
+fi
 
 # flutter drive's teardown uninstalls the app (drive_service.dart:286), which
 # wipes the session between runs. Keeping it running skips that teardown.

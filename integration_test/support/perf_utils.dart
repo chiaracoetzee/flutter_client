@@ -1,3 +1,5 @@
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -26,6 +28,16 @@ Future<void> traceScrollPerf(
   if (!IntegrationTestConfig.perfSemantics) {
     releaseFinderSemantics();
   }
+  // Per-widget timeline events. Profile mode honours these (`!kReleaseMode &&`
+  // guards at widgets/framework.dart:2751 and rendering/object.dart:2812), but
+  // each element costs an event and the VM ring holds ~32k, so tracing both at
+  // once truncates the window. PERF_WIDGET_EVENTS=builds or =layouts traces one
+  // stream at a time; =1 traces both and will truncate.
+  final String widgetEvents = IntegrationTestConfig.perfWidgetEvents;
+  debugProfileBuildsEnabled =
+      widgetEvents == 'builds' || widgetEvents == 'both';
+  debugProfileLayoutsEnabled =
+      widgetEvents == 'layouts' || widgetEvents == 'both';
   final Stopwatch actionClock = Stopwatch();
   List<String> trail = const <String>[];
   try {
@@ -53,6 +65,9 @@ Future<void> traceScrollPerf(
     );
   } finally {
     binding.framePolicy = previousPolicy;
+    debugProfileBuildsEnabled = false;
+    debugProfileLayoutsEnabled = false;
+    debugProfilePaintsEnabled = false;
     final Object? timeline = binding.reportData?[reportKey];
     final Object? extentMicros = timeline is Map<String, dynamic>
         ? timeline['timeExtentMicros']
