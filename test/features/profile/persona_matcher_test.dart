@@ -253,6 +253,17 @@ void main() {
       expect(matchAttach.matched, isTrue);
       expect(matchAttach.persona?.id, doubleBracketMan.id);
       expect(matchAttach.strippedContent, isEmpty);
+
+      // matchPersona with allowEmptyContent and prefix-only tag (e.g. B: for stickers/GIFs)
+      final matchPrefixOnly = matchPersona('B:', personas, null, false, allowEmptyContent: true);
+      expect(matchPrefixOnly.matched, isTrue);
+      expect(matchPrefixOnly.persona?.id, bob.id);
+      expect(matchPrefixOnly.strippedContent, isEmpty);
+
+      final matchPrefixSpace = matchPersona('B: ', personas, null, false, allowEmptyContent: true);
+      expect(matchPrefixSpace.matched, isTrue);
+      expect(matchPrefixSpace.persona?.id, bob.id);
+      expect(matchPrefixSpace.strippedContent, isEmpty);
     });
 
     test('breaks ties by longer prefix when total length is equal', () {

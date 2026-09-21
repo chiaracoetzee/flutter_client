@@ -1936,15 +1936,86 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
   }
 
+  Map<String, dynamic>? _resolveOutgoingPersonaData({
+    String? contentOverride,
+    bool allowEmptyContent = true,
+  }) {
+    final String baseContent = contentOverride ?? _controller.text;
+    final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
+    final activeState = ref.read(activePersonaProvider);
+    final String channelId = ref.read(chatViewModelProvider).channelId;
+    final bool hasPendingAttachments = channelId.isEmpty
+        ? false
+        : ref.read(
+            cloudUploadControllerProvider(channelId).select(
+              (CloudComposerAttachments a) => a.items.isNotEmpty,
+            ),
+          );
+
+    final String? latchedId =
+        activeState.isLatched ? activeState.activePersonaId : null;
+    final MatchResult matchResult = matchPersona(
+      baseContent,
+      personas,
+      latchedId,
+      hasPendingAttachments,
+      allowEmptyContent: allowEmptyContent,
+    );
+
+    if (matchResult.clearedLatch ||
+        (matchResult.wasEscaped && activeState.mode == PersonaMode.last)) {
+      ref.read(activePersonaProvider.notifier).unlatch();
+    } else if (matchResult.matched && matchResult.persona != null) {
+      ref.read(activePersonaProvider.notifier).recordUsage(matchResult.persona!.id);
+      if (activeState.mode == PersonaMode.last &&
+          activeState.activePersonaId != matchResult.persona!.id) {
+        ref.read(activePersonaProvider.notifier).setActivePersona(
+              matchResult.persona!.id,
+              latch: true,
+              mode: PersonaMode.last,
+            );
+      }
+    }
+
+    if (matchResult.matched && matchResult.persona != null) {
+      final p = matchResult.persona!;
+      final systemTag = ref.read(systemDisplayTagProvider);
+      final String? tagText =
+          (systemTag.text != null && systemTag.text!.trim().isNotEmpty)
+              ? systemTag.text!.trim()
+              : null;
+      final String? tagIcon =
+          (systemTag.iconUrl != null && systemTag.iconUrl!.trim().isNotEmpty)
+              ? systemTag.iconUrl!.trim()
+              : null;
+
+      return <String, dynamic>{
+        'id': p.id,
+        'name': p.name,
+        if (p.avatarUrl != null) 'avatar': p.avatarUrl,
+        if (p.bannerUrl != null) 'banner': p.bannerUrl,
+        if (p.color != null) 'avatar_color': p.color,
+        if (tagText != null) 'display_tag_text': tagText,
+        if (tagText != null) 'system_name': tagText,
+        if (tagIcon != null) 'display_tag_icon': tagIcon,
+        if (p.pronouns != null) 'pronouns': p.pronouns,
+        if (p.color != null) 'color': p.color,
+        if (p.bio != null) 'bio': p.bio,
+      };
+    }
+    return null;
+  }
+
   void _handleGifSelection(FluxerSelectedGif selection) {
     if (selection.autoSend) {
+      final Map<String, dynamic>? personaData = _resolveOutgoingPersonaData();
       _clearSlashSession();
       _controller.clear();
       ref.read(chatViewModelProvider.notifier).updateMessageText('');
       unawaited(
         ref
             .read(chatViewModelProvider.notifier)
-            .sendStandaloneMessage(selection.url),
+            .sendStandaloneMessage(selection.url, personaData: personaData),
       );
       return;
     }
@@ -1954,11 +2025,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _handleStickerSelection(StickerEntry sticker) {
+    final Map<String, dynamic>? personaData = _resolveOutgoingPersonaData();
     _clearSlashSession();
     _controller.clear();
     ref.read(chatViewModelProvider.notifier).updateMessageText('');
     unawaited(
-      ref.read(chatViewModelProvider.notifier).sendStickerMessage(sticker),
+      ref.read(chatViewModelProvider.notifier).sendStickerMessage(
+            sticker,
+            personaData: personaData,
+          ),
     );
     ref.read(expressionPanelProvider.notifier).close();
     _focusNode.requestFocus();
@@ -1972,6 +2047,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     FavoriteMemeSelection selection,
   ) async {
     final meme = selection.meme;
+    final Map<String, dynamic>? personaData =
+        selection.autoSend ? _resolveOutgoingPersonaData() : null;
     if (selection.autoSend) {
       _clearSlashSession();
       _controller.clear();
@@ -1987,11 +2064,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (_hasProviderShareUrl(meme)) {
       await ref
           .read(chatViewModelProvider.notifier)
-          .sendStandaloneMessage(meme.shareUrl);
+          .sendStandaloneMessage(meme.shareUrl, personaData: personaData);
     } else if (perms.canShowAttachControls && perms.canShowEmbedControls) {
       await ref
           .read(chatViewModelProvider.notifier)
-          .sendFavoriteMemeMessage(meme);
+          .sendFavoriteMemeMessage(meme, personaData: personaData);
     } else {
       _insertGifUrl(meme.url);
     }
@@ -2255,6 +2332,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       personas,
       latchedId,
       hasPendingAttachments,
+      allowEmptyContent: hasPendingAttachments,
     );
 
     if (matchResult.clearedLatch ||
