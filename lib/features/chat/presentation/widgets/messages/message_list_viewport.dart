@@ -59,6 +59,7 @@ class MessageListViewport extends StatelessWidget {
     required this.isLoadingMore,
     required this.isLoadingNewer,
     required this.trailingInset,
+    this.withheldLeadingCount = 0,
     this.leadingPad = 0,
     this.liveLeadingPad,
     this.startOfChannelHeader,
@@ -99,6 +100,11 @@ class MessageListViewport extends StatelessWidget {
   childIndexForKey;
 
   final double scrollCacheExtentPixels;
+
+  /// Older rows installed but withheld from the leading sliver, so a page is
+  /// attached over several frames. The anchor split is unaffected.
+  final int withheldLeadingCount;
+
   final bool Function(ScrollNotification notification) onScrollNotification;
   final bool Function(ScrollMetricsNotification notification)
   onScrollMetricsNotification;
@@ -202,6 +208,12 @@ class MessageListViewport extends StatelessWidget {
     required int splitIndex,
     required double effectiveAnchor,
   }) {
+    // A page install attaches every older row inside the scroll cache in one
+    // frame: 32 rows measured at 84 ms on a Motorola g54. Withholding rows
+    // spreads that attach across frames.
+    final int leadingCount = withheldLeadingCount >= splitIndex
+        ? 0
+        : splitIndex - withheldLeadingCount;
     return CustomScrollView(
       key: const ValueKey<String>('message-list'),
       controller: controller,
@@ -236,9 +248,13 @@ class MessageListViewport extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) =>
                   itemBuilder(context, splitIndex - 1 - index),
-              childCount: splitIndex,
-              findChildIndexCallback: (Key key) =>
-                  childIndexForKey(key, 0, splitIndex, reverse: true),
+              childCount: leadingCount,
+              findChildIndexCallback: (Key key) => childIndexForKey(
+                key,
+                splitIndex - leadingCount,
+                splitIndex,
+                reverse: true,
+              ),
             ),
           ),
         ),
