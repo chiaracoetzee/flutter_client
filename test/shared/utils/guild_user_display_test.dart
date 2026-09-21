@@ -699,7 +699,7 @@ UserProfileFullResponse _profile({
   String? userPronouns,
 }) {
   return UserProfileFullResponse(
-    user: UserProfileFullResponseUser(
+    user: UserPartialResponse(
       id: '1',
       username: 'user',
       discriminator: '0001',

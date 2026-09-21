@@ -3,7 +3,7 @@ import 'package:fluxer_app/features/channels/data/channel_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_move_operation.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_channel_settings_providers.g.dart';
@@ -92,7 +92,7 @@ class GuildChannelSettingsActions extends _$GuildChannelSettingsActions {
         rateLimitPerUser: null,
         nsfw: false,
         nsfwOverride: null,
-        contentWarningLevel: ContentWarningLevel.inherit,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
         contentWarningText: null,
       ),
     );

@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 const int kDefaultVoiceConnectionLimit = 5;
 
@@ -41,7 +41,7 @@ class CreateChannelSheet {
         rateLimitPerUser: null,
         nsfw: false,
         nsfwOverride: null,
-        contentWarningLevel: ContentWarningLevel.inherit,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
         contentWarningText: null,
       ),
       998 => ChannelCreateRequest998(
@@ -57,7 +57,7 @@ class CreateChannelSheet {
         rateLimitPerUser: null,
         nsfw: false,
         nsfwOverride: null,
-        contentWarningLevel: ContentWarningLevel.inherit,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
         contentWarningText: null,
       ),
       _ => ChannelCreateRequest0(
@@ -73,7 +73,7 @@ class CreateChannelSheet {
         rateLimitPerUser: null,
         nsfw: false,
         nsfwOverride: null,
-        contentWarningLevel: ContentWarningLevel.inherit,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
         contentWarningText: null,
       ),
     };

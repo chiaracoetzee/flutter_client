@@ -77,7 +77,7 @@ import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/navigation_item_semantics.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
