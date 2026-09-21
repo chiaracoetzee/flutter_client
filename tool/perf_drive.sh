@@ -28,6 +28,13 @@ else
   echo "Using device ${DEVICE}"
 fi
 
+# Screen sleep stalls the driven app mid-scroll, so keep the device awake.
+if [ "${PERF_KEEP_AWAKE:-1}" != "0" ]; then
+  adb -s "$DEVICE" shell settings put global stay_on_while_plugged_in 7 || true
+  adb -s "$DEVICE" shell svc power stayon true || true
+  adb -s "$DEVICE" shell input keyevent KEYCODE_WAKEUP || true
+fi
+
 DART_DEFINES=(
   --dart-define-from-file=tool/dart_defines/canary.json
   --dart-define=PUSH_PROVIDER=unifiedpush
