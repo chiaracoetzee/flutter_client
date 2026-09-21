@@ -30,5 +30,5 @@ void main() {
       reportKey: 'notifications_scroll',
       scrollTarget: findPrimaryScrollable(),
     );
-  });
+  }, semanticsEnabled: false);
 }

@@ -17,6 +17,10 @@ class IntegrationTestConfig {
     defaultValue: 3,
   );
 
+  /// Set to keep the semantics tree alive while tracing, matching a device
+  /// with an accessibility service attached.
+  static const bool perfSemantics = bool.fromEnvironment('PERF_SEMANTICS');
+
   static const String personalNotesTitle = 'Personal notes';
 
   static bool get hasCredentials => email.isNotEmpty && password.isNotEmpty;

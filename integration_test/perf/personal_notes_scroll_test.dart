@@ -36,5 +36,5 @@ void main() {
       scrollTarget: messageList,
       direction: const Offset(0, 1200),
     );
-  });
+  }, semanticsEnabled: false);
 }

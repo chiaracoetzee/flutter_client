@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
+import 'app_launcher.dart';
 import 'scroll_utils.dart';
 import 'test_config.dart';
 
@@ -18,6 +19,13 @@ Future<void> traceScrollPerf(
   final LiveTestWidgetsFlutterBindingFramePolicy previousPolicy =
       binding.framePolicy;
   binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
+  // The SEMANTICS phase cost ~9.7 ms on slow frames, which a production build
+  // without an accessibility service never pays: the test harness forces the
+  // tree on. Drop it for the traced window only, so bootstrap finders still
+  // work either side.
+  if (!IntegrationTestConfig.perfSemantics) {
+    releaseFinderSemantics();
+  }
   final Stopwatch actionClock = Stopwatch();
   List<String> trail = const <String>[];
   try {
@@ -50,6 +58,7 @@ Future<void> traceScrollPerf(
         ? timeline['timeExtentMicros']
         : null;
     binding.reportData ??= <String, dynamic>{};
+    ensureFinderSemantics(tester);
     binding.reportData!['$reportKey.scroll'] = <String>[
       'action=${actionClock.elapsedMilliseconds}ms',
       'timeline=${extentMicros is num ? (extentMicros / 1000).round() : -1}ms',

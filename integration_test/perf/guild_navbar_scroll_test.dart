@@ -38,5 +38,5 @@ void main() {
       reportKey: 'guild_navbar_scroll',
       scrollTarget: findPrimaryScrollable(),
     );
-  });
+  }, semanticsEnabled: false);
 }
