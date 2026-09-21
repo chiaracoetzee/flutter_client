@@ -331,6 +331,8 @@ String userSettingsTabLabel(FluxerLocalizations l10n, String tab) {
       return userSettingsSectionLabel(l10n, UserSettingsSection.blockedUsers);
     case 'devices':
       return userSettingsSectionLabel(l10n, UserSettingsSection.linkedDevices);
+    case 'personas':
+      return userSettingsSectionLabel(l10n, UserSettingsSection.personas);
     case 'shortcuts':
       return userSettingsSectionLabel(l10n, UserSettingsSection.shortcuts);
     default:

@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
@@ -127,7 +128,12 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
 
   void _openManagePersonas() {
     widget.onClose();
-    unawaited(UserSettingsModal.show(context));
+    unawaited(
+      UserSettingsModal.show(
+        context,
+        initialSection: UserSettingsSection.personas,
+      ),
+    );
   }
 
   @override
