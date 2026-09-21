@@ -276,6 +276,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   // the reader approaches real history, not when they run out of filler.
   double _leadingFillerExtent = 0;
   double _trailingFillerExtent = 0;
+  MessageListEdgeFiller? _leadingFiller;
+  MessageListEdgeFiller? _trailingFiller;
+  String? _fillerChannelId;
+  bool? _fillerCompact;
+  double? _fillerGroupSpacing;
+  double? _fillerFontSize;
   // Stays true after a user-driven leave of the 8px engage zone until the
   // reader returns to the tail or an explicit jump/send re-engages it.
   // Survives ScrollEnd (including ballistic) so onUserScrollEnd's 64px hold
@@ -923,20 +929,20 @@ class _MessageListState extends ConsumerState<MessageList> {
                     )
                     .map((ChannelStreamItem item) => 'group-${item.groupKey}'),
               });
-              MessageListPlaceholderSpecs fillerSpecs(String edge) =>
-                  buildMessageListPlaceholderSpecs(
-                    seedKey: '$channelId|$edge',
-                    compact: messageRenderSettings.messageDisplayCompact,
-                    groupSpacing: messageRenderSettings.messageGroupSpacing,
-                    fontSize: chatFontSize.toDouble(),
-                  );
-              final MessageListPlaceholderSpecs? leadingSpecs = hasMoreMessages
-                  ? fillerSpecs('older')
+              _refreshFillers(
+                channelId: channelId,
+                compact: messageRenderSettings.messageDisplayCompact,
+                groupSpacing: messageRenderSettings.messageGroupSpacing,
+                fontSize: chatFontSize.toDouble(),
+              );
+              final MessageListEdgeFiller? leadingFiller = hasMoreMessages
+                  ? _leadingFiller
                   : null;
-              final MessageListPlaceholderSpecs? trailingSpecs =
-                  hasMoreNewerMessages ? fillerSpecs('newer') : null;
-              _leadingFillerExtent = leadingSpecs?.totalHeight ?? 0;
-              _trailingFillerExtent = trailingSpecs?.totalHeight ?? 0;
+              final MessageListEdgeFiller? trailingFiller = hasMoreNewerMessages
+                  ? _trailingFiller
+                  : null;
+              _leadingFillerExtent = leadingFiller?.specs.totalHeight ?? 0;
+              _trailingFillerExtent = trailingFiller?.specs.totalHeight ?? 0;
               body = AnimatedImagePlaybackScope(
                 controller: _animatedImagePlaybackController,
                 child: ListenableBuilder(
@@ -955,8 +961,8 @@ class _MessageListState extends ConsumerState<MessageList> {
                     anchorFraction: _anchorFraction,
                     anchorEdge: _anchorEdge,
                     controller: _scrollController,
-                    leadingFillerSpecs: leadingSpecs,
-                    trailingFillerSpecs: trailingSpecs,
+                    leadingFiller: leadingFiller,
+                    trailingFiller: trailingFiller,
                     centerKey: _unreadCenterKey,
                     itemBuilder: (BuildContext context, int dataIndex) =>
                         _centerStreamTile(
@@ -1236,6 +1242,49 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   void _exposeOlderRowsNow() {
     _pendingOlderReveal = 0;
+  }
+
+  // Rebuilding a filler rebuilds its 26 skeleton groups, and each group's
+  // LayoutBuilder relays out when rebuilt: 52 relayouts per list setState
+  // measured on a Motorola g54, about 2.2 ms of every reveal frame. The
+  // instances are reused until one of these inputs changes.
+  void _refreshFillers({
+    required String channelId,
+    required bool compact,
+    required double groupSpacing,
+    required double fontSize,
+  }) {
+    if (_leadingFiller != null &&
+        _fillerChannelId == channelId &&
+        _fillerCompact == compact &&
+        _fillerGroupSpacing == groupSpacing &&
+        _fillerFontSize == fontSize) {
+      return;
+    }
+    _fillerChannelId = channelId;
+    _fillerCompact = compact;
+    _fillerGroupSpacing = groupSpacing;
+    _fillerFontSize = fontSize;
+    _leadingFiller = MessageListEdgeFiller(
+      key: const ValueKey<String>('edge-filler-older'),
+      specs: buildMessageListPlaceholderSpecs(
+        seedKey: '$channelId|older',
+        compact: compact,
+        groupSpacing: groupSpacing,
+        fontSize: fontSize,
+      ),
+      alignment: Alignment.bottomCenter,
+    );
+    _trailingFiller = MessageListEdgeFiller(
+      key: const ValueKey<String>('edge-filler-newer'),
+      specs: buildMessageListPlaceholderSpecs(
+        seedKey: '$channelId|newer',
+        compact: compact,
+        groupSpacing: groupSpacing,
+        fontSize: fontSize,
+      ),
+      alignment: Alignment.topCenter,
+    );
   }
 
   void _setUnreadLeadingPad(double next, {bool notify = false}) {
