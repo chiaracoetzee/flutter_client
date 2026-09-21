@@ -221,7 +221,7 @@ TextStyle _mentionTextStyle(TextStyle base, Color color) {
   final double? baseHeight = base.height;
   return base.copyWith(
     color: color,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     height: baseHeight == null || baseHeight > _kMentionPillLineHeight
         ? _kMentionPillLineHeight
         : baseHeight,
@@ -375,7 +375,7 @@ class UserMention extends ConsumerWidget {
       final colors = context.colors;
       final style = (baseStyle ?? context.textStyles.messageText).copyWith(
         color: personaColor ?? colors.markupMentionText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
       );
 
       return FluxerGestureDetector(
