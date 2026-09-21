@@ -51,12 +51,20 @@ if [ -n "${PERF_FLING_COUNT:-}" ]; then
   DART_DEFINES+=(--dart-define=PERF_FLING_COUNT="$PERF_FLING_COUNT")
 fi
 
+# flutter drive's teardown uninstalls the app (drive_service.dart:286), which
+# wipes the session between runs. Keeping it running skips that teardown.
+KEEP_APP=(--keep-app-running)
+if [ "${PERF_KEEP_INSTALL:-1}" = "0" ]; then
+  KEEP_APP=(--no-keep-app-running)
+fi
+
 flutter drive \
   --profile \
   --no-dds \
   -d "$DEVICE" \
   --flavor canaryUnifiedpush \
   "${DART_DEFINES[@]}" \
+  "${KEEP_APP[@]}" \
   --driver=test_driver/perf_driver.dart \
   --target="integration_test/perf/${TARGET}"
 
