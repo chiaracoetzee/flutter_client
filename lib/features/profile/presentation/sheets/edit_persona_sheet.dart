@@ -65,25 +65,50 @@ class _EditPersonaBody extends ConsumerStatefulWidget {
   ConsumerState<_EditPersonaBody> createState() => _EditPersonaBodyState();
 }
 
+class _TagPairControllers {
+  _TagPairControllers({
+    required String prefix,
+    required String suffix,
+    required VoidCallback onChanged,
+  })  : prefixController = TextEditingController(text: prefix),
+        suffixController = TextEditingController(text: suffix) {
+    prefixController.addListener(onChanged);
+    suffixController.addListener(onChanged);
+  }
+
+  final TextEditingController prefixController;
+  final TextEditingController suffixController;
+
+  String get prefix => prefixController.text.trim();
+  String get suffix => suffixController.text.trim();
+
+  bool get isNotEmpty => prefix.isNotEmpty || suffix.isNotEmpty;
+
+  void dispose() {
+    prefixController.dispose();
+    suffixController.dispose();
+  }
+}
+
 class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   late final TextEditingController _nameController;
   late final TextEditingController _pronounsController;
   late final TextEditingController _bioController;
-  late final TextEditingController _prefixController;
-  late final TextEditingController _suffixController;
+  final List<_TagPairControllers> _tagControllers = [];
 
   late String _initialName;
   late String _initialPronouns;
   late String _initialBio;
-  late String _initialPrefix;
-  late String _initialSuffix;
+  late List<({String prefix, String suffix})> _initialTags;
   String? _initialAvatarUrl;
   String? _initialBannerUrl;
+  int? _initialColor;
   late String _initialVisibility;
   late bool _initialAutoTagDisabled;
 
   String? _avatarUrl;
   String? _bannerUrl;
+  int? _color;
   bool _autoTagDisabled = false;
   String _visibility = 'unlisted';
   bool _isUploadingAvatar = false;
@@ -109,58 +134,144 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _initialPronouns = p?.pronouns ?? '';
     _initialBio = p?.bio ?? '';
 
-    final firstTag = p?.personaTags.firstOrNull;
-    _initialPrefix = firstTag?.prefix ?? '';
-    _initialSuffix = firstTag?.suffix ?? '';
+    final List<PersonaTag> existingTags = p?.personaTags ?? const <PersonaTag>[];
+    if (existingTags.isNotEmpty) {
+      _initialTags = existingTags
+          .map((PersonaTag t) => (
+                prefix: (t.prefix ?? '').trim(),
+                suffix: (t.suffix ?? '').trim(),
+              ))
+          .toList();
+    } else {
+      _initialTags = [(prefix: '', suffix: '')];
+    }
+
+    for (final tag in _initialTags) {
+      _tagControllers.add(
+        _TagPairControllers(
+          prefix: tag.prefix,
+          suffix: tag.suffix,
+          onChanged: _onFieldChanged,
+        ),
+      );
+    }
 
     _initialAvatarUrl = p?.avatarUrl;
     _initialBannerUrl = p?.bannerUrl;
+    _initialColor = p?.color;
     _initialAutoTagDisabled = p?.autoTagDisabled ?? false;
     _initialVisibility = p?.visibility ?? 'unlisted';
 
     _nameController = TextEditingController(text: _initialName);
     _pronounsController = TextEditingController(text: _initialPronouns);
     _bioController = TextEditingController(text: _initialBio);
-    _prefixController = TextEditingController(text: _initialPrefix);
-    _suffixController = TextEditingController(text: _initialSuffix);
 
     _nameController.addListener(_onFieldChanged);
     _pronounsController.addListener(_onFieldChanged);
     _bioController.addListener(_onFieldChanged);
-    _prefixController.addListener(_onFieldChanged);
-    _suffixController.addListener(_onFieldChanged);
 
     _avatarUrl = _initialAvatarUrl;
     _bannerUrl = _initialBannerUrl;
+    _color = _initialColor;
     _autoTagDisabled = _initialAutoTagDisabled;
     _visibility = _initialVisibility;
   }
 
   bool get _hasChanges {
-    return _nameController.text.trim() != _initialName ||
+    if (_nameController.text.trim() != _initialName ||
         _pronounsController.text.trim() != _initialPronouns ||
         _bioController.text.trim() != _initialBio ||
-        _prefixController.text.trim() != _initialPrefix ||
-        _suffixController.text.trim() != _initialSuffix ||
         _avatarUrl != _initialAvatarUrl ||
         _bannerUrl != _initialBannerUrl ||
+        _color != _initialColor ||
         _visibility != _initialVisibility ||
-        _autoTagDisabled != _initialAutoTagDisabled;
+        _autoTagDisabled != _initialAutoTagDisabled) {
+      return true;
+    }
+
+    final currentTags = _tagControllers
+        .where((c) => c.isNotEmpty)
+        .map((c) => (prefix: c.prefix, suffix: c.suffix))
+        .toList();
+    final initialTags = _initialTags
+        .where((t) => t.prefix.isNotEmpty || t.suffix.isNotEmpty)
+        .toList();
+
+    if (currentTags.length != initialTags.length) {
+      return true;
+    }
+    for (int i = 0; i < currentTags.length; i++) {
+      if (currentTags[i].prefix != initialTags[i].prefix ||
+          currentTags[i].suffix != initialTags[i].suffix) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   void _reset() {
     _nameController.text = _initialName;
     _pronounsController.text = _initialPronouns;
     _bioController.text = _initialBio;
-    _prefixController.text = _initialPrefix;
-    _suffixController.text = _initialSuffix;
+
+    for (final c in _tagControllers) {
+      c.dispose();
+    }
+    _tagControllers.clear();
+    for (final tag in _initialTags) {
+      _tagControllers.add(
+        _TagPairControllers(
+          prefix: tag.prefix,
+          suffix: tag.suffix,
+          onChanged: _onFieldChanged,
+        ),
+      );
+    }
+
     setState(() {
       _avatarUrl = _initialAvatarUrl;
       _bannerUrl = _initialBannerUrl;
+      _color = _initialColor;
       _autoTagDisabled = _initialAutoTagDisabled;
       _visibility = _initialVisibility;
     });
     widget.canDismissNotifier.value = true;
+  }
+
+  void _addTagPair() {
+    if (_tagControllers.length >= 5) {
+      return;
+    }
+    setState(() {
+      _tagControllers.add(
+        _TagPairControllers(
+          prefix: '',
+          suffix: '',
+          onChanged: _onFieldChanged,
+        ),
+      );
+    });
+    _onFieldChanged();
+  }
+
+  void _removeTagPair(int index) {
+    if (index < 0 || index >= _tagControllers.length) {
+      return;
+    }
+    setState(() {
+      _tagControllers.removeAt(index).dispose();
+      if (_tagControllers.isEmpty) {
+        _tagControllers.add(
+          _TagPairControllers(
+            prefix: '',
+            suffix: '',
+            onChanged: _onFieldChanged,
+          ),
+        );
+      }
+    });
+    _onFieldChanged();
   }
 
   @override
@@ -168,13 +279,12 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _nameController.removeListener(_onFieldChanged);
     _pronounsController.removeListener(_onFieldChanged);
     _bioController.removeListener(_onFieldChanged);
-    _prefixController.removeListener(_onFieldChanged);
-    _suffixController.removeListener(_onFieldChanged);
     _nameController.dispose();
     _pronounsController.dispose();
     _bioController.dispose();
-    _prefixController.dispose();
-    _suffixController.dispose();
+    for (final c in _tagControllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -290,53 +400,77 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       return;
     }
 
-    final prefix = _prefixController.text.trim();
-    final suffix = _suffixController.text.trim();
-    if (prefix.length > 32) {
-      ref.read(toastProvider.notifier).show(
-            FluxerToast(
-              message: l10n.personaTagPrefixTooLong,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
-      return;
+    final validTags = _tagControllers.where((c) => c.isNotEmpty).toList();
+
+    for (final c in validTags) {
+      if (c.prefix.length > 32) {
+        ref.read(toastProvider.notifier).show(
+              FluxerToast(
+                message: l10n.personaTagPrefixTooLong,
+                variant: FluxerToastVariant.danger,
+              ),
+            );
+        return;
+      }
+      if (c.suffix.length > 32) {
+        ref.read(toastProvider.notifier).show(
+              FluxerToast(
+                message: l10n.personaTagSuffixTooLong,
+                variant: FluxerToastVariant.danger,
+              ),
+            );
+        return;
+      }
     }
-    if (suffix.length > 32) {
-      ref.read(toastProvider.notifier).show(
-            FluxerToast(
-              message: l10n.personaTagSuffixTooLong,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
-      return;
+
+    // Intra-persona duplicate tag pair check
+    final seenTags = <String>{};
+    for (final tag in validTags) {
+      final key = '${tag.prefix}:::${tag.suffix}';
+      if (seenTags.contains(key)) {
+        final pattern = PersonaTag(
+          prefix: tag.prefix.isNotEmpty ? tag.prefix : null,
+          suffix: tag.suffix.isNotEmpty ? tag.suffix : null,
+        ).displayPattern;
+        ref.read(toastProvider.notifier).show(
+              FluxerToast(
+                message: "Duplicate tag pair '$pattern' on this persona",
+                variant: FluxerToastVariant.danger,
+              ),
+            );
+        return;
+      }
+      seenTags.add(key);
     }
 
     // Client-side duplicate tag collision check against own personas
-    if (prefix.isNotEmpty || suffix.isNotEmpty) {
+    if (validTags.isNotEmpty) {
       final existingPersonas =
           ref.read(myPersonasProvider).asData?.value ?? const [];
       final currentId = widget.persona?.id;
-      for (final other in existingPersonas) {
-        if (currentId != null && other.id == currentId) {
-          continue;
-        }
-        for (final otherTag in other.personaTags) {
-          final otherPrefix = (otherTag.prefix ?? '').trim();
-          final otherSuffix = (otherTag.suffix ?? '').trim();
-          if (otherPrefix.isEmpty && otherSuffix.isEmpty) {
+      for (final tag in validTags) {
+        for (final other in existingPersonas) {
+          if (currentId != null && other.id == currentId) {
             continue;
           }
-          if (otherPrefix == prefix && otherSuffix == suffix) {
-            final tagDisplay = otherTag.displayPattern.isNotEmpty
-                ? otherTag.displayPattern
-                : '$prefix...$suffix';
-            ref.read(toastProvider.notifier).show(
-                  FluxerToast(
-                    message: l10n.personaTagCollisionError(tagDisplay, other.name),
-                    variant: FluxerToastVariant.danger,
-                  ),
-                );
-            return;
+          for (final otherTag in other.personaTags) {
+            final otherPrefix = (otherTag.prefix ?? '').trim();
+            final otherSuffix = (otherTag.suffix ?? '').trim();
+            if (otherPrefix.isEmpty && otherSuffix.isEmpty) {
+              continue;
+            }
+            if (otherPrefix == tag.prefix && otherSuffix == tag.suffix) {
+              final tagDisplay = otherTag.displayPattern.isNotEmpty
+                  ? otherTag.displayPattern
+                  : '${tag.prefix}...${tag.suffix}';
+              ref.read(toastProvider.notifier).show(
+                    FluxerToast(
+                      message: l10n.personaTagCollisionError(tagDisplay, other.name),
+                      variant: FluxerToastVariant.danger,
+                    ),
+                  );
+              return;
+            }
           }
         }
       }
@@ -351,33 +485,20 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       final String? bio =
           _bioController.text.trim().isEmpty ? null : _bioController.text.trim();
 
-      final List<Map<String, dynamic>> tags = [];
-      if (prefix.isNotEmpty || suffix.isNotEmpty) {
-        tags.add(PersonaTag(
-          prefix: prefix.isNotEmpty ? prefix : null,
-          suffix: suffix.isNotEmpty ? suffix : null,
-        ).toJson());
-      }
-
-      // Preserve any secondary tags configured on this persona
-      if (widget.persona != null && widget.persona!.personaTags.length > 1) {
-        for (int i = 1; i < widget.persona!.personaTags.length; i++) {
-          final t = widget.persona!.personaTags[i];
-          final pfx = t.prefix?.trim();
-          final sfx = t.suffix?.trim();
-          if ((pfx != null && pfx.isNotEmpty) || (sfx != null && sfx.isNotEmpty)) {
-            tags.add(PersonaTag(
-              prefix: (pfx != null && pfx.isNotEmpty) ? pfx : null,
-              suffix: (sfx != null && sfx.isNotEmpty) ? sfx : null,
-            ).toJson());
-          }
-        }
-      }
+      final List<Map<String, dynamic>> tags = validTags
+          .map(
+            (c) => PersonaTag(
+              prefix: c.prefix.isNotEmpty ? c.prefix : null,
+              suffix: c.suffix.isNotEmpty ? c.suffix : null,
+            ).toJson(),
+          )
+          .toList();
 
       final payload = <String, dynamic>{
         'name': name,
         'avatar_url': _avatarUrl,
         'banner_url': _bannerUrl,
+        'color': _color,
         'pronouns': pronouns,
         'bio': bio,
         'auto_tag_disabled': _autoTagDisabled,
@@ -401,10 +522,19 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             name: name,
             avatarUrl: _avatarUrl,
             bannerUrl: _bannerUrl,
+            color: _color,
             pronouns: pronouns,
             bio: bio,
             autoTagDisabled: _autoTagDisabled,
             visibility: _visibility,
+            personaTags: validTags
+                .map(
+                  (c) => PersonaTag(
+                    prefix: c.prefix.isNotEmpty ? c.prefix : null,
+                    suffix: c.suffix.isNotEmpty ? c.suffix : null,
+                  ),
+                )
+                .toList(),
           );
         }
         final ownUserId = ref.read(userSettingsViewModelProvider).userId;
@@ -447,10 +577,19 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             name: name,
             avatarUrl: _avatarUrl,
             bannerUrl: _bannerUrl,
+            color: _color,
             pronouns: pronouns,
             bio: bio,
             autoTagDisabled: _autoTagDisabled,
             visibility: _visibility,
+            personaTags: validTags
+                .map(
+                  (c) => PersonaTag(
+                    prefix: c.prefix.isNotEmpty ? c.prefix : null,
+                    suffix: c.suffix.isNotEmpty ? c.suffix : null,
+                  ),
+                )
+                .toList(),
           );
         }
         if (mounted) {
@@ -467,10 +606,15 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         _initialName = _nameController.text.trim();
         _initialPronouns = _pronounsController.text.trim();
         _initialBio = _bioController.text.trim();
-        _initialPrefix = _prefixController.text.trim();
-        _initialSuffix = _suffixController.text.trim();
+        _initialTags = validTags
+            .map((c) => (prefix: c.prefix, suffix: c.suffix))
+            .toList();
+        if (_initialTags.isEmpty) {
+          _initialTags = [(prefix: '', suffix: '')];
+        }
         _initialAvatarUrl = _avatarUrl;
         _initialBannerUrl = _bannerUrl;
+        _initialColor = _color;
         _initialVisibility = _visibility;
         _initialAutoTagDisabled = _autoTagDisabled;
 
@@ -488,6 +632,78 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                 message: widget.persona != null
                     ? l10n.personaUpdateFailedToast(errorMessage)
                     : l10n.personaCreateFailedToast(errorMessage),
+                variant: FluxerToastVariant.danger,
+              ),
+            );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isSaving = false);
+      }
+    }
+  }
+
+  Future<void> _confirmDeletePersona() async {
+    final persona = widget.persona;
+    if (persona == null) {
+      return;
+    }
+    final l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
+
+    final bool? confirmed = await FluxerModal.show<bool>(
+      context,
+      title: l10n.personaDeleteTitle,
+      description: l10n.personaDeleteMessage(persona.name),
+      centered: true,
+      actionsBuilder: (pop) => [
+        TextButton(
+          onPressed: () => pop(false),
+          child: Text(l10n.cancel),
+        ),
+        TextButton(
+          onPressed: () => pop(true),
+          child: Text(
+            l10n.personaDeleteConfirm,
+            style: TextStyle(color: colors.textDanger),
+          ),
+        ),
+      ],
+      builder: (_, _) => const SizedBox.shrink(),
+    );
+
+    if (confirmed != true || !mounted) {
+      return;
+    }
+
+    setState(() => _isSaving = true);
+    try {
+      final Dio dio = ref.read(fluxerDioProvider);
+      await dio.delete<dynamic>('/users/@me/personas/${persona.id}');
+      ref.read(myPersonasProvider.notifier).removePersona(persona.id);
+
+      final active = ref.read(activePersonaProvider);
+      if (active.activePersonaId == persona.id) {
+        await ref.read(activePersonaProvider.notifier).unlatch();
+      }
+
+      if (mounted) {
+        ref.read(toastProvider.notifier).show(
+              FluxerToast(
+                message: l10n.personaDeletedToast,
+                variant: FluxerToastVariant.success,
+              ),
+            );
+        widget.canDismissNotifier.value = true;
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+    } on Object catch (err, st) {
+      talker.error('[EditPersonaSheet] Failed to delete persona: $err', err, st);
+      final String errorMessage = userFacingErrorMessage(err, err.toString());
+      if (mounted) {
+        ref.read(toastProvider.notifier).show(
+              FluxerToast(
+                message: errorMessage,
                 variant: FluxerToastVariant.danger,
               ),
             );
@@ -609,10 +825,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                     fit: StackFit.expand,
                     children: [
                       UserProfileBanner(
-                        key: ValueKey(_bannerUrl),
+                        key: ValueKey('$_bannerUrl-$_color'),
                         bannerUrl: _bannerUrl,
-                        bannerColor: widget.persona?.color != null && widget.persona!.color != 0
-                            ? Color(widget.persona!.color! | 0xFF000000)
+                        bannerColor: _color != null && _color != 0
+                            ? Color(_color! | 0xFF000000)
                             : colors.backgroundSecondary,
                         height: 96,
                       ),
@@ -666,6 +882,25 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                   ],
                 ],
               ),
+              SizedBox(height: layout.s3),
+
+              // Accent Color
+              FluxerColorPickerField(
+                label: l10n.accentColorLabel,
+                description: l10n.accentColorDescription,
+                value: _color ?? 0x5865F2,
+                defaultValue: 0x5865F2,
+                isDefaultValue: _color == null || _color == 0,
+                disabled: _isSaving,
+                onReset: () {
+                  setState(() => _color = null);
+                  _onFieldChanged();
+                },
+                onChanged: (newColor) {
+                  setState(() => _color = newColor);
+                  _onFieldChanged();
+                },
+              ),
               SizedBox(height: layout.s4),
 
               // Display Name
@@ -690,32 +925,88 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               SizedBox(height: layout.s3),
 
               // Persona Tags
-              Text(
-                l10n.personaTagsLabel,
-                style: textStyles.label.copyWith(color: colors.textPrimary),
-              ),
-              SizedBox(height: layout.s1),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: FluxerInput(
-                      controller: _prefixController,
-                      label: l10n.personaTagPrefixLabel,
-                      maxLength: 20,
-                      enabled: !_isSaving,
-                    ),
+                  Text(
+                    l10n.personaTagsLabel,
+                    style: textStyles.label.copyWith(color: colors.textPrimary),
                   ),
-                  SizedBox(width: layout.s3),
-                  Expanded(
-                    child: FluxerInput(
-                      controller: _suffixController,
-                      label: l10n.personaTagSuffixLabel,
-                      maxLength: 20,
-                      enabled: !_isSaving,
-                    ),
+                  FluxerButton.secondary(
+                    label: 'Add Tag Pair (${_tagControllers.length}/5)',
+                    icon: PhosphorIconsBold.plus,
+                    size: FluxerButtonSize.small,
+                    fitContent: true,
+                    onPressed: (_isSaving || _tagControllers.length >= 5)
+                        ? null
+                        : _addTagPair,
                   ),
                 ],
               ),
+              SizedBox(height: layout.s2),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l10n.personaTagPrefixLabel,
+                      style: textStyles.label.copyWith(color: colors.textSecondary),
+                    ),
+                  ),
+                  const SizedBox(width: 32),
+                  Expanded(
+                    child: Text(
+                      l10n.personaTagSuffixLabel,
+                      style: textStyles.label.copyWith(color: colors.textSecondary),
+                    ),
+                  ),
+                  if (_tagControllers.length > 1)
+                    const SizedBox(width: 44),
+                ],
+              ),
+              SizedBox(height: layout.s1),
+              for (int i = 0; i < _tagControllers.length; i++) ...[
+                Padding(
+                  padding: EdgeInsets.only(bottom: layout.s2),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: FluxerInput(
+                          controller: _tagControllers[i].prefixController,
+                          hint: '[',
+                          maxLength: 32,
+                          enabled: !_isSaving,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: layout.s2),
+                        child: Text(
+                          'text',
+                          style: textStyles.bodySmall.copyWith(
+                            color: colors.textPrimaryMuted,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: FluxerInput(
+                          controller: _tagControllers[i].suffixController,
+                          hint: ']',
+                          maxLength: 32,
+                          enabled: !_isSaving,
+                        ),
+                      ),
+                      if (_tagControllers.length > 1) ...[
+                        SizedBox(width: layout.s2),
+                        FluxerButton.dangerSecondary(
+                          size: FluxerButtonSize.small,
+                          isSquare: true,
+                          icon: PhosphorIconsBold.trash,
+                          onPressed: _isSaving ? null : () => _removeTagPair(i),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
               SizedBox(height: layout.s3),
 
               // Visibility Radio Selector
@@ -755,10 +1046,18 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                 label: l10n.personaBioLabel,
                 hint: l10n.personaBioHint,
                 maxLines: 4,
-                maxLength: 1024,
+                maxLength: 4096,
                 showCounter: true,
                 enabled: !_isSaving,
               ),
+              if (isEditing) ...[
+                SizedBox(height: layout.s4),
+                FluxerButton.dangerPrimary(
+                  label: l10n.personaDeleteTitle,
+                  icon: PhosphorIconsFill.trash,
+                  onPressed: _isSaving ? null : _confirmDeletePersona,
+                ),
+              ],
               SizedBox(height: layout.s2),
             ],
       ),
