@@ -301,69 +301,72 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                 maxLength: 32,
                 onChanged: _onTagTextChanged,
               ),
-              SizedBox(height: layout.s3),
-
               // Display Tag Icon
-              Text(
-                l10n.fork.personaDisplayTagIconLabel,
-                style: textStyles.label.copyWith(
-                  color: colors.textPrimary,
-                ),
-              ),
-              SizedBox(height: layout.s1_5),
-              Wrap(
-                spacing: layout.s2,
-                runSpacing: layout.s2,
-                crossAxisAlignment: WrapCrossAlignment.center,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (tagIcon != null && tagIcon.isNotEmpty) ...[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(layout.s1),
-                      child: Image.network(
-                        tagIcon,
-                        width: 36,
-                        height: 36,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(
-                          width: 36,
-                          height: 36,
-                          color: colors.backgroundSecondary,
-                          child: Icon(
-                            PhosphorIconsBold.imageBroken,
-                            size: 18,
-                            color: colors.textPrimaryMuted,
+                  Text(
+                    l10n.fork.personaDisplayTagIconLabel,
+                    style: textStyles.label.copyWith(
+                      color: colors.textSecondary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: layout.s1_5),
+                  Wrap(
+                    spacing: layout.s2,
+                    runSpacing: layout.s2,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      if (tagIcon != null && tagIcon.isNotEmpty) ...[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(layout.s1),
+                          child: Image.network(
+                            tagIcon,
+                            width: 36,
+                            height: 36,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, _) => Container(
+                              width: 36,
+                              height: 36,
+                              color: colors.backgroundSecondary,
+                              child: Icon(
+                                PhosphorIconsBold.imageBroken,
+                                size: 18,
+                                color: colors.textPrimaryMuted,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    FluxerButton.secondary(
-                      size: FluxerButtonSize.small,
-                      fitContent: true,
-                      label: l10n.fork.personaChangeTagIcon,
-                      icon: PhosphorIconsBold.image,
-                      isLoading: _isUploadingTagIcon,
-                      onPressed: _isUploadingTagIcon ? null : _pickTagIcon,
-                    ),
-                    FluxerButton.ghost(
-                      size: FluxerButtonSize.small,
-                      fitContent: true,
-                      label: l10n.fork.personaRemoveTagIcon,
-                      icon: PhosphorIconsBold.trash,
-                      onPressed: _isUploadingTagIcon ? null : _removeTagIcon,
-                    ),
-                  ] else ...[
-                    FluxerButton.primary(
-                      size: FluxerButtonSize.small,
-                      fitContent: true,
-                      label: l10n.fork.personaUploadTagIcon,
-                      icon: PhosphorIconsBold.uploadSimple,
-                      isLoading: _isUploadingTagIcon,
-                      onPressed: _isUploadingTagIcon ? null : _pickTagIcon,
-                    ),
-                  ],
+                        FluxerButton.secondary(
+                          size: FluxerButtonSize.small,
+                          fitContent: true,
+                          label: l10n.fork.personaChangeTagIcon,
+                          icon: PhosphorIconsBold.image,
+                          isLoading: _isUploadingTagIcon,
+                          onPressed: _isUploadingTagIcon ? null : _pickTagIcon,
+                        ),
+                        FluxerButton.ghost(
+                          size: FluxerButtonSize.small,
+                          fitContent: true,
+                          label: l10n.fork.personaRemoveTagIcon,
+                          icon: PhosphorIconsBold.trash,
+                          onPressed: _isUploadingTagIcon ? null : _removeTagIcon,
+                        ),
+                      ] else ...[
+                        FluxerButton.primary(
+                          size: FluxerButtonSize.small,
+                          fitContent: true,
+                          label: l10n.fork.personaUploadTagIcon,
+                          icon: PhosphorIconsBold.uploadSimple,
+                          isLoading: _isUploadingTagIcon,
+                          onPressed: _isUploadingTagIcon ? null : _pickTagIcon,
+                        ),
+                      ],
+                    ],
+                  ),
                 ],
               ),
-              SizedBox(height: layout.s4),
 
               // Chat Preview Card
               Container(
@@ -453,6 +456,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
           // Section 3: Configured Personas List
           FluxerSettingsSection(
             sectionId: 'persona-settings-list',
+            density: FluxerSettingsSectionDensity.compact,
             title: _searchQuery.isNotEmpty
                 ? '${l10n.fork.personaListTitle} (${filteredPersonas.length})'
                 : '${l10n.fork.personaListTitle} (${personas.length})',
@@ -464,21 +468,22 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
               onPressed: () => EditPersonaSheet.show(context),
             ),
             children: [
-              if (personas.isNotEmpty) ...[
-                FluxerInput(
-                  controller: _searchController,
-                  hint: l10n.fork.personaSearchPlaceholder,
-                  prefixIcon:
-                      const Icon(PhosphorIconsBold.magnifyingGlass, size: 16),
-                  suffixIcon: _searchQuery.isNotEmpty
-                      ? const Icon(PhosphorIconsBold.x, size: 16)
-                      : null,
-                  onSuffixTap: _searchQuery.isNotEmpty
-                      ? () => _searchController.clear()
-                      : null,
+              if (personas.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(bottom: layout.s1_5),
+                  child: FluxerInput(
+                    controller: _searchController,
+                    hint: l10n.fork.personaSearchPlaceholder,
+                    prefixIcon:
+                        const Icon(PhosphorIconsBold.magnifyingGlass, size: 16),
+                    suffixIcon: _searchQuery.isNotEmpty
+                        ? const Icon(PhosphorIconsBold.x, size: 16)
+                        : null,
+                    onSuffixTap: _searchQuery.isNotEmpty
+                        ? () => _searchController.clear()
+                        : null,
+                  ),
                 ),
-                SizedBox(height: layout.s2),
-              ],
               if (personasAsync.isLoading && personas.isEmpty)
                 const Center(
                   child: Padding(
@@ -575,7 +580,6 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     final l10n = FluxerLocalizations.of(context);
 
     return Container(
-      margin: EdgeInsets.only(bottom: layout.s2),
       padding: EdgeInsets.all(layout.s3),
       decoration: BoxDecoration(
         color: isThisActive
