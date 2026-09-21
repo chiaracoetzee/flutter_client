@@ -79,6 +79,15 @@ void main() {
       );
     });
 
+    test('resolves personas tab to personas section', () {
+      final UserSettingsDeepLinkTarget? target = parseUserSettingsDeepLink(
+        uri('/settings/user?tab=personas'),
+      );
+      expect(target?.section, UserSettingsSection.personas);
+      expect(target?.tab, 'personas');
+      expect(target?.fieldId, isNull);
+    });
+
     test('unsupported tab has no section mapping', () {
       expect(isUserSettingsDeepLinkTabSupported('desktop_settings'), isFalse);
       expect(
