@@ -14,6 +14,7 @@ const Set<String> _userSettingsTabTypes = {
   'authorized_apps',
   'blocked_users',
   'devices',
+  'personas',
   'appearance',
   'accessibility',
   'chat_settings',
@@ -192,6 +193,8 @@ UserSettingsSection? mapUserSettingsDeepLinkToSection(
       return UserSettingsSection.blockedUsers;
     case 'devices':
       return UserSettingsSection.linkedDevices;
+    case 'personas':
+      return UserSettingsSection.personas;
     case 'privacy_safety':
       return UserSettingsSection.privacyDashboard;
     case 'appearance':
