@@ -60,7 +60,7 @@ class ChannelMention extends ConsumerWidget {
     final colors = context.colors;
     final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
     );
     final l10n = FluxerLocalizations.of(context);
     if (channel != null && channel.type == ChannelType.guildCategory) {
@@ -156,7 +156,7 @@ class TextMention extends StatelessWidget {
     final colors = context.colors;
     final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
     );
     return _MentionPill(
       baseStyle: style,
@@ -319,7 +319,7 @@ class UserMention extends ConsumerWidget {
       final colors = context.colors;
       final style = (baseStyle ?? context.textStyles.messageText).copyWith(
         color: personaColor ?? colors.markupMentionText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
       );
 
       return FluxerGestureDetector(
@@ -354,7 +354,7 @@ class UserMention extends ConsumerWidget {
     final colors = context.colors;
     final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
     );
     return FluxerGestureDetector(
       onTap: () => unawaited(
@@ -403,7 +403,7 @@ class RoleMention extends ConsumerWidget {
 
     final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: roleColor ?? colors.markupMentionText,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
     );
 
     return _MentionPill(
@@ -472,7 +472,7 @@ class SettingsJumpLinkMention extends ConsumerWidget {
     final colors = context.colors;
     final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
     );
     final iconSize = (style.fontSize ?? 14) * 0.9;
 
@@ -570,7 +570,7 @@ class ChannelJumpLinkMention extends ConsumerWidget {
     final colors = context.colors;
     final style = (baseStyle ?? context.textStyles.messageText).copyWith(
       color: colors.markupMentionText,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
     );
     final iconSize = (style.fontSize ?? 14) * 0.9;
 
