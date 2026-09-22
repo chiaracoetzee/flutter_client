@@ -195,7 +195,14 @@ jobs:
           echo "Running baseline test verification on features/subprofiles-mobile before rebase..."
           (cd packages/fluxer_markdown_native && dart test)
           (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)
-          flutter test test/features/chat/services/composer_mention_controller_test.dart test/features/chat/presentation/widgets/messages/message_mention_test.dart
+          flutter test \
+            test/features/chat/services/composer_mention_controller_test.dart \
+            test/features/chat/presentation/widgets/messages/message_mention_test.dart \
+            test/features/profile/persona_test.dart \
+            test/features/profile/persona_matcher_test.dart \
+            test/features/profile/persona_providers_test.dart \
+            test/features/chat/presentation/widgets/composer/typing_indicator_bar_test.dart \
+            test/features/chat/utils/messages/message_grouping_utils_test.dart
           echo "Running baseline static code analysis..."
           flutter analyze --no-fatal-warnings --no-fatal-infos
 
@@ -284,7 +291,14 @@ jobs:
           echo "Running post-rebase test verification..."
           (cd packages/fluxer_markdown_native && dart test)
           (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)
-          flutter test test/features/chat/services/composer_mention_controller_test.dart test/features/chat/presentation/widgets/messages/message_mention_test.dart
+          flutter test \
+            test/features/chat/services/composer_mention_controller_test.dart \
+            test/features/chat/presentation/widgets/messages/message_mention_test.dart \
+            test/features/profile/persona_test.dart \
+            test/features/profile/persona_matcher_test.dart \
+            test/features/profile/persona_providers_test.dart \
+            test/features/chat/presentation/widgets/composer/typing_indicator_bar_test.dart \
+            test/features/chat/utils/messages/message_grouping_utils_test.dart
           echo "Running post-rebase static code analysis..."
           flutter analyze --no-fatal-warnings --no-fatal-infos
 
