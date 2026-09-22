@@ -4,6 +4,8 @@ import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+export 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+
 part 'instance_runtime_config_provider.g.dart';
 
 @Riverpod(keepAlive: true)
