@@ -4767,6 +4767,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "פלטפורמה לא ידועה",
+    "linkedDevicesViewDetails": "הצגת פרטים",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "פרטי מכשיר",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "מכשיר",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "לקוח",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "מיקום",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "כתובת IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "שימוש אחרון",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "הסשן הנוכחי",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "לא ידוע",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -9609,6 +9645,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "האם אתה בטוח שברצונך להסיר את כל התגובות מההודעה הזו?",
+    "chatMessagePinConfirm": "הצמדה",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "הצמד את ההודעה הזו לערוץ כדי שכולם יוכלו לראות אותה.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -12444,6 +12488,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "אישור או לחיצה כפולה להצטרפות לערוץ קולי בקהילה",
     "advancedSettingRequireDoubleClickJoinLabel": "דרושה לחיצה כפולה כדי להצטרף לערוצי קוליים",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "אישור לפני הצטרפות לערוצי קול",
+    "advancedSettingQuickSwitcherButtonLabel": "כפתור מחליף מהיר",
+    "advancedSettingQuickSwitcherButtonDescription": "החלפת כפתור ההודעה הקולית בשדה הקלט בכפתור מחליף מהיר לניווט קל",
     "advancedSettingAutoSendGifsLabel": "שליחה אוטומטית של קובצי GIF עם הבחירה",
     "advancedSettingAutoSendGifsDescription": "שליחה אוטומטית של קובצי GIF מהבורר ללא אישור",
     "advancedSettingSaveGifFavoritesLabel": "שמירת גיפים מועדפים כמדיה שמורה",
@@ -12625,6 +12671,14 @@
         }
     },
     "userSettingsNavLogOut": "יציאה",
+    "userSettingsLogOutConfirmTitle": "להתנתק?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "תוכל להיכנס שוב בכל עת.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -16143,6 +16197,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "הגדרות קהילה",
+    "guildSettingsDeleteCommunity": "מחיקת קהילה",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "האם למחוק את הקהילה הזו? לא ניתן לבטל פעולה זו. כל הערוצים, ההודעות וההגדרות יימחקו לצמיתות.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "הקהילה נמחקה",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "לא ניתן היה למחוק קהילה זו",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },

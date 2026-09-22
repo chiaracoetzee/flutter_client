@@ -3841,31 +3841,31 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => '不明なプラットフォーム';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => '詳細を見る';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'デバイスの詳細';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'デバイス';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'クライアント';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => '場所';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IPアドレス';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => '最終使用';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => '現在のセッション';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => '不明';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7680,11 +7680,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'このメッセージからすべてのリアクションを削除してもよろしいですか？';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'ピン留め';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'このメッセージをチャンネルにピン留めし、全員に表示します。';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'メッセージのピン留めを解除';
@@ -10105,11 +10105,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '音声チャンネル参加時に確認する';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'クイックスイッチャーボタン';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'メッセージ入力欄のボイスメッセージボタンをクイックスイッチャーに置き換えて素早く移動する';
 
   @override
   String get advancedSettingAutoSendGifsLabel => '選択時にGIFを自動送信';
@@ -10579,11 +10579,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'ログアウト';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'サインアウトしますか？';
 
   @override
-  String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+  String get userSettingsLogOutConfirmDescription => 'いつでもサインインし直せます。';
 
   @override
   String get quickSwitcherTabSearch => '検索';
@@ -13063,18 +13062,17 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'コミュニティ設定';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'コミュニティを削除';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'このコミュニティを削除しますか？この操作は元に戻せません。すべてのチャンネル、メッセージ、設定は完全に削除されます。';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'コミュニティを削除しました';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'このコミュニティを削除できませんでした';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
