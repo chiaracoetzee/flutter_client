@@ -184,3 +184,14 @@ void main() {
     );
   });
 }
+
+// Fork: upstream's helpers that composer_voice_button_visibility_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by composer_voice_button_visibility_fork_test.dart.
+typedef ForkEmptyComposerType = ({
+  bool hasSendable,
+  bool isEditing,
+  bool showMessageSendButtonPreference,
+});
+// ignore: unreachable_from_main // Fork: used by composer_voice_button_visibility_fork_test.dart.
+const ForkEmptyComposerType forkEmptyComposer = _emptyComposer;

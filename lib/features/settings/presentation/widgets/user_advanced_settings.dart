@@ -18,6 +18,11 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class UserAdvancedSettings extends ConsumerWidget {
   const UserAdvancedSettings({super.key, this.scrollController});
 
@@ -202,6 +207,15 @@ class UserAdvancedSettings extends ConsumerWidget {
             sectionId: 'advanced-settings-chat',
             title: l10n.advancedSettingsCategoryChat,
             children: [
+              FluxerSettingsSwitchItem(
+                label: l10n.fork.advancedSettingQuickSwitcherButtonLabel,
+                description:
+                    l10n.fork.advancedSettingQuickSwitcherButtonDescription,
+                value: ref.watch(quickSwitcherButtonPreferencesProvider),
+                onChanged: (value) => ref
+                    .read(quickSwitcherButtonPreferencesProvider.notifier)
+                    .setEnabled(value: value),
+              ),
               FluxerSettingsSwitchItem(
                 label: l10n.advancedSettingAutoSendGifsLabel,
                 description: l10n.advancedSettingAutoSendGifsDescription,
