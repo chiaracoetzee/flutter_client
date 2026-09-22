@@ -10607,6 +10607,13 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Pytaj o potwierdzenie przed dołączeniem do kanałów głosowych';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Automatycznie wysyłaj GIF-y po wybraniu';
 
