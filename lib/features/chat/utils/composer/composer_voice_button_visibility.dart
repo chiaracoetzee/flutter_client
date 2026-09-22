@@ -42,3 +42,19 @@ bool shouldShowComposerSendButtonFallback({
       ) &&
       !permissions.canAttachFiles;
 }
+
+bool shouldShowComposerQuickSwitcherButton({
+  required bool showQuickSwitcherButtonPreference,
+  required bool hasSendable,
+  required bool isEditing,
+  required bool showMessageSendButtonPreference,
+  bool isTouchPrimary = false,
+}) {
+  return showQuickSwitcherButtonPreference &&
+      _isEmptyComposerActionSlot(
+        showMessageSendButtonPreference: showMessageSendButtonPreference,
+        hasSendable: hasSendable,
+        isEditing: isEditing,
+        isTouchPrimary: isTouchPrimary,
+      );
+}
