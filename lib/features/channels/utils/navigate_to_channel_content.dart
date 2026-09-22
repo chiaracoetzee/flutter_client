@@ -86,9 +86,6 @@ Future<void> navigateToDmChannelContent({
   final String path = messageId == null || messageId.isEmpty
       ? RoutePaths.dmChannel(channelId)
       : RoutePaths.dmChannelMessage(channelId, messageId);
-  ref
-      .read(recentChannelVisitsProvider.notifier)
-      .recordVisit(channelId: channelId);
   unawaited(
     ref
         .read(chatViewModelProvider.notifier)
