@@ -518,18 +518,23 @@ class ActiveVoiceRecordingTarget {
   final Future<void> Function() startLockedRecording;
 }
 
-class ActiveVoiceRecordingTargetNotifier
-    extends Notifier<ActiveVoiceRecordingTarget?> {
-  @override
-  ActiveVoiceRecordingTarget? build() => null;
+class ActiveVoiceRecordingCoordinator {
+  ActiveVoiceRecordingTarget? _target;
 
-  void setTarget(ActiveVoiceRecordingTarget? target) {
-    state = target;
+  ActiveVoiceRecordingTarget? get target => _target;
+
+  void register(ActiveVoiceRecordingTarget target) {
+    _target = target;
+  }
+
+  void unregister(ActiveVoiceRecordingTarget target) {
+    if (_target == target) {
+      _target = null;
+    }
   }
 }
 
-final activeVoiceRecordingTargetProvider =
-    NotifierProvider<
-      ActiveVoiceRecordingTargetNotifier,
-      ActiveVoiceRecordingTarget?
-    >(ActiveVoiceRecordingTargetNotifier.new);
+final activeVoiceRecordingCoordinatorProvider =
+    Provider<ActiveVoiceRecordingCoordinator>(
+      (Ref ref) => ActiveVoiceRecordingCoordinator(),
+    );
