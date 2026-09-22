@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "تغيير الشخصية",
+    "advancedSettingQuickSwitcherButtonLabel": "زر التبديل السريع",
+    "advancedSettingQuickSwitcherButtonDescription": "استبدال زر الرسالة الصوتية في حقل الإدخال بزر التبديل السريع للتنقل السهل",
     "personaSelectTitle": "اختيار الشخصية",
     "personaSettingsHeader": "إعدادات الشخصية",
     "personaManageAction": "إدارة",
