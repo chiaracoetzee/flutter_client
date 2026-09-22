@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Skift persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Knap til hurtigskifter",
+    "advancedSettingQuickSwitcherButtonDescription": "Erstat knappen til stemmemeddelelser i beskedfeltet med en hurtigskifter for nemmere navigation",
     "personaSelectTitle": "Vælg persona",
     "personaSettingsHeader": "Personaindstillinger",
     "personaManageAction": "Administrer",
