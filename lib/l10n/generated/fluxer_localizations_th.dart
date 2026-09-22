@@ -10434,6 +10434,13 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ยืนยันก่อนเข้าร่วมช่องเสียง';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel => 'ส่ง GIF อัตโนมัติเมื่อเลือก';
 
   @override

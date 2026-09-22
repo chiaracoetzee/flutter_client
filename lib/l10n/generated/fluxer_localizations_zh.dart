@@ -9881,6 +9881,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '加入语音频道前确认';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel => '选中后自动发送GIF';
 
   @override
