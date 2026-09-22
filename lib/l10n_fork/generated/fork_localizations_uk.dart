@@ -12,11 +12,12 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String get chatMessageChangePersona => 'Змінити персону';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Кнопка швидкого перемикання';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Замінити кнопку голосового повідомлення в полі введення на кнопку швидкого перемикання';
 
   @override
   String get personaSelectTitle => 'Виберіть персону';

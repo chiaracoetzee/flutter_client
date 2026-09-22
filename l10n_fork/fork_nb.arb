@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Endre persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Knapp for hurtigbytter",
+    "advancedSettingQuickSwitcherButtonDescription": "Erstatt talemeldingsknappen i meldingsfeltet med en hurtigbytter for enklere navigering",
     "personaSelectTitle": "Velg persona",
     "personaSettingsHeader": "Personainnstillinger",
     "personaManageAction": "Administrer",
