@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Změnit personu",
+    "advancedSettingQuickSwitcherButtonLabel": "Tlačítko rychlého přepínače",
+    "advancedSettingQuickSwitcherButtonDescription": "Nahradit tlačítko hlasové zprávy v poli pro zadávání tlačítkem rychlého přepínače pro svižnou navigaci",
     "personaSelectTitle": "Vyberte personu",
     "personaSettingsHeader": "Nastavení person",
     "personaManageAction": "Spravovat",
