@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
@@ -9,7 +11,9 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_voice_button_visibility.dart';
+import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -18,8 +22,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kDisabledOpacity = 0.6;
 const double _kWideActionExtent = WideComposerLayout.actionButtonExtent;
+const Duration _kPostSendCooldown = Duration(milliseconds: 600);
 
-class ComposerSendAndVoiceButton extends ConsumerWidget {
+class ComposerSendAndVoiceButton extends ConsumerStatefulWidget {
   const ComposerSendAndVoiceButton({
     required this.perms,
     required this.hasSendable,
@@ -42,7 +47,42 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
   final FluxerButtonSize size;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ComposerSendAndVoiceButton> createState() =>
+      _ComposerSendAndVoiceButtonState();
+}
+
+class _ComposerSendAndVoiceButtonState
+    extends ConsumerState<ComposerSendAndVoiceButton> {
+  Timer? _cooldownTimer;
+  bool _cooldownActive = false;
+
+  @override
+  void dispose() {
+    _cooldownTimer?.cancel();
+    super.dispose();
+  }
+
+  void _handleSend() {
+    widget.onSend();
+    _startCooldown();
+  }
+
+  void _startCooldown() {
+    _cooldownTimer?.cancel();
+    setState(() {
+      _cooldownActive = true;
+    });
+    _cooldownTimer = Timer(_kPostSendCooldown, () {
+      if (mounted) {
+        setState(() {
+          _cooldownActive = false;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final String channelId = ref.watch(
       chatViewModelProvider.select((s) => s.channelId),
     );
@@ -56,43 +96,67 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
             channelId,
           ).select((AsyncValue<bool> value) => value.value ?? false),
         );
-    final bool canUseVoice = perms.isVoiceEnabled && !isSlowmodeBlocked;
+    final bool canUseVoice = widget.perms.isVoiceEnabled && !isSlowmodeBlocked;
     final bool touchActions = isTouchPrimaryInput(ref);
     final bool showSendButtonPreference = ref.watch(
       advancedPreferencesProvider.select(
         (state) => state.showMessageSendButton,
       ),
     );
-    final bool showVoiceButton = shouldShowComposerVoiceButton(
-      permissions: perms,
-      hasSendable: hasSendable,
+    final bool showQuickSwitcherPreference = ref.watch(
+      quickSwitcherButtonPreferencesProvider,
+    );
+    final bool showQuickSwitcherButton = shouldShowComposerQuickSwitcherButton(
+      showQuickSwitcherButtonPreference: showQuickSwitcherPreference,
+      hasSendable: widget.hasSendable,
       isEditing: isEditing,
       showMessageSendButtonPreference: showSendButtonPreference,
       isTouchPrimary: touchActions,
     );
-    final bool showSendButton = shouldShowComposerSendButton(
-      permissions: perms,
-      hasSendable: hasSendable,
-      isEditing: isEditing,
-      showMessageSendButtonPreference: showSendButtonPreference,
-      isTouchPrimary: touchActions,
-    );
+    final bool showVoiceButton = !showQuickSwitcherPreference &&
+        shouldShowComposerVoiceButton(
+          permissions: widget.perms,
+          hasSendable: widget.hasSendable,
+          isEditing: isEditing,
+          showMessageSendButtonPreference: showSendButtonPreference,
+          isTouchPrimary: touchActions,
+        );
+    final bool isCooldown = _cooldownActive && !widget.hasSendable;
+    final bool showSendButton =
+        _cooldownActive ||
+        (showQuickSwitcherPreference
+            ? (widget.perms.isComposerEnabled &&
+                (widget.hasSendable ||
+                    (!touchActions && showSendButtonPreference)))
+            : shouldShowComposerSendButton(
+                permissions: widget.perms,
+                hasSendable: widget.hasSendable,
+                isEditing: isEditing,
+                showMessageSendButtonPreference: showSendButtonPreference,
+                isTouchPrimary: touchActions,
+              ));
     final bool voiceDisabled =
-        !canUseVoice || !perms.isComposerEnabled || isOverCharacterLimit;
-    final VoidCallback? sendOnPressed = !hasSendable || isOverCharacterLimit
+        !canUseVoice ||
+        !widget.perms.isComposerEnabled ||
+        widget.isOverCharacterLimit;
+    final VoidCallback? sendOnPressed = isCooldown ||
+            !widget.hasSendable ||
+            widget.isOverCharacterLimit
         ? null
-        : perms.isComposerEnabled
-        ? onSend
-        : onNoSendPermission;
+        : widget.perms.isComposerEnabled
+        ? _handleSend
+        : widget.onNoSendPermission;
     final bool sendVisuallyEnabled =
-        perms.isComposerEnabled && sendOnPressed != null && !isSlowmodeBlocked;
+        widget.perms.isComposerEnabled &&
+        sendOnPressed != null &&
+        !isSlowmodeBlocked;
     final bool voiceVisuallyEnabled = !voiceDisabled;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final FluxerButtonSize voiceSize = useHoldToRecord
-        ? size
+    final FluxerButtonSize voiceSize = widget.useHoldToRecord
+        ? widget.size
         : (touchActions ? FluxerButtonSize.small : FluxerButtonSize.compact);
     Widget wrapWideAction(Widget child) {
-      if (useHoldToRecord || touchActions) {
+      if (widget.useHoldToRecord || touchActions) {
         return child;
       }
       return SizedBox(
@@ -102,12 +166,12 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
       );
     }
 
-    if (voiceRecording.isActive) {
-      if (voiceRecording.isLocked) {
+    if (widget.voiceRecording.isActive) {
+      if (widget.voiceRecording.isLocked) {
         return wrapWideAction(
           VoiceMessageRecordingSendButton(
             key: const ValueKey<String>('voice-send'),
-            controller: voiceRecording,
+            controller: widget.voiceRecording,
             size: voiceSize,
           ),
         );
@@ -117,8 +181,8 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
           key: const ValueKey<String>('voice'),
           channelId: channelId,
           disabled: voiceDisabled,
-          controller: voiceRecording,
-          holdToRecord: useHoldToRecord,
+          controller: widget.voiceRecording,
+          holdToRecord: widget.useHoldToRecord,
           buttonSize: voiceSize,
         ),
       );
@@ -130,15 +194,24 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
       child: VoiceMessageRecorder(
         channelId: channelId,
         disabled: voiceDisabled,
-        controller: voiceRecording,
-        holdToRecord: useHoldToRecord,
+        controller: widget.voiceRecording,
+        holdToRecord: widget.useHoldToRecord,
         buttonSize: voiceSize,
-        restingChild: useHoldToRecord
+        restingChild: widget.useHoldToRecord
             ? const MobileComposerGlyph(icon: PhosphorIconsFill.microphone)
             : null,
       ),
     );
-    if (!useHoldToRecord) {
+
+    final Widget quickSwitcherButton = FluxerButton.circleAlt(
+      key: const ValueKey<String>('quick-switcher'),
+      icon: PhosphorIconsBold.lightning,
+      size: widget.useHoldToRecord ? widget.size : FluxerButtonSize.small,
+      semanticLabel: l10n.quickSwitcherTabSearch,
+      onPressed: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
+    );
+
+    if (!widget.useHoldToRecord) {
       if (touchActions) {
         return AnimatedSwitcher(
           duration: context.motion.panel,
@@ -157,6 +230,8 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                     onPressed: sendOnPressed,
                   ),
                 )
+              : showQuickSwitcherButton
+              ? quickSwitcherButton
               : showVoiceButton
               ? voiceMic
               : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
@@ -189,6 +264,27 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                     ),
                   ),
                 )
+              : showQuickSwitcherButton
+              ? SizedBox(
+                  key: const ValueKey<String>('quick-switcher'),
+                  width: _kWideActionExtent,
+                  height: _kWideActionExtent,
+                  child: IconButton(
+                    icon: const PhosphorIcon(
+                      PhosphorIconsBold.lightning,
+                      size: 20,
+                    ),
+                    color: context.colors.interactiveNormal,
+                    tooltip: l10n.quickSwitcherTabSearch,
+                    onPressed: () =>
+                        unawaited(QuickSwitcherBottomSheet.show(context, ref)),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: _kWideActionExtent,
+                      minHeight: _kWideActionExtent,
+                    ),
+                  ),
+                )
               : showVoiceButton
               ? voiceMic
               : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
@@ -206,6 +302,8 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                 onPressed: sendOnPressed,
               ),
             )
+          : showQuickSwitcherButton
+          ? quickSwitcherButton
           : showVoiceButton
           ? voiceMic
           : const SizedBox.shrink(key: ValueKey<String>('voice-hidden')),
