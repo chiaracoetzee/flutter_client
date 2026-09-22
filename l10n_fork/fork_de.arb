@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Persona wechseln",
+    "advancedSettingQuickSwitcherButtonLabel": "Quick-Switcher-Schaltfläche",
+    "advancedSettingQuickSwitcherButtonDescription": "Ersetze die Sprachnachrichten-Schaltfläche im Eingabefeld durch eine Quick-Switcher-Schaltfläche für schnelle Navigation",
     "personaSelectTitle": "Persona auswählen",
     "personaSettingsHeader": "Persona-Einstellungen",
     "personaManageAction": "Verwalten",
