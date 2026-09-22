@@ -12,11 +12,12 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get chatMessageChangePersona => 'Mudar persona';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Botão do seletor rápido';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Substitui o botão de mensagem de voz na entrada de texto por um seletor rápido para navegação veloz';
 
   @override
   String get personaSelectTitle => 'Selecionar persona';
@@ -262,6 +263,14 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get chatMessageChangePersona => 'Mudar persona';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Botão do seletor rápido';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Substitui o botão de mensagem de voz na entrada de texto por um seletor rápido para navegação veloz';
 
   @override
   String get personaSelectTitle => 'Selecionar persona';

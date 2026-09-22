@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Đổi persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Nút chuyển nhanh",
+    "advancedSettingQuickSwitcherButtonDescription": "Thay thế nút tin nhắn thoại trong khung soạn thảo bằng nút chuyển nhanh để điều hướng thuận tiện",
     "personaSelectTitle": "Chọn persona",
     "personaSettingsHeader": "Cài đặt persona",
     "personaManageAction": "Quản lý",
