@@ -4767,6 +4767,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Platform necunoscută",
+    "linkedDevicesViewDetails": "Vezi detalii",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Detalii dispozitiv",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Dispozitiv",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Client",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Locație",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "Adresa IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Ultima utilizare",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Sesiunea curentă",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Necunoscut",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -9609,6 +9645,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Ești sigur că vrei să elimini toate reacțiile de la acest mesaj?",
+    "chatMessagePinConfirm": "Fixare",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Fixează acest mesaj pe canal pentru ca toată lumea să-l vadă.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -12444,6 +12488,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Confirmare sau dublu clic pentru a te alătura unui canal vocal.",
     "advancedSettingRequireDoubleClickJoinLabel": "Solicită dublu clic pentru a te alătura canalelor vocale",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Confirmă înainte de a te alătura canalelor vocale",
+    "advancedSettingQuickSwitcherButtonLabel": "Buton comutator rapid",
+    "advancedSettingQuickSwitcherButtonDescription": "Înlocuiește butonul de mesaj vocal din bara de text cu un comutator rapid pentru navigare facilă",
     "advancedSettingAutoSendGifsLabel": "Trimite automat GIF-urile când sunt selectate",
     "advancedSettingAutoSendGifsDescription": "Trimite automat GIF-uri din selector, fără confirmare",
     "advancedSettingSaveGifFavoritesLabel": "Salvează GIF-urile favorite ca media salvată",
@@ -12625,6 +12671,14 @@
         }
     },
     "userSettingsNavLogOut": "Deconectare",
+    "userSettingsLogOutConfirmTitle": "Deconectare?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Te poți conecta oricând din nou.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -16147,6 +16201,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Setări comunitate",
+    "guildSettingsDeleteCommunity": "Șterge comunitatea",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Sigur dorești să ștergi această comunitate? Această acțiune nu poate fi anulată. Toate canalele, mesajele și setările vor fi șterse definitiv.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Comunitate ștearsă",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Nu s-a putut șterge această comunitate",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },

@@ -4767,6 +4767,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Неизвестна платформа",
+    "linkedDevicesViewDetails": "Преглед на подробности",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Подробности за устройството",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Устройство",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Клиент",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Местоположение",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IP адрес",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Последно използван",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Текуща сесия",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Неизвестен",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -9609,6 +9645,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Сигурни ли сте, че искате да премахнете всички реакции от това съобщение?",
+    "chatMessagePinConfirm": "Закачи",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Закачи това съобщение в канала, за да го виждат всички.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -12444,6 +12488,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Потвърждение или двойно щракване при включване във гласов канал.",
     "advancedSettingRequireDoubleClickJoinLabel": "Изискване на двойно щракване за присъединяване към гласови канали",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Потвърждаване преди присъединяване към гласови канали",
+    "advancedSettingQuickSwitcherButtonLabel": "Бутон за бързо превключване",
+    "advancedSettingQuickSwitcherButtonDescription": "Замяна на бутона за гласово съобщение с бърз превключвател за по-лесна навигация",
     "advancedSettingAutoSendGifsLabel": "Автоматично изпращане на GIF файлове при избиране",
     "advancedSettingAutoSendGifsDescription": "Автоматично изпращане на GIF файлове от галерията без потвърждение",
     "advancedSettingSaveGifFavoritesLabel": "Запазване на любими GIF файлове като запазени медии",
@@ -12625,6 +12671,14 @@
         }
     },
     "userSettingsNavLogOut": "Изход",
+    "userSettingsLogOutConfirmTitle": "Да излезеш ли?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Можеш да влезеш отново по всяко време.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -16147,6 +16201,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Настройки на общността",
+    "guildSettingsDeleteCommunity": "Изтриване на общност",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Наистина ли искаш да изтриеш тази общност? Това действие не може да бъде отменено. Всички канали, съобщения и настройки ще бъдат изтрити завинаги.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Общността е изтрита",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Тази общност не можа да бъде изтрита",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },

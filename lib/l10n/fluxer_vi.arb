@@ -4767,6 +4767,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Nền tảng không xác định",
+    "linkedDevicesViewDetails": "Xem chi tiết",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Chi tiết thiết bị",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Thiết bị",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Ứng dụng khách",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Vị trí",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "Địa chỉ IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Lần sử dụng cuối cùng",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Phiên hiện tại",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Không rõ",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -9609,6 +9645,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Bạn có chắc chắn muốn xóa tất cả các phản ứng khỏi tin nhắn này không?",
+    "chatMessagePinConfirm": "Ghim",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Ghim tin nhắn này lên kênh để mọi người cùng xem.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -12444,6 +12488,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Xác nhận hoặc nhấp đúp để tham gia kênh thoại cộng đồng.",
     "advancedSettingRequireDoubleClickJoinLabel": "Yêu cầu nhấp đúp để vào kênh thoại",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Xác nhận trước khi vào kênh thoại",
+    "advancedSettingQuickSwitcherButtonLabel": "Nút chuyển nhanh",
+    "advancedSettingQuickSwitcherButtonDescription": "Thay thế nút tin nhắn thoại trong khung soạn thảo bằng nút chuyển nhanh để điều hướng thuận tiện",
     "advancedSettingAutoSendGifsLabel": "Tự động gửi ảnh GIF khi được chọn",
     "advancedSettingAutoSendGifsDescription": "Tự động gửi ảnh GIF từ bộ chọn mà không cần xác nhận",
     "advancedSettingSaveGifFavoritesLabel": "Lưu GIF yêu thích vào mục đã lưu",
@@ -12625,6 +12671,14 @@
         }
     },
     "userSettingsNavLogOut": "Đăng xuất",
+    "userSettingsLogOutConfirmTitle": "Đăng xuất?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Bạn có thể đăng nhập lại bất cứ lúc nào.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -16147,6 +16201,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Cài đặt cộng đồng",
+    "guildSettingsDeleteCommunity": "Xóa cộng đồng",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Bạn có chắc chắn muốn xóa cộng đồng này không? Thao tác này không thể hoàn tác. Tất cả kênh, tin nhắn và cài đặt sẽ bị xóa vĩnh viễn.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Đã xoá cộng đồng",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Không thể xóa cộng đồng này",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },

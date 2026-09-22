@@ -3968,31 +3968,31 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Plataforma Desconhecida';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Ver detalhes';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Detalhes do dispositivo';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Dispositivo';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Cliente';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Localização';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'Endereço IP';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Último uso';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Sessão atual';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Desconhecido';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7986,11 +7986,11 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Tem certeza de que deseja remover todas as reações desta mensagem?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Fixar';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Fixar esta mensagem no canal para que todos possam ver.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Desafixar mensagem';
@@ -10502,11 +10502,12 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Confirm before joining voice channels';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Botão do seletor rápido';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Substitui o botão de mensagem de voz na entrada de texto por um seletor rápido para navegação veloz';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11007,11 +11008,11 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Sair';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Sair?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Você pode entrar novamente a qualquer momento.';
 
   @override
   String get quickSwitcherTabSearch => 'Pesquisar';
@@ -13569,18 +13570,18 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Configurações da Comunidade';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Excluir comunidade';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Tem certeza de que deseja excluir esta comunidade? Esta ação não poderá ser desfeita. Todos os canais, mensagens e configurações serão excluídos permanentemente.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Comunidade excluída';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Não foi possível excluir esta comunidade';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -18574,6 +18575,33 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get linkedDevicesUnknownPlatform => 'Plataforma Desconhecida';
 
   @override
+  String get linkedDevicesViewDetails => 'Ver detalhes';
+
+  @override
+  String get linkedDevicesDetailsTitle => 'Detalhes do dispositivo';
+
+  @override
+  String get linkedDevicesDetailsDevice => 'Dispositivo';
+
+  @override
+  String get linkedDevicesDetailsClient => 'Cliente';
+
+  @override
+  String get linkedDevicesDetailsLocation => 'Localização';
+
+  @override
+  String get linkedDevicesDetailsIp => 'Endereço IP';
+
+  @override
+  String get linkedDevicesDetailsLastUsed => 'Último uso';
+
+  @override
+  String get linkedDevicesCurrentSession => 'Sessão atual';
+
+  @override
+  String get linkedDevicesUnknown => 'Desconhecido';
+
+  @override
   String slowmodeLabel(String duration) {
     return '$duration modo lento';
   }
@@ -22556,6 +22584,13 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Tem certeza de que deseja remover todas as reações desta mensagem?';
 
   @override
+  String get chatMessagePinConfirm => 'Fixar';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Fixar esta mensagem no canal para que todos possam ver.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Desafixar mensagem';
 
   @override
@@ -25109,6 +25144,14 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Confirmar antes de entrar em canais de voz';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Botão do seletor rápido';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Substitui o botão de mensagem de voz na entrada de texto por um seletor rápido para navegação veloz';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Enviar GIFs automaticamente ao selecionar';
 
@@ -25624,6 +25667,13 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get userSettingsNavLogOut => 'Sair';
+
+  @override
+  String get userSettingsLogOutConfirmTitle => 'Sair?';
+
+  @override
+  String get userSettingsLogOutConfirmDescription =>
+      'Você pode entrar novamente a qualquer momento.';
 
   @override
   String get quickSwitcherTabSearch => 'Pesquisar';
@@ -28192,6 +28242,20 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get guildSettingsCommunitySettings => 'Configurações da Comunidade';
+
+  @override
+  String get guildSettingsDeleteCommunity => 'Excluir comunidade';
+
+  @override
+  String get guildSettingsDeleteCommunityConfirm =>
+      'Tem certeza de que deseja excluir esta comunidade? Esta ação não poderá ser desfeita. Todos os canais, mensagens e configurações serão excluídos permanentemente.';
+
+  @override
+  String get guildSettingsCommunityDeleted => 'Comunidade excluída';
+
+  @override
+  String get guildSettingsDeleteCommunityFailed =>
+      'Não foi possível excluir esta comunidade';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
