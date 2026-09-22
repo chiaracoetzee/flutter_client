@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "เปลี่ยน Persona",
+    "advancedSettingQuickSwitcherButtonLabel": "ปุ่มตัวสลับด่วน",
+    "advancedSettingQuickSwitcherButtonDescription": "แทนที่ปุ่มข้อความเสียงในช่องพิมพ์ด้วยปุ่มตัวสลับด่วนเพื่อการนำทางที่รวดเร็ว",
     "personaSelectTitle": "เลือก Persona",
     "personaSettingsHeader": "การตั้งค่า Persona",
     "personaManageAction": "จัดการ",

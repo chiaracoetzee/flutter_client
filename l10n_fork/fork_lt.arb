@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Keisti personą",
+    "advancedSettingQuickSwitcherButtonLabel": "Greitojo perjungiklio mygtukas",
+    "advancedSettingQuickSwitcherButtonDescription": "Pakeisti balso pranešimo mygtuką įvesties lauke greituoju perjungikliu patogesnei navigacijai",
     "personaSelectTitle": "Pasirinkite personą",
     "personaSettingsHeader": "Personų nustatymai",
     "personaManageAction": "Tvarkyti",
