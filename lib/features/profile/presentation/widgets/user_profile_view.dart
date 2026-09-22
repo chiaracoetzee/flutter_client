@@ -60,11 +60,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
-import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
@@ -740,8 +741,22 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         widget.personaId ?? message?.personaId ?? '';
     final String effectiveUserId = message?.authorId ?? widget.userId;
 
+    final String ownUserId = ref.watch(userSettingsViewModelProvider).userId;
+    final bool isCurrentUser =
+        ownUserId.isNotEmpty && ownUserId == effectiveUserId;
+
+    final AsyncValue<List<Persona>>? myPersonasAsync = isCurrentUser
+        ? ref.watch(myPersonasProvider)
+        : null;
+    final Persona? ownPersona = myPersonasAsync?.value
+        ?.cast<Persona?>()
+        .firstWhere(
+          (Persona? p) => p?.id == effectivePersonaId,
+          orElse: () => null,
+        );
+
     final AsyncValue<PublicPersona?> publicPersonaAsync =
-        effectivePersonaId.isNotEmpty
+        (!isCurrentUser && effectivePersonaId.isNotEmpty)
         ? ref.watch(
             publicPersonaProvider((
               userId: effectiveUserId,
@@ -749,7 +764,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             )),
           )
         : const AsyncValue<PublicPersona?>.data(null);
-    final PublicPersona? publicPersona = publicPersonaAsync.value;
+    final PublicPersona? publicPersona =
+        ownPersona?.toPublicPersona() ?? publicPersonaAsync.value;
 
     final AsyncValue<UserProfileFullResponse?> rootProfileAsync = ref.watch(
       userProfileProvider(userId: effectiveUserId, guildId: widget.guildId),
@@ -800,9 +816,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             accentColor: rootProfile?.userProfile.accentColor,
             avatarColor: rootAvatarColor,
           );
-
-    final String ownUserId = ref.watch(userSettingsViewModelProvider).userId;
-    final bool isCurrentUser = ownUserId == effectiveUserId;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -1025,6 +1038,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       icon: PhosphorIconsFill.pencil,
                       onPressed: () async {
                         final PublicPersona current =
+                            ownPersona?.toPublicPersona() ??
                             publicPersona ??
                             PublicPersona(
                               id: effectivePersonaId,
@@ -1034,6 +1048,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                               pronouns: pronouns,
                               color: personaColor,
                               bio: personaBio,
+                              personaTags:
+                                  ownPersona?.personaTags ??
+                                  const <PersonaTag>[],
                             );
                         final PublicPersona? updated =
                             await EditPersonaSheet.show(
