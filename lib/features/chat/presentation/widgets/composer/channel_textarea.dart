@@ -88,6 +88,7 @@ import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_p
 import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -410,6 +411,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ref: ref,
       onPrepareUi: _prepareVoiceRecordingUi,
     );
+    ref
+        .read(activeVoiceRecordingTargetProvider.notifier)
+        .setTarget(
+          ActiveVoiceRecordingTarget(
+            controller: _voiceRecording,
+            startLockedRecording: _startLockedVoiceRecording,
+          ),
+        );
     unawaited(FluxerHaptics.warmSend());
   }
 
@@ -619,8 +628,22 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ..dispose();
     _composerScrollController.dispose();
     _controller.dispose();
+    ref.read(activeVoiceRecordingTargetProvider.notifier).setTarget(null);
     _voiceRecording.dispose();
     super.dispose();
+  }
+
+  Future<void> _startLockedVoiceRecording() async {
+    if (!mounted) {
+      return;
+    }
+    final String targetChannelId = ref.read(
+      chatViewModelProvider.select((s) => s.channelId),
+    );
+    await _voiceRecording.startLocked(
+      context: context,
+      channelId: targetChannelId,
+    );
   }
 
   bool get _enterSends => composerEnterSends(
@@ -2622,10 +2645,30 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
     ref.read(attachmentPanelProvider.notifier).close();
+    final bool showQuickSwitcher = ref.read(
+      quickSwitcherButtonPreferencesProvider,
+    );
+    final String currentChannelId = ref.read(
+      chatViewModelProvider.select((state) => state.channelId),
+    );
+    final ChannelMessagePermissions perms =
+        readChannelMessagePermissionsForComposer(ref, currentChannelId);
+    final bool canUseVoice =
+        showQuickSwitcher &&
+        perms.isVoiceEnabled &&
+        perms.isComposerEnabled;
+    if (!mounted) {
+      return;
+    }
     final ComposerAttachSource? source = await showComposerAttachSourceMenu(
       context,
+      showVoice: canUseVoice,
     );
     if (source == null || !mounted) {
+      return;
+    }
+    if (source == ComposerAttachSource.voice) {
+      await _startLockedVoiceRecording();
       return;
     }
     await _pickAttachments(source: source);
@@ -2723,6 +2766,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         limit: limit,
       ),
       ComposerAttachSource.files => await pickNativeFileUploads(),
+      ComposerAttachSource.voice => const <ComposerUploadFile>[],
     };
     await _addPickedFiles(files);
   }
