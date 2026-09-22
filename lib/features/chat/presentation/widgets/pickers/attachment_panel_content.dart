@@ -28,6 +28,13 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
+
 class AttachmentPanelContent extends ConsumerStatefulWidget {
   const AttachmentPanelContent({required this.scrollController, super.key});
 
@@ -363,6 +370,16 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     await _addUploads(await pickNativeFileUploads());
   }
 
+  Future<void> _onVoicePressed() async {
+    final ActiveVoiceRecordingTarget? target = ref.read(
+      activeVoiceRecordingTargetProvider,
+    );
+    if (target == null) {
+      return;
+    }
+    await target.startLockedRecording();
+  }
+
   Future<void> _onOpenPhotoSettings() async {
     final bool allowed = await ensureSystemPermission(
       context,
@@ -387,6 +404,26 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
       ),
       ..._resolvingAssetIds,
     };
+    final bool showQuickSwitcher = ref.watch(
+      quickSwitcherButtonPreferencesProvider,
+    );
+    final ChannelMessagePermissions perms =
+        watchChannelMessagePermissionsForComposer(ref, _channelId);
+    final bool isEditing = ref.watch(
+      chatViewModelProvider.select((s) => s.editingMessage != null),
+    );
+    final bool isSlowmodeBlocked =
+        !isEditing &&
+        ref.watch(
+          isSlowmodeBlockedProvider(
+            _channelId,
+          ).select((AsyncValue<bool> value) => value.value ?? false),
+        );
+    final bool canUseVoice =
+        showQuickSwitcher &&
+        perms.isVoiceEnabled &&
+        perms.isComposerEnabled &&
+        !isSlowmodeBlocked;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
     return ColoredBox(
@@ -402,6 +439,9 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
             child: AttachmentPanelSourceBar(
               onPhotosPressed: () => unawaited(_onPhotosPressed()),
               onFilesPressed: () => unawaited(_onFilesPressed()),
+              onVoicePressed: canUseVoice
+                  ? () => unawaited(_onVoicePressed())
+                  : null,
             ),
           ),
         ],
