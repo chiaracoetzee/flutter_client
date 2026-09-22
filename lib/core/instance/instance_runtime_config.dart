@@ -23,6 +23,7 @@ class InstanceRuntimeConfig {
     this.usernameSignIn = false,
     this.uniqueUsernames = false,
     this.guildCreateAccess = true,
+    this.serverListButtons = InstanceServerListButtons.defaults,
     this.iconUrl,
     this.symbolUrl,
     this.logoUrl,
@@ -56,6 +57,7 @@ class InstanceRuntimeConfig {
   final bool collectDateOfBirth;
   final bool usernameSignIn;
   final bool uniqueUsernames;
+  final InstanceServerListButtons serverListButtons;
 
   static const InstanceRuntimeConfig defaults = InstanceRuntimeConfig(
     productName: InstanceConstants.defaultProductName,
@@ -72,6 +74,7 @@ class InstanceRuntimeConfig {
     registrationClosed: false,
     adminRegistrationUrlsEnabled: false,
     collectDateOfBirth: true,
+    serverListButtons: InstanceServerListButtons.defaults,
   );
 
   factory InstanceRuntimeConfig.fromWellKnown(
@@ -122,6 +125,9 @@ class InstanceRuntimeConfig {
       adminRegistrationUrlsEnabled:
           response.registration.adminRegistrationUrlsEnabled,
       collectDateOfBirth: response.appPublic.registration.collectDateOfBirth,
+      serverListButtons: InstanceServerListButtons.fromJson(
+        response.community.serverListButtons,
+      ),
     );
   }
 
@@ -173,7 +179,8 @@ class InstanceRuntimeConfig {
         other.adminRegistrationUrlsEnabled == adminRegistrationUrlsEnabled &&
         other.collectDateOfBirth == collectDateOfBirth &&
         other.usernameSignIn == usernameSignIn &&
-        other.uniqueUsernames == uniqueUsernames;
+        other.uniqueUsernames == uniqueUsernames &&
+        other.serverListButtons == serverListButtons;
   }
 
   @override
@@ -202,15 +209,79 @@ class InstanceRuntimeConfig {
     collectDateOfBirth,
     usernameSignIn,
     uniqueUsernames,
+    serverListButtons,
   ]);
 
   static String? _nonEmpty(String? value) {
-    final String? trimmed = value?.trim();
-    if (trimmed == null || trimmed.isEmpty) {
+    if (value == null) {
+      return null;
+    }
+    final String trimmed = value.trim();
+    if (trimmed.isEmpty) {
       return null;
     }
     return trimmed;
   }
+}
+
+@immutable
+class InstanceServerListButtons {
+  const InstanceServerListButtons({
+    this.favorites = true,
+    this.explore = true,
+    this.createJoin = true,
+    this.download = true,
+    this.help = true,
+  });
+
+  final bool favorites;
+  final bool explore;
+  final bool createJoin;
+  final bool download;
+  final bool help;
+
+  static const InstanceServerListButtons defaults =
+      InstanceServerListButtons();
+
+  factory InstanceServerListButtons.fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return defaults;
+    }
+    return InstanceServerListButtons(
+      favorites: json['favorites'] as bool? ?? true,
+      explore: json['explore'] as bool? ?? true,
+      createJoin: json['create_join'] as bool? ?? true,
+      download: json['download'] as bool? ?? true,
+      help: json['help'] as bool? ?? true,
+    );
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'favorites': favorites,
+    'explore': explore,
+    'create_join': createJoin,
+    'download': download,
+    'help': help,
+  };
+
+  @override
+  bool operator ==(Object other) {
+    return other is InstanceServerListButtons &&
+        other.favorites == favorites &&
+        other.explore == explore &&
+        other.createJoin == createJoin &&
+        other.download == download &&
+        other.help == help;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    favorites,
+    explore,
+    createJoin,
+    download,
+    help,
+  );
 }
 
 Color? parseCssHexColor(String? raw) {
