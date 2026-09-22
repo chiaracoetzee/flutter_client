@@ -10734,11 +10734,11 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ยืนยันก่อนเข้าร่วมช่องเสียง';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'ปุ่มตัวสลับด่วน';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'แทนที่ปุ่มข้อความเสียงในช่องพิมพ์ด้วยปุ่มตัวสลับด่วนเพื่อการนำทางที่รวดเร็ว';
 
   @override
   String get advancedSettingAutoSendGifsLabel => 'ส่ง GIF อัตโนมัติเมื่อเลือก';
