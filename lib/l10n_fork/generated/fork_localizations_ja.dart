@@ -12,11 +12,11 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get chatMessageChangePersona => 'ペルソナを変更';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'クイックスイッチャーボタン';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'メッセージ入力欄のボイスメッセージボタンをクイックスイッチャーに置き換えて素早く移動する';
 
   @override
   String get personaSelectTitle => 'ペルソナを選択';
