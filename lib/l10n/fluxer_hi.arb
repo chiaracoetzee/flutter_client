@@ -4767,6 +4767,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "अज्ञात प्लेटफ़ॉर्म",
+    "linkedDevicesViewDetails": "विवरण देखें",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "डिवाइस विवरण",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "डिवाइस",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "क्लाइंट",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "जगह",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "आईपी पता",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "अंतिम उपयोग",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "मौजूदा सेशन",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "अज्ञात",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -9609,6 +9645,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "क्या आप वाकई इस संदेश से सभी प्रतिक्रियाएँ हटाना चाहते हैं?",
+    "chatMessagePinConfirm": "पिन करें",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "इस मैसेज को चैनल में पिन करें ताकि सभी देख सकें।",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -12444,6 +12488,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "समुदाय वॉइस जॉइन के लिए पुष्टि या डबल-क्लिक करें।",
     "advancedSettingRequireDoubleClickJoinLabel": "वॉयस चैनल से जुड़ने के लिए डबल-क्लिक ज़रूरी है",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "वॉइस चैनल में शामिल होने से पहले पुष्टि करें",
+    "advancedSettingQuickSwitcherButtonLabel": "क्विक स्विचर बटन",
+    "advancedSettingQuickSwitcherButtonDescription": "तेज़ नेविगेशन के लिए इनपुट बॉक्स में वॉइस मैसेज बटन को क्विक स्विचर बटन से बदलें",
     "advancedSettingAutoSendGifsLabel": "चुनने पर GIF अपने आप भेजें",
     "advancedSettingAutoSendGifsDescription": "पुष्टि के बिना सीधे पिकर से GIF भेजें",
     "advancedSettingSaveGifFavoritesLabel": "GIF पसंदीदा को सेव की गई मीडिया के तौर पर सेव करें",
@@ -12625,6 +12671,14 @@
         }
     },
     "userSettingsNavLogOut": "लॉग आउट",
+    "userSettingsLogOutConfirmTitle": "साइन आउट करें?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "आप कभी भी वापस साइन इन कर सकते हैं।",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -16147,6 +16201,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "सामुदायिक सेटिंग्स",
+    "guildSettingsDeleteCommunity": "कम्युनिटी मिटाएँ",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "क्या आप वाकई इस कम्युनिटी को मिटाना चाहते हैं? इस कार्रवाई को पहले जैसा नहीं किया जा सकता। सभी चैनल, मैसेज और सेटिंग्स हमेशा के लिए मिटा दिए जाएंगे।",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "कम्युनिटी मिटा दी गई",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "इस कम्युनिटी को हटाया नहीं जा सका",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },

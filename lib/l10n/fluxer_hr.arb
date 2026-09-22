@@ -4767,6 +4767,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Nepoznata platforma",
+    "linkedDevicesViewDetails": "Prikaži detalje",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Detalji uređaja",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Uređaj",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Klijent",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Lokacija",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IP adresa",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Posljednja upotreba",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Trenutna sesija",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Nepoznato",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -9609,6 +9645,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Jeste li sigurni da želite ukloniti sve reakcije iz ove poruke?",
+    "chatMessagePinConfirm": "Prikvači",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Prikvačite ovu poruku na kanal kako bi je svi vidjeli.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -12444,6 +12488,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Potvrda ili dvostruki klik za pridruživanje glasovnom kanalu zajednice.",
     "advancedSettingRequireDoubleClickJoinLabel": "Za pridruživanje glasovnim kanalima potreban je dvostruki klik",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Potvrdi prije pridruživanja glasovnim kanalima",
+    "advancedSettingQuickSwitcherButtonLabel": "Gumb brzog prebacivanja",
+    "advancedSettingQuickSwitcherButtonDescription": "Zamijenite gumb glasovne poruke u polju za unos brzim prebacivanjem za lakšu navigaciju",
     "advancedSettingAutoSendGifsLabel": "Automatski pošalji GIF-ove kad su odabrani",
     "advancedSettingAutoSendGifsDescription": "Automatski šalji GIF-ove iz birača bez potvrde",
     "advancedSettingSaveGifFavoritesLabel": "Spremi GIF favorite kao spremljene medije",
@@ -12625,6 +12671,14 @@
         }
     },
     "userSettingsNavLogOut": "Odjava",
+    "userSettingsLogOutConfirmTitle": "Želite li se odjaviti?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Možete se ponovno prijaviti bilo kada.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -16147,6 +16201,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Postavke zajednice",
+    "guildSettingsDeleteCommunity": "Izbriši zajednicu",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Jeste li sigurni da želite izbrisati ovu zajednicu? Ova se radnja ne može poništiti. Svi kanali, poruke i postavke bit će trajno izbrisani.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Zajednica izbrisana",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Nije uspjelo brisanje ove zajednice",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },

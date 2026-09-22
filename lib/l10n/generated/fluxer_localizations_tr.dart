@@ -3971,31 +3971,31 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Bilinmeyen Platform';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Ayrıntıları görüntüle';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Cihaz ayrıntıları';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Cihaz';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'İstemci';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Konum';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP adresi';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Son kullanım';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Mevcut oturum';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Bilinmiyor';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7987,11 +7987,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu mesajdaki tüm tepkileri kaldırmak istediğinizden emin misiniz?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Sabitle';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Bu mesajı herkesin görmesi için kanala sabitleyin.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Mesajı sabitlemeyi kaldır';
@@ -10523,11 +10523,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Sesli kanallara katılmadan önce onayla';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Hızlı Geçiş düğmesi';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Daha hızlı gezinme için metin girişindeki sesli mesaj düğmesini Hızlı Geçiş ile değiştirin';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11037,11 +11037,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Oturumu Kapat';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Çıkış yapılsın mı?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'İstediğiniz zaman tekrar giriş yapabilirsiniz.';
 
   @override
   String get quickSwitcherTabSearch => 'Ara';
@@ -13591,18 +13591,17 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Topluluk Ayarları';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Topluluğu sil';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Bu topluluğu silmek istediğinizden emin misiniz? Bu işlem geri alınamaz. Tüm kanallar, mesajlar ve ayarlar kalıcı olarak silinecektir.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Topluluk silindi';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'Bu topluluk silinemedi';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
