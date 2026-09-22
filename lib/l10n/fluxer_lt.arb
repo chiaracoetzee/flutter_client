@@ -3789,6 +3789,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Nežinoma platforma",
+    "linkedDevicesViewDetails": "Peržiūrėti išsamią informaciją",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Įrenginio informacija",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Įrenginys",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Klientas",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Vieta",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IP adresas",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Paskutinį kartą naudotas",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Dabartinis seansas",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Nežinoma",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6421,6 +6457,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Ar tikrai norite pašalinti visas reakcijas iš šios žinutės?",
+    "chatMessagePinConfirm": "Prisegti",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Prisegti šią žinutę prie kanalo, kad visi matytų.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6688,6 +6732,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "Atsijungti",
+    "userSettingsLogOutConfirmTitle": "Atsijungti?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Prisijungti galėsite bet kada.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -8867,6 +8919,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Bendruomenės nustatymai",
+    "guildSettingsDeleteCommunity": "Ištrinti bendruomenę",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Ar tikrai norite ištrinti šią bendruomenę? Šio veiksmo anuliuoti negalima. Visi kanalai, žinutės ir nustatymai bus visam laikui ištrinti.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Bendruomenė ištrinta",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Nepavyko ištrinti šios bendruomenės",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -15799,6 +15867,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Patvirtinimas arba dvigubas paspaudimas, norint prisijungti prie bendruomenės balsinės sesijos.",
     "advancedSettingRequireDoubleClickJoinLabel": "Reikalauti dukart spustelėti norint prisijungti prie balso kanalų",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Patvirtinti prieš prisijungiant prie balso kanalų",
+    "advancedSettingQuickSwitcherButtonLabel": "Greitojo perjungiklio mygtukas",
+    "advancedSettingQuickSwitcherButtonDescription": "Pakeisti balso pranešimo mygtuką įvesties lauke greituoju perjungikliu patogesnei navigacijai",
     "advancedSettingAutoSendGifsLabel": "Automatiškai siųsti pasirinktus GIF",
     "advancedSettingAutoSendGifsDescription": "Automatiškai siųsti GIF iš parinkiklio be patvirtinimo",
     "advancedSettingSaveGifFavoritesLabel": "Įrašyti GIF parankinius kaip išsaugotą mediją",

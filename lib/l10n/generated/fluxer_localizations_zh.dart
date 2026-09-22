@@ -3785,31 +3785,31 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => '未知平台';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => '查看详情';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => '设备详情';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => '设备';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => '客户端';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => '位置';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP 地址';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => '上次使用';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => '当前会话';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => '未知';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7500,11 +7500,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '您确定要移除此消息的所有反应吗？';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => '置顶';
 
   @override
-  String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+  String get chatMessagePinConfirmDescription => '将这条消息置顶到频道，让大家都能看到。';
 
   @override
   String get chatMessageUnpinConfirmTitle => '取消固定消息';
@@ -9881,11 +9880,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '加入语音频道前确认';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => '快速切换按钮';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      '将消息输入框中的语音消息按钮替换为快速切换按钮，以便快速导航';
 
   @override
   String get advancedSettingAutoSendGifsLabel => '选中后自动发送GIF';
@@ -10342,11 +10341,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsNavLogOut => '退出登录';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => '要退出登录吗？';
 
   @override
-  String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+  String get userSettingsLogOutConfirmDescription => '你可以随时重新登录。';
 
   @override
   String get quickSwitcherTabSearch => '搜索';
@@ -12791,18 +12789,17 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => '社区设置';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => '删除社区';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      '确定要删除此社区吗？此操作无法撤销。所有频道、消息和设置都将被永久删除。';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => '社区已删除';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => '无法删除此社区';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -17516,6 +17513,33 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get linkedDevicesUnknownPlatform => '不明的平台';
 
   @override
+  String get linkedDevicesViewDetails => '查看詳情';
+
+  @override
+  String get linkedDevicesDetailsTitle => '裝置詳細資訊';
+
+  @override
+  String get linkedDevicesDetailsDevice => '裝置';
+
+  @override
+  String get linkedDevicesDetailsClient => '用戶端';
+
+  @override
+  String get linkedDevicesDetailsLocation => '地點';
+
+  @override
+  String get linkedDevicesDetailsIp => 'IP 位址';
+
+  @override
+  String get linkedDevicesDetailsLastUsed => '上次使用';
+
+  @override
+  String get linkedDevicesCurrentSession => '目前的工作階段';
+
+  @override
+  String get linkedDevicesUnknown => '不明';
+
+  @override
   String slowmodeLabel(String duration) {
     return '$duration 慢速模式';
   }
@@ -21165,6 +21189,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '確定要移除此訊息的所有反應嗎？';
 
   @override
+  String get chatMessagePinConfirm => '釘選';
+
+  @override
+  String get chatMessagePinConfirmDescription => '將此訊息釘選到頻道，讓所有人都能看到。';
+
+  @override
   String get chatMessageUnpinConfirmTitle => '取消釘選訊息';
 
   @override
@@ -23539,6 +23569,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '在加入語音頻道前確認';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => '快速切換按鈕';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      '將訊息輸入框中的語音訊息按鈕替換為快速切換按鈕，以便快速導航';
+
+  @override
   String get advancedSettingAutoSendGifsLabel => '選取後自動傳送 GIF';
 
   @override
@@ -23992,6 +24029,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get userSettingsNavLogOut => '登出';
+
+  @override
+  String get userSettingsLogOutConfirmTitle => '要登出嗎？';
+
+  @override
+  String get userSettingsLogOutConfirmDescription => '您可以隨時重新登入。';
 
   @override
   String get quickSwitcherTabSearch => '搜尋';
@@ -26426,6 +26469,19 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildSettingsCommunitySettings => '社群設定';
+
+  @override
+  String get guildSettingsDeleteCommunity => '刪除社群';
+
+  @override
+  String get guildSettingsDeleteCommunityConfirm =>
+      '確定要刪除這個社群嗎？此動作無法復原。所有頻道、訊息和設定都將永久刪除。';
+
+  @override
+  String get guildSettingsCommunityDeleted => '社群已刪除';
+
+  @override
+  String get guildSettingsDeleteCommunityFailed => '無法刪除此社群';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

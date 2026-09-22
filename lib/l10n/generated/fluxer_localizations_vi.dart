@@ -3959,31 +3959,31 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Nền tảng không xác định';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Xem chi tiết';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Chi tiết thiết bị';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Thiết bị';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Ứng dụng khách';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Vị trí';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'Địa chỉ IP';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Lần sử dụng cuối cùng';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Phiên hiện tại';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Không rõ';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7993,11 +7993,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Bạn có chắc chắn muốn xóa tất cả các phản ứng khỏi tin nhắn này không?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Ghim';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Ghim tin nhắn này lên kênh để mọi người cùng xem.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Bỏ ghim tin nhắn';
@@ -10530,11 +10530,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Xác nhận trước khi vào kênh thoại';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Nút chuyển nhanh';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Thay thế nút tin nhắn thoại trong khung soạn thảo bằng nút chuyển nhanh để điều hướng thuận tiện';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11045,11 +11045,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Đăng xuất';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Đăng xuất?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Bạn có thể đăng nhập lại bất cứ lúc nào.';
 
   @override
   String get quickSwitcherTabSearch => 'Tìm kiếm';
@@ -13612,18 +13612,18 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Cài đặt cộng đồng';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Xóa cộng đồng';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Bạn có chắc chắn muốn xóa cộng đồng này không? Thao tác này không thể hoàn tác. Tất cả kênh, tin nhắn và cài đặt sẽ bị xóa vĩnh viễn.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Đã xoá cộng đồng';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Không thể xóa cộng đồng này';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
