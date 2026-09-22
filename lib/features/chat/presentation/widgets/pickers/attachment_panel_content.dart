@@ -149,9 +149,9 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   }
 
   Future<void> _onVoicePressed() async {
-    final ActiveVoiceRecordingTarget? target = ref.read(
-      activeVoiceRecordingTargetProvider,
-    );
+    final ActiveVoiceRecordingTarget? target = ref
+        .read(activeVoiceRecordingCoordinatorProvider)
+        .target;
     if (target == null) {
       return;
     }
