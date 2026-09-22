@@ -1270,54 +1270,61 @@ class _CategoryHeader extends ConsumerWidget {
       expanded: !isCollapsed,
       label: category.name,
       child: ExcludeSemantics(
-        child: InkWell(
-          onTap: () {
-            unawaited(
-              ref
-                  .read(guildUserSettingsRepositoryProvider)
-                  .toggleCategoryCollapsed(
-                    guildId: guildId,
-                    categoryId: category.id,
-                  ),
-            );
-          },
-          onSecondaryTapUp: (details) => unawaited(
-            _showCategoryActions(context, ref, details.globalPosition),
-          ),
-          onLongPress: isTouchPrimaryInput(ref)
-              ? () => unawaited(
-                  _showCategoryActions(
-                    context,
-                    ref,
-                    contextMenuPositionAtCenter(context),
-                  ),
-                )
-              : null,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-              right: 8,
-              top: 16,
-              bottom: 4,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: Colors.transparent,
+            mouseCursor: SystemMouseCursors.click,
+            hoverColor: context.colors.backgroundModifierHover,
+            onTap: () {
+              unawaited(
+                ref
+                    .read(guildUserSettingsRepositoryProvider)
+                    .toggleCategoryCollapsed(
+                      guildId: guildId,
+                      categoryId: category.id,
+                    ),
+              );
+            },
+            onSecondaryTapUp: (details) => unawaited(
+              _showCategoryActions(context, ref, details.globalPosition),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    category.name,
-                    style: context.textStyles.categoryName,
-                    overflow: TextOverflow.ellipsis,
+            onLongPress: isTouchPrimaryInput(ref)
+                ? () => unawaited(
+                    _showCategoryActions(
+                      context,
+                      ref,
+                      contextMenuPositionAtCenter(context),
+                    ),
+                  )
+                : null,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 12,
+                right: 8,
+                top: 16,
+                bottom: 4,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      category.name,
+                      style: context.textStyles.categoryName,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 4),
-                PhosphorIcon(
-                  isCollapsed
-                      ? PhosphorIconsBold.caretRight
-                      : PhosphorIconsBold.caretDown,
-                  size: 12,
-                  color: context.colors.textPrimaryMuted,
-                ),
-              ],
+                  const SizedBox(width: 4),
+                  PhosphorIcon(
+                    isCollapsed
+                        ? PhosphorIconsBold.caretRight
+                        : PhosphorIconsBold.caretDown,
+                    size: 12,
+                    color: context.colors.textPrimaryMuted,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
