@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Vaihda persoonaa",
+    "advancedSettingQuickSwitcherButtonLabel": "Pikavaihdin-painike",
+    "advancedSettingQuickSwitcherButtonDescription": "Korvaa viestikentän ääniviestipainike pikavaihtimella nopeaa siirtymistä varten",
     "personaSelectTitle": "Valitse persoona",
     "personaSettingsHeader": "Persoona-asetukset",
     "personaManageAction": "Hallitse",
