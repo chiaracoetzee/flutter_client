@@ -274,6 +274,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required List<GuildNavbarItem> organizedItems,
     required bool showAddCommunity,
     required bool hideDirectMessages,
+    required InstanceServerListButtons serverListButtons,
   }) {
     final List<_NavbarListEntry> entries = <_NavbarListEntry>[];
     if (!hideDirectMessages) {
@@ -281,7 +282,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         const _NavbarListEntry(kind: _NavbarListEntryKind.directMessages),
       );
     }
-    if (showFavorites) {
+    if (showFavorites && serverListButtons.favorites) {
       entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.favorites));
     }
     if (!hideDirectMessages) {
@@ -325,15 +326,23 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           );
       }
     }
-    entries.add(
-      const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
-    );
-    if (showAddCommunity) {
+
+    final bool showExplore = serverListButtons.explore;
+    final bool showAdd = showAddCommunity && serverListButtons.createJoin;
+    final bool showHelp = serverListButtons.help;
+    if (showExplore) {
+      entries.add(
+        const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
+      );
+    }
+    if (showAdd) {
       entries.add(
         const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity),
       );
     }
-    entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
+    if (showHelp) {
+      entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
+    }
     return entries;
   }
 
@@ -480,6 +489,11 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         (config) => config.directMessagesDisabled,
       ),
     );
+    final InstanceServerListButtons serverListButtons = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => config.serverListButtons,
+      ),
+    );
     final double topPadding = max<double>(MediaQuery.paddingOf(context).top, 4);
     final List<_NavbarListEntry> navbarEntries = _buildNavbarEntries(
       showFavorites: showFavorites,
@@ -490,6 +504,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       organizedItems: organizedItems,
       showAddCommunity: showAddCommunity,
       hideDirectMessages: hideDirectMessages,
+      serverListButtons: serverListButtons,
     );
     _indicatorEntries = navbarEntries;
     _indicatorFolderGuilds = guildNavbarScrollIndicatorFolderGuilds(
