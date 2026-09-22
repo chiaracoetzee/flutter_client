@@ -17428,6 +17428,18 @@ abstract class FluxerLocalizations {
   /// **'Confirm before joining voice channels'**
   String get advancedSettingConfirmBeforeJoiningVoiceLabel;
 
+  /// No description provided for @advancedSettingQuickSwitcherButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Switcher button'**
+  String get advancedSettingQuickSwitcherButtonLabel;
+
+  /// No description provided for @advancedSettingQuickSwitcherButtonDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace the voice message button in the message input with a Quick Switcher button for fast navigation'**
+  String get advancedSettingQuickSwitcherButtonDescription;
+
   /// No description provided for @advancedSettingAutoSendGifsLabel.
   ///
   /// In en, this message translates to:
