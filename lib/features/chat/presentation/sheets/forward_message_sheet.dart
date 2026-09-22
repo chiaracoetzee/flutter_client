@@ -28,7 +28,6 @@ import 'package:fluxer_app/features/chat/services/composer_mention_controller.da
 import 'package:fluxer_app/features/chat/utils/composer/slowmode_format.dart';
 import 'package:fluxer_app/features/chat/utils/composer/slowmode_utils.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
-import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -192,9 +191,6 @@ Future<void> _navigateToForwardDestination({
     return;
   }
   final bool isDm = guildId == null || guildId.isEmpty;
-  container
-      .read(recentChannelVisitsProvider.notifier)
-      .recordVisit(channelId: channelId, guildId: guildId);
   if (isDm || channel == null || channel.type == ChannelType.guildText) {
     unawaited(
       container.read(chatViewModelProvider.notifier).switchChannel(channelId),
