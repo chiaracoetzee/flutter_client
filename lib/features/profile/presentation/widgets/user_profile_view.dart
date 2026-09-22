@@ -18,21 +18,19 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
-import 'package:fluxer_app/features/profile/domain/public_persona.dart';
-import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
-import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
-import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
-import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
-import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/domain/member_role_management.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/user_profile_roles_section.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/public_persona.dart';
+import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_note_edit_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_action_card_row.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_bio_card.dart';
@@ -41,6 +39,8 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_lo
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutuals_section.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_note_card.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_relationship_button.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_profile_guild_provider.dart';
@@ -58,6 +58,7 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -727,15 +728,29 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         widget.personaId ?? message?.personaId ?? '';
     final String effectiveUserId = message?.authorId ?? widget.userId;
 
+    final String ownUserId = ref.watch(userSettingsViewModelProvider).userId;
+    final bool isCurrentUser =
+        ownUserId.isNotEmpty && ownUserId == effectiveUserId;
+
+    final AsyncValue<List<Persona>>? myPersonasAsync =
+        isCurrentUser ? ref.watch(myPersonasProvider) : null;
+    final Persona? ownPersona = myPersonasAsync?.value
+        ?.cast<Persona?>()
+        .firstWhere(
+          (Persona? p) => p?.id == effectivePersonaId,
+          orElse: () => null,
+        );
+
     final AsyncValue<PublicPersona?> publicPersonaAsync =
-        effectivePersonaId.isNotEmpty
+        (!isCurrentUser && effectivePersonaId.isNotEmpty)
             ? ref.watch(
                 publicPersonaProvider(
                   (userId: effectiveUserId, personaId: effectivePersonaId),
                 ),
               )
             : const AsyncValue<PublicPersona?>.data(null);
-    final PublicPersona? publicPersona = publicPersonaAsync.value;
+    final PublicPersona? publicPersona =
+        ownPersona?.toPublicPersona() ?? publicPersonaAsync.value;
 
     final AsyncValue<UserProfileFullResponse?> rootProfileAsync = ref.watch(
       userProfileProvider(userId: effectiveUserId, guildId: widget.guildId),
@@ -786,9 +801,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             accentColor: rootProfile?.userProfile.accentColor,
             avatarColor: rootAvatarColor,
           );
-
-    final String ownUserId = ref.watch(userSettingsViewModelProvider).userId;
-    final bool isCurrentUser = ownUserId == effectiveUserId;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -1018,16 +1030,20 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       label: l10n.personaEditPersona,
                       icon: PhosphorIconsFill.pencil,
                       onPressed: () async {
-                        final PublicPersona current = publicPersona ??
-                            PublicPersona(
-                              id: effectivePersonaId,
-                              name: displayName,
-                              avatarUrl: personaAvatarUrl,
-                              bannerUrl: personaBannerUrl,
-                              pronouns: pronouns,
-                              color: personaColor,
-                              bio: personaBio,
-                            );
+                        final PublicPersona current =
+                            ownPersona?.toPublicPersona() ??
+                                publicPersona ??
+                                PublicPersona(
+                                  id: effectivePersonaId,
+                                  name: displayName,
+                                  avatarUrl: personaAvatarUrl,
+                                  bannerUrl: personaBannerUrl,
+                                  pronouns: pronouns,
+                                  color: personaColor,
+                                  bio: personaBio,
+                                  personaTags: ownPersona?.personaTags ??
+                                      const <PersonaTag>[],
+                                );
                         final PublicPersona? updated =
                             await EditPersonaSheet.show(
                           context,
