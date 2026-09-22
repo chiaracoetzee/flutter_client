@@ -10573,11 +10573,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'वॉइस चैनल में शामिल होने से पहले पुष्टि करें';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'क्विक स्विचर बटन';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'तेज़ नेविगेशन के लिए इनपुट बॉक्स में वॉइस मैसेज बटन को क्विक स्विचर बटन से बदलें';
 
   @override
   String get advancedSettingAutoSendGifsLabel => 'चुनने पर GIF अपने आप भेजें';

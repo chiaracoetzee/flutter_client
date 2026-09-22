@@ -10140,11 +10140,11 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'ボイスチャンネル参加時に確認する';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'クイックスイッチャーボタン';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'メッセージ入力欄のボイスメッセージボタンをクイックスイッチャーに置き換えて素早く移動する';
 
   @override
   String get advancedSettingAutoSendGifsLabel => '選択時にGIFを自動送信';
@@ -13116,8 +13116,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsCommunityDeleted => 'コミュニティを削除しました';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'このコミュニティを削除できませんでした';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
