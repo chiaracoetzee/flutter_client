@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_build_i
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_candidate.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
+import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_providers.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -105,11 +106,26 @@ class QuickSwitcher extends _$QuickSwitcher {
   List<DmConversation> _conversations = const <DmConversation>[];
   String? _excludedParentChannelId;
 
+  /// Pre-warmed cache of guild [Channel] objects for channels in the recent
+  /// visits list. Populated proactively at boot and on each navigation so
+  /// the Quick Switcher can render results synchronously without a DB query.
+  final Map<String, Channel> _recentGuildChannelCache = <String, Channel>{};
+
   @override
   QuickSwitcherState build() {
     ref.onDispose(() {
       _memberSearchDebounce?.cancel();
     });
+    // Pre-warm channel cache when recents change (fires on _init() load
+    // from SharedPreferences and on each recordVisit call).
+    ref.listen<List<RecentChannelVisit>>(recentChannelVisitsProvider, (
+      List<RecentChannelVisit>? _,
+      List<RecentChannelVisit> next,
+    ) {
+      unawaited(_warmRecentChannelCache(next));
+    });
+    // Kick off initial population (recents may already be loaded).
+    unawaited(_warmRecentChannelCache(ref.read(recentChannelVisitsProvider)));
     return const QuickSwitcherState();
   }
 
@@ -120,7 +136,52 @@ class QuickSwitcher extends _$QuickSwitcher {
     _conversations = const <DmConversation>[];
     _excludedParentChannelId = null;
     state = QuickSwitcherState(isOpen: true, l10n: l10n);
+    _showInstantResults();
     unawaited(_warmCandidatesAndRecompute());
+  }
+
+  /// Synchronously populate default results using the pre-warmed
+  /// [_recentGuildChannelCache] and in-memory DM conversations.
+  /// No DB query — the cache was populated at boot and on each navigation.
+  /// [_warmCandidatesAndRecompute] will refresh with up-to-date data after.
+  void _showInstantResults() {
+    final FluxerLocalizations? l10n = state.l10n;
+    if (l10n == null) {
+      return;
+    }
+    final List<RecentChannelVisit> recentVisits =
+        ref.read(recentChannelVisitsProvider);
+    if (recentVisits.isEmpty) {
+      return;
+    }
+    final dmState = ref.read(dmViewModelProvider);
+    final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
+    final String? currentChannelId = ref.read(activeChannelIdProvider);
+    final Set<String> excludedChannelIds = _excludedChannelIds(
+      currentChannelId,
+    );
+    final List<QuickSwitcherResult> results =
+        generateQuickSwitcherDefaultResults(
+          QuickSwitcherDefaultInput(
+            resolver: QuickSwitcherChannelResolver(
+              l10n: l10n,
+              guildChannelsById: _recentGuildChannelCache,
+              conversationsById: <String, DmConversation>{
+                for (final DmConversation convo in dmState.conversations)
+                  convo.id: convo,
+              },
+              guildsById: <String, Guild>{
+                for (final Guild guild in guilds) guild.id: guild,
+              },
+            ),
+            recentVisits: recentVisits,
+            unreadChannels: const <QuickSwitcherUnreadChannel>[],
+            excludedChannelIds: excludedChannelIds,
+          ),
+        );
+    if (results.isNotEmpty) {
+      state = state.copyWith(results: results, selectedIndex: -1);
+    }
   }
 
   void close() {
@@ -131,6 +192,32 @@ class QuickSwitcher extends _$QuickSwitcher {
     _conversations = const <DmConversation>[];
     _excludedParentChannelId = null;
     state = const QuickSwitcherState();
+  }
+
+  /// Proactively fetch and cache guild [Channel] objects for any recent
+  /// visits not yet in [_recentGuildChannelCache]. Only hits the DB when
+  /// there are genuinely new channel IDs to resolve.
+  Future<void> _warmRecentChannelCache(
+    List<RecentChannelVisit> visits,
+  ) async {
+    final Set<String> neededIds = <String>{};
+    for (final RecentChannelVisit visit in visits) {
+      if (visit.guildId != null &&
+          !_recentGuildChannelCache.containsKey(visit.channelId)) {
+        neededIds.add(visit.channelId);
+      }
+    }
+    if (neededIds.isEmpty) {
+      return;
+    }
+    final List<Channel> channels = await ref
+        .read(quickSwitcherRepositoryProvider)
+        .getGuildChannels();
+    for (final Channel channel in channels) {
+      if (neededIds.contains(channel.id)) {
+        _recentGuildChannelCache[channel.id] = channel;
+      }
+    }
   }
 
   void setActiveTab(QuickSwitcherSheetTab tab) {
@@ -198,6 +285,17 @@ class QuickSwitcher extends _$QuickSwitcher {
     _guildChannels = await ref
         .read(quickSwitcherRepositoryProvider)
         .getGuildChannels();
+    // Refresh cache with up-to-date channel data (names, icons, etc.)
+    // so the next Quick Switcher open has the freshest display info.
+    final Set<String> recentIds = <String>{
+      for (final RecentChannelVisit v in ref.read(recentChannelVisitsProvider))
+        v.channelId,
+    };
+    for (final Channel channel in _guildChannels) {
+      if (recentIds.contains(channel.id)) {
+        _recentGuildChannelCache[channel.id] = channel;
+      }
+    }
     final Map<String, QuickSwitcherUnreadChannel> unreadByChannelId =
         <String, QuickSwitcherUnreadChannel>{
           for (final QuickSwitcherUnreadChannel entry in unreadChannels)
