@@ -10638,6 +10638,13 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Потвърждаване преди присъединяване към гласови канали';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Автоматично изпращане на GIF файлове при избиране';
 

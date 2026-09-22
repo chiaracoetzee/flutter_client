@@ -10643,6 +10643,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Επιβεβαίωση πριν την είσοδο σε κανάλια φωνής';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Αυτόματη αποστολή GIF όταν επιλεγεί';
 
