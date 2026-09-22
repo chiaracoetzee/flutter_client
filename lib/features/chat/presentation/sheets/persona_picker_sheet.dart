@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/edit_persona_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
@@ -459,12 +458,12 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
               onLongPress: () async {
                 final updated = await EditPersonaSheet.show(
                   context,
-                  persona: PublicPersona.fromJson(persona.toJson()),
+                  persona: persona.toPublicPersona(),
                 );
                 if (updated != null && mounted) {
                   ref
                       .read(myPersonasProvider.notifier)
-                      .upsertPersona(Persona.fromJson(updated.toJson()));
+                      .upsertPersona(updated.toPersona());
                 }
               },
             ),
