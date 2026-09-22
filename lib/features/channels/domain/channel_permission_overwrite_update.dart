@@ -298,23 +298,7 @@ ChannelUpdateRequestBodyVariant1 buildChannelPermissionOverwritesUpdate({
     ChannelType.guildVoice ||
     ChannelType.guildCategory ||
     ChannelType.guildLink => ChannelUpdateRequestBodyVariant1(
-      topic: null,
-      url: null,
-      parentId: null,
-      bitrate: null,
-      userLimit: null,
-      voiceConnectionLimit: null,
       permissionOverwrites: patch,
-      nsfw: null,
-      nsfwOverride: null,
-      contentWarningLevel: null,
-      contentWarningText: null,
-      rateLimitPerUser: null,
-      icon: null,
-      ownerId: null,
-      nicks: null,
-      rtcRegion: null,
-      name: null,
     ),
     _ => throw UnsupportedError(
       'Channel permission overwrites are not supported for ${channel.type}',

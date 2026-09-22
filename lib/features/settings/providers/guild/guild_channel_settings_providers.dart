@@ -82,18 +82,8 @@ class GuildChannelSettingsActions extends _$GuildChannelSettingsActions {
       ChannelCreateRequest4(
         name: name,
         type: GuildCategoryChannelCreateRequestTypeType.guildCategory,
-        topic: null,
-        url: null,
-        parentId: null,
-        bitrate: null,
-        userLimit: null,
-        voiceConnectionLimit: null,
         permissionOverwrites: [],
-        rateLimitPerUser: null,
-        nsfw: false,
-        nsfwOverride: null,
         contentWarningLevel: ContentWarningLevelInput.inherit,
-        contentWarningText: null,
       ),
     );
   }

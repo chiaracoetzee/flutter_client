@@ -403,8 +403,6 @@ class DmRepository {
           ChannelUpdateRequestBodyVariant5(
             name: name,
             icon: removeIcon ? null : icon,
-            ownerId: null,
-            nicks: null,
           ).toJson(),
         ),
       );

@@ -144,9 +144,7 @@ ChannelResponse channelResponseFromRow(db.Channel row) {
     ),
     nsfw: row.nsfw,
     nsfwOverride: row.nsfwOverride,
-    contentWarningLevel: ContentWarningLevelInput.fromJson(
-      row.contentWarningLevel,
-    ),
+    contentWarningLevel: ContentWarningLevel.fromJson(row.contentWarningLevel),
     contentWarningText: row.contentWarningText,
     rateLimitPerUser: row.rateLimitPerUser,
     userLimit: row.userLimit,

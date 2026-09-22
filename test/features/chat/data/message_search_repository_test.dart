@@ -25,7 +25,7 @@ void main() {
       expect(request.sortOrder, MessageSortOrder.desc);
       expect(request.authorId, isNull);
       expect(request.has, isNull);
-      expect(request.includeNsfw, isNull);
+      expect(request.includeNsfw, isFalse);
     });
 
     test('maps nsfw:true onto includeNsfw', () {

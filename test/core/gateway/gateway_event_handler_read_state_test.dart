@@ -239,12 +239,12 @@ void main() {
     expect(decoded.unreadBadges, UserNotificationSettings.allMessages);
     expect(
       decoded.channelOverrides?['channel-1']?.unreadBadges,
-      UserNotificationSettings.onlyMentions,
+      UserNotificationSettingsInput.onlyMentions,
     );
     expect(decoded.channelOverrides?['channel-2']?.muted, isTrue);
     expect(
       decoded.channelOverrides?['channel-2']?.messageNotifications,
-      UserNotificationSettings.inherit,
+      UserNotificationSettingsInput.inherit,
     );
     expect(decoded.version, 2);
   });
