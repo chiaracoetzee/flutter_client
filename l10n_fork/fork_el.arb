@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Αλλαγή persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Κουμπί γρήγορης εναλλαγής",
+    "advancedSettingQuickSwitcherButtonDescription": "Αντικατάσταση του κουμπιού φωνητικού μηνύματος στο πεδίο μηνύματος με κουμπί γρήγορης εναλλαγής για ταχύτερη πλοήγηση",
     "personaSelectTitle": "Επιλογή persona",
     "personaSettingsHeader": "Ρυθμίσεις persona",
     "personaManageAction": "Διαχείριση",
