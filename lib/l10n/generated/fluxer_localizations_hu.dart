@@ -3990,31 +3990,31 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Ismeretlen platform';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Részletek megtekintése';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Eszköz részletei';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Eszköz';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Kliens';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Hely';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-cím';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Utolsó használat';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Jelenlegi munkamenet';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Ismeretlen';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8030,11 +8030,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Biztosan el szeretné távolítani az összes reakciót erről az üzenetről?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Rögzítés';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Rögzítsd ezt az üzenetet a csatornában, hogy mindenki láthassa.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Üzenet leválasztása';
@@ -10597,11 +10597,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Megerősítés hangcsatornákhoz való csatlakozás előtt';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Gyorsváltó gomb';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'A hangüzenet gomb lecserélése a beviteli mezőben gyorsváltóra a gyorsabb navigációért';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11119,11 +11119,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Kijelentkezés';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Kijelentkezés?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Bármikor újra bejelentkezhetsz.';
 
   @override
   String get quickSwitcherTabSearch => 'Keresés';
@@ -13699,18 +13699,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Közösségi beállítások';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Közösség törlése';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Biztosan törölni szeretnéd ezt a közösséget? Ez a művelet nem vonható vissza. Minden csatorna, üzenet és beállítás véglegesen törlődik.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Közösség törölve';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Nem sikerült törölni ezt a közösséget';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

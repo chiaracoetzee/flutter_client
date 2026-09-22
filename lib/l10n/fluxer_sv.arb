@@ -3789,6 +3789,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Okänd plattform",
+    "linkedDevicesViewDetails": "Visa detaljer",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Enhetsinformation",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Enhet",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Klient",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Plats",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IP-adress",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Senast använt",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Nuvarande session",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Okänt",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6421,6 +6457,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Är du säker på att du vill ta bort alla reaktioner från det här meddelandet?",
+    "chatMessagePinConfirm": "Fäst",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Fäst det här meddelandet i kanalen så att alla kan se det.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6688,6 +6732,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "Logga ut",
+    "userSettingsLogOutConfirmTitle": "Logga ut?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Du kan logga in igen när som helst.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -8871,6 +8923,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Communityinställningar",
+    "guildSettingsDeleteCommunity": "Ta bort community",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Är du säker på att du vill ta bort den här communityn? Det går inte att ångra. Alla kanaler, meddelanden och inställningar tas bort permanent.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Communityn har tagits bort",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Kunde inte ta bort denna gemenskap",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -15803,6 +15871,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Bekräftelse eller dubbelklick för att ansluta till röstkanalen",
     "advancedSettingRequireDoubleClickJoinLabel": "Kräv dubbelklick för att ansluta till röstkanaler",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Bekräfta innan du går med i röstkanaler",
+    "advancedSettingQuickSwitcherButtonLabel": "Snabbväxlarknapp",
+    "advancedSettingQuickSwitcherButtonDescription": "Ersätt knappen för röstmeddelande i inmatningsfältet med en snabbväxlare för smidig navigering",
     "advancedSettingAutoSendGifsLabel": "Skicka GIF automatiskt när vald",
     "advancedSettingAutoSendGifsDescription": "Skicka GIF:ar automatiskt från väljaren utan bekräftelse",
     "advancedSettingSaveGifFavoritesLabel": "Spara GIF-favoriter som sparad media",

@@ -3962,31 +3962,31 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Platform Tidak Diketahui';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Lihat detail';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Detail perangkat';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Perangkat';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Klien';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Lokasi';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'Alamat IP';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Terakhir digunakan';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Sesi saat ini';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Tidak diketahui';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7978,11 +7978,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Apakah Anda yakin ingin menghapus semua reaksi dari pesan ini?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Sematkan';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Sematkan pesan ini ke saluran agar semua orang bisa melihatnya.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Lepas sematan pesan';
@@ -10518,11 +10518,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Konfirmasi sebelum bergabung ke saluran suara';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Tombol Pengalih Cepat';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Ganti tombol pesan suara di kolom input dengan tombol Pengalih Cepat untuk navigasi cepat';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11030,11 +11030,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Keluar';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Keluar?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Kamu dapat masuk kembali kapan saja.';
 
   @override
   String get quickSwitcherTabSearch => 'Cari';
@@ -13601,18 +13601,18 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Pengaturan Komunitas';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Hapus komunitas';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Yakin ingin menghapus komunitas ini? Tindakan ini tidak bisa dibatalkan. Semua saluran, pesan, dan pengaturan akan dihapus secara permanen.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Komunitas dihapus';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Tidak dapat menghapus komunitas ini';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

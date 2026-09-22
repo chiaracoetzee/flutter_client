@@ -3789,6 +3789,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Tuntematon alusta",
+    "linkedDevicesViewDetails": "Näytä tiedot",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Laitteen tiedot",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Laite",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Asiakasohjelma",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Sijainti",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IP-osoite",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Viimeksi käytetty",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Nykyinen istunto",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Tuntematon",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6421,6 +6457,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Haluatko varmasti poistaa kaikki reaktiot tästä viestistä?",
+    "chatMessagePinConfirm": "Kiinnitä",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Kiinnitä tämä viesti kanavalle kaikkien nähtäväksi.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6688,6 +6732,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "Kirjaudu ulos",
+    "userSettingsLogOutConfirmTitle": "Kirjaudutaanko ulos?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Voit kirjautua takaisin milloin tahansa.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -8871,6 +8923,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Yhteisön asetukset",
+    "guildSettingsDeleteCommunity": "Poista yhteisö",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Haluatko varmasti poistaa tämän yhteisön? Tätä toimintoa ei voi kumota. Kaikki kanavat, viestit ja asetukset poistetaan pysyvästi.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Yhteisö poistettu",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Tätä yhteisöä ei voitu poistaa",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -15803,6 +15871,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Vahvistus tai kaksoisklikkaus liittymistä äänikanavaan.",
     "advancedSettingRequireDoubleClickJoinLabel": "Vaadi kaksoisnapsautus äänikanaville liittymiseen",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Vahvista ennen puhekanaville liittymistä",
+    "advancedSettingQuickSwitcherButtonLabel": "Pikavaihdin-painike",
+    "advancedSettingQuickSwitcherButtonDescription": "Korvaa viestikentän ääniviestipainike pikavaihtimella nopeaa siirtymistä varten",
     "advancedSettingAutoSendGifsLabel": "Lähetä GIF-kuvat automaattisesti, kun ne on valittu",
     "advancedSettingAutoSendGifsDescription": "Lähetä GIF-kuvat automaattisesti valitsimesta ilman vahvistusta",
     "advancedSettingSaveGifFavoritesLabel": "Tallenna GIF-suosikit tallennettuun mediaan",
