@@ -12,6 +12,13 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get chatMessageChangePersona => '切换人格';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get personaSelectTitle => '选择人格';
 
   @override
