@@ -61,6 +61,9 @@ class _QuickSwitcherSheetBodyState
     extends ConsumerState<_QuickSwitcherSheetBody> {
   late final TextEditingController _searchController;
   late final TextEditingController _friendsSearchController;
+  final FocusNode _searchFocusNode = FocusNode();
+  final FocusNode _friendsFocusNode = FocusNode();
+  Animation<double>? _routeAnimation;
 
   @override
   void initState() {
@@ -71,9 +74,31 @@ class _QuickSwitcherSheetBodyState
     _friendsSearchController.addListener(_handleFriendsSearchChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        FocusScope.of(context).requestFocus(_searchFocusNode);
+        _searchFocusNode.requestFocus();
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final animation = ModalRoute.of(context)?.animation;
+    if (animation != _routeAnimation) {
+      _routeAnimation?.removeStatusListener(_handleAnimationStatus);
+      _routeAnimation = animation;
+      _routeAnimation?.addStatusListener(_handleAnimationStatus);
+    }
+  }
+
+  void _handleAnimationStatus(AnimationStatus status) {
+    if (status == AnimationStatus.completed && mounted) {
+      final state = ref.read(quickSwitcherProvider);
+      if (state.activeTab == QuickSwitcherSheetTab.search) {
+        if (!_searchFocusNode.hasFocus) {
+          _searchFocusNode.requestFocus();
+        }
+      }
+    }
   }
 
   void _handleSearchChanged() {
@@ -88,13 +113,13 @@ class _QuickSwitcherSheetBodyState
 
   @override
   void dispose() {
+    _routeAnimation?.removeStatusListener(_handleAnimationStatus);
     _searchController.dispose();
     _friendsSearchController.dispose();
     _searchFocusNode.dispose();
+    _friendsFocusNode.dispose();
     super.dispose();
   }
-
-  final FocusNode _searchFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +147,20 @@ class _QuickSwitcherSheetBodyState
               ],
               selectedIndex: isSearchTab ? 0 : 1,
               onChanged: (int index) {
-                notifier.setActiveTab(
-                  index == 0
-                      ? QuickSwitcherSheetTab.search
-                      : QuickSwitcherSheetTab.friends,
-                );
+                final newTab = index == 0
+                    ? QuickSwitcherSheetTab.search
+                    : QuickSwitcherSheetTab.friends;
+                notifier.setActiveTab(newTab);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (!mounted) {
+                    return;
+                  }
+                  if (newTab == QuickSwitcherSheetTab.search) {
+                    _searchFocusNode.requestFocus();
+                  } else {
+                    _friendsFocusNode.requestFocus();
+                  }
+                });
               },
             ),
           ),
@@ -168,6 +202,8 @@ class _QuickSwitcherSheetBodyState
       children: <Widget>[
         PickerSearchInput(
           controller: _searchController,
+          focusNode: _searchFocusNode,
+          autofocus: true,
           hintText: l10n.quickSwitcherSearchPlaceholder,
           topPadding: 0,
           bottomPadding: 0,
@@ -189,6 +225,7 @@ class _QuickSwitcherSheetBodyState
       children: <Widget>[
         PickerSearchInput(
           controller: _friendsSearchController,
+          focusNode: _friendsFocusNode,
           hintText: l10n.quickSwitcherSearchFriends,
           topPadding: 0,
           bottomPadding: 0,
