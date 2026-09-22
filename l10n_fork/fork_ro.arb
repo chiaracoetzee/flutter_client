@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Schimbă persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Buton comutator rapid",
+    "advancedSettingQuickSwitcherButtonDescription": "Înlocuiește butonul de mesaj vocal din bara de text cu un comutator rapid pentru navigare facilă",
     "personaSelectTitle": "Selectează persona",
     "personaSettingsHeader": "Setări personas",
     "personaManageAction": "Gestionează",

@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "परसोना बदलें",
+    "advancedSettingQuickSwitcherButtonLabel": "क्विक स्विचर बटन",
+    "advancedSettingQuickSwitcherButtonDescription": "तेज़ नेविगेशन के लिए इनपुट बॉक्स में वॉइस मैसेज बटन को क्विक स्विचर बटन से बदलें",
     "personaSelectTitle": "परसोना चुनें",
     "personaSettingsHeader": "परसोना सेटिंग्स",
     "personaManageAction": "मैनेज करें",
