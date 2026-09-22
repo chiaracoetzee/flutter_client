@@ -20,6 +20,7 @@ class PickerSearchInput extends StatefulWidget {
     this.maxLength = 100,
     this.onSubmitted,
     this.focusNode,
+    this.autofocus = false,
     this.onActivated,
     super.key,
   });
@@ -36,6 +37,7 @@ class PickerSearchInput extends StatefulWidget {
   final int maxLength;
   final ValueChanged<String>? onSubmitted;
   final FocusNode? focusNode;
+  final bool autofocus;
   final VoidCallback? onActivated;
 
   @override
@@ -132,6 +134,7 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                         return TextField(
                           controller: widget.controller,
                           focusNode: focusNode,
+                          autofocus: widget.autofocus,
                           onSubmitted: widget.onSubmitted,
                           maxLength: widget.maxLength,
                           maxLengthEnforcement: MaxLengthEnforcement.enforced,
