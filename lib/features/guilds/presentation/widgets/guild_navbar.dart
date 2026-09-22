@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -241,6 +242,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required List<GuildNavbarItem> organizedItems,
     required bool showAddCommunity,
     required bool hideDirectMessages,
+    required InstanceServerListButtons serverListButtons,
   }) {
     final List<_NavbarListEntry> entries = <_NavbarListEntry>[];
     if (!hideDirectMessages) {
@@ -248,7 +250,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         const _NavbarListEntry(kind: _NavbarListEntryKind.directMessages),
       );
     }
-    if (showFavorites) {
+    if (showFavorites && serverListButtons.favorites) {
       entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.favorites));
     }
     if (!hideDirectMessages) {
@@ -292,17 +294,28 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           );
       }
     }
-    entries
-      ..add(const _NavbarListEntry(kind: _NavbarListEntryKind.divider))
-      ..add(
-        const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
-      );
-    if (showAddCommunity) {
-      entries.add(
-        const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity),
-      );
+
+    final bool showExplore = serverListButtons.explore;
+    final bool showAdd = showAddCommunity && serverListButtons.createJoin;
+    final bool showHelp = serverListButtons.help;
+    final bool hasBottomButtons = showExplore || showAdd || showHelp;
+
+    if (hasBottomButtons) {
+      entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.divider));
+      if (showExplore) {
+        entries.add(
+          const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
+        );
+      }
+      if (showAdd) {
+        entries.add(
+          const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity),
+        );
+      }
+      if (showHelp) {
+        entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
+      }
     }
-    entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
     return entries;
   }
 
@@ -402,6 +415,11 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         (config) => config.directMessagesDisabled,
       ),
     );
+    final InstanceServerListButtons serverListButtons = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => config.serverListButtons,
+      ),
+    );
     final double topPadding = max<double>(MediaQuery.paddingOf(context).top, 4);
     final List<_NavbarListEntry> navbarEntries = _buildNavbarEntries(
       showFavorites: showFavorites,
@@ -412,6 +430,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       organizedItems: organizedItems,
       showAddCommunity: showAddCommunity,
       hideDirectMessages: hideDirectMessages,
+      serverListButtons: serverListButtons,
     );
     final guildListView = ListView.builder(
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
