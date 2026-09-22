@@ -12,6 +12,13 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String get chatMessageChangePersona => 'Endre persona';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get personaSelectTitle => 'Velg persona';
 
   @override

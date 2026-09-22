@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/settings/providers/advanced_preferences_prov
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
@@ -15,6 +16,7 @@ import 'package:fluxer_app/features/settings/utils/user_settings_domain_actions.
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
@@ -206,6 +208,15 @@ class UserAdvancedSettings extends ConsumerWidget {
             sectionId: 'advanced-settings-chat',
             title: l10n.advancedSettingsCategoryChat,
             children: [
+              FluxerSettingsSwitchItem(
+                label: l10n.fork.advancedSettingQuickSwitcherButtonLabel,
+                description:
+                    l10n.fork.advancedSettingQuickSwitcherButtonDescription,
+                value: ref.watch(quickSwitcherButtonPreferencesProvider),
+                onChanged: (value) => ref
+                    .read(quickSwitcherButtonPreferencesProvider.notifier)
+                    .setEnabled(value: value),
+              ),
               FluxerSettingsSwitchItem(
                 label: l10n.advancedSettingAutoSendGifsLabel,
                 description: l10n.advancedSettingAutoSendGifsDescription,
