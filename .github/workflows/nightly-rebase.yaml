@@ -105,6 +105,41 @@ jobs:
             echo "skip_rebase=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Verify Submodule Upstream Compatibility Gate
+        id: check_submodule_compatibility
+        if: steps.check_upstream.outputs.skip_rebase != 'true'
+        run: |
+          echo "Verifying submodule upstream compatibility..."
+
+          UPSTREAM_SDK_COMMIT=$(git rev-parse upstream/canary:dart_sdk 2>/dev/null || true)
+          echo "Upstream canary expects dart_sdk at: $UPSTREAM_SDK_COMMIT"
+
+          git -C dart_sdk fetch origin features/subprofiles --quiet
+          FORK_SDK_COMMIT=$(git -C dart_sdk rev-parse origin/features/subprofiles 2>/dev/null || true)
+          echo "Subprofiles fork (chiaracoetzee/dart_sdk) features/subprofiles is at: $FORK_SDK_COMMIT"
+
+          if [ -n "$UPSTREAM_SDK_COMMIT" ] && [ -n "$FORK_SDK_COMMIT" ]; then
+            if ! git -C dart_sdk merge-base --is-ancestor "$UPSTREAM_SDK_COMMIT" "$FORK_SDK_COMMIT"; then
+              echo "::error::Submodule dart_sdk fork ($FORK_SDK_COMMIT) has not been rebased onto upstream canary's SDK ($UPSTREAM_SDK_COMMIT)!"
+
+              cat << 'EOF' > /tmp/rebase_escalation_reason.md
+              ## 🛑 Blocked: Submodule `dart_sdk` Requires Prior Rebase
+
+              The rebase of `features/subprofiles-mobile` cannot proceed because `upstream/canary` has updated the `dart_sdk` submodule, but our subprofiles fork has not yet been rebased onto that commit.
+
+              ### Diagnostics:
+              - **Upstream Canary SDK Commit**: Upstream canary has updated `dart_sdk`.
+              - **Fork SDK Commit**: The required upstream SDK commit is not yet an ancestor of `chiaracoetzee/dart_sdk` (`features/subprofiles`).
+
+              ### Resolution:
+              1. Wait for the `dart_sdk` nightly rebase job (`chiaracoetzee/dart_sdk`) to complete cleanly and push its rebased branch.
+              2. Once `dart_sdk` is pushed, re-run this `flutter_client` rebase workflow.
+              EOF
+              exit 1
+            fi
+            echo "Submodule dart_sdk is compatible and contains upstream commit."
+          fi
+
       - name: Push safety snapshot tag
         if: steps.check_upstream.outputs.skip_rebase != 'true' && (github.event_name == 'schedule' || inputs.dry_run == false || inputs.dry_run == 'false')
         run: |
@@ -174,8 +209,36 @@ jobs:
           git rebase upstream/canary
           REBASE_EXIT=$?
           if [ $REBASE_EXIT -ne 0 ]; then
-            echo "Conflicts detected during rebase."
-            echo "has_conflicts=true" >> "$GITHUB_OUTPUT"
+            UNMERGED=$(git diff --name-only --diff-filter=U)
+            echo "Conflicts detected during rebase: $UNMERGED"
+
+            ONLY_SUBMODULES=true
+            for f in $UNMERGED; do
+              if [ "$f" != "dart_sdk" ] && [ "$f" != "fluxer" ]; then
+                ONLY_SUBMODULES=false
+                break
+              fi
+            done
+
+            if [ "$ONLY_SUBMODULES" = "true" ] && [ -n "$UNMERGED" ]; then
+              echo "Conflicts are isolated to submodule pointers. Auto-resolving to latest tracking branches..."
+              for sub in $UNMERGED; do
+                branch=$(git config -f .gitmodules submodule.$sub.branch || echo "main")
+                git -C "$sub" fetch origin "$branch" --quiet
+                git -C "$sub" checkout "origin/$branch"
+                git add "$sub"
+              done
+              GIT_EDITOR=true git rebase --continue
+              REBASE_EXIT=$?
+            fi
+
+            if [ $REBASE_EXIT -ne 0 ]; then
+              echo "Code conflicts remain requiring AI resolution."
+              echo "has_conflicts=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "Rebase successfully completed after auto-resolving submodule pointers!"
+              echo "has_conflicts=false" >> "$GITHUB_OUTPUT"
+            fi
           else
             echo "Clean rebase! No conflicts encountered."
             echo "has_conflicts=false" >> "$GITHUB_OUTPUT"
