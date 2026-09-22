@@ -3838,31 +3838,31 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => '알 수 없는 플랫폼';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => '자세히 보기';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => '기기 정보';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => '기기';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => '클라이언트';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => '위치';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP 주소';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => '최근 사용';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => '현재 세션';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => '알 수 없음';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7658,11 +7658,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '이 메시지의 모든 반응을 삭제하시겠습니까?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => '고정';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      '모든 채널 멤버가 볼 수 있도록 이 메시지를 고정합니다.';
 
   @override
   String get chatMessageUnpinConfirmTitle => '메시지 고정 해제';
@@ -10085,11 +10085,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '음성 채널 참여 전 확인';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => '빠른 전환 버튼';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      '입력창의 음성 메시지 버튼을 빠른 전환 버튼으로 교체하여 편리하게 이동';
 
   @override
   String get advancedSettingAutoSendGifsLabel => '선택 시 GIF 자동 전송';
@@ -10556,11 +10556,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsNavLogOut => '로그아웃';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => '로그아웃하시겠어요?';
 
   @override
-  String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+  String get userSettingsLogOutConfirmDescription => '언제든지 다시 로그인할 수 있습니다.';
 
   @override
   String get quickSwitcherTabSearch => '검색';
@@ -13038,18 +13037,17 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => '커뮤니티 설정';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => '커뮤니티 삭제';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      '정말 이 커뮤니티를 삭제하시겠어요? 이 작업은 되돌릴 수 없으며, 모든 채널, 메시지, 설정이 영구적으로 삭제됩니다.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => '커뮤니티 삭제됨';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => '이 커뮤니티를 삭제할 수 없습니다';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

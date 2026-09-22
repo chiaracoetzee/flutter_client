@@ -3988,31 +3988,31 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Platform necunoscută';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Vezi detalii';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Detalii dispozitiv';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Dispozitiv';
 
   @override
   String get linkedDevicesDetailsClient => 'Client';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Locație';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'Adresa IP';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Ultima utilizare';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Sesiunea curentă';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Necunoscut';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8032,11 +8032,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Ești sigur că vrei să elimini toate reacțiile de la acest mesaj?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Fixare';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Fixează acest mesaj pe canal pentru ca toată lumea să-l vadă.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Anulează fixarea mesajului';
@@ -10593,11 +10593,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Confirmă înainte de a te alătura canalelor vocale';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Buton comutator rapid';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Înlocuiește butonul de mesaj vocal din bara de text cu un comutator rapid pentru navigare facilă';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11120,11 +11120,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Deconectare';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Deconectare?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Te poți conecta oricând din nou.';
 
   @override
   String get quickSwitcherTabSearch => 'Căutare';
@@ -13709,18 +13709,18 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Setări comunitate';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Șterge comunitatea';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Sigur dorești să ștergi această comunitate? Această acțiune nu poate fi anulată. Toate canalele, mesajele și setările vor fi șterse definitiv.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Comunitate ștearsă';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Nu s-a putut șterge această comunitate';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

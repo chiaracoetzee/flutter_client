@@ -3944,31 +3944,31 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'منصة غير معروفة';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'عرض التفاصيل';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'تفاصيل الجهاز';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'الجهاز';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'العميل';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'الموقع';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'عنوان IP';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'آخر استخدام';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'الجلسة الحالية';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'غير معروف';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7928,11 +7928,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'هل أنت متأكد أنك تريد إزالة جميع ردود الفعل من هذه الرسالة؟';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'تثبيت';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'ثبّت هذه الرسالة في القناة ليراها الجميع.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'إلغاء تثبيت الرسالة';
@@ -10436,11 +10436,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'تأكيد قبل الانضمام إلى القنوات الصوتية';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'زر التبديل السريع';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'استبدال زر الرسالة الصوتية في حقل الإدخال بزر التبديل السريع للتنقل السهل';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -10942,11 +10942,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'تسجيل الخروج';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'تسجيل الخروج؟';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'يمكنك تسجيل الدخول مرة أخرى في أي وقت.';
 
   @override
   String get quickSwitcherTabSearch => 'بحث';
@@ -13472,18 +13472,17 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'إعدادات المجتمع';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'حذف المجتمع';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'هل أنت متأكد أنك تريد حذف هذا المجتمع؟ لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع القنوات والرسائل والإعدادات نهائيًا.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'تم حذف المجتمع';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'تعذر حذف هذا المجتمع';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
