@@ -10094,6 +10094,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '음성 채널 참여 전 확인';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel => '선택 시 GIF 자동 전송';
 
   @override
