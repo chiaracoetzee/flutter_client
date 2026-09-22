@@ -3989,31 +3989,31 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Nežinoma platforma';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Peržiūrėti išsamią informaciją';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Įrenginio informacija';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Įrenginys';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Klientas';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Vieta';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP adresas';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Paskutinį kartą naudotas';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Dabartinis seansas';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Nežinoma';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8082,11 +8082,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Ar tikrai norite pašalinti visas reakcijas iš šios žinutės?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Prisegti';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Prisegti šią žinutę prie kanalo, kad visi matytų.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Atsegti žinutę';
@@ -10637,11 +10637,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Patvirtinti prieš prisijungiant prie balso kanalų';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Greitojo perjungiklio mygtukas';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Pakeisti balso pranešimo mygtuką įvesties lauke greituoju perjungikliu patogesnei navigacijai';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11157,11 +11158,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Atsijungti';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Atsijungti?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Prisijungti galėsite bet kada.';
 
   @override
   String get quickSwitcherTabSearch => 'Ieškoti';
@@ -13740,18 +13741,18 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Bendruomenės nustatymai';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Ištrinti bendruomenę';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Ar tikrai norite ištrinti šią bendruomenę? Šio veiksmo anuliuoti negalima. Visi kanalai, žinutės ir nustatymai bus visam laikui ištrinti.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Bendruomenė ištrinta';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Nepavyko ištrinti šios bendruomenės';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

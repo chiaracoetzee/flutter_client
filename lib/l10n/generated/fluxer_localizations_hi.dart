@@ -3964,31 +3964,31 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'अज्ञात प्लेटफ़ॉर्म';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'विवरण देखें';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'डिवाइस विवरण';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'डिवाइस';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'क्लाइंट';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'जगह';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'आईपी पता';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'अंतिम उपयोग';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'मौजूदा सेशन';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'अज्ञात';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7988,11 +7988,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'क्या आप वाकई इस संदेश से सभी प्रतिक्रियाएँ हटाना चाहते हैं?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'पिन करें';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'इस मैसेज को चैनल में पिन करें ताकि सभी देख सकें।';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'मैसेज अनपिन करें';
@@ -10524,11 +10524,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'वॉइस चैनल में शामिल होने से पहले पुष्टि करें';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'क्विक स्विचर बटन';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'तेज़ नेविगेशन के लिए इनपुट बॉक्स में वॉइस मैसेज बटन को क्विक स्विचर बटन से बदलें';
 
   @override
   String get advancedSettingAutoSendGifsLabel => 'चुनने पर GIF अपने आप भेजें';
@@ -11029,11 +11029,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'लॉग आउट';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'साइन आउट करें?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'आप कभी भी वापस साइन इन कर सकते हैं।';
 
   @override
   String get quickSwitcherTabSearch => 'खोजें';
@@ -13595,18 +13595,18 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'सामुदायिक सेटिंग्स';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'कम्युनिटी मिटाएँ';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'क्या आप वाकई इस कम्युनिटी को मिटाना चाहते हैं? इस कार्रवाई को पहले जैसा नहीं किया जा सकता। सभी चैनल, मैसेज और सेटिंग्स हमेशा के लिए मिटा दिए जाएंगे।';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'कम्युनिटी मिटा दी गई';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'इस कम्युनिटी को हटाया नहीं जा सका';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

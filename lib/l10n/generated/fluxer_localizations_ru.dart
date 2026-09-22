@@ -3987,31 +3987,31 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Неизвестная платформа';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Посмотреть детали';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Информация об устройстве';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Устройство';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Клиент';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Местоположение';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-адрес';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Последнее использование';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Текущая сессия';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Неизвестно';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8063,11 +8063,11 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Вы уверены, что хотите удалить все реакции из этого сообщения?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Закрепить';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Закрепить это сообщение в канале, чтобы его видели все.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Открепить сообщение';
@@ -10612,11 +10612,12 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Запрашивать подтверждение перед входом в голосовые чаты';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Кнопка быстрого переключения';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Заменить кнопку голосового сообщения в поле ввода на кнопку быстрого переключения для удобной навигации';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11136,11 +11137,11 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Выйти';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Выйти?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Вы сможете снова войти в аккаунт в любое время.';
 
   @override
   String get quickSwitcherTabSearch => 'Поиск';
@@ -13710,18 +13711,18 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Настройки сообщества';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Удалить сообщество';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Вы уверены, что хотите удалить это сообщество? Это действие необратимо. Все каналы, сообщения и настройки будут удалены безвозвратно.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Сообщество удалено';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Не удалось удалить это сообщество';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

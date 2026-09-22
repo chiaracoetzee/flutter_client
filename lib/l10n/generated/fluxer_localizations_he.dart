@@ -3923,31 +3923,31 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'פלטפורמה לא ידועה';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'הצגת פרטים';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'פרטי מכשיר';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'מכשיר';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'לקוח';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'מיקום';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'כתובת IP';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'שימוש אחרון';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'הסשן הנוכחי';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'לא ידוע';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7888,11 +7888,11 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'האם אתה בטוח שברצונך להסיר את כל התגובות מההודעה הזו?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'הצמדה';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'הצמד את ההודעה הזו לערוץ כדי שכולם יוכלו לראות אותה.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'בטל הצמדת הודעה';
@@ -10384,11 +10384,11 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'אישור לפני הצטרפות לערוצי קול';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'כפתור מחליף מהיר';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'החלפת כפתור ההודעה הקולית בשדה הקלט בכפתור מחליף מהיר לניווט קל';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -10892,11 +10892,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'יציאה';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'להתנתק?';
 
   @override
-  String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+  String get userSettingsLogOutConfirmDescription => 'תוכל להיכנס שוב בכל עת.';
 
   @override
   String get quickSwitcherTabSearch => 'חיפוש';
@@ -13414,18 +13413,17 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'הגדרות קהילה';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'מחיקת קהילה';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'האם למחוק את הקהילה הזו? לא ניתן לבטל פעולה זו. כל הערוצים, ההודעות וההגדרות יימחקו לצמיתות.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'הקהילה נמחקה';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'לא ניתן היה למחוק קהילה זו';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
