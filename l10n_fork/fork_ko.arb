@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "페르소나 변경",
+    "advancedSettingQuickSwitcherButtonLabel": "빠른 전환 버튼",
+    "advancedSettingQuickSwitcherButtonDescription": "입력창의 음성 메시지 버튼을 빠른 전환 버튼으로 교체하여 편리하게 이동",
     "personaSelectTitle": "페르소나 선택",
     "personaSettingsHeader": "페르소나 설정",
     "personaManageAction": "관리",
