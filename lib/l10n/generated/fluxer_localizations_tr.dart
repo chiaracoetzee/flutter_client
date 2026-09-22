@@ -10538,6 +10538,13 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Sesli kanallara katılmadan önce onayla';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Seçildiğinde GIF\'leri otomatik gönder';
 
