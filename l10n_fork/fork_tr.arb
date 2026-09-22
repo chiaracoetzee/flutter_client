@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Personayı değiştir",
+    "advancedSettingQuickSwitcherButtonLabel": "Hızlı Geçiş düğmesi",
+    "advancedSettingQuickSwitcherButtonDescription": "Daha hızlı gezinme için metin girişindeki sesli mesaj düğmesini Hızlı Geçiş ile değiştirin",
     "personaSelectTitle": "Persona Seç",
     "personaSettingsHeader": "Persona Ayarları",
     "personaManageAction": "Yönet",

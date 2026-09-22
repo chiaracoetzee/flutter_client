@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Mudar persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Botão do seletor rápido",
+    "advancedSettingQuickSwitcherButtonDescription": "Substitui o botão de mensagem de voz na entrada de texto por um seletor rápido para navegação veloz",
     "personaSelectTitle": "Selecionar persona",
     "personaSettingsHeader": "Configurações de personas",
     "personaManageAction": "Gerenciar",
