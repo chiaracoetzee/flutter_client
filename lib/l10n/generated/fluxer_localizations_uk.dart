@@ -10902,11 +10902,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Запитувати підтвердження перед приєднанням до голосових каналів';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Кнопка швидкого перемикання';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Замінити кнопку голосового повідомлення в полі введення на кнопку швидкого перемикання';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -14022,7 +14023,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Не вдалося видалити цю спільноту';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
