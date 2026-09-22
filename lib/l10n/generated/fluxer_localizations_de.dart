@@ -3999,31 +3999,31 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Unbekannte Plattform';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Details ansehen';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Gerätedetails';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Gerät';
 
   @override
   String get linkedDevicesDetailsClient => 'Client';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Standort';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-Adresse';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Letztmalig verwendet';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Aktuelle Sitzung';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Unbekannt';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8077,11 +8077,11 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Möchten Sie wirklich alle Reaktionen von dieser Nachricht entfernen?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Anpinnen';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Diese Nachricht für alle sichtbar im Kanal anpinnen.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Nachricht anpinnen aufheben';
@@ -10648,11 +10648,12 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Vor Beitritt zu Sprachkanälen bestätigen';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Quick-Switcher-Schaltfläche';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Ersetze die Sprachnachrichten-Schaltfläche im Eingabefeld durch eine Quick-Switcher-Schaltfläche für schnelle Navigation';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11171,11 +11172,11 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Abmelden';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Abmelden?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Du kannst dich jederzeit wieder anmelden.';
 
   @override
   String get quickSwitcherTabSearch => 'Suchen';
@@ -13759,18 +13760,18 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Community-Einstellungen';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Community löschen';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Möchtest du diese Community wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden. Alle Kanäle, Nachrichten und Einstellungen werden dauerhaft gelöscht.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Community gelöscht';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Diese Community konnte nicht gelöscht werden';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

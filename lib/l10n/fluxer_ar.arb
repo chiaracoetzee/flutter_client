@@ -3789,6 +3789,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "منصة غير معروفة",
+    "linkedDevicesViewDetails": "عرض التفاصيل",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "تفاصيل الجهاز",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "الجهاز",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "العميل",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "الموقع",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "عنوان IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "آخر استخدام",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "الجلسة الحالية",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "غير معروف",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6421,6 +6457,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "هل أنت متأكد أنك تريد إزالة جميع ردود الفعل من هذه الرسالة؟",
+    "chatMessagePinConfirm": "تثبيت",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "ثبّت هذه الرسالة في القناة ليراها الجميع.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6688,6 +6732,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "تسجيل الخروج",
+    "userSettingsLogOutConfirmTitle": "تسجيل الخروج؟",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "يمكنك تسجيل الدخول مرة أخرى في أي وقت.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -8867,6 +8919,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "إعدادات المجتمع",
+    "guildSettingsDeleteCommunity": "حذف المجتمع",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "هل أنت متأكد أنك تريد حذف هذا المجتمع؟ لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع القنوات والرسائل والإعدادات نهائيًا.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "تم حذف المجتمع",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "تعذر حذف هذا المجتمع",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -15799,6 +15867,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "تأكيد أو نقر مزدوج للانضمام إلى قنوات الصوت الخاصة بالمجتمع.",
     "advancedSettingRequireDoubleClickJoinLabel": "تتطلب النقر المزدوج للانضمام إلى القنوات الصوتية",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "تأكيد قبل الانضمام إلى القنوات الصوتية",
+    "advancedSettingQuickSwitcherButtonLabel": "زر التبديل السريع",
+    "advancedSettingQuickSwitcherButtonDescription": "استبدال زر الرسالة الصوتية في حقل الإدخال بزر التبديل السريع للتنقل السهل",
     "advancedSettingAutoSendGifsLabel": "إرسال صور GIF تلقائيًا عند تحديدها",
     "advancedSettingAutoSendGifsDescription": "إرسال صور GIF تلقائيًا من المنتقي بدون تأكيد",
     "advancedSettingSaveGifFavoritesLabel": "حفظ صور GIF المفضلة كوسائط محفوظة",

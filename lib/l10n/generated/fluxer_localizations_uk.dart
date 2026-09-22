@@ -3983,31 +3983,31 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Невідома платформа';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Переглянути деталі';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Деталі пристрою';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Пристрій';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Клієнт';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Місцезнаходження';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-адреса';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Востаннє використано';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Поточна сесія';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Невідомо';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8063,11 +8063,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ви впевнені, що хочете видалити всі реакції з цього повідомлення?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Закріпити';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Закріпити це повідомлення в каналі, щоб його бачили всі.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Відкріпити повідомлення';
@@ -10620,11 +10620,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Запитувати підтвердження перед приєднанням до голосових каналів';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Кнопка швидкого перемикання';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Замінити кнопку голосового повідомлення в полі введення на кнопку швидкого перемикання';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11146,11 +11147,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Вийти';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Вийти?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Ви можете ввійти знову в будь-який час.';
 
   @override
   String get quickSwitcherTabSearch => 'Пошук';
@@ -13718,18 +13719,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Налаштування спільноти';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Видалити спільноту';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Ви впевнені, що хочете видалити цю спільноту? Цю дію не можна скасувати. Усі канали, повідомлення та налаштування буде видалено назавжди.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Спільноту видалено';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Не вдалося видалити цю спільноту';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
