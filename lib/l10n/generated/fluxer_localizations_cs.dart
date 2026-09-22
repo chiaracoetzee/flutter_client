@@ -10848,6 +10848,13 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vyžadovat potvrzení před připojením k hlasovým kanálům';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Automaticky odesílat GIFy po výběru';
 
