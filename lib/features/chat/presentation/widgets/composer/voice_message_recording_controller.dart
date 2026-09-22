@@ -507,3 +507,29 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     super.dispose();
   }
 }
+
+class ActiveVoiceRecordingTarget {
+  const ActiveVoiceRecordingTarget({
+    required this.controller,
+    required this.startLockedRecording,
+  });
+
+  final VoiceMessageRecordingController controller;
+  final Future<void> Function() startLockedRecording;
+}
+
+class ActiveVoiceRecordingTargetNotifier
+    extends Notifier<ActiveVoiceRecordingTarget?> {
+  @override
+  ActiveVoiceRecordingTarget? build() => null;
+
+  void setTarget(ActiveVoiceRecordingTarget? target) {
+    state = target;
+  }
+}
+
+final activeVoiceRecordingTargetProvider =
+    NotifierProvider<
+      ActiveVoiceRecordingTargetNotifier,
+      ActiveVoiceRecordingTarget?
+    >(ActiveVoiceRecordingTargetNotifier.new);
