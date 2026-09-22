@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Persona váltása",
+    "advancedSettingQuickSwitcherButtonLabel": "Gyorsváltó gomb",
+    "advancedSettingQuickSwitcherButtonDescription": "A hangüzenet gomb lecserélése a beviteli mezőben gyorsváltóra a gyorsabb navigációért",
     "personaSelectTitle": "Persona kiválasztása",
     "personaSettingsHeader": "Persona beállítások",
     "personaManageAction": "Kezelés",
