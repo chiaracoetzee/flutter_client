@@ -248,7 +248,7 @@ class _QuickSwitcherSheetBodyState
     QuickSwitcherState state,
     FluxerLocalizations l10n,
   ) {
-    if (state.candidateSets == null) {
+    if (state.candidateSets == null && state.results.isEmpty) {
       return _buildScrollablePlaceholder(
         context,
         child: const Center(child: FluxerLoadingSpinner()),
