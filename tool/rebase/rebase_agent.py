@@ -39,7 +39,7 @@ MD_TRANSCRIPT_FILE = "/tmp/rebase_transcript.md"
 APP_DATA_DIR = "/tmp/antigravity_data"
 LOG_SAVE_DIR = "/tmp/antigravity_data/sessions"
 CONVERSATION_ID = "flutter-client-rebase-automation-session"
-TIMEOUT_SECONDS = 1080  # 18 minute internal timeout (matches 20m CI step)
+TIMEOUT_SECONDS = 1200  # 20 minute internal timeout
 
 
 class MarkdownLogger:
