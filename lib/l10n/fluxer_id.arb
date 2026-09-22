@@ -4747,6 +4747,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Platform Tidak Diketahui",
+    "linkedDevicesViewDetails": "Lihat detail",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Detail perangkat",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Perangkat",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Klien",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Lokasi",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "Alamat IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Terakhir digunakan",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Sesi saat ini",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Tidak diketahui",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -9589,6 +9625,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Apakah Anda yakin ingin menghapus semua reaksi dari pesan ini?",
+    "chatMessagePinConfirm": "Sematkan",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Sematkan pesan ini ke saluran agar semua orang bisa melihatnya.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -12478,6 +12522,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Konfirmasi atau klik dua kali untuk bergabung dengan saluran suara komunitas",
     "advancedSettingRequireDoubleClickJoinLabel": "Wajibkan klik ganda untuk bergabung ke saluran suara",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Konfirmasi sebelum bergabung ke saluran suara",
+    "advancedSettingQuickSwitcherButtonLabel": "Tombol Pengalih Cepat",
+    "advancedSettingQuickSwitcherButtonDescription": "Ganti tombol pesan suara di kolom input dengan tombol Pengalih Cepat untuk navigasi cepat",
     "advancedSettingAutoSendGifsLabel": "Kirim GIF secara otomatis saat dipilih",
     "advancedSettingAutoSendGifsDescription": "Kirim GIF secara otomatis dari pemilih tanpa konfirmasi",
     "advancedSettingSaveGifFavoritesLabel": "Simpan GIF favorit sebagai media tersimpan",
@@ -12659,6 +12705,14 @@
         }
     },
     "userSettingsNavLogOut": "Keluar",
+    "userSettingsLogOutConfirmTitle": "Keluar?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Kamu dapat masuk kembali kapan saja.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
