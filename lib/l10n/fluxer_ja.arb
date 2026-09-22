@@ -3789,6 +3789,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "不明なプラットフォーム",
+    "linkedDevicesViewDetails": "詳細を見る",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "デバイスの詳細",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "デバイス",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "クライアント",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "場所",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IPアドレス",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "最終使用",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "現在のセッション",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "不明",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6421,6 +6457,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "このメッセージからすべてのリアクションを削除してもよろしいですか？",
+    "chatMessagePinConfirm": "ピン留め",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "このメッセージをチャンネルにピン留めし、全員に表示します。",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6688,6 +6732,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "ログアウト",
+    "userSettingsLogOutConfirmTitle": "サインアウトしますか？",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "いつでもサインインし直せます。",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -8867,6 +8919,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "コミュニティ設定",
+    "guildSettingsDeleteCommunity": "コミュニティを削除",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "このコミュニティを削除しますか？この操作は元に戻せません。すべてのチャンネル、メッセージ、設定は完全に削除されます。",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "コミュニティを削除しました",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "このコミュニティを削除できませんでした",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -15799,6 +15867,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "コミュニティボイスへの参加時の確認またはダブルクリック",
     "advancedSettingRequireDoubleClickJoinLabel": "音声チャンネル参加時にダブルクリックを要求",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "音声チャンネル参加時に確認する",
+    "advancedSettingQuickSwitcherButtonLabel": "クイックスイッチャーボタン",
+    "advancedSettingQuickSwitcherButtonDescription": "メッセージ入力欄のボイスメッセージボタンをクイックスイッチャーに置き換えて素早く移動する",
     "advancedSettingAutoSendGifsLabel": "選択時にGIFを自動送信",
     "advancedSettingAutoSendGifsDescription": "GIFピッカーから確認なしで自動送信",
     "advancedSettingSaveGifFavoritesLabel": "GIFのお気に入りを保存済みメディアとして保存",

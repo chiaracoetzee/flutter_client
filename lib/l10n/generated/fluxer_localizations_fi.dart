@@ -3973,31 +3973,31 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Tuntematon alusta';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Näytä tiedot';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Laitteen tiedot';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Laite';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Asiakasohjelma';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Sijainti';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-osoite';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Viimeksi käytetty';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Nykyinen istunto';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Tuntematon';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8005,11 +8005,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Haluatko varmasti poistaa kaikki reaktiot tästä viestistä?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Kiinnitä';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Kiinnitä tämä viesti kanavalle kaikkien nähtäväksi.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Poista viestin kiinnitys';
@@ -10541,11 +10541,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Vahvista ennen puhekanaville liittymistä';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Pikavaihdin-painike';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Korvaa viestikentän ääniviestipainike pikavaihtimella nopeaa siirtymistä varten';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11051,11 +11051,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Kirjaudu ulos';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Kirjaudutaanko ulos?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Voit kirjautua takaisin milloin tahansa.';
 
   @override
   String get quickSwitcherTabSearch => 'Haku';
@@ -13619,18 +13619,18 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Yhteisön asetukset';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Poista yhteisö';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Haluatko varmasti poistaa tämän yhteisön? Tätä toimintoa ei voi kumota. Kaikki kanavat, viestit ja asetukset poistetaan pysyvästi.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Yhteisö poistettu';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Tätä yhteisöä ei voitu poistaa';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

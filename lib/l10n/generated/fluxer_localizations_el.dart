@@ -3998,31 +3998,31 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Άγνωστη Πλατφόρμα';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Προβολή λεπτομερειών';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Λεπτομέρειες συσκευής';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Συσκευή';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Εφαρμογή';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Τοποθεσία';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'Διεύθυνση IP';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Τελευταία χρήση';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Τρέχουσα συνεδρία';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Άγνωστο';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8059,11 +8059,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Είστε σίγουροι ότι θέλετε να αφαιρέσετε όλες τις αντιδράσεις από αυτό το μήνυμα;';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Καρφίτσωμα';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Καρφιτσώστε αυτό το μήνυμα στο κανάλι για να το βλέπουν όλοι.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Αποκαθήλωση μηνύματος';
@@ -10634,11 +10634,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Επιβεβαίωση πριν την είσοδο σε κανάλια φωνής';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Κουμπί γρήγορης εναλλαγής';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Αντικατάσταση του κουμπιού φωνητικού μηνύματος στο πεδίο μηνύματος με κουμπί γρήγορης εναλλαγής για ταχύτερη πλοήγηση';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11163,11 +11164,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Αποσύνδεση';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Αποσύνδεση;';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Μπορείτε να συνδεθείτε ξανά οποιαδήποτε στιγμή.';
 
   @override
   String get quickSwitcherTabSearch => 'Αναζήτηση';
@@ -13759,18 +13760,18 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Ρυθμίσεις Κοινότητας';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Διαγραφή κοινότητας';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την κοινότητα; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Όλα τα κανάλια, τα μηνύματα και οι ρυθμίσεις θα διαγραφούν οριστικά.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Η κοινότητα διαγράφηκε';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Δεν ήταν δυνατή η διαγραφή αυτής της κοινότητας';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
