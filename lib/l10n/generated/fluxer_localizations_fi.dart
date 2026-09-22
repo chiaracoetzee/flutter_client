@@ -10622,11 +10622,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Vahvista ennen äänikanaville liittymistä';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Pikavaihdin-painike';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Korvaa viestikentän ääniviestipainike pikavaihtimella nopeaa siirtymistä varten';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13717,7 +13717,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Tätä yhteisöä ei voitu poistaa';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

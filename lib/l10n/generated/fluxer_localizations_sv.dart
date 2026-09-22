@@ -10621,11 +10621,11 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Bekräfta innan du går med i röstkanaler';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Snabbväxlarknapp';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Ersätt knappen för röstmeddelande i inmatningsfältet med en snabbväxlare för smidig navigering';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13720,7 +13720,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Kunde inte ta bort denna gemenskap';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

@@ -10142,11 +10142,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '음성 채널 참여 전 확인';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => '빠른 전환 버튼';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      '입력창의 음성 메시지 버튼을 빠른 전환 버튼으로 교체하여 편리하게 이동';
 
   @override
   String get advancedSettingAutoSendGifsLabel => '선택 시 GIF 자동 전송';
@@ -13106,8 +13106,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get guildSettingsCommunityDeleted => '커뮤니티 삭제됨';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => '이 커뮤니티를 삭제할 수 없습니다';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

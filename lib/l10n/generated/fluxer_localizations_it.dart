@@ -10662,11 +10662,12 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Chiedi conferma prima di unirti ai canali vocali';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Pulsante selettore rapido';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Sostituisci il pulsante dei messaggi vocali nel campo di testo con un selettore rapido per una navigazione veloce';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13782,7 +13783,7 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Impossibile eliminare questa community';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

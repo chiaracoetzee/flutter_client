@@ -10444,11 +10444,11 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'אישור לפני הצטרפות לערוצי קול';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'כפתור מחליף מהיר';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'החלפת כפתור ההודעה הקולית בשדה הקלט בכפתור מחליף מהיר לניווט קל';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13481,8 +13481,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get guildSettingsCommunityDeleted => 'הקהילה נמחקה';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'לא ניתן היה למחוק קהילה זו';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

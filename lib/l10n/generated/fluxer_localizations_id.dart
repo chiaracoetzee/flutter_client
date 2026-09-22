@@ -10597,11 +10597,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Konfirmasi sebelum bergabung ke saluran suara';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Tombol Pengalih Cepat';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Ganti tombol pesan suara di kolom input dengan tombol Pengalih Cepat untuk navigasi cepat';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>

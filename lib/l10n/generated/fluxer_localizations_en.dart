@@ -25373,6 +25373,13 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Confirm before joining voice channels';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Automatically send GIFs when selected';
 
@@ -37292,6 +37299,13 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'Are you sure you want to remove all reactions from this message?';
 
   @override
+  String get chatMessagePinConfirm => 'Pin';
+
+  @override
+  String get chatMessagePinConfirmDescription =>
+      'Pin this message to the channel for everyone to see.';
+
+  @override
   String get chatMessageUnpinConfirmTitle => 'Unpin message';
 
   @override
@@ -39837,6 +39851,13 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get advancedSettingConfirmBeforeJoiningVoiceLabel =>
       'Confirm before joining voice channels';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>

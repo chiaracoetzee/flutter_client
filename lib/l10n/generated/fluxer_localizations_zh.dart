@@ -9921,11 +9921,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '加入语音频道前确认';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => '快速切换按钮';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      '将消息输入框中的语音消息按钮替换为快速切换按钮，以便快速导航';
 
   @override
   String get advancedSettingAutoSendGifsLabel => '选中后自动发送 GIF';
@@ -12841,8 +12841,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildSettingsCommunityDeleted => '社区已删除';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => '无法删除此社区';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -23916,6 +23915,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get advancedSettingConfirmBeforeJoiningVoiceLabel => '在加入語音頻道前確認';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => '快速切換按鈕';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      '將訊息輸入框中的語音訊息按鈕替換為快速切換按鈕，以便快速導航';
+
+  @override
   String get advancedSettingAutoSendGifsLabel => '選取後自動傳送 GIF';
 
   @override
@@ -26825,6 +26831,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildSettingsCommunityDeleted => '社群已刪除';
+
+  @override
+  String get guildSettingsDeleteCommunityFailed => '無法刪除此社群';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

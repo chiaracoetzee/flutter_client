@@ -10635,11 +10635,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vyžadovat potvrzení před připojením k hlasovým kanálům';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Tlačítko rychlého přepínače';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Nahradit tlačítko hlasové zprávy v poli pro zadávání tlačítkem rychlého přepínače pro svižnou navigaci';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13725,7 +13726,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Tuto komunitu se nepodařilo smazat';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

@@ -10602,11 +10602,12 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Bekræft, før du deltager i talekanaler';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Knap til hurtigskifter';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Erstat knappen til stemmemeddelelser i beskedfeltet med en hurtigskifter for nemmere navigation';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13707,7 +13708,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Kunne ikke slette dette fællesskab';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
