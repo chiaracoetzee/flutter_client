@@ -3964,31 +3964,31 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Ukendt platform';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Se detaljer';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Enhedsdetaljer';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Enhed';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Klient';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Sted';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-adresse';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Sidst brugt';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Aktuel session';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Ukendt';
 
   @override
   String slowmodeLabel(String duration) {
@@ -7994,11 +7994,11 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Er du sikker på, at du vil fjerne alle reaktioner fra denne besked?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Fastgør';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Fastgør denne besked til kanalen, så alle kan se den.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Fjern pin fra besked';
@@ -10527,11 +10527,12 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Bekræft, før du deltager i stemmekanaler';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Knap til hurtigskifter';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Erstat knappen til stemmemeddelelser i beskedfeltet med en hurtigskifter for nemmere navigation';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11038,11 +11039,11 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Log ud';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Log ud?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Du kan logge ind igen når som helst.';
 
   @override
   String get quickSwitcherTabSearch => 'Søg';
@@ -13613,18 +13614,18 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Fællesskabsindstillinger';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Slet fællesskab';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Er du sikker på, at du vil slette dette fællesskab? Denne handling kan ikke fortrydes. Alle kanaler, beskeder og indstillinger slettes permanent.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Fællesskab slettet';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Kunne ikke slette dette fællesskab';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

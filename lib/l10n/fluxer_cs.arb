@@ -3789,6 +3789,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Neznámá platforma",
+    "linkedDevicesViewDetails": "Zobrazit podrobnosti",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Podrobnosti o zařízení",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Zařízení",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Klient",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Poloha",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IP adresa",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Poslední použití",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Aktuální relace",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Neznámý",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6421,6 +6457,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Opravdu chcete odebrat všechny reakce z této zprávy?",
+    "chatMessagePinConfirm": "Připnout",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Připnout tuto zprávu do kanálu, aby ji všichni viděli.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6688,6 +6732,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "Odhlásit se",
+    "userSettingsLogOutConfirmTitle": "Odhlásit se?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Kdykoli se můžete znovu přihlásit.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -8867,6 +8919,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Nastavení komunity",
+    "guildSettingsDeleteCommunity": "Smazat komunitu",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Opravdu chcete smazat tuto komunitu? Tuto akci nelze vrátit zpět. Všechny kanály, zprávy a nastavení budou trvale smazány.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Komunita smazána",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Tuto komunitu se nepodařilo smazat",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -15799,6 +15867,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Potvrzení nebo dvojité kliknutí pro připojení do hlasového kanálu komunity.",
     "advancedSettingRequireDoubleClickJoinLabel": "Vyžadovat dvojklik pro připojení k hlasovým kanálům",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Potvrdit před připojením k hlasovým kanálům",
+    "advancedSettingQuickSwitcherButtonLabel": "Tlačítko rychlého přepínače",
+    "advancedSettingQuickSwitcherButtonDescription": "Nahradit tlačítko hlasové zprávy v poli pro zadávání tlačítkem rychlého přepínače pro svižnou navigaci",
     "advancedSettingAutoSendGifsLabel": "Automaticky odesílat GIFy po výběru",
     "advancedSettingAutoSendGifsDescription": "Automaticky odesílat GIFy z výběru bez potvrzení",
     "advancedSettingSaveGifFavoritesLabel": "Ukládat oblíbené GIFy jako uložená média",

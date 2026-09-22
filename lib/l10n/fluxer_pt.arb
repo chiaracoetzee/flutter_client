@@ -3789,6 +3789,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Plataforma Desconhecida",
+    "linkedDevicesViewDetails": "Ver detalhes",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Detalhes do dispositivo",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Dispositivo",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Cliente",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Localização",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "Endereço IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Último uso",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Sessão atual",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Desconhecido",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6421,6 +6457,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Tem certeza de que deseja remover todas as reações desta mensagem?",
+    "chatMessagePinConfirm": "Fixar",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Fixar esta mensagem no canal para que todos possam ver.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6642,6 +6686,8 @@
         "description": "Advanced settings section title for crash and performance reporting."
     },
     "advancedPerformanceReportingSectionDescription": "Ajude a melhorar o {productName} compartilhando dados anônimos de falhas e desempenho.",
+    "advancedSettingQuickSwitcherButtonLabel": "Botão do seletor rápido",
+    "advancedSettingQuickSwitcherButtonDescription": "Substitui o botão de mensagem de voz na entrada de texto por um seletor rápido para navegação veloz",
     "@advancedPerformanceReportingSectionDescription": {
         "description": "Advanced settings section description for crash and performance reporting.",
         "placeholders": {
@@ -6688,6 +6734,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "Sair",
+    "userSettingsLogOutConfirmTitle": "Sair?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Você pode entrar novamente a qualquer momento.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -8867,6 +8921,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Configurações da Comunidade",
+    "guildSettingsDeleteCommunity": "Excluir comunidade",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Tem certeza de que deseja excluir esta comunidade? Esta ação não poderá ser desfeita. Todos os canais, mensagens e configurações serão excluídos permanentemente.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Comunidade excluída",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "Não foi possível excluir esta comunidade",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },

@@ -3969,31 +3969,31 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Neznámá platforma';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Zobrazit podrobnosti';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Podrobnosti o zařízení';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Zařízení';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Klient';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Poloha';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP adresa';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Poslední použití';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Aktuální relace';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Neznámý';
 
   @override
   String slowmodeLabel(String duration) {
@@ -8021,11 +8021,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Opravdu chcete odebrat všechny reakce z této zprávy?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Připnout';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Připnout tuto zprávu do kanálu, aby ji všichni viděli.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Odebrat připnutí zprávy';
@@ -10555,11 +10555,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Potvrdit před připojením k hlasovým kanálům';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Tlačítko rychlého přepínače';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Nahradit tlačítko hlasové zprávy v poli pro zadávání tlačítkem rychlého přepínače pro svižnou navigaci';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -11071,11 +11072,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Odhlásit se';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Odhlásit se?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Kdykoli se můžete znovu přihlásit.';
 
   @override
   String get quickSwitcherTabSearch => 'Hledat';
@@ -13634,18 +13635,18 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Nastavení komunity';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Smazat komunitu';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Opravdu chcete smazat tuto komunitu? Tuto akci nelze vrátit zpět. Všechny kanály, zprávy a nastavení budou trvale smazány.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Komunita smazána';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Tuto komunitu se nepodařilo smazat';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

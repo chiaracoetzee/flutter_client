@@ -3789,6 +3789,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "แพลตฟอร์มไม่รู้จัก",
+    "linkedDevicesViewDetails": "ดูรายละเอียด",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "รายละเอียดอุปกรณ์",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "อุปกรณ์",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "ไคลเอ็นต์",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "ตำแหน่งที่ตั้ง",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "ที่อยู่ IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "ใช้งานล่าสุด",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "เซสชันปัจจุบัน",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "ไม่ทราบ",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6421,6 +6457,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "คุณแน่ใจหรือไม่ว่าต้องการลบอิโมจิทั้งหมดออกจากข้อความนี้",
+    "chatMessagePinConfirm": "ปักหมุด",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "ปักหมุดข้อความนี้ในช่องเพื่อให้ทุกคนเห็น",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6688,6 +6732,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "ออกจากระบบ",
+    "userSettingsLogOutConfirmTitle": "ออกจากระบบหรือไม่",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "คุณสามารถลงชื่อเข้าใช้ได้ทุกเมื่อ",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -8867,6 +8919,22 @@
         "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "การตั้งค่าชุมชน",
+    "guildSettingsDeleteCommunity": "ลบคอมมูนิตี้",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "คุณแน่ใจหรือไม่ว่าต้องการลบคอมมูนิตี้นี้ การดำเนินการนี้ไม่สามารถยกเลิกได้ ทุกช่อง ข้อความ และการตั้งค่าจะถูกลบอย่างถาวร",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "ลบคอมมูนิตี้แล้ว",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "guildSettingsDeleteCommunityFailed": "ไม่สามารถลบชุมชนนี้ได้",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -15799,6 +15867,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "ยืนยันหรือดับเบิลคลิกเพื่อเข้าร่วมช่องเสียงของชุมชน",
     "advancedSettingRequireDoubleClickJoinLabel": "ต้องดับเบิลคลิกเพื่อเข้าร่วมช่องเสียง",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "ยืนยันก่อนเข้าร่วมช่องเสียง",
+    "advancedSettingQuickSwitcherButtonLabel": "ปุ่มตัวสลับด่วน",
+    "advancedSettingQuickSwitcherButtonDescription": "แทนที่ปุ่มข้อความเสียงในช่องพิมพ์ด้วยปุ่มตัวสลับด่วนเพื่อการนำทางที่รวดเร็ว",
     "advancedSettingAutoSendGifsLabel": "ส่ง GIF อัตโนมัติเมื่อเลือก",
     "advancedSettingAutoSendGifsDescription": "ส่ง GIF อัตโนมัติจากตัวเลือกโดยไม่ต้องยืนยัน",
     "advancedSettingSaveGifFavoritesLabel": "บันทึก GIF ที่ชอบเป็นมีเดียที่บันทึกไว้",
