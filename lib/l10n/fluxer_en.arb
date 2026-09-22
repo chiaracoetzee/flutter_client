@@ -12941,6 +12941,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Confirmation or double-click for community voice joins",
     "advancedSettingRequireDoubleClickJoinLabel": "Require double-click to join voice channels",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Confirm before joining voice channels",
+    "advancedSettingQuickSwitcherButtonLabel": "Quick Switcher button",
+    "advancedSettingQuickSwitcherButtonDescription": "Replace the voice message button in the message input with a Quick Switcher button for fast navigation",
     "advancedSettingAutoSendGifsLabel": "Automatically send GIFs when selected",
     "advancedSettingAutoSendGifsDescription": "Automatically send GIFs from the picker without confirmation",
     "advancedSettingSaveGifFavoritesLabel": "Save GIF favorites as saved media",

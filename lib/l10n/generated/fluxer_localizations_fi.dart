@@ -10541,6 +10541,13 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Vahvista ennen puhekanaville liittymistä';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Lähetä GIF-kuvat automaattisesti, kun ne on valittu';
 
