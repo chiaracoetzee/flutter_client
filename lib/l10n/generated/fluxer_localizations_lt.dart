@@ -10622,6 +10622,13 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Patvirtinti prieš prisijungiant prie balso kanalų';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get advancedSettingAutoSendGifsLabel =>
       'Automatiškai siųsti pasirinktus GIF';
 

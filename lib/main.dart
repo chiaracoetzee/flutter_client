@@ -22,6 +22,7 @@ import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/gestures/pointer_delivery_profiler.dart';
 import 'package:image_picker_android/image_picker_android.dart';
@@ -111,6 +112,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
       await Future.wait<void>([
         container.read(observabilityReportingProvider.notifier).load(),
         container.read(hapticsPreferencesProvider.notifier).load(),
+        container.read(quickSwitcherButtonPreferencesProvider.notifier).load(),
       ]);
       await FluxerObservability.instance.traceAsync(
         'app.bootstrap.fcm',
