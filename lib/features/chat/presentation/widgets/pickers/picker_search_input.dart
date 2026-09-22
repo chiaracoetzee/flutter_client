@@ -24,8 +24,8 @@ class PickerSearchInput extends StatefulWidget {
     this.onSubmitted,
     this.onCleared,
     this.focusNode,
-    this.onActivated,
     this.autofocus = false,
+    this.onActivated,
     this.enabled = true,
     super.key,
   });
@@ -60,8 +60,8 @@ class PickerSearchInput extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
   final VoidCallback? onCleared;
   final FocusNode? focusNode;
-  final VoidCallback? onActivated;
   final bool autofocus;
+  final VoidCallback? onActivated;
   final bool enabled;
 
   @override
