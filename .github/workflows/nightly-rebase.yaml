@@ -122,19 +122,17 @@ jobs:
             if ! git -C dart_sdk merge-base --is-ancestor "$UPSTREAM_SDK_COMMIT" "$FORK_SDK_COMMIT"; then
               echo "::error::Submodule dart_sdk fork ($FORK_SDK_COMMIT) has not been rebased onto upstream canary's SDK ($UPSTREAM_SDK_COMMIT)!"
 
-              cat << 'EOF' > /tmp/rebase_escalation_reason.md
-              ## 🛑 Blocked: Submodule `dart_sdk` Requires Prior Rebase
-
-              The rebase of `features/subprofiles-mobile` cannot proceed because `upstream/canary` has updated the `dart_sdk` submodule, but our subprofiles fork has not yet been rebased onto that commit.
-
-              ### Diagnostics:
-              - **Upstream Canary SDK Commit**: Upstream canary has updated `dart_sdk`.
-              - **Fork SDK Commit**: The required upstream SDK commit is not yet an ancestor of `chiaracoetzee/dart_sdk` (`features/subprofiles`).
-
-              ### Resolution:
-              1. Wait for the `dart_sdk` nightly rebase job (`chiaracoetzee/dart_sdk`) to complete cleanly and push its rebased branch.
-              2. Once `dart_sdk` is pushed, re-run this `flutter_client` rebase workflow.
-              EOF
+              echo "## 🛑 Blocked: Submodule dart_sdk Requires Prior Rebase" > /tmp/rebase_escalation_reason.md
+              echo "" >> /tmp/rebase_escalation_reason.md
+              echo "The rebase of features/subprofiles-mobile cannot proceed because upstream/canary has updated the dart_sdk submodule, but our subprofiles fork has not yet been rebased onto that commit." >> /tmp/rebase_escalation_reason.md
+              echo "" >> /tmp/rebase_escalation_reason.md
+              echo "### Diagnostics:" >> /tmp/rebase_escalation_reason.md
+              echo "- **Upstream Canary SDK Commit**: $UPSTREAM_SDK_COMMIT" >> /tmp/rebase_escalation_reason.md
+              echo "- **Fork SDK Commit**: $FORK_SDK_COMMIT (chiaracoetzee/dart_sdk @ features/subprofiles)" >> /tmp/rebase_escalation_reason.md
+              echo "" >> /tmp/rebase_escalation_reason.md
+              echo "### Resolution:" >> /tmp/rebase_escalation_reason.md
+              echo "1. Wait for the dart_sdk nightly rebase job (chiaracoetzee/dart_sdk) to complete cleanly and push its rebased branch." >> /tmp/rebase_escalation_reason.md
+              echo "2. Once dart_sdk is pushed, re-run this flutter_client rebase workflow." >> /tmp/rebase_escalation_reason.md
               exit 1
             fi
             echo "Submodule dart_sdk is compatible and contains upstream commit."
