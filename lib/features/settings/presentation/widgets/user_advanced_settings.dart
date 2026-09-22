@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/settings/providers/advanced_preferences_prov
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/haptics_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
@@ -206,6 +207,14 @@ class UserAdvancedSettings extends ConsumerWidget {
             sectionId: 'advanced-settings-chat',
             title: l10n.advancedSettingsCategoryChat,
             children: [
+              FluxerSettingsSwitchItem(
+                label: l10n.advancedSettingQuickSwitcherButtonLabel,
+                description: l10n.advancedSettingQuickSwitcherButtonDescription,
+                value: ref.watch(quickSwitcherButtonPreferencesProvider),
+                onChanged: (value) => ref
+                    .read(quickSwitcherButtonPreferencesProvider.notifier)
+                    .setEnabled(value: value),
+              ),
               FluxerSettingsSwitchItem(
                 label: l10n.advancedSettingAutoSendGifsLabel,
                 description: l10n.advancedSettingAutoSendGifsDescription,
