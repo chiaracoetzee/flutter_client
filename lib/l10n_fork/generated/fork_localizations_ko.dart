@@ -12,6 +12,13 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get chatMessageChangePersona => '페르소나 변경';
 
   @override
+  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
   String get personaSelectTitle => '페르소나 선택';
 
   @override
