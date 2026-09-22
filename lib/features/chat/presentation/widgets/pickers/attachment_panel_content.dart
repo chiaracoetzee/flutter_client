@@ -9,9 +9,12 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_gallery_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_source_bar.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
@@ -21,6 +24,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator
 import 'package:fluxer_app/features/chat/utils/attachments/gallery_attachment_selection.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/settings/providers/chat_input_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -351,6 +355,15 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     await _addUploads(await pickNativeFileUploads());
   }
 
+  Future<void> _onVoicePressed() async {
+    final ActiveVoiceRecordingTarget? target =
+        ref.read(activeVoiceRecordingTargetProvider);
+    if (target == null) {
+      return;
+    }
+    await target.startLockedRecording();
+  }
+
   Future<void> _onOpenPhotoSettings() async {
     final bool allowed = await ensureSystemPermission(
       context,
@@ -372,6 +385,26 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
             selectedGalleryAssetIds(attachments.items),
       ),
     );
+    final bool showQuickSwitcher = ref.watch(
+      quickSwitcherButtonPreferencesProvider,
+    );
+    final ChannelMessagePermissions perms =
+        watchChannelMessagePermissionsForComposer(ref, _channelId);
+    final bool isEditing = ref.watch(
+      chatViewModelProvider.select((s) => s.editingMessage != null),
+    );
+    final bool isSlowmodeBlocked =
+        !isEditing &&
+        ref.watch(
+          isSlowmodeBlockedProvider(
+            _channelId,
+          ).select((AsyncValue<bool> value) => value.value ?? false),
+        );
+    final bool canUseVoice =
+        showQuickSwitcher &&
+        perms.isVoiceEnabled &&
+        perms.isComposerEnabled &&
+        !isSlowmodeBlocked;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
     return ColoredBox(
@@ -386,6 +419,9 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
               child: AttachmentPanelSourceBar(
                 onPhotosPressed: () => unawaited(_onPhotosPressed()),
                 onFilesPressed: () => unawaited(_onFilesPressed()),
+                onVoicePressed: canUseVoice
+                    ? () => unawaited(_onVoicePressed())
+                    : null,
               ),
             ),
           ),
