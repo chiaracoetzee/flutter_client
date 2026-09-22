@@ -10909,11 +10909,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Patvirtinti prieš prisijungiant prie balso kanalų';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Greitojo perjungiklio mygtukas';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Pakeisti balso pranešimo mygtuką įvesties lauke greituoju perjungikliu patogesnei navigacijai';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -14027,7 +14028,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Nepavyko ištrinti šios bendruomenės';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
