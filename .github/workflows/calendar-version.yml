@@ -25,10 +25,20 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
-          token: ${{ secrets.FLUXER_AUTOMATION_PAT }}
+          token: ${{ steps.create-token.outputs.token }}
           ref: ${{ env.BASE_BRANCH }}
 
       - name: Roll pubspec calendar
@@ -40,8 +50,8 @@ jobs:
           NEW_VERSION: ${{ steps.roll.outputs.version }}
         run: |
           set -euo pipefail
-          git config user.name "fluxer-automation"
-          git config user.email "ci@fluxerapp.com"
+          git config user.name "fluxer-ci[bot]"
+          git config user.email "${{ vars.FLUXER_CI_APP_USER_ID }}+fluxer-ci[bot]@users.noreply.github.com"
 
           if git diff --quiet -- pubspec.yaml; then
             echo "::notice::year.month already current; nothing to do."
