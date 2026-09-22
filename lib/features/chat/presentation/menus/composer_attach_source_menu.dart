@@ -3,11 +3,12 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-enum ComposerAttachSource { gallery, files }
+enum ComposerAttachSource { gallery, files, voice }
 
 Future<ComposerAttachSource?> showComposerAttachSourceMenu(
-  BuildContext context,
-) async {
+  BuildContext context, {
+  bool showVoice = false,
+}) async {
   final RenderBox? box = context.findRenderObject() as RenderBox?;
   final Offset position = box != null && box.hasSize
       ? box.localToGlobal(Offset(0, box.size.height))
@@ -35,6 +36,15 @@ Future<ComposerAttachSource?> showComposerAttachSourceMenu(
             close();
           },
         ),
+        if (showVoice)
+          FluxerMenuItem(
+            label: l10n.chatAttachmentSendVoiceMessage,
+            icon: PhosphorIconsFill.microphone,
+            onPressed: () {
+              selected = ComposerAttachSource.voice;
+              close();
+            },
+          ),
       ];
     },
   );
