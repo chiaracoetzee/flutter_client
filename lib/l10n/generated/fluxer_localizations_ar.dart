@@ -10488,11 +10488,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'التأكيد قبل الانضمام إلى القنوات الصوتية';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'زر التبديل السريع';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'استبدال زر الرسالة الصوتية في حقل الإدخال بزر التبديل السريع للتنقل السهل';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13551,8 +13551,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get guildSettingsCommunityDeleted => 'تم حذف المجتمع';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'تعذر حذف هذا المجتمع';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';

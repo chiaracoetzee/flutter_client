@@ -3773,6 +3773,42 @@
         "description": "Fallback shown when the session's OS field is missing."
     },
     "linkedDevicesUnknownPlatform": "Άγνωστη Πλατφόρμα",
+    "linkedDevicesViewDetails": "Προβολή λεπτομερειών",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Λεπτομέρειες συσκευής",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Συσκευή",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Εφαρμογή",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Τοποθεσία",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "Διεύθυνση IP",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Τελευταία χρήση",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Τρέχουσα συνεδρία",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Άγνωστο",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -6405,6 +6441,14 @@
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
     "chatMessageRemoveAllReactionsConfirmDescription": "Είστε σίγουροι ότι θέλετε να αφαιρέσετε όλες τις αντιδράσεις από αυτό το μήνυμα;",
+    "chatMessagePinConfirm": "Καρφίτσωμα",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Καρφιτσώστε αυτό το μήνυμα στο κανάλι για να το βλέπουν όλοι.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
     "@chatMessageRemoveAllReactionsConfirmDescription": {
         "description": "Body text for the remove-all-reactions confirmation sheet."
     },
@@ -6672,6 +6716,14 @@
         "description": "User settings navigation item for release notes."
     },
     "userSettingsNavLogOut": "Αποσύνδεση",
+    "userSettingsLogOutConfirmTitle": "Αποσύνδεση;",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "Μπορείτε να συνδεθείτε ξανά οποιαδήποτε στιγμή.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -15833,6 +15885,8 @@
     "advancedSettingVoiceChannelJoinBehaviorDescription": "Επιβεβαίωση ή διπλό κλικ για συμμετοχή σε φωνητικά κανάλια της κοινότητας",
     "advancedSettingRequireDoubleClickJoinLabel": "Απαίτηση διπλού κλικ για είσοδο σε φωνητικά κανάλια",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Επιβεβαίωση πριν την είσοδο σε φωνητικά κανάλια",
+    "advancedSettingQuickSwitcherButtonLabel": "Κουμπί γρήγορης εναλλαγής",
+    "advancedSettingQuickSwitcherButtonDescription": "Αντικατάσταση του κουμπιού φωνητικού μηνύματος στο πεδίο μηνύματος με κουμπί γρήγορης εναλλαγής για ταχύτερη πλοήγηση",
     "advancedSettingAutoSendGifsLabel": "Αυτόματη αποστολή GIF όταν επιλεγεί",
     "advancedSettingAutoSendGifsDescription": "Αυτόματη αποστολή GIF από τον επιλογέα χωρίς επιβεβαίωση",
     "advancedSettingSaveGifFavoritesLabel": "Αποθήκευση αγαπημένων GIF ως αποθηκευμένα πολυμέσα",

@@ -10700,11 +10700,12 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Confirmar antes de unirte a canales de voz';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Botón del selector rápido';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Reemplaza el botón de mensaje de voz por un botón de selector rápido para una navegación ágil';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13837,7 +13838,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'No se pudo eliminar esta comunidad';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -25851,6 +25852,14 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get advancedSettingConfirmBeforeJoiningVoiceLabel =>
       'Confirmar antes de unirte a canales de voz';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Botón del selector rápido';
+
+  @override
+  String get advancedSettingQuickSwitcherButtonDescription =>
+      'Reemplaza el botón de mensaje de voz por un botón de selector rápido para una navegación ágil';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>

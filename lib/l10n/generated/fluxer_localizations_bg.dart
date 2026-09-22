@@ -10688,11 +10688,12 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
       'Потвърждаване преди присъединяване към гласови канали';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel =>
+      'Бутон за бързо превключване';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Замяна на бутона за гласово съобщение с бърз превключвател за по-лесна навигация';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -13833,7 +13834,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Тази общност не можа да бъде изтрита';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
