@@ -10,8 +10,10 @@ import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart
 import 'package:fluxer_app/features/friends/data/friend_repository.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_view.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -84,6 +86,14 @@ class _FakeFriendRepository implements FriendRepository {
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _FakeMyPersonasNotifier extends MyPersonasNotifier {
+  _FakeMyPersonasNotifier(this._initial);
+  final List<Persona> _initial;
+
+  @override
+  AsyncValue<List<Persona>> build() => AsyncValue.data(_initial);
 }
 
 User _onlineUser() {
@@ -262,6 +272,57 @@ void main() {
 
       expect(find.text('Fluxer Visionary'), findsOneWidget);
       expect(find.textContaining('since'), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'own persona profile resolves from myPersonasProvider and displays edit button',
+    (tester) async {
+      final ScrollController scrollController = ScrollController();
+      addTearDown(scrollController.dispose);
+
+      const testPersona = Persona(
+        id: 'persona_1',
+        name: 'Sneaks Test',
+        bio: 'Sneaky bio',
+        personaTags: [PersonaTag(prefix: 'Snk:')],
+      );
+
+      final colorTheme = buildDarkColorTheme();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            ..._overrides(),
+            myPersonasProvider.overrideWith(
+              () => _FakeMyPersonasNotifier([testPersona]),
+            ),
+          ],
+          child: MaterialApp(
+            locale: kTestLocale,
+            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: colorTheme,
+              textTheme: FluxerTextTheme.fromColors(colorTheme),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            home: FluxerToastOverlay(
+              child: Scaffold(
+                body: UserProfileView(
+                  userId: _kUserId,
+                  personaId: 'persona_1',
+                  autoFocusNote: false,
+                  scrollController: scrollController,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Sneaks Test'), findsOneWidget);
+      expect(find.text(testL10n.personaEditPersona), findsOneWidget);
     },
   );
 }
