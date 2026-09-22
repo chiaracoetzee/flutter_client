@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Змінити персону",
+    "advancedSettingQuickSwitcherButtonLabel": "Кнопка швидкого перемикання",
+    "advancedSettingQuickSwitcherButtonDescription": "Замінити кнопку голосового повідомлення в полі введення на кнопку швидкого перемикання",
     "personaSelectTitle": "Виберіть персону",
     "personaSettingsHeader": "Налаштування персон",
     "personaManageAction": "Керувати",

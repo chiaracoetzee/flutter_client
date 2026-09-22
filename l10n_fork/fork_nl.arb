@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Persona wijzigen",
+    "advancedSettingQuickSwitcherButtonLabel": "Snelschakelaar-knop",
+    "advancedSettingQuickSwitcherButtonDescription": "Vervang de spraakbericht-knop in het invoerveld door een snelschakelaar voor snelle navigatie",
     "personaSelectTitle": "Persona kiezen",
     "personaSettingsHeader": "Persona-instellingen",
     "personaManageAction": "Beheren",

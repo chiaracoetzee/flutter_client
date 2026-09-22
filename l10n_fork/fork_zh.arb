@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "切换人格",
+    "advancedSettingQuickSwitcherButtonLabel": "快速切换按钮",
+    "advancedSettingQuickSwitcherButtonDescription": "将消息输入框中的语音消息按钮替换为快速切换按钮，以便快速导航",
     "personaSelectTitle": "选择人格",
     "personaSettingsHeader": "人格设置",
     "personaManageAction": "管理",

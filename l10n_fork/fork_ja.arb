@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "ペルソナを変更",
+    "advancedSettingQuickSwitcherButtonLabel": "クイックスイッチャーボタン",
+    "advancedSettingQuickSwitcherButtonDescription": "メッセージ入力欄のボイスメッセージボタンをクイックスイッチャーに置き換えて素早く移動する",
     "personaSelectTitle": "ペルソナを選択",
     "personaSettingsHeader": "ペルソナ設定",
     "personaManageAction": "管理",

@@ -12,11 +12,11 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get chatMessageChangePersona => 'Schimbă persona';
 
   @override
-  String get advancedSettingQuickSwitcherButtonLabel => 'Quick Switcher button';
+  String get advancedSettingQuickSwitcherButtonLabel => 'Buton comutator rapid';
 
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
-      'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+      'Înlocuiește butonul de mesaj vocal din bara de text cu un comutator rapid pentru navigare facilă';
 
   @override
   String get personaSelectTitle => 'Selectează persona';

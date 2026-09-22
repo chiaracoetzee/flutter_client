@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Change Persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Quick Switcher button",
+    "advancedSettingQuickSwitcherButtonDescription": "Replace the voice message button in the message input with a Quick Switcher button for fast navigation",
     "personaSelectTitle": "Select Persona",
     "personaSettingsHeader": "Persona Settings",
     "personaManageAction": "Manage",
