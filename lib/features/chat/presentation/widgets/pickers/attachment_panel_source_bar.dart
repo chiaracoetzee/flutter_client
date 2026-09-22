@@ -9,11 +9,13 @@ class AttachmentPanelSourceBar extends StatelessWidget {
   const AttachmentPanelSourceBar({
     required this.onPhotosPressed,
     required this.onFilesPressed,
+    this.onVoicePressed,
     super.key,
   });
 
   final VoidCallback onPhotosPressed;
   final VoidCallback onFilesPressed;
+  final VoidCallback? onVoicePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,14 @@ class AttachmentPanelSourceBar extends StatelessWidget {
               fitContent: true,
               onPressed: onFilesPressed,
             ),
+            if (onVoicePressed != null)
+              FluxerButton.ghost(
+                icon: PhosphorIconsFill.microphone,
+                label: l10n.voiceMessageTitle,
+                size: FluxerButtonSize.compact,
+                fitContent: true,
+                onPressed: onVoicePressed,
+              ),
           ],
         ),
       ),
