@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "החלפת פרסונה",
+    "advancedSettingQuickSwitcherButtonLabel": "כפתור מחליף מהיר",
+    "advancedSettingQuickSwitcherButtonDescription": "החלפת כפתור ההודעה הקולית בשדה הקלט בכפתור מחליף מהיר לניווט קל",
     "personaSelectTitle": "בחר פרסונה",
     "personaSettingsHeader": "הגדרות פרסונה",
     "personaManageAction": "ניהול",
