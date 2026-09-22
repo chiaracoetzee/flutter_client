@@ -4,6 +4,8 @@
     "@chatMessageChangePersona": {
         "description": "Action label for changing the persona of a message."
     },
+    "advancedSettingQuickSwitcherButtonLabel": "Quick Switcher button",
+    "advancedSettingQuickSwitcherButtonDescription": "Replace the voice message button in the message input with a Quick Switcher button for fast navigation",
     "personaSelectTitle": "Select Persona",
     "@personaSelectTitle": {
         "description": "Title of the persona selection modal sheet."

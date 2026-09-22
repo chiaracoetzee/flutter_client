@@ -167,6 +167,18 @@ abstract class ForkLocalizations {
   /// **'Change Persona'**
   String get chatMessageChangePersona;
 
+  /// No description provided for @advancedSettingQuickSwitcherButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Switcher button'**
+  String get advancedSettingQuickSwitcherButtonLabel;
+
+  /// No description provided for @advancedSettingQuickSwitcherButtonDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace the voice message button in the message input with a Quick Switcher button for fast navigation'**
+  String get advancedSettingQuickSwitcherButtonDescription;
+
   /// Title of the persona selection modal sheet.
   ///
   /// In en, this message translates to:
