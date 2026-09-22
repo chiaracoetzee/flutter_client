@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Byt persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Snabbväxlarknapp",
+    "advancedSettingQuickSwitcherButtonDescription": "Ersätt knappen för röstmeddelande i inmatningsfältet med en snabbväxlare för smidig navigering",
     "personaSelectTitle": "Välj persona",
     "personaSettingsHeader": "Personainställningar",
     "personaManageAction": "Hantera",

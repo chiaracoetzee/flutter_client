@@ -1,5 +1,7 @@
 {
     "chatMessageChangePersona": "Ganti persona",
+    "advancedSettingQuickSwitcherButtonLabel": "Tombol Pengalih Cepat",
+    "advancedSettingQuickSwitcherButtonDescription": "Ganti tombol pesan suara di kolom input dengan tombol Pengalih Cepat untuk navigasi cepat",
     "personaSelectTitle": "Pilih Persona",
     "personaSettingsHeader": "Pengaturan Persona",
     "personaManageAction": "Kelola",
