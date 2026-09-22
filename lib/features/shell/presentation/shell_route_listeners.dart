@@ -30,6 +30,7 @@ import 'package:fluxer_app/features/members/providers/member_list_desired_ranges
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
+import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -60,6 +61,13 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       if (activeGuildId != null) {
         _applyActiveGuildEffects(activeGuildId);
       }
+      final String? activeChannelId = ref.read(activeChannelIdProvider);
+      if (activeChannelId != null) {
+        ref.read(recentChannelVisitsProvider.notifier).recordVisit(
+          channelId: activeChannelId,
+          guildId: activeGuildId,
+        );
+      }
     });
     ref
       ..listenManual<String>(shellLocationProvider, (
@@ -88,6 +96,12 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       ) {
         if (previous == next) {
           return;
+        }
+        if (next != null) {
+          ref.read(recentChannelVisitsProvider.notifier).recordVisit(
+            channelId: next,
+            guildId: ref.read(activeGuildIdProvider),
+          );
         }
         _stopTtsIfLeavingSpokenChannel(next);
         if (previous != null) {
