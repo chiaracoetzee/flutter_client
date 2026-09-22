@@ -86,9 +86,6 @@ Future<void> navigateToDmChannelContent({
   final String path = messageId == null || messageId.isEmpty
       ? RoutePaths.dmChannel(channelId)
       : RoutePaths.dmChannelMessage(channelId, messageId);
-  ref
-      .read(recentChannelVisitsProvider.notifier)
-      .recordVisit(channelId: channelId);
   unawaited(
     ref
         .read(chatViewModelProvider.notifier)
@@ -173,9 +170,6 @@ Future<void> openGuildChannelContent({
       voiceSession.channelId == channel.id;
 
   void recordAndNavigate() {
-    ref
-        .read(recentChannelVisitsProvider.notifier)
-        .recordVisit(channelId: channel.id, guildId: guildId);
     if (channel.type == ChannelType.guildText) {
       unawaited(
         ref
