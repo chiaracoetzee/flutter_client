@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/utils/messages/markdown_timestamp_format.dart';
+import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -81,14 +83,18 @@ class _ComposerInlineTimestampState
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
+    final String? userTimezone = ref.watch(
+      userSettingsViewModelProvider.select((s) => s.timezone),
+    );
     final DateTime dt = DateTime.fromMillisecondsSinceEpoch(
       widget.epoch * 1000,
     );
+    final DateTime absoluteDt = adjustToViewerTimezone(dt, userTimezone);
 
     final String displayText;
     if (widget.style == 'combo') {
       final String absolute = formatMarkdownTimestamp(
-        dt,
+        absoluteDt,
         'f',
         l10n,
         use12Hour: use12Hour,
@@ -100,9 +106,16 @@ class _ComposerInlineTimestampState
         use12Hour: use12Hour,
       );
       displayText = '$absolute ($relative)';
-    } else {
+    } else if (widget.style == 'R') {
       displayText = formatMarkdownTimestamp(
         dt,
+        widget.style,
+        l10n,
+        use12Hour: use12Hour,
+      );
+    } else {
+      displayText = formatMarkdownTimestamp(
+        absoluteDt,
         widget.style,
         l10n,
         use12Hour: use12Hour,
