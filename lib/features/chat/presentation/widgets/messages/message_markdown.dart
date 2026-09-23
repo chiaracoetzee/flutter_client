@@ -9,6 +9,11 @@ import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/markdown/native_markdown_parser.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+
 class MessageMarkdown extends ConsumerWidget {
   const MessageMarkdown({
     required this.data,
@@ -47,6 +52,9 @@ class MessageMarkdown extends ConsumerWidget {
         MessageMarkdownSettingsScope.maybeOf(context) ??
         MessageMarkdownSettings.watch(ref, context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? userTimezone = ref.watch(
+      userSettingsViewModelProvider.select((s) => s.timezone),
+    );
     return FluxerBoundedTextClip(
       child: MessageMarkdownBinding(
         channelId: channelId,
@@ -67,8 +75,11 @@ class MessageMarkdown extends ConsumerWidget {
                       selectionMenuBuilderFor(settings.searchEngines)
                 : null,
             timestampFormatter: (DateTime localDateTime, String style) {
+              final DateTime effectiveDt = style == 'R'
+                  ? localDateTime
+                  : adjustToViewerTimezone(localDateTime, userTimezone);
               return formatMarkdownTimestamp(
-                localDateTime,
+                effectiveDt,
                 style,
                 l10n,
                 use12Hour: settings.use12Hour,
