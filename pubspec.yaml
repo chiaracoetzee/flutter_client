@@ -110,6 +110,8 @@ dependencies:
   web_socket_channel: ^3.0.2
   window_manager: ^0.5.2
   wakelock_plus: ^1.8.0
+  timezone: ^0.11.1
+  chrono_dart: ^2.0.2
 
 dependency_overrides:
   # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.

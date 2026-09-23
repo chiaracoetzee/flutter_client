@@ -9287,6 +9287,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Files';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voice';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Photo library access needed';
 
@@ -14838,6 +14841,92 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'The tag \'$tag\' is already in use by \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Insert timestamp';
+
+  @override
+  String get timestampPickerTitle => 'Insert Timestamp';
+
+  @override
+  String get timestampPickerPresetNow => 'Now';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 hour';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Tomorrow';
+
+  @override
+  String get timestampPickerFormatLabel => 'Format';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Default (Combined)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Short Date/Time';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Long Date/Time';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relative';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Short Date';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Long Date';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Short Time';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Long Time';
+
+  @override
+  String get timestampPickerPreview => 'Preview';
+
+  @override
+  String get timestampPickerInsert => 'Insert';
+
+  @override
+  String get timestampCopied => 'Timestamp copied';
+
+  @override
+  String get timestampPickerTimeLabel => 'Time';
+
+  @override
+  String get timestampPickerDateLabel => 'DATE';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'TIME';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'TIME ZONE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMAT PREVIEW';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'e.g. tomorrow at 3pm, in 2 hours, now';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Search time zones...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Time zone';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Used to show your local time on your profile.';
+
+  @override
+  String get userProfileTimezoneNone => 'None';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -23799,6 +23888,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatAttachmentPanelFiles => 'Files';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voice';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Photo library access needed';
 
@@ -29292,6 +29384,92 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String personaTagCollisionError(String tag, String name) {
     return 'The tag \'$tag\' is already in use by \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Insert timestamp';
+
+  @override
+  String get timestampPickerTitle => 'Insert Timestamp';
+
+  @override
+  String get timestampPickerPresetNow => 'Now';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 hour';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Tomorrow';
+
+  @override
+  String get timestampPickerFormatLabel => 'Format';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Default (Combined)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Short Date/Time';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Long Date/Time';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relative';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Short Date';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Long Date';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Short Time';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Long Time';
+
+  @override
+  String get timestampPickerPreview => 'Preview';
+
+  @override
+  String get timestampPickerInsert => 'Insert';
+
+  @override
+  String get timestampCopied => 'Timestamp copied';
+
+  @override
+  String get timestampPickerTimeLabel => 'Time';
+
+  @override
+  String get timestampPickerDateLabel => 'DATE';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'TIME';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'TIME ZONE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMAT PREVIEW';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'e.g. tomorrow at 3pm, in 2 hours, now';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Search time zones...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Time zone';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Used to show your local time on your profile.';
+
+  @override
+  String get userProfileTimezoneNone => 'None';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -38263,6 +38441,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get chatAttachmentPanelFiles => 'Files';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voice';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Photo library access needed';
 
@@ -43760,4 +43941,90 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String personaTagCollisionError(String tag, String name) {
     return 'The tag \'$tag\' is already in use by \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Insert timestamp';
+
+  @override
+  String get timestampPickerTitle => 'Insert Timestamp';
+
+  @override
+  String get timestampPickerPresetNow => 'Now';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 hour';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Tomorrow';
+
+  @override
+  String get timestampPickerFormatLabel => 'Format';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Default (Combined)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Short Date/Time';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Long Date/Time';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relative';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Short Date';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Long Date';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Short Time';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Long Time';
+
+  @override
+  String get timestampPickerPreview => 'Preview';
+
+  @override
+  String get timestampPickerInsert => 'Insert';
+
+  @override
+  String get timestampCopied => 'Timestamp copied';
+
+  @override
+  String get timestampPickerTimeLabel => 'Time';
+
+  @override
+  String get timestampPickerDateLabel => 'DATE';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'TIME';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'TIME ZONE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMAT PREVIEW';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'e.g. tomorrow at 3pm, in 2 hours, now';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Search time zones...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Time zone';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Used to show your local time on your profile.';
+
+  @override
+  String get userProfileTimezoneNone => 'None';
 }

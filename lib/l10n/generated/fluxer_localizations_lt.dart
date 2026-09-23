@@ -9430,6 +9430,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Failai';
 
   @override
+  String get chatAttachmentPanelVoice => 'Garsas';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Reikalinga prieiga prie nuotraukų bibliotekos';
 
@@ -15081,4 +15084,91 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Žymą „$tag“ jau naudoja „$name“.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Įterpti laiko žymą';
+
+  @override
+  String get timestampPickerTitle => 'Įterpti laiko žymą';
+
+  @override
+  String get timestampPickerPresetNow => 'Dabar';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min.';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 val.';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Rytoj';
+
+  @override
+  String get timestampPickerFormatLabel => 'Formatas';
+
+  @override
+  String get timestampPickerFormatDefaultCombined =>
+      'Numatytasis (Kombinuotas)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Trumpa data ir laikas';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Išsami data ir laikas';
+
+  @override
+  String get timestampPickerFormatRelative => 'Santykinis';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Trumpa data';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Išsami data';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Trumpas laikas';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Išsamus laikas';
+
+  @override
+  String get timestampPickerPreview => 'Peržiūra';
+
+  @override
+  String get timestampPickerInsert => 'Įterpti';
+
+  @override
+  String get timestampCopied => 'Laiko žyma nukopijuota';
+
+  @override
+  String get timestampPickerTimeLabel => 'Laikas';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'LAIKAS';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'LAIKO JUOSTA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMATO PERŽIŪRA';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'pvz., rytoj 15:00, po 2 valandų, dabar';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Ieškoti laiko juostų...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Laiko juosta';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Naudojama vietiniam laikui rodyti jūsų profilyje.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nėra';
 }

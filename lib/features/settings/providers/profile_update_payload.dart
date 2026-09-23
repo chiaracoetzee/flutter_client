@@ -33,6 +33,10 @@ UserUpdateWithVerificationRequest buildCurrentUserProfileUpdateRequest(
           state.editedAccentColor != state.accentColor,
       state.editedAccentColor,
     ),
+    timezone: _patchField(
+      state.isEditedTimezoneSet && state.editedTimezone != state.timezone,
+      state.editedTimezone,
+    ),
     avatar: _patchField(
       state.editedAvatarBase64 != null || state.avatarCleared,
       state.editedAvatarBase64,
