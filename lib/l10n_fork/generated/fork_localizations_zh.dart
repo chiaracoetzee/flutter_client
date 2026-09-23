@@ -12,6 +12,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get chatMessageChangePersona => '切换人格';
 
   @override
+  String get chatAttachmentPanelVoice => '语音';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => '快速切换按钮';
 
   @override
@@ -243,6 +246,48 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return '标签“$tag”已被“$name”使用。';
   }
+
+  @override
+  String get chatInsertTimestamp => '插入时间戳';
+
+  @override
+  String get timestampPickerTitle => '插入时间戳';
+
+  @override
+  String get timestampPickerInsert => '插入';
+
+  @override
+  String get timestampCopied => '时间戳已复制';
+
+  @override
+  String get timestampPickerTimeLabel => '时间';
+
+  @override
+  String get timestampPickerDateLabel => '日期';
+
+  @override
+  String get timestampPickerTimeSectionLabel => '时间';
+
+  @override
+  String get timestampPickerTimezoneLabel => '时区';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => '格式预览';
+
+  @override
+  String get timestampPickerNlpPlaceholder => '例如：明天下午3点，2小时后，现在';
+
+  @override
+  String get timestampPickerSearchTimezones => '搜索时区...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => '时区';
+
+  @override
+  String get userProfileTimezoneSettingDescription => '用于在个人资料中显示您的当地时间。';
+
+  @override
+  String get userProfileTimezoneNone => '无';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -251,6 +296,9 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get chatMessageChangePersona => '切換人格';
+
+  @override
+  String get chatAttachmentPanelVoice => '語音';
 
   @override
   String get advancedSettingQuickSwitcherButtonLabel => '快速切換按鈕';
@@ -484,4 +532,46 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String personaTagCollisionError(String tag, String name) {
     return '標籤「$tag」已被「$name」使用。';
   }
+
+  @override
+  String get chatInsertTimestamp => '插入時間戳記';
+
+  @override
+  String get timestampPickerTitle => '插入時間戳記';
+
+  @override
+  String get timestampPickerInsert => '插入';
+
+  @override
+  String get timestampCopied => '已複製時間戳記';
+
+  @override
+  String get timestampPickerTimeLabel => '時間';
+
+  @override
+  String get timestampPickerDateLabel => '日期';
+
+  @override
+  String get timestampPickerTimeSectionLabel => '時間';
+
+  @override
+  String get timestampPickerTimezoneLabel => '時區';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => '格式預覽';
+
+  @override
+  String get timestampPickerNlpPlaceholder => '例如：明天下午3點，2小時後，現在';
+
+  @override
+  String get timestampPickerSearchTimezones => '搜尋時區...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => '時區';
+
+  @override
+  String get userProfileTimezoneSettingDescription => '用於在個人檔案中顯示您的當地時間。';
+
+  @override
+  String get userProfileTimezoneNone => '無';
 }

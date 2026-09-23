@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "ペルソナを変更",
+    "chatAttachmentPanelVoice": "ボイス",
     "advancedSettingQuickSwitcherButtonLabel": "クイックスイッチャーボタン",
     "advancedSettingQuickSwitcherButtonDescription": "メッセージ入力欄のボイスメッセージボタンをクイックスイッチャーに置き換えて素早く移動する",
     "personaSelectTitle": "ペルソナを選択",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "ペルソナの表示名は100文字以内で入力してください",
     "personaTagPrefixTooLong": "ペルソナタグの接頭辞は32文字以内で入力してください",
     "personaTagSuffixTooLong": "ペルソナタグの接尾辞は32文字以内で入力してください",
-    "personaTagCollisionError": "タグ「{tag}」は既に「{name}」によって使用されています。"
+    "personaTagCollisionError": "タグ「{tag}」は既に「{name}」によって使用されています。",
+    "chatInsertTimestamp": "タイムスタンプを挿入",
+    "timestampPickerTitle": "タイムスタンプを挿入",
+    "timestampPickerInsert": "挿入",
+    "timestampCopied": "タイムスタンプをコピーしました",
+    "timestampPickerTimeLabel": "時間",
+    "timestampPickerDateLabel": "日付",
+    "timestampPickerTimeSectionLabel": "時刻",
+    "timestampPickerTimezoneLabel": "タイムゾーン",
+    "timestampPickerFormatPreviewLabel": "形式プレビュー",
+    "timestampPickerNlpPlaceholder": "例: 明日の午後3時、2時間後、今",
+    "timestampPickerSearchTimezones": "タイムゾーンを検索...",
+    "userProfileTimezoneSettingLabel": "タイムゾーン",
+    "userProfileTimezoneSettingDescription": "プロフィールに現地時間を表示するために使用されます。",
+    "userProfileTimezoneNone": "なし"
 }

@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Cambia persona",
+    "chatAttachmentPanelVoice": "Voce",
     "advancedSettingQuickSwitcherButtonLabel": "Pulsante selettore rapido",
     "advancedSettingQuickSwitcherButtonDescription": "Sostituisci il pulsante dei messaggi vocali nel campo di testo con un selettore rapido per una navigazione veloce",
     "personaSelectTitle": "Seleziona persona",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Il nome visualizzato della persona deve contenere massimo 100 caratteri",
     "personaTagPrefixTooLong": "Il prefisso del tag della persona deve contenere massimo 32 caratteri",
     "personaTagSuffixTooLong": "Il suffisso del tag della persona deve contenere massimo 32 caratteri",
-    "personaTagCollisionError": "Il tag '{tag}' è già utilizzato da '{name}'."
+    "personaTagCollisionError": "Il tag '{tag}' è già utilizzato da '{name}'.",
+    "chatInsertTimestamp": "Inserisci timestamp",
+    "timestampPickerTitle": "Inserisci timestamp",
+    "timestampPickerInsert": "Inserisci",
+    "timestampCopied": "Timestamp copiato",
+    "timestampPickerTimeLabel": "Ora",
+    "timestampPickerDateLabel": "DATA",
+    "timestampPickerTimeSectionLabel": "ORA",
+    "timestampPickerTimezoneLabel": "FUSO ORARIO",
+    "timestampPickerFormatPreviewLabel": "ANTEPRIMA FORMATO",
+    "timestampPickerNlpPlaceholder": "es. domani alle 15:00, tra 2 ore, adesso",
+    "timestampPickerSearchTimezones": "Cerca fusi orari...",
+    "userProfileTimezoneSettingLabel": "Fuso orario",
+    "userProfileTimezoneSettingDescription": "Usato per mostrare la tua ora locale sul tuo profilo.",
+    "userProfileTimezoneNone": "Nessuno"
 }

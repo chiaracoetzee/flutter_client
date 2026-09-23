@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Đổi persona",
+    "chatAttachmentPanelVoice": "Thoại",
     "advancedSettingQuickSwitcherButtonLabel": "Nút chuyển nhanh",
     "advancedSettingQuickSwitcherButtonDescription": "Thay thế nút tin nhắn thoại trong khung soạn thảo bằng nút chuyển nhanh để điều hướng thuận tiện",
     "personaSelectTitle": "Chọn persona",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Tên hiển thị của persona phải có từ 100 ký tự trở xuống",
     "personaTagPrefixTooLong": "Tiền tố thẻ persona phải có từ 32 ký tự trở xuống",
     "personaTagSuffixTooLong": "Hậu tố thẻ persona phải có từ 32 ký tự trở xuống",
-    "personaTagCollisionError": "Thẻ '{tag}' đã được '{name}' sử dụng."
+    "personaTagCollisionError": "Thẻ '{tag}' đã được '{name}' sử dụng.",
+    "chatInsertTimestamp": "Chèn dấu thời gian",
+    "timestampPickerTitle": "Chèn dấu thời gian",
+    "timestampPickerInsert": "Chèn",
+    "timestampCopied": "Đã sao chép dấu thời gian",
+    "timestampPickerTimeLabel": "Thời gian",
+    "timestampPickerDateLabel": "NGÀY",
+    "timestampPickerTimeSectionLabel": "GIỜ",
+    "timestampPickerTimezoneLabel": "MÚI GIỜ",
+    "timestampPickerFormatPreviewLabel": "XEM TRƯỚC ĐỊNH DẠNG",
+    "timestampPickerNlpPlaceholder": "ví dụ: ngày mai lúc 3 giờ chiều, trong 2 giờ nữa, bây giờ",
+    "timestampPickerSearchTimezones": "Tìm kiếm múi giờ...",
+    "userProfileTimezoneSettingLabel": "Múi giờ",
+    "userProfileTimezoneSettingDescription": "Được sử dụng để hiển thị giờ địa phương trên hồ sơ của bạn.",
+    "userProfileTimezoneNone": "Không có"
 }
