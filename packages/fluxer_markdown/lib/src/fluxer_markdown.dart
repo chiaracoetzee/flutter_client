@@ -12,3 +12,7 @@ export 'package:fluxer_markdown/src/widgets/emoji_frame_boundary.dart';
 export 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 export 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 export 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
+
+// Fork imports.
+// ignore: directives_ordering
+export 'package:fluxer_markdown/src/widgets/fluxer_live_timestamp.dart';

@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Persona wijzigen",
+    "chatAttachmentPanelVoice": "Spraak",
     "advancedSettingQuickSwitcherButtonLabel": "Snelschakelaar-knop",
     "advancedSettingQuickSwitcherButtonDescription": "Vervang de spraakbericht-knop in het invoerveld door een snelschakelaar voor snelle navigatie",
     "personaSelectTitle": "Persona kiezen",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Weergavenaam van persona mag maximaal 100 tekens bevatten",
     "personaTagPrefixTooLong": "Persona-tagvoorvoegsel mag maximaal 32 tekens bevatten",
     "personaTagSuffixTooLong": "Persona-tagachtervoegsel mag maximaal 32 tekens bevatten",
-    "personaTagCollisionError": "De tag '{tag}' is al in gebruik door '{name}'."
+    "personaTagCollisionError": "De tag '{tag}' is al in gebruik door '{name}'.",
+    "chatInsertTimestamp": "Tijdstempel invoegen",
+    "timestampPickerTitle": "Tijdstempel invoegen",
+    "timestampPickerInsert": "Invoegen",
+    "timestampCopied": "Tijdstempel gekopieerd",
+    "timestampPickerTimeLabel": "Tijd",
+    "timestampPickerDateLabel": "DATUM",
+    "timestampPickerTimeSectionLabel": "TIJD",
+    "timestampPickerTimezoneLabel": "TIJDZONE",
+    "timestampPickerFormatPreviewLabel": "VOORBEELD VAN FORMAT",
+    "timestampPickerNlpPlaceholder": "bijv. morgen om 15:00, over 2 uur, nu",
+    "timestampPickerSearchTimezones": "Tijdzones zoeken...",
+    "userProfileTimezoneSettingLabel": "Tijdzone",
+    "userProfileTimezoneSettingDescription": "Wordt gebruikt om uw lokale tijd op uw profiel te tonen.",
+    "userProfileTimezoneNone": "Geen"
 }

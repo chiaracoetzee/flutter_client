@@ -32,6 +32,11 @@ import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/timezone_data.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 const int _kMaxDisplayNameLength = 32;
 const int _kMaxPronounsLength = 40;
 const int _kMaxBioLength = 320;
@@ -640,6 +645,10 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                             child: _buildBioSection(state, vm, layout, l10n),
                           ),
                         ),
+                        if (!state.isPerGuildProfile) ...[
+                          SizedBox(height: layout.s6),
+                          _buildTimezoneSection(state, vm, layout, l10n),
+                        ],
                         SizedBox(height: layout.s8),
                         FluxerGestureDetector(
                           onTap: () =>
@@ -939,6 +948,49 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           onSuffixTap: _onSmileyTap,
         ),
       ),
+    );
+  }
+
+  Widget _buildTimezoneSection(
+    UserSettingsViewState state,
+    UserSettingsViewModel vm,
+    FluxerLayoutTheme layout,
+    FluxerLocalizations l10n,
+  ) {
+    final colors = context.colors;
+    final String? currentTimezone = state.isEditedTimezoneSet
+        ? state.editedTimezone
+        : state.timezone;
+
+    final items = <FluxerSelectItem<String>>[
+      FluxerSelectItem<String>(
+        value: '',
+        label: l10n.fork.userProfileTimezoneNone,
+        icon: PhosphorIconsBold.x,
+      ),
+      for (final option in kTimezoneOptions)
+        FluxerSelectItem<String>(
+          value: option.value,
+          label: option.label,
+          searchText: option.searchText,
+          leading: PhosphorIcon(
+            PhosphorIconsBold.globe,
+            size: 18,
+            color: colors.textSecondary,
+          ),
+        ),
+    ];
+
+    return FluxerSelect<String>(
+      label: l10n.fork.userProfileTimezoneSettingLabel,
+      description: l10n.fork.userProfileTimezoneSettingDescription,
+      searchHint: l10n.fork.timestampPickerSearchTimezones,
+      items: items,
+      value: currentTimezone ?? '',
+      stretch: true,
+      onChanged: (value) {
+        vm.updateTimezone(value.isEmpty ? null : value);
+      },
     );
   }
 
