@@ -35,42 +35,51 @@ String relativeTimestamp(
   final Duration delta = date.difference(now ?? DateTime.now());
   final bool future = !delta.isNegative;
   final Duration abs = delta.abs();
-  final int absDays = abs.inDays;
+  final int absSeconds = abs.inSeconds;
 
-  if (absDays >= 365) {
-    final int years = absDays ~/ 365;
-    return future
-        ? l10n.relativeTimeInYears(years)
-        : l10n.relativeTimeYears(years);
+  if (absSeconds < 30) {
+    return l10n.relativeTimeJustNow;
   }
-  if (absDays >= 30) {
-    final int months = absDays ~/ 30;
+
+  final int absMinutes = (absSeconds / 60).round();
+  if (absMinutes < 60) {
     return future
-        ? l10n.relativeTimeInMonths(months)
-        : l10n.relativeTimeMonths(months);
+        ? l10n.relativeTimeInMinutes(absMinutes)
+        : l10n.relativeTimeMinutes(absMinutes);
   }
-  if (absDays >= 7) {
-    final int weeks = absDays ~/ 7;
+
+  final int absHours = (absSeconds / 3600).round();
+  if (absHours < 24) {
     return future
-        ? l10n.relativeTimeInWeeks(weeks)
-        : l10n.relativeTimeWeeks(weeks);
+        ? l10n.relativeTimeInHours(absHours)
+        : l10n.relativeTimeHours(absHours);
   }
-  if (absDays > 0) {
+
+  final int absDays = (absSeconds / 86400).round();
+  if (absDays < 7) {
     return future
         ? l10n.relativeTimeInDays(absDays)
         : l10n.relativeTimeDays(absDays);
   }
-  if (abs.inHours > 0) {
+
+  final int absWeeks = (absDays / 7).round();
+  if (absDays < 30) {
     return future
-        ? l10n.relativeTimeInHours(abs.inHours)
-        : l10n.relativeTimeHours(abs.inHours);
+        ? l10n.relativeTimeInWeeks(absWeeks)
+        : l10n.relativeTimeWeeks(absWeeks);
   }
-  if (abs.inMinutes > 0) {
+
+  final int absMonths = (absDays / 30).round();
+  if (absDays < 365) {
     return future
-        ? l10n.relativeTimeInMinutes(abs.inMinutes)
-        : l10n.relativeTimeMinutes(abs.inMinutes);
+        ? l10n.relativeTimeInMonths(absMonths)
+        : l10n.relativeTimeMonths(absMonths);
   }
-  return l10n.relativeTimeJustNow;
+
+  final int years = (absDays / 365).round();
+  return future
+      ? l10n.relativeTimeInYears(years)
+      : l10n.relativeTimeYears(years);
 }
 
 /// Short-form relative time (e.g. "5m", "2h", "3d", "2mo", "1y", "now").
