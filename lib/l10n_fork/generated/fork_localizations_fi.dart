@@ -12,6 +12,9 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String get chatMessageChangePersona => 'Vaihda persoonaa';
 
   @override
+  String get chatAttachmentPanelVoice => 'Ääni';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'Pikavaihdin-painike';
 
   @override
@@ -253,4 +256,48 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tunniste \'$tag\' on jo käytössä persoonalla \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Lisää aikaleima';
+
+  @override
+  String get timestampPickerTitle => 'Lisää aikaleima';
+
+  @override
+  String get timestampPickerInsert => 'Lisää';
+
+  @override
+  String get timestampCopied => 'Aikaleima kopioitu';
+
+  @override
+  String get timestampPickerTimeLabel => 'Aika';
+
+  @override
+  String get timestampPickerDateLabel => 'PÄIVÄMÄÄRÄ';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'AIKA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'AIKAVYÖHYKE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'MUODON ESIKATSELU';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'esim. huomenna klo 15, 2 tunnin kuluttua, nyt';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Hae aikavyöhykkeitä...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Aikavyöhyke';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Käytetään paikallisen aikasi näyttämiseen profiilissasi.';
+
+  @override
+  String get userProfileTimezoneNone => 'Ei mitään';
 }
