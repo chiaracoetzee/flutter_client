@@ -2195,6 +2195,13 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   bool _onScrollMetricsNotification(ScrollMetricsNotification notification) {
+    // Nested scrollables in rows (markdown tables, code and CSV attachment
+    // panels) bubble their own metrics here. Read as the list's, a row's
+    // first layout looks like a viewport shrink at pixels 0 and glues the
+    // list to the tail.
+    if (notification.depth != 0) {
+      return false;
+    }
     final ScrollMetrics metrics = notification.metrics;
     final double viewport = metrics.viewportDimension;
     final double minExtent = metrics.minScrollExtent;
