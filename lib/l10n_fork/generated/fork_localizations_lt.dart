@@ -12,6 +12,9 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get chatMessageChangePersona => 'Keisti personą';
 
   @override
+  String get chatAttachmentPanelVoice => 'Garsas';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Greitojo perjungiklio mygtukas';
 
@@ -253,4 +256,48 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Žymą „$tag“ jau naudoja „$name“.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Įterpti laiko žymą';
+
+  @override
+  String get timestampPickerTitle => 'Įterpti laiko žymą';
+
+  @override
+  String get timestampPickerInsert => 'Įterpti';
+
+  @override
+  String get timestampCopied => 'Laiko žyma nukopijuota';
+
+  @override
+  String get timestampPickerTimeLabel => 'Laikas';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'LAIKAS';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'LAIKO JUOSTA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMATO PERŽIŪRA';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'pvz., rytoj 15:00, po 2 valandų, dabar';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Ieškoti laiko juostų...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Laiko juosta';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Naudojama vietiniam laikui rodyti jūsų profilyje.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nėra';
 }

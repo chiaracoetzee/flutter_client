@@ -12,6 +12,9 @@ class ForkLocalizationsId extends ForkLocalizations {
   String get chatMessageChangePersona => 'Ganti persona';
 
   @override
+  String get chatAttachmentPanelVoice => 'Suara';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'Tombol Pengalih Cepat';
 
   @override
@@ -253,4 +256,48 @@ class ForkLocalizationsId extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tag \'$tag\' sudah digunakan oleh \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Sisipkan stempel waktu';
+
+  @override
+  String get timestampPickerTitle => 'Sisipkan stempel waktu';
+
+  @override
+  String get timestampPickerInsert => 'Sisipkan';
+
+  @override
+  String get timestampCopied => 'Stempel waktu disalin';
+
+  @override
+  String get timestampPickerTimeLabel => 'Waktu';
+
+  @override
+  String get timestampPickerDateLabel => 'TANGGAL';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'WAKTU';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ZONA WAKTU';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PRATINJAU FORMAT';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'mis. besok jam 3 sore, dalam 2 jam, sekarang';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Cari zona waktu...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Zona waktu';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Digunakan untuk menampilkan waktu lokal di profil Anda.';
+
+  @override
+  String get userProfileTimezoneNone => 'Tidak ada';
 }
