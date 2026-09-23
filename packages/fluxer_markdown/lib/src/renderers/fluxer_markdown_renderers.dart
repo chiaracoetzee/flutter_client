@@ -1338,6 +1338,18 @@ class _MarkdownInlineRenderer {
       case FluxerMarkdownElementTags.mentionGuildNav:
         return _buildGuildNavigationMention(node, effectiveStyle);
       case FluxerMarkdownElementTags.timestamp:
+        final unix = int.tryParse(node.textContent);
+        if (unix == null) {
+          return const TextSpan(text: '');
+        }
+        final dt = DateTime.fromMillisecondsSinceEpoch(unix * 1000);
+        final flag = node.attributes['flag'] ?? 'f';
+        if (config.timestampBuilder != null) {
+          return WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: config.timestampBuilder!(context, dt, flag, effectiveStyle),
+          );
+        }
         final timestampStyle = effectiveStyle.copyWith(
           fontSize: FluxerMarkupSpacing.rootFontSize,
           background: Paint()
@@ -1348,7 +1360,6 @@ class _MarkdownInlineRenderer {
         );
         final localeName = Localizations.localeOf(context).toLanguageTag();
         final formatter = config.timestampFormatter;
-        final flag = node.attributes['flag'] ?? 'f';
         if (flag == 'R') {
           return WidgetSpan(
             alignment: PlaceholderAlignment.baseline,
