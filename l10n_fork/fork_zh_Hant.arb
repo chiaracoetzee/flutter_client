@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "切換人格",
+    "chatAttachmentPanelVoice": "語音",
     "advancedSettingQuickSwitcherButtonLabel": "快速切換按鈕",
     "advancedSettingQuickSwitcherButtonDescription": "將訊息輸入框中的語音訊息按鈕替換為快速切換按鈕，以便快速導航",
     "personaSelectTitle": "選擇人格",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "人格顯示名稱不得超過 100 個字元",
     "personaTagPrefixTooLong": "人格標籤前綴不得超過 32 個字元",
     "personaTagSuffixTooLong": "人格標籤後綴不得超過 32 個字元",
-    "personaTagCollisionError": "標籤「{tag}」已被「{name}」使用。"
+    "personaTagCollisionError": "標籤「{tag}」已被「{name}」使用。",
+    "chatInsertTimestamp": "插入時間戳記",
+    "timestampPickerTitle": "插入時間戳記",
+    "timestampPickerInsert": "插入",
+    "timestampCopied": "已複製時間戳記",
+    "timestampPickerTimeLabel": "時間",
+    "timestampPickerDateLabel": "日期",
+    "timestampPickerTimeSectionLabel": "時間",
+    "timestampPickerTimezoneLabel": "時區",
+    "timestampPickerFormatPreviewLabel": "格式預覽",
+    "timestampPickerNlpPlaceholder": "例如：明天下午3點，2小時後，現在",
+    "timestampPickerSearchTimezones": "搜尋時區...",
+    "userProfileTimezoneSettingLabel": "時區",
+    "userProfileTimezoneSettingDescription": "用於在個人檔案中顯示您的當地時間。",
+    "userProfileTimezoneNone": "無"
 }
