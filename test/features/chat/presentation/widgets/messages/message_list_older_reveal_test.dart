@@ -1,5 +1,5 @@
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
 
 import '../../../../../helpers/pump_fluxer_app.dart';
 import 'message_list_test_harness.dart';
