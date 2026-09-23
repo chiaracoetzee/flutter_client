@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/utils/messages/markdown_timestamp_format.dart';
+import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -81,9 +83,16 @@ class _FluxerTimestampPillState extends ConsumerState<FluxerTimestampPill> {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
+    final String? userTimezone = ref.watch(
+      userSettingsViewModelProvider.select((s) => s.timezone),
+    );
+
+    final DateTime effectiveDt = widget.flag == 'R'
+        ? widget.dateTime
+        : adjustToViewerTimezone(widget.dateTime, userTimezone);
 
     final String displayText = formatMarkdownTimestamp(
-      widget.dateTime,
+      effectiveDt,
       widget.flag,
       l10n,
       use12Hour: use12Hour,
@@ -91,7 +100,7 @@ class _FluxerTimestampPillState extends ConsumerState<FluxerTimestampPill> {
 
     final String tooltipText = widget.flag == 'R'
         ? formatMarkdownTimestamp(
-            widget.dateTime,
+            adjustToViewerTimezone(widget.dateTime, userTimezone),
             'F',
             l10n,
             use12Hour: use12Hour,
