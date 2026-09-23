@@ -267,8 +267,7 @@ String? _unpad(List<int> clear) {
 }
 
 Uint8List _recordSizeBytes() {
-  final ByteData data = ByteData(4)
-    ..setUint32(0, kWebPushRecordSize);
+  final ByteData data = ByteData(4)..setUint32(0, kWebPushRecordSize);
   return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 }
 
