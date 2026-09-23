@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "تغيير الشخصية",
+    "chatAttachmentPanelVoice": "صوتي",
     "advancedSettingQuickSwitcherButtonLabel": "زر التبديل السريع",
     "advancedSettingQuickSwitcherButtonDescription": "استبدال زر الرسالة الصوتية في حقل الإدخال بزر التبديل السريع للتنقل السهل",
     "personaSelectTitle": "اختيار الشخصية",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "يجب أن يكون اسم عرض الشخصية 100 حرف أو أقل",
     "personaTagPrefixTooLong": "يجب أن تكون بادئة علامة الشخصية 32 حرفًا أو أقل",
     "personaTagSuffixTooLong": "يجب أن تكون لاحقة علامة الشخصية 32 حرفًا أو أقل",
-    "personaTagCollisionError": "العلامة '{tag}' مستخدمة بالفعل بواسطة '{name}'."
+    "personaTagCollisionError": "العلامة '{tag}' مستخدمة بالفعل بواسطة '{name}'.",
+    "chatInsertTimestamp": "إدراج طابع زمني",
+    "timestampPickerTitle": "إدراج طابع زمني",
+    "timestampPickerInsert": "إدراج",
+    "timestampCopied": "تم نسخ الطابع الزمني",
+    "timestampPickerTimeLabel": "الوقت",
+    "timestampPickerDateLabel": "التاريخ",
+    "timestampPickerTimeSectionLabel": "الوقت",
+    "timestampPickerTimezoneLabel": "المنطقة الزمنية",
+    "timestampPickerFormatPreviewLabel": "معاينة التنسيق",
+    "timestampPickerNlpPlaceholder": "مثال: غدًا في 3 مساءً، خلال ساعتين، الآن",
+    "timestampPickerSearchTimezones": "البحث في المناطق الزمنية...",
+    "userProfileTimezoneSettingLabel": "المنطقة الزمنية",
+    "userProfileTimezoneSettingDescription": "تُستخدم لعرض وقتك المحلي في ملفك الشخصي.",
+    "userProfileTimezoneNone": "بلا"
 }
