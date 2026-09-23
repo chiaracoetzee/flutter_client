@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "ملفات",
+    "chatAttachmentPanelVoice": "صوتي",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "يجب أن يكون اسم عرض الشخصية 100 حرف أو أقل",
     "personaTagPrefixTooLong": "يجب أن تكون بادئة علامة الشخصية 32 حرفًا أو أقل",
     "personaTagSuffixTooLong": "يجب أن تكون لاحقة علامة الشخصية 32 حرفًا أو أقل",
-    "personaTagCollisionError": "العلامة '{tag}' مستخدمة بالفعل بواسطة '{name}'."
+    "personaTagCollisionError": "العلامة '{tag}' مستخدمة بالفعل بواسطة '{name}'.",
+    "chatInsertTimestamp": "إدراج طابع زمني",
+    "timestampPickerTitle": "إدراج طابع زمني",
+    "timestampPickerPresetNow": "الآن",
+    "timestampPickerPresetFiveMin": "+5 دقائق",
+    "timestampPickerPresetOneHour": "+1 ساعة",
+    "timestampPickerPresetTomorrow": "غداً",
+    "timestampPickerFormatLabel": "التنسيق",
+    "timestampPickerFormatDefaultCombined": "افتراضي (مدمج)",
+    "timestampPickerFormatShortDateTime": "تاريخ/وقت قصير",
+    "timestampPickerFormatLongDateTime": "تاريخ/وقت طويل",
+    "timestampPickerFormatRelative": "نسبي",
+    "timestampPickerFormatShortDate": "تاريخ قصير",
+    "timestampPickerFormatLongDate": "تاريخ طويل",
+    "timestampPickerFormatShortTime": "وقت قصير",
+    "timestampPickerFormatLongTime": "وقت طويل",
+    "timestampPickerPreview": "معاينة",
+    "timestampPickerInsert": "إدراج",
+    "timestampCopied": "تم نسخ الطابع الزمني",
+    "timestampPickerTimeLabel": "الوقت",
+    "timestampPickerDateLabel": "التاريخ",
+    "timestampPickerTimeSectionLabel": "الوقت",
+    "timestampPickerTimezoneLabel": "المنطقة الزمنية",
+    "timestampPickerFormatPreviewLabel": "معاينة التنسيق",
+    "timestampPickerNlpPlaceholder": "مثال: غدًا في 3 مساءً، خلال ساعتين، الآن",
+    "timestampPickerSearchTimezones": "البحث في المناطق الزمنية...",
+    "userProfileTimezoneSettingLabel": "المنطقة الزمنية",
+    "userProfileTimezoneSettingDescription": "تُستخدم لعرض وقتك المحلي في ملفك الشخصي.",
+    "userProfileTimezoneNone": "بلا"
 }

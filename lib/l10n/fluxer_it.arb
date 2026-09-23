@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "File",
+    "chatAttachmentPanelVoice": "Voce",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "Il nome visualizzato della persona deve contenere massimo 100 caratteri",
     "personaTagPrefixTooLong": "Il prefisso del tag della persona deve contenere massimo 32 caratteri",
     "personaTagSuffixTooLong": "Il suffisso del tag della persona deve contenere massimo 32 caratteri",
-    "personaTagCollisionError": "Il tag '{tag}' è già utilizzato da '{name}'."
+    "personaTagCollisionError": "Il tag '{tag}' è già utilizzato da '{name}'.",
+    "chatInsertTimestamp": "Inserisci timestamp",
+    "timestampPickerTitle": "Inserisci timestamp",
+    "timestampPickerPresetNow": "Adesso",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 ora",
+    "timestampPickerPresetTomorrow": "Domani",
+    "timestampPickerFormatLabel": "Formato",
+    "timestampPickerFormatDefaultCombined": "Predefinito (Combinato)",
+    "timestampPickerFormatShortDateTime": "Data/Ora breve",
+    "timestampPickerFormatLongDateTime": "Data/Ora estesa",
+    "timestampPickerFormatRelative": "Relativo",
+    "timestampPickerFormatShortDate": "Data breve",
+    "timestampPickerFormatLongDate": "Data estesa",
+    "timestampPickerFormatShortTime": "Ora breve",
+    "timestampPickerFormatLongTime": "Ora estesa",
+    "timestampPickerPreview": "Anteprima",
+    "timestampPickerInsert": "Inserisci",
+    "timestampCopied": "Timestamp copiato",
+    "timestampPickerTimeLabel": "Ora",
+    "timestampPickerDateLabel": "DATA",
+    "timestampPickerTimeSectionLabel": "ORA",
+    "timestampPickerTimezoneLabel": "FUSO ORARIO",
+    "timestampPickerFormatPreviewLabel": "ANTEPRIMA FORMATO",
+    "timestampPickerNlpPlaceholder": "es. domani alle 15:00, tra 2 ore, adesso",
+    "timestampPickerSearchTimezones": "Cerca fusi orari...",
+    "userProfileTimezoneSettingLabel": "Fuso orario",
+    "userProfileTimezoneSettingDescription": "Usato per mostrare la tua ora locale sul tuo profilo.",
+    "userProfileTimezoneNone": "Nessuno"
 }

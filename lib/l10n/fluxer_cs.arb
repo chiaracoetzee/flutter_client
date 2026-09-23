@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Soubory",
+    "chatAttachmentPanelVoice": "Hlas",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "Zobrazované jméno persony musí mít maximálně 100 znaků",
     "personaTagPrefixTooLong": "Předpona tagu persony musí mít maximálně 32 znaků",
     "personaTagSuffixTooLong": "Přípona tagu persony musí mít maximálně 32 znaků",
-    "personaTagCollisionError": "Tag '{tag}' již používá '{name}'."
+    "personaTagCollisionError": "Tag '{tag}' již používá '{name}'.",
+    "chatInsertTimestamp": "Vložit časové razítko",
+    "timestampPickerTitle": "Vložit časové razítko",
+    "timestampPickerPresetNow": "Nyní",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 h",
+    "timestampPickerPresetTomorrow": "Zítra",
+    "timestampPickerFormatLabel": "Formát",
+    "timestampPickerFormatDefaultCombined": "Výchozí (Kombinovaný)",
+    "timestampPickerFormatShortDateTime": "Krátké datum a čas",
+    "timestampPickerFormatLongDateTime": "Dlouhé datum a čas",
+    "timestampPickerFormatRelative": "Relativní",
+    "timestampPickerFormatShortDate": "Krátké datum",
+    "timestampPickerFormatLongDate": "Dlouhé datum",
+    "timestampPickerFormatShortTime": "Krátký čas",
+    "timestampPickerFormatLongTime": "Dlouhý čas",
+    "timestampPickerPreview": "Náhled",
+    "timestampPickerInsert": "Vložit",
+    "timestampCopied": "Časové razítko zkopírováno",
+    "timestampPickerTimeLabel": "Čas",
+    "timestampPickerDateLabel": "DATUM",
+    "timestampPickerTimeSectionLabel": "ČAS",
+    "timestampPickerTimezoneLabel": "ČASOVÉ PÁSMO",
+    "timestampPickerFormatPreviewLabel": "NÁHLED FORMÁTU",
+    "timestampPickerNlpPlaceholder": "např. zítra v 15:00, za 2 hodiny, teď",
+    "timestampPickerSearchTimezones": "Hledat časová pásma...",
+    "userProfileTimezoneSettingLabel": "Časové pásmo",
+    "userProfileTimezoneSettingDescription": "Slouží k zobrazení vašeho místního času na profilu.",
+    "userProfileTimezoneNone": "Žádné"
 }

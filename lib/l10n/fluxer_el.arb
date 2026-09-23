@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Αρχεία",
+    "chatAttachmentPanelVoice": "Φωνή",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "Το εμφανιζόμενο όνομα persona πρέπει να περιέχει έως 100 χαρακτήρες",
     "personaTagPrefixTooLong": "Το πρόθεμα ετικέτας persona πρέπει να περιέχει έως 32 χαρακτήρες",
     "personaTagSuffixTooLong": "Το επίθημα ετικέτας persona πρέπει να περιέχει έως 32 χαρακτήρες",
-    "personaTagCollisionError": "Η ετικέτα '{tag}' χρησιμοποιείται ήδη από την persona '{name}'."
+    "personaTagCollisionError": "Η ετικέτα '{tag}' χρησιμοποιείται ήδη από την persona '{name}'.",
+    "chatInsertTimestamp": "Εισαγωγή χρονικής σήμανσης",
+    "timestampPickerTitle": "Εισαγωγή χρονικής σήμανσης",
+    "timestampPickerPresetNow": "Τώρα",
+    "timestampPickerPresetFiveMin": "+5 λεπτά",
+    "timestampPickerPresetOneHour": "+1 ώρα",
+    "timestampPickerPresetTomorrow": "Αύριο",
+    "timestampPickerFormatLabel": "Μορφή",
+    "timestampPickerFormatDefaultCombined": "Προεπιλογή (Συνδυασμός)",
+    "timestampPickerFormatShortDateTime": "Σύντομη ημερομηνία/ώρα",
+    "timestampPickerFormatLongDateTime": "Πλήρης ημερομηνία/ώρα",
+    "timestampPickerFormatRelative": "Σχετικός",
+    "timestampPickerFormatShortDate": "Σύντομη ημερομηνία",
+    "timestampPickerFormatLongDate": "Πλήρης ημερομηνία",
+    "timestampPickerFormatShortTime": "Σύντομη ώρα",
+    "timestampPickerFormatLongTime": "Πλήρης ώρα",
+    "timestampPickerPreview": "Προεπισκόπηση",
+    "timestampPickerInsert": "Εισαγωγή",
+    "timestampCopied": "Η χρονική σήμανση αντιγράφηκε",
+    "timestampPickerTimeLabel": "Ώρα",
+    "timestampPickerDateLabel": "ΗΜΕΡΟΜΗΝΙΑ",
+    "timestampPickerTimeSectionLabel": "ΩΡΑ",
+    "timestampPickerTimezoneLabel": "ΖΩΝΗ ΩΡΑΣ",
+    "timestampPickerFormatPreviewLabel": "ΠΡΟΕΠΙΣΚΟΠΗΣΗ ΜΟΡΦΗΣ",
+    "timestampPickerNlpPlaceholder": "π.χ. αύριο στις 3 μ.μ., σε 2 ώρες, τώρα",
+    "timestampPickerSearchTimezones": "Αναζήτηση ζωνών ώρας...",
+    "userProfileTimezoneSettingLabel": "Ζώνη ώρας",
+    "userProfileTimezoneSettingDescription": "Χρησιμοποιείται για την εμφάνιση της τοπικής ώρας στο προφίλ σας.",
+    "userProfileTimezoneNone": "Κανένα"
 }
