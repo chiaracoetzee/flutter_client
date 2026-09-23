@@ -68,6 +68,13 @@ typedef FluxerCodeCopyHandler =
     void Function(BuildContext context, String code);
 typedef FluxerTimestampFormatter =
     String Function(DateTime localDateTime, String style);
+typedef FluxerTimestampBuilder =
+    Widget Function(
+      BuildContext context,
+      DateTime dateTime,
+      String flag,
+      TextStyle style,
+    );
 typedef FluxerSelectionContextMenuBuilder =
     Widget Function(
       BuildContext context,
@@ -151,6 +158,7 @@ class FluxerMarkdownConfig {
     this.spoilerSyncKeyNormalizer,
     this.onCopyCode,
     this.timestampFormatter,
+    this.timestampBuilder,
     this.selectionContextMenuBuilder,
     this.onEmojiLongPress,
     this.alwaysUnderlineLinks = false,
@@ -190,6 +198,7 @@ class FluxerMarkdownConfig {
   final FluxerSpoilerSyncKeyNormalizer? spoilerSyncKeyNormalizer;
   final FluxerCodeCopyHandler? onCopyCode;
   final FluxerTimestampFormatter? timestampFormatter;
+  final FluxerTimestampBuilder? timestampBuilder;
   final FluxerSelectionContextMenuBuilder? selectionContextMenuBuilder;
   final FluxerEmojiLongPressHandler? onEmojiLongPress;
   final bool alwaysUnderlineLinks;
@@ -217,5 +226,6 @@ class FluxerMarkdownConfig {
     unicodeEmojiPattern,
     internalLinkPattern,
     selectionContextMenuBuilder,
+    timestampBuilder,
   );
 }
