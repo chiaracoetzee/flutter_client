@@ -9345,6 +9345,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Soubory';
 
   @override
+  String get chatAttachmentPanelVoice => 'Hlas';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Potřebujeme přístup k fotkám';
 
@@ -14949,4 +14952,90 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tag \'$tag\' již používá \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Vložit časové razítko';
+
+  @override
+  String get timestampPickerTitle => 'Vložit časové razítko';
+
+  @override
+  String get timestampPickerPresetNow => 'Nyní';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 h';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Zítra';
+
+  @override
+  String get timestampPickerFormatLabel => 'Formát';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Výchozí (Kombinovaný)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Krátké datum a čas';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Dlouhé datum a čas';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativní';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Krátké datum';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Dlouhé datum';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Krátký čas';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Dlouhý čas';
+
+  @override
+  String get timestampPickerPreview => 'Náhled';
+
+  @override
+  String get timestampPickerInsert => 'Vložit';
+
+  @override
+  String get timestampCopied => 'Časové razítko zkopírováno';
+
+  @override
+  String get timestampPickerTimeLabel => 'Čas';
+
+  @override
+  String get timestampPickerDateLabel => 'DATUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'ČAS';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ČASOVÉ PÁSMO';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'NÁHLED FORMÁTU';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'např. zítra v 15:00, za 2 hodiny, teď';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Hledat časová pásma...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Časové pásmo';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Slouží k zobrazení vašeho místního času na profilu.';
+
+  @override
+  String get userProfileTimezoneNone => 'Žádné';
 }

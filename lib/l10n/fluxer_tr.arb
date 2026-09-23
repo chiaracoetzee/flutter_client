@@ -15427,6 +15427,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Dosyalar",
+    "chatAttachmentPanelVoice": "Sesli",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16973,5 +16974,33 @@
     "personaNameTooLong": "Persona görünen adı en fazla 100 karakter olmalıdır",
     "personaTagPrefixTooLong": "Persona etiket öneki en fazla 32 karakter olmalıdır",
     "personaTagSuffixTooLong": "Persona etiket soneki en fazla 32 karakter olmalıdır",
-    "personaTagCollisionError": "'{tag}' etiketi zaten '{name}' tarafından kullanılıyor."
+    "personaTagCollisionError": "'{tag}' etiketi zaten '{name}' tarafından kullanılıyor.",
+    "chatInsertTimestamp": "Zaman damgası ekle",
+    "timestampPickerTitle": "Zaman damgası ekle",
+    "timestampPickerPresetNow": "Şimdi",
+    "timestampPickerPresetFiveMin": "+5 dk",
+    "timestampPickerPresetOneHour": "+1 sa",
+    "timestampPickerPresetTomorrow": "Yarın",
+    "timestampPickerFormatLabel": "Biçim",
+    "timestampPickerFormatDefaultCombined": "Varsayılan (Birleşik)",
+    "timestampPickerFormatShortDateTime": "Kısa Tarih/Saat",
+    "timestampPickerFormatLongDateTime": "Uzun Tarih/Saat",
+    "timestampPickerFormatRelative": "Göreceli",
+    "timestampPickerFormatShortDate": "Kısa Tarih",
+    "timestampPickerFormatLongDate": "Uzun Tarih",
+    "timestampPickerFormatShortTime": "Kısa Saat",
+    "timestampPickerFormatLongTime": "Uzun Saat",
+    "timestampPickerPreview": "Önizleme",
+    "timestampPickerInsert": "Ekle",
+    "timestampCopied": "Zaman damgası kopyalandı",
+    "timestampPickerTimeLabel": "Saat",
+    "timestampPickerDateLabel": "TARİH",
+    "timestampPickerTimeSectionLabel": "SAAT",
+    "timestampPickerTimezoneLabel": "SAAT DİLİMİ",
+    "timestampPickerFormatPreviewLabel": "BİÇİM ÖNİZLEMESİ",
+    "timestampPickerNlpPlaceholder": "örn. yarın saat 15:00'te, 2 saat sonra, şimdi",
+    "timestampPickerSearchTimezones": "Saat dilimlerini ara...",
+    "userProfileTimezoneSettingLabel": "Saat dilimi",
+    "userProfileTimezoneSettingDescription": "Profilinizde yerel saatinizi göstermek için kullanılır.",
+    "userProfileTimezoneNone": "Yok"
 }

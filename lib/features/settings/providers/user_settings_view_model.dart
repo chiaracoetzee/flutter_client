@@ -99,6 +99,8 @@ class UserSettingsViewState {
   final Object? _editedBio;
   final Object? _editedPronouns;
   final Object? _editedAccentColor;
+  final String? timezone;
+  final Object? _editedTimezone;
   final String? editedAvatarBase64;
   final String? editedBannerBase64;
   final bool avatarCleared;
@@ -157,6 +159,7 @@ class UserSettingsViewState {
     this.bio,
     this.pronouns,
     this.accentColor,
+    this.timezone,
     this.banner,
     this.email,
     this.verified = false,
@@ -188,6 +191,7 @@ class UserSettingsViewState {
     this._editedBio = _unset,
     this._editedPronouns = _unset,
     this._editedAccentColor = _unset,
+    this._editedTimezone = _unset,
     this.editedAvatarBase64,
     this.editedBannerBase64,
     this.avatarCleared = false,
@@ -232,6 +236,10 @@ class UserSettingsViewState {
   int? get editedAccentColor =>
       _editedAccentColor == _unset ? null : _editedAccentColor as int?;
   bool get isEditedAccentColorSet => _editedAccentColor != _unset;
+
+  String? get editedTimezone =>
+      _editedTimezone == _unset ? null : _editedTimezone as String?;
+  bool get isEditedTimezoneSet => _editedTimezone != _unset;
 
   bool? get editedPremiumBadgeHidden => _editedPremiumBadgeHidden == _unset
       ? null
@@ -472,6 +480,9 @@ class UserSettingsViewState {
     if (isEditedAccentColorSet && editedAccentColor != accentColor) {
       return true;
     }
+    if (isEditedTimezoneSet && editedTimezone != timezone) {
+      return true;
+    }
     if (editedAvatarBase64 != null || avatarCleared) {
       return true;
     }
@@ -583,6 +594,8 @@ class UserSettingsViewState {
     Object? editedBio = _unset,
     Object? editedPronouns = _unset,
     Object? editedAccentColor = _unset,
+    Object? timezone = _unset,
+    Object? editedTimezone = _unset,
     Object? editedAvatarBase64 = _unset,
     Object? editedBannerBase64 = _unset,
     bool? avatarCleared,
@@ -648,6 +661,7 @@ class UserSettingsViewState {
       accentColor: accentColor == _unset
           ? this.accentColor
           : accentColor as int?,
+      timezone: timezone == _unset ? this.timezone : timezone as String?,
       banner: banner == _unset ? this.banner : banner as String?,
       email: email == _unset ? this.email : email as String?,
       verified: verified ?? this.verified,
@@ -727,6 +741,11 @@ class UserSettingsViewState {
           : editedAccentColor == _resetEdited
           ? _unset
           : editedAccentColor,
+      editedTimezone: editedTimezone == _unset
+          ? _editedTimezone
+          : editedTimezone == _resetEdited
+          ? _unset
+          : editedTimezone,
       editedAvatarBase64: editedAvatarBase64 == _unset
           ? this.editedAvatarBase64
           : editedAvatarBase64 as String?,
@@ -968,6 +987,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       bio: profile.bio,
       pronouns: profile.pronouns,
       accentColor: profile.accentColor,
+      timezone: profile.timezone,
       banner: profile.banner,
       email: profile.email,
       verified: profile.verified,
@@ -1019,6 +1039,10 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   void updateAccentColor(int value) {
     state = state.copyWith(editedAccentColor: value);
+  }
+
+  void updateTimezone(String? value) {
+    state = state.copyWith(editedTimezone: value);
   }
 
   void resetAccentColor() {
@@ -1370,6 +1394,13 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         accentColor = s.editedAccentColor;
       }
 
+      String? timezone;
+      if (s.isEditedTimezoneSet && s.editedTimezone != s.timezone) {
+        timezone = s.editedTimezone;
+      }
+      final bool timezoneCleared =
+          s.isEditedTimezoneSet && s.editedTimezone == null && s.timezone != null;
+
       String? avatarValue;
       if (s.editedAvatarBase64 != null) {
         avatarValue = s.editedAvatarBase64;
@@ -1410,6 +1441,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         bio: bio,
         pronouns: pronouns,
         accentColor: accentColor,
+        timezone: timezone,
         avatar: s.avatarCleared ? null : avatarValue,
         banner: s.bannerCleared ? null : bannerValue,
         premiumBadgeHidden: premiumBadgeHidden,
@@ -1418,16 +1450,19 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         premiumBadgeSequenceHidden: premiumBadgeSequenceHidden,
       );
 
-      if (s.avatarCleared || s.bannerCleared) {
+      if (s.avatarCleared || s.bannerCleared || timezoneCleared) {
         // SDK uses @JsonKey(includeIfNull: false) which omits null
         // fields, but the API needs explicit nulls to clear
-        // avatar/banner on a PATCH request.
+        // avatar/banner/timezone on a PATCH request.
         final json = body.toJson();
         if (s.avatarCleared) {
           json['avatar'] = null;
         }
         if (s.bannerCleared) {
           json['banner'] = null;
+        }
+        if (timezoneCleared) {
+          json['timezone'] = null;
         }
         final dio = ref.read(fluxerDioProvider);
         await dio.patch<dynamic>('/users/@me', data: json);
@@ -1461,6 +1496,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       editedBio: UserSettingsViewState._resetEdited,
       editedPronouns: UserSettingsViewState._resetEdited,
       editedAccentColor: UserSettingsViewState._resetEdited,
+      editedTimezone: UserSettingsViewState._resetEdited,
       editedPremiumBadgeHidden: UserSettingsViewState._resetEdited,
       editedPremiumBadgeMasked: UserSettingsViewState._resetEdited,
       editedPremiumBadgeTimestampHidden: UserSettingsViewState._resetEdited,

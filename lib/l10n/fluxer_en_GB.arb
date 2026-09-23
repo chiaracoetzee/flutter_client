@@ -15431,6 +15431,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Files",
+    "chatAttachmentPanelVoice": "Voice",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16977,5 +16978,33 @@
     "personaNameTooLong": "Persona display name must be 100 characters or less",
     "personaTagPrefixTooLong": "Persona tag prefix must be 32 characters or less",
     "personaTagSuffixTooLong": "Persona tag suffix must be 32 characters or less",
-    "personaTagCollisionError": "The tag '{tag}' is already in use by '{name}'."
+    "personaTagCollisionError": "The tag '{tag}' is already in use by '{name}'.",
+    "chatInsertTimestamp": "Insert timestamp",
+    "timestampPickerTitle": "Insert Timestamp",
+    "timestampPickerPresetNow": "Now",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 hour",
+    "timestampPickerPresetTomorrow": "Tomorrow",
+    "timestampPickerFormatLabel": "Format",
+    "timestampPickerFormatDefaultCombined": "Default (Combined)",
+    "timestampPickerFormatShortDateTime": "Short Date/Time",
+    "timestampPickerFormatLongDateTime": "Long Date/Time",
+    "timestampPickerFormatRelative": "Relative",
+    "timestampPickerFormatShortDate": "Short Date",
+    "timestampPickerFormatLongDate": "Long Date",
+    "timestampPickerFormatShortTime": "Short Time",
+    "timestampPickerFormatLongTime": "Long Time",
+    "timestampPickerPreview": "Preview",
+    "timestampPickerInsert": "Insert",
+    "timestampCopied": "Timestamp copied",
+    "timestampPickerTimeLabel": "Time",
+    "timestampPickerDateLabel": "DATE",
+    "timestampPickerTimeSectionLabel": "TIME",
+    "timestampPickerTimezoneLabel": "TIME ZONE",
+    "timestampPickerFormatPreviewLabel": "FORMAT PREVIEW",
+    "timestampPickerNlpPlaceholder": "e.g. tomorrow at 3pm, in 2 hours, now",
+    "timestampPickerSearchTimezones": "Search time zones...",
+    "userProfileTimezoneSettingLabel": "Time zone",
+    "userProfileTimezoneSettingDescription": "Used to show your local time on your profile.",
+    "userProfileTimezoneNone": "None"
 }

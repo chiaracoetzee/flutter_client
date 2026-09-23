@@ -9394,6 +9394,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Файлы';
 
   @override
+  String get chatAttachmentPanelVoice => 'Голос';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Требуется доступ к фотогалерее';
 
@@ -15035,4 +15038,91 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Тег «$tag» уже используется персоной «$name».';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Вставить метку времени';
+
+  @override
+  String get timestampPickerTitle => 'Вставить метку времени';
+
+  @override
+  String get timestampPickerPresetNow => 'Сейчас';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 мин';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 час';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Завтра';
+
+  @override
+  String get timestampPickerFormatLabel => 'Формат';
+
+  @override
+  String get timestampPickerFormatDefaultCombined =>
+      'По умолчанию (Комбинированный)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Краткие дата и время';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Полные дата и время';
+
+  @override
+  String get timestampPickerFormatRelative => 'Относительный';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Краткая дата';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Полная дата';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Краткое время';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Полное время';
+
+  @override
+  String get timestampPickerPreview => 'Предпросмотр';
+
+  @override
+  String get timestampPickerInsert => 'Вставить';
+
+  @override
+  String get timestampCopied => 'Метка времени скопирована';
+
+  @override
+  String get timestampPickerTimeLabel => 'Время';
+
+  @override
+  String get timestampPickerDateLabel => 'ДАТА';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'ВРЕМЯ';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ЧАСОВОЙ ПОЯС';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'ПРЕДПРОСМОТР ФОРМАТА';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'напр., завтра в 15:00, через 2 часа, сейчас';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Поиск часовых поясов...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Часовой пояс';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Используется для отображения вашего местного времени в профиле.';
+
+  @override
+  String get userProfileTimezoneNone => 'Нет';
 }

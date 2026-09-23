@@ -15427,6 +15427,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Dateien",
+    "chatAttachmentPanelVoice": "Sprache",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16973,5 +16974,33 @@
     "personaNameTooLong": "Der Persona-Anzeigename darf maximal 100 Zeichen lang sein",
     "personaTagPrefixTooLong": "Das Persona-Tag-Präfix darf maximal 32 Zeichen lang sein",
     "personaTagSuffixTooLong": "Das Persona-Tag-Suffix darf maximal 32 Zeichen lang sein",
-    "personaTagCollisionError": "Das Tag „{tag}“ wird bereits von „{name}“ verwendet."
+    "personaTagCollisionError": "Das Tag „{tag}“ wird bereits von „{name}“ verwendet.",
+    "chatInsertTimestamp": "Zeitstempel einfügen",
+    "timestampPickerTitle": "Zeitstempel einfügen",
+    "timestampPickerPresetNow": "Jetzt",
+    "timestampPickerPresetFiveMin": "+5 Min.",
+    "timestampPickerPresetOneHour": "+1 Std.",
+    "timestampPickerPresetTomorrow": "Morgen",
+    "timestampPickerFormatLabel": "Format",
+    "timestampPickerFormatDefaultCombined": "Standard (Kombiniert)",
+    "timestampPickerFormatShortDateTime": "Kurzes Datum/Uhrzeit",
+    "timestampPickerFormatLongDateTime": "Langes Datum/Uhrzeit",
+    "timestampPickerFormatRelative": "Relativ",
+    "timestampPickerFormatShortDate": "Kurzes Datum",
+    "timestampPickerFormatLongDate": "Langes Datum",
+    "timestampPickerFormatShortTime": "Kurze Uhrzeit",
+    "timestampPickerFormatLongTime": "Lange Uhrzeit",
+    "timestampPickerPreview": "Vorschau",
+    "timestampPickerInsert": "Einfügen",
+    "timestampCopied": "Zeitstempel kopiert",
+    "timestampPickerTimeLabel": "Zeit",
+    "timestampPickerDateLabel": "DATUM",
+    "timestampPickerTimeSectionLabel": "UHRZEIT",
+    "timestampPickerTimezoneLabel": "ZEITZONE",
+    "timestampPickerFormatPreviewLabel": "FORMATVORSCHAU",
+    "timestampPickerNlpPlaceholder": "z. B. morgen um 15 Uhr, in 2 Stunden, jetzt",
+    "timestampPickerSearchTimezones": "Zeitzonen suchen...",
+    "userProfileTimezoneSettingLabel": "Zeitzone",
+    "userProfileTimezoneSettingDescription": "Wird verwendet, um Ihre Ortszeit in Ihrem Profil anzuzeigen.",
+    "userProfileTimezoneNone": "Keine"
 }

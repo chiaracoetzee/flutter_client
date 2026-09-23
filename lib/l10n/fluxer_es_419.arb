@@ -15173,6 +15173,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Archivos",
+    "chatAttachmentPanelVoice": "Voz",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16948,5 +16949,33 @@
     "personaNameTooLong": "El nombre de la persona debe tener 100 caracteres o menos",
     "personaTagPrefixTooLong": "El prefijo de la etiqueta debe tener 32 caracteres o menos",
     "personaTagSuffixTooLong": "El sufijo de la etiqueta debe tener 32 caracteres o menos",
-    "personaTagCollisionError": "La etiqueta '{tag}' ya está en uso por '{name}'."
+    "personaTagCollisionError": "La etiqueta '{tag}' ya está en uso por '{name}'.",
+    "chatInsertTimestamp": "Insertar marca de tiempo",
+    "timestampPickerTitle": "Insertar marca de tiempo",
+    "timestampPickerPresetNow": "Ahora",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 hora",
+    "timestampPickerPresetTomorrow": "Mañana",
+    "timestampPickerFormatLabel": "Formato",
+    "timestampPickerFormatDefaultCombined": "Predeterminado (Combinado)",
+    "timestampPickerFormatShortDateTime": "Fecha y hora corta",
+    "timestampPickerFormatLongDateTime": "Fecha y hora larga",
+    "timestampPickerFormatRelative": "Relativo",
+    "timestampPickerFormatShortDate": "Fecha corta",
+    "timestampPickerFormatLongDate": "Fecha larga",
+    "timestampPickerFormatShortTime": "Hora corta",
+    "timestampPickerFormatLongTime": "Hora larga",
+    "timestampPickerPreview": "Vista previa",
+    "timestampPickerInsert": "Insertar",
+    "timestampCopied": "Marca de tiempo copiada",
+    "timestampPickerTimeLabel": "Hora",
+    "timestampPickerDateLabel": "FECHA",
+    "timestampPickerTimeSectionLabel": "HORA",
+    "timestampPickerTimezoneLabel": "ZONA HORARIA",
+    "timestampPickerFormatPreviewLabel": "VISTA PREVIA DEL FORMATO",
+    "timestampPickerNlpPlaceholder": "ej. mañana a las 3pm, en 2 horas, ahora",
+    "timestampPickerSearchTimezones": "Buscar zonas horarias...",
+    "userProfileTimezoneSettingLabel": "Zona horaria",
+    "userProfileTimezoneSettingDescription": "Se usa para mostrar tu hora local en tu perfil.",
+    "userProfileTimezoneNone": "Ninguno"
 }

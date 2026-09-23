@@ -9379,6 +9379,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Fișiere';
 
   @override
+  String get chatAttachmentPanelVoice => 'Vocal';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Acces la biblioteca foto necesar';
 
@@ -15046,4 +15049,90 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Eticheta \'$tag\' este deja folosită de \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Inserează marcaj de timp';
+
+  @override
+  String get timestampPickerTitle => 'Inserează marcaj de timp';
+
+  @override
+  String get timestampPickerPresetNow => 'Acum';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 oră';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Mâine';
+
+  @override
+  String get timestampPickerFormatLabel => 'Format';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Implicit (Combinat)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Dată/Oră scurtă';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Dată/Oră lungă';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativ';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Dată scurtă';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Dată lungă';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Oră scurtă';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Oră lungă';
+
+  @override
+  String get timestampPickerPreview => 'Previzualizare';
+
+  @override
+  String get timestampPickerInsert => 'Inserează';
+
+  @override
+  String get timestampCopied => 'Marcaj de timp copiat';
+
+  @override
+  String get timestampPickerTimeLabel => 'Oră';
+
+  @override
+  String get timestampPickerDateLabel => 'DATĂ';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'ORĂ';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'FUS ORAR';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PREVIZUALIZARE FORMAT';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'de ex. mâine la 15:00, în 2 ore, acum';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Caută fusuri orare...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Fus orar';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Folosit pentru a afișa ora locală pe profilul tău.';
+
+  @override
+  String get userProfileTimezoneNone => 'Niciunul';
 }
