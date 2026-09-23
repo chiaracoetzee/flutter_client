@@ -11341,6 +11341,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Файлове",
+    "chatAttachmentPanelVoice": "Гласово",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16994,5 +16995,33 @@
     "personaNameTooLong": "Екранното име на персоната трябва да е до 100 знака",
     "personaTagPrefixTooLong": "Префиксът на тага на персоната трябва да е до 32 знака",
     "personaTagSuffixTooLong": "Суфиксът на тага на персоната трябва да е до 32 знака",
-    "personaTagCollisionError": "Тагът '{tag}' вече се използва от '{name}'."
+    "personaTagCollisionError": "Тагът '{tag}' вече се използва от '{name}'.",
+    "chatInsertTimestamp": "Вмъкване на клеймо за време",
+    "timestampPickerTitle": "Вмъкване на клеймо за време",
+    "timestampPickerPresetNow": "Сега",
+    "timestampPickerPresetFiveMin": "+5 мин",
+    "timestampPickerPresetOneHour": "+1 час",
+    "timestampPickerPresetTomorrow": "Утре",
+    "timestampPickerFormatLabel": "Формат",
+    "timestampPickerFormatDefaultCombined": "По подразбиране (Комбиниран)",
+    "timestampPickerFormatShortDateTime": "Кратка дата/час",
+    "timestampPickerFormatLongDateTime": "Дълга дата/час",
+    "timestampPickerFormatRelative": "Относителен",
+    "timestampPickerFormatShortDate": "Кратка дата",
+    "timestampPickerFormatLongDate": "Дълга дата",
+    "timestampPickerFormatShortTime": "Кратък час",
+    "timestampPickerFormatLongTime": "Дълъг час",
+    "timestampPickerPreview": "Преглед",
+    "timestampPickerInsert": "Вмъкване",
+    "timestampCopied": "Клеймото за време е копирано",
+    "timestampPickerTimeLabel": "Час",
+    "timestampPickerDateLabel": "ДАТА",
+    "timestampPickerTimeSectionLabel": "ЧАС",
+    "timestampPickerTimezoneLabel": "ЧАСОВА ЗОНА",
+    "timestampPickerFormatPreviewLabel": "ПРЕГЛЕД НА ФОРМАТА",
+    "timestampPickerNlpPlaceholder": "напр. утре в 15:00, след 2 часа, сега",
+    "timestampPickerSearchTimezones": "Търсене на часови зони...",
+    "userProfileTimezoneSettingLabel": "Часова зона",
+    "userProfileTimezoneSettingDescription": "Използва се за показване на вашето местно време в профила.",
+    "userProfileTimezoneNone": "Няма"
 }

@@ -9258,6 +9258,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'ملفات';
 
   @override
+  String get chatAttachmentPanelVoice => 'صوتي';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'مطلوب الوصول إلى مكتبة الصور';
 
@@ -14792,4 +14795,90 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'العلامة \'$tag\' مستخدمة بالفعل بواسطة \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'إدراج طابع زمني';
+
+  @override
+  String get timestampPickerTitle => 'إدراج طابع زمني';
+
+  @override
+  String get timestampPickerPresetNow => 'الآن';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 دقائق';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 ساعة';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'غداً';
+
+  @override
+  String get timestampPickerFormatLabel => 'التنسيق';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'افتراضي (مدمج)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'تاريخ/وقت قصير';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'تاريخ/وقت طويل';
+
+  @override
+  String get timestampPickerFormatRelative => 'نسبي';
+
+  @override
+  String get timestampPickerFormatShortDate => 'تاريخ قصير';
+
+  @override
+  String get timestampPickerFormatLongDate => 'تاريخ طويل';
+
+  @override
+  String get timestampPickerFormatShortTime => 'وقت قصير';
+
+  @override
+  String get timestampPickerFormatLongTime => 'وقت طويل';
+
+  @override
+  String get timestampPickerPreview => 'معاينة';
+
+  @override
+  String get timestampPickerInsert => 'إدراج';
+
+  @override
+  String get timestampCopied => 'تم نسخ الطابع الزمني';
+
+  @override
+  String get timestampPickerTimeLabel => 'الوقت';
+
+  @override
+  String get timestampPickerDateLabel => 'التاريخ';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'الوقت';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'المنطقة الزمنية';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'معاينة التنسيق';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'مثال: غدًا في 3 مساءً، خلال ساعتين، الآن';
+
+  @override
+  String get timestampPickerSearchTimezones => 'البحث في المناطق الزمنية...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'المنطقة الزمنية';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'تُستخدم لعرض وقتك المحلي في ملفك الشخصي.';
+
+  @override
+  String get userProfileTimezoneNone => 'بلا';
 }

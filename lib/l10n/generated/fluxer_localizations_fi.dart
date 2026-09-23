@@ -9354,6 +9354,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Tiedostot';
 
   @override
+  String get chatAttachmentPanelVoice => 'Ääni';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Valokuvakirjaston käyttöoikeus tarvitaan';
 
@@ -14958,4 +14961,90 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tunniste \'$tag\' on jo käytössä persoonalla \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Lisää aikaleima';
+
+  @override
+  String get timestampPickerTitle => 'Lisää aikaleima';
+
+  @override
+  String get timestampPickerPresetNow => 'Nyt';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 t';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Huomenna';
+
+  @override
+  String get timestampPickerFormatLabel => 'Muoto';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Oletus (Yhdistetty)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Lyhyt päivämäärä/aika';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Pitkä päivämäärä/aika';
+
+  @override
+  String get timestampPickerFormatRelative => 'Suhteellinen';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Lyhyt päivämäärä';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Pitkä päivämäärä';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Lyhyt aika';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Pitkä aika';
+
+  @override
+  String get timestampPickerPreview => 'Esikatselu';
+
+  @override
+  String get timestampPickerInsert => 'Lisää';
+
+  @override
+  String get timestampCopied => 'Aikaleima kopioitu';
+
+  @override
+  String get timestampPickerTimeLabel => 'Aika';
+
+  @override
+  String get timestampPickerDateLabel => 'PÄIVÄMÄÄRÄ';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'AIKA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'AIKAVYÖHYKE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'MUODON ESIKATSELU';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'esim. huomenna klo 15, 2 tunnin kuluttua, nyt';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Hae aikavyöhykkeitä...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Aikavyöhyke';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Käytetään paikallisen aikasi näyttämiseen profiilissasi.';
+
+  @override
+  String get userProfileTimezoneNone => 'Ei mitään';
 }

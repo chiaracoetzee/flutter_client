@@ -11341,6 +11341,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "File",
+    "chatAttachmentPanelVoice": "Suara",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16994,5 +16995,33 @@
     "personaNameTooLong": "Nama tampilan persona harus 100 karakter atau kurang",
     "personaTagPrefixTooLong": "Awalan tag persona harus 32 karakter atau kurang",
     "personaTagSuffixTooLong": "Akhiran tag persona harus 32 karakter atau kurang",
-    "personaTagCollisionError": "Tag '{tag}' sudah digunakan oleh '{name}'."
+    "personaTagCollisionError": "Tag '{tag}' sudah digunakan oleh '{name}'.",
+    "chatInsertTimestamp": "Sisipkan stempel waktu",
+    "timestampPickerTitle": "Sisipkan stempel waktu",
+    "timestampPickerPresetNow": "Sekarang",
+    "timestampPickerPresetFiveMin": "+5 mnt",
+    "timestampPickerPresetOneHour": "+1 jam",
+    "timestampPickerPresetTomorrow": "Besok",
+    "timestampPickerFormatLabel": "Format",
+    "timestampPickerFormatDefaultCombined": "Default (Gabungan)",
+    "timestampPickerFormatShortDateTime": "Tanggal/Waktu Singkat",
+    "timestampPickerFormatLongDateTime": "Tanggal/Waktu Panjang",
+    "timestampPickerFormatRelative": "Relatif",
+    "timestampPickerFormatShortDate": "Tanggal Singkat",
+    "timestampPickerFormatLongDate": "Tanggal Panjang",
+    "timestampPickerFormatShortTime": "Waktu Singkat",
+    "timestampPickerFormatLongTime": "Waktu Panjang",
+    "timestampPickerPreview": "Pratinjau",
+    "timestampPickerInsert": "Sisipkan",
+    "timestampCopied": "Stempel waktu disalin",
+    "timestampPickerTimeLabel": "Waktu",
+    "timestampPickerDateLabel": "TANGGAL",
+    "timestampPickerTimeSectionLabel": "WAKTU",
+    "timestampPickerTimezoneLabel": "ZONA WAKTU",
+    "timestampPickerFormatPreviewLabel": "PRATINJAU FORMAT",
+    "timestampPickerNlpPlaceholder": "mis. besok jam 3 sore, dalam 2 jam, sekarang",
+    "timestampPickerSearchTimezones": "Cari zona waktu...",
+    "userProfileTimezoneSettingLabel": "Zona waktu",
+    "userProfileTimezoneSettingDescription": "Digunakan untuk menampilkan waktu lokal di profil Anda.",
+    "userProfileTimezoneNone": "Tidak ada"
 }
