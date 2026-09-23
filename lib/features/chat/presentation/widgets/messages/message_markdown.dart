@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/messages/markdown_timestamp_format.dart';
+import 'package:fluxer_app/features/chat/utils/timezone_picker_utils.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/markdown/fluxer_markdown_adapter.dart';
@@ -47,6 +49,9 @@ class MessageMarkdown extends ConsumerWidget {
         MessageMarkdownSettingsScope.maybeOf(context) ??
         MessageMarkdownSettings.watch(ref, context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? userTimezone = ref.watch(
+      userSettingsViewModelProvider.select((s) => s.timezone),
+    );
     return FluxerBoundedTextClip(
       child: MessageMarkdownBinding(
         channelId: channelId,
@@ -67,8 +72,11 @@ class MessageMarkdown extends ConsumerWidget {
                       selectionMenuBuilderFor(settings.searchEngines)
                 : null,
             timestampFormatter: (DateTime localDateTime, String style) {
+              final DateTime effectiveDt = style == 'R'
+                  ? localDateTime
+                  : adjustToViewerTimezone(localDateTime, userTimezone);
               return formatMarkdownTimestamp(
-                localDateTime,
+                effectiveDt,
                 style,
                 l10n,
                 use12Hour: settings.use12Hour,
