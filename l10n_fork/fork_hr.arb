@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Promijeni personu",
+    "chatAttachmentPanelVoice": "Glasovno",
     "advancedSettingQuickSwitcherButtonLabel": "Gumb brzog prebacivanja",
     "advancedSettingQuickSwitcherButtonDescription": "Zamijenite gumb glasovne poruke u polju za unos brzim prebacivanjem za lakšu navigaciju",
     "personaSelectTitle": "Odaberite personu",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Prikazano ime persone mora imati najviše 100 znakova",
     "personaTagPrefixTooLong": "Prefiks oznake persone mora imati najviše 32 znaka",
     "personaTagSuffixTooLong": "Sufiks oznake persone mora imati najviše 32 znaka",
-    "personaTagCollisionError": "Oznaku '{tag}' već koristi '{name}'."
+    "personaTagCollisionError": "Oznaku '{tag}' već koristi '{name}'.",
+    "chatInsertTimestamp": "Umetni vremensku oznaku",
+    "timestampPickerTitle": "Umetni vremensku oznaku",
+    "timestampPickerInsert": "Umetni",
+    "timestampCopied": "Vremenska oznaka kopirana",
+    "timestampPickerTimeLabel": "Vrijeme",
+    "timestampPickerDateLabel": "DATUM",
+    "timestampPickerTimeSectionLabel": "VRIJEME",
+    "timestampPickerTimezoneLabel": "VREMENSKA ZONA",
+    "timestampPickerFormatPreviewLabel": "PREGLED OBLIKA",
+    "timestampPickerNlpPlaceholder": "npr. sutra u 15:00, za 2 sata, sada",
+    "timestampPickerSearchTimezones": "Pretraži vremenske zone...",
+    "userProfileTimezoneSettingLabel": "Vremenska zona",
+    "userProfileTimezoneSettingDescription": "Koristi se za prikaz vašeg lokalnog vremena na profilu.",
+    "userProfileTimezoneNone": "Nijedno"
 }

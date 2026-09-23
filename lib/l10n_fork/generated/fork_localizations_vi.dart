@@ -12,6 +12,9 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get chatMessageChangePersona => 'Đổi persona';
 
   @override
+  String get chatAttachmentPanelVoice => 'Thoại';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'Nút chuyển nhanh';
 
   @override
@@ -252,4 +255,48 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Thẻ \'$tag\' đã được \'$name\' sử dụng.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Chèn dấu thời gian';
+
+  @override
+  String get timestampPickerTitle => 'Chèn dấu thời gian';
+
+  @override
+  String get timestampPickerInsert => 'Chèn';
+
+  @override
+  String get timestampCopied => 'Đã sao chép dấu thời gian';
+
+  @override
+  String get timestampPickerTimeLabel => 'Thời gian';
+
+  @override
+  String get timestampPickerDateLabel => 'NGÀY';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'GIỜ';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'MÚI GIỜ';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'XEM TRƯỚC ĐỊNH DẠNG';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ví dụ: ngày mai lúc 3 giờ chiều, trong 2 giờ nữa, bây giờ';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Tìm kiếm múi giờ...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Múi giờ';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Được sử dụng để hiển thị giờ địa phương trên hồ sơ của bạn.';
+
+  @override
+  String get userProfileTimezoneNone => 'Không có';
 }

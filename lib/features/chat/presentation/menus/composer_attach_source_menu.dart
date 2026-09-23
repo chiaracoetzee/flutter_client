@@ -3,7 +3,11 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-enum ComposerAttachSource { gallery, files, voice }
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
+enum ComposerAttachSource { gallery, files, voice, timestamp }
 
 Future<ComposerAttachSource?> showComposerAttachSourceMenu(
   BuildContext context, {
@@ -33,6 +37,14 @@ Future<ComposerAttachSource?> showComposerAttachSourceMenu(
           icon: PhosphorIconsBold.paperclip,
           onPressed: () {
             selected = ComposerAttachSource.files;
+            close();
+          },
+        ),
+        FluxerMenuItem(
+          label: l10n.fork.chatInsertTimestamp,
+          icon: PhosphorIconsBold.clock,
+          onPressed: () {
+            selected = ComposerAttachSource.timestamp;
             close();
           },
         ),
