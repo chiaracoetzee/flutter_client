@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "檔案",
+    "chatAttachmentPanelVoice": "語音",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "人格顯示名稱不得超過 100 個字元",
     "personaTagPrefixTooLong": "人格標籤前綴不得超過 32 個字元",
     "personaTagSuffixTooLong": "人格標籤後綴不得超過 32 個字元",
-    "personaTagCollisionError": "標籤「{tag}」已被「{name}」使用。"
+    "personaTagCollisionError": "標籤「{tag}」已被「{name}」使用。",
+    "chatInsertTimestamp": "插入時間戳記",
+    "timestampPickerTitle": "插入時間戳記",
+    "timestampPickerPresetNow": "現在",
+    "timestampPickerPresetFiveMin": "+5分鐘",
+    "timestampPickerPresetOneHour": "+1小時",
+    "timestampPickerPresetTomorrow": "明天",
+    "timestampPickerFormatLabel": "格式",
+    "timestampPickerFormatDefaultCombined": "預設（組合）",
+    "timestampPickerFormatShortDateTime": "簡短日期/時間",
+    "timestampPickerFormatLongDateTime": "完整日期/時間",
+    "timestampPickerFormatRelative": "相對時間",
+    "timestampPickerFormatShortDate": "簡短日期",
+    "timestampPickerFormatLongDate": "完整日期",
+    "timestampPickerFormatShortTime": "簡短時間",
+    "timestampPickerFormatLongTime": "完整時間",
+    "timestampPickerPreview": "預覽",
+    "timestampPickerInsert": "插入",
+    "timestampCopied": "已複製時間戳記",
+    "timestampPickerTimeLabel": "時間",
+    "timestampPickerDateLabel": "日期",
+    "timestampPickerTimeSectionLabel": "時間",
+    "timestampPickerTimezoneLabel": "時區",
+    "timestampPickerFormatPreviewLabel": "格式預覽",
+    "timestampPickerNlpPlaceholder": "例如：明天下午3點，2小時後，現在",
+    "timestampPickerSearchTimezones": "搜尋時區...",
+    "userProfileTimezoneSettingLabel": "時區",
+    "userProfileTimezoneSettingDescription": "用於在個人檔案中顯示您的當地時間。",
+    "userProfileTimezoneNone": "無"
 }

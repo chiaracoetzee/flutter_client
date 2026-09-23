@@ -11341,6 +11341,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Tệp",
+    "chatAttachmentPanelVoice": "Thoại",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16994,5 +16995,33 @@
     "personaNameTooLong": "Tên hiển thị của persona phải có từ 100 ký tự trở xuống",
     "personaTagPrefixTooLong": "Tiền tố thẻ persona phải có từ 32 ký tự trở xuống",
     "personaTagSuffixTooLong": "Hậu tố thẻ persona phải có từ 32 ký tự trở xuống",
-    "personaTagCollisionError": "Thẻ '{tag}' đã được '{name}' sử dụng."
+    "personaTagCollisionError": "Thẻ '{tag}' đã được '{name}' sử dụng.",
+    "chatInsertTimestamp": "Chèn dấu thời gian",
+    "timestampPickerTitle": "Chèn dấu thời gian",
+    "timestampPickerPresetNow": "Bây giờ",
+    "timestampPickerPresetFiveMin": "+5 phút",
+    "timestampPickerPresetOneHour": "+1 giờ",
+    "timestampPickerPresetTomorrow": "Ngày mai",
+    "timestampPickerFormatLabel": "Định dạng",
+    "timestampPickerFormatDefaultCombined": "Mặc định (Kết hợp)",
+    "timestampPickerFormatShortDateTime": "Ngày/giờ ngắn",
+    "timestampPickerFormatLongDateTime": "Ngày/giờ dài",
+    "timestampPickerFormatRelative": "Tương đối",
+    "timestampPickerFormatShortDate": "Ngày ngắn",
+    "timestampPickerFormatLongDate": "Ngày dài",
+    "timestampPickerFormatShortTime": "Giờ ngắn",
+    "timestampPickerFormatLongTime": "Giờ dài",
+    "timestampPickerPreview": "Xem trước",
+    "timestampPickerInsert": "Chèn",
+    "timestampCopied": "Đã sao chép dấu thời gian",
+    "timestampPickerTimeLabel": "Thời gian",
+    "timestampPickerDateLabel": "NGÀY",
+    "timestampPickerTimeSectionLabel": "GIỜ",
+    "timestampPickerTimezoneLabel": "MÚI GIỜ",
+    "timestampPickerFormatPreviewLabel": "XEM TRƯỚC ĐỊNH DẠNG",
+    "timestampPickerNlpPlaceholder": "ví dụ: ngày mai lúc 3 giờ chiều, trong 2 giờ nữa, bây giờ",
+    "timestampPickerSearchTimezones": "Tìm kiếm múi giờ...",
+    "userProfileTimezoneSettingLabel": "Múi giờ",
+    "userProfileTimezoneSettingDescription": "Được sử dụng để hiển thị giờ địa phương trên hồ sơ của bạn.",
+    "userProfileTimezoneNone": "Không có"
 }

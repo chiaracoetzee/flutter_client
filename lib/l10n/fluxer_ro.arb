@@ -11341,6 +11341,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Fișiere",
+    "chatAttachmentPanelVoice": "Vocal",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16994,5 +16995,33 @@
     "personaNameTooLong": "Numele afișat al personei trebuie să aibă maximum 100 de caractere",
     "personaTagPrefixTooLong": "Prefixul etichetei personei trebuie să aibă maximum 32 de caractere",
     "personaTagSuffixTooLong": "Sufixul etichetei personei trebuie să aibă maximum 32 de caractere",
-    "personaTagCollisionError": "Eticheta '{tag}' este deja folosită de '{name}'."
+    "personaTagCollisionError": "Eticheta '{tag}' este deja folosită de '{name}'.",
+    "chatInsertTimestamp": "Inserează marcaj de timp",
+    "timestampPickerTitle": "Inserează marcaj de timp",
+    "timestampPickerPresetNow": "Acum",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 oră",
+    "timestampPickerPresetTomorrow": "Mâine",
+    "timestampPickerFormatLabel": "Format",
+    "timestampPickerFormatDefaultCombined": "Implicit (Combinat)",
+    "timestampPickerFormatShortDateTime": "Dată/Oră scurtă",
+    "timestampPickerFormatLongDateTime": "Dată/Oră lungă",
+    "timestampPickerFormatRelative": "Relativ",
+    "timestampPickerFormatShortDate": "Dată scurtă",
+    "timestampPickerFormatLongDate": "Dată lungă",
+    "timestampPickerFormatShortTime": "Oră scurtă",
+    "timestampPickerFormatLongTime": "Oră lungă",
+    "timestampPickerPreview": "Previzualizare",
+    "timestampPickerInsert": "Inserează",
+    "timestampCopied": "Marcaj de timp copiat",
+    "timestampPickerTimeLabel": "Oră",
+    "timestampPickerDateLabel": "DATĂ",
+    "timestampPickerTimeSectionLabel": "ORĂ",
+    "timestampPickerTimezoneLabel": "FUS ORAR",
+    "timestampPickerFormatPreviewLabel": "PREVIZUALIZARE FORMAT",
+    "timestampPickerNlpPlaceholder": "de ex. mâine la 15:00, în 2 ore, acum",
+    "timestampPickerSearchTimezones": "Caută fusuri orare...",
+    "userProfileTimezoneSettingLabel": "Fus orar",
+    "userProfileTimezoneSettingDescription": "Folosit pentru a afișa ora locală pe profilul tău.",
+    "userProfileTimezoneNone": "Niciunul"
 }

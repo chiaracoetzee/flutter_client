@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Filer",
+    "chatAttachmentPanelVoice": "Tale",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "Visningsnavnet for personaen kan maksimalt være 100 tegn",
     "personaTagPrefixTooLong": "Persona-taggprefikset kan maksimalt være 32 tegn",
     "personaTagSuffixTooLong": "Persona-taggsuffikset kan maksimalt være 32 tegn",
-    "personaTagCollisionError": "Taggen '{tag}' er allerede i bruk av '{name}'."
+    "personaTagCollisionError": "Taggen '{tag}' er allerede i bruk av '{name}'.",
+    "chatInsertTimestamp": "Sett inn tidsstempel",
+    "timestampPickerTitle": "Sett inn tidsstempel",
+    "timestampPickerPresetNow": "Nå",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 time",
+    "timestampPickerPresetTomorrow": "I morgen",
+    "timestampPickerFormatLabel": "Format",
+    "timestampPickerFormatDefaultCombined": "Standard (Kombinert)",
+    "timestampPickerFormatShortDateTime": "Kort dato/klokkeslett",
+    "timestampPickerFormatLongDateTime": "Langt dato/klokkeslett",
+    "timestampPickerFormatRelative": "Relativ",
+    "timestampPickerFormatShortDate": "Kort dato",
+    "timestampPickerFormatLongDate": "Lang dato",
+    "timestampPickerFormatShortTime": "Kort klokkeslett",
+    "timestampPickerFormatLongTime": "Langt klokkeslett",
+    "timestampPickerPreview": "Forhåndsvisning",
+    "timestampPickerInsert": "Sett inn",
+    "timestampCopied": "Tidsstempel kopiert",
+    "timestampPickerTimeLabel": "Tid",
+    "timestampPickerDateLabel": "DATO",
+    "timestampPickerTimeSectionLabel": "TID",
+    "timestampPickerTimezoneLabel": "TIDSSONE",
+    "timestampPickerFormatPreviewLabel": "FORHÅNDSVISNING AV FORMAT",
+    "timestampPickerNlpPlaceholder": "f.eks. i morgen kl 15, om 2 timer, nå",
+    "timestampPickerSearchTimezones": "Søk etter tidssoner...",
+    "userProfileTimezoneSettingLabel": "Tidssone",
+    "userProfileTimezoneSettingDescription": "Brukes til å vise din lokale tid på profilen din.",
+    "userProfileTimezoneNone": "Ingen"
 }

@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Файли",
+    "chatAttachmentPanelVoice": "Голос",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "Відображуване ім'я персони має містити не більше 100 символів",
     "personaTagPrefixTooLong": "Префікс тегу персони має містити не більше 32 символів",
     "personaTagSuffixTooLong": "Суфікс тегу персони має містити не більше 32 символів",
-    "personaTagCollisionError": "Тег '{tag}' уже використовується персоною '{name}'."
+    "personaTagCollisionError": "Тег '{tag}' уже використовується персоною '{name}'.",
+    "chatInsertTimestamp": "Вставити мітку часу",
+    "timestampPickerTitle": "Вставити мітку часу",
+    "timestampPickerPresetNow": "Зараз",
+    "timestampPickerPresetFiveMin": "+5 хв",
+    "timestampPickerPresetOneHour": "+1 год",
+    "timestampPickerPresetTomorrow": "Завтра",
+    "timestampPickerFormatLabel": "Формат",
+    "timestampPickerFormatDefaultCombined": "За замовчуванням (Комбінований)",
+    "timestampPickerFormatShortDateTime": "Короткі дата і час",
+    "timestampPickerFormatLongDateTime": "Повні дата і час",
+    "timestampPickerFormatRelative": "Відносний",
+    "timestampPickerFormatShortDate": "Коротка дата",
+    "timestampPickerFormatLongDate": "Повна дата",
+    "timestampPickerFormatShortTime": "Короткий час",
+    "timestampPickerFormatLongTime": "Повний час",
+    "timestampPickerPreview": "Попередній перегляд",
+    "timestampPickerInsert": "Вставити",
+    "timestampCopied": "Мітку часу скопійовано",
+    "timestampPickerTimeLabel": "Час",
+    "timestampPickerDateLabel": "ДАТА",
+    "timestampPickerTimeSectionLabel": "ЧАС",
+    "timestampPickerTimezoneLabel": "ЧАСОВИЙ ПОЯС",
+    "timestampPickerFormatPreviewLabel": "ПОПЕРЕДНІЙ ПЕРЕГЛЯД ФОРМАТУ",
+    "timestampPickerNlpPlaceholder": "напр., завтра о 15:00, через 2 години, зараз",
+    "timestampPickerSearchTimezones": "Шукати часові пояси...",
+    "userProfileTimezoneSettingLabel": "Часовий пояс",
+    "userProfileTimezoneSettingDescription": "Використовується для відображення вашого місцевого часу у профілі.",
+    "userProfileTimezoneNone": "Немає"
 }
