@@ -11,6 +11,8 @@ const String _kRecentChannelVisitsKey = 'recent_channel_visits_v1';
 
 @Riverpod(keepAlive: true)
 class RecentChannelVisits extends _$RecentChannelVisits {
+  final Completer<void> _loaded = Completer<void>();
+
   @override
   List<RecentChannelVisit> build() {
     unawaited(_init());
@@ -41,9 +43,17 @@ class RecentChannelVisits extends _$RecentChannelVisits {
           ),
         ];
         state = merged.take(kMaxRecentChannelVisits).toList();
+        // If visits were recorded before disk read finished, persist the merged state.
+        if (existingIds.isNotEmpty) {
+          unawaited(_save(state));
+        }
       }
     } on Object {
       // Ignore corrupted cache
+    } finally {
+      if (!_loaded.isCompleted) {
+        _loaded.complete();
+      }
     }
   }
 
@@ -67,10 +77,13 @@ class RecentChannelVisits extends _$RecentChannelVisits {
   }
 
   Future<void> _save(List<RecentChannelVisit> visits) async {
+    await _loaded.future;
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Read latest state so merges from _init() are not overwritten by a stale argument.
+      final List<RecentChannelVisit> toPersist = state;
       final String raw = jsonEncode(
-        visits.map((RecentChannelVisit v) => v.toJson()).toList(),
+        toPersist.map((RecentChannelVisit v) => v.toJson()).toList(),
       );
       await prefs.setString(_kRecentChannelVisitsKey, raw);
     } on Object {
