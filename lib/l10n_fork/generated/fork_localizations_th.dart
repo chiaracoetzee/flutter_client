@@ -12,6 +12,9 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get chatMessageChangePersona => 'เปลี่ยน Persona';
 
   @override
+  String get chatAttachmentPanelVoice => 'เสียง';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'ปุ่มตัวสลับด่วน';
 
   @override
@@ -252,4 +255,48 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'แท็ก \'$tag\' ถูกใช้งานโดย \'$name\' แล้ว';
   }
+
+  @override
+  String get chatInsertTimestamp => 'แทรกการประทับเวลา';
+
+  @override
+  String get timestampPickerTitle => 'แทรกการประทับเวลา';
+
+  @override
+  String get timestampPickerInsert => 'แทรก';
+
+  @override
+  String get timestampCopied => 'คัดลอกการประทับเวลาแล้ว';
+
+  @override
+  String get timestampPickerTimeLabel => 'เวลา';
+
+  @override
+  String get timestampPickerDateLabel => 'วันที่';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'เวลา';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'เขตเวลา';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'ดูตัวอย่างรูปแบบ';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'เช่น พรุ่งนี้ 15.00 น., อีก 2 ชั่วโมง, ตอนนี้';
+
+  @override
+  String get timestampPickerSearchTimezones => 'ค้นหาเขตเวลา...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'เขตเวลา';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'ใช้เพื่อแสดงเวลาท้องถิ่นของคุณในโปรไฟล์';
+
+  @override
+  String get userProfileTimezoneNone => 'ไม่มี';
 }

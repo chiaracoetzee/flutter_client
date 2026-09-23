@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "החלפת פרסונה",
+    "chatAttachmentPanelVoice": "קולי",
     "advancedSettingQuickSwitcherButtonLabel": "כפתור מחליף מהיר",
     "advancedSettingQuickSwitcherButtonDescription": "החלפת כפתור ההודעה הקולית בשדה הקלט בכפתור מחליף מהיר לניווט קל",
     "personaSelectTitle": "בחר פרסונה",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "שם התצוגה של הפרסונה חייב להכיל עד 100 תווים",
     "personaTagPrefixTooLong": "קידומת התגית של הפרסונה חייבת להכיל עד 32 תווים",
     "personaTagSuffixTooLong": "סיומת התגית של הפרסונה חייבת להכיל עד 32 תווים",
-    "personaTagCollisionError": "התגית '{tag}' כבר בשימוש על ידי '{name}'."
+    "personaTagCollisionError": "התגית '{tag}' כבר בשימוש על ידי '{name}'.",
+    "chatInsertTimestamp": "הוספת חותמת זמן",
+    "timestampPickerTitle": "הוספת חותמת זמן",
+    "timestampPickerInsert": "הוספה",
+    "timestampCopied": "חותמת הזמן הועתקה",
+    "timestampPickerTimeLabel": "שעה",
+    "timestampPickerDateLabel": "תאריך",
+    "timestampPickerTimeSectionLabel": "שעה",
+    "timestampPickerTimezoneLabel": "אזור זמן",
+    "timestampPickerFormatPreviewLabel": "תצוגה מקדימה של הפورמט",
+    "timestampPickerNlpPlaceholder": "לדוגמה: מחר ב-15:00, בעוד שעתיים, עכשיו",
+    "timestampPickerSearchTimezones": "חיפוש אזורי זמן...",
+    "userProfileTimezoneSettingLabel": "אזור זמן",
+    "userProfileTimezoneSettingDescription": "משמש להצגת השעה המקומית שלך בפרופיל.",
+    "userProfileTimezoneNone": "ללא"
 }
