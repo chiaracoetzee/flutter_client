@@ -27,6 +27,10 @@ import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:go_router/go_router.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/fluxer_timestamp_pill.dart';
+
 String _fluxerAppLinkToHttps(String href) {
   if (href.startsWith('fluxer://')) {
     final Uri uri = Uri.parse(href);
@@ -270,11 +274,21 @@ void _fluxerOnCopyCode(BuildContext ctx, String _) {
       );
 }
 
+Widget _fluxerTimestampBuilder(
+  BuildContext context,
+  DateTime dateTime,
+  String flag,
+  TextStyle style,
+) {
+  return FluxerTimestampPill(dateTime: dateTime, flag: flag, baseStyle: style);
+}
+
 FluxerMarkdownConfig createFluxerMarkdownConfig({
   BuildContext? context,
   bool revealSpoilers = false,
   FluxerSpoilerSyncController? spoilerSyncController,
   FluxerTimestampFormatter? timestampFormatter,
+  FluxerTimestampBuilder? timestampBuilder,
   FluxerSelectionContextMenuBuilder? selectionContextMenuBuilder,
   bool alwaysUnderlineLinks = false,
   bool dimStrikethroughText = true,
@@ -312,6 +326,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     spoilerSyncController: spoilerSyncController,
     spoilerSyncKeyNormalizer: normalizeSpoilerUrl,
     timestampFormatter: timestampFormatter,
+    timestampBuilder: timestampBuilder ?? _fluxerTimestampBuilder,
     alertBuilder: _fluxerAlertBuilder,
     onCopyCode: _fluxerOnCopyCode,
     selectionContextMenuBuilder: selectionContextMenuBuilder,

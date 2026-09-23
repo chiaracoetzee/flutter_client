@@ -27,8 +27,11 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/timestamp_picker_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 
@@ -181,6 +184,14 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
         !isSlowmodeBlocked;
   }
 
+  // Fork: the timestamp picker opens from the attachment panel.
+  void _onTimestampPressed() {
+    final BuildContext targetContext =
+        rootNavigatorKey.currentContext ?? context;
+    ref.read(attachmentPanelProvider.notifier).close();
+    unawaited(TimestampPickerSheet.show(targetContext));
+  }
+
   Future<void> _onOpenPhotoSettings() async {
     final bool allowed = await ensureSystemPermission(
       context,
@@ -219,6 +230,7 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
             child: AttachmentPanelSourceBar(
               onPhotosPressed: () => unawaited(_onPhotosPressed()),
               onFilesPressed: () => unawaited(_onFilesPressed()),
+              onTimestampPressed: _onTimestampPressed,
               onVoicePressed: _canUseVoice()
                   ? () => unawaited(_onVoicePressed())
                   : null,

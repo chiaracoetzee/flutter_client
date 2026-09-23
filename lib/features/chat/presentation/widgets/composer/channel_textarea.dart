@@ -103,7 +103,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/timestamp_picker_sheet.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_provider.dart';
+import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
@@ -408,7 +410,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           effect == ChatKeybindEffect.triggerUpload,
     );
     WidgetsBinding.instance.addObserver(this);
-    _controller = ComposerMentionController(ref: ref);
+    _controller = ComposerMentionController(ref: ref)
+      ..onTimestampTokenTap = _handleTimestampTokenTap;
     _textSession = ComposerTextSession(
       ref: ref,
       controller: _controller,
@@ -861,6 +864,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           return;
         }
         _controller.deleteBackward();
+      })
+      ..listen<({int epoch, String style})?>(pendingTimestampInsertProvider, (
+        _,
+        pending,
+      ) {
+        if (pending == null) {
+          return;
+        }
+        ref.read(pendingTimestampInsertProvider.notifier).consume();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) {
+            return;
+          }
+          _insertTimestamp(pending.epoch, pending.style);
+        });
       })
       ..listen<FluxerSelectedGif?>(pendingGifSelectionProvider, (_, pending) {
         if (pending == null) {
@@ -2160,6 +2178,30 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
   }
 
+  void _insertTimestamp(int epoch, String style) {
+    _controller.insertTimestamp(epoch, style);
+    scheduleComposerScrollToEnd(
+      _composerScrollController,
+      isMounted: () => mounted,
+    );
+  }
+
+  void _handleTimestampTokenTap(TimestampInlineToken token) {
+    unawaited(
+      TimestampPickerSheet.show(
+        context,
+        initialEpoch: token.epoch,
+        initialStyle: token.style,
+        onInsert: (int epoch, String style) {
+          token
+            ..epoch = epoch
+            ..style = style;
+          _controller.refreshTokens();
+        },
+      ),
+    );
+  }
+
   void _clearSlashSession() {
     if (_slashSession.isActive) {
       _slashSession.clear();
@@ -2670,6 +2712,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       await _startLockedVoiceRecording();
       return;
     }
+    if (source == ComposerAttachSource.timestamp) {
+      if (!context.mounted) {
+        return;
+      }
+      await TimestampPickerSheet.show(context, onInsert: _insertTimestamp);
+      return;
+    }
     await _pickAttachments(source: source);
   }
 
@@ -2768,6 +2817,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       case ComposerAttachSource.files:
         await _addPickedFiles(await pickNativeFileUploads());
       case ComposerAttachSource.voice:
+      case ComposerAttachSource.timestamp:
         break;
     }
   }

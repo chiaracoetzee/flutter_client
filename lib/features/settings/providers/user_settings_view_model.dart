@@ -519,6 +519,9 @@ class UserSettingsViewState {
     if (isEditedAccentColorSet && editedAccentColor != accentColor) {
       return true;
     }
+    if (isEditedTimezoneSet && editedTimezone != timezone) {
+      return true;
+    }
     if (editedAvatarBase64 != null || avatarCleared) {
       return true;
     }

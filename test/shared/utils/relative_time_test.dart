@@ -179,3 +179,12 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that relative_time_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by relative_time_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Future<FluxerLocalizations> Function() loadL10n,
+});
+// ignore: unreachable_from_main // Fork: used by relative_time_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (loadL10n: _loadL10n);
