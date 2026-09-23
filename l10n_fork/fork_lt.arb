@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Keisti personą",
+    "chatAttachmentPanelVoice": "Garsas",
     "advancedSettingQuickSwitcherButtonLabel": "Greitojo perjungiklio mygtukas",
     "advancedSettingQuickSwitcherButtonDescription": "Pakeisti balso pranešimo mygtuką įvesties lauke greituoju perjungikliu patogesnei navigacijai",
     "personaSelectTitle": "Pasirinkite personą",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Personos rodomas vardas negali viršyti 100 simbolių",
     "personaTagPrefixTooLong": "Personos žymos priešdėlis negali viršyti 32 simbolių",
     "personaTagSuffixTooLong": "Personos žymos galūnė negali viršyti 32 simbolių",
-    "personaTagCollisionError": "Žymą „{tag}“ jau naudoja „{name}“."
+    "personaTagCollisionError": "Žymą „{tag}“ jau naudoja „{name}“.",
+    "chatInsertTimestamp": "Įterpti laiko žymą",
+    "timestampPickerTitle": "Įterpti laiko žymą",
+    "timestampPickerInsert": "Įterpti",
+    "timestampCopied": "Laiko žyma nukopijuota",
+    "timestampPickerTimeLabel": "Laikas",
+    "timestampPickerDateLabel": "DATA",
+    "timestampPickerTimeSectionLabel": "LAIKAS",
+    "timestampPickerTimezoneLabel": "LAIKO JUOSTA",
+    "timestampPickerFormatPreviewLabel": "FORMATO PERŽIŪRA",
+    "timestampPickerNlpPlaceholder": "pvz., rytoj 15:00, po 2 valandų, dabar",
+    "timestampPickerSearchTimezones": "Ieškoti laiko juostų...",
+    "userProfileTimezoneSettingLabel": "Laiko juosta",
+    "userProfileTimezoneSettingDescription": "Naudojama vietiniam laikui rodyti jūsų profilyje.",
+    "userProfileTimezoneNone": "Nėra"
 }

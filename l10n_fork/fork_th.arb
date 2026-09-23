@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "เปลี่ยน Persona",
+    "chatAttachmentPanelVoice": "เสียง",
     "advancedSettingQuickSwitcherButtonLabel": "ปุ่มตัวสลับด่วน",
     "advancedSettingQuickSwitcherButtonDescription": "แทนที่ปุ่มข้อความเสียงในช่องพิมพ์ด้วยปุ่มตัวสลับด่วนเพื่อการนำทางที่รวดเร็ว",
     "personaSelectTitle": "เลือก Persona",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "ชื่อที่แสดงของ Persona ต้องมีความยาวไม่เกิน 100 ตัวอักษร",
     "personaTagPrefixTooLong": "คำนำหน้าแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร",
     "personaTagSuffixTooLong": "คำต่อท้ายแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร",
-    "personaTagCollisionError": "แท็ก '{tag}' ถูกใช้งานโดย '{name}' แล้ว"
+    "personaTagCollisionError": "แท็ก '{tag}' ถูกใช้งานโดย '{name}' แล้ว",
+    "chatInsertTimestamp": "แทรกการประทับเวลา",
+    "timestampPickerTitle": "แทรกการประทับเวลา",
+    "timestampPickerInsert": "แทรก",
+    "timestampCopied": "คัดลอกการประทับเวลาแล้ว",
+    "timestampPickerTimeLabel": "เวลา",
+    "timestampPickerDateLabel": "วันที่",
+    "timestampPickerTimeSectionLabel": "เวลา",
+    "timestampPickerTimezoneLabel": "เขตเวลา",
+    "timestampPickerFormatPreviewLabel": "ดูตัวอย่างรูปแบบ",
+    "timestampPickerNlpPlaceholder": "เช่น พรุ่งนี้ 15.00 น., อีก 2 ชั่วโมง, ตอนนี้",
+    "timestampPickerSearchTimezones": "ค้นหาเขตเวลา...",
+    "userProfileTimezoneSettingLabel": "เขตเวลา",
+    "userProfileTimezoneSettingDescription": "ใช้เพื่อแสดงเวลาท้องถิ่นของคุณในโปรไฟล์",
+    "userProfileTimezoneNone": "ไม่มี"
 }

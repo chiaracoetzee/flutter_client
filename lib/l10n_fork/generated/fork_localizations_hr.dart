@@ -12,6 +12,9 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get chatMessageChangePersona => 'Promijeni personu';
 
   @override
+  String get chatAttachmentPanelVoice => 'Glasovno';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Gumb brzog prebacivanja';
 
@@ -254,4 +257,48 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Oznaku \'$tag\' već koristi \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Umetni vremensku oznaku';
+
+  @override
+  String get timestampPickerTitle => 'Umetni vremensku oznaku';
+
+  @override
+  String get timestampPickerInsert => 'Umetni';
+
+  @override
+  String get timestampCopied => 'Vremenska oznaka kopirana';
+
+  @override
+  String get timestampPickerTimeLabel => 'Vrijeme';
+
+  @override
+  String get timestampPickerDateLabel => 'DATUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'VRIJEME';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'VREMENSKA ZONA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PREGLED OBLIKA';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'npr. sutra u 15:00, za 2 sata, sada';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Pretraži vremenske zone...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Vremenska zona';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Koristi se za prikaz vašeg lokalnog vremena na profilu.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nijedno';
 }
