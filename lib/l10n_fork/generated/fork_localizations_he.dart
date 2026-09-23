@@ -12,6 +12,9 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String get chatMessageChangePersona => 'החלפת פרסונה';
 
   @override
+  String get chatAttachmentPanelVoice => 'קולי';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'כפתור מחליף מהיר';
 
   @override
@@ -252,4 +255,48 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'התגית \'$tag\' כבר בשימוש על ידי \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'הוספת חותמת זמן';
+
+  @override
+  String get timestampPickerTitle => 'הוספת חותמת זמן';
+
+  @override
+  String get timestampPickerInsert => 'הוספה';
+
+  @override
+  String get timestampCopied => 'חותמת הזמן הועתקה';
+
+  @override
+  String get timestampPickerTimeLabel => 'שעה';
+
+  @override
+  String get timestampPickerDateLabel => 'תאריך';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'שעה';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'אזור זמן';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'תצוגה מקדימה של הפورמט';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'לדוגמה: מחר ב-15:00, בעוד שעתיים, עכשיו';
+
+  @override
+  String get timestampPickerSearchTimezones => 'חיפוש אזורי זמן...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'אזור זמן';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'משמש להצגת השעה המקומית שלך בפרופיל.';
+
+  @override
+  String get userProfileTimezoneNone => 'ללא';
 }

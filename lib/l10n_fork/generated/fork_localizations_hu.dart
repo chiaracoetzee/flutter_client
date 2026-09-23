@@ -12,6 +12,9 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get chatMessageChangePersona => 'Persona váltása';
 
   @override
+  String get chatAttachmentPanelVoice => 'Hang';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'Gyorsváltó gomb';
 
   @override
@@ -253,4 +256,48 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'A(z) \'$tag\' címkét már használja \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Időbélyegző beszúrása';
+
+  @override
+  String get timestampPickerTitle => 'Időbélyegző beszúrása';
+
+  @override
+  String get timestampPickerInsert => 'Beszúrás';
+
+  @override
+  String get timestampCopied => 'Időbélyegző másolva';
+
+  @override
+  String get timestampPickerTimeLabel => 'Idő';
+
+  @override
+  String get timestampPickerDateLabel => 'DÁTUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'IDŐPONT';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'IDŐZÓNA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMÁTUM ELŐNÉZETE';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'pl. holnap 15:00-kor, 2 óra múlva, most';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Időzónák keresése...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Időzóna';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'A helyi idő megjelenítésére szolgál a profilodban.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nincs';
 }
