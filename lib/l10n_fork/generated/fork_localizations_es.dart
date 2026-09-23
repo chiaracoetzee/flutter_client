@@ -12,6 +12,9 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String get chatMessageChangePersona => 'Cambiar persona';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voz';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Botón del selector rápido';
 
@@ -256,6 +259,50 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'La etiqueta \'$tag\' ya está en uso por \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Insertar marca de tiempo';
+
+  @override
+  String get timestampPickerTitle => 'Insertar marca de tiempo';
+
+  @override
+  String get timestampPickerInsert => 'Insertar';
+
+  @override
+  String get timestampCopied => 'Marca de tiempo copiada';
+
+  @override
+  String get timestampPickerTimeLabel => 'Hora';
+
+  @override
+  String get timestampPickerDateLabel => 'FECHA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ZONA HORARIA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'VISTA PREVIA DEL FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ej. mañana a las 3pm, en 2 horas, ahora';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Buscar zonas horarias...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Zona horaria';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Se usa para mostrar tu hora local en tu perfil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Ninguno';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -264,6 +311,9 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get chatMessageChangePersona => 'Cambiar persona';
+
+  @override
+  String get chatAttachmentPanelVoice => 'Voz';
 
   @override
   String get advancedSettingQuickSwitcherButtonLabel =>
@@ -510,4 +560,48 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String personaTagCollisionError(String tag, String name) {
     return 'La etiqueta \'$tag\' ya está en uso por \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Insertar marca de tiempo';
+
+  @override
+  String get timestampPickerTitle => 'Insertar marca de tiempo';
+
+  @override
+  String get timestampPickerInsert => 'Insertar';
+
+  @override
+  String get timestampCopied => 'Marca de tiempo copiada';
+
+  @override
+  String get timestampPickerTimeLabel => 'Hora';
+
+  @override
+  String get timestampPickerDateLabel => 'FECHA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ZONA HORARIA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'VISTA PREVIA DEL FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ej. mañana a las 3pm, en 2 horas, ahora';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Buscar zonas horarias...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Zona horaria';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Se usa para mostrar tu hora local en tu perfil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Ninguno';
 }
