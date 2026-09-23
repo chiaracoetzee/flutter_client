@@ -9426,6 +9426,9 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Dateien';
 
   @override
+  String get chatAttachmentPanelVoice => 'Sprache';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Zugriff auf die Fotomediathek erforderlich';
 
@@ -15080,4 +15083,90 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Das Tag „$tag“ wird bereits von „$name“ verwendet.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Zeitstempel einfügen';
+
+  @override
+  String get timestampPickerTitle => 'Zeitstempel einfügen';
+
+  @override
+  String get timestampPickerPresetNow => 'Jetzt';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 Min.';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 Std.';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Morgen';
+
+  @override
+  String get timestampPickerFormatLabel => 'Format';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Standard (Kombiniert)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Kurzes Datum/Uhrzeit';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Langes Datum/Uhrzeit';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativ';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Kurzes Datum';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Langes Datum';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Kurze Uhrzeit';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Lange Uhrzeit';
+
+  @override
+  String get timestampPickerPreview => 'Vorschau';
+
+  @override
+  String get timestampPickerInsert => 'Einfügen';
+
+  @override
+  String get timestampCopied => 'Zeitstempel kopiert';
+
+  @override
+  String get timestampPickerTimeLabel => 'Zeit';
+
+  @override
+  String get timestampPickerDateLabel => 'DATUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'UHRZEIT';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ZEITZONE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMATVORSCHAU';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'z. B. morgen um 15 Uhr, in 2 Stunden, jetzt';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Zeitzonen suchen...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Zeitzone';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Wird verwendet, um Ihre Ortszeit in Ihrem Profil anzuzeigen.';
+
+  @override
+  String get userProfileTimezoneNone => 'Keine';
 }

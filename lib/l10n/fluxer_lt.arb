@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Failai",
+    "chatAttachmentPanelVoice": "Garsas",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "Personos rodomas vardas negali viršyti 100 simbolių",
     "personaTagPrefixTooLong": "Personos žymos priešdėlis negali viršyti 32 simbolių",
     "personaTagSuffixTooLong": "Personos žymos galūnė negali viršyti 32 simbolių",
-    "personaTagCollisionError": "Žymą „{tag}“ jau naudoja „{name}“."
+    "personaTagCollisionError": "Žymą „{tag}“ jau naudoja „{name}“.",
+    "chatInsertTimestamp": "Įterpti laiko žymą",
+    "timestampPickerTitle": "Įterpti laiko žymą",
+    "timestampPickerPresetNow": "Dabar",
+    "timestampPickerPresetFiveMin": "+5 min.",
+    "timestampPickerPresetOneHour": "+1 val.",
+    "timestampPickerPresetTomorrow": "Rytoj",
+    "timestampPickerFormatLabel": "Formatas",
+    "timestampPickerFormatDefaultCombined": "Numatytasis (Kombinuotas)",
+    "timestampPickerFormatShortDateTime": "Trumpa data ir laikas",
+    "timestampPickerFormatLongDateTime": "Išsami data ir laikas",
+    "timestampPickerFormatRelative": "Santykinis",
+    "timestampPickerFormatShortDate": "Trumpa data",
+    "timestampPickerFormatLongDate": "Išsami data",
+    "timestampPickerFormatShortTime": "Trumpas laikas",
+    "timestampPickerFormatLongTime": "Išsamus laikas",
+    "timestampPickerPreview": "Peržiūra",
+    "timestampPickerInsert": "Įterpti",
+    "timestampCopied": "Laiko žyma nukopijuota",
+    "timestampPickerTimeLabel": "Laikas",
+    "timestampPickerDateLabel": "DATA",
+    "timestampPickerTimeSectionLabel": "LAIKAS",
+    "timestampPickerTimezoneLabel": "LAIKO JUOSTA",
+    "timestampPickerFormatPreviewLabel": "FORMATO PERŽIŪRA",
+    "timestampPickerNlpPlaceholder": "pvz., rytoj 15:00, po 2 valandų, dabar",
+    "timestampPickerSearchTimezones": "Ieškoti laiko juostų...",
+    "userProfileTimezoneSettingLabel": "Laiko juosta",
+    "userProfileTimezoneSettingDescription": "Naudojama vietiniam laikui rodyti jūsų profilyje.",
+    "userProfileTimezoneNone": "Nėra"
 }

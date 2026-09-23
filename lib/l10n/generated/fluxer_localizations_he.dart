@@ -9194,6 +9194,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'קבצים';
 
   @override
+  String get chatAttachmentPanelVoice => 'קולי';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'נדרשת גישה לספריית התמונות';
 
@@ -14710,4 +14713,90 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'התגית \'$tag\' כבר בשימוש על ידי \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'הוספת חותמת זמן';
+
+  @override
+  String get timestampPickerTitle => 'הוספת חותמת זמן';
+
+  @override
+  String get timestampPickerPresetNow => 'עכשיו';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 דק׳';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 שעה';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'מחר';
+
+  @override
+  String get timestampPickerFormatLabel => 'תבנית';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'ברירת מחדל (משולב)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'תאריך ושעה מקוצרים';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'תאריך ושעה מלאים';
+
+  @override
+  String get timestampPickerFormatRelative => 'יחסי';
+
+  @override
+  String get timestampPickerFormatShortDate => 'תאריך מקוצר';
+
+  @override
+  String get timestampPickerFormatLongDate => 'תאריך מלא';
+
+  @override
+  String get timestampPickerFormatShortTime => 'שעה מקוצרת';
+
+  @override
+  String get timestampPickerFormatLongTime => 'שעה מלאה';
+
+  @override
+  String get timestampPickerPreview => 'תצוגה מקדימה';
+
+  @override
+  String get timestampPickerInsert => 'הוספה';
+
+  @override
+  String get timestampCopied => 'חותמת הזמן הועתקה';
+
+  @override
+  String get timestampPickerTimeLabel => 'שעה';
+
+  @override
+  String get timestampPickerDateLabel => 'תאריך';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'שעה';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'אזור זמן';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'תצוגה מקדימה של הפورמט';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'לדוגמה: מחר ב-15:00, בעוד שעתיים, עכשיו';
+
+  @override
+  String get timestampPickerSearchTimezones => 'חיפוש אזורי זמן...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'אזור זמן';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'משמש להצגת השעה המקומית שלך בפרופיל.';
+
+  @override
+  String get userProfileTimezoneNone => 'ללא';
 }

@@ -9424,6 +9424,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Αρχεία';
 
   @override
+  String get chatAttachmentPanelVoice => 'Φωνή';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Χρειάζεται πρόσβαση στη βιβλιοθήκη φωτογραφιών';
 
@@ -15112,4 +15115,90 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Η ετικέτα \'$tag\' χρησιμοποιείται ήδη από την persona \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Εισαγωγή χρονικής σήμανσης';
+
+  @override
+  String get timestampPickerTitle => 'Εισαγωγή χρονικής σήμανσης';
+
+  @override
+  String get timestampPickerPresetNow => 'Τώρα';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 λεπτά';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 ώρα';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Αύριο';
+
+  @override
+  String get timestampPickerFormatLabel => 'Μορφή';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Προεπιλογή (Συνδυασμός)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Σύντομη ημερομηνία/ώρα';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Πλήρης ημερομηνία/ώρα';
+
+  @override
+  String get timestampPickerFormatRelative => 'Σχετικός';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Σύντομη ημερομηνία';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Πλήρης ημερομηνία';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Σύντομη ώρα';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Πλήρης ώρα';
+
+  @override
+  String get timestampPickerPreview => 'Προεπισκόπηση';
+
+  @override
+  String get timestampPickerInsert => 'Εισαγωγή';
+
+  @override
+  String get timestampCopied => 'Η χρονική σήμανση αντιγράφηκε';
+
+  @override
+  String get timestampPickerTimeLabel => 'Ώρα';
+
+  @override
+  String get timestampPickerDateLabel => 'ΗΜΕΡΟΜΗΝΙΑ';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'ΩΡΑ';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ΖΩΝΗ ΩΡΑΣ';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'ΠΡΟΕΠΙΣΚΟΠΗΣΗ ΜΟΡΦΗΣ';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'π.χ. αύριο στις 3 μ.μ., σε 2 ώρες, τώρα';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Αναζήτηση ζωνών ώρας...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Ζώνη ώρας';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Χρησιμοποιείται για την εμφάνιση της τοπικής ώρας στο προφίλ σας.';
+
+  @override
+  String get userProfileTimezoneNone => 'Κανένα';
 }

@@ -9320,6 +9320,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'फ़ाइलें';
 
   @override
+  String get chatAttachmentPanelVoice => 'वॉइस';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'फोटो लाइब्रेरी एक्सेस की आवश्यकता है';
 
@@ -14910,4 +14913,90 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'टैग \'$tag\' पहले से ही \'$name\' द्वारा उपयोग में है।';
   }
+
+  @override
+  String get chatInsertTimestamp => 'समय टिकट डालें';
+
+  @override
+  String get timestampPickerTitle => 'समय टिकट डालें';
+
+  @override
+  String get timestampPickerPresetNow => 'अभी';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 मिनट';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 घंटा';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'कल';
+
+  @override
+  String get timestampPickerFormatLabel => 'प्रारूप';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'डिफ़ॉल्ट (संयुक्त)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'संक्षिप्त दिनांक/समय';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'विस्तृत दिनांक/समय';
+
+  @override
+  String get timestampPickerFormatRelative => 'सापेक्ष';
+
+  @override
+  String get timestampPickerFormatShortDate => 'संक्षिप्त दिनांक';
+
+  @override
+  String get timestampPickerFormatLongDate => 'विस्तृत दिनांक';
+
+  @override
+  String get timestampPickerFormatShortTime => 'संक्षिप्त समय';
+
+  @override
+  String get timestampPickerFormatLongTime => 'विस्तृत समय';
+
+  @override
+  String get timestampPickerPreview => 'पूर्वावलोकन';
+
+  @override
+  String get timestampPickerInsert => 'डालें';
+
+  @override
+  String get timestampCopied => 'समय टिकट कॉपी किया गया';
+
+  @override
+  String get timestampPickerTimeLabel => 'समय';
+
+  @override
+  String get timestampPickerDateLabel => 'तारीख';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'समय';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'समय क्षेत्र';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'प्रारूप पूर्वावलोकन';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'उदा. कल दोपहर 3 बजे, 2 घंटे में, अभी';
+
+  @override
+  String get timestampPickerSearchTimezones => 'समय क्षेत्र खोजें...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'समय क्षेत्र';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'आपकी प्रोफ़ाइल पर आपका स्थानीय समय दिखाने के लिए उपयोग किया जाता है।';
+
+  @override
+  String get userProfileTimezoneNone => 'कोई नहीं';
 }
