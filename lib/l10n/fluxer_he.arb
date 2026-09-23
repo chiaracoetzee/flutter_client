@@ -11341,6 +11341,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "קבצים",
+    "chatAttachmentPanelVoice": "קולי",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16994,5 +16995,33 @@
     "personaNameTooLong": "שם התצוגה של הפרסונה חייב להכיל עד 100 תווים",
     "personaTagPrefixTooLong": "קידומת התגית של הפרסונה חייבת להכיל עד 32 תווים",
     "personaTagSuffixTooLong": "סיומת התגית של הפרסונה חייבת להכיל עד 32 תווים",
-    "personaTagCollisionError": "התגית '{tag}' כבר בשימוש על ידי '{name}'."
+    "personaTagCollisionError": "התגית '{tag}' כבר בשימוש על ידי '{name}'.",
+    "chatInsertTimestamp": "הוספת חותמת זמן",
+    "timestampPickerTitle": "הוספת חותמת זמן",
+    "timestampPickerPresetNow": "עכשיו",
+    "timestampPickerPresetFiveMin": "+5 דק׳",
+    "timestampPickerPresetOneHour": "+1 שעה",
+    "timestampPickerPresetTomorrow": "מחר",
+    "timestampPickerFormatLabel": "תבנית",
+    "timestampPickerFormatDefaultCombined": "ברירת מחדל (משולב)",
+    "timestampPickerFormatShortDateTime": "תאריך ושעה מקוצרים",
+    "timestampPickerFormatLongDateTime": "תאריך ושעה מלאים",
+    "timestampPickerFormatRelative": "יחסי",
+    "timestampPickerFormatShortDate": "תאריך מקוצר",
+    "timestampPickerFormatLongDate": "תאריך מלא",
+    "timestampPickerFormatShortTime": "שעה מקוצרת",
+    "timestampPickerFormatLongTime": "שעה מלאה",
+    "timestampPickerPreview": "תצוגה מקדימה",
+    "timestampPickerInsert": "הוספה",
+    "timestampCopied": "חותמת הזמן הועתקה",
+    "timestampPickerTimeLabel": "שעה",
+    "timestampPickerDateLabel": "תאריך",
+    "timestampPickerTimeSectionLabel": "שעה",
+    "timestampPickerTimezoneLabel": "אזור זמן",
+    "timestampPickerFormatPreviewLabel": "תצוגה מקדימה של הפورמט",
+    "timestampPickerNlpPlaceholder": "לדוגמה: מחר ב-15:00, בעוד שעתיים, עכשיו",
+    "timestampPickerSearchTimezones": "חיפוש אזורי זמן...",
+    "userProfileTimezoneSettingLabel": "אזור זמן",
+    "userProfileTimezoneSettingDescription": "משמש להצגת השעה המקומית שלך בפרופיל.",
+    "userProfileTimezoneNone": "ללא"
 }

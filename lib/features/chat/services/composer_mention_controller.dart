@@ -5,13 +5,14 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_inline_mention.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
-import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
-import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
+import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
+import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -119,6 +120,8 @@ class ComposerMentionController extends InlineTokenTextEditingController {
   ComposerMentionController({required this._ref, super.text});
 
   final WidgetRef _ref;
+
+  void Function(TimestampInlineToken token)? onTimestampTokenTap;
 
   static final RegExp _wireMentions = RegExp(
     '<@&([^>]+)>|<@!?([^>]+)>|<#([^>]+)>',
@@ -277,10 +280,69 @@ class ComposerMentionController extends InlineTokenTextEditingController {
       start = m.end;
     }
     display.write(wire.substring(start));
-    return substituteEmojiTokens(
+    final String withTimestamps = _substituteTimestampTokens(
       display.toString(),
+      allocate,
+    );
+    return substituteEmojiTokens(
+      withTimestamps,
       (EmojiInlineToken token) => allocate(token),
       includePlainShortcodes: includePlainShortcodes,
+    );
+  }
+
+  String _substituteTimestampTokens(
+    String text,
+    String Function(InlineToken token) allocate,
+  ) {
+    // 1. Combo timestamps: <t:12345:f> (<t:12345:R>)
+    final RegExp comboRegex = RegExp(r'<t:(\d+):f>\s*\(\s*<t:\1:R>\s*\)');
+    final String afterCombo = text.replaceAllMapped(comboRegex, (Match m) {
+      final int? epoch = int.tryParse(m.group(1)!);
+      if (epoch != null) {
+        return allocate(
+          TimestampInlineToken(
+            epoch: epoch,
+            style: 'combo',
+            onTap: onTimestampTokenTap,
+          ),
+        );
+      }
+      return m.group(0)!;
+    });
+
+    // 2. Individual timestamps: <t:12345:style> or <t:12345>
+    final RegExp singleRegex = RegExp(r'<t:(\d+)(?::([tTdDfFRsS]))?>');
+    return afterCombo.replaceAllMapped(singleRegex, (Match m) {
+      final int? epoch = int.tryParse(m.group(1)!);
+      final String style = m.group(2) ?? 'f';
+      if (epoch != null) {
+        return allocate(
+          TimestampInlineToken(
+            epoch: epoch,
+            style: style,
+            onTap: onTimestampTokenTap,
+          ),
+        );
+      }
+      return m.group(0)!;
+    });
+  }
+
+  void insertTimestamp(int epoch, String style) {
+    final token = TimestampInlineToken(
+      epoch: epoch,
+      style: style,
+      onTap: onTimestampTokenTap,
+    );
+    final TextSelection sel = selection;
+    final int start = sel.isValid ? sel.start : text.length;
+    final int end = sel.isValid ? sel.end : text.length;
+    replaceRangeWithToken(
+      start,
+      end,
+      token,
+      ensureTrailingSpace: true,
     );
   }
 
@@ -360,5 +422,10 @@ class ComposerMentionController extends InlineTokenTextEditingController {
       maxActualLength: maxActualLength,
       ensureTrailingSpace: ensureTrailingSpace,
     );
+  }
+
+  /// Notifies listeners when inline token properties change in-place.
+  void refreshTokens() {
+    notifyListeners();
   }
 }

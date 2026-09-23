@@ -9332,6 +9332,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Tệp';
 
   @override
+  String get chatAttachmentPanelVoice => 'Thoại';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Cần quyền truy cập thư viện ảnh';
 
@@ -14942,4 +14945,90 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Thẻ \'$tag\' đã được \'$name\' sử dụng.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Chèn dấu thời gian';
+
+  @override
+  String get timestampPickerTitle => 'Chèn dấu thời gian';
+
+  @override
+  String get timestampPickerPresetNow => 'Bây giờ';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 phút';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 giờ';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Ngày mai';
+
+  @override
+  String get timestampPickerFormatLabel => 'Định dạng';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Mặc định (Kết hợp)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Ngày/giờ ngắn';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Ngày/giờ dài';
+
+  @override
+  String get timestampPickerFormatRelative => 'Tương đối';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Ngày ngắn';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Ngày dài';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Giờ ngắn';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Giờ dài';
+
+  @override
+  String get timestampPickerPreview => 'Xem trước';
+
+  @override
+  String get timestampPickerInsert => 'Chèn';
+
+  @override
+  String get timestampCopied => 'Đã sao chép dấu thời gian';
+
+  @override
+  String get timestampPickerTimeLabel => 'Thời gian';
+
+  @override
+  String get timestampPickerDateLabel => 'NGÀY';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'GIỜ';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'MÚI GIỜ';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'XEM TRƯỚC ĐỊNH DẠNG';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ví dụ: ngày mai lúc 3 giờ chiều, trong 2 giờ nữa, bây giờ';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Tìm kiếm múi giờ...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Múi giờ';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Được sử dụng để hiển thị giờ địa phương trên hồ sơ của bạn.';
+
+  @override
+  String get userProfileTimezoneNone => 'Không có';
 }

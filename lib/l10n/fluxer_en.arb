@@ -11787,6 +11787,10 @@
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
+    "chatAttachmentPanelVoice": "Voice",
+    "@chatAttachmentPanelVoice": {
+        "description": "Label for the voice recording action on the attachment panel."
+    },
     "chatAttachmentLibraryPermissionTitle": "Photo library access needed",
     "@chatAttachmentLibraryPermissionTitle": {
         "description": "Title shown when the attachment gallery cannot read the photo library."
@@ -17716,5 +17720,117 @@
                 "type": "String"
             }
         }
+    },
+    "chatInsertTimestamp": "Insert timestamp",
+    "@chatInsertTimestamp": {
+        "description": "Menu action to insert a timestamp markdown pill into composer."
+    },
+    "timestampPickerTitle": "Insert Timestamp",
+    "@timestampPickerTitle": {
+        "description": "Title of the timestamp picker modal/sheet."
+    },
+    "timestampPickerPresetNow": "Now",
+    "@timestampPickerPresetNow": {
+        "description": "Quick preset button for current time in timestamp picker."
+    },
+    "timestampPickerPresetFiveMin": "+5 min",
+    "@timestampPickerPresetFiveMin": {
+        "description": "Quick preset button for +5 minutes in timestamp picker."
+    },
+    "timestampPickerPresetOneHour": "+1 hour",
+    "@timestampPickerPresetOneHour": {
+        "description": "Quick preset button for +1 hour in timestamp picker."
+    },
+    "timestampPickerPresetTomorrow": "Tomorrow",
+    "@timestampPickerPresetTomorrow": {
+        "description": "Quick preset button for tomorrow noon in timestamp picker."
+    },
+    "timestampPickerFormatLabel": "Format",
+    "@timestampPickerFormatLabel": {
+        "description": "Label for timestamp format selector section."
+    },
+    "timestampPickerFormatDefaultCombined": "Default (Combined)",
+    "@timestampPickerFormatDefaultCombined": {
+        "description": "Timestamp format option combining absolute and relative time."
+    },
+    "timestampPickerFormatShortDateTime": "Short Date/Time",
+    "@timestampPickerFormatShortDateTime": {
+        "description": "Timestamp format option for short date and time."
+    },
+    "timestampPickerFormatLongDateTime": "Long Date/Time",
+    "@timestampPickerFormatLongDateTime": {
+        "description": "Timestamp format option for long date and time."
+    },
+    "timestampPickerFormatRelative": "Relative",
+    "@timestampPickerFormatRelative": {
+        "description": "Timestamp format option for relative time."
+    },
+    "timestampPickerFormatShortDate": "Short Date",
+    "@timestampPickerFormatShortDate": {
+        "description": "Timestamp format option for short date."
+    },
+    "timestampPickerFormatLongDate": "Long Date",
+    "@timestampPickerFormatLongDate": {
+        "description": "Timestamp format option for long date."
+    },
+    "timestampPickerFormatShortTime": "Short Time",
+    "@timestampPickerFormatShortTime": {
+        "description": "Timestamp format option for short time."
+    },
+    "timestampPickerFormatLongTime": "Long Time",
+    "@timestampPickerFormatLongTime": {
+        "description": "Timestamp format option for long time."
+    },
+    "timestampPickerPreview": "Preview",
+    "@timestampPickerPreview": {
+        "description": "Label for live preview in timestamp picker."
+    },
+    "timestampPickerInsert": "Insert",
+    "@timestampPickerInsert": {
+        "description": "Action button to insert timestamp."
+    },
+    "timestampCopied": "Timestamp copied",
+    "@timestampCopied": {
+        "description": "Toast message when timestamp pill text is copied to clipboard."
+    },
+    "timestampPickerTimeLabel": "Time",
+    "@timestampPickerTimeLabel": {
+        "description": "Short label for time button in the attachment panel source bar."
+    },
+    "timestampPickerDateLabel": "DATE",
+    "@timestampPickerDateLabel": {
+        "description": "Label for date section in timestamp picker."
+    },
+    "timestampPickerTimeSectionLabel": "TIME",
+    "@timestampPickerTimeSectionLabel": {
+        "description": "Label for time section in timestamp picker."
+    },
+    "timestampPickerTimezoneLabel": "TIME ZONE",
+    "@timestampPickerTimezoneLabel": {
+        "description": "Label for timezone section in timestamp picker."
+    },
+    "timestampPickerFormatPreviewLabel": "FORMAT PREVIEW",
+    "@timestampPickerFormatPreviewLabel": {
+        "description": "Label for format preview section in timestamp picker."
+    },
+    "timestampPickerNlpPlaceholder": "e.g. tomorrow at 3pm, in 2 hours, now",
+    "@timestampPickerNlpPlaceholder": {
+        "description": "Placeholder for natural language timestamp input."
+    },
+    "timestampPickerSearchTimezones": "Search time zones...",
+    "@timestampPickerSearchTimezones": {
+        "description": "Placeholder for timezone search input."
+    },
+    "userProfileTimezoneSettingLabel": "Time zone",
+    "@userProfileTimezoneSettingLabel": {
+        "description": "Label for timezone setting in user profile settings."
+    },
+    "userProfileTimezoneSettingDescription": "Used to show your local time on your profile.",
+    "@userProfileTimezoneSettingDescription": {
+        "description": "Description for timezone setting in user profile settings."
+    },
+    "userProfileTimezoneNone": "None",
+    "@userProfileTimezoneNone": {
+        "description": "Option to clear timezone in user profile settings."
     }
 }
