@@ -73,16 +73,16 @@ enum WebPushRecordDecryptor {
         sharedInfo: info,
         outputByteCount: 32
       )
-      let cek = ikm.hkdfDerivedSymmetricKey(
-        using: SHA256.self,
+      let cek = HKDF<SHA256>.deriveKey(
+        inputKeyMaterial: ikm,
         salt: salt,
-        sharedInfo: infoBytes("Content-Encoding: aes128gcm"),
+        info: infoBytes("Content-Encoding: aes128gcm"),
         outputByteCount: 16
       )
-      let nonceKey = ikm.hkdfDerivedSymmetricKey(
-        using: SHA256.self,
+      let nonceKey = HKDF<SHA256>.deriveKey(
+        inputKeyMaterial: ikm,
         salt: salt,
-        sharedInfo: infoBytes("Content-Encoding: nonce"),
+        info: infoBytes("Content-Encoding: nonce"),
         outputByteCount: 12
       )
       let nonceData = nonceKey.withUnsafeBytes { Data($0) }
