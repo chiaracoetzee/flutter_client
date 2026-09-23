@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/utils/channel_mention_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/fluxer_timestamp_pill.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_alert.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_mention.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
@@ -232,11 +233,25 @@ void _fluxerOnCopyCode(BuildContext ctx, String _) {
       );
 }
 
+Widget _fluxerTimestampBuilder(
+  BuildContext context,
+  DateTime dateTime,
+  String flag,
+  TextStyle style,
+) {
+  return FluxerTimestampPill(
+    dateTime: dateTime,
+    flag: flag,
+    baseStyle: style,
+  );
+}
+
 FluxerMarkdownConfig createFluxerMarkdownConfig({
   BuildContext? context,
   bool revealSpoilers = false,
   FluxerSpoilerSyncController? spoilerSyncController,
   FluxerTimestampFormatter? timestampFormatter,
+  FluxerTimestampBuilder? timestampBuilder,
   FluxerSelectionContextMenuBuilder? selectionContextMenuBuilder,
   bool alwaysUnderlineLinks = false,
   bool dimStrikethroughText = true,
@@ -274,6 +289,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     spoilerSyncController: spoilerSyncController,
     spoilerSyncKeyNormalizer: normalizeSpoilerUrl,
     timestampFormatter: timestampFormatter,
+    timestampBuilder: timestampBuilder ?? _fluxerTimestampBuilder,
     alertBuilder: _fluxerAlertBuilder,
     onCopyCode: _fluxerOnCopyCode,
     selectionContextMenuBuilder: selectionContextMenuBuilder,

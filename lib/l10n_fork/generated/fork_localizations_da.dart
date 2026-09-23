@@ -12,6 +12,9 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String get chatMessageChangePersona => 'Skift persona';
 
   @override
+  String get chatAttachmentPanelVoice => 'Stemme';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Knap til hurtigskifter';
 
@@ -255,4 +258,48 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tagget \'$tag\' er allerede i brug af \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Indsæt tidsstempel';
+
+  @override
+  String get timestampPickerTitle => 'Indsæt tidsstempel';
+
+  @override
+  String get timestampPickerInsert => 'Indsæt';
+
+  @override
+  String get timestampCopied => 'Tidsstempel kopieret';
+
+  @override
+  String get timestampPickerTimeLabel => 'Tid';
+
+  @override
+  String get timestampPickerDateLabel => 'DATO';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'TIDSPUNKT';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'TIDSZONE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMATFORHÅNDSVISNING';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'f.eks. i morgen kl. 15, om 2 timer, nu';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Søg efter tidszoner...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Tidszone';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Bruges til at vise din lokale tid på din profil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Ingen';
 }

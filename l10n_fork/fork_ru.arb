@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Сменить персону",
+    "chatAttachmentPanelVoice": "Голос",
     "advancedSettingQuickSwitcherButtonLabel": "Кнопка быстрого переключения",
     "advancedSettingQuickSwitcherButtonDescription": "Заменить кнопку голосового сообщения в поле ввода на кнопку быстрого переключения для удобной навигации",
     "personaSelectTitle": "Выберите персону",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Отображаемое имя персоны должно содержать не более 100 символов",
     "personaTagPrefixTooLong": "Префикс тега персоны должен содержать не более 32 символов",
     "personaTagSuffixTooLong": "Суффикс тега персоны должен содержать не более 32 символов",
-    "personaTagCollisionError": "Тег «{tag}» уже используется персоной «{name}»."
+    "personaTagCollisionError": "Тег «{tag}» уже используется персоной «{name}».",
+    "chatInsertTimestamp": "Вставить метку времени",
+    "timestampPickerTitle": "Вставить метку времени",
+    "timestampPickerInsert": "Вставить",
+    "timestampCopied": "Метка времени скопирована",
+    "timestampPickerTimeLabel": "Время",
+    "timestampPickerDateLabel": "ДАТА",
+    "timestampPickerTimeSectionLabel": "ВРЕМЯ",
+    "timestampPickerTimezoneLabel": "ЧАСОВОЙ ПОЯС",
+    "timestampPickerFormatPreviewLabel": "ПРЕДПРОСМОТР ФОРМАТА",
+    "timestampPickerNlpPlaceholder": "напр., завтра в 15:00, через 2 часа, сейчас",
+    "timestampPickerSearchTimezones": "Поиск часовых поясов...",
+    "userProfileTimezoneSettingLabel": "Часовой пояс",
+    "userProfileTimezoneSettingDescription": "Используется для отображения вашего местного времени в профиле.",
+    "userProfileTimezoneNone": "Нет"
 }
