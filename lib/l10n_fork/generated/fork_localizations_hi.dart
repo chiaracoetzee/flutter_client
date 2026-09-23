@@ -12,6 +12,9 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get chatMessageChangePersona => 'परसोना बदलें';
 
   @override
+  String get chatAttachmentPanelVoice => 'वॉइस';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'क्विक स्विचर बटन';
 
   @override
@@ -252,4 +255,48 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'टैग \'$tag\' पहले से ही \'$name\' द्वारा उपयोग में है।';
   }
+
+  @override
+  String get chatInsertTimestamp => 'समय टिकट डालें';
+
+  @override
+  String get timestampPickerTitle => 'समय टिकट डालें';
+
+  @override
+  String get timestampPickerInsert => 'डालें';
+
+  @override
+  String get timestampCopied => 'समय टिकट कॉपी किया गया';
+
+  @override
+  String get timestampPickerTimeLabel => 'समय';
+
+  @override
+  String get timestampPickerDateLabel => 'तारीख';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'समय';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'समय क्षेत्र';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'प्रारूप पूर्वावलोकन';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'उदा. कल दोपहर 3 बजे, 2 घंटे में, अभी';
+
+  @override
+  String get timestampPickerSearchTimezones => 'समय क्षेत्र खोजें...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'समय क्षेत्र';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'आपकी प्रोफ़ाइल पर आपका स्थानीय समय दिखाने के लिए उपयोग किया जाता है।';
+
+  @override
+  String get userProfileTimezoneNone => 'कोई नहीं';
 }

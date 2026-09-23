@@ -12,6 +12,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get chatMessageChangePersona => 'Mudar persona';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voz';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Botão do seletor rápido';
 
@@ -255,6 +258,50 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'A tag \'$tag\' já está a ser usada por \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Inserir carimbo de data/hora';
+
+  @override
+  String get timestampPickerTitle => 'Inserir carimbo de data/hora';
+
+  @override
+  String get timestampPickerInsert => 'Inserir';
+
+  @override
+  String get timestampCopied => 'Carimbo de data/hora copiado';
+
+  @override
+  String get timestampPickerTimeLabel => 'Hora';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'FUSO HORÁRIO';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PRÉVIA DO FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ex.: amanhã às 15h, em 2 horas, agora';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Pesquisar fusos horários...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Fuso horário';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Usado para mostrar sua hora local em seu perfil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nenhum';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -263,6 +310,9 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get chatMessageChangePersona => 'Mudar persona';
+
+  @override
+  String get chatAttachmentPanelVoice => 'Voz';
 
   @override
   String get advancedSettingQuickSwitcherButtonLabel =>
@@ -508,4 +558,48 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String personaTagCollisionError(String tag, String name) {
     return 'A tag \'$tag\' já está em uso por \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Inserir carimbo de data/hora';
+
+  @override
+  String get timestampPickerTitle => 'Inserir carimbo de data/hora';
+
+  @override
+  String get timestampPickerInsert => 'Inserir';
+
+  @override
+  String get timestampCopied => 'Carimbo de data/hora copiado';
+
+  @override
+  String get timestampPickerTimeLabel => 'Hora';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'FUSO HORÁRIO';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PRÉ-VISUALIZAÇÃO DO FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ex.: amanhã às 15h, em 2 horas, agora';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Pesquisar fusos horários...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Fuso horário';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Usado para mostrar sua hora local em seu perfil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nenhum';
 }
