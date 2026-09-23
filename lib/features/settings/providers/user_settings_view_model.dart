@@ -106,6 +106,8 @@ class UserSettingsViewState {
   final Object? _editedTimezone;
   final Object? _editedTimezonePrivacyFlags;
   final Object? _editedAccentColor;
+  final String? timezone;
+  final Object? _editedTimezone;
   final String? editedAvatarBase64;
   final String? editedBannerBase64;
   final bool avatarCleared;
@@ -166,6 +168,7 @@ class UserSettingsViewState {
     this.timezone,
     this.timezonePrivacyFlags,
     this.accentColor,
+    this.timezone,
     this.banner,
     this.email,
     this.verified = false,
@@ -199,6 +202,7 @@ class UserSettingsViewState {
     this._editedTimezone = _unset,
     this._editedTimezonePrivacyFlags = _unset,
     this._editedAccentColor = _unset,
+    this._editedTimezone = _unset,
     this.editedAvatarBase64,
     this.editedBannerBase64,
     this.avatarCleared = false,
@@ -274,6 +278,10 @@ class UserSettingsViewState {
   int? get editedAccentColor =>
       _editedAccentColor == _unset ? null : _editedAccentColor as int?;
   bool get isEditedAccentColorSet => _editedAccentColor != _unset;
+
+  String? get editedTimezone =>
+      _editedTimezone == _unset ? null : _editedTimezone as String?;
+  bool get isEditedTimezoneSet => _editedTimezone != _unset;
 
   bool? get editedPremiumBadgeHidden => _editedPremiumBadgeHidden == _unset
       ? null
@@ -521,6 +529,9 @@ class UserSettingsViewState {
     if (isEditedAccentColorSet && editedAccentColor != accentColor) {
       return true;
     }
+    if (isEditedTimezoneSet && editedTimezone != timezone) {
+      return true;
+    }
     if (editedAvatarBase64 != null || avatarCleared) {
       return true;
     }
@@ -636,6 +647,8 @@ class UserSettingsViewState {
     Object? editedBio = _unset,
     Object? editedPronouns = _unset,
     Object? editedAccentColor = _unset,
+    Object? timezone = _unset,
+    Object? editedTimezone = _unset,
     Object? editedAvatarBase64 = _unset,
     Object? editedBannerBase64 = _unset,
     bool? avatarCleared,
@@ -705,6 +718,7 @@ class UserSettingsViewState {
       accentColor: accentColor == _unset
           ? this.accentColor
           : accentColor as int?,
+      timezone: timezone == _unset ? this.timezone : timezone as String?,
       banner: banner == _unset ? this.banner : banner as String?,
       email: email == _unset ? this.email : email as String?,
       verified: verified ?? this.verified,
@@ -794,6 +808,11 @@ class UserSettingsViewState {
           : editedAccentColor == _resetEdited
           ? _unset
           : editedAccentColor,
+      editedTimezone: editedTimezone == _unset
+          ? _editedTimezone
+          : editedTimezone == _resetEdited
+          ? _unset
+          : editedTimezone,
       editedAvatarBase64: editedAvatarBase64 == _unset
           ? this.editedAvatarBase64
           : editedAvatarBase64 as String?,
@@ -1037,6 +1056,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       timezone: profile.timezone,
       timezonePrivacyFlags: profile.timezonePrivacyFlags,
       accentColor: profile.accentColor,
+      timezone: profile.timezone,
       banner: profile.banner,
       email: profile.email,
       verified: profile.verified,
@@ -1106,6 +1126,10 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   void updateAccentColor(int value) {
     state = state.copyWith(editedAccentColor: value);
+  }
+
+  void updateTimezone(String? value) {
+    state = state.copyWith(editedTimezone: value);
   }
 
   void resetAccentColor() {
@@ -1419,6 +1443,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       editedTimezone: UserSettingsViewState._resetEdited,
       editedTimezonePrivacyFlags: UserSettingsViewState._resetEdited,
       editedAccentColor: UserSettingsViewState._resetEdited,
+      editedTimezone: UserSettingsViewState._resetEdited,
       editedPremiumBadgeHidden: UserSettingsViewState._resetEdited,
       editedPremiumBadgeMasked: UserSettingsViewState._resetEdited,
       editedPremiumBadgeTimestampHidden: UserSettingsViewState._resetEdited,

@@ -10,12 +10,14 @@ class AttachmentPanelSourceBar extends StatelessWidget {
     required this.onPhotosPressed,
     required this.onFilesPressed,
     this.onVoicePressed,
+    this.onTimestampPressed,
     super.key,
   });
 
   final VoidCallback onPhotosPressed;
   final VoidCallback onFilesPressed;
   final VoidCallback? onVoicePressed;
+  final VoidCallback? onTimestampPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +55,18 @@ class AttachmentPanelSourceBar extends StatelessWidget {
               fitContent: true,
               onPressed: onFilesPressed,
             ),
+            if (onTimestampPressed != null)
+              FluxerButton.ghost(
+                icon: PhosphorIconsBold.clock,
+                label: l10n.timestampPickerTimeLabel,
+                size: FluxerButtonSize.compact,
+                fitContent: true,
+                onPressed: onTimestampPressed,
+              ),
             if (onVoicePressed != null)
               FluxerButton.ghost(
                 icon: PhosphorIconsFill.microphone,
-                label: l10n.voiceMessageTitle,
+                label: l10n.chatAttachmentPanelVoice,
                 size: FluxerButtonSize.compact,
                 fitContent: true,
                 onPressed: onVoicePressed,
