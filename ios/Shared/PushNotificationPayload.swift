@@ -4,6 +4,28 @@ import UserNotifications
 /// APNs payload helpers: channel `thread-id` for grouping, `message_id` for per-message identity.
 /// Remote pushes need a per-message `apns-collapse-id` (or none); channel-scoped collapse replaces prior messages.
 enum PushNotificationPayload {
+  static let messageReplyCategoryId = "fluxer_message"
+  static let messageReplyActionId = "fluxer_reply"
+
+  static func canReply(from userInfo: [AnyHashable: Any]) -> Bool {
+    if isClearPayload(from: userInfo) {
+      return false
+    }
+    return resolveChannelId(from: userInfo) != nil && replyMessageId(from: userInfo) != nil
+  }
+
+  static func replyMessageId(from userInfo: [AnyHashable: Any]) -> String? {
+    if let messageId = userInfo["message_id"] as? String, !messageId.isEmpty {
+      return messageId
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any],
+      let messageId = data["message_id"] as? String, !messageId.isEmpty
+    {
+      return messageId
+    }
+    return nil
+  }
+
   static func resolveThreadIdentifier(from userInfo: [AnyHashable: Any]) -> String? {
     resolveChannelThreadIdentifier(from: userInfo)
   }
@@ -26,13 +48,8 @@ enum PushNotificationPayload {
   }
 
   static func resolveMessageId(from userInfo: [AnyHashable: Any]) -> String? {
-    if let messageId = userInfo["message_id"] as? String, !messageId.isEmpty {
+    if let messageId = replyMessageId(from: userInfo) {
       return messageId
-    }
-    if let data = userInfo["data"] as? [AnyHashable: Any] {
-      if let messageId = data["message_id"] as? String, !messageId.isEmpty {
-        return messageId
-      }
     }
     if let id = userInfo["id"] as? String, !id.isEmpty {
       return id

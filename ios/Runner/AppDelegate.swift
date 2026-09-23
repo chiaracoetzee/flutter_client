@@ -15,6 +15,7 @@ import flutter_callkit_incoming
   ) -> Bool {
     let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
     UNUserNotificationCenter.current().delegate = self
+    ApplePushBridge.shared.registerReplyCategory()
     AssistantAppShortcuts.updateAppShortcutParameters()
     return result
   }
@@ -71,6 +72,15 @@ import flutter_callkit_incoming
     didReceive response: UNNotificationResponse,
     withCompletionHandler completionHandler: @escaping () -> Void
   ) {
+    if response.actionIdentifier == PushNotificationPayload.messageReplyActionId {
+      let text = (response as? UNTextInputNotificationResponse)?.userText ?? ""
+      ApplePushBridge.shared.handleNotificationReply(
+        text: text,
+        userInfo: response.notification.request.content.userInfo,
+        completion: completionHandler
+      )
+      return
+    }
     if response.actionIdentifier == CallkitNotificationManager.CALLBACK_ACTION {
       let data = response.notification.request.content.userInfo as? [String: Any]
       SwiftFlutterCallkitIncomingPlugin.sharedInstance?.sendCallbackEvent(data)
@@ -90,6 +100,7 @@ import flutter_callkit_incoming
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     ApplePushBridge.shared.register(engineBridge: engineBridge)
+    ApplePushBridge.shared.registerReplyCategory()
     AssistantBridge.shared.register(engineBridge: engineBridge)
     PhysicalKeyboardBridge.shared.register(engineBridge: engineBridge)
   }

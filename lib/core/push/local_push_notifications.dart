@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluxer_app/core/badge/push_badge_count_parser.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
@@ -12,7 +15,21 @@ import 'package:fluxer_app/core/push/push_notification_ids.dart'
 import 'package:fluxer_app/core/push/push_notification_media.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
+import 'package:fluxer_app/core/push/push_notification_reply.dart';
 import 'package:fluxer_app/core/push/push_notification_sound.dart';
+
+const int _kReplyFailedNotificationId = 900001;
+const String _kReplyFailedNotificationTag = 'fluxer_reply_failed';
+
+@pragma('vm:entry-point')
+void pushNotificationReplyBackground(NotificationResponse response) {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
+  if (response.actionId != kPushReplyActionId) {
+    return;
+  }
+  unawaited(LocalPushNotifications().handleReplyResponse(response));
+}
 
 final class LocalPushNotifications {
   factory LocalPushNotifications() => _instance;
@@ -61,6 +78,8 @@ final class LocalPushNotifications {
       final bool? ok = await _plugin.initialize(
         settings: settings,
         onDidReceiveNotificationResponse: _onNotificationResponse,
+        onDidReceiveBackgroundNotificationResponse:
+            pushNotificationReplyBackground,
       );
       _initialized = ok ?? false;
       if (_initialized) {
@@ -98,18 +117,73 @@ final class LocalPushNotifications {
   }
 
   void _onNotificationResponse(NotificationResponse response) {
+    if (response.actionId == kPushReplyActionId) {
+      return;
+    }
     _onNotificationTap?.call(response.payload);
+  }
+
+  Future<void> handleReplyResponse(NotificationResponse response) async {
+    final PushReplyResult result = await sendPushNotificationReply(
+      payload: _payloadFromResponse(response),
+      text: response.input,
+    );
+    if (result == PushReplyResult.failed) {
+      await showReplyFailed();
+    }
+  }
+
+  Future<void> showReplyFailed() async {
+    if (kIsWeb) {
+      return;
+    }
+    if (!_initialized) {
+      final bool ready = await ensureInitialized();
+      if (!ready) {
+        return;
+      }
+    }
+    try {
+      await _plugin.show(
+        id: _kReplyFailedNotificationId,
+        title: _channelName,
+        body: pushReplyFailedBody(),
+        notificationDetails: const NotificationDetails(
+          android: AndroidNotificationDetails(
+            _channelId,
+            _channelName,
+            channelDescription: _channelDescription,
+            icon: _androidNotificationIcon,
+            playSound: false,
+            enableVibration: false,
+            silent: true,
+            tag: _kReplyFailedNotificationTag,
+          ),
+          iOS: DarwinNotificationDetails(
+            presentSound: false,
+            presentBanner: true,
+            presentList: true,
+          ),
+        ),
+      );
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('[LocalPushNotifications] reply failed notice: $e\n$st');
+      }
+    }
   }
 
   Future<void> _handleLaunchNotification() async {
     final NotificationAppLaunchDetails? details = await _plugin
         .getNotificationAppLaunchDetails();
+    final NotificationResponse? response = details?.notificationResponse;
     if (details == null ||
         !details.didNotificationLaunchApp ||
-        details.notificationResponse == null) {
+        response == null ||
+        response.actionId == kPushReplyActionId) {
       return;
     }
-    _onNotificationTap?.call(details.notificationResponse!.payload);
+    _onNotificationTap?.call(response.payload);
   }
 
   Future<void> showPushMessage(PushMessage message) async {
@@ -297,6 +371,11 @@ final class LocalPushNotifications {
             tag: messageTag,
             sound: androidSound,
             playSound: androidSound != null,
+            actions: androidPushReplyActions(
+              payload,
+              title: pushReplyActionTitle(),
+              hint: pushReplyHint(),
+            ),
           ),
         );
       case TargetPlatform.iOS:
@@ -321,6 +400,25 @@ final class LocalPushNotifications {
         return const NotificationDetails(windows: WindowsNotificationDetails());
       case TargetPlatform.fuchsia:
         return const NotificationDetails();
+    }
+  }
+
+  Map<String, String> _payloadFromResponse(NotificationResponse response) {
+    final String? raw = response.payload;
+    if (raw == null || raw.isEmpty) {
+      return const <String, String>{};
+    }
+    try {
+      final Object? decoded = jsonDecode(raw);
+      if (decoded is! Map) {
+        return const <String, String>{};
+      }
+      return decoded.map(
+        (dynamic key, dynamic value) =>
+            MapEntry<String, String>(key.toString(), value?.toString() ?? ''),
+      );
+    } on FormatException {
+      return const <String, String>{};
     }
   }
 

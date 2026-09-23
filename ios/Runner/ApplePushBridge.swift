@@ -11,6 +11,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   private static let defaultNotificationTitle = "Fluxer"
   private static let defaultNotificationBody = "New message"
   private static let maxPendingPushEvents = 32
+  private static let maxPendingReplies = 8
 
   private var deviceTokenHex: String?
   private var eventSink: FlutterEventSink?
@@ -19,6 +20,10 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   private var pendingPushEvents: [[String: Any]] = []
   private var isRegisteredWithEngine = false
   private let tapStreamHandler = ApplePushTapStreamHandler()
+  private var methodChannel: FlutterMethodChannel?
+  private var replyHandlerReady = false
+  private var pendingReplies: [PendingReply] = []
+  private var replyCategoryGeneration = 0
 
   private override init() {
     super.init()
@@ -35,6 +40,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       name: Self.methodChannelName,
       binaryMessenger: messenger
     )
+    self.methodChannel = methodChannel
     methodChannel.setMethodCallHandler { call, result in
       Self.shared.handleMethodCall(call, result: result)
     }
@@ -70,6 +76,91 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       DispatchQueue.main.async {
         self.deviceTokenHex = nil
       }
+    }
+  }
+
+  func registerReplyCategory() {
+    let reply = UNTextInputNotificationAction(
+      identifier: PushNotificationPayload.messageReplyActionId,
+      title: NSLocalizedString("PUSH_REPLY", comment: ""),
+      options: [],
+      textInputButtonTitle: NSLocalizedString("PUSH_REPLY", comment: ""),
+      textInputPlaceholder: NSLocalizedString("PUSH_REPLY_PLACEHOLDER", comment: "")
+    )
+    let category = UNNotificationCategory(
+      identifier: PushNotificationPayload.messageReplyCategoryId,
+      actions: [reply],
+      intentIdentifiers: [],
+      options: []
+    )
+    DispatchQueue.main.async {
+      self.replyCategoryGeneration += 1
+      let generation = self.replyCategoryGeneration
+      UNUserNotificationCenter.current().getNotificationCategories { existing in
+        DispatchQueue.main.async {
+          guard generation == self.replyCategoryGeneration else {
+            return
+          }
+          var categories = existing.filter {
+            $0.identifier != PushNotificationPayload.messageReplyCategoryId
+          }
+          categories.insert(category)
+          UNUserNotificationCenter.current().setNotificationCategories(categories)
+        }
+      }
+    }
+  }
+
+  func handleNotificationReply(
+    text: String,
+    userInfo: [AnyHashable: Any],
+    completion: @escaping () -> Void
+  ) {
+    let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty else {
+      completion()
+      return
+    }
+    let resolved = WebPushRecordDecryptor.resolvedUserInfo(userInfo)
+    let args: [String: Any] = [
+      "text": trimmed,
+      "payload": Self.flattenUserInfo(resolved),
+    ]
+    DispatchQueue.main.async {
+      if self.replyHandlerReady, let channel = self.methodChannel {
+        self.invokeReply(channel: channel, args: args, completion: completion)
+        return
+      }
+      self.pendingReplies.append(PendingReply(args: args, completion: completion))
+      let overflow = self.pendingReplies.count - Self.maxPendingReplies
+      if overflow > 0 {
+        let dropped = Array(self.pendingReplies.prefix(overflow))
+        self.pendingReplies.removeFirst(overflow)
+        for reply in dropped {
+          reply.completion()
+        }
+      }
+    }
+  }
+
+  private func flushPendingReplies() {
+    guard replyHandlerReady, let channel = methodChannel, !pendingReplies.isEmpty else {
+      return
+    }
+    let queued = pendingReplies
+    pendingReplies.removeAll()
+    for reply in queued {
+      invokeReply(channel: channel, args: reply.args, completion: reply.completion)
+    }
+  }
+
+  private func invokeReply(
+    channel: FlutterMethodChannel,
+    args: [String: Any],
+    completion: @escaping () -> Void
+  ) {
+    channel.invokeMethod("sendNotificationReply", arguments: args) { _ in
+      DispatchQueue.main.async(execute: completion)
     }
   }
 
@@ -339,6 +430,12 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     case "removeAllDeliveredNotifications":
       self.removeAllDeliveredNotifications()
       result(nil)
+    case "replyHandlerReady":
+      DispatchQueue.main.async {
+        self.replyHandlerReady = true
+        result(nil)
+        self.flushPendingReplies()
+      }
     default:
       result(FlutterMethodNotImplemented)
     }
@@ -412,6 +509,11 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     let suffix = token.suffix(4)
     return "\(prefix)...\(suffix)"
   }
+}
+
+private struct PendingReply {
+  let args: [String: Any]
+  let completion: () -> Void
 }
 
 private final class ApplePushTapStreamHandler: NSObject, FlutterStreamHandler {

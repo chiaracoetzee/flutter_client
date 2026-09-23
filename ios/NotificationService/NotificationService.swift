@@ -27,6 +27,7 @@ final class NotificationService: UNNotificationServiceExtension {
         }
         let resolved = WebPushRecordDecryptor.resolvedUserInfo(request.content.userInfo)
         applyDecryptedFields(to: mutableContent, userInfo: resolved)
+        Self.applyReplyCategory(to: mutableContent, userInfo: resolved)
         Self.applyThreadIdentifier(to: mutableContent, userInfo: resolved)
         Self.applyNotificationSound(to: mutableContent, userInfo: resolved)
         let emojiResult = NotificationEmojiDecoder.decode(body: mutableContent.body)
@@ -201,9 +202,20 @@ private extension NotificationService {
         }
         updated.userInfo = content.userInfo
         updated.sound = content.sound
+        updated.categoryIdentifier = content.categoryIdentifier
         if !content.attachments.isEmpty {
             updated.attachments = content.attachments
         }
         return updated
+    }
+
+    static func applyReplyCategory(
+        to content: UNMutableNotificationContent,
+        userInfo: [AnyHashable: Any]
+    ) {
+        guard PushNotificationPayload.canReply(from: userInfo) else {
+            return
+        }
+        content.categoryIdentifier = PushNotificationPayload.messageReplyCategoryId
     }
 }
