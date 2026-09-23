@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Change Persona",
+    "chatAttachmentPanelVoice": "Voice",
     "advancedSettingQuickSwitcherButtonLabel": "Quick Switcher button",
     "advancedSettingQuickSwitcherButtonDescription": "Replace the voice message button in the message input with a Quick Switcher button for fast navigation",
     "personaSelectTitle": "Select Persona",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Persona display name must be 100 characters or less",
     "personaTagPrefixTooLong": "Persona tag prefix must be 32 characters or less",
     "personaTagSuffixTooLong": "Persona tag suffix must be 32 characters or less",
-    "personaTagCollisionError": "The tag '{tag}' is already in use by '{name}'."
+    "personaTagCollisionError": "The tag '{tag}' is already in use by '{name}'.",
+    "chatInsertTimestamp": "Insert timestamp",
+    "timestampPickerTitle": "Insert Timestamp",
+    "timestampPickerInsert": "Insert",
+    "timestampCopied": "Timestamp copied",
+    "timestampPickerTimeLabel": "Time",
+    "timestampPickerDateLabel": "DATE",
+    "timestampPickerTimeSectionLabel": "TIME",
+    "timestampPickerTimezoneLabel": "TIME ZONE",
+    "timestampPickerFormatPreviewLabel": "FORMAT PREVIEW",
+    "timestampPickerNlpPlaceholder": "e.g. tomorrow at 3pm, in 2 hours, now",
+    "timestampPickerSearchTimezones": "Search time zones...",
+    "userProfileTimezoneSettingLabel": "Time zone",
+    "userProfileTimezoneSettingDescription": "Used to show your local time on your profile.",
+    "userProfileTimezoneNone": "None"
 }

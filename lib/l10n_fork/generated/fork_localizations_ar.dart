@@ -12,6 +12,9 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get chatMessageChangePersona => 'تغيير الشخصية';
 
   @override
+  String get chatAttachmentPanelVoice => 'صوتي';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'زر التبديل السريع';
 
   @override
@@ -251,4 +254,48 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'العلامة \'$tag\' مستخدمة بالفعل بواسطة \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'إدراج طابع زمني';
+
+  @override
+  String get timestampPickerTitle => 'إدراج طابع زمني';
+
+  @override
+  String get timestampPickerInsert => 'إدراج';
+
+  @override
+  String get timestampCopied => 'تم نسخ الطابع الزمني';
+
+  @override
+  String get timestampPickerTimeLabel => 'الوقت';
+
+  @override
+  String get timestampPickerDateLabel => 'التاريخ';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'الوقت';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'المنطقة الزمنية';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'معاينة التنسيق';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'مثال: غدًا في 3 مساءً، خلال ساعتين، الآن';
+
+  @override
+  String get timestampPickerSearchTimezones => 'البحث في المناطق الزمنية...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'المنطقة الزمنية';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'تُستخدم لعرض وقتك المحلي في ملفك الشخصي.';
+
+  @override
+  String get userProfileTimezoneNone => 'بلا';
 }

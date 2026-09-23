@@ -12,6 +12,9 @@ class ForkLocalizationsFr extends ForkLocalizations {
   String get chatMessageChangePersona => 'Changer de persona';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voix';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Bouton du sélecteur rapide';
 
@@ -255,4 +258,49 @@ class ForkLocalizationsFr extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'La balise « $tag » est déjà utilisée par « $name ».';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Insérer un horodatage';
+
+  @override
+  String get timestampPickerTitle => 'Insérer un horodatage';
+
+  @override
+  String get timestampPickerInsert => 'Insérer';
+
+  @override
+  String get timestampCopied => 'Horodatage copié';
+
+  @override
+  String get timestampPickerTimeLabel => 'Heure';
+
+  @override
+  String get timestampPickerDateLabel => 'DATE';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HEURE';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'FUSEAU HORAIRE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'APERÇU DU FORMAT';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ex. demain à 15h, dans 2 heures, maintenant';
+
+  @override
+  String get timestampPickerSearchTimezones =>
+      'Rechercher des fuseaux horaires...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Fuseau horaire';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Utilisé pour afficher votre heure locale sur votre profil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Aucun';
 }
