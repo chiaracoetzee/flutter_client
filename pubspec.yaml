@@ -120,6 +120,7 @@ dependencies:
   # Fork: kept below upstream's alphabetical list, and pinned exactly because
   # pubspec.lock is rewritten after every rebase.
   chrono_dart: 2.0.2
+  flutter_timezone: 5.1.0
 dependency_overrides:
   # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.
   analyzer: ^14.4.0
