@@ -15423,6 +15423,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Filer",
+    "chatAttachmentPanelVoice": "Röst",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16969,5 +16970,33 @@
     "personaNameTooLong": "Personans visningsnamn får vara högst 100 tecken",
     "personaTagPrefixTooLong": "Personataggens prefix får vara högst 32 tecken",
     "personaTagSuffixTooLong": "Personataggens suffix får vara högst 32 tecken",
-    "personaTagCollisionError": "Taggen '{tag}' används redan av '{name}'."
+    "personaTagCollisionError": "Taggen '{tag}' används redan av '{name}'.",
+    "chatInsertTimestamp": "Infoga tidsstämpel",
+    "timestampPickerTitle": "Infoga tidsstämpel",
+    "timestampPickerPresetNow": "Nu",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 tim",
+    "timestampPickerPresetTomorrow": "I morgon",
+    "timestampPickerFormatLabel": "Format",
+    "timestampPickerFormatDefaultCombined": "Standard (Kombinerad)",
+    "timestampPickerFormatShortDateTime": "Kort datum/tid",
+    "timestampPickerFormatLongDateTime": "Långt datum/tid",
+    "timestampPickerFormatRelative": "Relativ",
+    "timestampPickerFormatShortDate": "Kort datum",
+    "timestampPickerFormatLongDate": "Långt datum",
+    "timestampPickerFormatShortTime": "Kort tid",
+    "timestampPickerFormatLongTime": "Lång tid",
+    "timestampPickerPreview": "Förhandsgranskning",
+    "timestampPickerInsert": "Infoga",
+    "timestampCopied": "Tidsstämpel kopierad",
+    "timestampPickerTimeLabel": "Tid",
+    "timestampPickerDateLabel": "DATUM",
+    "timestampPickerTimeSectionLabel": "TID",
+    "timestampPickerTimezoneLabel": "TIDSZON",
+    "timestampPickerFormatPreviewLabel": "FÖRHANDSVISNING AV FORMAT",
+    "timestampPickerNlpPlaceholder": "t.ex. imorgon kl 15, om 2 timmar, nu",
+    "timestampPickerSearchTimezones": "Sök tidszoner...",
+    "userProfileTimezoneSettingLabel": "Tidszon",
+    "userProfileTimezoneSettingDescription": "Används för att visa din lokala tid på din profil.",
+    "userProfileTimezoneNone": "Ingen"
 }

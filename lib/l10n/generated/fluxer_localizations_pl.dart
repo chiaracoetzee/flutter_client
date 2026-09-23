@@ -9401,6 +9401,9 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Pliki';
 
   @override
+  String get chatAttachmentPanelVoice => 'Głos';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Potrzebny dostęp do biblioteki zdjęć';
 
@@ -15047,4 +15050,90 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tag \'$tag\' jest już używany przez \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Wstaw znacznik czasu';
+
+  @override
+  String get timestampPickerTitle => 'Wstaw znacznik czasu';
+
+  @override
+  String get timestampPickerPresetNow => 'Teraz';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 godz.';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Jutro';
+
+  @override
+  String get timestampPickerFormatLabel => 'Format';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Domyślny (Połączony)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Krótka data i godzina';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Długa data i godzina';
+
+  @override
+  String get timestampPickerFormatRelative => 'Względny';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Krótka data';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Długa data';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Krótka godzina';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Długa godzina';
+
+  @override
+  String get timestampPickerPreview => 'Podgląd';
+
+  @override
+  String get timestampPickerInsert => 'Wstaw';
+
+  @override
+  String get timestampCopied => 'Znacznik czasu skopiowany';
+
+  @override
+  String get timestampPickerTimeLabel => 'Czas';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'GODZINA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'STREFA CZASOWA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PODGLĄD FORMATU';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'np. jutro o 15:00, za 2 godziny, teraz';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Szukaj stref czasowych...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Strefa czasowa';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Służy do pokazywania Twojego czasu lokalnego na profilu.';
+
+  @override
+  String get userProfileTimezoneNone => 'Brak';
 }

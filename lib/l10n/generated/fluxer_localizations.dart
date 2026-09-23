@@ -15382,6 +15382,12 @@ abstract class FluxerLocalizations {
   /// **'Files'**
   String get chatAttachmentPanelFiles;
 
+  /// Label for the voice recording action on the attachment panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get chatAttachmentPanelVoice;
+
   /// Title shown when the attachment gallery cannot read the photo library.
   ///
   /// In en, this message translates to:
@@ -24824,6 +24830,174 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'The tag \'{tag}\' is already in use by \'{name}\'.'**
   String personaTagCollisionError(String tag, String name);
+
+  /// Menu action to insert a timestamp markdown pill into composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert timestamp'**
+  String get chatInsertTimestamp;
+
+  /// Title of the timestamp picker modal/sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert Timestamp'**
+  String get timestampPickerTitle;
+
+  /// Quick preset button for current time in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get timestampPickerPresetNow;
+
+  /// Quick preset button for +5 minutes in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'+5 min'**
+  String get timestampPickerPresetFiveMin;
+
+  /// Quick preset button for +1 hour in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'+1 hour'**
+  String get timestampPickerPresetOneHour;
+
+  /// Quick preset button for tomorrow noon in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get timestampPickerPresetTomorrow;
+
+  /// Label for timestamp format selector section.
+  ///
+  /// In en, this message translates to:
+  /// **'Format'**
+  String get timestampPickerFormatLabel;
+
+  /// Timestamp format option combining absolute and relative time.
+  ///
+  /// In en, this message translates to:
+  /// **'Default (Combined)'**
+  String get timestampPickerFormatDefaultCombined;
+
+  /// Timestamp format option for short date and time.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Date/Time'**
+  String get timestampPickerFormatShortDateTime;
+
+  /// Timestamp format option for long date and time.
+  ///
+  /// In en, this message translates to:
+  /// **'Long Date/Time'**
+  String get timestampPickerFormatLongDateTime;
+
+  /// Timestamp format option for relative time.
+  ///
+  /// In en, this message translates to:
+  /// **'Relative'**
+  String get timestampPickerFormatRelative;
+
+  /// Timestamp format option for short date.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Date'**
+  String get timestampPickerFormatShortDate;
+
+  /// Timestamp format option for long date.
+  ///
+  /// In en, this message translates to:
+  /// **'Long Date'**
+  String get timestampPickerFormatLongDate;
+
+  /// Timestamp format option for short time.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Time'**
+  String get timestampPickerFormatShortTime;
+
+  /// Timestamp format option for long time.
+  ///
+  /// In en, this message translates to:
+  /// **'Long Time'**
+  String get timestampPickerFormatLongTime;
+
+  /// Label for live preview in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get timestampPickerPreview;
+
+  /// Action button to insert timestamp.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert'**
+  String get timestampPickerInsert;
+
+  /// Toast message when timestamp pill text is copied to clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Timestamp copied'**
+  String get timestampCopied;
+
+  /// Short label for time button in the attachment panel source bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get timestampPickerTimeLabel;
+
+  /// Label for date section in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'DATE'**
+  String get timestampPickerDateLabel;
+
+  /// Label for time section in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'TIME'**
+  String get timestampPickerTimeSectionLabel;
+
+  /// Label for timezone section in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'TIME ZONE'**
+  String get timestampPickerTimezoneLabel;
+
+  /// Label for format preview section in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'FORMAT PREVIEW'**
+  String get timestampPickerFormatPreviewLabel;
+
+  /// Placeholder for natural language timestamp input.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. tomorrow at 3pm, in 2 hours, now'**
+  String get timestampPickerNlpPlaceholder;
+
+  /// Placeholder for timezone search input.
+  ///
+  /// In en, this message translates to:
+  /// **'Search time zones...'**
+  String get timestampPickerSearchTimezones;
+
+  /// Label for timezone setting in user profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone'**
+  String get userProfileTimezoneSettingLabel;
+
+  /// Description for timezone setting in user profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Used to show your local time on your profile.'**
+  String get userProfileTimezoneSettingDescription;
+
+  /// Option to clear timezone in user profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get userProfileTimezoneNone;
 }
 
 class _FluxerLocalizationsDelegate

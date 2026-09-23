@@ -11341,6 +11341,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Bestanden",
+    "chatAttachmentPanelVoice": "Spraak",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16994,5 +16995,33 @@
     "personaNameTooLong": "Weergavenaam van persona mag maximaal 100 tekens bevatten",
     "personaTagPrefixTooLong": "Persona-tagvoorvoegsel mag maximaal 32 tekens bevatten",
     "personaTagSuffixTooLong": "Persona-tagachtervoegsel mag maximaal 32 tekens bevatten",
-    "personaTagCollisionError": "De tag '{tag}' is al in gebruik door '{name}'."
+    "personaTagCollisionError": "De tag '{tag}' is al in gebruik door '{name}'.",
+    "chatInsertTimestamp": "Tijdstempel invoegen",
+    "timestampPickerTitle": "Tijdstempel invoegen",
+    "timestampPickerPresetNow": "Nu",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 uur",
+    "timestampPickerPresetTomorrow": "Morgen",
+    "timestampPickerFormatLabel": "Indeling",
+    "timestampPickerFormatDefaultCombined": "Standaard (Gecombineerd)",
+    "timestampPickerFormatShortDateTime": "Korte datum/tijd",
+    "timestampPickerFormatLongDateTime": "Lange datum/tijd",
+    "timestampPickerFormatRelative": "Relatief",
+    "timestampPickerFormatShortDate": "Korte datum",
+    "timestampPickerFormatLongDate": "Lange datum",
+    "timestampPickerFormatShortTime": "Korte tijd",
+    "timestampPickerFormatLongTime": "Lange tijd",
+    "timestampPickerPreview": "Voorbeeld",
+    "timestampPickerInsert": "Invoegen",
+    "timestampCopied": "Tijdstempel gekopieerd",
+    "timestampPickerTimeLabel": "Tijd",
+    "timestampPickerDateLabel": "DATUM",
+    "timestampPickerTimeSectionLabel": "TIJD",
+    "timestampPickerTimezoneLabel": "TIJDZONE",
+    "timestampPickerFormatPreviewLabel": "VOORBEELD VAN FORMAT",
+    "timestampPickerNlpPlaceholder": "bijv. morgen om 15:00, over 2 uur, nu",
+    "timestampPickerSearchTimezones": "Tijdzones zoeken...",
+    "userProfileTimezoneSettingLabel": "Tijdzone",
+    "userProfileTimezoneSettingDescription": "Wordt gebruikt om uw lokale tijd op uw profiel te tonen.",
+    "userProfileTimezoneNone": "Geen"
 }

@@ -8933,6 +8933,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => '파일';
 
   @override
+  String get chatAttachmentPanelVoice => '음성';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle => '사진 보관함 접근이 필요합니다';
 
   @override
@@ -14281,4 +14284,89 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return '\'$tag\' 태그는 이미 \'$name\'에서 사용 중입니다.';
   }
+
+  @override
+  String get chatInsertTimestamp => '타임스탬프 삽입';
+
+  @override
+  String get timestampPickerTitle => '타임스탬프 삽입';
+
+  @override
+  String get timestampPickerPresetNow => '지금';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5분';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1시간';
+
+  @override
+  String get timestampPickerPresetTomorrow => '내일';
+
+  @override
+  String get timestampPickerFormatLabel => '형식';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => '기본 (조합)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => '간단한 날짜/시간';
+
+  @override
+  String get timestampPickerFormatLongDateTime => '자세한 날짜/시간';
+
+  @override
+  String get timestampPickerFormatRelative => '상대 시간';
+
+  @override
+  String get timestampPickerFormatShortDate => '간단한 날짜';
+
+  @override
+  String get timestampPickerFormatLongDate => '자세한 날짜';
+
+  @override
+  String get timestampPickerFormatShortTime => '간단한 시간';
+
+  @override
+  String get timestampPickerFormatLongTime => '자세한 시간';
+
+  @override
+  String get timestampPickerPreview => '미리보기';
+
+  @override
+  String get timestampPickerInsert => '삽입';
+
+  @override
+  String get timestampCopied => '타임스탬프가 복사되었습니다';
+
+  @override
+  String get timestampPickerTimeLabel => '시간';
+
+  @override
+  String get timestampPickerDateLabel => '날짜';
+
+  @override
+  String get timestampPickerTimeSectionLabel => '시간';
+
+  @override
+  String get timestampPickerTimezoneLabel => '시간대';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => '형식 미리보기';
+
+  @override
+  String get timestampPickerNlpPlaceholder => '예: 내일 오후 3시, 2시간 후, 지금';
+
+  @override
+  String get timestampPickerSearchTimezones => '시간대 검색...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => '시간대';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      '프로필에 현지 시간을 표시하는 데 사용됩니다.';
+
+  @override
+  String get userProfileTimezoneNone => '없음';
 }
