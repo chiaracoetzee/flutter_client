@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/push/push_notification_ids.dart'
         kLocalNotificationMessageIdKey,
         pushMessageNotificationId,
         pushNotificationCancelIds;
+import 'package:fluxer_app/core/push/push_notification_media.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_notification_sound.dart';
@@ -133,7 +134,7 @@ final class LocalPushNotifications {
     final Map<String, String> enrichedPayload = enrichPushPayload(
       message.payload,
     );
-    final NotificationDetails details = _notificationDetailsForPlatform(
+    final NotificationDetails details = await _notificationDetailsForPlatform(
       badgeCount: badgeCount,
       payload: enrichedPayload,
     );
@@ -158,10 +159,44 @@ final class LocalPushNotifications {
   }
 
   Future<void> cancelForChannel(String channelId) async {
-    if (kIsWeb || !_initialized || channelId.isEmpty) {
+    if (kIsWeb || channelId.isEmpty) {
       return;
     }
+    if (!_initialized) {
+      final bool ready = await ensureInitialized();
+      if (!ready) {
+        return;
+      }
+    }
     final String channelTag = buildChannelTag(channelId);
+    try {
+      final List<ActiveNotification> active = await _plugin
+          .getActiveNotifications();
+      for (final ActiveNotification notification in active) {
+        final int? id = notification.id;
+        if (id == null) {
+          continue;
+        }
+        final bool tagMatch = pushNotificationTagMatchesChannel(
+          notification.tag,
+          channelId,
+        );
+        final bool groupMatch = pushNotificationTagMatchesChannel(
+          notification.groupKey,
+          channelId,
+        );
+        if (!tagMatch && !groupMatch) {
+          continue;
+        }
+        await _plugin.cancel(id: id, tag: notification.tag);
+      }
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint(
+          '[LocalPushNotifications] active notification scan failed: $e\n$st',
+        );
+      }
+    }
     final AndroidFlutterLocalNotificationsPlugin? android = _plugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
@@ -222,16 +257,31 @@ final class LocalPushNotifications {
     }
   }
 
-  NotificationDetails _notificationDetailsForPlatform({
+  Future<NotificationDetails> _notificationDetailsForPlatform({
     int? badgeCount,
     Map<String, String> payload = const <String, String>{},
-  }) {
+  }) async {
     final String? groupKey = resolvePushGroupTag(payload);
     final String? messageTag = resolvePushDisplayTag(payload);
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         final AndroidNotificationSound? androidSound =
             resolvePushNotificationAndroidSound(payload);
+        final String? avatarPath = await _downloadOptional(
+          pushAuthorAvatarUrl(payload),
+        );
+        final String? imagePath = await _downloadOptional(
+          pushAttachmentImageUrl(payload),
+        );
+        final FilePathAndroidBitmap? largeIcon = avatarPath == null
+            ? null
+            : FilePathAndroidBitmap(avatarPath);
+        final BigPictureStyleInformation? picture = imagePath == null
+            ? null
+            : BigPictureStyleInformation(
+                FilePathAndroidBitmap(imagePath),
+                largeIcon: largeIcon,
+              );
         return NotificationDetails(
           android: AndroidNotificationDetails(
             _channelId,
@@ -240,6 +290,8 @@ final class LocalPushNotifications {
             importance: Importance.high,
             priority: Priority.high,
             icon: _androidNotificationIcon,
+            largeIcon: largeIcon,
+            styleInformation: picture,
             number: badgeCount,
             groupKey: groupKey,
             tag: messageTag,
@@ -270,5 +322,12 @@ final class LocalPushNotifications {
       case TargetPlatform.fuchsia:
         return const NotificationDetails();
     }
+  }
+
+  Future<String?> _downloadOptional(String? url) async {
+    if (url == null) {
+      return null;
+    }
+    return downloadPushNotificationImage(url);
   }
 }

@@ -28,6 +28,13 @@
 		FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
+		FB0AE0122F5C95000078A512 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
+		FB0AE0142F5C95000078A514 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
+		FB0AE0162F5C95000078A516 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
+		FB0AE0132F5C95000078A513 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
+		FB0AE0152F5C95000078A515 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
+		FB0AE0172F5C95000078A517 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
+		FB0AE0192F5C95000078A519 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB0AE0182F5C95000078A518 /* Localizable.strings */; };
 		FB0ADACB2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
 		FB0ADACC2F5C91D80078A4D8 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
 		FB0ADACD2F5C91D80078A4D9 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
@@ -185,6 +192,9 @@
 		FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePushBridge.swift; sourceTree = "<group>"; };
 		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
 		FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
+		FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushKeychain.swift; sourceTree = "<group>"; };
+		FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushRecordDecryptor.swift; sourceTree = "<group>"; };
+		FB0AE01A2F5C95000078A51A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundPushNotificationPolicy.swift; sourceTree = "<group>"; };
 		FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationImageAttachment.swift; sourceTree = "<group>"; };
 		FB0ADB012F5C92000078A4E1 /* NotificationEmojiDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEmojiDecoder.swift; sourceTree = "<group>"; };
@@ -410,6 +420,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */,
+				FB0AE0182F5C95000078A518 /* Localizable.strings */,
 				FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */,
 				FC0A55157A00000100000010 /* Assistant */,
 				7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */,
@@ -463,6 +474,8 @@
 			isa = PBXGroup;
 			children = (
 				FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */,
+				FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */,
+				FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */,
 				FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */,
 				FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */,
 				FB0ADB012F5C92000078A4E1 /* NotificationEmojiDecoder.swift */,
@@ -714,6 +727,7 @@
 				FB0ADBE12F5C93000078A4F1 /* message.caf in Resources */,
 				FB0ADBE22F5C93000078A4F2 /* direct_message.caf in Resources */,
 				FB0ADB072F5C92000078A4E7 /* emojis.json in Resources */,
+				FB0AE0192F5C95000078A519 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,6 +859,8 @@
 				A15F1E13F500000000000008 /* AssistantSendAndCallTests.swift in Sources */,
 				331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */,
 				FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */,
+				FB0AE0162F5C95000078A516 /* WebPushKeychain.swift in Sources */,
+				FB0AE0172F5C95000078A517 /* WebPushRecordDecryptor.swift in Sources */,
 				FB0ADACD2F5C91D80078A4D9 /* ForegroundPushNotificationPolicy.swift in Sources */,
 				FB0ADB0C2F5C92000078A4EC /* NotificationImageAttachment.swift in Sources */,
 				FB0ADB0D2F5C92000078A4ED /* NotificationEmojiDecoder.swift in Sources */,
@@ -868,6 +884,8 @@
 				FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */,
 				FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */,
 				FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */,
+				FB0AE0122F5C95000078A512 /* WebPushKeychain.swift in Sources */,
+				FB0AE0132F5C95000078A513 /* WebPushRecordDecryptor.swift in Sources */,
 				FB0ADACB2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift in Sources */,
 				FB0ADB042F5C92000078A4E4 /* NotificationImageAttachment.swift in Sources */,
 				FB0ADB052F5C92000078A4E5 /* NotificationEmojiDecoder.swift in Sources */,
@@ -894,6 +912,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */,
+				FB0AE0142F5C95000078A514 /* WebPushKeychain.swift in Sources */,
+				FB0AE0152F5C95000078A515 /* WebPushRecordDecryptor.swift in Sources */,
 				FB0ADACC2F5C91D80078A4D8 /* ForegroundPushNotificationPolicy.swift in Sources */,
 				FB0ADB082F5C92000078A4E8 /* NotificationImageAttachment.swift in Sources */,
 				FB0ADB092F5C92000078A4E9 /* NotificationEmojiDecoder.swift in Sources */,
@@ -927,6 +947,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		FB0AE0182F5C95000078A518 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB0AE01A2F5C95000078A51A /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2338,6 +2366,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2384,6 +2413,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2430,6 +2460,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2476,6 +2507,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2522,6 +2554,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2565,6 +2598,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2608,6 +2642,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2651,6 +2686,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2694,6 +2730,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2737,6 +2774,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2780,6 +2818,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2823,6 +2862,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;

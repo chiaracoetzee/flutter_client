@@ -185,4 +185,17 @@ void main() {
       expect(normalized.containsKey('navigate'), isFalse);
     });
   });
+
+  group('pushNotificationTagMatchesChannel', () {
+    test('matches the channel tag and per-message tags', () {
+      expect(pushNotificationTagMatchesChannel('channel:42', '42'), isTrue);
+      expect(
+        pushNotificationTagMatchesChannel('channel:42:msg-1', '42'),
+        isTrue,
+      );
+      expect(pushNotificationTagMatchesChannel('channel:42', '421'), isFalse);
+      expect(pushNotificationTagMatchesChannel('channel:7:1', '42'), isFalse);
+      expect(pushNotificationTagMatchesChannel(null, '42'), isFalse);
+    });
+  });
 }

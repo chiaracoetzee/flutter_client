@@ -29,20 +29,6 @@ class NotificationCancelBridge(
                     cancelAll()
                     result.success(null)
                 }
-                METHOD_CANCEL_FCM_SYSTEM_DUPLICATES -> {
-                    val messageIds = call.argument<List<String>>(ARG_MESSAGE_IDS)
-                    val excludeNotificationId = call.argument<Int>(ARG_EXCLUDE_NOTIFICATION_ID)
-                    if (messageIds.isNullOrEmpty() || excludeNotificationId == null) {
-                        result.error(
-                            "invalid_args",
-                            "messageIds and excludeNotificationId are required",
-                            null,
-                        )
-                        return@setMethodCallHandler
-                    }
-                    val cancelled = cancelFcmSystemDuplicates(messageIds, excludeNotificationId)
-                    result.success(cancelled)
-                }
                 METHOD_IS_NOTIFICATION_SOUND_SUPPRESSED -> {
                     result.success(isNotificationSoundSuppressed())
                 }
@@ -55,90 +41,6 @@ class NotificationCancelBridge(
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.cancelAll()
-    }
-
-    private fun cancelFcmSystemDuplicates(
-        messageIds: List<String>,
-        excludeNotificationId: Int,
-    ): Int {
-        val manager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val normalizedIds = messageIds.filter { it.isNotEmpty() }.toSet()
-        if (normalizedIds.isEmpty()) {
-            return 0
-        }
-        var cancelled = 0
-        for (messageId in normalizedIds) {
-            for (notificationId in javaNotificationIdsFor(messageId)) {
-                if (notificationId == excludeNotificationId) {
-                    continue
-                }
-                manager.cancel(null, notificationId)
-                cancelled++
-            }
-        }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return cancelled
-        }
-        for (status in manager.activeNotifications) {
-            if (status.id == excludeNotificationId) {
-                continue
-            }
-            if (!notificationOnFluxerPushChannel(status)) {
-                continue
-            }
-            if (!notificationMatchesMessageIds(status, normalizedIds)) {
-                continue
-            }
-            manager.cancel(status.tag, status.id)
-            cancelled++
-        }
-        return cancelled
-    }
-
-    private fun javaNotificationIdsFor(messageId: String): List<Int> {
-        val javaHash = messageId.hashCode()
-        val positiveJavaHash = javaHash and 0x7FFFFFFF
-        return if (positiveJavaHash != 0) {
-            listOf(javaHash, positiveJavaHash)
-        } else {
-            listOf(javaHash)
-        }
-    }
-
-    private fun notificationOnFluxerPushChannel(
-        status: android.service.notification.StatusBarNotification,
-    ): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return status.notification.channelId == FLUXER_PUSH_CHANNEL_ID
-        }
-        return true
-    }
-
-    private fun notificationMatchesMessageIds(
-        status: android.service.notification.StatusBarNotification,
-        messageIds: Set<String>,
-    ): Boolean {
-        val extras = status.notification.extras ?: return false
-        val resolvedMessageId = resolveMessageIdFromExtras(extras) ?: return false
-        return messageIds.contains(resolvedMessageId)
-    }
-
-    private fun resolveMessageIdFromExtras(extras: Bundle): String? {
-        extras.getString(EXTRA_GOOGLE_MESSAGE_ID)?.takeIf { it.isNotEmpty() }?.let {
-            return it
-        }
-        extras.getString(EXTRA_MESSAGE_ID)?.takeIf { it.isNotEmpty() }?.let {
-            return it
-        }
-        extras.getString(EXTRA_ID)?.takeIf { it.isNotEmpty() }?.let {
-            return it
-        }
-        val nested = extras.getString(EXTRA_DATA) ?: return null
-        extractJsonStringValue(nested, "message_id")?.let {
-            return it
-        }
-        return extractJsonStringValue(nested, "id")
     }
 
     private fun cancelForChannel(channelId: String): Int {
@@ -200,13 +102,17 @@ class NotificationCancelBridge(
         channelPrefix: String,
     ): Boolean {
         val nested = extras.getString(EXTRA_DATA) ?: return false
-        if (nested.contains("\"channel_id\":\"$channelId\"") ||
-            nested.contains("\"channel_id\": \"$channelId\"")
-        ) {
+        if (extractJsonStringValue(nested, "channel_id") == channelId) {
             return true
         }
-        if (nested.contains("\"tag\":\"$channelTag\"") ||
-            nested.contains("\"notification_tag\":\"$channelTag\"")
+        val tag = extractJsonStringValue(nested, "tag")
+        if (tag == channelTag || (tag != null && tag.startsWith(channelPrefix))) {
+            return true
+        }
+        val notificationTag = extractJsonStringValue(nested, "notification_tag")
+        if (
+            notificationTag == channelTag ||
+                (notificationTag != null && notificationTag.startsWith(channelPrefix))
         ) {
             return true
         }
@@ -255,20 +161,13 @@ class NotificationCancelBridge(
         const val CHANNEL_NAME = "fluxer_app/android_notifications"
         const val METHOD_CANCEL_FOR_CHANNEL = "cancelForChannel"
         const val METHOD_CANCEL_ALL = "cancelAll"
-        const val METHOD_CANCEL_FCM_SYSTEM_DUPLICATES = "cancelFcmSystemDuplicates"
         const val METHOD_IS_NOTIFICATION_SOUND_SUPPRESSED = "isNotificationSoundSuppressed"
         const val ARG_CHANNEL_ID = "channelId"
-        const val ARG_MESSAGE_IDS = "messageIds"
-        const val ARG_EXCLUDE_NOTIFICATION_ID = "excludeNotificationId"
-        const val FLUXER_PUSH_CHANNEL_ID = "fluxer_default_push"
         private const val EXTRA_CHANNEL_ID = "channel_id"
         private const val EXTRA_TAG = "tag"
         private const val EXTRA_NOTIFICATION_TAG = "notification_tag"
         private const val EXTRA_URL = "url"
         private const val EXTRA_NAVIGATE = "navigate"
         private const val EXTRA_DATA = "data"
-        private const val EXTRA_GOOGLE_MESSAGE_ID = "google.message_id"
-        private const val EXTRA_MESSAGE_ID = "message_id"
-        private const val EXTRA_ID = "id"
     }
 }

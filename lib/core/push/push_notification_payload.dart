@@ -7,6 +7,14 @@ const String kPushNotificationClearAction = 'clear_channel';
 
 String buildChannelTag(String channelId) => 'channel:$channelId';
 
+bool pushNotificationTagMatchesChannel(String? tag, String channelId) {
+  if (tag == null || tag.isEmpty || channelId.isEmpty) {
+    return false;
+  }
+  final String channelTag = buildChannelTag(channelId);
+  return tag == channelTag || tag.startsWith('$channelTag:');
+}
+
 bool isDmPushPayload(Map<String, String> payload) {
   final String? guildId = _nonEmpty(payload['guild_id']);
   return guildId == null || guildId == '@me' || guildId == 'null';

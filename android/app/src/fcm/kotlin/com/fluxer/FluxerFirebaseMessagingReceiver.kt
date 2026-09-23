@@ -16,7 +16,8 @@ class FluxerFirebaseMessagingReceiver : BroadcastReceiver() {
         val extras = intent.extras ?: return
         ensureApplicationContext(context)
         val data = Bundle(extras)
-        FcmMessageForwarder.enrichNotificationIntoData(data)
+        data.remove("gcm.notification.title")
+        data.remove("gcm.notification.body")
         val remoteMessage = RemoteMessage(data)
         if (remoteMessage.notification != null) {
             FlutterFirebaseMessagingStore.getInstance().storeFirebaseMessage(remoteMessage)

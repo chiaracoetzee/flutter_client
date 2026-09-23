@@ -50,7 +50,7 @@ enum PushNotificationPayload {
   }
 
   static func hasApsAlert(_ userInfo: [AnyHashable: Any]) -> Bool {
-    guard let aps = userInfo["aps"] as? [String: Any] else {
+    guard let aps = userInfo["aps"] as? [AnyHashable: Any] else {
       return false
     }
     return aps["alert"] != nil
@@ -113,8 +113,9 @@ enum PushNotificationPayload {
       threadId.hasPrefix("channel:")
     {
       let suffix = String(threadId.dropFirst("channel:".count))
-      if !suffix.isEmpty {
-        return suffix
+      let channelPart = suffix.split(separator: ":", maxSplits: 1).first.map(String.init) ?? ""
+      if !channelPart.isEmpty {
+        return channelPart
       }
     }
     if let url = resolveNavigationUrl(from: userInfo) {
@@ -172,18 +173,26 @@ enum PushNotificationPayload {
     channelId: String
   ) -> Bool {
     let userInfo = notification.request.content.userInfo
-    if let resolvedChannelId = resolveChannelId(from: userInfo), resolvedChannelId == channelId {
-      return true
+    if let resolvedChannelId = resolveChannelId(from: userInfo) {
+      return resolvedChannelId == channelId
     }
     let channelTag = "channel:\(channelId)"
-    if let threadId = resolveChannelThreadIdentifier(from: userInfo),
-      threadId == channelTag || threadId == channelId
+    let contentThread = notification.request.content.threadIdentifier
+    if contentThread == channelTag ||
+      contentThread == channelId ||
+      contentThread.hasPrefix("\(channelTag):")
     {
       return true
     }
-    if let messageId = resolveMessageId(from: userInfo),
-      notification.request.identifier == messageId
+    if let threadId = resolveChannelThreadIdentifier(from: userInfo),
+      threadId == channelTag ||
+      threadId == channelId ||
+      threadId.hasPrefix("\(channelTag):")
     {
+      return true
+    }
+    let tag = (userInfo["tag"] as? String) ?? (userInfo["notification_tag"] as? String)
+    if let tag, tag == channelTag || tag.hasPrefix("\(channelTag):") {
       return true
     }
     return false

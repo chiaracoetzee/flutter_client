@@ -1,0 +1,125 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
+import 'package:fluxer_app/core/push/push_message.dart';
+import 'package:fluxer_app/core/push/push_notification_media.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_codec.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_crypto.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
+
+void main() {
+  test('background ciphertext notifications show locally', () {
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: true,
+        backgroundMode: true,
+        payload: const <String, String>{'channel_id': 'c'},
+      ),
+      AndroidPushIncomingAction.showLocally,
+    );
+  });
+
+  test('foreground clears go to the coordinator', () {
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: true,
+        backgroundMode: false,
+        payload: const <String, String>{
+          'type': 'notification_clear',
+          'channel_id': 'c',
+        },
+      ),
+      AndroidPushIncomingAction.emit,
+    );
+  });
+
+  test('failed decrypt is discarded', () {
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: false,
+        backgroundMode: true,
+        payload: const <String, String>{},
+      ),
+      AndroidPushIncomingAction.discard,
+    );
+  });
+
+  test('background clears are handled locally', () {
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: true,
+        backgroundMode: true,
+        payload: const <String, String>{
+          'type': 'notification_clear',
+          'channel_id': 'c',
+        },
+      ),
+      AndroidPushIncomingAction.handleClear,
+    );
+  });
+
+  test('foreground ciphertext is returned for the coordinator', () async {
+    FlutterSecureStorage.setMockInitialValues(<String, String>{});
+    final WebPushKeyStore store = WebPushKeyStore(
+      storage: const FlutterSecureStorage(),
+    );
+    final WebPushAccountKeys keys = await store.ensureKeys('user-a');
+    final WebPushKeyPair pair = _pairFrom(keys);
+    final Uint8List record = await encryptWebPushRecord(
+      plaintext: utf8.encode(
+        '{"title":"Alice","body":"ping","message_id":"m","channel_id":"c"}',
+      ),
+      recipientPublicKey: pair.publicKey,
+      authSecret: pair.authSecret,
+    );
+    final PushMessage? message = await AndroidPushPipeline.handleCiphertext(
+      ciphertextBase64: encodeWebPushKey(record),
+      backgroundMode: false,
+      keyStore: store,
+    );
+    expect(message?.title, 'Alice');
+    expect(message?.payload['channel_id'], 'c');
+    expect(message?.payload['target_user_id'], 'user-a');
+  });
+
+  test('invalid ciphertext is dropped', () async {
+    final PushMessage? message = await AndroidPushPipeline.handleCiphertext(
+      ciphertextBase64: '!!!',
+      backgroundMode: true,
+    );
+    expect(message, isNull);
+  });
+
+  test('avatar prefers author_avatar_url and skips non-http icons', () {
+    expect(
+      pushAuthorAvatarUrl(<String, String>{
+        'author_avatar_url': 'https://cdn.example/a.png',
+        'icon': 'https://cdn.example/b.png',
+      }),
+      'https://cdn.example/a.png',
+    );
+    expect(
+      pushAuthorAvatarUrl(<String, String>{'icon': '/icons/app.png'}),
+      isNull,
+    );
+    expect(
+      pushAttachmentImageUrl(<String, String>{
+        'has_media': 'true',
+        'image_url': 'https://cdn.example/pic.png',
+        'image': 'https://cdn.example/other.png',
+      }),
+      'https://cdn.example/pic.png',
+    );
+  });
+}
+
+WebPushKeyPair _pairFrom(WebPushAccountKeys keys) {
+  return WebPushKeyPair(
+    privateKey: decodeWebPushKey(keys.privateKey!),
+    publicKey: decodeWebPushKey(keys.publicKey),
+    authSecret: decodeWebPushKey(keys.authSecret),
+  );
+}

@@ -24,6 +24,10 @@ final class PushAccountLifecycle {
     if (userId == null || !isAuthenticated) {
       return;
     }
+    if (mode == LeavePushAccountMode.switchAccount) {
+      ref.read(pendingHomeQuickActionProvider.notifier).clear();
+      return;
+    }
     ref.read(pendingPushNotificationPathProvider.notifier).clear();
     ref.read(pendingHomeQuickActionProvider.notifier).clear();
     await AppIconBadgeService.clear();

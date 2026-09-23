@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Intents
 import UIKit
 import UserNotifications
 
@@ -24,28 +25,27 @@ final class NotificationService: UNNotificationServiceExtension {
             deliver(content: request.content)
             return
         }
-        Self.applyThreadIdentifier(to: mutableContent, userInfo: request.content.userInfo)
-        Self.applyNotificationSound(to: mutableContent, userInfo: request.content.userInfo)
+        let resolved = WebPushRecordDecryptor.resolvedUserInfo(request.content.userInfo)
+        applyDecryptedFields(to: mutableContent, userInfo: resolved)
+        Self.applyThreadIdentifier(to: mutableContent, userInfo: resolved)
+        Self.applyNotificationSound(to: mutableContent, userInfo: resolved)
         let emojiResult = NotificationEmojiDecoder.decode(body: mutableContent.body)
         mutableContent.body = emojiResult.body
         bestAttemptContent = mutableContent
-        let messageImageUrl = NotificationPayloadMedia.resolveImageUrl(from: request.content.userInfo)
+        let messageImageUrl = NotificationPayloadMedia.resolveImageUrl(from: resolved)
+        let avatarUrl = NotificationPayloadMedia.resolveAvatarUrl(from: resolved)
         let emojiImageUrl = emojiResult.imageUrls.first
-        guard messageImageUrl != nil || emojiImageUrl != nil else {
+        guard messageImageUrl != nil || emojiImageUrl != nil || avatarUrl != nil else {
             deliver(content: mutableContent)
             return
         }
-        if let messageImageUrl {
-            downloadAndAttach(
-                url: messageImageUrl,
-                identifier: NotificationImageAttachment.messageImageIdentifier
-            )
-        } else if let emojiImageUrl {
-            downloadAndAttach(
-                url: emojiImageUrl,
-                identifier: NotificationImageAttachment.emojiImageIdentifier
-            )
-        }
+        downloadMedia(
+            messageImageUrl: messageImageUrl ?? emojiImageUrl,
+            imageIdentifier: messageImageUrl == nil
+                ? NotificationImageAttachment.emojiImageIdentifier
+                : NotificationImageAttachment.messageImageIdentifier,
+            avatarUrl: avatarUrl
+        )
     }
 
     override func serviceExtensionTimeWillExpire() {
@@ -53,36 +53,78 @@ final class NotificationService: UNNotificationServiceExtension {
         deliver(content: content)
     }
 
-    private func downloadAndAttach(url: URL, identifier: String) {
-        NotificationImageAttachment.downloadImage(from: url) { localFileUrl in
-            self.deliverLock.lock()
-            let alreadyDelivered = self.didDeliver
-            self.deliverLock.unlock()
-            if alreadyDelivered {
-                if let fileURL = localFileUrl {
-                    try? FileManager.default.removeItem(at: fileURL)
-                }
-                return
+    private func applyDecryptedFields(
+        to content: UNMutableNotificationContent,
+        userInfo: [AnyHashable: Any]
+    ) {
+        content.userInfo = userInfo
+        if let title = userInfo["title"] as? String, !title.isEmpty {
+            content.title = title
+        }
+        if let body = userInfo["body"] as? String, !body.isEmpty {
+            content.body = body
+        }
+    }
+
+    private func downloadMedia(messageImageUrl: URL?, imageIdentifier: String, avatarUrl: URL?) {
+        let group = DispatchGroup()
+        var imageFile: URL?
+        var avatarData: Data?
+        if let messageImageUrl {
+            group.enter()
+            NotificationImageAttachment.downloadImage(from: messageImageUrl) { file in
+                imageFile = file
+                group.leave()
             }
-            var tempFilesToRemove: [URL] = []
-            if let mutableContent = self.bestAttemptContent, let fileURL = localFileUrl {
+        }
+        if let avatarUrl {
+            group.enter()
+            NotificationImageAttachment.downloadImage(from: avatarUrl) { file in
+                if let file {
+                    avatarData = try? Data(contentsOf: file)
+                    try? FileManager.default.removeItem(at: file)
+                }
+                group.leave()
+            }
+        }
+        group.notify(queue: .main) {
+            self.finishDownload(
+                imageFile: imageFile,
+                imageIdentifier: imageIdentifier,
+                avatarData: avatarData
+            )
+        }
+    }
+
+    private func finishDownload(imageFile: URL?, imageIdentifier: String, avatarData: Data?) {
+        deliverLock.lock()
+        let alreadyDelivered = didDeliver
+        deliverLock.unlock()
+        if alreadyDelivered {
+            if let imageFile {
+                try? FileManager.default.removeItem(at: imageFile)
+            }
+            return
+        }
+        var tempFiles: [URL] = []
+        if let mutableContent = bestAttemptContent {
+            if let imageFile {
                 let attachmentResult = NotificationImageAttachment.makeImageAttachment(
-                    fileURL: fileURL,
-                    identifier: identifier
+                    fileURL: imageFile,
+                    identifier: imageIdentifier
                 )
-                tempFilesToRemove = attachmentResult.filesToRemove
+                tempFiles = attachmentResult.filesToRemove
                 if let attachment = attachmentResult.attachment {
                     mutableContent.attachments = [attachment]
                 }
             }
-            if let mutable = self.bestAttemptContent {
-                self.deliver(content: mutable)
-            } else if let fallback = self.fallbackContent {
-                self.deliver(content: fallback)
-            }
-            for tempURL in tempFilesToRemove {
-                try? FileManager.default.removeItem(at: tempURL)
-            }
+            let content = Self.communicationContent(mutableContent, avatarData: avatarData)
+            deliver(content: content)
+        } else if let fallback = fallbackContent {
+            deliver(content: fallback)
+        }
+        for tempURL in tempFiles {
+            try? FileManager.default.removeItem(at: tempURL)
         }
     }
 
@@ -117,5 +159,51 @@ private extension NotificationService {
             return
         }
         content.sound = sound
+    }
+
+    static func communicationContent(
+        _ content: UNMutableNotificationContent,
+        avatarData: Data?
+    ) -> UNNotificationContent {
+        guard let avatarData else {
+            return content
+        }
+        let title = content.title.isEmpty ? "Fluxer" : content.title
+        let avatar = INImage(imageData: avatarData)
+        let sender = INPerson(
+            personHandle: INPersonHandle(value: title, type: .unknown),
+            nameComponents: nil,
+            displayName: title,
+            image: avatar,
+            contactIdentifier: nil,
+            customIdentifier: nil,
+            isMe: false,
+            suggestionType: .none
+        )
+        let intent = INSendMessageIntent(
+            recipients: nil,
+            outgoingMessageType: .outgoingMessageText,
+            content: content.body,
+            speakableGroupName: nil,
+            conversationIdentifier: content.threadIdentifier.isEmpty ? nil : content.threadIdentifier,
+            serviceName: nil,
+            sender: sender,
+            attachments: nil
+        )
+        intent.setImage(avatar, forParameterNamed: \.sender)
+        let interaction = INInteraction(intent: intent, response: nil)
+        interaction.direction = .incoming
+        interaction.donate(completion: nil)
+        guard let updated = try? content.updating(from: intent).mutableCopy()
+          as? UNMutableNotificationContent
+        else {
+            return content
+        }
+        updated.userInfo = content.userInfo
+        updated.sound = content.sound
+        if !content.attachments.isEmpty {
+            updated.attachments = content.attachments
+        }
+        return updated
     }
 }

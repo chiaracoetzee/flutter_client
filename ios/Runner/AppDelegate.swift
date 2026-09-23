@@ -42,12 +42,8 @@ import flutter_callkit_incoming
   ) {
     ApplePushBridge.shared.handleRemoteNotification(
       userInfo: userInfo,
-      applicationState: application.applicationState
-    )
-    super.application(
-      application,
-      didReceiveRemoteNotification: userInfo,
-      fetchCompletionHandler: completionHandler
+      applicationState: application.applicationState,
+      completion: completionHandler
     )
   }
 
