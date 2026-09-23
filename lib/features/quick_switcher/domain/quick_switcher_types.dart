@@ -24,8 +24,8 @@ enum QuickSwitcherSettingsTarget {
 
 enum QuickSwitcherQueryMode { user, textChannel, voiceChannel, guild }
 
-const int kQuickSwitcherMaxGeneralResults = 5;
-const int kQuickSwitcherMaxQueryModeResults = 20;
+const int kQuickSwitcherMaxGeneralResults = 100;
+const int kQuickSwitcherMaxQueryModeResults = 100;
 const int kQuickSwitcherMaxRecentResults = 8;
 const int kQuickSwitcherMaxUnreadResults = 8;
 const int kQuickSwitcherMemberSearchLimit = 25;
