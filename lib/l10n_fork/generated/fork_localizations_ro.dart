@@ -12,6 +12,9 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get chatMessageChangePersona => 'Schimbă persona';
 
   @override
+  String get chatAttachmentPanelVoice => 'Vocal';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'Buton comutator rapid';
 
   @override
@@ -253,4 +256,48 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Eticheta \'$tag\' este deja folosită de \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Inserează marcaj de timp';
+
+  @override
+  String get timestampPickerTitle => 'Inserează marcaj de timp';
+
+  @override
+  String get timestampPickerInsert => 'Inserează';
+
+  @override
+  String get timestampCopied => 'Marcaj de timp copiat';
+
+  @override
+  String get timestampPickerTimeLabel => 'Oră';
+
+  @override
+  String get timestampPickerDateLabel => 'DATĂ';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'ORĂ';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'FUS ORAR';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PREVIZUALIZARE FORMAT';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'de ex. mâine la 15:00, în 2 ore, acum';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Caută fusuri orare...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Fus orar';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Folosit pentru a afișa ora locală pe profilul tău.';
+
+  @override
+  String get userProfileTimezoneNone => 'Niciunul';
 }

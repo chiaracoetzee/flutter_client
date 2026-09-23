@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Persona váltása",
+    "chatAttachmentPanelVoice": "Hang",
     "advancedSettingQuickSwitcherButtonLabel": "Gyorsváltó gomb",
     "advancedSettingQuickSwitcherButtonDescription": "A hangüzenet gomb lecserélése a beviteli mezőben gyorsváltóra a gyorsabb navigációért",
     "personaSelectTitle": "Persona kiválasztása",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "A persona megjelenített neve legfeljebb 100 karakter lehet",
     "personaTagPrefixTooLong": "A persona címke előtagja legfeljebb 32 karakter lehet",
     "personaTagSuffixTooLong": "A persona címke utótagja legfeljebb 32 karakter lehet",
-    "personaTagCollisionError": "A(z) '{tag}' címkét már használja '{name}'."
+    "personaTagCollisionError": "A(z) '{tag}' címkét már használja '{name}'.",
+    "chatInsertTimestamp": "Időbélyegző beszúrása",
+    "timestampPickerTitle": "Időbélyegző beszúrása",
+    "timestampPickerInsert": "Beszúrás",
+    "timestampCopied": "Időbélyegző másolva",
+    "timestampPickerTimeLabel": "Idő",
+    "timestampPickerDateLabel": "DÁTUM",
+    "timestampPickerTimeSectionLabel": "IDŐPONT",
+    "timestampPickerTimezoneLabel": "IDŐZÓNA",
+    "timestampPickerFormatPreviewLabel": "FORMÁTUM ELŐNÉZETE",
+    "timestampPickerNlpPlaceholder": "pl. holnap 15:00-kor, 2 óra múlva, most",
+    "timestampPickerSearchTimezones": "Időzónák keresése...",
+    "userProfileTimezoneSettingLabel": "Időzóna",
+    "userProfileTimezoneSettingDescription": "A helyi idő megjelenítésére szolgál a profilodban.",
+    "userProfileTimezoneNone": "Nincs"
 }

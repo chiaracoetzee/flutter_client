@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Personayı değiştir",
+    "chatAttachmentPanelVoice": "Sesli",
     "advancedSettingQuickSwitcherButtonLabel": "Hızlı Geçiş düğmesi",
     "advancedSettingQuickSwitcherButtonDescription": "Daha hızlı gezinme için metin girişindeki sesli mesaj düğmesini Hızlı Geçiş ile değiştirin",
     "personaSelectTitle": "Persona Seç",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Persona görünen adı en fazla 100 karakter olmalıdır",
     "personaTagPrefixTooLong": "Persona etiket öneki en fazla 32 karakter olmalıdır",
     "personaTagSuffixTooLong": "Persona etiket soneki en fazla 32 karakter olmalıdır",
-    "personaTagCollisionError": "'{tag}' etiketi zaten '{name}' tarafından kullanılıyor."
+    "personaTagCollisionError": "'{tag}' etiketi zaten '{name}' tarafından kullanılıyor.",
+    "chatInsertTimestamp": "Zaman damgası ekle",
+    "timestampPickerTitle": "Zaman damgası ekle",
+    "timestampPickerInsert": "Ekle",
+    "timestampCopied": "Zaman damgası kopyalandı",
+    "timestampPickerTimeLabel": "Saat",
+    "timestampPickerDateLabel": "TARİH",
+    "timestampPickerTimeSectionLabel": "SAAT",
+    "timestampPickerTimezoneLabel": "SAAT DİLİMİ",
+    "timestampPickerFormatPreviewLabel": "BİÇİM ÖNİZLEMESİ",
+    "timestampPickerNlpPlaceholder": "örn. yarın saat 15:00'te, 2 saat sonra, şimdi",
+    "timestampPickerSearchTimezones": "Saat dilimlerini ara...",
+    "userProfileTimezoneSettingLabel": "Saat dilimi",
+    "userProfileTimezoneSettingDescription": "Profilinizde yerel saatinizi göstermek için kullanılır.",
+    "userProfileTimezoneNone": "Yok"
 }

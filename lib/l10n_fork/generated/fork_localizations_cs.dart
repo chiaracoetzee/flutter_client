@@ -12,6 +12,9 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get chatMessageChangePersona => 'Změnit personu';
 
   @override
+  String get chatAttachmentPanelVoice => 'Hlas';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Tlačítko rychlého přepínače';
 
@@ -254,4 +257,48 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tag \'$tag\' již používá \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Vložit časové razítko';
+
+  @override
+  String get timestampPickerTitle => 'Vložit časové razítko';
+
+  @override
+  String get timestampPickerInsert => 'Vložit';
+
+  @override
+  String get timestampCopied => 'Časové razítko zkopírováno';
+
+  @override
+  String get timestampPickerTimeLabel => 'Čas';
+
+  @override
+  String get timestampPickerDateLabel => 'DATUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'ČAS';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ČASOVÉ PÁSMO';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'NÁHLED FORMÁTU';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'např. zítra v 15:00, za 2 hodiny, teď';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Hledat časová pásma...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Časové pásmo';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Slouží k zobrazení vašeho místního času na profilu.';
+
+  @override
+  String get userProfileTimezoneNone => 'Žádné';
 }

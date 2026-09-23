@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "페르소나 변경",
+    "chatAttachmentPanelVoice": "음성",
     "advancedSettingQuickSwitcherButtonLabel": "빠른 전환 버튼",
     "advancedSettingQuickSwitcherButtonDescription": "입력창의 음성 메시지 버튼을 빠른 전환 버튼으로 교체하여 편리하게 이동",
     "personaSelectTitle": "페르소나 선택",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "페르소나 표시 이름은 100자 이하여야 합니다",
     "personaTagPrefixTooLong": "페르소나 태그 접두사는 32자 이하여야 합니다",
     "personaTagSuffixTooLong": "페르소나 태그 접미사는 32자 이하여야 합니다",
-    "personaTagCollisionError": "'{tag}' 태그는 이미 '{name}'에서 사용 중입니다."
+    "personaTagCollisionError": "'{tag}' 태그는 이미 '{name}'에서 사용 중입니다.",
+    "chatInsertTimestamp": "타임스탬프 삽입",
+    "timestampPickerTitle": "타임스탬프 삽입",
+    "timestampPickerInsert": "삽입",
+    "timestampCopied": "타임스탬프가 복사되었습니다",
+    "timestampPickerTimeLabel": "시간",
+    "timestampPickerDateLabel": "날짜",
+    "timestampPickerTimeSectionLabel": "시간",
+    "timestampPickerTimezoneLabel": "시간대",
+    "timestampPickerFormatPreviewLabel": "형식 미리보기",
+    "timestampPickerNlpPlaceholder": "예: 내일 오후 3시, 2시간 후, 지금",
+    "timestampPickerSearchTimezones": "시간대 검색...",
+    "userProfileTimezoneSettingLabel": "시간대",
+    "userProfileTimezoneSettingDescription": "프로필에 현지 시간을 표시하는 데 사용됩니다.",
+    "userProfileTimezoneNone": "없음"
 }
