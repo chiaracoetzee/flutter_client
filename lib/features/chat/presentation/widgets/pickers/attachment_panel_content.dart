@@ -2,17 +2,20 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/timestamp_picker_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_gallery_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_source_bar.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
@@ -435,6 +438,12 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
             child: AttachmentPanelSourceBar(
               onPhotosPressed: () => unawaited(_onPhotosPressed()),
               onFilesPressed: () => unawaited(_onFilesPressed()),
+              onTimestampPressed: () {
+                final BuildContext targetContext =
+                    rootNavigatorKey.currentContext ?? context;
+                ref.read(attachmentPanelProvider.notifier).close();
+                unawaited(TimestampPickerSheet.show(targetContext));
+              },
               onVoicePressed: canUseVoice
                   ? () => unawaited(_onVoicePressed())
                   : null,

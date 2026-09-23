@@ -12,6 +12,9 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get chatMessageChangePersona => 'ペルソナを変更';
 
   @override
+  String get chatAttachmentPanelVoice => 'ボイス';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'クイックスイッチャーボタン';
 
   @override
@@ -245,4 +248,47 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'タグ「$tag」は既に「$name」によって使用されています。';
   }
+
+  @override
+  String get chatInsertTimestamp => 'タイムスタンプを挿入';
+
+  @override
+  String get timestampPickerTitle => 'タイムスタンプを挿入';
+
+  @override
+  String get timestampPickerInsert => '挿入';
+
+  @override
+  String get timestampCopied => 'タイムスタンプをコピーしました';
+
+  @override
+  String get timestampPickerTimeLabel => '時間';
+
+  @override
+  String get timestampPickerDateLabel => '日付';
+
+  @override
+  String get timestampPickerTimeSectionLabel => '時刻';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'タイムゾーン';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => '形式プレビュー';
+
+  @override
+  String get timestampPickerNlpPlaceholder => '例: 明日の午後3時、2時間後、今';
+
+  @override
+  String get timestampPickerSearchTimezones => 'タイムゾーンを検索...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'タイムゾーン';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'プロフィールに現地時間を表示するために使用されます。';
+
+  @override
+  String get userProfileTimezoneNone => 'なし';
 }
