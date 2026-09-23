@@ -12,6 +12,9 @@ class ForkLocalizationsDe extends ForkLocalizations {
   String get chatMessageChangePersona => 'Persona wechseln';
 
   @override
+  String get chatAttachmentPanelVoice => 'Sprache';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Quick-Switcher-Schaltfläche';
 
@@ -253,4 +256,48 @@ class ForkLocalizationsDe extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Das Tag „$tag“ wird bereits von „$name“ verwendet.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Zeitstempel einfügen';
+
+  @override
+  String get timestampPickerTitle => 'Zeitstempel einfügen';
+
+  @override
+  String get timestampPickerInsert => 'Einfügen';
+
+  @override
+  String get timestampCopied => 'Zeitstempel kopiert';
+
+  @override
+  String get timestampPickerTimeLabel => 'Zeit';
+
+  @override
+  String get timestampPickerDateLabel => 'DATUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'UHRZEIT';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ZEITZONE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMATVORSCHAU';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'z. B. morgen um 15 Uhr, in 2 Stunden, jetzt';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Zeitzonen suchen...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Zeitzone';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Wird verwendet, um Ihre Ortszeit in Ihrem Profil anzuzeigen.';
+
+  @override
+  String get userProfileTimezoneNone => 'Keine';
 }

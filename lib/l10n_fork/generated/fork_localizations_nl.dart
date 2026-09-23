@@ -12,6 +12,9 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String get chatMessageChangePersona => 'Persona wijzigen';
 
   @override
+  String get chatAttachmentPanelVoice => 'Spraak';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'Snelschakelaar-knop';
 
   @override
@@ -253,4 +256,48 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'De tag \'$tag\' is al in gebruik door \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Tijdstempel invoegen';
+
+  @override
+  String get timestampPickerTitle => 'Tijdstempel invoegen';
+
+  @override
+  String get timestampPickerInsert => 'Invoegen';
+
+  @override
+  String get timestampCopied => 'Tijdstempel gekopieerd';
+
+  @override
+  String get timestampPickerTimeLabel => 'Tijd';
+
+  @override
+  String get timestampPickerDateLabel => 'DATUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'TIJD';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'TIJDZONE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'VOORBEELD VAN FORMAT';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'bijv. morgen om 15:00, over 2 uur, nu';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Tijdzones zoeken...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Tijdzone';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Wordt gebruikt om uw lokale tijd op uw profiel te tonen.';
+
+  @override
+  String get userProfileTimezoneNone => 'Geen';
 }

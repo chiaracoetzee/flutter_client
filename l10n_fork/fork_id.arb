@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Ganti persona",
+    "chatAttachmentPanelVoice": "Suara",
     "advancedSettingQuickSwitcherButtonLabel": "Tombol Pengalih Cepat",
     "advancedSettingQuickSwitcherButtonDescription": "Ganti tombol pesan suara di kolom input dengan tombol Pengalih Cepat untuk navigasi cepat",
     "personaSelectTitle": "Pilih Persona",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Nama tampilan persona harus 100 karakter atau kurang",
     "personaTagPrefixTooLong": "Awalan tag persona harus 32 karakter atau kurang",
     "personaTagSuffixTooLong": "Akhiran tag persona harus 32 karakter atau kurang",
-    "personaTagCollisionError": "Tag '{tag}' sudah digunakan oleh '{name}'."
+    "personaTagCollisionError": "Tag '{tag}' sudah digunakan oleh '{name}'.",
+    "chatInsertTimestamp": "Sisipkan stempel waktu",
+    "timestampPickerTitle": "Sisipkan stempel waktu",
+    "timestampPickerInsert": "Sisipkan",
+    "timestampCopied": "Stempel waktu disalin",
+    "timestampPickerTimeLabel": "Waktu",
+    "timestampPickerDateLabel": "TANGGAL",
+    "timestampPickerTimeSectionLabel": "WAKTU",
+    "timestampPickerTimezoneLabel": "ZONA WAKTU",
+    "timestampPickerFormatPreviewLabel": "PRATINJAU FORMAT",
+    "timestampPickerNlpPlaceholder": "mis. besok jam 3 sore, dalam 2 jam, sekarang",
+    "timestampPickerSearchTimezones": "Cari zona waktu...",
+    "userProfileTimezoneSettingLabel": "Zona waktu",
+    "userProfileTimezoneSettingDescription": "Digunakan untuk menampilkan waktu lokal di profil Anda.",
+    "userProfileTimezoneNone": "Tidak ada"
 }
