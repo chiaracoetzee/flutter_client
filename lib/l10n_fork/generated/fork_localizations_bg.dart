@@ -12,6 +12,9 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String get chatMessageChangePersona => 'Промяна на персона';
 
   @override
+  String get chatAttachmentPanelVoice => 'Гласово';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Бутон за бързо превключване';
 
@@ -254,4 +257,48 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Тагът \'$tag\' вече се използва от \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Вмъкване на клеймо за време';
+
+  @override
+  String get timestampPickerTitle => 'Вмъкване на клеймо за време';
+
+  @override
+  String get timestampPickerInsert => 'Вмъкване';
+
+  @override
+  String get timestampCopied => 'Клеймото за време е копирано';
+
+  @override
+  String get timestampPickerTimeLabel => 'Час';
+
+  @override
+  String get timestampPickerDateLabel => 'ДАТА';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'ЧАС';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ЧАСОВА ЗОНА';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'ПРЕГЛЕД НА ФОРМАТА';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'напр. утре в 15:00, след 2 часа, сега';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Търсене на часови зони...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Часова зона';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Използва се за показване на вашето местно време в профила.';
+
+  @override
+  String get userProfileTimezoneNone => 'Няма';
 }

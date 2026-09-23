@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
@@ -26,6 +25,7 @@ import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/menus/composer_attach_source_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/timestamp_picker_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/announcement_follow_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/blocked_user_composer_barrier.dart';
@@ -51,6 +51,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_pro
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/timestamp_insert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
@@ -59,6 +60,7 @@ import 'package:fluxer_app/features/chat/services/composer_keyboard_session.dart
 import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/services/composer_text_session.dart';
+import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
@@ -84,12 +86,11 @@ import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/input/providers/physical_keyboard_provider.dart';
+import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_composer_pill.dart';
-import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
-import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
@@ -402,7 +403,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           effect == ChatKeybindEffect.triggerUpload,
     );
     WidgetsBinding.instance.addObserver(this);
-    _controller = ComposerMentionController(ref: ref);
+    _controller = ComposerMentionController(ref: ref)
+      ..onTimestampTokenTap = _handleTimestampTokenTap;
     _textSession = ComposerTextSession(
       ref: ref,
       controller: _controller,
@@ -861,6 +863,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         }
         _controller.deleteBackward();
       })
+      ..listen<({int epoch, String style})?>(
+        pendingTimestampInsertProvider,
+        (_, pending) {
+          if (pending == null) {
+            return;
+          }
+          ref.read(pendingTimestampInsertProvider.notifier).consume();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) {
+              return;
+            }
+            _insertTimestamp(pending.epoch, pending.style);
+          });
+        },
+      )
       ..listen<FluxerSelectedGif?>(pendingGifSelectionProvider, (_, pending) {
         if (pending == null) {
           return;
@@ -2119,6 +2136,30 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
   }
 
+  void _insertTimestamp(int epoch, String style) {
+    _controller.insertTimestamp(epoch, style);
+    scheduleComposerScrollToEnd(
+      _composerScrollController,
+      isMounted: () => mounted,
+    );
+  }
+
+  void _handleTimestampTokenTap(TimestampInlineToken token) {
+    unawaited(
+      TimestampPickerSheet.show(
+        context,
+        initialEpoch: token.epoch,
+        initialStyle: token.style,
+        onInsert: (int epoch, String style) {
+          token
+            ..epoch = epoch
+            ..style = style;
+          _controller.refreshTokens();
+        },
+      ),
+    );
+  }
+
   void _clearSlashSession() {
     if (_slashSession.isActive) {
       _slashSession.clear();
@@ -2622,6 +2663,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       await _startLockedVoiceRecording();
       return;
     }
+    if (source == ComposerAttachSource.timestamp) {
+      if (!context.mounted) {
+        return;
+      }
+      await TimestampPickerSheet.show(
+        context,
+        onInsert: _insertTimestamp,
+      );
+      return;
+    }
     await _pickAttachments(source: source);
   }
 
@@ -2720,6 +2771,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       case ComposerAttachSource.files:
         await _addPickedFiles(await pickNativeFileUploads());
       case ComposerAttachSource.voice:
+      case ComposerAttachSource.timestamp:
         break;
     }
   }
