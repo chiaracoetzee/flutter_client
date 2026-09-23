@@ -167,6 +167,12 @@ abstract class ForkLocalizations {
   /// **'Change Persona'**
   String get chatMessageChangePersona;
 
+  /// Label for the voice recording action on the attachment panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get chatAttachmentPanelVoice;
+
   /// No description provided for @advancedSettingQuickSwitcherButtonLabel.
   ///
   /// In en, this message translates to:
@@ -592,6 +598,90 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'The tag \'{tag}\' is already in use by \'{name}\'.'**
   String personaTagCollisionError(String tag, String name);
+
+  /// Menu action to insert a timestamp markdown pill into composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert timestamp'**
+  String get chatInsertTimestamp;
+
+  /// Title of the timestamp picker modal/sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert Timestamp'**
+  String get timestampPickerTitle;
+
+  /// Action button to insert timestamp.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert'**
+  String get timestampPickerInsert;
+
+  /// Toast message when timestamp pill text is copied to clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Timestamp copied'**
+  String get timestampCopied;
+
+  /// Short label for time button in the attachment panel source bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get timestampPickerTimeLabel;
+
+  /// Label for date section in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'DATE'**
+  String get timestampPickerDateLabel;
+
+  /// Label for time section in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'TIME'**
+  String get timestampPickerTimeSectionLabel;
+
+  /// Label for timezone section in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'TIME ZONE'**
+  String get timestampPickerTimezoneLabel;
+
+  /// Label for format preview section in timestamp picker.
+  ///
+  /// In en, this message translates to:
+  /// **'FORMAT PREVIEW'**
+  String get timestampPickerFormatPreviewLabel;
+
+  /// Placeholder for natural language timestamp input.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. tomorrow at 3pm, in 2 hours, now'**
+  String get timestampPickerNlpPlaceholder;
+
+  /// Placeholder for timezone search input.
+  ///
+  /// In en, this message translates to:
+  /// **'Search time zones...'**
+  String get timestampPickerSearchTimezones;
+
+  /// Label for timezone setting in user profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone'**
+  String get userProfileTimezoneSettingLabel;
+
+  /// Description for timezone setting in user profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Used to show your local time on your profile.'**
+  String get userProfileTimezoneSettingDescription;
+
+  /// Option to clear timezone in user profile settings.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get userProfileTimezoneNone;
 }
 
 class _ForkLocalizationsDelegate

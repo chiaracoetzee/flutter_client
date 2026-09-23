@@ -5,17 +5,23 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class AttachmentPanelSourceBar extends StatelessWidget {
   const AttachmentPanelSourceBar({
     required this.onPhotosPressed,
     required this.onFilesPressed,
     this.onVoicePressed,
+    this.onTimestampPressed,
     super.key,
   });
 
   final VoidCallback onPhotosPressed;
   final VoidCallback onFilesPressed;
   final VoidCallback? onVoicePressed;
+  final VoidCallback? onTimestampPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +58,18 @@ class AttachmentPanelSourceBar extends StatelessWidget {
               fitContent: true,
               onPressed: onFilesPressed,
             ),
+            if (onTimestampPressed != null)
+              FluxerButton.ghost(
+                icon: PhosphorIconsBold.clock,
+                label: l10n.fork.timestampPickerTimeLabel,
+                size: FluxerButtonSize.compact,
+                fitContent: true,
+                onPressed: onTimestampPressed,
+              ),
             if (onVoicePressed != null)
               FluxerButton.ghost(
                 icon: PhosphorIconsFill.microphone,
-                label: l10n.voiceMessageTitle,
+                label: l10n.fork.chatAttachmentPanelVoice,
                 size: FluxerButtonSize.compact,
                 fitContent: true,
                 onPressed: onVoicePressed,
