@@ -8745,6 +8745,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => '文件';
 
   @override
+  String get chatAttachmentPanelVoice => '语音';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle => '需要访问照片图库';
 
   @override
@@ -14005,6 +14008,90 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return '标签“$tag”已被“$name”使用。';
   }
+
+  @override
+  String get chatInsertTimestamp => '插入时间戳';
+
+  @override
+  String get timestampPickerTitle => '插入时间戳';
+
+  @override
+  String get timestampPickerPresetNow => '现在';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5分钟';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1小时';
+
+  @override
+  String get timestampPickerPresetTomorrow => '明天';
+
+  @override
+  String get timestampPickerFormatLabel => '格式';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => '默认（组合）';
+
+  @override
+  String get timestampPickerFormatShortDateTime => '简短日期/时间';
+
+  @override
+  String get timestampPickerFormatLongDateTime => '完整日期/时间';
+
+  @override
+  String get timestampPickerFormatRelative => '相对时间';
+
+  @override
+  String get timestampPickerFormatShortDate => '简短日期';
+
+  @override
+  String get timestampPickerFormatLongDate => '完整日期';
+
+  @override
+  String get timestampPickerFormatShortTime => '简短时间';
+
+  @override
+  String get timestampPickerFormatLongTime => '完整时间';
+
+  @override
+  String get timestampPickerPreview => '预览';
+
+  @override
+  String get timestampPickerInsert => '插入';
+
+  @override
+  String get timestampCopied => '时间戳已复制';
+
+  @override
+  String get timestampPickerTimeLabel => '时间';
+
+  @override
+  String get timestampPickerDateLabel => '日期';
+
+  @override
+  String get timestampPickerTimeSectionLabel => '时间';
+
+  @override
+  String get timestampPickerTimezoneLabel => '时区';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => '格式预览';
+
+  @override
+  String get timestampPickerNlpPlaceholder => '例如：明天下午3点，2小时后，现在';
+
+  @override
+  String get timestampPickerSearchTimezones => '搜索时区...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => '时区';
+
+  @override
+  String get userProfileTimezoneSettingDescription => '用于在个人资料中显示您的当地时间。';
+
+  @override
+  String get userProfileTimezoneNone => '无';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -22433,6 +22520,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatAttachmentPanelFiles => '檔案';
 
   @override
+  String get chatAttachmentPanelVoice => '語音';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle => '需要相簿權限';
 
   @override
@@ -27639,4 +27729,88 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String personaTagCollisionError(String tag, String name) {
     return '標籤「$tag」已被「$name」使用。';
   }
+
+  @override
+  String get chatInsertTimestamp => '插入時間戳記';
+
+  @override
+  String get timestampPickerTitle => '插入時間戳記';
+
+  @override
+  String get timestampPickerPresetNow => '現在';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5分鐘';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1小時';
+
+  @override
+  String get timestampPickerPresetTomorrow => '明天';
+
+  @override
+  String get timestampPickerFormatLabel => '格式';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => '預設（組合）';
+
+  @override
+  String get timestampPickerFormatShortDateTime => '簡短日期/時間';
+
+  @override
+  String get timestampPickerFormatLongDateTime => '完整日期/時間';
+
+  @override
+  String get timestampPickerFormatRelative => '相對時間';
+
+  @override
+  String get timestampPickerFormatShortDate => '簡短日期';
+
+  @override
+  String get timestampPickerFormatLongDate => '完整日期';
+
+  @override
+  String get timestampPickerFormatShortTime => '簡短時間';
+
+  @override
+  String get timestampPickerFormatLongTime => '完整時間';
+
+  @override
+  String get timestampPickerPreview => '預覽';
+
+  @override
+  String get timestampPickerInsert => '插入';
+
+  @override
+  String get timestampCopied => '已複製時間戳記';
+
+  @override
+  String get timestampPickerTimeLabel => '時間';
+
+  @override
+  String get timestampPickerDateLabel => '日期';
+
+  @override
+  String get timestampPickerTimeSectionLabel => '時間';
+
+  @override
+  String get timestampPickerTimezoneLabel => '時區';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => '格式預覽';
+
+  @override
+  String get timestampPickerNlpPlaceholder => '例如：明天下午3點，2小時後，現在';
+
+  @override
+  String get timestampPickerSearchTimezones => '搜尋時區...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => '時區';
+
+  @override
+  String get userProfileTimezoneSettingDescription => '用於在個人檔案中顯示您的當地時間。';
+
+  @override
+  String get userProfileTimezoneNone => '無';
 }

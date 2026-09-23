@@ -9317,6 +9317,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Filer';
 
   @override
+  String get chatAttachmentPanelVoice => 'Stemme';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Adgang til fotobibliotek nødvendig';
 
@@ -14924,4 +14927,90 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tagget \'$tag\' er allerede i brug af \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Indsæt tidsstempel';
+
+  @override
+  String get timestampPickerTitle => 'Indsæt tidsstempel';
+
+  @override
+  String get timestampPickerPresetNow => 'Nu';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 time';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'I morgen';
+
+  @override
+  String get timestampPickerFormatLabel => 'Format';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Standard (Kombineret)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Kort dato/tid';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Lang dato/tid';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativ';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Kort dato';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Lang dato';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Kort tid';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Lang tid';
+
+  @override
+  String get timestampPickerPreview => 'Forhåndsvisning';
+
+  @override
+  String get timestampPickerInsert => 'Indsæt';
+
+  @override
+  String get timestampCopied => 'Tidsstempel kopieret';
+
+  @override
+  String get timestampPickerTimeLabel => 'Tid';
+
+  @override
+  String get timestampPickerDateLabel => 'DATO';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'TIDSPUNKT';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'TIDSZONE';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMATFORHÅNDSVISNING';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'f.eks. i morgen kl. 15, om 2 timer, nu';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Søg efter tidszoner...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Tidszone';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Bruges til at vise din lokale tid på din profil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Ingen';
 }

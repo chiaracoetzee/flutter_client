@@ -11341,6 +11341,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Datoteke",
+    "chatAttachmentPanelVoice": "Glasovno",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16998,5 +16999,33 @@
     "personaNameTooLong": "Prikazano ime persone mora imati najviše 100 znakova",
     "personaTagPrefixTooLong": "Prefiks oznake persone mora imati najviše 32 znaka",
     "personaTagSuffixTooLong": "Sufiks oznake persone mora imati najviše 32 znaka",
-    "personaTagCollisionError": "Oznaku '{tag}' već koristi '{name}'."
+    "personaTagCollisionError": "Oznaku '{tag}' već koristi '{name}'.",
+    "chatInsertTimestamp": "Umetni vremensku oznaku",
+    "timestampPickerTitle": "Umetni vremensku oznaku",
+    "timestampPickerPresetNow": "Sada",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 sat",
+    "timestampPickerPresetTomorrow": "Sutra",
+    "timestampPickerFormatLabel": "Format",
+    "timestampPickerFormatDefaultCombined": "Zadano (Kombinirano)",
+    "timestampPickerFormatShortDateTime": "Kratki datum i vrijeme",
+    "timestampPickerFormatLongDateTime": "Dugi datum i vrijeme",
+    "timestampPickerFormatRelative": "Relativno",
+    "timestampPickerFormatShortDate": "Kratki datum",
+    "timestampPickerFormatLongDate": "Dugi datum",
+    "timestampPickerFormatShortTime": "Kratko vrijeme",
+    "timestampPickerFormatLongTime": "Dugo vrijeme",
+    "timestampPickerPreview": "Pretpregled",
+    "timestampPickerInsert": "Umetni",
+    "timestampCopied": "Vremenska oznaka kopirana",
+    "timestampPickerTimeLabel": "Vrijeme",
+    "timestampPickerDateLabel": "DATUM",
+    "timestampPickerTimeSectionLabel": "VRIJEME",
+    "timestampPickerTimezoneLabel": "VREMENSKA ZONA",
+    "timestampPickerFormatPreviewLabel": "PREGLED OBLIKA",
+    "timestampPickerNlpPlaceholder": "npr. sutra u 15:00, za 2 sata, sada",
+    "timestampPickerSearchTimezones": "Pretraži vremenske zone...",
+    "userProfileTimezoneSettingLabel": "Vremenska zona",
+    "userProfileTimezoneSettingDescription": "Koristi se za prikaz vašeg lokalnog vremena na profilu.",
+    "userProfileTimezoneNone": "Nijedno"
 }

@@ -15427,6 +15427,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Fichiers",
+    "chatAttachmentPanelVoice": "Voix",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16973,5 +16974,33 @@
     "personaNameTooLong": "Le nom d'affichage du persona doit comporter 100 caractères ou moins",
     "personaTagPrefixTooLong": "Le préfixe de balise de persona doit comporter 32 caractères ou moins",
     "personaTagSuffixTooLong": "Le suffixe de balise de persona doit comporter 32 caractères ou moins",
-    "personaTagCollisionError": "La balise « {tag} » est déjà utilisée par « {name} »."
+    "personaTagCollisionError": "La balise « {tag} » est déjà utilisée par « {name} ».",
+    "chatInsertTimestamp": "Insérer un horodatage",
+    "timestampPickerTitle": "Insérer un horodatage",
+    "timestampPickerPresetNow": "Maintenant",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 heure",
+    "timestampPickerPresetTomorrow": "Demain",
+    "timestampPickerFormatLabel": "Format",
+    "timestampPickerFormatDefaultCombined": "Par défaut (Combiné)",
+    "timestampPickerFormatShortDateTime": "Date et heure courtes",
+    "timestampPickerFormatLongDateTime": "Date et heure longues",
+    "timestampPickerFormatRelative": "Relatif",
+    "timestampPickerFormatShortDate": "Date courte",
+    "timestampPickerFormatLongDate": "Date longue",
+    "timestampPickerFormatShortTime": "Heure courte",
+    "timestampPickerFormatLongTime": "Heure longue",
+    "timestampPickerPreview": "Aperçu",
+    "timestampPickerInsert": "Insérer",
+    "timestampCopied": "Horodatage copié",
+    "timestampPickerTimeLabel": "Heure",
+    "timestampPickerDateLabel": "DATE",
+    "timestampPickerTimeSectionLabel": "HEURE",
+    "timestampPickerTimezoneLabel": "FUSEAU HORAIRE",
+    "timestampPickerFormatPreviewLabel": "APERÇU DU FORMAT",
+    "timestampPickerNlpPlaceholder": "ex. demain à 15h, dans 2 heures, maintenant",
+    "timestampPickerSearchTimezones": "Rechercher des fuseaux horaires...",
+    "userProfileTimezoneSettingLabel": "Fuseau horaire",
+    "userProfileTimezoneSettingDescription": "Utilisé pour afficher votre heure locale sur votre profil.",
+    "userProfileTimezoneNone": "Aucun"
 }

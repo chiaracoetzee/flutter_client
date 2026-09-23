@@ -15427,6 +15427,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Arquivos",
+    "chatAttachmentPanelVoice": "Voz",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16973,5 +16974,33 @@
     "personaNameTooLong": "O nome de exibição da persona deve ter 100 caracteres ou menos",
     "personaTagPrefixTooLong": "O prefixo da tag da persona deve ter 32 caracteres ou menos",
     "personaTagSuffixTooLong": "O sufixo da tag da persona deve ter 32 caracteres ou menos",
-    "personaTagCollisionError": "A tag '{tag}' já está em uso por '{name}'."
+    "personaTagCollisionError": "A tag '{tag}' já está em uso por '{name}'.",
+    "chatInsertTimestamp": "Inserir carimbo de data/hora",
+    "timestampPickerTitle": "Inserir carimbo de data/hora",
+    "timestampPickerPresetNow": "Agora",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 hora",
+    "timestampPickerPresetTomorrow": "Amanhã",
+    "timestampPickerFormatLabel": "Formato",
+    "timestampPickerFormatDefaultCombined": "Padrão (Combinado)",
+    "timestampPickerFormatShortDateTime": "Data/Hora abreviada",
+    "timestampPickerFormatLongDateTime": "Data/Hora completa",
+    "timestampPickerFormatRelative": "Relativo",
+    "timestampPickerFormatShortDate": "Data abreviada",
+    "timestampPickerFormatLongDate": "Data completa",
+    "timestampPickerFormatShortTime": "Hora abreviada",
+    "timestampPickerFormatLongTime": "Hora completa",
+    "timestampPickerPreview": "Prévia",
+    "timestampPickerInsert": "Inserir",
+    "timestampCopied": "Carimbo de data/hora copiado",
+    "timestampPickerTimeLabel": "Hora",
+    "timestampPickerDateLabel": "DATA",
+    "timestampPickerTimeSectionLabel": "HORA",
+    "timestampPickerTimezoneLabel": "FUSO HORÁRIO",
+    "timestampPickerFormatPreviewLabel": "PRÉ-VISUALIZAÇÃO DO FORMATO",
+    "timestampPickerNlpPlaceholder": "ex.: amanhã às 15h, em 2 horas, agora",
+    "timestampPickerSearchTimezones": "Pesquisar fusos horários...",
+    "userProfileTimezoneSettingLabel": "Fuso horário",
+    "userProfileTimezoneSettingDescription": "Usado para mostrar sua hora local em seu perfil.",
+    "userProfileTimezoneNone": "Nenhum"
 }

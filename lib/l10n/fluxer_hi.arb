@@ -11341,6 +11341,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "फ़ाइलें",
+    "chatAttachmentPanelVoice": "वॉइस",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16998,5 +16999,33 @@
     "personaNameTooLong": "परसोना का डिस्प्ले नाम 100 वर्ण या उससे कम होना चाहिए",
     "personaTagPrefixTooLong": "परसोना टैग उपसर्ग 32 वर्ण या उससे कम होना चाहिए",
     "personaTagSuffixTooLong": "परसोना टैग प्रत्यय 32 वर्ण या उससे कम होना चाहिए",
-    "personaTagCollisionError": "टैग '{tag}' पहले से ही '{name}' द्वारा उपयोग में है।"
+    "personaTagCollisionError": "टैग '{tag}' पहले से ही '{name}' द्वारा उपयोग में है।",
+    "chatInsertTimestamp": "समय टिकट डालें",
+    "timestampPickerTitle": "समय टिकट डालें",
+    "timestampPickerPresetNow": "अभी",
+    "timestampPickerPresetFiveMin": "+5 मिनट",
+    "timestampPickerPresetOneHour": "+1 घंटा",
+    "timestampPickerPresetTomorrow": "कल",
+    "timestampPickerFormatLabel": "प्रारूप",
+    "timestampPickerFormatDefaultCombined": "डिफ़ॉल्ट (संयुक्त)",
+    "timestampPickerFormatShortDateTime": "संक्षिप्त दिनांक/समय",
+    "timestampPickerFormatLongDateTime": "विस्तृत दिनांक/समय",
+    "timestampPickerFormatRelative": "सापेक्ष",
+    "timestampPickerFormatShortDate": "संक्षिप्त दिनांक",
+    "timestampPickerFormatLongDate": "विस्तृत दिनांक",
+    "timestampPickerFormatShortTime": "संक्षिप्त समय",
+    "timestampPickerFormatLongTime": "विस्तृत समय",
+    "timestampPickerPreview": "पूर्वावलोकन",
+    "timestampPickerInsert": "डालें",
+    "timestampCopied": "समय टिकट कॉपी किया गया",
+    "timestampPickerTimeLabel": "समय",
+    "timestampPickerDateLabel": "तारीख",
+    "timestampPickerTimeSectionLabel": "समय",
+    "timestampPickerTimezoneLabel": "समय क्षेत्र",
+    "timestampPickerFormatPreviewLabel": "प्रारूप पूर्वावलोकन",
+    "timestampPickerNlpPlaceholder": "उदा. कल दोपहर 3 बजे, 2 घंटे में, अभी",
+    "timestampPickerSearchTimezones": "समय क्षेत्र खोजें...",
+    "userProfileTimezoneSettingLabel": "समय क्षेत्र",
+    "userProfileTimezoneSettingDescription": "आपकी प्रोफ़ाइल पर आपका स्थानीय समय दिखाने के लिए उपयोग किया जाता है।",
+    "userProfileTimezoneNone": "कोई नहीं"
 }

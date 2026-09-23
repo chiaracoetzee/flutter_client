@@ -9312,6 +9312,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Files';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voz';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Photo library access needed';
 
@@ -14888,6 +14891,92 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'A tag \'$tag\' já está a ser usada por \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Inserir carimbo de data/hora';
+
+  @override
+  String get timestampPickerTitle => 'Inserir carimbo de data/hora';
+
+  @override
+  String get timestampPickerPresetNow => 'Agora';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 hora';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Amanhã';
+
+  @override
+  String get timestampPickerFormatLabel => 'Formato';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Predefinido (Combinado)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Data/Hora abreviada';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Data/Hora por extenso';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativo';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Data abreviada';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Data por extenso';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Hora abreviada';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Hora por extenso';
+
+  @override
+  String get timestampPickerPreview => 'Pré-visualização';
+
+  @override
+  String get timestampPickerInsert => 'Inserir';
+
+  @override
+  String get timestampCopied => 'Carimbo de data/hora copiado';
+
+  @override
+  String get timestampPickerTimeLabel => 'Hora';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'FUSO HORÁRIO';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PRÉVIA DO FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ex.: amanhã às 15h, em 2 horas, agora';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Pesquisar fusos horários...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Fuso horário';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Usado para mostrar sua hora local em seu perfil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nenhum';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -23933,6 +24022,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get chatAttachmentPanelFiles => 'Arquivos';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voz';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Acesso à biblioteca de fotos necessário';
 
@@ -29531,4 +29623,90 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String personaTagCollisionError(String tag, String name) {
     return 'A tag \'$tag\' já está em uso por \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Inserir carimbo de data/hora';
+
+  @override
+  String get timestampPickerTitle => 'Inserir carimbo de data/hora';
+
+  @override
+  String get timestampPickerPresetNow => 'Agora';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 hora';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Amanhã';
+
+  @override
+  String get timestampPickerFormatLabel => 'Formato';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Padrão (Combinado)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Data/Hora abreviada';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Data/Hora completa';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativo';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Data abreviada';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Data completa';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Hora abreviada';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Hora completa';
+
+  @override
+  String get timestampPickerPreview => 'Prévia';
+
+  @override
+  String get timestampPickerInsert => 'Inserir';
+
+  @override
+  String get timestampCopied => 'Carimbo de data/hora copiado';
+
+  @override
+  String get timestampPickerTimeLabel => 'Hora';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'FUSO HORÁRIO';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PRÉ-VISUALIZAÇÃO DO FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ex.: amanhã às 15h, em 2 horas, agora';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Pesquisar fusos horários...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Fuso horário';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Usado para mostrar sua hora local em seu perfil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nenhum';
 }

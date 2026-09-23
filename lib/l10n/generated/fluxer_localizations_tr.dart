@@ -9330,6 +9330,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Dosyalar';
 
   @override
+  String get chatAttachmentPanelVoice => 'Sesli';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Fotoğraf kitaplığına erişim gerekiyor';
 
@@ -14914,4 +14917,90 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return '\'$tag\' etiketi zaten \'$name\' tarafından kullanılıyor.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Zaman damgası ekle';
+
+  @override
+  String get timestampPickerTitle => 'Zaman damgası ekle';
+
+  @override
+  String get timestampPickerPresetNow => 'Şimdi';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 dk';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 sa';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Yarın';
+
+  @override
+  String get timestampPickerFormatLabel => 'Biçim';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Varsayılan (Birleşik)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Kısa Tarih/Saat';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Uzun Tarih/Saat';
+
+  @override
+  String get timestampPickerFormatRelative => 'Göreceli';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Kısa Tarih';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Uzun Tarih';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Kısa Saat';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Uzun Saat';
+
+  @override
+  String get timestampPickerPreview => 'Önizleme';
+
+  @override
+  String get timestampPickerInsert => 'Ekle';
+
+  @override
+  String get timestampCopied => 'Zaman damgası kopyalandı';
+
+  @override
+  String get timestampPickerTimeLabel => 'Saat';
+
+  @override
+  String get timestampPickerDateLabel => 'TARİH';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'SAAT';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'SAAT DİLİMİ';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'BİÇİM ÖNİZLEMESİ';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'örn. yarın saat 15:00\'te, 2 saat sonra, şimdi';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Saat dilimlerini ara...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Saat dilimi';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Profilinizde yerel saatinizi göstermek için kullanılır.';
+
+  @override
+  String get userProfileTimezoneNone => 'Yok';
 }

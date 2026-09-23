@@ -15427,6 +15427,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "ファイル",
+    "chatAttachmentPanelVoice": "ボイス",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16973,5 +16974,33 @@
     "personaNameTooLong": "ペルソナの表示名は100文字以内で入力してください",
     "personaTagPrefixTooLong": "ペルソナタグの接頭辞は32文字以内で入力してください",
     "personaTagSuffixTooLong": "ペルソナタグの接尾辞は32文字以内で入力してください",
-    "personaTagCollisionError": "タグ「{tag}」は既に「{name}」によって使用されています。"
+    "personaTagCollisionError": "タグ「{tag}」は既に「{name}」によって使用されています。",
+    "chatInsertTimestamp": "タイムスタンプを挿入",
+    "timestampPickerTitle": "タイムスタンプを挿入",
+    "timestampPickerPresetNow": "現在",
+    "timestampPickerPresetFiveMin": "+5分",
+    "timestampPickerPresetOneHour": "+1時間",
+    "timestampPickerPresetTomorrow": "明日",
+    "timestampPickerFormatLabel": "形式",
+    "timestampPickerFormatDefaultCombined": "デフォルト（結合）",
+    "timestampPickerFormatShortDateTime": "日付と時刻（短縮）",
+    "timestampPickerFormatLongDateTime": "日付と時刻（詳細）",
+    "timestampPickerFormatRelative": "相対時間",
+    "timestampPickerFormatShortDate": "日付（短縮）",
+    "timestampPickerFormatLongDate": "日付（詳細）",
+    "timestampPickerFormatShortTime": "時刻（短縮）",
+    "timestampPickerFormatLongTime": "時刻（詳細）",
+    "timestampPickerPreview": "プレビュー",
+    "timestampPickerInsert": "挿入",
+    "timestampCopied": "タイムスタンプをコピーしました",
+    "timestampPickerTimeLabel": "時間",
+    "timestampPickerDateLabel": "日付",
+    "timestampPickerTimeSectionLabel": "時刻",
+    "timestampPickerTimezoneLabel": "タイムゾーン",
+    "timestampPickerFormatPreviewLabel": "形式プレビュー",
+    "timestampPickerNlpPlaceholder": "例: 明日の午後3時、2時間後、今",
+    "timestampPickerSearchTimezones": "タイムゾーンを検索...",
+    "userProfileTimezoneSettingLabel": "タイムゾーン",
+    "userProfileTimezoneSettingDescription": "プロフィールに現地時間を表示するために使用されます。",
+    "userProfileTimezoneNone": "なし"
 }

@@ -15427,6 +15427,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "ไฟล์",
+    "chatAttachmentPanelVoice": "เสียง",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16973,5 +16974,33 @@
     "personaNameTooLong": "ชื่อที่แสดงของ Persona ต้องมีความยาวไม่เกิน 100 ตัวอักษร",
     "personaTagPrefixTooLong": "คำนำหน้าแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร",
     "personaTagSuffixTooLong": "คำต่อท้ายแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร",
-    "personaTagCollisionError": "แท็ก '{tag}' ถูกใช้งานโดย '{name}' แล้ว"
+    "personaTagCollisionError": "แท็ก '{tag}' ถูกใช้งานโดย '{name}' แล้ว",
+    "chatInsertTimestamp": "แทรกการประทับเวลา",
+    "timestampPickerTitle": "แทรกการประทับเวลา",
+    "timestampPickerPresetNow": "ตอนนี้",
+    "timestampPickerPresetFiveMin": "+5 นาที",
+    "timestampPickerPresetOneHour": "+1 ชม.",
+    "timestampPickerPresetTomorrow": "พรุ่งนี้",
+    "timestampPickerFormatLabel": "รูปแบบ",
+    "timestampPickerFormatDefaultCombined": "ค่าเริ่มต้น (รวม)",
+    "timestampPickerFormatShortDateTime": "วันที่/เวลาแบบสั้น",
+    "timestampPickerFormatLongDateTime": "วันที่/เวลาแบบยาว",
+    "timestampPickerFormatRelative": "แบบสัมพัทธ์",
+    "timestampPickerFormatShortDate": "วันที่แบบสั้น",
+    "timestampPickerFormatLongDate": "วันที่แบบยาว",
+    "timestampPickerFormatShortTime": "เวลาแบบสั้น",
+    "timestampPickerFormatLongTime": "เวลาแบบยาว",
+    "timestampPickerPreview": "ตัวอย่าง",
+    "timestampPickerInsert": "แทรก",
+    "timestampCopied": "คัดลอกการประทับเวลาแล้ว",
+    "timestampPickerTimeLabel": "เวลา",
+    "timestampPickerDateLabel": "วันที่",
+    "timestampPickerTimeSectionLabel": "เวลา",
+    "timestampPickerTimezoneLabel": "เขตเวลา",
+    "timestampPickerFormatPreviewLabel": "ดูตัวอย่างรูปแบบ",
+    "timestampPickerNlpPlaceholder": "เช่น พรุ่งนี้ 15.00 น., อีก 2 ชั่วโมง, ตอนนี้",
+    "timestampPickerSearchTimezones": "ค้นหาเขตเวลา...",
+    "userProfileTimezoneSettingLabel": "เขตเวลา",
+    "userProfileTimezoneSettingDescription": "ใช้เพื่อแสดงเวลาท้องถิ่นของคุณในโปรไฟล์",
+    "userProfileTimezoneNone": "ไม่มี"
 }

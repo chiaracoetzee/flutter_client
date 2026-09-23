@@ -15427,6 +15427,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "Tiedostot",
+    "chatAttachmentPanelVoice": "Ääni",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16973,5 +16974,33 @@
     "personaNameTooLong": "Persoonan näyttönimi saa olla enintään 100 merkkiä",
     "personaTagPrefixTooLong": "Persoonatunnisteen etuliite saa olla enintään 32 merkkiä",
     "personaTagSuffixTooLong": "Persoonatunnisteen jälkiliite saa olla enintään 32 merkkiä",
-    "personaTagCollisionError": "Tunniste '{tag}' on jo käytössä persoonalla '{name}'."
+    "personaTagCollisionError": "Tunniste '{tag}' on jo käytössä persoonalla '{name}'.",
+    "chatInsertTimestamp": "Lisää aikaleima",
+    "timestampPickerTitle": "Lisää aikaleima",
+    "timestampPickerPresetNow": "Nyt",
+    "timestampPickerPresetFiveMin": "+5 min",
+    "timestampPickerPresetOneHour": "+1 t",
+    "timestampPickerPresetTomorrow": "Huomenna",
+    "timestampPickerFormatLabel": "Muoto",
+    "timestampPickerFormatDefaultCombined": "Oletus (Yhdistetty)",
+    "timestampPickerFormatShortDateTime": "Lyhyt päivämäärä/aika",
+    "timestampPickerFormatLongDateTime": "Pitkä päivämäärä/aika",
+    "timestampPickerFormatRelative": "Suhteellinen",
+    "timestampPickerFormatShortDate": "Lyhyt päivämäärä",
+    "timestampPickerFormatLongDate": "Pitkä päivämäärä",
+    "timestampPickerFormatShortTime": "Lyhyt aika",
+    "timestampPickerFormatLongTime": "Pitkä aika",
+    "timestampPickerPreview": "Esikatselu",
+    "timestampPickerInsert": "Lisää",
+    "timestampCopied": "Aikaleima kopioitu",
+    "timestampPickerTimeLabel": "Aika",
+    "timestampPickerDateLabel": "PÄIVÄMÄÄRÄ",
+    "timestampPickerTimeSectionLabel": "AIKA",
+    "timestampPickerTimezoneLabel": "AIKAVYÖHYKE",
+    "timestampPickerFormatPreviewLabel": "MUODON ESIKATSELU",
+    "timestampPickerNlpPlaceholder": "esim. huomenna klo 15, 2 tunnin kuluttua, nyt",
+    "timestampPickerSearchTimezones": "Hae aikavyöhykkeitä...",
+    "userProfileTimezoneSettingLabel": "Aikavyöhyke",
+    "userProfileTimezoneSettingDescription": "Käytetään paikallisen aikasi näyttämiseen profiilissasi.",
+    "userProfileTimezoneNone": "Ei mitään"
 }

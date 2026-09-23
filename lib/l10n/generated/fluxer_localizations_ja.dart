@@ -8938,6 +8938,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'ファイル';
 
   @override
+  String get chatAttachmentPanelVoice => 'ボイス';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle => '写真ライブラリへのアクセスが必要です';
 
   @override
@@ -14297,4 +14300,89 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'タグ「$tag」は既に「$name」によって使用されています。';
   }
+
+  @override
+  String get chatInsertTimestamp => 'タイムスタンプを挿入';
+
+  @override
+  String get timestampPickerTitle => 'タイムスタンプを挿入';
+
+  @override
+  String get timestampPickerPresetNow => '現在';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5分';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1時間';
+
+  @override
+  String get timestampPickerPresetTomorrow => '明日';
+
+  @override
+  String get timestampPickerFormatLabel => '形式';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'デフォルト（結合）';
+
+  @override
+  String get timestampPickerFormatShortDateTime => '日付と時刻（短縮）';
+
+  @override
+  String get timestampPickerFormatLongDateTime => '日付と時刻（詳細）';
+
+  @override
+  String get timestampPickerFormatRelative => '相対時間';
+
+  @override
+  String get timestampPickerFormatShortDate => '日付（短縮）';
+
+  @override
+  String get timestampPickerFormatLongDate => '日付（詳細）';
+
+  @override
+  String get timestampPickerFormatShortTime => '時刻（短縮）';
+
+  @override
+  String get timestampPickerFormatLongTime => '時刻（詳細）';
+
+  @override
+  String get timestampPickerPreview => 'プレビュー';
+
+  @override
+  String get timestampPickerInsert => '挿入';
+
+  @override
+  String get timestampCopied => 'タイムスタンプをコピーしました';
+
+  @override
+  String get timestampPickerTimeLabel => '時間';
+
+  @override
+  String get timestampPickerDateLabel => '日付';
+
+  @override
+  String get timestampPickerTimeSectionLabel => '時刻';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'タイムゾーン';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => '形式プレビュー';
+
+  @override
+  String get timestampPickerNlpPlaceholder => '例: 明日の午後3時、2時間後、今';
+
+  @override
+  String get timestampPickerSearchTimezones => 'タイムゾーンを検索...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'タイムゾーン';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'プロフィールに現地時間を表示するために使用されます。';
+
+  @override
+  String get userProfileTimezoneNone => 'なし';
 }

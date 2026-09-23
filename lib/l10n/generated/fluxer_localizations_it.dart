@@ -9364,6 +9364,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'File';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voce';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Accesso alla libreria foto necessario';
 
@@ -15011,4 +15014,90 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Il tag \'$tag\' è già utilizzato da \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Inserisci timestamp';
+
+  @override
+  String get timestampPickerTitle => 'Inserisci timestamp';
+
+  @override
+  String get timestampPickerPresetNow => 'Adesso';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 ora';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Domani';
+
+  @override
+  String get timestampPickerFormatLabel => 'Formato';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Predefinito (Combinato)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Data/Ora breve';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Data/Ora estesa';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativo';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Data breve';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Data estesa';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Ora breve';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Ora estesa';
+
+  @override
+  String get timestampPickerPreview => 'Anteprima';
+
+  @override
+  String get timestampPickerInsert => 'Inserisci';
+
+  @override
+  String get timestampCopied => 'Timestamp copiato';
+
+  @override
+  String get timestampPickerTimeLabel => 'Ora';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'ORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'FUSO ORARIO';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'ANTEPRIMA FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'es. domani alle 15:00, tra 2 ore, adesso';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Cerca fusi orari...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Fuso orario';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Usato per mostrare la tua ora locale sul tuo profilo.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nessuno';
 }

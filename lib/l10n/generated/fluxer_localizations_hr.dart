@@ -9348,6 +9348,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Datoteke';
 
   @override
+  String get chatAttachmentPanelVoice => 'Glasovno';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Potreban pristup fotogaleriji';
 
@@ -14971,4 +14974,90 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Oznaku \'$tag\' već koristi \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Umetni vremensku oznaku';
+
+  @override
+  String get timestampPickerTitle => 'Umetni vremensku oznaku';
+
+  @override
+  String get timestampPickerPresetNow => 'Sada';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 sat';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Sutra';
+
+  @override
+  String get timestampPickerFormatLabel => 'Format';
+
+  @override
+  String get timestampPickerFormatDefaultCombined => 'Zadano (Kombinirano)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Kratki datum i vrijeme';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Dugi datum i vrijeme';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativno';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Kratki datum';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Dugi datum';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Kratko vrijeme';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Dugo vrijeme';
+
+  @override
+  String get timestampPickerPreview => 'Pretpregled';
+
+  @override
+  String get timestampPickerInsert => 'Umetni';
+
+  @override
+  String get timestampCopied => 'Vremenska oznaka kopirana';
+
+  @override
+  String get timestampPickerTimeLabel => 'Vrijeme';
+
+  @override
+  String get timestampPickerDateLabel => 'DATUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'VRIJEME';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'VREMENSKA ZONA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PREGLED OBLIKA';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'npr. sutra u 15:00, za 2 sata, sada';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Pretraži vremenske zone...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Vremenska zona';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Koristi se za prikaz vašeg lokalnog vremena na profilu.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nijedno';
 }

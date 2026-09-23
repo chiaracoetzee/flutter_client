@@ -15427,6 +15427,7 @@
         "description": "Label for the native photo picker action on the attachment panel."
     },
     "chatAttachmentPanelFiles": "파일",
+    "chatAttachmentPanelVoice": "음성",
     "@chatAttachmentPanelFiles": {
         "description": "Label for the native file picker action on the attachment panel."
     },
@@ -16973,5 +16974,33 @@
     "personaNameTooLong": "페르소나 표시 이름은 100자 이하여야 합니다",
     "personaTagPrefixTooLong": "페르소나 태그 접두사는 32자 이하여야 합니다",
     "personaTagSuffixTooLong": "페르소나 태그 접미사는 32자 이하여야 합니다",
-    "personaTagCollisionError": "'{tag}' 태그는 이미 '{name}'에서 사용 중입니다."
+    "personaTagCollisionError": "'{tag}' 태그는 이미 '{name}'에서 사용 중입니다.",
+    "chatInsertTimestamp": "타임스탬프 삽입",
+    "timestampPickerTitle": "타임스탬프 삽입",
+    "timestampPickerPresetNow": "지금",
+    "timestampPickerPresetFiveMin": "+5분",
+    "timestampPickerPresetOneHour": "+1시간",
+    "timestampPickerPresetTomorrow": "내일",
+    "timestampPickerFormatLabel": "형식",
+    "timestampPickerFormatDefaultCombined": "기본 (조합)",
+    "timestampPickerFormatShortDateTime": "간단한 날짜/시간",
+    "timestampPickerFormatLongDateTime": "자세한 날짜/시간",
+    "timestampPickerFormatRelative": "상대 시간",
+    "timestampPickerFormatShortDate": "간단한 날짜",
+    "timestampPickerFormatLongDate": "자세한 날짜",
+    "timestampPickerFormatShortTime": "간단한 시간",
+    "timestampPickerFormatLongTime": "자세한 시간",
+    "timestampPickerPreview": "미리보기",
+    "timestampPickerInsert": "삽입",
+    "timestampCopied": "타임스탬프가 복사되었습니다",
+    "timestampPickerTimeLabel": "시간",
+    "timestampPickerDateLabel": "날짜",
+    "timestampPickerTimeSectionLabel": "시간",
+    "timestampPickerTimezoneLabel": "시간대",
+    "timestampPickerFormatPreviewLabel": "형식 미리보기",
+    "timestampPickerNlpPlaceholder": "예: 내일 오후 3시, 2시간 후, 지금",
+    "timestampPickerSearchTimezones": "시간대 검색...",
+    "userProfileTimezoneSettingLabel": "시간대",
+    "userProfileTimezoneSettingDescription": "프로필에 현지 시간을 표시하는 데 사용됩니다.",
+    "userProfileTimezoneNone": "없음"
 }

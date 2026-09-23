@@ -9401,6 +9401,9 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Archivos';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voz';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Se necesita acceso a la fototeca';
 
@@ -15081,6 +15084,93 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'La etiqueta \'$tag\' ya está en uso por \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Insertar marca de tiempo';
+
+  @override
+  String get timestampPickerTitle => 'Insertar marca de tiempo';
+
+  @override
+  String get timestampPickerPresetNow => 'Ahora';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 hora';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Mañana';
+
+  @override
+  String get timestampPickerFormatLabel => 'Formato';
+
+  @override
+  String get timestampPickerFormatDefaultCombined =>
+      'Predeterminado (Combinado)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Fecha y hora corta';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Fecha y hora larga';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativo';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Fecha corta';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Fecha larga';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Hora corta';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Hora larga';
+
+  @override
+  String get timestampPickerPreview => 'Vista previa';
+
+  @override
+  String get timestampPickerInsert => 'Insertar';
+
+  @override
+  String get timestampCopied => 'Marca de tiempo copiada';
+
+  @override
+  String get timestampPickerTimeLabel => 'Hora';
+
+  @override
+  String get timestampPickerDateLabel => 'FECHA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ZONA HORARIA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'VISTA PREVIA DEL FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ej. mañana a las 3pm, en 2 horas, ahora';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Buscar zonas horarias...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Zona horaria';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Se usa para mostrar tu hora local en tu perfil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Ninguno';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -24173,6 +24263,9 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get chatAttachmentPanelFiles => 'Archivos';
 
   @override
+  String get chatAttachmentPanelVoice => 'Voz';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'Se necesita acceso a la fototeca';
 
@@ -29793,4 +29886,91 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String personaTagCollisionError(String tag, String name) {
     return 'La etiqueta \'$tag\' ya está en uso por \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Insertar marca de tiempo';
+
+  @override
+  String get timestampPickerTitle => 'Insertar marca de tiempo';
+
+  @override
+  String get timestampPickerPresetNow => 'Ahora';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 min';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 hora';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Mañana';
+
+  @override
+  String get timestampPickerFormatLabel => 'Formato';
+
+  @override
+  String get timestampPickerFormatDefaultCombined =>
+      'Predeterminado (Combinado)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Fecha y hora corta';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Fecha y hora larga';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relativo';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Fecha corta';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Fecha larga';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Hora corta';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Hora larga';
+
+  @override
+  String get timestampPickerPreview => 'Vista previa';
+
+  @override
+  String get timestampPickerInsert => 'Insertar';
+
+  @override
+  String get timestampCopied => 'Marca de tiempo copiada';
+
+  @override
+  String get timestampPickerTimeLabel => 'Hora';
+
+  @override
+  String get timestampPickerDateLabel => 'FECHA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'HORA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'ZONA HORARIA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'VISTA PREVIA DEL FORMATO';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'ej. mañana a las 3pm, en 2 horas, ahora';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Buscar zonas horarias...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Zona horaria';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Se usa para mostrar tu hora local en tu perfil.';
+
+  @override
+  String get userProfileTimezoneNone => 'Ninguno';
 }

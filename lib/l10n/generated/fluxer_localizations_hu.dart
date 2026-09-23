@@ -9382,6 +9382,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatAttachmentPanelFiles => 'Fájlok';
 
   @override
+  String get chatAttachmentPanelVoice => 'Hang';
+
+  @override
   String get chatAttachmentLibraryPermissionTitle =>
       'A fotótár eléréséhez engedély szükséges';
 
@@ -15039,4 +15042,91 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'A(z) \'$tag\' címkét már használja \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Időbélyegző beszúrása';
+
+  @override
+  String get timestampPickerTitle => 'Időbélyegző beszúrása';
+
+  @override
+  String get timestampPickerPresetNow => 'Most';
+
+  @override
+  String get timestampPickerPresetFiveMin => '+5 perc';
+
+  @override
+  String get timestampPickerPresetOneHour => '+1 óra';
+
+  @override
+  String get timestampPickerPresetTomorrow => 'Holnap';
+
+  @override
+  String get timestampPickerFormatLabel => 'Formátum';
+
+  @override
+  String get timestampPickerFormatDefaultCombined =>
+      'Alapértelmezett (Kombinált)';
+
+  @override
+  String get timestampPickerFormatShortDateTime => 'Rövid dátum/idő';
+
+  @override
+  String get timestampPickerFormatLongDateTime => 'Hosszú dátum/idő';
+
+  @override
+  String get timestampPickerFormatRelative => 'Relatív';
+
+  @override
+  String get timestampPickerFormatShortDate => 'Rövid dátum';
+
+  @override
+  String get timestampPickerFormatLongDate => 'Hosszú dátum';
+
+  @override
+  String get timestampPickerFormatShortTime => 'Rövid idő';
+
+  @override
+  String get timestampPickerFormatLongTime => 'Hosszú idő';
+
+  @override
+  String get timestampPickerPreview => 'Előnézet';
+
+  @override
+  String get timestampPickerInsert => 'Beszúrás';
+
+  @override
+  String get timestampCopied => 'Időbélyegző másolva';
+
+  @override
+  String get timestampPickerTimeLabel => 'Idő';
+
+  @override
+  String get timestampPickerDateLabel => 'DÁTUM';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'IDŐPONT';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'IDŐZÓNA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'FORMÁTUM ELŐNÉZETE';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'pl. holnap 15:00-kor, 2 óra múlva, most';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Időzónák keresése...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Időzóna';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'A helyi idő megjelenítésére szolgál a profilodban.';
+
+  @override
+  String get userProfileTimezoneNone => 'Nincs';
 }
