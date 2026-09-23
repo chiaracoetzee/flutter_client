@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Changer de persona",
+    "chatAttachmentPanelVoice": "Voix",
     "advancedSettingQuickSwitcherButtonLabel": "Bouton du sélecteur rapide",
     "advancedSettingQuickSwitcherButtonDescription": "Remplacer le bouton de message vocal par un sélecteur rapide dans le champ de saisie pour une navigation rapide",
     "personaSelectTitle": "Sélectionner un persona",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Le nom d'affichage du persona doit comporter 100 caractères ou moins",
     "personaTagPrefixTooLong": "Le préfixe de balise de persona doit comporter 32 caractères ou moins",
     "personaTagSuffixTooLong": "Le suffixe de balise de persona doit comporter 32 caractères ou moins",
-    "personaTagCollisionError": "La balise « {tag} » est déjà utilisée par « {name} »."
+    "personaTagCollisionError": "La balise « {tag} » est déjà utilisée par « {name} ».",
+    "chatInsertTimestamp": "Insérer un horodatage",
+    "timestampPickerTitle": "Insérer un horodatage",
+    "timestampPickerInsert": "Insérer",
+    "timestampCopied": "Horodatage copié",
+    "timestampPickerTimeLabel": "Heure",
+    "timestampPickerDateLabel": "DATE",
+    "timestampPickerTimeSectionLabel": "HEURE",
+    "timestampPickerTimezoneLabel": "FUSEAU HORAIRE",
+    "timestampPickerFormatPreviewLabel": "APERÇU DU FORMAT",
+    "timestampPickerNlpPlaceholder": "ex. demain à 15h, dans 2 heures, maintenant",
+    "timestampPickerSearchTimezones": "Rechercher des fuseaux horaires...",
+    "userProfileTimezoneSettingLabel": "Fuseau horaire",
+    "userProfileTimezoneSettingDescription": "Utilisé pour afficher votre heure locale sur votre profil.",
+    "userProfileTimezoneNone": "Aucun"
 }

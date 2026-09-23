@@ -12,6 +12,9 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String get chatMessageChangePersona => 'Zmień personę';
 
   @override
+  String get chatAttachmentPanelVoice => 'Głos';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel =>
       'Przycisk szybkiego przełączania';
 
@@ -253,4 +256,48 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return 'Tag \'$tag\' jest już używany przez \'$name\'.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Wstaw znacznik czasu';
+
+  @override
+  String get timestampPickerTitle => 'Wstaw znacznik czasu';
+
+  @override
+  String get timestampPickerInsert => 'Wstaw';
+
+  @override
+  String get timestampCopied => 'Znacznik czasu skopiowany';
+
+  @override
+  String get timestampPickerTimeLabel => 'Czas';
+
+  @override
+  String get timestampPickerDateLabel => 'DATA';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'GODZINA';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'STREFA CZASOWA';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'PODGLĄD FORMATU';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'np. jutro o 15:00, za 2 godziny, teraz';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Szukaj stref czasowych...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Strefa czasowa';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Służy do pokazywania Twojego czasu lokalnego na profilu.';
+
+  @override
+  String get userProfileTimezoneNone => 'Brak';
 }

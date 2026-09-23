@@ -1,5 +1,6 @@
 {
     "chatMessageChangePersona": "Zmień personę",
+    "chatAttachmentPanelVoice": "Głos",
     "advancedSettingQuickSwitcherButtonLabel": "Przycisk szybkiego przełączania",
     "advancedSettingQuickSwitcherButtonDescription": "Zastąp przycisk wiadomości głosowej w polu wprowadzania przyciskiem szybkiego przełącznika",
     "personaSelectTitle": "Wybierz personę",
@@ -70,5 +71,19 @@
     "personaNameTooLong": "Wyświetlana nazwa persony może mieć maksymalnie 100 znaków",
     "personaTagPrefixTooLong": "Prefiks tagu persony może mieć maksymalnie 32 znaki",
     "personaTagSuffixTooLong": "Sufiks tagu persony może mieć maksymalnie 32 znaki",
-    "personaTagCollisionError": "Tag '{tag}' jest już używany przez '{name}'."
+    "personaTagCollisionError": "Tag '{tag}' jest już używany przez '{name}'.",
+    "chatInsertTimestamp": "Wstaw znacznik czasu",
+    "timestampPickerTitle": "Wstaw znacznik czasu",
+    "timestampPickerInsert": "Wstaw",
+    "timestampCopied": "Znacznik czasu skopiowany",
+    "timestampPickerTimeLabel": "Czas",
+    "timestampPickerDateLabel": "DATA",
+    "timestampPickerTimeSectionLabel": "GODZINA",
+    "timestampPickerTimezoneLabel": "STREFA CZASOWA",
+    "timestampPickerFormatPreviewLabel": "PODGLĄD FORMATU",
+    "timestampPickerNlpPlaceholder": "np. jutro o 15:00, za 2 godziny, teraz",
+    "timestampPickerSearchTimezones": "Szukaj stref czasowych...",
+    "userProfileTimezoneSettingLabel": "Strefa czasowa",
+    "userProfileTimezoneSettingDescription": "Służy do pokazywania Twojego czasu lokalnego na profilu.",
+    "userProfileTimezoneNone": "Brak"
 }

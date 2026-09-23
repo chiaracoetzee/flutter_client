@@ -12,6 +12,9 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get chatMessageChangePersona => 'Personayı değiştir';
 
   @override
+  String get chatAttachmentPanelVoice => 'Sesli';
+
+  @override
   String get advancedSettingQuickSwitcherButtonLabel => 'Hızlı Geçiş düğmesi';
 
   @override
@@ -253,4 +256,48 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String personaTagCollisionError(String tag, String name) {
     return '\'$tag\' etiketi zaten \'$name\' tarafından kullanılıyor.';
   }
+
+  @override
+  String get chatInsertTimestamp => 'Zaman damgası ekle';
+
+  @override
+  String get timestampPickerTitle => 'Zaman damgası ekle';
+
+  @override
+  String get timestampPickerInsert => 'Ekle';
+
+  @override
+  String get timestampCopied => 'Zaman damgası kopyalandı';
+
+  @override
+  String get timestampPickerTimeLabel => 'Saat';
+
+  @override
+  String get timestampPickerDateLabel => 'TARİH';
+
+  @override
+  String get timestampPickerTimeSectionLabel => 'SAAT';
+
+  @override
+  String get timestampPickerTimezoneLabel => 'SAAT DİLİMİ';
+
+  @override
+  String get timestampPickerFormatPreviewLabel => 'BİÇİM ÖNİZLEMESİ';
+
+  @override
+  String get timestampPickerNlpPlaceholder =>
+      'örn. yarın saat 15:00\'te, 2 saat sonra, şimdi';
+
+  @override
+  String get timestampPickerSearchTimezones => 'Saat dilimlerini ara...';
+
+  @override
+  String get userProfileTimezoneSettingLabel => 'Saat dilimi';
+
+  @override
+  String get userProfileTimezoneSettingDescription =>
+      'Profilinizde yerel saatinizi göstermek için kullanılır.';
+
+  @override
+  String get userProfileTimezoneNone => 'Yok';
 }
