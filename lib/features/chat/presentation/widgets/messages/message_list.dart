@@ -219,11 +219,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   MessageListAnchorEdge _anchorEdge = MessageListAnchorEdge.after;
   int _anchorEpoch = 0;
   bool _anchorResolved = false;
-  // Older rows installed but not yet handed to the sliver. Attaching a whole
-  // page costs one 84 ms frame on a Motorola g54, so the page is revealed
-  // over several frames.
+  // Counted in stream items, not messages: collapsed groups fold many
+  // messages into one item, so a message count would withhold visible rows.
   int _pendingOlderReveal = 0;
   bool _olderRevealScheduled = false;
+  String? _olderRevealBoundaryId;
+  List<ChannelStreamItem> _builtStream = const <ChannelStreamItem>[];
   // True while the open anchor is the unread divider; underfill must not
   // bottom-pin short trailing blocks.
   bool _unreadOpenLayout = false;
@@ -440,9 +441,10 @@ class _MessageListState extends ConsumerState<MessageList> {
             // reinstalls - invalidates deferred scroll effects scheduled
             // against the window it replaced.
             _uiEpoch++;
+            _exposeOlderRowsNow();
           }
           if (origin == MessagesOrigin.olderPage) {
-            _beginOlderReveal(next.length - (previous?.length ?? next.length));
+            _beginOlderReveal(previous);
           }
           if (origin == MessagesOrigin.olderPage ||
               origin == MessagesOrigin.newerPage) {
@@ -630,6 +632,26 @@ class _MessageListState extends ConsumerState<MessageList> {
       currentUserId: currentUserId,
       blockedUserIds: blockedUserIds,
     );
+    final String? revealBoundaryId = _olderRevealBoundaryId;
+    if (revealBoundaryId != null) {
+      _olderRevealBoundaryId = null;
+      final int? before = findChannelStreamDataIndex(
+        _builtStream,
+        revealBoundaryId,
+      );
+      final int? after = findChannelStreamDataIndex(
+        channelStream,
+        revealBoundaryId,
+      );
+      final int addedItems = before == null || after == null
+          ? 0
+          : after - before;
+      if (addedItems > _kOlderRevealRowsPerFrame) {
+        _pendingOlderReveal = addedItems;
+        _scheduleOlderReveal();
+      }
+    }
+    _builtStream = channelStream;
     final bool hasJumpTarget =
         widget.targetMessageId != null || _pendingScrollTarget != null;
     if (!_anchorResolved && (!isLoading || messages.isNotEmpty)) {
@@ -1205,12 +1227,17 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
-  void _beginOlderReveal(int installedRows) {
-    if (installedRows <= _kOlderRevealRowsPerFrame) {
+  void _beginOlderReveal(List<Message>? previous) {
+    _exposeOlderRowsNow();
+    // The page that ends older history also removes the edge filler, and
+    // that removal already re-lays the list; withholding the rows on top of
+    // it would land the reader a page lower.
+    if (previous == null ||
+        previous.isEmpty ||
+        !ref.read(chatViewModelProvider).hasMoreMessages) {
       return;
     }
-    _pendingOlderReveal = installedRows;
-    _scheduleOlderReveal();
+    _olderRevealBoundaryId = previous.first.id;
   }
 
   void _scheduleOlderReveal() {
@@ -1218,30 +1245,29 @@ class _MessageListState extends ConsumerState<MessageList> {
       return;
     }
     _olderRevealScheduled = true;
-    final int revealEpoch = _uiEpoch;
+    // Not epoch-gated: every _uiEpoch bump exposes the pending rows, so a
+    // count still pending here belongs to the live window. An epoch gate would
+    // strand it, and olderInstallPending would then block older pagination.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _olderRevealScheduled = false;
-      _runIfSameEpoch(revealEpoch, () {
-        if (_pendingOlderReveal == 0) {
-          return;
-        }
-        final int remaining = _pendingOlderReveal - _kOlderRevealRowsPerFrame;
-        setState(() {
-          _pendingOlderReveal = remaining < 0 ? 0 : remaining;
-        });
-        if (_pendingOlderReveal > 0) {
-          _scheduleOlderReveal();
-        } else {
-          // Older demand was held off while rows were still arriving; resume
-          // it the moment the window the user can reach is the real one.
-          _publishDemandGeometry();
-        }
+      if (!mounted || _pendingOlderReveal == 0) {
+        return;
+      }
+      final int remaining = _pendingOlderReveal - _kOlderRevealRowsPerFrame;
+      setState(() {
+        _pendingOlderReveal = remaining < 0 ? 0 : remaining;
       });
+      if (_pendingOlderReveal > 0) {
+        _scheduleOlderReveal();
+      } else {
+        _publishDemandGeometry();
+      }
     });
   }
 
   void _exposeOlderRowsNow() {
     _pendingOlderReveal = 0;
+    _olderRevealBoundaryId = null;
   }
 
   // Rebuilding a filler rebuilds its 26 skeleton groups, and each group's
