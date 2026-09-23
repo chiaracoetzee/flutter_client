@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chrono_dart/chrono_dart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -99,6 +101,21 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
       userTimezone,
       DateTime.now().timeZoneOffset.inMinutes,
     );
+    if (userTimezone == null || userTimezone.isEmpty) {
+      unawaited(
+        getDeviceIanaTimezone().then((iana) {
+          if (mounted) {
+            setState(() {
+              _selectedTimezone = findTimezoneOption(
+                null,
+                DateTime.now().timeZoneOffset.inMinutes,
+                iana,
+              );
+            });
+          }
+        }),
+      );
+    }
 
     _nlpController = TextEditingController();
   }
@@ -131,13 +148,16 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
     }
 
     try {
+      final DateTime refDateTime = getCurrentWallClockTime(_selectedTimezone);
+
       final List<ParsedResult> results = Chrono.parse(
         text,
+        ref: refDateTime,
         option: ParsingOption(forwardDate: true),
       );
       if (results.isNotEmpty && mounted) {
         final ParsedResult first = results.first;
-        final DateTime parsedDate = first.date().toLocal();
+        final DateTime parsedDate = first.date();
 
         setState(() {
           _selectedDate = DateTime(
@@ -237,8 +257,13 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
       _selectedSecond,
     );
 
+    final int previewEpoch = _computeEpoch();
+    final DateTime epochInstant = DateTime.fromMillisecondsSinceEpoch(
+      previewEpoch * 1000,
+    );
+
     final String comboPreview =
-        '${formatMarkdownTimestamp(wallClockDateTime, 'f', l10n, use12Hour: use12Hour)} (${formatMarkdownTimestamp(wallClockDateTime, 'R', l10n, use12Hour: use12Hour)})';
+        '${formatMarkdownTimestamp(wallClockDateTime, 'f', l10n, use12Hour: use12Hour)} (${formatMarkdownTimestamp(epochInstant, 'R', l10n, use12Hour: use12Hour)})';
 
     final List<FluxerSelectItem<String>> formatItems = <FluxerSelectItem<String>>[
       FluxerSelectItem<String>(
@@ -255,7 +280,7 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
       ),
       FluxerSelectItem<String>(
         value: 'R',
-        label: formatMarkdownTimestamp(wallClockDateTime, 'R', l10n, use12Hour: use12Hour),
+        label: formatMarkdownTimestamp(epochInstant, 'R', l10n, use12Hour: use12Hour),
       ),
       FluxerSelectItem<String>(
         value: 'd',
