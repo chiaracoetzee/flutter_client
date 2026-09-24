@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "डिस्प्ले नाम",
     "personaPronounsLabel": "सर्वनाम",
     "personaPronounsHint": "जैसे वह/वे",
-    "personaBioLabel": "बायो / मेरे बारे में",
     "personaBioHint": "दूसरों को इस परसोना के बारे में बताएं...",
     "personaUpdatedToast": "परसोना अपडेट हो गया",
     "personaUpdateFailedToast": "परसोना अपडेट नहीं हो सका: {error}",

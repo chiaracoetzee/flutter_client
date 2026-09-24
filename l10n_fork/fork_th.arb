@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "ชื่อที่แสดง",
     "personaPronounsLabel": "คำสรรพนาม",
     "personaPronounsHint": "เช่น they/them",
-    "personaBioLabel": "ประวัติส่วนตัว / เกี่ยวกับฉัน",
     "personaBioHint": "บอกเล่าเกี่ยวกับ Persona นี้ให้ผู้อื่นรู้...",
     "personaUpdatedToast": "อัปเดต Persona แล้ว",
     "personaUpdateFailedToast": "อัปเดต Persona ไม่สำเร็จ: {error}",

@@ -89,9 +89,6 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get personaPronounsHint => '예: they/them';
 
   @override
-  String get personaBioLabel => '소개 / 자기소개';
-
-  @override
   String get personaBioHint => '이 페르소나에 대해 알려주세요...';
 
   @override

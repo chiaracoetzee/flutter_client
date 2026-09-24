@@ -311,12 +311,6 @@ abstract class ForkLocalizations {
   /// **'e.g. they/them'**
   String get personaPronounsHint;
 
-  /// Form label for persona biography field.
-  ///
-  /// In en, this message translates to:
-  /// **'Bio / About Me'**
-  String get personaBioLabel;
-
   /// Hint text for persona biography input.
   ///
   /// In en, this message translates to:

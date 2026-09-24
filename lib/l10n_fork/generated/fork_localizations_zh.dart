@@ -89,9 +89,6 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get personaPronounsHint => '例如：they/them';
 
   @override
-  String get personaBioLabel => '个人简介 / 关于我';
-
-  @override
   String get personaBioHint => '向他人介绍此人格...';
 
   @override
@@ -373,9 +370,6 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaPronounsHint => '例如：they/them';
-
-  @override
-  String get personaBioLabel => '個人簡介 / 關於我';
 
   @override
   String get personaBioHint => '向其他人介紹這個人格...';

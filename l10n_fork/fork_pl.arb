@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Nazwa wyświetlana",
     "personaPronounsLabel": "Zaimki",
     "personaPronounsHint": "np. ono/jego",
-    "personaBioLabel": "O mnie",
     "personaBioHint": "Opowiedz innym o tej personie...",
     "personaUpdatedToast": "Zaktualizowano personę",
     "personaUpdateFailedToast": "Nie udało się zaktualizować persony: {error}",
