@@ -24624,7 +24624,7 @@ abstract class FluxerLocalizations {
   /// Form label for persona biography field.
   ///
   /// In en, this message translates to:
-  /// **'Bio / About Me'**
+  /// **'About Me'**
   String get personaBioLabel;
 
   /// Hint text for persona biography input.

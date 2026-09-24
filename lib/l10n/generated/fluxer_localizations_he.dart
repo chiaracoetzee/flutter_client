@@ -14591,7 +14591,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get personaPronounsHint => 'לדוגמה: הוא/היא';
 
   @override
-  String get personaBioLabel => 'אודות / אודותיי';
+  String get personaBioLabel => 'אודותיי';
 
   @override
   String get personaBioHint => 'ספר לאחרים על פרסונה זו...';
