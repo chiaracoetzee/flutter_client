@@ -16,7 +16,10 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
   private var calls: [String: flutter_callkit_incoming.Data] = [:]
   private var pendingAnswerId: String?
   private var answerAttempts = 0
+  private var answerSends = 0
   private var pendingVoipTokenHex: String?
+  private var answeredHangup: DispatchWorkItem?
+  private var methodChannel: FlutterMethodChannel?
 
   func start() {
     if registry != nil {
@@ -26,6 +29,30 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     registry.delegate = self
     registry.desiredPushTypes = [.voIP]
     self.registry = registry
+    _ = incomingProvider()
+  }
+
+  func register(messenger: FlutterBinaryMessenger) {
+    if methodChannel != nil {
+      return
+    }
+    let channel = FlutterMethodChannel(
+      name: "fluxer_app/voip_callkit",
+      binaryMessenger: messenger
+    )
+    channel.setMethodCallHandler { call, result in
+      switch call.method {
+      case "hold":
+        self.holdAnsweredCall()
+        result(nil)
+      case "endAll":
+        self.endAllReportedCalls()
+        result(nil)
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+    methodChannel = channel
   }
 
   func pushRegistry(
@@ -66,64 +93,146 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
       completion()
       return
     }
+    handleVoipPush(payload, mustReport: true, completion: completion)
+  }
+
+  @available(iOS 26.4, *)
+  func pushRegistry(
+    _ registry: PKPushRegistry,
+    didReceiveIncomingVoIPPushWith payload: PKPushPayload,
+    metadata: PKVoIPPushMetadata,
+    withCompletionHandler completion: @escaping () -> Void
+  ) {
+    handleVoipPush(payload, mustReport: metadata.mustReport, completion: completion)
+  }
+
+  private func handleVoipPush(
+    _ payload: PKPushPayload,
+    mustReport: Bool,
+    completion: @escaping () -> Void
+  ) {
+    guard mustReport else {
+      completion()
+      return
+    }
     let callId = UUID().uuidString
     let data = Self.placeholderCall(id: callId)
     calls[callId] = data
     let encoded = payload.dictionaryPayload["p"] as? String
     reportIncoming(data) {
-      let outcome = Self.resolve(
+      completion()
+      switch Self.decide(
         encoded: encoded,
-        ringingMessageIds: self.ringingMessageIds,
-        isForeground: UIApplication.shared.applicationState == .active
-      )
-      switch outcome {
-      case .end:
-        self.endReportedCall(data)
+        ringingMessageIds: [],
+        isForeground: false
+      ) {
+      case .drop, .keepPlaceholder:
+        self.publishIncoming(data)
       case .ring(let fields):
         self.ringingMessageIds.insert(fields.messageId)
         self.apply(fields, to: data)
         self.updateReportedCaller(data)
         self.publishIncoming(data)
-        self.collapseCallMessageNotification(messageId: fields.messageId)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        if Self.callIsReported(data) {
           self.collapseCallMessageNotification(messageId: fields.messageId)
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.collapseCallMessageNotification(messageId: fields.messageId)
+          }
         }
         self.deliverPendingAnswer()
       }
-      completion()
     }
   }
 
-  func providerDidReset(_ provider: CXProvider) {}
+  func providerDidReset(_ provider: CXProvider) {
+    if fallbackProvider === provider {
+      fallbackProvider = nil
+    }
+    reportedProvider = nil
+    calls.removeAll()
+    ringingMessageIds.removeAll()
+    holdAnsweredCall()
+    pendingAnswerId = nil
+  }
 
   func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
+    configureAudioSession()
     action.fulfill()
     pendingAnswerId = action.callUUID.uuidString
     answerAttempts = 0
+    answerSends = 0
+    bringAppForward()
     deliverPendingAnswer()
+    scheduleUnheldHangup()
   }
 
   func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
     action.fulfill()
+    if pendingAnswerId == action.callUUID.uuidString {
+      holdAnsweredCall()
+      pendingAnswerId = nil
+    }
+    forgetCall(uuid: action.callUUID.uuidString)
   }
 
   func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {}
 
   func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {}
 
+  private func holdAnsweredCall() {
+    answeredHangup?.cancel()
+    answeredHangup = nil
+  }
+
+  func endAllReportedCalls() {
+    holdAnsweredCall()
+    pendingAnswerId = nil
+    answerAttempts = 0
+    answerSends = 0
+    let provider = reportedProvider ?? fallbackProvider
+    var ids = Set(calls.keys)
+    for call in CXCallObserver().calls where !call.hasEnded {
+      ids.insert(call.uuid.uuidString)
+    }
+    for id in ids {
+      if let uuid = UUID(uuidString: id), let provider {
+        provider.reportCall(with: uuid, endedAt: Date(), reason: .remoteEnded)
+      }
+      forgetCall(uuid: id)
+    }
+  }
+
+  private func scheduleUnheldHangup() {
+    holdAnsweredCall()
+    let work = DispatchWorkItem { [weak self] in
+      self?.endAllReportedCalls()
+    }
+    answeredHangup = work
+    DispatchQueue.main.asyncAfter(deadline: .now() + 45, execute: work)
+  }
+
+  private func configureAudioSession() {
+    let session = AVAudioSession.sharedInstance()
+    try? session.setCategory(
+      .playAndRecord,
+      mode: .voiceChat,
+      options: [.allowBluetooth, .allowBluetoothA2DP]
+    )
+  }
+
   private func reportIncoming(
     _ data: flutter_callkit_incoming.Data,
     reported: @escaping () -> Void
   ) {
-    if let plugin = SwiftFlutterCallkitIncomingPlugin.sharedInstance {
-      plugin.showCallkitIncoming(data, fromPushKit: true) {
-        self.reportedProvider = self.providerForUpdate()
-        DispatchQueue.main.async(execute: reported)
-      }
-      return
-    }
-    let provider = fallback()
+    let provider = incomingProvider()
     reportedProvider = provider
+    let staleIds = calls.keys.filter { $0 != data.uuid }
+    for id in staleIds {
+      if let existing = UUID(uuidString: id) {
+        provider.reportCall(with: existing, endedAt: Date(), reason: .unanswered)
+      }
+      calls.removeValue(forKey: id)
+    }
     guard let uuid = UUID(uuidString: data.uuid) else {
       reported()
       return
@@ -132,7 +241,14 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     update.localizedCallerName = data.nameCaller
     update.remoteHandle = CXHandle(type: .generic, value: data.handle)
     update.hasVideo = false
-    provider.reportNewIncomingCall(with: uuid, update: update) { _ in
+    update.supportsHolding = false
+    update.supportsGrouping = false
+    update.supportsUngrouping = false
+    update.supportsDTMF = false
+    provider.reportNewIncomingCall(with: uuid, update: update) { error in
+      if let error {
+        NSLog("[VoipPush] report failed: \(error.localizedDescription)")
+      }
       DispatchQueue.main.async(execute: reported)
     }
   }
@@ -144,6 +260,7 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     answerAttempts += 1
     if answerAttempts > 40 {
       pendingAnswerId = nil
+      answerSends = 0
       return
     }
     let channel = calls[id]?.extra["channelId"] as? String
@@ -156,12 +273,31 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
         "com.hiennv.flutter_callkit_incoming.ACTION_CALL_ACCEPT",
         body: data.toJSON() as NSDictionary
       )
-      pendingAnswerId = nil
-      return
+      answerSends += 1
+      if answerSends >= 6 {
+        pendingAnswerId = nil
+        answerSends = 0
+        return
+      }
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       self.deliverPendingAnswer()
     }
+  }
+
+  private func bringAppForward() {
+    let scene = UIApplication.shared.connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .first
+    guard let scene else {
+      return
+    }
+    UIApplication.shared.requestSceneSessionActivation(
+      scene.session,
+      userActivity: nil,
+      options: nil,
+      errorHandler: nil
+    )
   }
 
   private func updateReportedCaller(_ data: flutter_callkit_incoming.Data) {
@@ -172,21 +308,28 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     update.localizedCallerName = data.nameCaller
     update.remoteHandle = CXHandle(type: .generic, value: data.handle)
     update.hasVideo = false
-    if let provider = reportedProvider ?? providerForUpdate() {
-      provider.reportCall(with: uuid, updated: update)
-    }
+    update.supportsHolding = false
+    update.supportsGrouping = false
+    update.supportsUngrouping = false
+    update.supportsDTMF = false
+    let provider = reportedProvider ?? incomingProvider()
+    provider.reportCall(with: uuid, updated: update)
   }
 
   private func endReportedCall(_ data: flutter_callkit_incoming.Data) {
-    calls.removeValue(forKey: data.uuid)
-    if let fallback = fallbackProvider, reportedProvider === fallback {
-      guard let uuid = UUID(uuidString: data.uuid) else {
-        return
-      }
-      fallback.reportCall(with: uuid, endedAt: Date(), reason: .failed)
+    forgetCall(uuid: data.uuid)
+    guard let uuid = UUID(uuidString: data.uuid) else {
       return
     }
-    SwiftFlutterCallkitIncomingPlugin.sharedInstance?.endCall(data)
+    let provider = reportedProvider ?? incomingProvider()
+    provider.reportCall(with: uuid, endedAt: Date(), reason: .remoteEnded)
+  }
+
+  private func forgetCall(uuid: String) {
+    if let messageId = calls[uuid]?.extra["messageId"] as? String {
+      ringingMessageIds.remove(messageId)
+    }
+    calls.removeValue(forKey: uuid)
   }
 
   private func publishIncoming(_ data: flutter_callkit_incoming.Data) {
@@ -216,35 +359,14 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     }
   }
 
-  private func providerForUpdate() -> CXProvider? {
-    if let plugin = SwiftFlutterCallkitIncomingPlugin.sharedInstance {
-      let mirror = Mirror(reflecting: plugin)
-      for child in mirror.children {
-        if child.label == "sharedProvider" {
-          if let provider = child.value as? CXProvider {
-            return provider
-          }
-          let nested = Mirror(reflecting: child.value)
-          if nested.displayStyle == .optional,
-            let some = nested.children.first,
-            let provider = some.value as? CXProvider
-          {
-            return provider
-          }
-        }
-      }
-    }
-    return fallbackProvider
-  }
-
-  private func fallback() -> CXProvider {
+  private func incomingProvider() -> CXProvider {
     if let fallbackProvider {
       return fallbackProvider
     }
-    let config = CXProviderConfiguration(localizedName: "Fluxer")
+    let config = CXProviderConfiguration()
     config.supportsVideo = false
     config.maximumCallGroups = 1
-    config.maximumCallsPerCallGroup = 1
+    config.maximumCallsPerCallGroup = 2
     config.supportedHandleTypes = [.generic]
     config.ringtoneSound = "incoming_ring.caf"
     config.includesCallsInRecents = true
@@ -254,24 +376,42 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     return provider
   }
 
-  private static func resolve(
+  private static func callIsReported(_ data: flutter_callkit_incoming.Data) -> Bool {
+    guard let uuid = UUID(uuidString: data.uuid) else {
+      return false
+    }
+    return CXCallObserver().calls.contains { $0.uuid == uuid }
+  }
+
+  private enum ReportedCall {
+    case ring(CallRingFields)
+    case drop
+    case keepPlaceholder
+  }
+
+  private static func decide(
     encoded: String?,
     ringingMessageIds: Set<String>,
     isForeground: Bool
-  ) -> CallRingOutcome {
+  ) -> ReportedCall {
     guard let encoded,
       let record = WebPushKeychain.decodeBase64Url(encoded),
       let decrypted = WebPushRecordDecryptor.decryptVoip(record: record)
     else {
-      return .end
+      return .keepPlaceholder
     }
-    return CallRingResolver.resolve(
+    switch CallRingResolver.resolve(
       plaintext: decrypted.plaintext,
       accountUserId: decrypted.userId,
       nowMs: Int64(Date().timeIntervalSince1970 * 1000),
       ringingMessageIds: ringingMessageIds,
       isForeground: isForeground
-    )
+    ) {
+    case .end:
+      return .drop
+    case .ring(let fields):
+      return .ring(fields)
+    }
   }
 
   private func apply(_ fields: CallRingFields, to data: flutter_callkit_incoming.Data) {
@@ -303,6 +443,8 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     data.handleType = "generic"
     data.ringtonePath = "incoming_ring.caf"
     data.isShowMissedCallNotification = false
+    data.iconName = ""
+    data.normalHandle = 1
     return data
   }
 }

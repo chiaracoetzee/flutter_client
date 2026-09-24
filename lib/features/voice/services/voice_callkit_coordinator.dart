@@ -5,6 +5,7 @@ import 'dart:io';
 // ignore_for_file: experimental_member_use
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart' show BuildContext, WidgetsBinding;
 import 'package:flutter_callkit_incoming/entities/call_event.dart';
 import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
@@ -37,6 +38,8 @@ import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_callkit_coordinator.g.dart';
+
+const MethodChannel _iosVoipCallKit = MethodChannel('fluxer_app/voip_callkit');
 
 VoiceCallKitVoiceSnapshot _voiceCallKitVoiceSnapshot(VoiceSessionState state) {
   return (
@@ -75,6 +78,7 @@ class VoiceCallKitCoordinatorLogic {
   bool _callKitOwnsAudioSession = false;
   DateTime? _suppressUserEndHandlingUntil;
   final Set<String> _acceptInFlight = <String>{};
+  final Set<String> _pendingRingsSeen = <String>{};
   final Set<String> _handledAcceptIds = <String>{};
   Timer? _audioSessionRecoveryTimer;
   final List<Timer> _speakerReapplyTimers = <Timer>[];
@@ -396,6 +400,13 @@ class VoiceCallKitCoordinatorLogic {
       if (session == null) {
         continue;
       }
+      if (pendingSet.contains(entry.key)) {
+        _pendingRingsSeen.add(entry.key);
+        continue;
+      }
+      if (!_pendingRingsSeen.contains(entry.key)) {
+        continue;
+      }
       if (shouldEndIncomingRingCallKitSession(
         session: session,
         pendingIncomingChannelIds: pendingSet,
@@ -448,6 +459,9 @@ class VoiceCallKitCoordinatorLogic {
       if (session == null) {
         continue;
       }
+      if (session.kind == VoiceCallKitSessionKind.incomingRing) {
+        continue;
+      }
       if (shouldEndCallKitSessionForActiveCallsChange(
         session: session,
         activeCallChannelIds: activeCalls.keys.toSet(),
@@ -467,7 +481,9 @@ class VoiceCallKitCoordinatorLogic {
     if (!next.isInVoice) {
       _cancelSpeakerOutputReapply();
       ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
-      await _endAllCallKitSessions();
+      if (!_sessions.hasIncomingRing) {
+        await _endAllCallKitSessions();
+      }
       return;
     }
     if (previous == null || !previous.isInVoice) {
@@ -495,6 +511,9 @@ class VoiceCallKitCoordinatorLogic {
 
   Future<void> _syncForegroundChange({required bool isForeground}) async {
     if (isForeground) {
+      if (_sessions.hasIncomingRing) {
+        return;
+      }
       final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
         _ref.read(voiceSessionProvider),
       );
@@ -582,19 +601,12 @@ class VoiceCallKitCoordinatorLogic {
     if (channelId == null) {
       return false;
     }
-    if (shouldDismissCallKitOnForeground(
-      isInVoice: false,
-      lifecycleState: WidgetsBinding.instance.lifecycleState,
-    )) {
-      if (params.isAccepted) {
-        return true;
-      }
-      try {
-        await FlutterCallkitIncoming.endCall(params.id);
-      } on Object {
-        return false;
-      }
-      return false;
+    if (params.isAccepted &&
+        shouldDismissCallKitOnForeground(
+          isInVoice: false,
+          lifecycleState: WidgetsBinding.instance.lifecycleState,
+        )) {
+      return true;
     }
     _sessions
       ..registerSession(
@@ -632,6 +644,9 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   Future<void> _showIncomingCallKit({required String channelId}) async {
+    if (Platform.isIOS) {
+      return;
+    }
     if (_sessions.containsChannel(channelId)) {
       _sessions.markIncomingPresented(channelId);
       return;
@@ -690,6 +705,12 @@ class VoiceCallKitCoordinatorLogic {
     }
     if (_sessions.containsChannel(channelId)) {
       await _syncCallKitConnectedState(voice);
+      return;
+    }
+    if (Platform.isIOS) {
+      if (voice.isConnected) {
+        await _holdIosVoipCall();
+      }
       return;
     }
     if (!allowBackgroundStart &&
@@ -756,7 +777,33 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
+  Future<void> _holdIosVoipCall() async {
+    if (!Platform.isIOS) {
+      return;
+    }
+    try {
+      await _iosVoipCallKit.invokeMethod<void>('hold');
+    } on Object catch (error) {
+      talker.warning('[VoiceCallKit] hold ios call failed: $error');
+    }
+  }
+
+  Future<void> _endIosVoipCall() async {
+    if (!Platform.isIOS) {
+      return;
+    }
+    try {
+      await _iosVoipCallKit.invokeMethod<void>('endAll');
+    } on Object catch (error) {
+      talker.warning('[VoiceCallKit] end ios call failed: $error');
+    }
+  }
+
   Future<void> _markCallConnected(String callKitId) async {
+    if (Platform.isIOS) {
+      await _holdIosVoipCall();
+      return;
+    }
     if (_sessions.isCallKitConnected(callKitId)) {
       return;
     }
@@ -807,16 +854,22 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   Future<void> _dismissCallKitUiOnly() async {
+    if (Platform.isIOS) {
+      await _endIosVoipCall();
+    }
     if (_sessions.isEmpty) {
       return;
     }
     await _runProgrammaticCallKitEnd(() async {
       try {
-        await FlutterCallkitIncoming.endAllCalls();
+        if (!Platform.isIOS) {
+          await FlutterCallkitIncoming.endAllCalls();
+        }
       } on Object catch (error) {
         talker.warning('[VoiceCallKit] dismiss UI failed: $error');
       }
       _sessions.clearAll();
+      _pendingRingsSeen.clear();
     });
     await _exitCallKitAudioOwnership();
   }
@@ -836,28 +889,39 @@ class VoiceCallKitCoordinatorLogic {
   }) async {
     await _runProgrammaticCallKitEnd(() async {
       try {
-        await FlutterCallkitIncoming.endCall(callKitId);
+        if (Platform.isIOS) {
+          await _endIosVoipCall();
+        } else {
+          await FlutterCallkitIncoming.endCall(callKitId);
+        }
       } on Object catch (error) {
         talker.warning('[VoiceCallKit] endCall failed: $error');
       }
       _sessions.unregisterSession(callKitId, channelId: channelId);
+      _pendingRingsSeen.remove(channelId);
     });
     _publishIncomingHold();
     await _exitCallKitAudioOwnership();
   }
 
   Future<void> _endAllCallKitSessions() async {
+    if (Platform.isIOS) {
+      await _endIosVoipCall();
+    }
     if (_sessions.isEmpty) {
       await _exitCallKitAudioOwnership();
       return;
     }
     await _runProgrammaticCallKitEnd(() async {
       try {
-        await FlutterCallkitIncoming.endAllCalls();
+        if (!Platform.isIOS) {
+          await FlutterCallkitIncoming.endAllCalls();
+        }
       } on Object catch (error) {
         talker.warning('[VoiceCallKit] endAllCalls failed: $error');
       }
       _sessions.clearAll();
+      _pendingRingsSeen.clear();
     });
     await _exitCallKitAudioOwnership();
   }

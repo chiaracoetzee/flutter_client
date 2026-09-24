@@ -104,6 +104,7 @@ import flutter_callkit_incoming
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     VoipPushHandler.shared.applyPendingVoipToken()
+    VoipPushHandler.shared.register(messenger: engineBridge.applicationRegistrar.messenger())
     ApplePushBridge.shared.register(engineBridge: engineBridge)
     ApplePushBridge.shared.registerReplyCategory()
     AssistantBridge.shared.register(engineBridge: engineBridge)
