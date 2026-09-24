@@ -16918,7 +16918,7 @@
     "personaDisplayNameLabel": "Visningsnavn",
     "personaPronounsLabel": "Pronominer",
     "personaPronounsHint": "f.eks. de/dem",
-    "personaBioLabel": "Bio / Om mig",
+    "personaBioLabel": "Om mig",
     "personaBioHint": "Fortæl andre om denne persona...",
     "personaSaveChanges": "Gem ændringer",
     "personaUpdatedToast": "Persona opdateret",

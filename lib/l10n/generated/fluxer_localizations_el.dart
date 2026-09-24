@@ -14945,7 +14945,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get personaPronounsHint => 'π.χ. αυτοί/αυτές';
 
   @override
-  String get personaBioLabel => 'Βιογραφικό / Σχετικά με εμένα';
+  String get personaBioLabel => 'Σχετικά με εμένα';
 
   @override
   String get personaBioHint => 'Πείτε στους άλλους για αυτήν την persona...';

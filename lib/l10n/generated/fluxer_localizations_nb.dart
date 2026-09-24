@@ -14770,7 +14770,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get personaPronounsHint => 'f.eks. de/dem';
 
   @override
-  String get personaBioLabel => 'Bio / Om meg';
+  String get personaBioLabel => 'Om meg';
 
   @override
   String get personaBioHint => 'Fortell andre om denne personaen...';

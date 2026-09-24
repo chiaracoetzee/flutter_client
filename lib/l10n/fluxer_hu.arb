@@ -16918,7 +16918,7 @@
     "personaDisplayNameLabel": "Megjelenítendő név",
     "personaPronounsLabel": "Névmások",
     "personaPronounsHint": "pl. ő/ők",
-    "personaBioLabel": "Bemutatkozás / Rólam",
+    "personaBioLabel": "Rólam",
     "personaBioHint": "Mesélj másoknak erről a personáról...",
     "personaSaveChanges": "Változtatások mentése",
     "personaUpdatedToast": "Persona frissítve",

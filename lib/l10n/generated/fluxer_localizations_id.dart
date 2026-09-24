@@ -14765,7 +14765,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get personaPronounsHint => 'mis. they/them';
 
   @override
-  String get personaBioLabel => 'Bio / Tentang Saya';
+  String get personaBioLabel => 'Tentang Saya';
 
   @override
   String get personaBioHint =>

@@ -14782,7 +14782,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get personaPronounsHint => 'esim. hän/hänelle';
 
   @override
-  String get personaBioLabel => 'Kuvaus / Tietoja minusta';
+  String get personaBioLabel => 'Minusta';
 
   @override
   String get personaBioHint => 'Kerro muille tästä persoonasta...';
