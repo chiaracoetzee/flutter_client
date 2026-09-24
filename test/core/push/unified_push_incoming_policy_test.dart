@@ -35,6 +35,21 @@ void main() {
       );
     });
 
+    test('shows a call ring on the background isolate', () {
+      expect(
+        _resolve(
+          backgroundMode: true,
+          payload: const <String, String>{
+            'type': 'call_ring',
+            'channel_id': 'c',
+            'message_id': 'm',
+            'expires_at_ms': '9999999999999',
+          },
+        ),
+        UnifiedPushIncomingAction.showIncomingCall,
+      );
+    });
+
     test('shows locally on the background isolate', () {
       expect(
         _resolve(backgroundMode: true),

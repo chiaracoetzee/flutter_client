@@ -5,6 +5,7 @@ enum UnifiedPushIncomingAction {
   healUndecrypted,
   handleClear,
   showLocally,
+  showIncomingCall,
   emitToCoordinator,
 }
 
@@ -32,6 +33,9 @@ UnifiedPushIncomingAction resolveUnifiedPushIncomingAction({
       return UnifiedPushIncomingAction.handleClear;
     case AndroidPushIncomingAction.showLocally:
       return UnifiedPushIncomingAction.showLocally;
+    case AndroidPushIncomingAction.showIncomingCall:
+    case AndroidPushIncomingAction.showFallbackCall:
+      return UnifiedPushIncomingAction.showIncomingCall;
     case AndroidPushIncomingAction.emit:
       return UnifiedPushIncomingAction.emitToCoordinator;
   }

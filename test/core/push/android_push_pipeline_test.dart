@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/push/push_notification_media.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_codec.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_crypto.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
+import 'package:image/image.dart' as img;
 
 void main() {
   test('background ciphertext notifications show locally', () {
@@ -147,7 +148,7 @@ void main() {
         'author_avatar_url': 'https://cdn.example/a.png',
         'icon': 'https://cdn.example/b.png',
       }),
-      'https://cdn.example/a.png',
+      'https://cdn.example/a.png?format=png&animated=false&size=160',
     );
     expect(
       pushAuthorAvatarUrl(<String, String>{'icon': '/icons/app.png'}),
@@ -161,6 +162,24 @@ void main() {
       }),
       'https://cdn.example/pic.png',
     );
+    expect(
+      pushAuthorAvatarUrl(<String, String>{
+        'icon': 'https://cdn.example/a.webp?animated=true&size=4096',
+      }),
+      'https://cdn.example/a.webp?format=png&animated=false&size=160',
+    );
+  });
+
+  test('notification images are scaled down before they are posted', () {
+    final Uint8List source = Uint8List.fromList(
+      img.encodePng(img.Image(width: 40, height: 10)),
+    );
+    final Uint8List? encoded = encodePushNotificationImage(source, maxEdge: 16);
+    expect(encoded, isNotNull);
+    final img.Image? decoded = img.decodeJpg(encoded!);
+    expect(decoded, isNotNull);
+    expect(decoded!.width, lessThanOrEqualTo(16));
+    expect(decoded.height, lessThanOrEqualTo(16));
   });
 }
 

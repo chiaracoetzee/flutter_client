@@ -19,7 +19,7 @@ const String kFluxerUnifiedPushInstance = 'fluxer';
 const Duration _kEndpointWaitTimeout = Duration(seconds: 12);
 const Duration _kRegistrationRetryDelay = Duration(seconds: 5);
 const Duration _kDecryptionHealCooldown = Duration(seconds: 30);
-const Duration _kBackgroundMessageWait = Duration(seconds: 3);
+const Duration _kBackgroundMessageWait = Duration(seconds: 25);
 
 bool _isUnifiedPushAndroid() =>
     PushProviderGuard.isUnifiedPush && Platform.isAndroid;
