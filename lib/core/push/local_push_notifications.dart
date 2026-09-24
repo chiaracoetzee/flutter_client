@@ -187,7 +187,7 @@ final class LocalPushNotifications {
     try {
       await _plugin.show(
         id: _kReplyFailedNotificationId,
-        title: _channelName,
+        title: _kMessageChannelName,
         body: pushReplyFailedBody(),
         notificationDetails: const NotificationDetails(
           android: AndroidNotificationDetails(
