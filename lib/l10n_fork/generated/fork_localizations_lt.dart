@@ -94,9 +94,6 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get personaPronounsHint => 'pvz., jie/jų';
 
   @override
-  String get personaBioLabel => 'Apie mane';
-
-  @override
   String get personaBioHint => 'Papasakokite kitiems apie šią personą...';
 
   @override

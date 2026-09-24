@@ -94,9 +94,6 @@ class ForkLocalizationsIt extends ForkLocalizations {
   String get personaPronounsHint => 'es. lei/lui';
 
   @override
-  String get personaBioLabel => 'Biografia / Su di me';
-
-  @override
   String get personaBioHint => 'Racconta agli altri di questa persona...';
 
   @override
