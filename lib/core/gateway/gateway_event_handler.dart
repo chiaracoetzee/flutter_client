@@ -1563,7 +1563,7 @@ class GatewayEventHandler {
     final UserNotificationSettings notificationLevel =
         channelResolution.isGuild && channelResolution.guildChannel != null
         ? resolveMessageNotifications(
-            channel: channelResolution.guildChannel!,
+            channel: channelResolution.guildChannel,
             guildSettings: guildSettings,
             guildContext: guildContext,
           )
@@ -1574,7 +1574,7 @@ class GatewayEventHandler {
     final bool isChannelMuted =
         channelResolution.isGuild && channelResolution.guildChannel != null
         ? isGuildOrCategoryOrChannelMuted(
-            channel: channelResolution.guildChannel!,
+            channel: channelResolution.guildChannel,
             guildSettings: guildSettings,
             now: now,
           )

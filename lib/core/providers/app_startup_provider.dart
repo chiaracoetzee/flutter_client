@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
+import 'package:fluxer_app/core/gateway/gateway_presence_coordinator.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
@@ -73,6 +74,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(fluxerMessageSfxBindingProvider)
     ..read(fluxerTtsBindingProvider)
     ..read(voiceCallKitCoordinatorProvider)
+    ..read(gatewayPresenceCoordinatorProvider)
     ..read(friendRelationshipsSyncProvider)
     ..read(guildListSyncProvider)
     ..read(slowmodeSyncProvider)
