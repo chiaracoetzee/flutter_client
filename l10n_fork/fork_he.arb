@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "שם לתצוגה",
     "personaPronounsLabel": "כינויי גוף",
     "personaPronounsHint": "לדוגמה: הוא/היא",
-    "personaBioLabel": "אודות / אודותיי",
     "personaBioHint": "ספר לאחרים על פרסונה זו...",
     "personaUpdatedToast": "הפרסונה עודכנה",
     "personaUpdateFailedToast": "עדכון הפרסונה נכשל: {error}",

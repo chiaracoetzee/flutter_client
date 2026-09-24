@@ -95,9 +95,6 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String get personaPronounsHint => 'напр. вони/їх';
 
   @override
-  String get personaBioLabel => 'Про мене';
-
-  @override
   String get personaBioHint => 'Розкажіть іншим про цю персону...';
 
   @override

@@ -1041,12 +1041,13 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               ),
               SizedBox(height: layout.s3),
 
-              // Bio
+              // About Me
               FluxerInput.multiline(
                 controller: _bioController,
-                label: l10n.fork.personaBioLabel,
+                textCapitalization: TextCapitalization.sentences,
+                label: l10n.aboutMeLabel,
                 hint: l10n.fork.personaBioHint,
-                maxLines: 4,
+                maxLines: 8,
                 maxLength: 4096,
                 showCounter: true,
                 enabled: !_isSaving,

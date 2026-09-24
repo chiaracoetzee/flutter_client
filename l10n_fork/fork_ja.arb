@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "表示名",
     "personaPronounsLabel": "代名詞",
     "personaPronounsHint": "例: they/them",
-    "personaBioLabel": "自己紹介",
     "personaBioHint": "このペルソナについて紹介...",
     "personaUpdatedToast": "ペルソナを更新しました",
     "personaUpdateFailedToast": "ペルソナの更新に失敗しました: {error}",
