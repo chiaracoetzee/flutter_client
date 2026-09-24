@@ -28,6 +28,12 @@ final class NotificationService: UNNotificationServiceExtension {
         }
         let resolved = WebPushRecordDecryptor.resolvedUserInfo(request.content.userInfo)
         applyDecryptedFields(to: mutableContent, userInfo: resolved)
+        if PushNotificationPayload.isCallRingPayload(from: resolved) {
+            Self.applyCallRingFields(to: mutableContent, userInfo: resolved)
+            bestAttemptContent = mutableContent
+            deliver(content: mutableContent)
+            return
+        }
         Self.applyReplyCategory(to: mutableContent, userInfo: resolved)
         Self.applyThreadIdentifier(to: mutableContent, userInfo: resolved)
         Self.applyNotificationSound(to: mutableContent, userInfo: resolved)
@@ -176,10 +182,37 @@ private extension NotificationService {
         content.sound = sound
     }
 
+    static func applyCallRingFields(
+        to content: UNMutableNotificationContent,
+        userInfo: [AnyHashable: Any]
+    ) {
+        guard PushNotificationPayload.isCallRingPayload(from: userInfo) else {
+            return
+        }
+        if content.title.isEmpty {
+            if let callerName = userInfo["caller_name"] as? String, !callerName.isEmpty {
+                content.title = callerName
+            } else {
+                content.title = "Fluxer"
+            }
+        }
+        if content.body.isEmpty {
+            content.body = "Incoming call"
+        }
+    }
+
     static func communicationContent(
         _ content: UNMutableNotificationContent,
         avatarData: Data?
     ) -> UNNotificationContent {
+        if PushNotificationPayload.isCallRingPayload(from: content.userInfo)
+          || !PushNotificationPayload.hasDisplayableAlert(
+            title: content.title,
+            body: content.body
+          )
+        {
+            return content
+        }
         let userInfo = content.userInfo
         let title = content.title.isEmpty ? "Fluxer" : content.title
         let senderId = PushNotificationPayload.resolveSenderIdentifier(from: userInfo) ?? title

@@ -498,7 +498,10 @@ class VoiceCallKitCoordinatorLogic {
       final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
         _ref.read(voiceSessionProvider),
       );
-      if (!shouldDismissCallKitOnForeground(isInVoice: voice.isInVoice)) {
+      if (!shouldDismissCallKitOnForeground(
+        isInVoice: voice.isInVoice,
+        lifecycleState: WidgetsBinding.instance.lifecycleState,
+      )) {
         return;
       }
       await _dismissCallKitUiOnly();
@@ -579,7 +582,10 @@ class VoiceCallKitCoordinatorLogic {
     if (channelId == null) {
       return false;
     }
-    if (_ref.read(appUiForegroundProvider)) {
+    if (shouldDismissCallKitOnForeground(
+      isInVoice: false,
+      lifecycleState: WidgetsBinding.instance.lifecycleState,
+    )) {
       if (params.isAccepted) {
         return true;
       }
@@ -599,11 +605,9 @@ class VoiceCallKitCoordinatorLogic {
       )
       ..markIncomingPresented(channelId);
     _publishIncomingHold();
-    if (!_ref.read(appUiForegroundProvider)) {
-      await nudgeGatewayReconnectAfterResume(
-        _ref.read(gatewayConnectionProvider),
-      );
-    }
+    await nudgeGatewayReconnectAfterResume(
+      _ref.read(gatewayConnectionProvider),
+    );
     return params.isAccepted;
   }
 

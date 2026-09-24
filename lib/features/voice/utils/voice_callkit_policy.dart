@@ -164,8 +164,15 @@ bool shouldDeferMobileCallKitStartCall({
       lifecycleState == AppLifecycleState.hidden;
 }
 
-bool shouldDismissCallKitOnForeground({required bool isInVoice}) {
-  return !isInVoice;
+bool shouldDismissCallKitOnForeground({
+  required bool isInVoice,
+  AppLifecycleState? lifecycleState,
+}) {
+  if (isInVoice) {
+    return false;
+  }
+  // CallKit UI makes the app inactive. Only swap to in-app UI when resumed.
+  return lifecycleState == AppLifecycleState.resumed;
 }
 
 String resolveVoiceCallKitSessionId() {

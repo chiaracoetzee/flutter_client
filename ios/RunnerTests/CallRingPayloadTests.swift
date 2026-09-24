@@ -40,4 +40,15 @@ final class CallRingPayloadTests: XCTestCase {
     )
     XCTAssertEqual(outcome, .end)
   }
+
+  func testEndsWhenAppIsForeground() {
+    let outcome = CallRingResolver.resolve(
+      plaintext: #"{"data":{"type":"call_ring","channel_id":"c","message_id":"m","expires_at_ms":5000}}"#,
+      accountUserId: "u",
+      nowMs: 1000,
+      ringingMessageIds: [],
+      isForeground: true
+    )
+    XCTAssertEqual(outcome, .end)
+  }
 }

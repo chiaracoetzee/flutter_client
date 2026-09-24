@@ -566,8 +566,26 @@ void main() {
     test('in voice keeps CallKit session', () {
       expect(shouldDismissCallKitOnForeground(isInVoice: true), isFalse);
     });
-    test('not in voice dismisses CallKit', () {
-      expect(shouldDismissCallKitOnForeground(isInVoice: false), isTrue);
+    test('not in voice dismisses CallKit when Flutter is resumed', () {
+      expect(
+        shouldDismissCallKitOnForeground(
+          isInVoice: false,
+          lifecycleState: AppLifecycleState.resumed,
+        ),
+        isTrue,
+      );
+    });
+    test('unknown lifecycle keeps incoming CallKit', () {
+      expect(shouldDismissCallKitOnForeground(isInVoice: false), isFalse);
+    });
+    test('inactive CallKit overlay does not dismiss the incoming call', () {
+      expect(
+        shouldDismissCallKitOnForeground(
+          isInVoice: false,
+          lifecycleState: AppLifecycleState.inactive,
+        ),
+        isFalse,
+      );
     });
   });
 

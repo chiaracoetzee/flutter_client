@@ -8,7 +8,7 @@ enum PushNotificationPayload {
   static let messageReplyActionId = "fluxer_reply"
 
   static func canReply(from userInfo: [AnyHashable: Any]) -> Bool {
-    if isClearPayload(from: userInfo) {
+    if isClearPayload(from: userInfo) || isCallRingPayload(from: userInfo) {
       return false
     }
     return resolveChannelId(from: userInfo) != nil && replyMessageId(from: userInfo) != nil
@@ -136,6 +136,21 @@ enum PushNotificationPayload {
     return aps["alert"] != nil
   }
 
+  static func isCallRingPayload(from userInfo: [AnyHashable: Any]) -> Bool {
+    if isCallRingValue(userInfo["type"]) {
+      return true
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any], isCallRingValue(data["type"]) {
+      return true
+    }
+    return false
+  }
+
+  static func hasDisplayableAlert(title: String, body: String) -> Bool {
+    return !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+      || !body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
   static func isClearPayload(from userInfo: [AnyHashable: Any]) -> Bool {
     if isClearValue(userInfo["type"]) || isClearValue(userInfo["action"]) {
       return true
@@ -171,7 +186,7 @@ enum PushNotificationPayload {
   }
 
   static func resolveNotificationSound(from userInfo: [AnyHashable: Any]) -> UNNotificationSound? {
-    if isClearPayload(from: userInfo) {
+    if isClearPayload(from: userInfo) || isCallRingPayload(from: userInfo) {
       return nil
     }
     let soundFileName = isDmPayload(from: userInfo)
@@ -308,6 +323,13 @@ enum PushNotificationPayload {
   private static func stripLeadingZeros(_ value: String) -> String {
     let stripped = value.drop { $0 == "0" }
     return stripped.isEmpty ? "0" : String(stripped)
+  }
+
+  private static func isCallRingValue(_ value: Any?) -> Bool {
+    guard let string = value as? String else {
+      return false
+    }
+    return string == "call_ring"
   }
 
   private static func isClearValue(_ value: Any?) -> Bool {

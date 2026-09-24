@@ -266,6 +266,32 @@ class RunnerTests: XCTestCase {
     XCTAssertFalse(PushNotificationPayload.hasApsAlert(dataOnlyPayload))
   }
 
+  func testIsCallRingPayloadDetectsRootAndNestedType() {
+    let root: [AnyHashable: Any] = ["type": "call_ring", "channel_id": "c"]
+    let nested: [AnyHashable: Any] = ["data": ["type": "call_ring", "channel_id": "c"]]
+    XCTAssertTrue(PushNotificationPayload.isCallRingPayload(from: root))
+    XCTAssertTrue(PushNotificationPayload.isCallRingPayload(from: nested))
+    XCTAssertFalse(PushNotificationPayload.isCallRingPayload(from: ["channel_id": "c"]))
+  }
+
+  func testCallRingPayloadCannotReplyAndHasNoMessageSound() {
+    let userInfo: [AnyHashable: Any] = [
+      "type": "call_ring",
+      "channel_id": "c",
+      "message_id": "m",
+      "guild_id": "null",
+    ]
+    XCTAssertFalse(PushNotificationPayload.canReply(from: userInfo))
+    XCTAssertNil(PushNotificationPayload.resolveNotificationSound(from: userInfo))
+  }
+
+  func testHasDisplayableAlertRequiresTitleOrBody() {
+    XCTAssertTrue(PushNotificationPayload.hasDisplayableAlert(title: "Ada", body: ""))
+    XCTAssertTrue(PushNotificationPayload.hasDisplayableAlert(title: "", body: "Incoming call"))
+    XCTAssertFalse(PushNotificationPayload.hasDisplayableAlert(title: "", body: ""))
+    XCTAssertFalse(PushNotificationPayload.hasDisplayableAlert(title: "  ", body: "\n"))
+  }
+
   func testResolveSenderIdentifierPrefersAuthorId() {
     let userInfo: [AnyHashable: Any] = [
       "author_id": "42",
