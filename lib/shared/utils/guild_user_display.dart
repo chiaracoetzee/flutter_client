@@ -257,7 +257,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   if (webhookId != null && webhookId.isNotEmpty) {
     return messageDisplay;
   }
-  if (guildDisplay == null) {
+  if (guildId == null || guildDisplay == null) {
     return messageDisplay;
   }
   return guildDisplay;
