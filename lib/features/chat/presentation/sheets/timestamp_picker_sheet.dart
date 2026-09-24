@@ -78,7 +78,6 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
   @override
   void initState() {
     super.initState();
-    ensureTimezonesInitialized();
 
     final DateTime baseDateTime;
     if (widget.initialEpoch != null) {
@@ -149,7 +148,6 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
 
     try {
       final DateTime refDateTime = getCurrentWallClockTime(_selectedTimezone);
-
       final List<ParsedResult> results = Chrono.parse(
         text,
         ref: refDateTime,
@@ -157,21 +155,25 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
       );
       if (results.isNotEmpty && mounted) {
         final ParsedResult first = results.first;
-        final DateTime parsedDate = first.date();
-
+        // Read raw parsed components directly instead of calling first.date(),
+        // because date() bakes in the system timezone offset via
+        // DateTime().millisecondsSinceEpoch, corrupting the wall-clock values
+        // on non-UTC devices.
         setState(() {
           _selectedDate = DateTime(
-            parsedDate.year,
-            parsedDate.month,
-            parsedDate.day,
+            first.start.get(Component.year)?.toInt() ?? refDateTime.year,
+            first.start.get(Component.month)?.toInt() ?? refDateTime.month,
+            first.start.get(Component.day)?.toInt() ?? refDateTime.day,
           );
-          if (first.start.isCertain(Component.hour) ||
-              first.start.isCertain(Component.minute)) {
+          final bool hasTime = first.start.isCertain(Component.hour) ||
+              first.start.isCertain(Component.minute);
+          if (hasTime) {
             _selectedTime = TimeOfDay(
-              hour: parsedDate.hour,
-              minute: parsedDate.minute,
+              hour: first.start.get(Component.hour)?.toInt() ?? 0,
+              minute: first.start.get(Component.minute)?.toInt() ?? 0,
             );
-            _selectedSecond = parsedDate.second;
+            _selectedSecond =
+                first.start.get(Component.second)?.toInt() ?? 0;
           }
         });
       }
@@ -226,7 +228,6 @@ class _TimestampPickerBodyState extends ConsumerState<_TimestampPickerBody> {
       minute: _selectedTime.minute,
       second: _selectedSecond,
       timezoneIana: _selectedTimezone.value,
-      fallbackOffsetMinutes: _selectedTimezone.offsetMinutes,
     );
   }
 
