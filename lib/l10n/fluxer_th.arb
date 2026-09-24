@@ -16918,7 +16918,7 @@
     "personaDisplayNameLabel": "ชื่อที่แสดง",
     "personaPronounsLabel": "คำสรรพนาม",
     "personaPronounsHint": "เช่น they/them",
-    "personaBioLabel": "ประวัติส่วนตัว / เกี่ยวกับฉัน",
+    "personaBioLabel": "เกี่ยวกับฉัน",
     "personaBioHint": "บอกเล่าเกี่ยวกับ Persona นี้ให้ผู้อื่นรู้...",
     "personaSaveChanges": "บันทึกการเปลี่ยนแปลง",
     "personaUpdatedToast": "อัปเดต Persona แล้ว",

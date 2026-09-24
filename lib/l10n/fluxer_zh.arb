@@ -16918,7 +16918,7 @@
     "personaDisplayNameLabel": "显示名称",
     "personaPronounsLabel": "代词",
     "personaPronounsHint": "例如：they/them",
-    "personaBioLabel": "个人简介 / 关于我",
+    "personaBioLabel": "关于我",
     "personaBioHint": "向他人介绍此人格...",
     "personaSaveChanges": "保存更改",
     "personaUpdatedToast": "人格已更新",

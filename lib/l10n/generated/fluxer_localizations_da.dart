@@ -14763,7 +14763,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get personaPronounsHint => 'f.eks. de/dem';
 
   @override
-  String get personaBioLabel => 'Bio / Om mig';
+  String get personaBioLabel => 'Om mig';
 
   @override
   String get personaBioHint => 'Fortæl andre om denne persona...';
