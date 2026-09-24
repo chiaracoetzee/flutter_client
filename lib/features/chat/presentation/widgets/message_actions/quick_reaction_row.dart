@@ -92,7 +92,8 @@ class _QuickReactionGlyph extends StatelessWidget {
       ),
       CustomQuickReaction(:final emoji) => CachedEmojiImage(
         emojiId: emoji.id,
-        animated: false,
+        animated: emoji.animated,
+        pauseWhenOffscreen: false,
         requestSize: kCustomEmojiFetchSize,
         size: 24,
       ),
