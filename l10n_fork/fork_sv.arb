@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Visningsnamn",
     "personaPronounsLabel": "Pronomen",
     "personaPronounsHint": "t.ex. hen/henom",
-    "personaBioLabel": "Presentation / Om mig",
     "personaBioHint": "Berätta för andra om denna persona...",
     "personaUpdatedToast": "Persona uppdaterad",
     "personaUpdateFailedToast": "Kunde inte uppdatera persona: {error}",

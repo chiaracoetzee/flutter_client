@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Nome visualizzato",
     "personaPronounsLabel": "Pronomi",
     "personaPronounsHint": "es. lei/lui",
-    "personaBioLabel": "Biografia / Su di me",
     "personaBioHint": "Racconta agli altri di questa persona...",
     "personaUpdatedToast": "Persona aggiornata",
     "personaUpdateFailedToast": "Impossibile aggiornare la persona: {error}",

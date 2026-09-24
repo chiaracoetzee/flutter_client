@@ -95,9 +95,6 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get personaPronounsHint => 'např. oni/jejich';
 
   @override
-  String get personaBioLabel => 'O mně';
-
-  @override
   String get personaBioHint => 'Řekněte ostatním něco o této personě...';
 
   @override
