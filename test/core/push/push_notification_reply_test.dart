@@ -1,5 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/push/push_notification_ids.dart';
+import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 
@@ -33,7 +35,7 @@ void main() {
   });
 
   group('androidPushReplyActions', () {
-    test('message action stays in the background', () {
+    test('message action stays in the background and clears the spinner', () {
       final List<AndroidNotificationAction> actions = androidPushReplyActions(
         <String, String>{'channel_id': 'c', 'message_id': 'm'},
         title: 'Reply',
@@ -42,7 +44,7 @@ void main() {
       expect(actions, hasLength(1));
       expect(actions.single.id, kPushReplyActionId);
       expect(actions.single.showsUserInterface, isFalse);
-      expect(actions.single.cancelNotification, isFalse);
+      expect(actions.single.cancelNotification, isTrue);
       expect(actions.single.inputs.single.label, 'Message');
     });
 
@@ -58,6 +60,49 @@ void main() {
           hint: 'Message',
         ),
         isEmpty,
+      );
+    });
+  });
+
+  group('pushReplyDismissal', () {
+    test('uses the posted id and display tag', () {
+      final PushReplyDismissal? dismissal = pushReplyDismissal(
+        notificationId: 42,
+        payload: <String, String>{
+          'channel_id': 'c',
+          'message_id': 'm',
+          'tag': 'channel:c:m',
+        },
+      );
+      expect(dismissal?.id, 42);
+      expect(dismissal?.tag, 'channel:c:m');
+    });
+
+    test('falls back to the message id when the response id is missing', () {
+      final PushReplyDismissal? dismissal = pushReplyDismissal(
+        notificationId: 0,
+        payload: <String, String>{
+          kLocalNotificationMessageIdKey: 'local-1',
+          'channel_id': 'c',
+        },
+      );
+      expect(dismissal?.id, pushMessageNotificationId('local-1'));
+      expect(
+        dismissal?.tag,
+        resolvePushDisplayTag(<String, String>{
+          kLocalNotificationMessageIdKey: 'local-1',
+          'channel_id': 'c',
+        }),
+      );
+    });
+
+    test('returns null when there is nothing to dismiss', () {
+      expect(
+        pushReplyDismissal(
+          notificationId: null,
+          payload: const <String, String>{},
+        ),
+        isNull,
       );
     });
   });

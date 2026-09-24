@@ -165,12 +165,47 @@ final class LocalPushNotifications {
   }
 
   Future<void> handleReplyResponse(NotificationResponse response) async {
+    final Map<String, String> payload = _payloadFromResponse(response);
+    final Future<void> dismissed = _dismissReplyNotification(
+      response.id,
+      payload,
+    );
     final PushReplyResult result = await sendPushNotificationReply(
-      payload: _payloadFromResponse(response),
+      payload: payload,
       text: response.input,
     );
+    await dismissed;
     if (result == PushReplyResult.failed) {
       await showReplyFailed();
+    }
+  }
+
+  Future<void> _dismissReplyNotification(
+    int? notificationId,
+    Map<String, String> payload,
+  ) async {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+      return;
+    }
+    final PushReplyDismissal? dismissal = pushReplyDismissal(
+      notificationId: notificationId,
+      payload: payload,
+    );
+    if (dismissal == null) {
+      return;
+    }
+    if (!_initialized) {
+      final bool ready = await ensureInitialized();
+      if (!ready) {
+        return;
+      }
+    }
+    try {
+      await _plugin.cancel(id: dismissal.id, tag: dismissal.tag);
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('[LocalPushNotifications] reply dismiss failed: $e\n$st');
+      }
     }
   }
 
