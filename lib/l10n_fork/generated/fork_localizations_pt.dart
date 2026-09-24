@@ -95,9 +95,6 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get personaPronounsHint => 'ex. ela/ele';
 
   @override
-  String get personaBioLabel => 'Biografia / Sobre mim';
-
-  @override
   String get personaBioHint => 'Conta aos outros sobre esta persona...';
 
   @override
@@ -393,9 +390,6 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaPronounsHint => 'ex. ela/dela';
-
-  @override
-  String get personaBioLabel => 'Biografia / Sobre mim';
 
   @override
   String get personaBioHint => 'Conte aos outros sobre essa persona...';
