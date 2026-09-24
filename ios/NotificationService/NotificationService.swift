@@ -15,6 +15,7 @@ final class NotificationService: UNNotificationServiceExtension {
     private var contentHandler: ((UNNotificationContent) -> Void)?
     private var bestAttemptContent: UNMutableNotificationContent?
     private var fallbackContent: UNNotificationContent?
+    private var downloadedAvatarData: Data?
     private var didDeliver: Bool = false
     private let deliverLock = NSLock()
 
@@ -50,8 +51,16 @@ final class NotificationService: UNNotificationServiceExtension {
     }
 
     override func serviceExtensionTimeWillExpire() {
-        let content: UNNotificationContent = bestAttemptContent ?? fallbackContent ?? UNNotificationContent()
-        deliver(content: content)
+        deliverLock.lock()
+        let avatarData = downloadedAvatarData
+        let pending = bestAttemptContent
+        let fallback = fallbackContent
+        deliverLock.unlock()
+        if let pending {
+            deliver(content: Self.communicationContent(pending, avatarData: avatarData))
+        } else {
+            deliver(content: fallback ?? UNNotificationContent())
+        }
     }
 
     private func applyDecryptedFields(
@@ -70,7 +79,6 @@ final class NotificationService: UNNotificationServiceExtension {
     private func downloadMedia(messageImageUrl: URL?, imageIdentifier: String, avatarUrl: URL?) {
         let group = DispatchGroup()
         var imageFile: URL?
-        var avatarData: Data?
         if let messageImageUrl {
             group.enter()
             NotificationImageAttachment.downloadImage(from: messageImageUrl) { file in
@@ -80,15 +88,21 @@ final class NotificationService: UNNotificationServiceExtension {
         }
         if let avatarUrl {
             group.enter()
-            NotificationImageAttachment.downloadImage(from: avatarUrl) { file in
+            NotificationImageAttachment.downloadImage(from: avatarUrl, timeout: 8) { file in
                 if let file {
-                    avatarData = try? Data(contentsOf: file)
+                    let data = try? Data(contentsOf: file)
                     try? FileManager.default.removeItem(at: file)
+                    self.deliverLock.lock()
+                    self.downloadedAvatarData = data
+                    self.deliverLock.unlock()
                 }
                 group.leave()
             }
         }
         group.notify(queue: .main) {
+            self.deliverLock.lock()
+            let avatarData = self.downloadedAvatarData
+            self.deliverLock.unlock()
             self.finishDownload(
                 imageFile: imageFile,
                 imageIdentifier: imageIdentifier,
@@ -168,14 +182,15 @@ private extension NotificationService {
     ) -> UNNotificationContent {
         let userInfo = content.userInfo
         let title = content.title.isEmpty ? "Fluxer" : content.title
+        let senderId = PushNotificationPayload.resolveSenderIdentifier(from: userInfo) ?? title
         let avatar = avatarData.map { INImage(imageData: $0) }
         let sender = INPerson(
-            personHandle: INPersonHandle(value: title, type: .unknown),
+            personHandle: INPersonHandle(value: senderId, type: .unknown),
             nameComponents: nil,
             displayName: title,
             image: avatar,
             contactIdentifier: nil,
-            customIdentifier: nil,
+            customIdentifier: senderId,
             isMe: false,
             suggestionType: .none
         )

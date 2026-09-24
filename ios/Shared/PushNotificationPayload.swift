@@ -14,6 +14,35 @@ enum PushNotificationPayload {
     return resolveChannelId(from: userInfo) != nil && replyMessageId(from: userInfo) != nil
   }
 
+  static func resolveSenderIdentifier(from userInfo: [AnyHashable: Any]) -> String? {
+    if let authorId = nonEmptyText(userInfo["author_id"]) {
+      return authorId
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any],
+      let authorId = nonEmptyText(data["author_id"])
+    {
+      return authorId
+    }
+    if let avatarUrl = NotificationPayloadMedia.resolveAvatarUrl(from: userInfo) {
+      return senderId(fromAvatarUrl: avatarUrl)
+    }
+    return nil
+  }
+
+  static func senderId(fromAvatarUrl url: URL) -> String? {
+    let parts = url.path.split(separator: "/").map(String.init)
+    guard let avatarsIndex = parts.firstIndex(of: "avatars"),
+      avatarsIndex + 1 < parts.count
+    else {
+      return nil
+    }
+    let candidate = parts[avatarsIndex + 1]
+    if candidate.isEmpty || candidate.contains(".") {
+      return nil
+    }
+    return candidate
+  }
+
   static func replyMessageId(from userInfo: [AnyHashable: Any]) -> String? {
     if let messageId = userInfo["message_id"] as? String, !messageId.isEmpty {
       return messageId
@@ -233,5 +262,19 @@ enum PushNotificationPayload {
       return false
     }
     return string == "notification_clear" || string == "clear_channel"
+  }
+
+  private static func nonEmptyText(_ value: Any?) -> String? {
+    if let text = value as? String {
+      let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+      return trimmed.isEmpty ? nil : trimmed
+    }
+    if let int = value as? Int {
+      return String(int)
+    }
+    if let number = value as? NSNumber {
+      return number.stringValue
+    }
+    return nil
   }
 }

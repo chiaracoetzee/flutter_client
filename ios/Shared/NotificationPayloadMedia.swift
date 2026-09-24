@@ -28,9 +28,26 @@ enum NotificationPayloadMedia {
     if let nested = userInfo["data"] as? [AnyHashable: Any],
       let url = avatarUrl(in: nested)
     {
+      return pngNotificationURL(url)
+    }
+    return avatarUrl(in: userInfo).map(pngNotificationURL)
+  }
+
+  static func pngNotificationURL(_ url: URL) -> URL {
+    guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
       return url
     }
-    return avatarUrl(in: userInfo)
+    var items = (components.queryItems ?? []).filter { item in
+      let name = item.name.lowercased()
+      return name != "format" && name != "fmt" && name != "animated"
+    }
+    items.append(URLQueryItem(name: "format", value: "png"))
+    items.append(URLQueryItem(name: "animated", value: "false"))
+    if !items.contains(where: { $0.name.lowercased() == "size" }) {
+      items.append(URLQueryItem(name: "size", value: "160"))
+    }
+    components.queryItems = items
+    return components.url ?? url
   }
 
   static func isMediaDisabled(in payload: [AnyHashable: Any]) -> Bool {

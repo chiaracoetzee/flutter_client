@@ -1,4 +1,5 @@
 import Flutter
+import Intents
 import UIKit
 import UserNotifications
 
@@ -90,7 +91,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     let category = UNNotificationCategory(
       identifier: PushNotificationPayload.messageReplyCategoryId,
       actions: [reply],
-      intentIdentifiers: [],
+      intentIdentifiers: [INSendMessageIntent.intentIdentifier],
       options: []
     )
     DispatchQueue.main.async {

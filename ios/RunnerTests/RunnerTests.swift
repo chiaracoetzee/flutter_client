@@ -232,4 +232,60 @@ class RunnerTests: XCTestCase {
     XCTAssertTrue(PushNotificationPayload.hasApsAlert(alertPayload))
     XCTAssertFalse(PushNotificationPayload.hasApsAlert(dataOnlyPayload))
   }
+
+  func testResolveSenderIdentifierPrefersAuthorId() {
+    let userInfo: [AnyHashable: Any] = [
+      "author_id": "42",
+      "author_avatar_url": "https://cdn.example/avatars/99/hash.png",
+      "target_user_id": "7",
+    ]
+    XCTAssertEqual(PushNotificationPayload.resolveSenderIdentifier(from: userInfo), "42")
+  }
+
+  func testResolveSenderIdentifierReadsNestedAuthorId() {
+    let userInfo: [AnyHashable: Any] = [
+      "data": ["author_id": 42],
+      "target_user_id": "7",
+    ]
+    XCTAssertEqual(PushNotificationPayload.resolveSenderIdentifier(from: userInfo), "42")
+  }
+
+  func testResolveSenderIdentifierParsesAvatarUrl() {
+    let userInfo: [AnyHashable: Any] = [
+      "author_avatar_url": "https://cdn.example/avatars/123456/hash.png",
+      "target_user_id": "7",
+    ]
+    XCTAssertEqual(PushNotificationPayload.resolveSenderIdentifier(from: userInfo), "123456")
+  }
+
+  func testResolveSenderIdentifierIgnoresDefaultAvatarUrlAndRecipient() {
+    let userInfo: [AnyHashable: Any] = [
+      "icon": "https://cdn.example/avatars/0.png",
+      "target_user_id": "7",
+    ]
+    XCTAssertNil(PushNotificationPayload.resolveSenderIdentifier(from: userInfo))
+  }
+
+  func testAvatarUrlRequestsPngFromTheProxy() {
+    let userInfo: [AnyHashable: Any] = [
+      "author_avatar_url": "https://cdn.example/avatars/123456/hash.webp",
+    ]
+    let url = NotificationPayloadMedia.resolveAvatarUrl(from: userInfo)
+    let query = url.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false) }?
+      .queryItems ?? []
+    XCTAssertEqual(url?.path, "/avatars/123456/hash.webp")
+    XCTAssertEqual(query.first(where: { $0.name == "format" })?.value, "png")
+    XCTAssertEqual(query.first(where: { $0.name == "animated" })?.value, "false")
+    XCTAssertEqual(query.first(where: { $0.name == "size" })?.value, "160")
+  }
+
+  func testAvatarUrlKeepsAnExistingSizeAndReplacesFormat() {
+    let source = URL(string: "https://cdn.example/avatars/1/a.webp?format=webp&size=64&foo=bar")!
+    let url = NotificationPayloadMedia.pngNotificationURL(source)
+    let query = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
+    XCTAssertEqual(query.first(where: { $0.name == "format" })?.value, "png")
+    XCTAssertEqual(query.first(where: { $0.name == "animated" })?.value, "false")
+    XCTAssertEqual(query.first(where: { $0.name == "size" })?.value, "64")
+    XCTAssertEqual(query.first(where: { $0.name == "foo" })?.value, "bar")
+  }
 }
