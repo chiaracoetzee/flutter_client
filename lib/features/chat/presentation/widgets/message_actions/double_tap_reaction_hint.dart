@@ -36,6 +36,7 @@ class DoubleTapReactionGlyph extends ConsumerWidget {
     return CachedEmojiImage(
       emojiId: emojiId,
       animated: customEmojiAnimated(emojis, emojiId),
+      pauseWhenOffscreen: false,
       requestSize: kCustomEmojiFetchSize,
       size: size,
     );
