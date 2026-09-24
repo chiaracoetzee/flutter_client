@@ -37,6 +37,12 @@ class _ComposerRow {
     this.mediaPreviewUrl,
     this.mediaPreviewCacheKey,
     this.gif,
+    this.personaTagText,
+    this.personaTagIcon,
+    this.personaOwnerUserId,
+    this.personaOwnerAvatarUrl,
+    this.personaOwnerAvatarColor,
+    this.personaOwnerFallbackText,
     this.isDivider = false,
   }) : isSectionHeading = false;
 
@@ -57,6 +63,12 @@ class _ComposerRow {
   final String? mediaPreviewUrl;
   final String? mediaPreviewCacheKey;
   final GifPickerGif? gif;
+  final String? personaTagText;
+  final String? personaTagIcon;
+  final String? personaOwnerUserId;
+  final String? personaOwnerAvatarUrl;
+  final int? personaOwnerAvatarColor;
+  final String? personaOwnerFallbackText;
   final bool isDivider;
   final bool isSectionHeading;
 }
@@ -433,6 +445,13 @@ class ComposerAutocompleteFieldState
     required String channelId,
   }) {
     prefetchGuildRoles(ref.read(memberRepositoryProvider), guildId);
+    unawaited(
+      ChannelPersonaMentionCache.instance.getChannelPersonas(
+        dio: ref.read(fluxerDioProvider),
+        channelId: channelId,
+        guildId: guildId,
+      ),
+    );
     _startGuildRolesWatch(guildId);
     _startChannelPermissionWatch(channelId);
     _startGuildMemberCountWatch(guildId);
@@ -906,12 +925,19 @@ class ComposerAutocompleteFieldState
         );
       }
     }
-    // Tier 2: Recent room personas from loaded channel messages
+    // Tier 2: Channel personas (frecency-ranked: recent in-room speakers + channel directory)
     final String? currentUserId = ref.read(currentUserIdProvider);
+    final UserSettingsViewState userSettings =
+        ref.read(userSettingsViewModelProvider);
+    final Map<String, Member> membersById = <String, Member>{
+      for (final Member m in members) m.id: m,
+    };
     final List<Message> channelMessages =
         ref.read(chatViewModelProvider).messages;
-    final List<_ComposerRow> recentPersonaRows = <_ComposerRow>[];
-    final Set<String> seenPersonaIds = <String>{};
+    final Map<String, int> inChannelLastUsedAtMs = <String, int>{};
+    final List<Map<String, dynamic>> channelMsgPersonas =
+        <Map<String, dynamic>>[];
+    final Set<String> seenMsgPersonaIds = <String>{};
 
     for (final Message msg in channelMessages.reversed) {
       final String? pid = msg.personaId;
@@ -919,84 +945,133 @@ class ComposerAutocompleteFieldState
       if (pid == null || pid.isEmpty || pName == null || pName.isEmpty) {
         continue;
       }
-      if (seenPersonaIds.contains(pid)) {
+      final int msgTimeMs = msg.timestamp.millisecondsSinceEpoch;
+      inChannelLastUsedAtMs.putIfAbsent(pid, () => msgTimeMs);
+      if (seenMsgPersonaIds.contains(pid)) {
         continue;
       }
-      if (msg.authorId != currentUserId) {
-        final pub = ref.read(
-          publicPersonaProvider((userId: msg.authorId, personaId: pid)),
-        ).value;
-        if (pub != null && pub.visibility == 'private') {
-          continue;
-        }
-      }
-      if (q.isNotEmpty && !pName.toLowerCase().contains(q)) {
-        continue;
-      }
-      seenPersonaIds.add(pid);
-      final String ownerTag = '@${msg.authorName}';
-      recentPersonaRows.add(
-        _ComposerRow(
-          title: pName,
-          subtitle: ownerTag,
-          avatarUserId: msg.authorId,
-          avatarImageUrl: msg.personaAvatar,
-          avatarColor: msg.authorAvatarColor,
-          avatarFallbackText: pName,
-          onApply: () => _applyPersonaMention(
-            userId: msg.authorId,
-            personaId: pid,
-            personaName: pName,
-          ),
-        ),
-      );
-      if (recentPersonaRows.length >= 5) {
-        break;
-      }
+      seenMsgPersonaIds.add(pid);
+
+      final Member? ownerMember = membersById[msg.authorId];
+      final String resolvedOwnerUsername = (msg.authorId == currentUserId)
+          ? (userSettings.username.isNotEmpty
+              ? userSettings.username
+              : (ownerMember?.username ?? msg.authorName))
+          : (ownerMember?.username ?? msg.authorName);
+      final String? ownerDisc = discs[msg.authorId];
+
+      channelMsgPersonas.add(<String, dynamic>{
+        'id': pid,
+        'name': pName,
+        'avatar_url': msg.personaAvatar,
+        'avatar_color': msg.authorAvatarColor,
+        'system_name': msg.personaTag,
+        'system_tag_icon': msg.personaTagIcon,
+        'owner_user_id': msg.authorId,
+        'owner_username': resolvedOwnerUsername,
+        'owner_discriminator': ownerDisc,
+        'owner_avatar': msg.authorAvatar,
+        'use_count': 1,
+        'last_used_at_ms': msgTimeMs,
+        'visibility': 'public',
+      });
     }
 
-    // Tier 3: Public personas from server directory endpoint
-    final List<_ComposerRow> remotePersonaRows = <_ComposerRow>[];
-    if (q.isNotEmpty && _channelId.isNotEmpty) {
+    final List<_ComposerRow> personaRows = <_ComposerRow>[];
+    if (_channelId.isNotEmpty) {
       try {
         final Dio dio = ref.read(fluxerDioProvider);
-        final Response<dynamic> resp = await dio.get<dynamic>(
-          '/channels/$_channelId/persona-mentions',
-          queryParameters: <String, dynamic>{'q': q, 'limit': 10},
-        );
+        final List<Map<String, dynamic>> channelPersonas =
+            await ChannelPersonaMentionCache.instance.getChannelPersonas(
+              dio: dio,
+              channelId: _channelId,
+              query: q,
+              overrideLastUsedAtMs: inChannelLastUsedAtMs,
+              seedItems: channelMsgPersonas,
+            );
         if (generation != _syncGeneration) {
           return;
         }
-        final dynamic data = resp.data;
-        final List<dynamic> list;
-        if (data is List) {
-          list = data;
-        } else if (data is Map && data['personas'] is List) {
-          list = data['personas'] as List<dynamic>;
-        } else {
-          list = const [];
-        }
-        for (final item in list) {
-          if (item is! Map) continue;
-          final map = Map<String, dynamic>.from(item);
+        final Set<String> seenPersonaIds = <String>{};
+
+        for (final Map<String, dynamic> map in channelPersonas) {
           final String pid = map['id'] as String? ?? '';
           final String pName = map['name'] as String? ?? '';
           final String ownerId = map['owner_user_id'] as String? ?? '';
-          final String ownerUsername = map['owner_username'] as String? ?? '';
-          if (pid.isEmpty || pName.isEmpty || ownerId.isEmpty) continue;
-          if (seenPersonaIds.contains(pid)) continue;
+          final String rawOwnerUsername =
+              map['owner_username'] as String? ?? '';
+          if (pid.isEmpty || pName.isEmpty || ownerId.isEmpty) {
+            continue;
+          }
+          if (seenPersonaIds.contains(pid)) {
+            continue;
+          }
           seenPersonaIds.add(pid);
+
+          final Member? ownerMember = membersById[ownerId];
+          final String resolvedOwner = (ownerId == currentUserId)
+              ? (userSettings.username.isNotEmpty
+                  ? userSettings.username
+                  : (ownerMember?.username ??
+                      (rawOwnerUsername.isNotEmpty ? rawOwnerUsername : '')))
+              : (ownerMember?.username ??
+                  (rawOwnerUsername.isNotEmpty ? rawOwnerUsername : ''));
+
           final String? avatarUrl = map['avatar_url'] as String?;
           final int? color = (map['avatar_color'] as num?)?.toInt() ??
               (map['color'] as num?)?.toInt();
-          remotePersonaRows.add(
+          final String? ownerDisc =
+              (map['owner_discriminator'] as String?) ?? discs[ownerId];
+          final String ownerTag =
+              (ownerDisc != null && ownerDisc.isNotEmpty && ownerDisc != '0')
+                  ? '$resolvedOwner#$ownerDisc'
+                  : resolvedOwner;
+          final String? systemTag = (map['system_name'] as String?)?.trim();
+          final String? systemTagIcon =
+              (map['display_tag_icon'] as String?)?.trim() ??
+              (map['system_tag_icon'] as String?)?.trim();
+          final String? ownerAvatarHash = map['owner_avatar'] as String?;
+          final String? rootAvatarUrl = (ownerAvatarHash != null &&
+                  ownerAvatarHash.isNotEmpty)
+              ? FluxerMediaUrl.userAvatar(
+                  userId: ownerId,
+                  hash: ownerAvatarHash,
+                )
+              : (ownerId == userSettings.userId &&
+                      userSettings.avatar != null &&
+                      userSettings.avatar!.isNotEmpty
+                  ? FluxerMediaUrl.userAvatar(
+                      userId: userSettings.userId,
+                      hash: userSettings.avatar,
+                    )
+                  : (ownerMember?.avatar != null &&
+                          ownerMember!.avatar!.isNotEmpty
+                      ? FluxerMediaUrl.userAvatar(
+                          userId: ownerId,
+                          hash: ownerMember.avatar,
+                        )
+                      : null));
+
+          personaRows.add(
             _ComposerRow(
               title: pName,
-              subtitle: ownerUsername.isNotEmpty ? '@$ownerUsername' : null,
+              subtitle: ownerTag,
               avatarUserId: ownerId,
               avatarImageUrl: avatarUrl,
               avatarColor: color,
               avatarFallbackText: pName,
+              personaTagText:
+                  (systemTag != null && systemTag.isNotEmpty) ? systemTag : null,
+              personaTagIcon:
+                  (systemTagIcon != null && systemTagIcon.isNotEmpty)
+                      ? systemTagIcon
+                      : null,
+              personaOwnerUserId: ownerId,
+              personaOwnerAvatarUrl: rootAvatarUrl,
+              personaOwnerAvatarColor: ownerId == userSettings.userId
+                  ? userSettings.avatarColor
+                  : color,
+              personaOwnerFallbackText: resolvedOwner,
               onApply: () => _applyPersonaMention(
                 userId: ownerId,
                 personaId: pid,
@@ -1004,14 +1079,16 @@ class ComposerAutocompleteFieldState
               ),
             ),
           );
+          if (q.isEmpty && personaRows.length >= 15) {
+            break;
+          }
         }
-      } catch (_) {}
+      } on Object catch (_) {}
     }
 
     final List<_ComposerRow> rows = <_ComposerRow>[
       ...memberRows,
-      ...recentPersonaRows,
-      ...remotePersonaRows,
+      ...personaRows,
       ...specialRows,
     ];
     if (roleRows.isNotEmpty) {
@@ -1677,6 +1754,12 @@ class ComposerAutocompleteFieldState
           emojiCacheKey: r.emojiCacheKey,
           mediaPreviewUrl: r.mediaPreviewUrl,
           mediaPreviewCacheKey: r.mediaPreviewCacheKey,
+          personaTagText: r.personaTagText,
+          personaTagIcon: r.personaTagIcon,
+          personaOwnerUserId: r.personaOwnerUserId,
+          personaOwnerAvatarUrl: r.personaOwnerAvatarUrl,
+          personaOwnerAvatarColor: r.personaOwnerAvatarColor,
+          personaOwnerFallbackText: r.personaOwnerFallbackText,
           isDivider: r.isDivider,
           isSectionHeading: r.isSectionHeading,
         );
