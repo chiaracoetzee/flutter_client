@@ -93,9 +93,6 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get personaPronounsHint => 'जैसे वह/वे';
 
   @override
-  String get personaBioLabel => 'बायो / मेरे बारे में';
-
-  @override
   String get personaBioHint => 'दूसरों को इस परसोना के बारे में बताएं...';
 
   @override

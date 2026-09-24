@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Zobrazované jméno",
     "personaPronounsLabel": "Zájmena",
     "personaPronounsHint": "např. oni/jejich",
-    "personaBioLabel": "O mně",
     "personaBioHint": "Řekněte ostatním něco o této personě...",
     "personaUpdatedToast": "Persona aktualizována",
     "personaUpdateFailedToast": "Nepodařilo se aktualizovat personu: {error}",

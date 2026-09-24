@@ -94,9 +94,6 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get personaPronounsHint => 'örn. o/onlar';
 
   @override
-  String get personaBioLabel => 'Biyografi / Hakkımda';
-
-  @override
   String get personaBioHint => 'Diğerlerine bu personadan bahset...';
 
   @override
