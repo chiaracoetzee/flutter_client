@@ -14,6 +14,7 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
   private var calls: [String: flutter_callkit_incoming.Data] = [:]
   private var pendingAnswerId: String?
   private var answerAttempts = 0
+  private var pendingVoipTokenHex: String?
 
   func start() {
     if registry != nil {
@@ -34,6 +35,14 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
       return
     }
     let hex = pushCredentials.token.map { String(format: "%02x", $0) }.joined()
+    pendingVoipTokenHex = hex
+    applyPendingVoipToken()
+  }
+
+  func applyPendingVoipToken() {
+    guard let hex = pendingVoipTokenHex, !hex.isEmpty else {
+      return
+    }
     SwiftFlutterCallkitIncomingPlugin.sharedInstance?.setDevicePushTokenVoIP(hex)
   }
 
@@ -41,6 +50,7 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     guard type == .voIP else {
       return
     }
+    pendingVoipTokenHex = nil
     SwiftFlutterCallkitIncomingPlugin.sharedInstance?.setDevicePushTokenVoIP("")
   }
 
@@ -136,6 +146,8 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
         "com.hiennv.flutter_callkit_incoming.ACTION_CALL_ACCEPT",
         body: data.toJSON() as NSDictionary
       )
+      pendingAnswerId = nil
+      return
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       self.deliverPendingAnswer()
@@ -156,6 +168,7 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
   }
 
   private func endReportedCall(_ data: flutter_callkit_incoming.Data) {
+    calls.removeValue(forKey: data.uuid)
     if SwiftFlutterCallkitIncomingPlugin.sharedInstance != nil {
       SwiftFlutterCallkitIncomingPlugin.sharedInstance?.endCall(data)
       return
@@ -210,7 +223,7 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
       accountUserId: decrypted.userId,
       nowMs: Int64(Date().timeIntervalSince1970 * 1000),
       ringingMessageIds: ringingMessageIds,
-      isForeground: UIApplication.shared.applicationState == .active
+      isForeground: false
     )
   }
 

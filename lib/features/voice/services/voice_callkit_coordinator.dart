@@ -408,6 +408,9 @@ class VoiceCallKitCoordinatorLogic {
     }
 
     final bool isForeground = _ref.read(appUiForegroundProvider);
+    if (!isForeground && pendingChannelIds.isNotEmpty && Platform.isIOS) {
+      await _adoptNativeCallsForChannels(pendingSet);
+    }
     if (!shouldPresentIncomingVoiceCallKit(
       isMobileCallKitPlatform: _isMobileCallKitPlatform,
       isForeground: isForeground,
@@ -539,12 +542,52 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
+  Future<void> _adoptNativeCallsForChannels(Set<String> channelIds) async {
+    if (channelIds.isEmpty) {
+      return;
+    }
+    final List<CallKitParams> calls;
+    try {
+      calls = await FlutterCallkitIncoming.activeCalls();
+    } on Object {
+      return;
+    }
+    for (final CallKitParams params in calls) {
+      final String? channelId = _resolveChannelId(
+        callKitId: params.id,
+        params: params,
+      );
+      if (channelId == null || !channelIds.contains(channelId)) {
+        continue;
+      }
+      if (params.isAccepted) {
+        await _handleAccept(params);
+        continue;
+      }
+      if (_sessions.containsChannel(channelId)) {
+        continue;
+      }
+      await _adoptCall(params);
+    }
+  }
+
   Future<bool> _adoptCall(CallKitParams params) async {
     final String? channelId = _resolveChannelId(
       callKitId: params.id,
       params: params,
     );
     if (channelId == null) {
+      return false;
+    }
+    if (_ref.read(appUiForegroundProvider)) {
+      if (params.isAccepted) {
+        return true;
+      }
+      try {
+        await FlutterCallkitIncoming.endCall(params.id);
+      } on Object {
+        return false;
+      }
       return false;
     }
     _sessions
