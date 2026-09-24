@@ -14822,7 +14822,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get personaPronounsHint => 'örn. o/onlar';
 
   @override
-  String get personaBioLabel => 'Biyografi / Hakkımda';
+  String get personaBioLabel => 'Hakkımda';
 
   @override
   String get personaBioHint => 'Diğerlerine bu personadan bahset...';
