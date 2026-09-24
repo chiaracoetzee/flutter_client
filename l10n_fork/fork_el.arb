@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Όνομα εμφάνισης",
     "personaPronounsLabel": "Αντωνυμίες",
     "personaPronounsHint": "π.χ. αυτοί/αυτές",
-    "personaBioLabel": "Βιογραφικό / Σχετικά με εμένα",
     "personaBioHint": "Πείτε στους άλλους για αυτήν την persona...",
     "personaUpdatedToast": "Η persona ενημερώθηκε",
     "personaUpdateFailedToast": "Αποτυχία ενημέρωσης persona: {error}",

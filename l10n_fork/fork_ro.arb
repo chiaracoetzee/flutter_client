@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Nume afișat",
     "personaPronounsLabel": "Pronume",
     "personaPronounsHint": "de ex. ea/el",
-    "personaBioLabel": "Biografie / Despre mine",
     "personaBioHint": "Spune-le celorlalți despre această persona...",
     "personaUpdatedToast": "Persona actualizată",
     "personaUpdateFailedToast": "Nu s-a putut actualiza persona: {error}",
