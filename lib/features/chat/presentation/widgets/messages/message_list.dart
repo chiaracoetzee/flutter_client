@@ -904,14 +904,20 @@ class _MessageListState extends ConsumerState<MessageList> {
               } else if (groupDmConversation != null) {
                 body = Align(
                   alignment: Alignment.bottomCenter,
-                  child: GroupDmWelcomeSection(dm: groupDmConversation),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: _statusOverlayInset),
+                    child: GroupDmWelcomeSection(dm: groupDmConversation),
+                  ),
                 );
               } else if (channelRow != null) {
                 body = Align(
                   alignment: Alignment.bottomLeft,
-                  child: ChannelWelcomeSection(
-                    channel: channelRow,
-                    effectivePermissionBits: channelPermissionBits,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: _statusOverlayInset),
+                    child: ChannelWelcomeSection(
+                      channel: channelRow,
+                      effectivePermissionBits: channelPermissionBits,
+                    ),
                   ),
                 );
               } else {
