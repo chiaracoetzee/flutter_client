@@ -94,9 +94,6 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String get personaPronounsHint => 'напр. они/их';
 
   @override
-  String get personaBioLabel => 'О себе';
-
-  @override
   String get personaBioHint => 'Расскажите другим об этой персоне...';
 
   @override

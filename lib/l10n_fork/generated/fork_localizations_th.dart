@@ -93,9 +93,6 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get personaPronounsHint => 'เช่น they/them';
 
   @override
-  String get personaBioLabel => 'ประวัติส่วนตัว / เกี่ยวกับฉัน';
-
-  @override
   String get personaBioHint => 'บอกเล่าเกี่ยวกับ Persona นี้ให้ผู้อื่นรู้...';
 
   @override

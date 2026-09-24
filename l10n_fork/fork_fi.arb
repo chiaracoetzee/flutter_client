@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Näyttönimi",
     "personaPronounsLabel": "Pronominit",
     "personaPronounsHint": "esim. hän/hänelle",
-    "personaBioLabel": "Kuvaus / Tietoja minusta",
     "personaBioHint": "Kerro muille tästä persoonasta...",
     "personaUpdatedToast": "Persoona päivitetty",
     "personaUpdateFailedToast": "Persoonan päivittäminen epäonnistui: {error}",

@@ -89,9 +89,6 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get personaPronounsHint => '例: they/them';
 
   @override
-  String get personaBioLabel => '自己紹介';
-
-  @override
   String get personaBioHint => 'このペルソナについて紹介...';
 
   @override
