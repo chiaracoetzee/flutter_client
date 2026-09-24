@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -375,28 +375,33 @@ final activePersonaOrNullProvider = Provider<Persona?>((ref) {
 
 final rankedPersonasProvider = Provider<List<Persona>>((ref) {
   final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
-  if (personas.isEmpty) return const [];
+  if (personas.isEmpty) {
+    return const [];
+  }
 
   final activeState = ref.watch(activePersonaProvider);
-  final nowMs = DateTime.now().millisecondsSinceEpoch;
+  final DateTime now = DateTime.now();
 
   double calculateFrecency(Persona p) {
     final local = activeState.frecencyUsage[p.id];
-    final lastUsed = local?.lastUsedAtMs ?? p.lastUsedAtMs ?? 0;
+    final lastUsed = local?.lastUsedAtMs ?? p.lastUsedAtMs;
     final count = (local?.count ?? 0) + p.useCount;
-    if (lastUsed == 0) return 0;
-    final hoursAgo = math.max(0.0, (nowMs - lastUsed) / (1000.0 * 60 * 60));
-    final recencyFactor = math.pow(0.5, hoursAgo / 24.0);
-    return ((count + 1) * recencyFactor).toDouble();
+    return calculatePersonaFrecencyScore(
+      useCount: count,
+      lastUsedAtMs: lastUsed,
+      now: now,
+    );
   }
 
-  final sorted = List<Persona>.from(personas);
-  sorted.sort((a, b) {
-    final scoreA = calculateFrecency(a);
-    final scoreB = calculateFrecency(b);
-    return scoreB.compareTo(scoreA);
-  });
-  return sorted;
+  return List<Persona>.from(personas)
+    ..sort((a, b) {
+      final scoreA = calculateFrecency(a);
+      final scoreB = calculateFrecency(b);
+      if ((scoreB - scoreA).abs() > 0.001) {
+        return scoreB.compareTo(scoreA);
+      }
+      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    });
 });
 
 // -----------------------------------------------------------------------------
