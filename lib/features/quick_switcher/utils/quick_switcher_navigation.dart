@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
@@ -34,37 +35,62 @@ Future<void> navigateToDmChannelFromQuickSwitcher({
   );
 }
 
+Future<void> openDmWithUserFromQuickSwitcher({
+  required BuildContext context,
+  required WidgetRef ref,
+  required String userId,
+  required VoidCallback onClose,
+  String? dmChannelId,
+}) async {
+  if (ref.read(instanceRuntimeConfigProvider).directMessagesDisabled) {
+    return;
+  }
+  String? resolvedChannelId = dmChannelId;
+  if (resolvedChannelId == null || resolvedChannelId.isEmpty) {
+    resolvedChannelId = await ref
+        .read(dmRepositoryProvider)
+        .ensureDmChannel(userId);
+  }
+  if (!context.mounted) {
+    return;
+  }
+  onClose();
+  if (!context.mounted) {
+    return;
+  }
+  await navigateToDmChannelFromQuickSwitcher(
+    context: context,
+    ref: ref,
+    channelId: resolvedChannelId,
+  );
+}
+
 Future<void> executeQuickSwitcherResult({
   required BuildContext context,
   required WidgetRef ref,
   required QuickSwitcherResult result,
   required VoidCallback onClose,
 }) async {
+  switch (result) {
+    case QuickSwitcherUserResult(:final userId, :final dmChannelId):
+      await openDmWithUserFromQuickSwitcher(
+        context: context,
+        ref: ref,
+        userId: userId,
+        onClose: onClose,
+        dmChannelId: dmChannelId,
+      );
+      return;
+    default:
+      break;
+  }
   onClose();
   if (!context.mounted) {
     return;
   }
   switch (result) {
-    case QuickSwitcherUserResult(:final userId, :final dmChannelId):
-      if (dmChannelId != null && dmChannelId.isNotEmpty) {
-        await navigateToDmChannelFromQuickSwitcher(
-          context: context,
-          ref: ref,
-          channelId: dmChannelId,
-        );
-        return;
-      }
-      final String channelId = await ref
-          .read(dmRepositoryProvider)
-          .ensureDmChannel(userId);
-      if (!context.mounted) {
-        return;
-      }
-      await navigateToDmChannelFromQuickSwitcher(
-        context: context,
-        ref: ref,
-        channelId: channelId,
-      );
+    case QuickSwitcherUserResult():
+      break;
     case QuickSwitcherGroupDmResult(:final channelId):
       await navigateToDmChannelFromQuickSwitcher(
         context: context,
