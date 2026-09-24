@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Nama Tampilan",
     "personaPronounsLabel": "Kata ganti",
     "personaPronounsHint": "mis. they/them",
-    "personaBioLabel": "Bio / Tentang Saya",
     "personaBioHint": "Ceritakan tentang persona ini kepada yang lain...",
     "personaUpdatedToast": "Persona diperbarui",
     "personaUpdateFailedToast": "Gagal memperbarui persona: {error}",

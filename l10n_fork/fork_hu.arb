@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Megjelenítendő név",
     "personaPronounsLabel": "Névmások",
     "personaPronounsHint": "pl. ő/ők",
-    "personaBioLabel": "Bemutatkozás / Rólam",
     "personaBioHint": "Mesélj másoknak erről a personáról...",
     "personaUpdatedToast": "Persona frissítve",
     "personaUpdateFailedToast": "Nem sikerült frissíteni a personát: {error}",
