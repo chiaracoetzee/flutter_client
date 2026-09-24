@@ -267,24 +267,19 @@ class _GuildModerationWidgetState extends ConsumerState<GuildModerationWidget> {
       final bool isGuildOwner =
           currentUserId != null &&
           currentUserId == widget.details.guild.ownerId;
-      final GuildUpdateRequest request = GuildUpdateRequest(
-        verificationLevel: GuildVerificationLevelInput.fromJson(
-          _verificationLevel,
-        ),
-        explicitContentFilter: GuildExplicitContentFilterInput.fromJson(
-          _explicitContentFilter,
-        ),
-        nsfw: _nsfw,
-        contentWarningLevel: ContentWarningLevelInput.fromJson(
-          _showContentWarning ? 1 : 0,
-        ),
-        contentWarningText: _showContentWarning
+      final Map<String, Object?> payload = <String, Object?>{
+        'verification_level': _verificationLevel,
+        'explicit_content_filter': _explicitContentFilter,
+        'nsfw': _nsfw,
+        'content_warning_level': _showContentWarning ? 1 : 0,
+        'content_warning_text': _showContentWarning
             ? _warningTextController.text.trim()
             : '',
-        mfaLevel: isGuildOwner && _mfaLevel != widget.details.mfaLevel
-            ? GuildMfaLevelInput.fromJson(_mfaLevel)
-            : null,
-      );
+      };
+      if (isGuildOwner && _mfaLevel != widget.details.mfaLevel) {
+        payload['mfa_level'] = _mfaLevel;
+      }
+      final GuildUpdateRequest request = GuildUpdateRequest.fromJson(payload);
       await ref
           .read(guildSettingsModerationActionsProvider(widget.guildId).notifier)
           .updateModeration(request);

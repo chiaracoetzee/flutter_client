@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
+import 'package:fluxer_app/shared/utils/sdk_patch_json.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 class GuildOverviewWidget extends ConsumerStatefulWidget {
@@ -985,57 +986,50 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
         original: originalFeatures,
         updated: updatedFeatures,
       );
+      final Map<String, Object?> payload = <String, Object?>{
+        'name': _nameController.text.trim(),
+        'afk_channel_id': _afkChannelId,
+        'afk_timeout': _afkTimeout,
+        'system_channel_id': _systemChannelId,
+        'system_channel_flags': systemFlags,
+        'default_message_notifications': _defaultNotifications,
+        'splash_card_alignment': _splashCardAlignment,
+      };
+      putPatchImageField(
+        payload,
+        'icon',
+        pendingDataUri: _pendingIconUri,
+        cleared: _iconCleared,
+      );
+      putPatchImageField(
+        payload,
+        'banner',
+        pendingDataUri: _pendingBannerUri,
+        cleared: _bannerCleared,
+      );
+      putPatchImageField(
+        payload,
+        'splash',
+        pendingDataUri: _pendingSplashUri,
+        cleared: _splashCleared,
+      );
+      putPatchImageField(
+        payload,
+        'embed_splash',
+        pendingDataUri: _pendingEmbedSplashUri,
+        cleared: _embedSplashCleared,
+      );
+      if (featuresUpdate != null) {
+        payload['features'] = featuresUpdate;
+      }
       await ref
           .read(guildSettingsOverviewActionsProvider(widget.guildId).notifier)
-          .updateGuild(
-            GuildUpdateRequest(
-              name: _nameController.text.trim(),
-              icon: _resolveImageField(
-                pending: _pendingIconUri,
-                cleared: _iconCleared,
-              ),
-              banner: _resolveImageField(
-                pending: _pendingBannerUri,
-                cleared: _bannerCleared,
-              ),
-              splash: _resolveImageField(
-                pending: _pendingSplashUri,
-                cleared: _splashCleared,
-              ),
-              embedSplash: _resolveImageField(
-                pending: _pendingEmbedSplashUri,
-                cleared: _embedSplashCleared,
-              ),
-              splashCardAlignment:
-                  GuildUpdateRequestSplashCardAlignmentSplashCardAlignment.fromJson(
-                    _splashCardAlignment,
-                  ),
-              afkChannelId: _afkChannelId,
-              afkTimeout: _afkTimeout,
-              systemChannelId: _systemChannelId,
-              systemChannelFlags: systemFlags,
-              defaultMessageNotifications:
-                  DefaultMessageNotificationsInput.fromJson(
-                    _defaultNotifications,
-                  ),
-              features: featuresUpdate,
-            ),
-          );
+          .updateGuild(GuildUpdateRequest.fromJson(payload));
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);
       }
     }
-  }
-
-  String? _resolveImageField({
-    required String? pending,
-    required bool cleared,
-  }) {
-    if (cleared) {
-      return '';
-    }
-    return pending;
   }
 }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
+import 'package:fluxer_app/shared/utils/sdk_patch_json.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -68,10 +69,12 @@ class ChannelWebhooks extends _$ChannelWebhooks {
         .webhooks
         .updateWebhook(
           webhookId: webhookId,
-          body: WebhookUpdateRequest(
-            name: name,
-            avatar: avatar,
-            channelId: channelId,
+          body: WebhookUpdateRequest.fromJson(
+            buildWebhookUpdatePayload(
+              name: name,
+              avatar: avatar,
+              channelId: channelId,
+            ),
           ),
         );
     final List<WebhookResponse>? current = state.value;
