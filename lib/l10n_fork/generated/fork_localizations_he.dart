@@ -93,9 +93,6 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String get personaPronounsHint => 'לדוגמה: הוא/היא';
 
   @override
-  String get personaBioLabel => 'אודות / אודותיי';
-
-  @override
   String get personaBioHint => 'ספר לאחרים על פרסונה זו...';
 
   @override

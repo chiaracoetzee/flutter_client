@@ -94,9 +94,6 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String get personaPronounsHint => 'bijv. die/hen';
 
   @override
-  String get personaBioLabel => 'Bio / Over mij';
-
-  @override
   String get personaBioHint => 'Vertel anderen over deze persona...';
 
   @override
