@@ -93,9 +93,6 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get personaPronounsHint => 'de ex. ea/el';
 
   @override
-  String get personaBioLabel => 'Biografie / Despre mine';
-
-  @override
   String get personaBioHint => 'Spune-le celorlalți despre această persona...';
 
   @override

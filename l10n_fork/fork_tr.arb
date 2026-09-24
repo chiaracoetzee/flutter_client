@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Görünen Ad",
     "personaPronounsLabel": "Zamirler",
     "personaPronounsHint": "örn. o/onlar",
-    "personaBioLabel": "Biyografi / Hakkımda",
     "personaBioHint": "Diğerlerine bu personadan bahset...",
     "personaUpdatedToast": "Persona güncellendi",
     "personaUpdateFailedToast": "Persona güncellenemedi: {error}",

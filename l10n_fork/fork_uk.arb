@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Ім'я для відображення",
     "personaPronounsLabel": "Займенники",
     "personaPronounsHint": "напр. вони/їх",
-    "personaBioLabel": "Про мене",
     "personaBioHint": "Розкажіть іншим про цю персону...",
     "personaUpdatedToast": "Персону оновлено",
     "personaUpdateFailedToast": "Не вдалося оновити персону: {error}",
