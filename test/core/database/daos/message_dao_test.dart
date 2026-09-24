@@ -180,7 +180,7 @@ void main() {
     );
 
     final stored = await db.messageDao.getMessage(idA);
-    final Message parsed = Message.fromRow(stored);
+    final Message parsed = Message.fromRow(stored!);
     expect(parsed.translation?.translatedContent, 'Hello world');
     expect(parsed.translation?.sourceLanguageCode, 'de');
   });
@@ -203,7 +203,9 @@ void main() {
       original.copyWith(content: 'edited').toCompanion(),
     );
 
-    final Message parsed = Message.fromRow(await db.messageDao.getMessage(idA));
+    final Message parsed = Message.fromRow(
+      (await db.messageDao.getMessage(idA))!,
+    );
     expect(parsed.content, 'edited');
     expect(parsed.translation, isNull);
   });
@@ -224,7 +226,9 @@ void main() {
 
     await db.messageDao.upsertMessage(original.toCompanion());
 
-    final Message parsed = Message.fromRow(await db.messageDao.getMessage(idA));
+    final Message parsed = Message.fromRow(
+      (await db.messageDao.getMessage(idA))!,
+    );
     expect(parsed.translation?.translatedContent, 'Hello world');
   });
 
@@ -237,7 +241,9 @@ void main() {
       original.copyWith(clientNonce: null).toCompanion(),
     );
 
-    final Message parsed = Message.fromRow(await db.messageDao.getMessage(idA));
+    final Message parsed = Message.fromRow(
+      (await db.messageDao.getMessage(idA))!,
+    );
     expect(parsed.clientNonce, 'nonce-1');
   });
 }

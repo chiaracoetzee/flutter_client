@@ -47,22 +47,22 @@ void main() {
     setUp(() {
       mockPlayer = MockAudioPlayer();
       when(mockPlayer.setAudioContext(any)).thenAnswer((_) async {
-        return null;
+        return;
       });
       when(mockPlayer.setReleaseMode(any)).thenAnswer((_) async {
-        return null;
+        return;
       });
       when(mockPlayer.stop()).thenAnswer((_) async {
-        return null;
+        return;
       });
       when(mockPlayer.setVolume(any)).thenAnswer((_) async {
-        return null;
+        return;
       });
       when(mockPlayer.play(any)).thenAnswer((_) async {
-        return null;
+        return;
       });
       when(mockPlayer.dispose()).thenAnswer((_) async {
-        return null;
+        return;
       });
       player = EntranceSoundPlayer(player: mockPlayer);
     });

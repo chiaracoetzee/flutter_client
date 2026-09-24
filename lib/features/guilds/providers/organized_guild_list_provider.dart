@@ -338,8 +338,11 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       return;
     }
 
-    final sourceItem = items[sourceIndex];
-    final targetItem = items[targetIndex];
+    final GuildNavbarItem sourceItem = items[sourceIndex];
+    final GuildNavbarItem targetItem = items[targetIndex];
+    if (sourceItem is! GuildNavbarGuild || targetItem is! GuildNavbarGuild) {
+      return;
+    }
 
     // Generate a folder ID from the two guild IDs to keep it deterministic.
     final folderId = _allocateFolderId(
@@ -396,7 +399,10 @@ class OrganizedGuildList extends _$OrganizedGuildList {
         return;
       }
 
-      final sourceItem = items[sourceIndex];
+      final GuildNavbarItem sourceItem = items[sourceIndex];
+      if (sourceItem is! GuildNavbarGuild) {
+        return;
+      }
 
       sourceGuild = sourceItem.guild;
       items.removeAt(sourceIndex);
@@ -407,7 +413,10 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       return;
     }
 
-    final folderItem = items[folderIndex];
+    final GuildNavbarItem folderItem = items[folderIndex];
+    if (folderItem is! GuildNavbarFolder) {
+      return;
+    }
 
     items[folderIndex] = GuildNavbarFolder(
       id: folderItem.id,

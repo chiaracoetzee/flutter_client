@@ -15,6 +15,8 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_list_layout.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_row.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
+import 'package:fluxer_app/features/settings/providers/guild/guild_channel_settings_providers.dart';
+import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';

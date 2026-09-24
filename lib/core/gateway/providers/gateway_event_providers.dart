@@ -227,7 +227,7 @@ class TypingIndicators extends _$TypingIndicators {
       }
     });
     if (next != null) {
-      state = next;
+      state = next!;
     }
     _scheduleExpiry(now);
   }

@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_bans_state.dart'
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/bans/guild_bans_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
+import 'package:fluxer_app/features/settings/providers/guild/guild_bans_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class SettingsBansPage extends ConsumerWidget {

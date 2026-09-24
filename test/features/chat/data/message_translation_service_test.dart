@@ -125,7 +125,7 @@ void main() {
       expect(updated.translation?.sourceContent, 'Hallo Welt');
 
       final Message stored = Message.fromRow(
-        await db.messageDao.getMessage('1'),
+        (await db.messageDao.getMessage('1'))!,
       );
       expect(stored.translation?.translatedContent, 'Hello world');
     });
@@ -163,7 +163,7 @@ void main() {
       expect(showingOriginal.displayedContent, 'Hallo Welt');
       expect(showingOriginal.translation?.showOriginal, isTrue);
       final Message stored = Message.fromRow(
-        await db.messageDao.getMessage('1'),
+        (await db.messageDao.getMessage('1'))!,
       );
       expect(stored.translation?.showOriginal, isTrue);
     });

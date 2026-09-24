@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoj
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_emoji_settings_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
+import 'package:fluxer_app/features/settings/providers/guild/guild_emoji_settings_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class SettingsEmojiPage extends ConsumerWidget {

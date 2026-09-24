@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_invites_state.da
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/invites/guild_invites_widget.dart';
+import 'package:fluxer_app/features/settings/providers/guild/guild_invites_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class SettingsInvitesPage extends ConsumerWidget {

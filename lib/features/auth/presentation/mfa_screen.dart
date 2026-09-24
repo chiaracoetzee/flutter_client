@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
+import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/mfa_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';

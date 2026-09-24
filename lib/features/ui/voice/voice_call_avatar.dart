@@ -33,7 +33,7 @@ class VoiceCallAvatar extends StatelessWidget {
           return Center(
             child: user != null
                 ? FluxerAvatar.fromUserRow(
-                    user,
+                    user!,
                     size: display,
                     showStatus: false,
                   )
