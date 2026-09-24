@@ -16918,7 +16918,7 @@
     "personaDisplayNameLabel": "Görünen Ad",
     "personaPronounsLabel": "Zamirler",
     "personaPronounsHint": "örn. o/onlar",
-    "personaBioLabel": "Biyografi / Hakkımda",
+    "personaBioLabel": "Hakkımda",
     "personaBioHint": "Diğerlerine bu personadan bahset...",
     "personaSaveChanges": "Değişiklikleri kaydet",
     "personaUpdatedToast": "Persona güncellendi",

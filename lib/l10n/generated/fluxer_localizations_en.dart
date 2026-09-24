@@ -14654,7 +14654,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get personaPronounsHint => 'e.g. they/them';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'About Me';
 
   @override
   String get personaBioHint => 'Tell others about this persona...';
@@ -29197,7 +29197,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get personaPronounsHint => 'e.g. they/them';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'About Me';
 
   @override
   String get personaBioHint => 'Tell others about this persona...';
@@ -43754,7 +43754,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get personaPronounsHint => 'e.g. they/them';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
+  String get personaBioLabel => 'About Me';
 
   @override
   String get personaBioHint => 'Tell others about this persona...';

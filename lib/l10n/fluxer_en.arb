@@ -17471,7 +17471,7 @@
     "@personaPronounsHint": {
         "description": "Hint text for persona pronouns input."
     },
-    "personaBioLabel": "Bio / About Me",
+    "personaBioLabel": "About Me",
     "@personaBioLabel": {
         "description": "Form label for persona biography field."
     },

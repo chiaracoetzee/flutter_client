@@ -14869,7 +14869,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get personaPronounsHint => 'pl. ő/ők';
 
   @override
-  String get personaBioLabel => 'Bemutatkozás / Rólam';
+  String get personaBioLabel => 'Rólam';
 
   @override
   String get personaBioHint => 'Mesélj másoknak erről a personáról...';

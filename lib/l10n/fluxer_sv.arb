@@ -16918,7 +16918,7 @@
     "personaDisplayNameLabel": "Visningsnamn",
     "personaPronounsLabel": "Pronomen",
     "personaPronounsHint": "t.ex. hen/henom",
-    "personaBioLabel": "Presentation / Om mig",
+    "personaBioLabel": "Om mig",
     "personaBioHint": "Berätta för andra om denna persona...",
     "personaSaveChanges": "Spara ändringar",
     "personaUpdatedToast": "Persona uppdaterad",
