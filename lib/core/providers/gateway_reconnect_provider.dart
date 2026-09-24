@@ -62,11 +62,16 @@ Future<void> nudgeGatewayReconnectAfterResume(
     return;
   }
   talker.info('[Gateway] Resume reconnect starting');
-  if (connection.isReconnectSuspended) {
-    await connection.unsuspendAndReconnect();
-  } else {
-    await connection.reconnectNow();
+  if (connection.state == GatewayState.connecting ||
+      connection.state == GatewayState.reconnecting) {
+    onResumeReconnectInFlight?.call(inFlight: false);
+    return;
   }
+  if (connection.state == GatewayState.connected) {
+    await connection.reconnectNow();
+    return;
+  }
+  await connection.nudgeReconnect();
 }
 
 Future<bool> _hasAnyConnectivity() async {
@@ -543,10 +548,14 @@ Raw<StreamSubscription<List<ConnectivityResult>>?> connectivityListener(
     clearDebounce();
     debounceTimer = Timer(kConnectivityReconnectDebounce, () {
       debounceTimer = null;
-      if (connection.state != GatewayState.connected) {
-        talker.info('[Gateway] Network restored, reconnecting');
-        unawaited(connection.reconnectNow());
+      final GatewayState state = connection.state;
+      if (state == GatewayState.connected ||
+          state == GatewayState.connecting ||
+          state == GatewayState.reconnecting) {
+        return;
       }
+      talker.info('[Gateway] Network restored, reconnecting');
+      unawaited(connection.nudgeReconnect());
     });
   });
 

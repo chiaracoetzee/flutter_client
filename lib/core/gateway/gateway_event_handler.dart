@@ -1245,7 +1245,15 @@ class GatewayEventHandler {
       customStatus: serializeCustomStatus(event.settings.customStatus),
       mobile: isFluxerMobileClient,
     );
-    _emit(() => onUserSettingsHydrate?.call(event.settings));
+    UserSettingsResponse hydrated = event.settings;
+    if (existing != null) {
+      try {
+        hydrated = UserSettingsResponse.fromJson(merged);
+      } on Object {
+        hydrated = event.settings;
+      }
+    }
+    _emit(() => onUserSettingsHydrate?.call(hydrated));
   }
 
   Future<void> _handleUserGuildSettingsUpdate(
