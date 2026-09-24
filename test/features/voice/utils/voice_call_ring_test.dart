@@ -69,10 +69,7 @@ void main() {
   });
 
   test('a closed ring window is detected', () {
-    expect(
-      callRingWindowHasClosed(expiresAtMs: nowMs, nowMs: nowMs),
-      isTrue,
-    );
+    expect(callRingWindowHasClosed(expiresAtMs: nowMs, nowMs: nowMs), isTrue);
     expect(
       callRingWindowHasClosed(expiresAtMs: nowMs + 1, nowMs: nowMs),
       isFalse,

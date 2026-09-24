@@ -46,10 +46,7 @@ int callRingDurationMs({required int? expiresAtMs, required int nowMs}) {
   return remaining;
 }
 
-bool callRingWindowHasClosed({
-  required int? expiresAtMs,
-  required int nowMs,
-}) {
+bool callRingWindowHasClosed({required int? expiresAtMs, required int nowMs}) {
   if (expiresAtMs == null) {
     return false;
   }

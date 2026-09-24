@@ -20,7 +20,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'apns_voip_mobile_device_registration.g.dart';
 
 @Riverpod(keepAlive: true)
-class ApnsVoipMobileDeviceRegistration extends _$ApnsVoipMobileDeviceRegistration {
+class ApnsVoipMobileDeviceRegistration
+    extends _$ApnsVoipMobileDeviceRegistration {
   static const int _tokenPollAttempts = 30;
   static const Duration _tokenPollDelay = Duration(milliseconds: 200);
   String? _lastRegisteredUserId;
@@ -43,7 +44,10 @@ class ApnsVoipMobileDeviceRegistration extends _$ApnsVoipMobileDeviceRegistratio
       ..listen<bool>(authStateProvider, (_, _) {
         unawaited(sync());
       })
-      ..listen<String?>(currentUserIdProvider, (String? previous, String? next) {
+      ..listen<String?>(currentUserIdProvider, (
+        String? previous,
+        String? next,
+      ) {
         if (previous != next) {
           unawaited(sync());
         }
@@ -154,11 +158,13 @@ class ApnsVoipMobileDeviceRegistration extends _$ApnsVoipMobileDeviceRegistratio
       _lastRegisteredUserId = userId;
       _lastRegisteredRelayUrl = relayUrl;
       _lastRegisteredPublicKey = keys.publicKey;
-      talker.info(
-        '[ApnsVoipMobileDeviceRegistration] registered user $userId',
-      );
+      talker.info('[ApnsVoipMobileDeviceRegistration] registered user $userId');
     } on DioException catch (e, st) {
-      talker.handle(e, st, '[ApnsVoipMobileDeviceRegistration] register failed');
+      talker.handle(
+        e,
+        st,
+        '[ApnsVoipMobileDeviceRegistration] register failed',
+      );
     }
   }
 
@@ -189,7 +195,8 @@ class ApnsVoipMobileDeviceRegistration extends _$ApnsVoipMobileDeviceRegistratio
           .users
           .unregisterMobilePushDevice(
             body: UnregisterMobileDeviceRequest(
-              platform: UnregisterMobileDeviceRequestPlatformPlatform.iosApnsVoip,
+              platform:
+                  UnregisterMobileDeviceRequestPlatformPlatform.iosApnsVoip,
               token: relayUrl,
               appId: AppBuildConfig.mobilePushAppId,
               providerEnvironment: _unregisterProviderEnvironment,

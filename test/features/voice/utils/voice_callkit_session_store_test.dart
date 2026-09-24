@@ -38,9 +38,8 @@ void main() {
       callKitId: 'c',
       kind: VoiceCallKitSessionKind.activeVoice,
     );
-    expect(
-      store.incomingRingChannelIdsAbsentFrom(<String>{'live'}),
-      <String>['gone'],
-    );
+    expect(store.incomingRingChannelIdsAbsentFrom(<String>{'live'}), <String>[
+      'gone',
+    ]);
   });
 }
