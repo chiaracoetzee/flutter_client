@@ -93,9 +93,6 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get personaPronounsHint => 'e.g. they/them';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
-
-  @override
   String get personaBioHint => 'Tell others about this persona...';
 
   @override
@@ -390,9 +387,6 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get personaPronounsHint => 'e.g. they/them';
 
   @override
-  String get personaBioLabel => 'Bio / About Me';
-
-  @override
   String get personaBioHint => 'Tell others about this persona...';
 
   @override
@@ -685,9 +679,6 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaPronounsHint => 'e.g. they/them';
-
-  @override
-  String get personaBioLabel => 'Bio / About Me';
 
   @override
   String get personaBioHint => 'Tell others about this persona...';

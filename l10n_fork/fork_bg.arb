@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Показвано име",
     "personaPronounsLabel": "Местоимения",
     "personaPronounsHint": "напр. те/тях",
-    "personaBioLabel": "За мен",
     "personaBioHint": "Разкажете на другите за тази персона...",
     "personaUpdatedToast": "Персоната е обновена",
     "personaUpdateFailedToast": "Неуспешно обновяване на персоната: {error}",

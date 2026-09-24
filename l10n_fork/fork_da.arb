@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Visningsnavn",
     "personaPronounsLabel": "Pronominer",
     "personaPronounsHint": "f.eks. de/dem",
-    "personaBioLabel": "Bio / Om mig",
     "personaBioHint": "Fortæl andre om denne persona...",
     "personaUpdatedToast": "Persona opdateret",
     "personaUpdateFailedToast": "Kunne ikke opdatere persona: {error}",
