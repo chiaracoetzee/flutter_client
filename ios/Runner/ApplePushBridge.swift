@@ -91,7 +91,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     let category = UNNotificationCategory(
       identifier: PushNotificationPayload.messageReplyCategoryId,
       actions: [reply],
-      intentIdentifiers: [INSendMessageIntent.intentIdentifier],
+      intentIdentifiers: ["INSendMessageIntent"],
       options: []
     )
     DispatchQueue.main.async {
