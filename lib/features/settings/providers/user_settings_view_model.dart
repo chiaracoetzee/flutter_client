@@ -1374,101 +1374,67 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     try {
       final s = state;
 
-      String? globalName;
+      final patchData = <String, dynamic>{};
+
       if (s.isEditedDisplayNameSet && s.editedDisplayName != s.displayName) {
-        globalName = s.editedDisplayName;
+        patchData['global_name'] = s.editedDisplayName;
       }
 
-      String? bio;
       if (s.isEditedBioSet && s.editedBio != s.bio) {
-        bio = s.editedBio;
+        patchData['bio'] = s.editedBio;
       }
 
-      String? pronouns;
       if (s.isEditedPronounsSet && s.editedPronouns != s.pronouns) {
-        pronouns = s.editedPronouns;
+        patchData['pronouns'] = s.editedPronouns;
       }
 
-      int? accentColor;
       if (s.isEditedAccentColorSet && s.editedAccentColor != s.accentColor) {
-        accentColor = s.editedAccentColor;
+        patchData['accent_color'] = s.editedAccentColor;
       }
 
-      String? timezone;
       if (s.isEditedTimezoneSet && s.editedTimezone != s.timezone) {
-        timezone = s.editedTimezone;
-      }
-      final bool timezoneCleared =
-          s.isEditedTimezoneSet && s.editedTimezone == null && s.timezone != null;
-
-      String? avatarValue;
-      if (s.editedAvatarBase64 != null) {
-        avatarValue = s.editedAvatarBase64;
+        patchData['timezone'] = s.editedTimezone;
       }
 
-      String? bannerValue;
-      if (s.editedBannerBase64 != null) {
-        bannerValue = s.editedBannerBase64;
+      if (s.avatarCleared) {
+        patchData['avatar'] = null;
+      } else if (s.editedAvatarBase64 != null) {
+        patchData['avatar'] = s.editedAvatarBase64;
       }
 
-      bool? premiumBadgeHidden;
+      if (s.bannerCleared) {
+        patchData['banner'] = null;
+      } else if (s.editedBannerBase64 != null) {
+        patchData['banner'] = s.editedBannerBase64;
+      }
+
       if (s.isEditedPremiumBadgeHiddenSet &&
           s.editedPremiumBadgeHidden != s.premiumBadgeHidden) {
-        premiumBadgeHidden = s.editedPremiumBadgeHidden;
+        patchData['premium_badge_hidden'] = s.editedPremiumBadgeHidden;
       }
 
-      bool? premiumBadgeMasked;
       if (s.isEditedPremiumBadgeMaskedSet &&
           s.editedPremiumBadgeMasked != s.premiumBadgeMasked) {
-        premiumBadgeMasked = s.editedPremiumBadgeMasked;
+        patchData['premium_badge_masked'] = s.editedPremiumBadgeMasked;
       }
 
-      bool? premiumBadgeTimestampHidden;
       if (s.isEditedPremiumBadgeTimestampHiddenSet &&
           s.editedPremiumBadgeTimestampHidden !=
               s.premiumBadgeTimestampHidden) {
-        premiumBadgeTimestampHidden = s.editedPremiumBadgeTimestampHidden;
+        patchData['premium_badge_timestamp_hidden'] =
+            s.editedPremiumBadgeTimestampHidden;
       }
 
-      bool? premiumBadgeSequenceHidden;
       if (s.isEditedPremiumBadgeSequenceHiddenSet &&
-          s.editedPremiumBadgeSequenceHidden != s.premiumBadgeSequenceHidden) {
-        premiumBadgeSequenceHidden = s.editedPremiumBadgeSequenceHidden;
+          s.editedPremiumBadgeSequenceHidden !=
+              s.premiumBadgeSequenceHidden) {
+        patchData['premium_badge_sequence_hidden'] =
+            s.editedPremiumBadgeSequenceHidden;
       }
 
-      final body = UserUpdateWithVerificationRequest(
-        globalName: globalName,
-        bio: bio,
-        pronouns: pronouns,
-        accentColor: accentColor,
-        timezone: timezone,
-        avatar: s.avatarCleared ? null : avatarValue,
-        banner: s.bannerCleared ? null : bannerValue,
-        premiumBadgeHidden: premiumBadgeHidden,
-        premiumBadgeMasked: premiumBadgeMasked,
-        premiumBadgeTimestampHidden: premiumBadgeTimestampHidden,
-        premiumBadgeSequenceHidden: premiumBadgeSequenceHidden,
-      );
-
-      if (s.avatarCleared || s.bannerCleared || timezoneCleared) {
-        // SDK uses @JsonKey(includeIfNull: false) which omits null
-        // fields, but the API needs explicit nulls to clear
-        // avatar/banner/timezone on a PATCH request.
-        final json = body.toJson();
-        if (s.avatarCleared) {
-          json['avatar'] = null;
-        }
-        if (s.bannerCleared) {
-          json['banner'] = null;
-        }
-        if (timezoneCleared) {
-          json['timezone'] = null;
-        }
+      if (patchData.isNotEmpty) {
         final dio = ref.read(fluxerDioProvider);
-        await dio.patch<dynamic>('/users/@me', data: json);
-      } else {
-        final client = ref.read(fluxerClientProvider);
-        await client.users.updateCurrentUser(body: body);
+        await dio.patch<dynamic>('/users/@me', data: patchData);
       }
 
       await loadProfile();
