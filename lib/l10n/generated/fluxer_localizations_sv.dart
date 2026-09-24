@@ -14854,7 +14854,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get personaPronounsHint => 't.ex. hen/henom';
 
   @override
-  String get personaBioLabel => 'Presentation / Om mig';
+  String get personaBioLabel => 'Om mig';
 
   @override
   String get personaBioHint => 'Berätta för andra om denna persona...';

@@ -419,6 +419,10 @@ class FluxerInput extends StatelessWidget {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
+    final bool hasCounter =
+        showCounter && (counterMax != null || maxLength != null);
+    final bool hasSuffix = suffix != null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -442,6 +446,14 @@ class FluxerInput extends StatelessWidget {
                     errorText: errorText,
                     prefixIcon: prefixIcon,
                     counterText: maxLength != null ? '' : null,
+                    contentPadding: (hasCounter || hasSuffix)
+                        ? EdgeInsets.only(
+                            left: layout.s4,
+                            right: hasSuffix ? layout.s10 : layout.s4,
+                            top: 10,
+                            bottom: hasCounter ? (layout.s6 + layout.s1) : 10,
+                          )
+                        : null,
                   ),
                   obscureText: obscureText,
                   autofillHints: autofillHints,
