@@ -14767,7 +14767,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get personaPronounsHint => 'vd. they/them';
 
   @override
-  String get personaBioLabel => 'Tiểu sử / Giới thiệu về tôi';
+  String get personaBioLabel => 'Giới thiệu về tôi';
 
   @override
   String get personaBioHint => 'Giới thiệu với người khác về persona này...';

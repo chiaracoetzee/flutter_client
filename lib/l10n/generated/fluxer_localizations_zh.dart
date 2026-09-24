@@ -13842,7 +13842,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get personaPronounsHint => '例如：they/them';
 
   @override
-  String get personaBioLabel => '个人简介 / 关于我';
+  String get personaBioLabel => '关于我';
 
   @override
   String get personaBioHint => '向他人介绍此人格...';
@@ -27563,7 +27563,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get personaPronounsHint => '例如：they/them';
 
   @override
-  String get personaBioLabel => '個人簡介 / 關於我';
+  String get personaBioLabel => '關於我';
 
   @override
   String get personaBioHint => '向其他人介紹這個人格...';

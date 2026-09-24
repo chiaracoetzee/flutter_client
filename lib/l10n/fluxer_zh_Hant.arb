@@ -16918,7 +16918,7 @@
     "personaDisplayNameLabel": "顯示名稱",
     "personaPronounsLabel": "代名詞",
     "personaPronounsHint": "例如：they/them",
-    "personaBioLabel": "個人簡介 / 關於我",
+    "personaBioLabel": "關於我",
     "personaBioHint": "向其他人介紹這個人格...",
     "personaSaveChanges": "儲存變更",
     "personaUpdatedToast": "人格已更新",

@@ -17398,7 +17398,7 @@
     "personaDisplayNameLabel": "Nombre visible",
     "personaPronounsLabel": "Pronombres",
     "personaPronounsHint": "ej. ella/él",
-    "personaBioLabel": "Biografía / Sobre mí",
+    "personaBioLabel": "Sobre mí",
     "personaBioHint": "Cuéntale a los demás sobre esta persona...",
     "personaSaveChanges": "Guardar cambios",
     "personaUpdatedToast": "Persona actualizada",
