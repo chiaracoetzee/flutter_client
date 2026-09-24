@@ -12,6 +12,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
+
 const double kComposerAutocompletePanelMaxHeight = 490;
 const double kComposerAutocompletePanelSafeGap = 8;
 const double kComposerAutocompleteScrollRowStride = 48;
@@ -91,6 +95,12 @@ class ComposerAutocompletePanelRow {
     this.emojiCacheKey,
     this.mediaPreviewUrl,
     this.mediaPreviewCacheKey,
+    this.personaTagText,
+    this.personaTagIcon,
+    this.personaOwnerUserId,
+    this.personaOwnerAvatarUrl,
+    this.personaOwnerAvatarColor,
+    this.personaOwnerFallbackText,
     this.isDivider = false,
     this.isSectionHeading = false,
   });
@@ -109,6 +119,12 @@ class ComposerAutocompletePanelRow {
   final String? emojiCacheKey;
   final String? mediaPreviewUrl;
   final String? mediaPreviewCacheKey;
+  final String? personaTagText;
+  final String? personaTagIcon;
+  final String? personaOwnerUserId;
+  final String? personaOwnerAvatarUrl;
+  final int? personaOwnerAvatarColor;
+  final String? personaOwnerFallbackText;
   final bool isDivider;
   final bool isSectionHeading;
 }
@@ -347,6 +363,14 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
                             emojiCacheKey: row.emojiCacheKey,
                             mediaPreviewUrl: row.mediaPreviewUrl,
                             mediaPreviewCacheKey: row.mediaPreviewCacheKey,
+                            personaTagText: row.personaTagText,
+                            personaTagIcon: row.personaTagIcon,
+                            personaOwnerUserId: row.personaOwnerUserId,
+                            personaOwnerAvatarUrl: row.personaOwnerAvatarUrl,
+                            personaOwnerAvatarColor:
+                                row.personaOwnerAvatarColor,
+                            personaOwnerFallbackText:
+                                row.personaOwnerFallbackText,
                           );
                         },
                       ),
@@ -387,6 +411,12 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
     this.mediaPreviewUrl,
     this.mediaPreviewCacheKey,
     this.radius = _kAutocompleteBorderRadius,
+    this.personaTagText,
+    this.personaTagIcon,
+    this.personaOwnerUserId,
+    this.personaOwnerAvatarUrl,
+    this.personaOwnerAvatarColor,
+    this.personaOwnerFallbackText,
     super.key,
   });
 
@@ -406,6 +436,12 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
   final String? emojiCacheKey;
   final String? mediaPreviewUrl;
   final String? mediaPreviewCacheKey;
+  final String? personaTagText;
+  final String? personaTagIcon;
+  final String? personaOwnerUserId;
+  final String? personaOwnerAvatarUrl;
+  final int? personaOwnerAvatarColor;
+  final String? personaOwnerFallbackText;
 
   bool get _showsUserAvatar {
     return userAvatarFallbackText != null &&
@@ -507,6 +543,7 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
                   child: _AutocompleteNameAndDescription(
                     title: title,
                     titleStyle: titleStyle,
+                    nameOverride: _forkPersonaName(context, titleStyle),
                     description: subtitle,
                     descriptionStyle: context.textStyles.timestamp.copyWith(
                       fontSize: _kAutocompleteDescFontSize,
@@ -522,6 +559,212 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
       ),
     );
   }
+
+  // Fork: the persona tag badge and owner avatar next to the name. Returns null
+  // for rows without them, which keep upstream's plain name.
+  Widget? _forkPersonaName(BuildContext context, TextStyle titleStyle) {
+    final bool hasDecoration =
+        (personaTagText?.trim().isNotEmpty ?? false) ||
+        (personaTagIcon?.trim().isNotEmpty ?? false) ||
+        (personaOwnerUserId?.isNotEmpty ?? false);
+    if (!hasDecoration) {
+      return null;
+    }
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double maxAvailable = constraints.maxWidth;
+        if (!maxAvailable.isFinite || maxAvailable <= 0) {
+          return Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: titleStyle,
+          );
+        }
+
+        final String? tagText =
+            (personaTagText != null && personaTagText!.trim().isNotEmpty)
+            ? personaTagText!.trim()
+            : null;
+        final String? tagIcon =
+            (personaTagIcon != null && personaTagIcon!.trim().isNotEmpty)
+            ? personaTagIcon!.trim()
+            : null;
+        final bool hasOwnerAvatar =
+            personaOwnerUserId != null && personaOwnerUserId!.isNotEmpty;
+
+        if (tagText == null && tagIcon == null && !hasOwnerAvatar) {
+          return Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: titleStyle,
+          );
+        }
+
+        final TextPainter namePainter = TextPainter(
+          text: TextSpan(text: title, style: titleStyle),
+          maxLines: 1,
+          textDirection: Directionality.of(context),
+        )..layout();
+        final double naturalNameWidth = namePainter.width;
+        const double gap = 4;
+
+        double fullBadgeWidth;
+        if (tagText != null) {
+          final TextPainter tagPainter = TextPainter(
+            text: TextSpan(
+              text: tagText.toUpperCase(),
+              style: context.textStyles.smallText.copyWith(
+                fontSize: 10,
+                height: 1,
+              ),
+            ),
+            maxLines: 1,
+            textDirection: Directionality.of(context),
+          )..layout();
+          fullBadgeWidth = tagPainter.width + (tagIcon != null ? 23.5 : 11.0);
+        } else if (tagIcon != null) {
+          fullBadgeWidth = 16.0;
+        } else {
+          fullBadgeWidth = 16.0;
+        }
+
+        // Priority 1: Full name and full tag fit completely without shortening name
+        if (naturalNameWidth + gap + fullBadgeWidth <= maxAvailable) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: titleStyle,
+                ),
+              ),
+              const SizedBox(width: gap),
+              if (tagText != null)
+                FluxerUserTag(label: tagText, iconUrl: tagIcon)
+              else if (tagIcon != null)
+                ClipOval(
+                  child: SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CachedNetworkImage(
+                      imageUrl: tagIcon,
+                      width: 16,
+                      height: 16,
+                      fit: BoxFit.cover,
+                      errorBuilder:
+                          (
+                            BuildContext context,
+                            Object error,
+                            StackTrace? stackTrace,
+                          ) => const SizedBox(width: 16, height: 16),
+                    ),
+                  ),
+                )
+              else if (hasOwnerAvatar)
+                ClipOval(
+                  child: SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: FluxerAvatar.user(
+                      key: ValueKey<String>(
+                        'auto-persona-owner-$personaOwnerUserId-${personaOwnerAvatarUrl ?? ''}',
+                      ),
+                      userId: personaOwnerUserId,
+                      imageUrl: personaOwnerAvatarUrl,
+                      fallbackText: personaOwnerFallbackText ?? '',
+                      avatarColor: personaOwnerAvatarColor,
+                      size: 16,
+                      showStatus: false,
+                    ),
+                  ),
+                ),
+            ],
+          );
+        }
+
+        // Priority 2: Full name and tag icon (or owner avatar) fit completely without shortening name
+        final bool hasIconBadge =
+            tagIcon != null || (tagText == null && hasOwnerAvatar);
+        final double iconBadgeWidth = (tagText != null && tagIcon != null)
+            ? 18.0
+            : 16.0;
+
+        if (hasIconBadge &&
+            (naturalNameWidth + gap + iconBadgeWidth <= maxAvailable)) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: titleStyle,
+                ),
+              ),
+              const SizedBox(width: gap),
+              if (tagText != null && tagIcon != null)
+                FluxerUserTag(
+                  label: tagText,
+                  iconUrl: tagIcon,
+                  forceIconOnly: true,
+                )
+              else if (tagIcon != null)
+                ClipOval(
+                  child: SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CachedNetworkImage(
+                      imageUrl: tagIcon,
+                      width: 16,
+                      height: 16,
+                      fit: BoxFit.cover,
+                      errorBuilder:
+                          (
+                            BuildContext context,
+                            Object error,
+                            StackTrace? stackTrace,
+                          ) => const SizedBox(width: 16, height: 16),
+                    ),
+                  ),
+                )
+              else if (hasOwnerAvatar)
+                ClipOval(
+                  child: SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: FluxerAvatar.user(
+                      key: ValueKey<String>(
+                        'auto-persona-owner-$personaOwnerUserId-${personaOwnerAvatarUrl ?? ''}',
+                      ),
+                      userId: personaOwnerUserId,
+                      imageUrl: personaOwnerAvatarUrl,
+                      fallbackText: personaOwnerFallbackText ?? '',
+                      avatarColor: personaOwnerAvatarColor,
+                      size: 16,
+                      showStatus: false,
+                    ),
+                  ),
+                ),
+            ],
+          );
+        }
+
+        // Priority 3: Omit tag completely so name is not shortened at all
+        return Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: titleStyle,
+        );
+      },
+    );
+  }
 }
 
 class _AutocompleteNameAndDescription extends StatelessWidget {
@@ -530,8 +773,11 @@ class _AutocompleteNameAndDescription extends StatelessWidget {
     required this.titleStyle,
     required this.description,
     required this.descriptionStyle,
+    this.nameOverride,
   });
 
+  // Fork: shown instead of the plain name (see _forkPersonaName).
+  final Widget? nameOverride;
   final String title;
   final TextStyle titleStyle;
   final String? description;
@@ -539,12 +785,14 @@ class _AutocompleteNameAndDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget name = Text(
-      title,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: titleStyle,
-    );
+    final Widget name =
+        nameOverride ??
+        Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: titleStyle,
+        );
     final String? text = description?.trim();
     if (text == null || text.isEmpty) {
       return name;
