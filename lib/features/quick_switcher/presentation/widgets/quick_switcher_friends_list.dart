@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/profile/domain/presence_status_labels.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/quick_switcher/utils/quick_switcher_navigation.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -28,6 +30,11 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = FluxerLocalizations.of(context);
+    final bool directMessagesDisabled = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => config.directMessagesDisabled,
+      ),
+    );
     final friends = ref
         .watch(dmViewModelProvider)
         .friendsList
@@ -78,6 +85,9 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
               child: _FriendRow(
                 friend: friend,
                 onTap: () => unawaited(_openProfile(context, friend.id)),
+                onOpenDm: directMessagesDisabled
+                    ? null
+                    : () => unawaited(_openFriendDm(context, ref, friend)),
               ),
             ),
           ),
@@ -102,6 +112,19 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
     if (navigated && context.mounted) {
       onNavigatedAway();
     }
+  }
+
+  Future<void> _openFriendDm(
+    BuildContext context,
+    WidgetRef ref,
+    Friend friend,
+  ) async {
+    await openDmWithUserFromQuickSwitcher(
+      context: context,
+      ref: ref,
+      userId: friend.id,
+      onClose: onNavigatedAway,
+    );
   }
 
   bool _matchesFriend(Friend friend, String query) {
@@ -150,10 +173,15 @@ class QuickSwitcherFriendsList extends ConsumerWidget {
 }
 
 class _FriendRow extends StatelessWidget {
-  const _FriendRow({required this.friend, required this.onTap});
+  const _FriendRow({
+    required this.friend,
+    required this.onTap,
+    this.onOpenDm,
+  });
 
   final Friend friend;
   final VoidCallback onTap;
+  final VoidCallback? onOpenDm;
 
   @override
   Widget build(BuildContext context) {
@@ -209,6 +237,13 @@ class _FriendRow extends StatelessWidget {
                   ],
                 ),
               ),
+              if (onOpenDm != null) ...<Widget>[
+                const SizedBox(width: 8),
+                _FriendDmButton(onTap: onOpenDm!),
+                const SizedBox(width: 14),
+              ] else ...<Widget>[
+                const SizedBox(width: 8),
+              ],
               PhosphorIcon(
                 PhosphorIconsBold.caretRight,
                 size: 16,
@@ -226,6 +261,58 @@ class _FriendRow extends StatelessWidget {
       return '';
     }
     return presenceStatusLabel(status, l10n);
+  }
+}
+
+class _FriendDmButton extends StatelessWidget {
+  const _FriendDmButton({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final l10n = FluxerLocalizations.of(context);
+    final String label = l10n.friendsMessageFriend;
+
+    return Tooltip(
+      message: label,
+      child: FluxerTappable(
+        onTap: onTap,
+        semanticLabel: label,
+        button: true,
+        builder: (context, states) {
+          final bool isHovered = states.contains(WidgetState.hovered);
+          final bool isPressed = states.contains(WidgetState.pressed);
+          final Color iconColor = (isHovered || isPressed)
+              ? colors.textPrimary
+              : colors.textPrimaryMuted;
+          final Color backgroundColor = isPressed
+              ? colors.backgroundModifierSelected
+              : isHovered
+                  ? colors.backgroundModifierHover
+                  : Colors.transparent;
+
+          return AnimatedContainer(
+            duration: context.motion.fast,
+            curve: context.motion.curve,
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: PhosphorIcon(
+                PhosphorIconsFill.chatCircle,
+                size: 18,
+                color: iconColor,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 
