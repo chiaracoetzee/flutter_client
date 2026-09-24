@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Weergavenaam",
     "personaPronounsLabel": "Voornaamwoorden",
     "personaPronounsHint": "bijv. die/hen",
-    "personaBioLabel": "Bio / Over mij",
     "personaBioHint": "Vertel anderen over deze persona...",
     "personaUpdatedToast": "Persona bijgewerkt",
     "personaUpdateFailedToast": "Kon persona niet bijwerken: {error}",

@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "표시 이름",
     "personaPronounsLabel": "대명사",
     "personaPronounsHint": "예: they/them",
-    "personaBioLabel": "소개 / 자기소개",
     "personaBioHint": "이 페르소나에 대해 알려주세요...",
     "personaUpdatedToast": "페르소나 업데이트됨",
     "personaUpdateFailedToast": "페르소나 업데이트 실패: {error}",
