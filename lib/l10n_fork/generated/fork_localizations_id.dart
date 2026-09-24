@@ -93,9 +93,6 @@ class ForkLocalizationsId extends ForkLocalizations {
   String get personaPronounsHint => 'mis. they/them';
 
   @override
-  String get personaBioLabel => 'Bio / Tentang Saya';
-
-  @override
   String get personaBioHint =>
       'Ceritakan tentang persona ini kepada yang lain...';
 
