@@ -36,14 +36,62 @@ void main() {
     );
   });
 
-  test('failed decrypt is discarded', () {
+  test('background decrypt failure still shows a call', () {
     expect(
       resolveAndroidPushIncomingAction(
         decrypted: false,
         backgroundMode: true,
         payload: const <String, String>{},
       ),
+      AndroidPushIncomingAction.showFallbackCall,
+    );
+  });
+
+  test('foreground call ring is left to the in-app sheet', () {
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: true,
+        backgroundMode: false,
+        payload: const <String, String>{
+          'type': 'call_ring',
+          'channel_id': 'c',
+          'message_id': 'm',
+          'expires_at_ms': '9999999999999',
+        },
+      ),
+      AndroidPushIncomingAction.emit,
+    );
+  });
+
+  test('an expired call ring is dropped', () {
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: true,
+        backgroundMode: true,
+        payload: const <String, String>{
+          'type': 'call_ring',
+          'channel_id': 'c',
+          'message_id': 'm',
+          'expires_at_ms': '1',
+        },
+      ),
       AndroidPushIncomingAction.discard,
+    );
+  });
+
+  test('background call ring shows an incoming call', () {
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: true,
+        backgroundMode: true,
+        payload: const <String, String>{
+          'type': 'call_ring',
+          'channel_id': 'c',
+          'message_id': 'm',
+          'expires_at_ms': '9999999999999',
+        },
+      ),
+      AndroidPushIncomingAction.showIncomingCall,
     );
   });
 

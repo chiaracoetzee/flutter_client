@@ -3,7 +3,8 @@ import Security
 
 enum WebPushKeychain {
   private static let service = "flutter_secure_storage_service"
-  private static let keyPrefix = "web_push_keys_"
+  static let alertKeyPrefix = "web_push_keys_"
+  static let voipKeyPrefix = "web_push_voip_keys_"
 
   struct AccountKey {
     let userId: String
@@ -11,7 +12,7 @@ enum WebPushKeychain {
     let authSecret: Data
   }
 
-  static func accountKeys() -> [AccountKey] {
+  static func accountKeys(prefix: String = alertKeyPrefix) -> [AccountKey] {
     let query: [String: Any] = [
       kSecClass as String: kSecClassGenericPassword,
       kSecAttrService as String: service,
@@ -27,12 +28,12 @@ enum WebPushKeychain {
     var keys: [AccountKey] = []
     for item in items {
       guard let account = item[kSecAttrAccount as String] as? String,
-        account.hasPrefix(keyPrefix),
+        account.hasPrefix(prefix),
         let data = item[kSecValueData as String] as? Data
       else {
         continue
       }
-      let userId = String(account.dropFirst(keyPrefix.count))
+      let userId = String(account.dropFirst(prefix.count))
       guard !userId.isEmpty, let parsed = parse(data, userId: userId) else {
         continue
       }

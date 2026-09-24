@@ -372,6 +372,14 @@ void main() {
       ),
       isFalse,
     );
+    expect(
+      shouldKeepGatewayConnectedForVoiceFromState(
+        isInVoice: false,
+        pendingIncomingChannelIds: const <String>[],
+        hasCallKitIncoming: true,
+      ),
+      isTrue,
+    );
   });
 
   group('isPendingNavigationReady', () {

@@ -41,6 +41,20 @@ void main() {
     expect(distributor.canDecrypt, isFalse);
   });
 
+  test('voip keys stay out of the alert store', () async {
+    final WebPushKeyStore voip = WebPushKeyStore(
+      storage: const FlutterSecureStorage(),
+      keyPrefix: kWebPushVoipKeysPrefix,
+    );
+    await store.ensureKeys('user-a');
+    await voip.ensureKeys('user-a');
+    final List<WebPushAccountKeys> alert = await store.readAll();
+    final List<WebPushAccountKeys> calls = await voip.readAll();
+    expect(alert, hasLength(1));
+    expect(calls, hasLength(1));
+    expect(alert.single.publicKey, isNot(calls.single.publicKey));
+  });
+
   test('delete removes one account', () async {
     await store.ensureKeys('user-a');
     await store.delete('user-a');

@@ -6,6 +6,8 @@ import 'package:fluxer_app/core/push/web_push/web_push_crypto.dart';
 
 const String kWebPushKeysPrefix = 'web_push_keys_';
 
+const String kWebPushVoipKeysPrefix = 'web_push_voip_keys_';
+
 const String _kLegacyRawPrefix = 'web_push_legacy_raw_';
 
 class WebPushAccountKeys {
@@ -25,20 +27,25 @@ class WebPushAccountKeys {
 }
 
 class WebPushKeyStore {
-  WebPushKeyStore({FlutterSecureStorage? storage})
-    : _storage =
-          storage ??
-          const FlutterSecureStorage(
-            iOptions: IOSOptions(
-              accessibility: KeychainAccessibility.first_unlock,
-            ),
-            aOptions: AndroidOptions(resetOnError: false),
-            mOptions: MacOsOptions(
-              accessibility: KeychainAccessibility.first_unlock,
-            ),
-          );
+  WebPushKeyStore({
+    FlutterSecureStorage? storage,
+    this.keyPrefix = kWebPushKeysPrefix,
+  }) : _storage =
+           storage ??
+           const FlutterSecureStorage(
+             iOptions: IOSOptions(
+               accessibility: KeychainAccessibility.first_unlock,
+             ),
+             aOptions: AndroidOptions(resetOnError: false),
+             mOptions: MacOsOptions(
+               accessibility: KeychainAccessibility.first_unlock,
+             ),
+           );
 
   final FlutterSecureStorage _storage;
+  final String keyPrefix;
+
+  String _storageKey(String userId) => '$keyPrefix$userId';
 
   Future<WebPushAccountKeys> ensureKeys(String userId) async {
     final WebPushAccountKeys? existing = await read(userId);
@@ -58,7 +65,7 @@ class WebPushKeyStore {
 
   Future<void> write(WebPushAccountKeys keys) {
     return _storage.write(
-      key: '$kWebPushKeysPrefix${keys.userId}',
+      key: _storageKey(keys.userId),
       value: jsonEncode(<String, String>{
         'public_key': keys.publicKey,
         'auth_secret': keys.authSecret,
@@ -68,7 +75,7 @@ class WebPushKeyStore {
   }
 
   Future<WebPushAccountKeys?> read(String userId) async {
-    final String? raw = await _storage.read(key: '$kWebPushKeysPrefix$userId');
+    final String? raw = await _storage.read(key: _storageKey(userId));
     if (raw == null) {
       return null;
     }
@@ -79,13 +86,14 @@ class WebPushKeyStore {
     final Map<String, String> stored = await _storage.readAll();
     final List<WebPushAccountKeys> keys = <WebPushAccountKeys>[];
     for (final MapEntry<String, String> entry in stored.entries) {
-      if (!entry.key.startsWith(kWebPushKeysPrefix)) {
+      if (!entry.key.startsWith(keyPrefix)) {
         continue;
       }
-      final WebPushAccountKeys? parsed = _parse(
-        entry.key.substring(kWebPushKeysPrefix.length),
-        entry.value,
-      );
+      final String userId = entry.key.substring(keyPrefix.length);
+      if (userId.isEmpty || userId.contains('web_push_')) {
+        continue;
+      }
+      final WebPushAccountKeys? parsed = _parse(userId, entry.value);
       if (parsed != null) {
         keys.add(parsed);
       }
@@ -94,7 +102,7 @@ class WebPushKeyStore {
   }
 
   Future<void> delete(String userId) {
-    return _storage.delete(key: '$kWebPushKeysPrefix$userId');
+    return _storage.delete(key: _storageKey(userId));
   }
 
   Future<bool> isLegacyRawCleared({

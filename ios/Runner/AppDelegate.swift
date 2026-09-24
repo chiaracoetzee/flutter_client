@@ -17,6 +17,7 @@ import flutter_callkit_incoming
     UNUserNotificationCenter.current().delegate = self
     ApplePushBridge.shared.registerReplyCategory()
     AssistantAppShortcuts.updateAppShortcutParameters()
+    VoipPushHandler.shared.start()
     return result
   }
 

@@ -27,8 +27,19 @@ enum WebPushRecordDecryptor {
     return merged
   }
 
+  static func decryptVoip(record: Data) -> (plaintext: String, userId: String)? {
+    return decrypt(record: record, prefix: WebPushKeychain.voipKeyPrefix)
+  }
+
   static func decrypt(record: Data) -> (plaintext: String, userId: String)? {
-    for account in WebPushKeychain.accountKeys() {
+    return decrypt(record: record, prefix: WebPushKeychain.alertKeyPrefix)
+  }
+
+  private static func decrypt(
+    record: Data,
+    prefix: String
+  ) -> (plaintext: String, userId: String)? {
+    for account in WebPushKeychain.accountKeys(prefix: prefix) {
       if let plaintext = decrypt(
         record: record,
         privateKey: account.privateKey,

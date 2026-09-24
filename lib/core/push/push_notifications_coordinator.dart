@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
+import 'package:fluxer_app/core/push/apns/apns_voip_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/apns/apple_push_notification_tap_binding.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
@@ -104,6 +105,9 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       if (PushProviderGuard.isApple) {
         unawaited(
           ref.read(apnsMobileDeviceRegistrationProvider.notifier).sync(),
+        );
+        unawaited(
+          ref.read(apnsVoipMobileDeviceRegistrationProvider.notifier).sync(),
         );
       }
       if (PushProviderGuard.isFirebaseMessaging) {

@@ -13,4 +13,13 @@ String apnsRelayUrl({
       '${_segment(appId)}/${_segment(environment)}/${_segment(deviceTokenHex)}';
 }
 
+String apnsVoipRelayUrl({
+  required String appId,
+  required String environment,
+  required String deviceTokenHex,
+}) {
+  return '$kPushRelayOrigin/relay/v1/apns-voip/'
+      '${_segment(appId)}/${_segment(environment)}/${_segment(deviceTokenHex)}';
+}
+
 String _segment(String value) => Uri.encodeComponent(value);

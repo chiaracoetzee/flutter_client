@@ -384,5 +384,13 @@ void main() {
       ),
       'https://push.fluxer.com/relay/v1/apns/stable/production/ab',
     );
+    expect(
+      apnsVoipRelayUrl(
+        appId: 'stable',
+        environment: 'production',
+        deviceTokenHex: 'ab',
+      ),
+      'https://push.fluxer.com/relay/v1/apns-voip/stable/production/ab',
+    );
   });
 }
