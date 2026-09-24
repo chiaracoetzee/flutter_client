@@ -90,6 +90,10 @@ class ChannelListViewModel extends _$ChannelListViewModel {
 
   @override
   ChannelListState build() {
+    _currentGuildId = null;
+    _subscription = null;
+    _guildSubscription = null;
+    _categoryCache.clear();
     ref.listen<String?>(currentUserIdProvider, (
       String? previous,
       String? next,
@@ -97,6 +101,7 @@ class ChannelListViewModel extends _$ChannelListViewModel {
       if (previous == next) {
         return;
       }
+      _currentGuildId = null;
       _categoryCache.clear();
     });
     ref.listen<Set<String>>(threadGuildGateProvider, (
@@ -121,8 +126,11 @@ class ChannelListViewModel extends _$ChannelListViewModel {
       state = state.copyWith(categories: categories);
     });
     ref.onDispose(() {
+      _currentGuildId = null;
       unawaited(_subscription?.cancel());
+      _subscription = null;
       unawaited(_guildSubscription?.cancel());
+      _guildSubscription = null;
     });
     return const ChannelListState(
       guild: null,
@@ -132,8 +140,10 @@ class ChannelListViewModel extends _$ChannelListViewModel {
   }
 
   void loadChannels(String guildId, {Guild? guild}) {
-    if (_currentGuildId == guildId) {
-      if (guild != null) {
+    if (_currentGuildId == guildId &&
+        _subscription != null &&
+        state.hasReceivedInitialChannelList) {
+      if (guild != null && state.guild != guild) {
         state = state.copyWith(guild: guild);
       }
       return;
