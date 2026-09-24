@@ -14618,7 +14618,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get personaPronounsHint => 'مثال: هو/هي';
 
   @override
-  String get personaBioLabel => 'نبذة شخصية / نبذة عني';
+  String get personaBioLabel => 'نبذة عني';
 
   @override
   String get personaBioHint => 'أخبر الآخرين عن هذه الشخصية...';

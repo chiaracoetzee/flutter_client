@@ -14850,7 +14850,7 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get personaPronounsHint => 'es. lei/lui';
 
   @override
-  String get personaBioLabel => 'Biografia / Su di me';
+  String get personaBioLabel => 'Informazioni su di me';
 
   @override
   String get personaBioHint => 'Racconta agli altri di questa persona...';

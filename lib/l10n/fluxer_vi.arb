@@ -16943,7 +16943,7 @@
     "personaDisplayNameLabel": "Tên hiển thị",
     "personaPronounsLabel": "Đại từ nhân xưng",
     "personaPronounsHint": "vd. they/them",
-    "personaBioLabel": "Tiểu sử / Giới thiệu về tôi",
+    "personaBioLabel": "Giới thiệu về tôi",
     "personaBioHint": "Giới thiệu với người khác về persona này...",
     "personaSaveChanges": "Lưu thay đổi",
     "personaUpdatedToast": "Đã cập nhật persona",

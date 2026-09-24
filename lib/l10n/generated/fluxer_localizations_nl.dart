@@ -14818,7 +14818,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get personaPronounsHint => 'bijv. die/hen';
 
   @override
-  String get personaBioLabel => 'Bio / Over mij';
+  String get personaBioLabel => 'Over mij';
 
   @override
   String get personaBioHint => 'Vertel anderen over deze persona...';

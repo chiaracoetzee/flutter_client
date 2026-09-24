@@ -16918,7 +16918,7 @@
     "personaDisplayNameLabel": "اسم العرض",
     "personaPronounsLabel": "الضمائر",
     "personaPronounsHint": "مثال: هو/هي",
-    "personaBioLabel": "نبذة شخصية / نبذة عني",
+    "personaBioLabel": "نبذة عني",
     "personaBioHint": "أخبر الآخرين عن هذه الشخصية...",
     "personaSaveChanges": "حفظ التغييرات",
     "personaUpdatedToast": "تم تحديث الشخصية",

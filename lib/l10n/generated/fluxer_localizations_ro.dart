@@ -14885,7 +14885,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get personaPronounsHint => 'de ex. ea/el';
 
   @override
-  String get personaBioLabel => 'Biografie / Despre mine';
+  String get personaBioLabel => 'Despre mine';
 
   @override
   String get personaBioHint => 'Spune-le celorlalți despre această persona...';
