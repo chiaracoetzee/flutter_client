@@ -95,9 +95,6 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get personaPronounsHint => 'npr. oni/njih';
 
   @override
-  String get personaBioLabel => 'O meni';
-
-  @override
   String get personaBioHint => 'Recite drugima nešto o ovoj personi...';
 
   @override

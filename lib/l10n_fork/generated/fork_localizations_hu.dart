@@ -93,9 +93,6 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get personaPronounsHint => 'pl. ő/ők';
 
   @override
-  String get personaBioLabel => 'Bemutatkozás / Rólam';
-
-  @override
   String get personaBioHint => 'Mesélj másoknak erről a personáról...';
 
   @override
