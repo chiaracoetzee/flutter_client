@@ -93,9 +93,6 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String get personaPronounsHint => 't.ex. hen/henom';
 
   @override
-  String get personaBioLabel => 'Presentation / Om mig';
-
-  @override
   String get personaBioHint => 'Berätta för andra om denna persona...';
 
   @override

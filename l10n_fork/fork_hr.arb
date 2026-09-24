@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Ime za prikaz",
     "personaPronounsLabel": "Zamjenice",
     "personaPronounsHint": "npr. oni/njih",
-    "personaBioLabel": "O meni",
     "personaBioHint": "Recite drugima nešto o ovoj personi...",
     "personaUpdatedToast": "Persona je ažurirana",
     "personaUpdateFailedToast": "Ažuriranje persone nije uspjelo: {error}",

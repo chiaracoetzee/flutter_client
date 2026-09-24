@@ -94,9 +94,6 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String get personaPronounsHint => 'esim. hän/hänelle';
 
   @override
-  String get personaBioLabel => 'Kuvaus / Tietoja minusta';
-
-  @override
   String get personaBioHint => 'Kerro muille tästä persoonasta...';
 
   @override
