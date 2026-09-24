@@ -98,7 +98,25 @@ bool shouldLeaveVoiceFromCallKitEnd({
   required VoiceCallKitVoiceSnapshot voice,
   required String channelId,
 }) {
-  return voice.channelId == channelId && voice.isConnected;
+  return voice.channelId == channelId && voice.isInVoice;
+}
+
+bool shouldIgnoreCallKitUserEndEvent({
+  required bool isEndingProgrammatically,
+  required DateTime? suppressUntil,
+  required DateTime now,
+  required bool isLiveVoiceCall,
+}) {
+  if (isEndingProgrammatically) {
+    return true;
+  }
+  if (isLiveVoiceCall) {
+    return false;
+  }
+  if (suppressUntil == null || !now.isBefore(suppressUntil)) {
+    return false;
+  }
+  return true;
 }
 
 bool didJoinVoiceCall({

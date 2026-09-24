@@ -764,15 +764,24 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  bool _shouldIgnoreUserCallKitEndEvent() {
-    if (_isEndingProgrammatically) {
-      return true;
-    }
-    final DateTime? suppressUntil = _suppressUserEndHandlingUntil;
-    if (suppressUntil != null && DateTime.now().isBefore(suppressUntil)) {
-      return true;
-    }
-    return false;
+  bool _shouldIgnoreUserCallKitEndEvent({
+    required String callKitId,
+    required String? channelId,
+    required VoiceCallKitVoiceSnapshot voice,
+  }) {
+    final VoiceCallKitSession? session = _sessions.sessionForCallKitId(
+      callKitId,
+    );
+    final bool isLiveVoiceCall =
+        session?.kind == VoiceCallKitSessionKind.activeVoice ||
+        (channelId != null &&
+            shouldLeaveVoiceFromCallKitEnd(voice: voice, channelId: channelId));
+    return shouldIgnoreCallKitUserEndEvent(
+      isEndingProgrammatically: _isEndingProgrammatically,
+      suppressUntil: _suppressUserEndHandlingUntil,
+      now: DateTime.now(),
+      isLiveVoiceCall: isLiveVoiceCall,
+    );
   }
 
   void _armSuppressUserCallKitEndEvents() {
@@ -872,9 +881,9 @@ class VoiceCallKitCoordinatorLogic {
       case CallEventActionCallAccept(:final callKitParams):
         await _handleAccept(callKitParams);
       case CallEventActionCallDecline(:final callKitParams):
-        await _handleDecline(callKitParams);
+        await _handleUserEndedCallKitCall(callKitParams);
       case CallEventActionCallEnded(:final callKitParams):
-        _scheduleSync(() => _handleEnded(callKitParams));
+        await _handleUserEndedCallKitCall(callKitParams);
       case CallEventActionCallTimeout(:final id):
         await _handleTimeout(id);
       case CallEventActionCallToggleMute(:final id, :final isMuted):
@@ -1059,18 +1068,6 @@ class VoiceCallKitCoordinatorLogic {
     return voice.isConnected && voice.channelId == channelId;
   }
 
-  Future<void> _handleDecline(CallKitParams params) async {
-    final String? channelId = _resolveChannelId(
-      callKitId: params.id,
-      params: params,
-    );
-    if (channelId == null) {
-      return;
-    }
-    await _endCallKitForChannel(channelId);
-    await executeDeclineIncomingVoiceCallFromCallKit(_ref, channelId);
-  }
-
   void _unregisterCallKitSessionForChannel(String channelId) {
     final String? callKitId = _sessions.callKitIdForChannel(channelId);
     if (callKitId != null) {
@@ -1080,21 +1077,25 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  Future<void> _handleEnded(CallKitParams params) async {
-    if (_shouldIgnoreUserCallKitEndEvent()) {
-      return;
-    }
-    final String? channelId = _resolveChannelId(
-      callKitId: params.id,
-      params: params,
-    );
-    if (channelId == null) {
-      return;
-    }
+  Future<void> _handleUserEndedCallKitCall(CallKitParams params) async {
     final VoiceCallKitVoiceSnapshot voice = _voiceCallKitVoiceSnapshot(
       _ref.read(voiceSessionProvider),
     );
-    // CallKit already ended the native session when the user tapped End.
+    String? channelId = _resolveChannelId(callKitId: params.id, params: params);
+    if (channelId == null && !_sessions.hasIncomingRing) {
+      channelId = _sessions.soleActiveVoiceChannelId;
+    }
+    if (_shouldIgnoreUserCallKitEndEvent(
+      callKitId: params.id,
+      channelId: channelId,
+      voice: voice,
+    )) {
+      return;
+    }
+    if (channelId == null) {
+      return;
+    }
+    _cancelAudioSessionRecovery();
     _unregisterCallKitSessionForChannel(channelId);
     await _exitCallKitAudioOwnership();
     if (shouldLeaveVoiceFromCallKitEnd(voice: voice, channelId: channelId)) {

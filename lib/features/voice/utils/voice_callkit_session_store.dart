@@ -19,6 +19,20 @@ class VoiceCallKitSessionStore {
         session.kind == VoiceCallKitSessionKind.activeVoice,
   );
 
+  String? get soleActiveVoiceChannelId {
+    String? channelId;
+    for (final VoiceCallKitSession session in _sessionsByCallKitId.values) {
+      if (session.kind != VoiceCallKitSessionKind.activeVoice) {
+        continue;
+      }
+      if (channelId != null) {
+        return null;
+      }
+      channelId = session.channelId;
+    }
+    return channelId;
+  }
+
   Iterable<MapEntry<String, String>> get channelEntries =>
       _callKitIdByChannelId.entries;
 

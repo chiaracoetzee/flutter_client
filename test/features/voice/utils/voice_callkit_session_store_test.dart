@@ -42,4 +42,25 @@ void main() {
       'gone',
     ]);
   });
+
+  test('soleActiveVoiceChannelId is the only live voice session', () {
+    final VoiceCallKitSessionStore store = VoiceCallKitSessionStore();
+    store.registerSession(
+      channelId: 'ring',
+      callKitId: 'a',
+      kind: VoiceCallKitSessionKind.incomingRing,
+    );
+    store.registerSession(
+      channelId: 'voice',
+      callKitId: 'b',
+      kind: VoiceCallKitSessionKind.activeVoice,
+    );
+    expect(store.soleActiveVoiceChannelId, 'voice');
+    store.registerSession(
+      channelId: 'voice-2',
+      callKitId: 'c',
+      kind: VoiceCallKitSessionKind.activeVoice,
+    );
+    expect(store.soleActiveVoiceChannelId, isNull);
+  });
 }

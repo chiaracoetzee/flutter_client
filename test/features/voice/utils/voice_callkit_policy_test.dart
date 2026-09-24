@@ -200,7 +200,7 @@ void main() {
   });
 
   group('shouldLeaveVoiceFromCallKitEnd', () {
-    test('leaves voice only when connected on the same channel', () {
+    test('leaves voice when still in that channel', () {
       expect(
         shouldLeaveVoiceFromCallKitEnd(
           voice: (
@@ -212,7 +212,7 @@ void main() {
           ),
           channelId: 'channel-1',
         ),
-        isFalse,
+        isTrue,
       );
       expect(
         shouldLeaveVoiceFromCallKitEnd(
@@ -237,6 +237,67 @@ void main() {
             activeConnectionId: 'conn-1',
           ),
           channelId: 'channel-2',
+        ),
+        isFalse,
+      );
+      expect(
+        shouldLeaveVoiceFromCallKitEnd(
+          voice: (
+            isInVoice: false,
+            isConnected: false,
+            isConnecting: false,
+            channelId: null,
+            activeConnectionId: null,
+          ),
+          channelId: 'channel-1',
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('shouldIgnoreCallKitUserEndEvent', () {
+    final DateTime now = DateTime(2026, 9, 24, 12);
+    test('ignores programmatic ends', () {
+      expect(
+        shouldIgnoreCallKitUserEndEvent(
+          isEndingProgrammatically: true,
+          suppressUntil: null,
+          now: now,
+          isLiveVoiceCall: true,
+        ),
+        isTrue,
+      );
+    });
+    test('does not ignore hangup of the live CallKit call', () {
+      expect(
+        shouldIgnoreCallKitUserEndEvent(
+          isEndingProgrammatically: false,
+          suppressUntil: now.add(const Duration(seconds: 2)),
+          now: now,
+          isLiveVoiceCall: true,
+        ),
+        isFalse,
+      );
+    });
+    test('suppresses stale ends right after startCall', () {
+      expect(
+        shouldIgnoreCallKitUserEndEvent(
+          isEndingProgrammatically: false,
+          suppressUntil: now.add(const Duration(seconds: 2)),
+          now: now,
+          isLiveVoiceCall: false,
+        ),
+        isTrue,
+      );
+    });
+    test('allows hangup after the suppress window', () {
+      expect(
+        shouldIgnoreCallKitUserEndEvent(
+          isEndingProgrammatically: false,
+          suppressUntil: now.subtract(const Duration(seconds: 1)),
+          now: now,
+          isLiveVoiceCall: false,
         ),
         isFalse,
       );
