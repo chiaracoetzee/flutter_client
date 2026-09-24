@@ -94,7 +94,7 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         String? previous,
         String? next,
       ) {
-        if (previous == next) {
+        if (!mounted || previous == next) {
           return;
         }
         if (next != null) {
