@@ -95,9 +95,6 @@ class ForkLocalizationsFr extends ForkLocalizations {
   String get personaPronounsHint => 'ex. iel/elle/il';
 
   @override
-  String get personaBioLabel => 'Biographie / À propos';
-
-  @override
   String get personaBioHint => 'Présentez ce persona aux autres…';
 
   @override

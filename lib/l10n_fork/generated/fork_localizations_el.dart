@@ -95,9 +95,6 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String get personaPronounsHint => 'π.χ. αυτοί/αυτές';
 
   @override
-  String get personaBioLabel => 'Βιογραφικό / Σχετικά με εμένα';
-
-  @override
   String get personaBioHint => 'Πείτε στους άλλους για αυτήν την persona...';
 
   @override
