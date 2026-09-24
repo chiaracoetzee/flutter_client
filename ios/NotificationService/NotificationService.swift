@@ -194,12 +194,14 @@ private extension NotificationService {
             isMe: false,
             suggestionType: .none
         )
+        let threadId = content.threadIdentifier
+        let groupName = PushNotificationPayload.resolveSpeakableGroupName(title: title)
         let intent = INSendMessageIntent(
             recipients: nil,
             outgoingMessageType: .outgoingMessageText,
             content: content.body,
-            speakableGroupName: nil,
-            conversationIdentifier: content.threadIdentifier.isEmpty ? nil : content.threadIdentifier,
+            speakableGroupName: groupName.map { INSpeakableString(spokenPhrase: $0) },
+            conversationIdentifier: threadId.isEmpty ? nil : threadId,
             serviceName: nil,
             sender: sender,
             attachments: nil
@@ -221,6 +223,9 @@ private extension NotificationService {
         updated.userInfo = content.userInfo
         updated.sound = content.sound
         updated.categoryIdentifier = content.categoryIdentifier
+        if !threadId.isEmpty {
+            updated.threadIdentifier = threadId
+        }
         if !content.attachments.isEmpty {
             updated.attachments = content.attachments
         }

@@ -47,6 +47,8 @@ dependencies:
   flutter_tts: ^4.2.5
   flutter_web_auth_2: ^5.1.0
   flutter_webrtc: ^1.6.2+hotfix.3
+  fluxer_android_notifications:
+    path: packages/fluxer_android_notifications
   fluxer_captcha:
     path: packages/fluxer_captcha
   fluxer_dart:

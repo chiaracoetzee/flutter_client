@@ -1076,6 +1076,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.2+hotfix.3"
+  fluxer_android_notifications:
+    dependency: "direct main"
+    description:
+      path: "packages/fluxer_android_notifications"
+      relative: true
+    source: path
+    version: "0.0.1"
   fluxer_captcha:
     dependency: "direct main"
     description:

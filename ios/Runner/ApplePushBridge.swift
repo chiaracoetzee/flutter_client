@@ -220,7 +220,10 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       DispatchQueue.main.async(execute: finish)
       return
     }
-    removeDeliveredNotificationsForChannel(channelId: channelId) {
+    removeDeliveredNotificationsForChannel(
+      channelId: channelId,
+      upToMessageId: PushNotificationPayload.resolveMessageId(from: userInfo)
+    ) {
       DispatchQueue.main.async(execute: finish)
     }
   }
@@ -255,6 +258,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
 
   func removeDeliveredNotificationsForChannel(
     channelId: String,
+    upToMessageId: String? = nil,
     completion: (() -> Void)? = nil
   ) {
     guard !channelId.isEmpty else {
@@ -265,6 +269,15 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       let identifiers = notifications.compactMap { notification -> String? in
         guard PushNotificationPayload.notificationMatchesChannel(notification, channelId: channelId)
         else {
+          return nil
+        }
+        let messageId = PushNotificationPayload.resolveMessageId(
+          from: notification.request.content.userInfo
+        )
+        guard PushNotificationPayload.messageIsCoveredByAck(
+          messageId: messageId,
+          upToMessageId: upToMessageId
+        ) else {
           return nil
         }
         return notification.request.identifier
@@ -423,7 +436,11 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
         )
         return
       }
-      self.removeDeliveredNotificationsForChannel(channelId: channelId) {
+      let messageId = args["messageId"] as? String
+      self.removeDeliveredNotificationsForChannel(
+        channelId: channelId,
+        upToMessageId: messageId
+      ) {
         DispatchQueue.main.async {
           result(nil)
         }

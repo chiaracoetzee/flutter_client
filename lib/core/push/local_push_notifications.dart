@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_notification_ids.dart'
     show
         kLocalNotificationMessageIdKey,
+        pushGroupSummaryNotificationId,
         pushMessageNotificationId,
         pushNotificationCancelIds;
 import 'package:fluxer_app/core/push/push_notification_media.dart';
@@ -340,7 +341,10 @@ final class LocalPushNotifications {
     );
   }
 
-  Future<void> cancelForChannel(String channelId) async {
+  Future<void> cancelForChannel(
+    String channelId, {
+    String? upToMessageId,
+  }) async {
     if (kIsWeb || channelId.isEmpty) {
       return;
     }
@@ -351,12 +355,14 @@ final class LocalPushNotifications {
       }
     }
     final String channelTag = buildChannelTag(channelId);
+    final int summaryId = pushGroupSummaryNotificationId(channelTag);
+    var unreadRemain = false;
     try {
       final List<ActiveNotification> active = await _plugin
           .getActiveNotifications();
+      final List<ActiveNotification> covered = <ActiveNotification>[];
       for (final ActiveNotification notification in active) {
-        final int? id = notification.id;
-        if (id == null) {
+        if (notification.id == null) {
           continue;
         }
         final bool tagMatch = pushNotificationTagMatchesChannel(
@@ -370,7 +376,24 @@ final class LocalPushNotifications {
         if (!tagMatch && !groupMatch) {
           continue;
         }
-        await _plugin.cancel(id: id, tag: notification.tag);
+        final String? messageId = _messageIdForActiveNotification(
+          notification,
+          channelId,
+        );
+        final bool isSummary =
+            notification.id == summaryId ||
+            (messageId == null && notification.tag == channelTag);
+        if (isSummary) {
+          continue;
+        }
+        if (pushMessageIsCoveredByAck(messageId, upToMessageId)) {
+          covered.add(notification);
+        } else {
+          unreadRemain = true;
+        }
+      }
+      for (final ActiveNotification notification in covered) {
+        await _plugin.cancel(id: notification.id!, tag: notification.tag);
       }
     } on Object catch (e, st) {
       if (kDebugMode) {
@@ -379,34 +402,58 @@ final class LocalPushNotifications {
         );
       }
     }
+    if (unreadRemain) {
+      return;
+    }
     final AndroidFlutterLocalNotificationsPlugin? android = _plugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
         >();
-    if (android != null) {
-      try {
-        await android.cancel(tag: channelTag, id: 0);
-      } on Object catch (e, st) {
-        if (kDebugMode) {
-          debugPrint(
-            '[LocalPushNotifications] cancel channel tag failed: $e\n$st',
-          );
-        }
+    if (android == null) {
+      return;
+    }
+    try {
+      await android.cancel(tag: channelTag, id: summaryId);
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint(
+          '[LocalPushNotifications] cancel channel tag failed: $e\n$st',
+        );
       }
     }
-    for (final int id in pushNotificationCancelIds(<String, String>{
-      'channel_id': channelId,
-      'tag': channelTag,
-    })) {
-      try {
-        await _plugin.cancel(id: id, tag: channelTag);
-      } on Object catch (e, st) {
-        if (kDebugMode) {
-          debugPrint(
-            '[LocalPushNotifications] cancel channel id=$id failed: $e\n$st',
-          );
-        }
+  }
+
+  String? _messageIdForActiveNotification(
+    ActiveNotification notification,
+    String channelId,
+  ) {
+    final String? fromTag = pushMessageIdFromChannelTag(
+      notification.tag,
+      channelId,
+    );
+    if (fromTag != null) {
+      return fromTag;
+    }
+    final String? raw = notification.payload;
+    if (raw == null || raw.isEmpty) {
+      return null;
+    }
+    try {
+      final Object? decoded = jsonDecode(raw);
+      if (decoded is! Map) {
+        return null;
       }
+      final Object? messageId = decoded['message_id'];
+      if (messageId == null) {
+        return null;
+      }
+      final String value = messageId.toString();
+      if (value.isEmpty) {
+        return null;
+      }
+      return value;
+    } on FormatException {
+      return null;
     }
   }
 
@@ -607,10 +654,12 @@ final class LocalPushNotifications {
       return;
     }
     final int? whenMillis = resolvePushNotificationWhenMillis(payload);
+    final String summaryTitle =
+        resolvePushConversationName(payload, title: title) ?? title;
     try {
       await _plugin.show(
-        id: pushMessageNotificationId('summary:$groupKey'),
-        title: title,
+        id: pushGroupSummaryNotificationId(groupKey),
+        title: summaryTitle,
         body: body,
         notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(

@@ -25,7 +25,7 @@ class RunnerTests: XCTestCase {
     ]
     XCTAssertEqual(
       PushNotificationPayload.resolveChannelThreadIdentifier(from: userInfo),
-      "456"
+      "channel:456"
     )
   }
 
@@ -36,7 +36,7 @@ class RunnerTests: XCTestCase {
     ]
     XCTAssertEqual(
       PushNotificationPayload.resolveChannelThreadIdentifier(from: userInfo),
-      "789"
+      "channel:789"
     )
   }
 
@@ -104,6 +104,39 @@ class RunnerTests: XCTestCase {
     XCTAssertTrue(PushNotificationPayload.isClearPayload(from: rootClear))
     XCTAssertTrue(PushNotificationPayload.isClearPayload(from: nestedClear))
     XCTAssertFalse(PushNotificationPayload.isClearPayload(from: ["channel_id": "456"]))
+  }
+
+  func testSpeakableGroupNameUsesChannelNameForGuilds() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveSpeakableGroupName(title: "Alice (#general, My Server)"),
+      "general"
+    )
+  }
+
+  func testSpeakableGroupNameUsesGroupDmFallback() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveSpeakableGroupName(title: "Alice (Group DM)"),
+      "Group DM"
+    )
+  }
+
+  func testSpeakableGroupNameIsNilForDirectMessages() {
+    XCTAssertNil(PushNotificationPayload.resolveSpeakableGroupName(title: "Alice"))
+  }
+
+  func testMessageIsCoveredByAckKeepsNewerMessages() {
+    XCTAssertFalse(
+      PushNotificationPayload.messageIsCoveredByAck(messageId: "200", upToMessageId: "100")
+    )
+    XCTAssertTrue(
+      PushNotificationPayload.messageIsCoveredByAck(messageId: "100", upToMessageId: "200")
+    )
+    XCTAssertTrue(
+      PushNotificationPayload.messageIsCoveredByAck(messageId: "100", upToMessageId: nil)
+    )
+    XCTAssertFalse(
+      PushNotificationPayload.messageIsCoveredByAck(messageId: nil, upToMessageId: "100")
+    )
   }
 
   func testResolveChannelIdFromClearPayload() {

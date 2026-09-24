@@ -61,19 +61,40 @@ enum PushNotificationPayload {
 
   static func resolveChannelThreadIdentifier(from userInfo: [AnyHashable: Any]) -> String? {
     if let aps = userInfo["aps"] as? [AnyHashable: Any],
-      let threadId = aps["thread-id"] as? String, !threadId.isEmpty
+      let threadId = nonEmptyText(aps["thread-id"])
     {
       return threadId
     }
-    if let channelId = userInfo["channel_id"] as? String, !channelId.isEmpty {
-      return channelId
+    if let notificationTag = nonEmptyText(userInfo["notification_tag"]) {
+      return notificationTag
     }
     if let data = userInfo["data"] as? [AnyHashable: Any],
-      let channelId = data["channel_id"] as? String, !channelId.isEmpty
+      let notificationTag = nonEmptyText(data["notification_tag"])
     {
-      return channelId
+      return notificationTag
+    }
+    if let channelId = rawChannelId(from: userInfo) {
+      return "channel:\(channelId)"
     }
     return nil
+  }
+
+  /// Group name for guild channels and group DMs. Nil for a 1:1 DM.
+  static func resolveSpeakableGroupName(title: String) -> String? {
+    if title.hasSuffix(" (Group DM)") {
+      return "Group DM"
+    }
+    guard let open = title.range(of: " (#", options: .backwards),
+      let comma = title.range(of: ", ", range: open.upperBound..<title.endIndex),
+      title.hasSuffix(")")
+    else {
+      return nil
+    }
+    let channelName = title[open.upperBound..<comma.lowerBound]
+    if channelName.isEmpty {
+      return nil
+    }
+    return String(channelName)
   }
 
   static func resolveMessageSentDate(from userInfo: [AnyHashable: Any]) -> Date? {
@@ -160,12 +181,7 @@ enum PushNotificationPayload {
   }
 
   static func resolveChannelId(from userInfo: [AnyHashable: Any]) -> String? {
-    if let channelId = userInfo["channel_id"] as? String, !channelId.isEmpty {
-      return channelId
-    }
-    if let data = userInfo["data"] as? [AnyHashable: Any],
-      let channelId = data["channel_id"] as? String, !channelId.isEmpty
-    {
+    if let channelId = rawChannelId(from: userInfo) {
       return channelId
     }
     if let threadId = resolveChannelThreadIdentifier(from: userInfo),
@@ -227,6 +243,16 @@ enum PushNotificationPayload {
     return parts[3]
   }
 
+  static func messageIsCoveredByAck(messageId: String?, upToMessageId: String?) -> Bool {
+    guard let upToMessageId, !upToMessageId.isEmpty else {
+      return true
+    }
+    guard let messageId, !messageId.isEmpty else {
+      return false
+    }
+    return compareNumericIds(messageId, upToMessageId) <= 0
+  }
+
   static func notificationMatchesChannel(
     _ notification: UNNotification,
     channelId: String
@@ -255,6 +281,33 @@ enum PushNotificationPayload {
       return true
     }
     return false
+  }
+
+  private static func rawChannelId(from userInfo: [AnyHashable: Any]) -> String? {
+    if let channelId = nonEmptyText(userInfo["channel_id"]) {
+      return channelId
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any] {
+      return nonEmptyText(data["channel_id"])
+    }
+    return nil
+  }
+
+  private static func compareNumericIds(_ lhs: String, _ rhs: String) -> Int {
+    let left = stripLeadingZeros(lhs)
+    let right = stripLeadingZeros(rhs)
+    if left.count != right.count {
+      return left.count < right.count ? -1 : 1
+    }
+    if left == right {
+      return 0
+    }
+    return left < right ? -1 : 1
+  }
+
+  private static func stripLeadingZeros(_ value: String) -> String {
+    let stripped = value.drop { $0 == "0" }
+    return stripped.isEmpty ? "0" : String(stripped)
   }
 
   private static func isClearValue(_ value: Any?) -> Bool {
