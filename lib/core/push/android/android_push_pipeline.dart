@@ -39,9 +39,7 @@ AndroidPushIncomingAction resolveAndroidPushIncomingAction({
     )) {
       return AndroidPushIncomingAction.discard;
     }
-    return backgroundMode
-        ? AndroidPushIncomingAction.showIncomingCall
-        : AndroidPushIncomingAction.emit;
+    return AndroidPushIncomingAction.showIncomingCall;
   }
   if (isNotificationClearPayload(payload)) {
     return backgroundMode
@@ -130,7 +128,7 @@ class AndroidPushPipeline {
         await PushNotificationClear.handleClearPayload(message.payload);
         return null;
       case AndroidPushIncomingAction.showLocally:
-        if (await _collidesWithVisibleCall(message.payload)) {
+        if (await collidesWithVisibleCall(message.payload)) {
           return null;
         }
         await LocalPushNotifications().showPushMessage(message);
@@ -146,7 +144,7 @@ class AndroidPushPipeline {
     }
   }
 
-  static Future<bool> _collidesWithVisibleCall(
+  static Future<bool> collidesWithVisibleCall(
     Map<String, String> payload,
   ) async {
     final String? messageId = payload['message_id'];
@@ -177,10 +175,10 @@ class AndroidPushPipeline {
   }) async {
     final int nowMs = DateTime.now().millisecondsSinceEpoch;
     final CallRingDisplay display = fallback
-        ? const CallRingDisplay(
+        ? CallRingDisplay(
             nameCaller: kCallRingFallbackName,
             handle: kCallRingFallbackHandle,
-            durationMs: kCallRingMinimumDurationMs,
+            durationMs: kVoiceCallKitRingDuration.inMilliseconds,
           )
         : resolveCallRingDisplay(payload: message.payload, nowMs: nowMs);
     final String? messageId = message.payload['message_id'];
@@ -197,10 +195,14 @@ class AndroidPushPipeline {
           display: display,
           channelId: message.payload['channel_id'],
           messageId: messageId,
+          showMissedCall: !fallback,
         ),
       );
     } on Object {
       return;
+    }
+    if (messageId != null && messageId.isNotEmpty) {
+      await LocalPushNotifications().cancelForPayload(message.payload);
     }
   }
 }

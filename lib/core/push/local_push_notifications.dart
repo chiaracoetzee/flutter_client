@@ -471,16 +471,34 @@ final class LocalPushNotifications {
   }
 
   Future<void> cancelForPayload(Map<String, String> payload) async {
-    if (kIsWeb || !_initialized) {
+    if (kIsWeb) {
       return;
     }
-    final String? messageTag = resolvePushMessageTag(payload);
+    if (!_initialized) {
+      final bool ready = await ensureInitialized();
+      if (!ready) {
+        return;
+      }
+    }
+    final Set<String?> tags = <String?>{resolvePushDisplayTag(payload)};
+    final String? channelId = resolvePushChannelId(payload);
+    final String? messageId = payload['message_id'];
+    if (channelId != null &&
+        channelId.isNotEmpty &&
+        messageId != null &&
+        messageId.isNotEmpty) {
+      tags.add('${buildChannelTag(channelId)}:$messageId');
+    }
     for (final int id in pushNotificationCancelIds(payload)) {
-      try {
-        await _plugin.cancel(id: id, tag: messageTag);
-      } on Object catch (e, st) {
-        if (kDebugMode) {
-          debugPrint('[LocalPushNotifications] cancel failed id=$id: $e\n$st');
+      for (final String? tag in tags) {
+        try {
+          await _plugin.cancel(id: id, tag: tag);
+        } on Object catch (e, st) {
+          if (kDebugMode) {
+            debugPrint(
+              '[LocalPushNotifications] cancel failed id=$id: $e\n$st',
+            );
+          }
         }
       }
     }

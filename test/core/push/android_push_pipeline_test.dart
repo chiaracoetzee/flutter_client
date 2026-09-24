@@ -48,19 +48,28 @@ void main() {
     );
   });
 
-  test('foreground call ring is left to the in-app sheet', () {
+  test('call ring always shows an incoming call', () {
+    const Map<String, String> ring = <String, String>{
+      'type': 'call_ring',
+      'channel_id': 'c',
+      'message_id': 'm',
+      'expires_at_ms': '9999999999999',
+    };
     expect(
       resolveAndroidPushIncomingAction(
         decrypted: true,
         backgroundMode: false,
-        payload: const <String, String>{
-          'type': 'call_ring',
-          'channel_id': 'c',
-          'message_id': 'm',
-          'expires_at_ms': '9999999999999',
-        },
+        payload: ring,
       ),
-      AndroidPushIncomingAction.emit,
+      AndroidPushIncomingAction.showIncomingCall,
+    );
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: true,
+        backgroundMode: true,
+        payload: ring,
+      ),
+      AndroidPushIncomingAction.showIncomingCall,
     );
   });
 
@@ -77,22 +86,6 @@ void main() {
         },
       ),
       AndroidPushIncomingAction.discard,
-    );
-  });
-
-  test('background call ring shows an incoming call', () {
-    expect(
-      resolveAndroidPushIncomingAction(
-        decrypted: true,
-        backgroundMode: true,
-        payload: const <String, String>{
-          'type': 'call_ring',
-          'channel_id': 'c',
-          'message_id': 'm',
-          'expires_at_ms': '9999999999999',
-        },
-      ),
-      AndroidPushIncomingAction.showIncomingCall,
     );
   });
 

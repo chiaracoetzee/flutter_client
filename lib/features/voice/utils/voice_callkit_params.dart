@@ -86,6 +86,7 @@ CallKitParams buildIncomingCallRingParams({
   String? messageId,
   String acceptLabel = 'Accept',
   String declineLabel = 'Decline',
+  bool showMissedCall = true,
 }) {
   return CallKitParams(
     id: callKitId,
@@ -95,6 +96,10 @@ CallKitParams buildIncomingCallRingParams({
     handle: display.handle,
     type: kVoiceCallKitAudioType,
     duration: display.durationMs,
+    missedCallNotification: NotificationParams(
+      showNotification: showMissedCall,
+      isShowCallback: false,
+    ),
     extra: <String, dynamic>{
       if (channelId != null && channelId.isNotEmpty)
         kVoiceCallKitExtraChannelId: channelId,
