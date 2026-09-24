@@ -3,7 +3,6 @@ import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_stic
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/expressions/guild_sticker_settings_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
-import 'package:fluxer_app/features/settings/providers/guild/guild_sticker_settings_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class SettingsStickersPage extends ConsumerWidget {

@@ -462,7 +462,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       case _NavbarListEntryKind.favorites:
         return const _FavoritesButton();
       case _NavbarListEntryKind.allowlistedDm:
-        final DmChannel dm = entry.dm!;
+        final DmChannel dm = entry.dm;
         return DmNavbarItem(
           key: ValueKey('dm-${dm.id}'),
           channelId: dm.id,
@@ -478,7 +478,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           ),
         );
       case _NavbarListEntryKind.regularDm:
-        final DmChannel dm = entry.dm!;
+        final DmChannel dm = entry.dm;
         return DmNavbarItem(
           key: ValueKey('dm-${dm.id}'),
           channelId: dm.id,

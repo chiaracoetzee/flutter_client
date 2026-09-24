@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/attachment_edit_modal.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/alt_text_badge.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
-import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';

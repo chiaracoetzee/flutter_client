@@ -122,7 +122,7 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     if (addedIds.isEmpty && visible.length == previousIds.length) {
       return state.channels
           .where((channel) => merged.containsKey(channel.id))
-          .map((channel) => merged[channel.id]!)
+          .map((channel) => merged[channel.id])
           .toList();
     }
     return _sortChannels(visible);

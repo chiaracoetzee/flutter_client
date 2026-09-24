@@ -105,7 +105,7 @@ class Member {
     final roleMap = {for (final r in allRoles) r.id: r};
     final memberRoles = <MemberRole>[
       for (final id in roleIds)
-        if (roleMap.containsKey(id)) MemberRole.fromRow(roleMap[id]!),
+        if (roleMap.containsKey(id)) MemberRole.fromRow(roleMap[id]),
     ];
 
     final bool isAvatarUnset = hasMemberProfileFlag(

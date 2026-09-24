@@ -22,7 +22,7 @@ void main() {
     ]);
     final row = await db.channelDao.getChannelById('c1');
 
-    final json = channelResponseFromRow(row!).toJson();
+    final json = channelResponseFromRow(row).toJson();
 
     expect(json['id'], 'c1');
     expect(json['guild_id'], 'g1');

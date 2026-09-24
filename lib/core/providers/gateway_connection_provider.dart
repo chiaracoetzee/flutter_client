@@ -26,7 +26,6 @@ class IdentifyInitialGuildId extends _$IdentifyInitialGuildId {
   String? build() => null;
 
   // Applied from the persisted last location before Identify.
-  // ignore: use_setters_to_change_properties
   void set(String? guildId) {
     state = guildId;
   }

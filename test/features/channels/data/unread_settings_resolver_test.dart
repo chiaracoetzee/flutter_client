@@ -23,7 +23,7 @@ Future<Channel> _channel({String id = _channelId, String? parentId}) async {
   );
   final Channel? row = await db.channelDao.getChannelById(id);
   expect(row, isNotNull);
-  return row!;
+  return row;
 }
 
 UserGuildSettingsResponse _settings({

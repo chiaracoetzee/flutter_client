@@ -465,7 +465,7 @@ List<VoiceSidebarParticipant> voiceChannelSidebarParticipants(
       <String, database.Member>{
         for (final String userId in userIds)
           if (_voiceGuildMembersCache.containsKey(userId))
-            userId: _voiceGuildMembersCache[userId]!,
+            userId: _voiceGuildMembersCache[userId],
       };
   final Map<String, String?> nicknameByUserId =
       _friendNicknamesCache ?? const <String, String?>{};

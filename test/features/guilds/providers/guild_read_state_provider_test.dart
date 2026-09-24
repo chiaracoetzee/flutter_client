@@ -237,8 +237,8 @@ void main() {
     await _waitForGuildState(container, 'guild-A');
     await _waitForGuildState(container, 'guild-B');
 
-    final beforeA = container.read(guildReadStateProvider)['guild-A']!;
-    final beforeB = container.read(guildReadStateProvider)['guild-B']!;
+    final beforeA = container.read(guildReadStateProvider)['guild-A'];
+    final beforeB = container.read(guildReadStateProvider)['guild-B'];
 
     await db.readStateDao.incrementMentionCount('c-A1');
     await _waitFor(
@@ -248,8 +248,8 @@ void main() {
           beforeA.mentionCount,
     );
 
-    final afterA = container.read(guildReadStateProvider)['guild-A']!;
-    final afterB = container.read(guildReadStateProvider)['guild-B']!;
+    final afterA = container.read(guildReadStateProvider)['guild-A'];
+    final afterB = container.read(guildReadStateProvider)['guild-B'];
 
     expect(afterA.mentionCount, beforeA.mentionCount + 1);
     expect(afterA.sentinel, greaterThan(beforeA.sentinel));
@@ -392,7 +392,7 @@ void main() {
     await db.channelDao.setLastMessageId('channel-1', newerMessageId);
     await _waitForGuildState(container, 'guild-1');
 
-    final after = container.read(guildReadStateProvider)['guild-1']!;
+    final after = container.read(guildReadStateProvider)['guild-1'];
     expect(after.hasUnread, isTrue);
     expect(after.hasPlainUnread, isTrue);
   });
@@ -679,7 +679,7 @@ void main() {
         fireImmediately: true,
       );
       await _waitForGuildState(container2, 'g');
-      final full = container2.read(guildReadStateProvider)['g']!;
+      final full = container2.read(guildReadStateProvider)['g'];
       sub2.close();
       container2.dispose();
       await db2.close();
@@ -697,7 +697,7 @@ void main() {
       );
       addTearDown(sub1.close);
       await _waitForGuildState(container1, 'g');
-      final before = container1.read(guildReadStateProvider)['g']!;
+      final before = container1.read(guildReadStateProvider)['g'];
 
       await db1.readStateDao.incrementMentionCount('c2');
       await _waitFor(
@@ -705,7 +705,7 @@ void main() {
             (container1.read(guildReadStateProvider)['g']?.mentionCount ?? 0) ==
             full.mentionCount,
       );
-      final incremental = container1.read(guildReadStateProvider)['g']!;
+      final incremental = container1.read(guildReadStateProvider)['g'];
 
       expect(incremental.mentionCount, greaterThan(before.mentionCount));
       expect(incremental.hasUnread, full.hasUnread);
@@ -744,7 +744,7 @@ void main() {
     );
     addTearDown(sub.close);
     await _waitForGuildState(container, 'guild-1');
-    final before = container.read(guildReadStateProvider)['guild-1']!;
+    final before = container.read(guildReadStateProvider)['guild-1'];
 
     // Message-only edit: channel.lastMessageId is unchanged, so no recompute fires.
     await db.messageDao.upsertMessage(
@@ -752,7 +752,7 @@ void main() {
     );
     await Future<void>.delayed(const Duration(milliseconds: 100));
 
-    final after = container.read(guildReadStateProvider)['guild-1']!;
+    final after = container.read(guildReadStateProvider)['guild-1'];
     expect(after.sentinel, before.sentinel);
     expect(after.hasUnread, before.hasUnread);
   });
@@ -1010,7 +1010,7 @@ void main() {
       addTearDown(sub.close);
       await _waitForGuildState(container, 'guild-allow');
 
-      final allow = container.read(guildReadStateProvider)['guild-allow']!;
+      final allow = container.read(guildReadStateProvider)['guild-allow'];
       expect(allow.hasUnread, isTrue);
       expect(allow.mentionCount, 2);
 
@@ -1106,7 +1106,7 @@ void main() {
       addTearDown(sub.close);
       await _waitForGuildState(container, 'guild-1');
 
-      final entry = container.read(guildReadStateProvider)['guild-1']!;
+      final entry = container.read(guildReadStateProvider)['guild-1'];
       expect(entry.hasUnread, isFalse);
       expect(entry.hasPlainUnread, isFalse);
       expect(entry.mentionCount, 3);
@@ -1157,7 +1157,7 @@ void main() {
       addTearDown(sub.close);
       await _waitForGuildState(container, 'guild-1');
 
-      final entry = container.read(guildReadStateProvider)['guild-1']!;
+      final entry = container.read(guildReadStateProvider)['guild-1'];
       expect(entry.hasUnread, isTrue);
       expect(entry.hasPlainUnread, isTrue);
       expect(entry.mentionCount, 0);
