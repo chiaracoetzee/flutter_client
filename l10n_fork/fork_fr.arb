@@ -24,7 +24,6 @@
     "personaDisplayNameLabel": "Nom affiché",
     "personaPronounsLabel": "Pronoms",
     "personaPronounsHint": "ex. iel/elle/il",
-    "personaBioLabel": "Biographie / À propos",
     "personaBioHint": "Présentez ce persona aux autres…",
     "personaUpdatedToast": "Persona mis à jour",
     "personaUpdateFailedToast": "Échec de la mise à jour du persona : {error}",
