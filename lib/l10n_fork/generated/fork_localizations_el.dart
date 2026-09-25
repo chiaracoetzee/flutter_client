@@ -23,6 +23,32 @@ class ForkLocalizationsEl extends ForkLocalizations {
       'Αντικατάσταση του κουμπιού φωνητικού μηνύματος στο πεδίο μηνύματος με κουμπί γρήγορης εναλλαγής για ταχύτερη πλοήγηση';
 
   @override
+  String get userSettingsCheckForUpdates => 'Έλεγχος για ενημερώσεις';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Έλεγχος για ενημερώσεις…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Το Fluxer είναι ενημερωμένο';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Διαθέσιμη ενημέρωση';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Λήψη & εγκατάσταση';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Εγκατάσταση ενημέρωσης';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Λήψη ενημέρωσης ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'Αποτυχία ελέγχου ή λήψης ενημέρωσης.';
+
+  @override
   String get personaSelectTitle => 'Επιλογή persona';
 
   @override
