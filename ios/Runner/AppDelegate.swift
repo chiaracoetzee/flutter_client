@@ -109,6 +109,9 @@ import flutter_callkit_incoming
     ApplePushBridge.shared.registerReplyCategory()
     AssistantBridge.shared.register(engineBridge: engineBridge)
     PhysicalKeyboardBridge.shared.register(engineBridge: engineBridge)
+    VoiceSpeakerRouteBridge.shared.register(
+      messenger: engineBridge.applicationRegistrar.messenger()
+    )
   }
 
   func onAccept(_ call: Call, _ action: CXAnswerCallAction) {

@@ -215,8 +215,8 @@ final class VoipPushHandler: NSObject, PKPushRegistryDelegate, CXProviderDelegat
     let session = AVAudioSession.sharedInstance()
     try? session.setCategory(
       .playAndRecord,
-      mode: .voiceChat,
-      options: [.allowBluetooth, .allowBluetoothA2DP]
+      mode: .videoChat,
+      options: [.allowBluetooth, .allowBluetoothA2DP, .defaultToSpeaker]
     )
   }
 

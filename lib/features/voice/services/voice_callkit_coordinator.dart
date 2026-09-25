@@ -157,8 +157,7 @@ class VoiceCallKitCoordinatorLogic {
         );
         if (!shouldReapplySpeakerOutputOnPreferenceChange(
           isInVoice: voice.isInVoice,
-          speakerPreferenceChanged:
-              previous?.preferSpeakerOutput != next.preferSpeakerOutput,
+          speakerPreferenceChanged: previous?.outputRoute != next.outputRoute,
         )) {
           return;
         }
