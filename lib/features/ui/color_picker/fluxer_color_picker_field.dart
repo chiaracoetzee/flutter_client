@@ -75,6 +75,7 @@ class FluxerColorPickerField extends StatefulWidget {
     this.onReset,
     this.hideHelperText = false,
     this.swatchColor,
+    this.resetLabel,
     super.key,
   });
 
@@ -88,6 +89,7 @@ class FluxerColorPickerField extends StatefulWidget {
   final VoidCallback? onReset;
   final bool hideHelperText;
   final Color? swatchColor;
+  final String? resetLabel;
 
   @override
   State<FluxerColorPickerField> createState() => _FluxerColorPickerFieldState();
@@ -134,7 +136,7 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
     if (widget.onReset != null) {
       widget.onReset!();
     } else {
-      widget.onChanged(0);
+      widget.onChanged(widget.defaultValue ?? 0);
     }
     final int resetValue = widget.defaultValue ?? 0;
     _controller.text = _intToHex(resetValue);
@@ -186,7 +188,7 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
       });
       return;
     }
-    if (parsed != _effectiveValue) {
+    if (parsed != _effectiveValue || widget.isDefaultValue) {
       widget.onChanged(parsed);
     }
     setState(() {
@@ -229,7 +231,8 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
               setState(() => _showError = false);
             }
             final parsed = _parseHex(value);
-            if (parsed != null && parsed != widget.value) {
+            if (parsed != null &&
+                (parsed != widget.value || widget.isDefaultValue)) {
               widget.onChanged(parsed);
             }
           },
@@ -273,6 +276,10 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
 
   _ColorPickerContent _buildPickerContent({VoidCallback? onClose}) {
     final String pickerColorHex = _intToHex(_effectiveValue);
+    final bool hasCustomColor =
+        !widget.isDefaultValue &&
+        (widget.defaultValue != null ||
+            pickerColorHex != _intToHex(_kDefaultPickerBaselineColor));
     return _ColorPickerContent(
       color: _intToColor(_effectiveValue),
       onChanged: (color) {
@@ -282,7 +289,8 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
         setState(() => _showError = false);
       },
       onReset: () => _handleReset(onClose: onClose),
-      hasCustomColor: pickerColorHex != _intToHex(_kDefaultPickerBaselineColor),
+      hasCustomColor: hasCustomColor,
+      resetLabel: widget.resetLabel,
     );
   }
 
@@ -339,12 +347,14 @@ class _ColorPickerContent extends StatefulWidget {
     required this.onChanged,
     required this.hasCustomColor,
     this.onReset,
+    this.resetLabel,
   });
 
   final Color color;
   final ValueChanged<Color> onChanged;
   final VoidCallback? onReset;
   final bool hasCustomColor;
+  final String? resetLabel;
 
   @override
   State<_ColorPickerContent> createState() => _ColorPickerContentState();
@@ -397,7 +407,7 @@ class _ColorPickerContentState extends State<_ColorPickerContent> {
             SizedBox(height: layout.s3),
             FluxerButton.secondary(
               onPressed: widget.hasCustomColor ? widget.onReset : null,
-              label: 'Reset',
+              label: widget.resetLabel ?? 'Reset',
               size: FluxerButtonSize.small,
             ),
           ],
