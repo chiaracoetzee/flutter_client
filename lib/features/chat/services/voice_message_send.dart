@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/services/voice_message_recording_servic
 Future<void> sendPreparedVoiceMessage({
   required WidgetRef ref,
   required VoiceMessagePreparedRecording prepared,
+  Map<String, dynamic>? personaData,
 }) async {
   await ref
       .read(chatViewModelProvider.notifier)
@@ -12,6 +13,7 @@ Future<void> sendPreparedVoiceMessage({
         filePath: prepared.filePath,
         duration: prepared.duration,
         waveform: prepared.waveform,
+        personaData: personaData,
       );
 }
 
