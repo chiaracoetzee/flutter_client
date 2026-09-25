@@ -323,6 +323,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required bool showBilling,
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
+  VoidCallback? onCheckForUpdates,
 }) {
   FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
     return FluxerSettingsNavItem(
@@ -402,6 +403,12 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
     FluxerSettingsNavGroup(
       items: [
         link(UserSettingsSection.whatsNew, PhosphorIconsFill.megaphone),
+        if (onCheckForUpdates != null)
+          FluxerSettingsNavItem(
+            label: l10n.userSettingsCheckForUpdates,
+            icon: PhosphorIconsFill.arrowsClockwise,
+            onTap: onCheckForUpdates,
+          ),
         if (showJoinFluxerLabs)
           FluxerSettingsNavItem(
             label: l10n.userSettingsJoinFluxerLabs,
