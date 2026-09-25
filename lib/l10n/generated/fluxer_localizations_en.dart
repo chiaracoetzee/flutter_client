@@ -11267,6 +11267,32 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'You can sign back in at any time.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Check for updates';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Checking for updates…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Update Available';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Download & Install';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Install Update';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Downloading update ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'Failed to check or download update.';
+
+  @override
   String get quickSwitcherTabSearch => 'Search';
 
   @override
@@ -26481,6 +26507,32 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'You can sign back in at any time.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Check for updates';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Checking for updates…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Update Available';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Download & Install';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Install Update';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Downloading update ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'Failed to check or download update.';
+
+  @override
   String get quickSwitcherTabSearch => 'Search';
 
   @override
@@ -41031,6 +41083,32 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get userSettingsNavLogOut => 'Log out';
+
+  @override
+  String get userSettingsCheckForUpdates => 'Check for updates';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Checking for updates…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Update Available';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Download & Install';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Install Update';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Downloading update ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'Failed to check or download update.';
 
   @override
   String get quickSwitcherTabSearch => 'Search';
