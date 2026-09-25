@@ -19,7 +19,6 @@ import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
-import 'package:fluxer_app/shared/utils/sdk_patch_json.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
 class GuildOverviewWidget extends ConsumerStatefulWidget {
@@ -986,51 +985,61 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
         original: originalFeatures,
         updated: updatedFeatures,
       );
-      final Map<String, Object?> payload = <String, Object?>{
-        'name': _nameController.text.trim(),
-        'afk_channel_id': _afkChannelId,
-        'afk_timeout': _afkTimeout,
-        'system_channel_id': _systemChannelId,
-        'system_channel_flags': systemFlags,
-        'default_message_notifications': _defaultNotifications,
-        'splash_card_alignment': _splashCardAlignment,
-      };
-      putPatchImageField(
-        payload,
-        'icon',
-        pendingDataUri: _pendingIconUri,
-        cleared: _iconCleared,
-      );
-      putPatchImageField(
-        payload,
-        'banner',
-        pendingDataUri: _pendingBannerUri,
-        cleared: _bannerCleared,
-      );
-      putPatchImageField(
-        payload,
-        'splash',
-        pendingDataUri: _pendingSplashUri,
-        cleared: _splashCleared,
-      );
-      putPatchImageField(
-        payload,
-        'embed_splash',
-        pendingDataUri: _pendingEmbedSplashUri,
-        cleared: _embedSplashCleared,
-      );
-      if (featuresUpdate != null) {
-        payload['features'] = featuresUpdate;
-      }
       await ref
           .read(guildSettingsOverviewActionsProvider(widget.guildId).notifier)
-          .updateGuild(GuildUpdateRequest.fromJson(payload));
+          .updateGuild(
+            GuildUpdateRequest(
+              name: _nameController.text.trim(),
+              afkChannelId: JsonNullable.of(_afkChannelId),
+              afkTimeout: _afkTimeout,
+              systemChannelId: JsonNullable.of(_systemChannelId),
+              systemChannelFlags: systemFlags,
+              defaultMessageNotifications:
+                  DefaultMessageNotificationsInput.fromJson(
+                    _defaultNotifications,
+                  ),
+              splashCardAlignment:
+                  GuildUpdateRequestSplashCardAlignmentSplashCardAlignment.fromJson(
+                    _splashCardAlignment,
+                  ),
+              icon: _guildImagePatch(
+                pendingDataUri: _pendingIconUri,
+                cleared: _iconCleared,
+              ),
+              banner: _guildImagePatch(
+                pendingDataUri: _pendingBannerUri,
+                cleared: _bannerCleared,
+              ),
+              splash: _guildImagePatch(
+                pendingDataUri: _pendingSplashUri,
+                cleared: _splashCleared,
+              ),
+              embedSplash: _guildImagePatch(
+                pendingDataUri: _pendingEmbedSplashUri,
+                cleared: _embedSplashCleared,
+              ),
+              features: featuresUpdate,
+            ),
+          );
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);
       }
     }
   }
+}
+
+JsonNullable<String> _guildImagePatch({
+  required String? pendingDataUri,
+  required bool cleared,
+}) {
+  if (cleared) {
+    return const JsonNullable.of(null);
+  }
+  if (pendingDataUri != null) {
+    return JsonNullable.of(pendingDataUri);
+  }
+  return const JsonNullable.undefined();
 }
 
 const double _kGuildBannerAspectRatio = 16 / 9;

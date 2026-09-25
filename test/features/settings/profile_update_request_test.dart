@@ -3,9 +3,9 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_dart/export.dart';
 
 void main() {
-  group('buildCurrentUserProfileUpdatePayload', () {
+  group('buildCurrentUserProfileUpdateRequest', () {
     test('only includes fields that changed', () {
-      const state = UserSettingsViewState(
+      final state = const UserSettingsViewState(
         userId: '1',
         username: 'alice',
         displayName: 'Alice',
@@ -21,20 +21,22 @@ void main() {
         developerMode: false,
         trustedDomains: [],
         editedAvatarBase64: 'data:image/png;base64,abc',
-      );
+      ).copyWith(editedBio: 'New bio');
 
-      final json = buildCurrentUserProfileUpdatePayload(state);
-      expect(json.keys, ['avatar']);
+      final json = buildCurrentUserProfileUpdateRequest(state).toJson();
+      expect(json.keys, unorderedEquals(['bio', 'avatar']));
+      expect(json['bio'], 'New bio');
+      expect(json['avatar'], 'data:image/png;base64,abc');
+      expect(json.containsKey('pronouns'), isFalse);
+      expect(json.containsKey('global_name'), isFalse);
     });
 
-    test('constructor null marks field present', () {
-      const clearedAvatar = UserUpdateWithVerificationRequest(avatar: null);
-      expect(clearedAvatar.toJson().containsKey('avatar'), isTrue);
-
-      final partial = UserUpdateWithVerificationRequest.fromJson({
-        'avatar': 'data:image/png;base64,abc',
-      });
-      expect(partial.toJson().containsKey('bio'), isFalse);
+    test('public constructor does not clear patch fields', () {
+      final body = UserUpdateWithVerificationRequest(
+        hasUnreadGiftInventory: false,
+      );
+      expect(body.toJson().containsKey('avatar'), isFalse);
+      expect(body.toJson().containsKey('bio'), isFalse);
     });
   });
 }

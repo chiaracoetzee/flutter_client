@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
 import 'package:fluxer_app/features/settings/utils/guild_webhook_updates.dart';
-import 'package:fluxer_app/shared/utils/sdk_patch_json.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -76,12 +75,12 @@ class GuildWebhooks extends _$GuildWebhooks {
         .webhooks
         .updateWebhook(
           webhookId: webhookId,
-          body: WebhookUpdateRequest.fromJson(
-            buildWebhookUpdatePayload(
-              name: name,
-              avatar: avatar,
-              channelId: channelId,
-            ),
+          body: WebhookUpdateRequest(
+            name: name,
+            channelId: channelId,
+            avatar: avatar == null
+                ? const JsonNullable.undefined()
+                : JsonNullable.of(avatar.isEmpty ? null : avatar),
           ),
         );
     final List<WebhookResponse>? current = state.value;

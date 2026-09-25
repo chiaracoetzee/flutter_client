@@ -1240,8 +1240,9 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         profileFlags |= _kGuildProfileFlagBannerUnset;
       }
 
-      final body = MyGuildMemberUpdateRequest.fromJson(
-        buildGuildMemberProfileUpdatePayload(s, profileFlags: profileFlags),
+      final body = buildGuildMemberProfileUpdateRequest(
+        s,
+        profileFlags: profileFlags,
       );
 
       final client = ref.read(fluxerClientProvider);
@@ -1300,9 +1301,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
     try {
       final s = state;
-      final body = UserUpdateWithVerificationRequest.fromJson(
-        buildCurrentUserProfileUpdatePayload(s),
-      );
+      final body = buildCurrentUserProfileUpdateRequest(s);
 
       final client = ref.read(fluxerClientProvider);
       await client.users.updateCurrentUser(body: body);

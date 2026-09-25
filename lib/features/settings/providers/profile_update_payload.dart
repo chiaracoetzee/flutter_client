@@ -1,102 +1,105 @@
 part of 'user_settings_view_model.dart';
 
-Map<String, Object?> buildCurrentUserProfileUpdatePayload(
-  UserSettingsViewState state,
-) {
-  final json = <String, Object?>{};
-
-  if (state.isEditedDisplayNameSet &&
-      state.editedDisplayName != state.displayName) {
-    json['global_name'] = state.editedDisplayName;
+JsonNullable<T> _patchField<T>(bool include, T? value) {
+  if (include) {
+    return JsonNullable.of(value);
   }
-
-  if (state.isEditedBioSet && state.editedBio != state.bio) {
-    json['bio'] = state.editedBio;
-  }
-
-  if (state.isEditedPronounsSet && state.editedPronouns != state.pronouns) {
-    json['pronouns'] = state.editedPronouns;
-  }
-
-  if (state.isEditedAccentColorSet &&
-      state.editedAccentColor != state.accentColor) {
-    json['accent_color'] = state.editedAccentColor;
-  }
-
-  if (state.editedAvatarBase64 != null) {
-    json['avatar'] = state.editedAvatarBase64;
-  } else if (state.avatarCleared) {
-    json['avatar'] = null;
-  }
-
-  if (state.editedBannerBase64 != null) {
-    json['banner'] = state.editedBannerBase64;
-  } else if (state.bannerCleared) {
-    json['banner'] = null;
-  }
-
-  if (state.isEditedPremiumBadgeHiddenSet &&
-      state.editedPremiumBadgeHidden != state.premiumBadgeHidden) {
-    json['premium_badge_hidden'] = state.editedPremiumBadgeHidden;
-  }
-
-  if (state.isEditedPremiumBadgeMaskedSet &&
-      state.editedPremiumBadgeMasked != state.premiumBadgeMasked) {
-    json['premium_badge_masked'] = state.editedPremiumBadgeMasked;
-  }
-
-  if (state.isEditedPremiumBadgeTimestampHiddenSet &&
-      state.editedPremiumBadgeTimestampHidden !=
-          state.premiumBadgeTimestampHidden) {
-    json['premium_badge_timestamp_hidden'] =
-        state.editedPremiumBadgeTimestampHidden;
-  }
-
-  if (state.isEditedPremiumBadgeSequenceHiddenSet &&
-      state.editedPremiumBadgeSequenceHidden !=
-          state.premiumBadgeSequenceHidden) {
-    json['premium_badge_sequence_hidden'] =
-        state.editedPremiumBadgeSequenceHidden;
-  }
-
-  return json;
+  return const JsonNullable.undefined();
 }
 
-Map<String, Object?> buildGuildMemberProfileUpdatePayload(
+bool _guildAssetCleared(GuildAssetMode mode) {
+  return mode == GuildAssetMode.inherit || mode == GuildAssetMode.unset;
+}
+
+UserUpdateWithVerificationRequest buildCurrentUserProfileUpdateRequest(
+  UserSettingsViewState state,
+) {
+  return UserUpdateWithVerificationRequest(
+    globalName: _patchField(
+      state.isEditedDisplayNameSet &&
+          state.editedDisplayName != state.displayName,
+      state.editedDisplayName,
+    ),
+    bio: _patchField(
+      state.isEditedBioSet && state.editedBio != state.bio,
+      state.editedBio,
+    ),
+    pronouns: _patchField(
+      state.isEditedPronounsSet && state.editedPronouns != state.pronouns,
+      state.editedPronouns,
+    ),
+    accentColor: _patchField(
+      state.isEditedAccentColorSet &&
+          state.editedAccentColor != state.accentColor,
+      state.editedAccentColor,
+    ),
+    avatar: _patchField(
+      state.editedAvatarBase64 != null || state.avatarCleared,
+      state.editedAvatarBase64,
+    ),
+    banner: _patchField(
+      state.editedBannerBase64 != null || state.bannerCleared,
+      state.editedBannerBase64,
+    ),
+    premiumBadgeHidden:
+        state.isEditedPremiumBadgeHiddenSet &&
+            state.editedPremiumBadgeHidden != state.premiumBadgeHidden
+        ? state.editedPremiumBadgeHidden
+        : null,
+    premiumBadgeMasked:
+        state.isEditedPremiumBadgeMaskedSet &&
+            state.editedPremiumBadgeMasked != state.premiumBadgeMasked
+        ? state.editedPremiumBadgeMasked
+        : null,
+    premiumBadgeTimestampHidden:
+        state.isEditedPremiumBadgeTimestampHiddenSet &&
+            state.editedPremiumBadgeTimestampHidden !=
+                state.premiumBadgeTimestampHidden
+        ? state.editedPremiumBadgeTimestampHidden
+        : null,
+    premiumBadgeSequenceHidden:
+        state.isEditedPremiumBadgeSequenceHiddenSet &&
+            state.editedPremiumBadgeSequenceHidden !=
+                state.premiumBadgeSequenceHidden
+        ? state.editedPremiumBadgeSequenceHidden
+        : null,
+  );
+}
+
+MyGuildMemberUpdateRequest buildGuildMemberProfileUpdateRequest(
   UserSettingsViewState state, {
   required int profileFlags,
 }) {
-  final json = <String, Object?>{
-    'bio': state.isEditedGuildBioSet ? state.editedGuildBio : state.guildBio,
-    'pronouns': state.isEditedGuildPronounsSet
-        ? state.editedGuildPronouns
-        : state.guildPronouns,
-    'accent_color': state.isEditedGuildAccentColorSet
-        ? state.editedGuildAccentColor
-        : state.guildAccentColor,
-  };
-
-  if (state.canChangeNickname) {
-    json['nick'] = state.isEditedNickSet ? state.editedNick : state.guildNick;
-  }
-
-  if (state.guildAvatarMode == GuildAssetMode.inherit ||
-      state.guildAvatarMode == GuildAssetMode.unset) {
-    json['avatar'] = null;
-  } else if (state.editedGuildAvatarBase64 != null) {
-    json['avatar'] = state.editedGuildAvatarBase64;
-  }
-
-  if (state.guildBannerMode == GuildAssetMode.inherit ||
-      state.guildBannerMode == GuildAssetMode.unset) {
-    json['banner'] = null;
-  } else if (state.editedGuildBannerBase64 != null) {
-    json['banner'] = state.editedGuildBannerBase64;
-  }
-
-  if (profileFlags != 0) {
-    json['profile_flags'] = profileFlags;
-  }
-
-  return json;
+  return MyGuildMemberUpdateRequest(
+    bio: JsonNullable.of(
+      state.isEditedGuildBioSet ? state.editedGuildBio : state.guildBio,
+    ),
+    pronouns: JsonNullable.of(
+      state.isEditedGuildPronounsSet
+          ? state.editedGuildPronouns
+          : state.guildPronouns,
+    ),
+    accentColor: JsonNullable.of(
+      state.isEditedGuildAccentColorSet
+          ? state.editedGuildAccentColor
+          : state.guildAccentColor,
+    ),
+    nick: _patchField(
+      state.canChangeNickname,
+      state.isEditedNickSet ? state.editedNick : state.guildNick,
+    ),
+    avatar: _guildAssetCleared(state.guildAvatarMode)
+        ? const JsonNullable.of(null)
+        : _patchField(
+            state.editedGuildAvatarBase64 != null,
+            state.editedGuildAvatarBase64,
+          ),
+    banner: _guildAssetCleared(state.guildBannerMode)
+        ? const JsonNullable.of(null)
+        : _patchField(
+            state.editedGuildBannerBase64 != null,
+            state.editedGuildBannerBase64,
+          ),
+    profileFlags: _patchField(profileFlags != 0, profileFlags),
+  );
 }
