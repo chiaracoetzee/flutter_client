@@ -537,7 +537,9 @@ void main() {
         await _waitForDebounce(store);
 
         expect(usersApi.pushCount, 1);
-        final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+        final bytes = base64Decode(
+          usersApi.lastPushBody!.syncedPreferences.value!,
+        );
         final synced = pb.SyncedPreferences.fromBuffer(bytes);
         expect(synced.accessibility.mobileFontSize, 20);
         expect(synced.accessibility.fontSize, 14);
