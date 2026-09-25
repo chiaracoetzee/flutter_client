@@ -22,6 +22,32 @@ class ForkLocalizationsEn extends ForkLocalizations {
       'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
 
   @override
+  String get userSettingsCheckForUpdates => 'Check for updates';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Checking for updates…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Update Available';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Download & Install';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Install Update';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Downloading update ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'Failed to check or download update.';
+
+  @override
   String get personaSelectTitle => 'Select Persona';
 
   @override
@@ -316,6 +342,32 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
       'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
 
   @override
+  String get userSettingsCheckForUpdates => 'Check for updates';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Checking for updates…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Update Available';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Download & Install';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Install Update';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Downloading update ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'Failed to check or download update.';
+
+  @override
   String get personaSelectTitle => 'Select Persona';
 
   @override
@@ -608,6 +660,32 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
       'Replace the voice message button in the message input with a Quick Switcher button for fast navigation';
+
+  @override
+  String get userSettingsCheckForUpdates => 'Check for updates';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Checking for updates…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Update Available';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Download & Install';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Install Update';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Downloading update ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'Failed to check or download update.';
 
   @override
   String get personaSelectTitle => 'Select Persona';

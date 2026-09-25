@@ -23,6 +23,33 @@ class ForkLocalizationsBg extends ForkLocalizations {
       'Замяна на бутона за гласово съобщение с бърз превключвател за по-лесна навигация';
 
   @override
+  String get userSettingsCheckForUpdates => 'Проверка за актуализации';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Проверка за актуализации…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer е актуален';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Налична е актуализация';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Изтегляне и инсталиране';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Инсталиране на актуализацията';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Изтегляне на актуализация ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Неуспешна проверка или изтегляне на актуализация.';
+
+  @override
   String get personaSelectTitle => 'Изберете персона';
 
   @override
