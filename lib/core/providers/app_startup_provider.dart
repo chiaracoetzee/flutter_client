@@ -66,6 +66,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/updater/app_update_provider.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 
 part 'app_startup_provider.g.dart';
@@ -423,6 +424,16 @@ class AppStartup extends _$AppStartup {
     }
     if (PushProviderGuard.isUnifiedPush) {
       ref.read(unifiedPushMobileDeviceRegistrationProvider);
+    }
+
+    if (Platform.isAndroid) {
+      unawaited(
+        Future<void>.delayed(const Duration(seconds: 3), () {
+          if (ref.mounted) {
+            unawaited(ref.read(appUpdateProvider.notifier).checkForUpdate());
+          }
+        }),
+      );
     }
 
     debugPrint(
