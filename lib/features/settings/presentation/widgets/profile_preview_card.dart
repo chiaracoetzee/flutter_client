@@ -123,16 +123,17 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
 
   int _effectiveAccentColor() {
     final s = widget.state;
+    final int defaultColor = s.avatarColor ?? _kDefaultAccentColor;
     if (s.isPerGuildProfile) {
       if (s.isEditedGuildAccentColorSet) {
-        return s.editedGuildAccentColor ?? _kDefaultAccentColor;
+        return s.editedGuildAccentColor ?? s.accentColor ?? defaultColor;
       }
-      return s.guildAccentColor ?? s.accentColor ?? _kDefaultAccentColor;
+      return s.guildAccentColor ?? s.accentColor ?? defaultColor;
     }
     if (s.isEditedAccentColorSet) {
-      return s.editedAccentColor ?? _kDefaultAccentColor;
+      return s.editedAccentColor ?? defaultColor;
     }
-    return s.accentColor ?? _kDefaultAccentColor;
+    return s.accentColor ?? defaultColor;
   }
 
   @override
