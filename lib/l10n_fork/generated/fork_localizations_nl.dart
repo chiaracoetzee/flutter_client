@@ -22,6 +22,33 @@ class ForkLocalizationsNl extends ForkLocalizations {
       'Vervang de spraakbericht-knop in het invoerveld door een snelschakelaar voor snelle navigatie';
 
   @override
+  String get userSettingsCheckForUpdates => 'Controleren op updates';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Controleren op updates…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer is up-to-date';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Update beschikbaar';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Downloaden & installeren';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Update installeren';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Update downloaden ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Kan niet controleren op of downloaden van update.';
+
+  @override
   String get personaSelectTitle => 'Persona kiezen';
 
   @override
