@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
@@ -14,6 +16,7 @@ import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -21,6 +24,8 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+const int _kDefaultProfileAccentColor = 0x4641D9;
 
 class EditPersonaSheet {
   EditPersonaSheet._();
@@ -103,12 +108,14 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   String? _initialAvatarUrl;
   String? _initialBannerUrl;
   int? _initialColor;
+  int? _initialAvatarColor;
   late String _initialVisibility;
   late bool _initialAutoTagDisabled;
 
   String? _avatarUrl;
   String? _bannerUrl;
   int? _color;
+  int? _avatarColor;
   bool _autoTagDisabled = false;
   String _visibility = 'unlisted';
   bool _isUploadingAvatar = false;
@@ -159,6 +166,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _initialAvatarUrl = p?.avatarUrl;
     _initialBannerUrl = p?.bannerUrl;
     _initialColor = p?.color;
+    _initialAvatarColor = p?.avatarColor;
     _initialAutoTagDisabled = p?.autoTagDisabled ?? false;
     _initialVisibility = p?.visibility ?? 'unlisted';
 
@@ -173,6 +181,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _avatarUrl = _initialAvatarUrl;
     _bannerUrl = _initialBannerUrl;
     _color = _initialColor;
+    _avatarColor = _initialAvatarColor;
     _autoTagDisabled = _initialAutoTagDisabled;
     _visibility = _initialVisibility;
   }
@@ -184,6 +193,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         _avatarUrl != _initialAvatarUrl ||
         _bannerUrl != _initialBannerUrl ||
         _color != _initialColor ||
+        _avatarColor != _initialAvatarColor ||
         _visibility != _initialVisibility ||
         _autoTagDisabled != _initialAutoTagDisabled) {
       return true;
@@ -233,6 +243,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       _avatarUrl = _initialAvatarUrl;
       _bannerUrl = _initialBannerUrl;
       _color = _initialColor;
+      _avatarColor = _initialAvatarColor;
       _autoTagDisabled = _initialAutoTagDisabled;
       _visibility = _initialVisibility;
     });
@@ -294,8 +305,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       return;
     }
 
+    final l10n = FluxerLocalizations.of(context);
     if (ImageUtils.isOverSizeLimit(picked.bytes)) {
-      final l10n = FluxerLocalizations.of(context);
       ref.read(toastProvider.notifier).show(
             FluxerToast(
               message: l10n.imageFileTooLarge,
@@ -305,9 +316,32 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       return;
     }
 
+    final Uint8List uploadBytes;
+    final animCheck = ImageUtils.checkAnimated(picked.bytes);
+    if (animCheck.isAnimated) {
+      ref.read(toastProvider.notifier).show(
+            FluxerToast(
+              message: l10n.croppingAnimatedNotSupported,
+            ),
+          );
+      uploadBytes = picked.bytes;
+    } else {
+      final croppedBytes = await showImageCropSheet(
+        context,
+        imageBytes: picked.bytes,
+        aspectRatio: 1,
+        title: l10n.cropAvatar,
+        maskShape: CropMaskShape.circle,
+      );
+      if (croppedBytes == null || !mounted) {
+        return;
+      }
+      uploadBytes = croppedBytes;
+    }
+
     setState(() => _isUploadingAvatar = true);
     try {
-      final dataUri = ImageUtils.toDataUri(picked.bytes);
+      final dataUri = ImageUtils.toDataUri(uploadBytes);
       final Dio dio = ref.read(fluxerDioProvider);
       final response = await dio.post<dynamic>(
         '/users/@me/personas/avatar',
@@ -316,11 +350,15 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       final dynamic data = response.data;
       if (data is Map && data['avatar_url'] is String) {
         final newUrl = data['avatar_url'] as String;
+        final newColor = (data['avatar_color'] as num?)?.toInt();
         if (_avatarUrl != null && _avatarUrl != newUrl) {
           unawaited(CachedNetworkImage.evictFromCache(_avatarUrl!));
         }
         setState(() {
           _avatarUrl = newUrl;
+          if (newColor != null) {
+            _avatarColor = newColor;
+          }
         });
         _onFieldChanged();
       }
@@ -339,8 +377,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       return;
     }
 
+    final l10n = FluxerLocalizations.of(context);
     if (ImageUtils.isOverSizeLimit(picked.bytes)) {
-      final l10n = FluxerLocalizations.of(context);
       ref.read(toastProvider.notifier).show(
             FluxerToast(
               message: l10n.imageFileTooLarge,
@@ -350,9 +388,31 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       return;
     }
 
+    final Uint8List uploadBytes;
+    final animCheck = ImageUtils.checkAnimated(picked.bytes);
+    if (animCheck.isAnimated) {
+      ref.read(toastProvider.notifier).show(
+            FluxerToast(
+              message: l10n.croppingAnimatedNotSupported,
+            ),
+          );
+      uploadBytes = picked.bytes;
+    } else {
+      final croppedBytes = await showImageCropSheet(
+        context,
+        imageBytes: picked.bytes,
+        aspectRatio: 17.0 / 6.0,
+        title: l10n.cropBanner,
+      );
+      if (croppedBytes == null || !mounted) {
+        return;
+      }
+      uploadBytes = croppedBytes;
+    }
+
     setState(() => _isUploadingBanner = true);
     try {
-      final dataUri = ImageUtils.toDataUri(picked.bytes);
+      final dataUri = ImageUtils.toDataUri(uploadBytes);
       final Dio dio = ref.read(fluxerDioProvider);
       final response = await dio.post<dynamic>(
         '/users/@me/personas/banner',
@@ -499,6 +559,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         'avatar_url': _avatarUrl,
         'banner_url': _bannerUrl,
         'color': _color,
+        'avatar_color': _avatarColor,
         'pronouns': pronouns,
         'bio': bio,
         'auto_tag_disabled': _autoTagDisabled,
@@ -523,6 +584,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             avatarUrl: _avatarUrl,
             bannerUrl: _bannerUrl,
             color: _color,
+            avatarColor: _avatarColor,
             pronouns: pronouns,
             bio: bio,
             autoTagDisabled: _autoTagDisabled,
@@ -723,6 +785,36 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     final l10n = FluxerLocalizations.of(context);
     final isEditing = widget.persona != null;
 
+    final currentUserSettings = ref.watch(userSettingsViewModelProvider);
+    final bool hasCustomAvatar =
+        _avatarUrl != null && _avatarUrl!.trim().isNotEmpty;
+    final int effectiveDefaultColor;
+    if (hasCustomAvatar) {
+      effectiveDefaultColor = (_avatarColor != null && _avatarColor != 0)
+          ? _avatarColor!
+          : _kDefaultProfileAccentColor;
+    } else {
+      if (currentUserSettings.avatarColor != null &&
+          currentUserSettings.avatarColor != 0) {
+        effectiveDefaultColor = currentUserSettings.avatarColor!;
+      } else if (currentUserSettings.accentColor != null &&
+          currentUserSettings.accentColor != 0) {
+        effectiveDefaultColor = currentUserSettings.accentColor!;
+      } else {
+        effectiveDefaultColor = _kDefaultProfileAccentColor;
+      }
+    }
+
+    final String? rootAvatarUrl = currentUserSettings.avatar != null
+        ? FluxerMediaUrl.userAvatar(
+            userId: currentUserSettings.userId,
+            hash: currentUserSettings.avatar,
+          )
+        : null;
+    final String? effectiveAvatarUrl =
+        hasCustomAvatar ? _avatarUrl : rootAvatarUrl;
+    final bool isColorDefault = _color == null || _color == 0;
+
     return FluxerSettingsSheet(
       hasUnsavedChanges: _hasChanges,
       isSaving: _isSaving,
@@ -737,160 +829,226 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           kSettingsScrollBottomPadding + kSettingsSaveBarScrollExtra,
         ),
         children: [
-          // Avatar Section
-              Row(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 36,
-                        backgroundColor: colors.backgroundSecondary,
-                        backgroundImage: _avatarUrl != null && _avatarUrl!.isNotEmpty
-                            ? NetworkImage(_avatarUrl!)
-                            : null,
-                        child: _avatarUrl == null || _avatarUrl!.isEmpty
-                            ? Icon(
-                                PhosphorIconsFill.user,
-                                size: 36,
-                                color: colors.textPrimaryMuted,
-                              )
-                            : null,
-                      ),
-                      if (_isUploadingAvatar)
-                        const Positioned.fill(
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Colors.black45,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: FluxerLoadingSpinner(),
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                  SizedBox(width: layout.s4),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FluxerButton.secondary(
-                          label: _avatarUrl != null
-                              ? l10n.personaChangeAvatar
-                              : l10n.personaUploadAvatar,
-                          icon: PhosphorIconsFill.uploadSimple,
-                          size: FluxerButtonSize.small,
-                          fitContent: true,
-                          isLoading: _isUploadingAvatar,
-                          onPressed: _isSaving || _isUploadingAvatar ? null : _pickAvatar,
-                        ),
-                        if (_avatarUrl != null) ...[
-                          SizedBox(height: layout.s2),
-                          FluxerButton.ghost(
-                            label: l10n.personaRemoveAvatar,
-                            icon: PhosphorIconsFill.trash,
-                            size: FluxerButtonSize.small,
-                            fitContent: true,
-                            onPressed: _isSaving || _isUploadingAvatar
-                                ? null
-                                : () {
-                                    if (_avatarUrl != null) {
-                                      unawaited(CachedNetworkImage.evictFromCache(_avatarUrl!));
-                                    }
-                                    setState(() => _avatarUrl = null);
-                                    _onFieldChanged();
-                                  },
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
+          // Live Profile Card Preview
+          Container(
+            decoration: BoxDecoration(
+              color: colors.backgroundSecondary,
+              borderRadius: layout.radiusLg,
+              border: Border.all(
+                color: _color != null && _color != 0
+                    ? Color(_color! | 0xFF000000)
+                    : Color(effectiveDefaultColor | 0xFF000000),
+                width: 1.5,
               ),
-              SizedBox(height: layout.s4),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final cardWidth = constraints.maxWidth;
+                // Aspect ratio 2.1 matches the mobile profile sheet (e.g. ~390 / 184)
+                final bannerHeight = cardWidth / 2.1;
+                const avatarRadius = 36.0;
+                const avatarBorderWidth = 4.0;
+                const avatarTotalRadius = avatarRadius + avatarBorderWidth;
+                final avatarTop = bannerHeight - avatarTotalRadius;
+                final stackHeight = bannerHeight + avatarTotalRadius;
 
-              // Banner Section
-              ClipRRect(
-                borderRadius: layout.radiusMd,
-                child: SizedBox(
-                  height: 96,
-                  width: double.infinity,
+                return SizedBox(
+                  height: stackHeight + layout.s3,
                   child: Stack(
-                    fit: StackFit.expand,
+                    clipBehavior: Clip.none,
                     children: [
-                      UserProfileBanner(
-                        key: ValueKey('$_bannerUrl-$_color'),
-                        bannerUrl: _bannerUrl,
-                        bannerColor: _color != null && _color != 0
-                            ? Color(_color! | 0xFF000000)
-                            : colors.backgroundSecondary,
-                        height: 96,
+                      // Banner (tappable)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: bannerHeight,
+                        child: GestureDetector(
+                          onTap: _isSaving || _isUploadingBanner
+                              ? null
+                              : _pickBanner,
+                          behavior: HitTestBehavior.opaque,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              UserProfileBanner(
+                                key: ValueKey(
+                                  '$_bannerUrl-$_color-$effectiveDefaultColor',
+                                ),
+                                bannerUrl: _bannerUrl,
+                                bannerColor: _color != null && _color != 0
+                                    ? Color(_color! | 0xFF000000)
+                                    : Color(effectiveDefaultColor | 0xFF000000),
+                                height: bannerHeight,
+                              ),
+                              if (_isUploadingBanner)
+                                const Positioned.fill(
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black45,
+                                    ),
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: FluxerLoadingSpinner(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
                       ),
-                      if (_isUploadingBanner)
-                        const Positioned.fill(
+                      // Avatar (tappable)
+                      Positioned(
+                        left: layout.s4,
+                        top: avatarTop,
+                        child: GestureDetector(
+                          onTap: _isSaving || _isUploadingAvatar
+                              ? null
+                              : _pickAvatar,
+                          behavior: HitTestBehavior.opaque,
                           child: DecoratedBox(
                             decoration: BoxDecoration(
-                              color: Colors.black45,
-                            ),
-                            child: Center(
-                              child: SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: FluxerLoadingSpinner(),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: colors.backgroundSecondary,
+                                width: avatarBorderWidth,
                               ),
+                            ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius: avatarRadius,
+                                  backgroundColor: colors.backgroundPrimary,
+                                  backgroundImage:
+                                      effectiveAvatarUrl != null &&
+                                              effectiveAvatarUrl.isNotEmpty
+                                          ? NetworkImage(effectiveAvatarUrl)
+                                          : null,
+                                  child: effectiveAvatarUrl == null ||
+                                          effectiveAvatarUrl.isEmpty
+                                      ? Icon(
+                                          PhosphorIconsFill.user,
+                                          size: 36,
+                                          color: colors.textPrimaryMuted,
+                                        )
+                                      : null,
+                                ),
+                                if (_isUploadingAvatar)
+                                  const Positioned.fill(
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: Colors.black45,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: SizedBox(
+                                          width: 24,
+                                          height: 24,
+                                          child: FluxerLoadingSpinner(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         ),
+                      ),
                     ],
                   ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: layout.s3),
+
+          // Avatar Actions
+          Row(
+            children: [
+              FluxerButton.secondary(
+                label: _avatarUrl != null
+                    ? l10n.personaChangeAvatar
+                    : l10n.personaUploadAvatar,
+                icon: PhosphorIconsFill.uploadSimple,
+                size: FluxerButtonSize.small,
+                fitContent: true,
+                isLoading: _isUploadingAvatar,
+                onPressed: _isSaving || _isUploadingAvatar ? null : _pickAvatar,
+              ),
+              if (_avatarUrl != null) ...[
+                SizedBox(width: layout.s2),
+                FluxerButton.ghost(
+                  label: l10n.personaRemoveAvatar,
+                  icon: PhosphorIconsFill.trash,
+                  size: FluxerButtonSize.small,
+                  fitContent: true,
+                  onPressed: _isSaving || _isUploadingAvatar
+                      ? null
+                      : () {
+                          if (_avatarUrl != null) {
+                            unawaited(CachedNetworkImage.evictFromCache(
+                              _avatarUrl!,
+                            ));
+                          }
+                          setState(() {
+                            _avatarUrl = null;
+                            _avatarColor = null;
+                          });
+                          _onFieldChanged();
+                        },
                 ),
+              ],
+            ],
+          ),
+          SizedBox(height: layout.s2),
+
+          // Banner Actions
+          Row(
+            children: [
+              FluxerButton.secondary(
+                label: l10n.changeBanner,
+                icon: PhosphorIconsFill.image,
+                size: FluxerButtonSize.small,
+                fitContent: true,
+                isLoading: _isUploadingBanner,
+                onPressed: _isSaving || _isUploadingBanner ? null : _pickBanner,
               ),
-              SizedBox(height: layout.s2),
-              Row(
-                children: [
-                  FluxerButton.secondary(
-                    label: l10n.changeBanner,
-                    icon: PhosphorIconsFill.image,
-                    size: FluxerButtonSize.small,
-                    fitContent: true,
-                    isLoading: _isUploadingBanner,
-                    onPressed: _isSaving || _isUploadingBanner ? null : _pickBanner,
-                  ),
-                  if (_bannerUrl != null) ...[
-                    SizedBox(width: layout.s2),
-                    FluxerButton.ghost(
-                      label: l10n.removeBanner,
-                      icon: PhosphorIconsFill.trash,
-                      size: FluxerButtonSize.small,
-                      fitContent: true,
-                      onPressed: _isSaving || _isUploadingBanner
-                          ? null
-                          : () {
-                              if (_bannerUrl != null) {
-                                unawaited(CachedNetworkImage.evictFromCache(_bannerUrl!));
-                              }
-                              setState(() => _bannerUrl = null);
-                              _onFieldChanged();
-                            },
-                    ),
-                  ],
-                ],
-              ),
-              SizedBox(height: layout.s3),
+              if (_bannerUrl != null) ...[
+                SizedBox(width: layout.s2),
+                FluxerButton.ghost(
+                  label: l10n.removeBanner,
+                  icon: PhosphorIconsFill.trash,
+                  size: FluxerButtonSize.small,
+                  fitContent: true,
+                  onPressed: _isSaving || _isUploadingBanner
+                      ? null
+                      : () {
+                          if (_bannerUrl != null) {
+                            unawaited(CachedNetworkImage.evictFromCache(
+                              _bannerUrl!,
+                            ));
+                          }
+                          setState(() => _bannerUrl = null);
+                          _onFieldChanged();
+                        },
+                ),
+              ],
+            ],
+          ),
+          SizedBox(height: layout.s4),
 
               // Accent Color
               FluxerColorPickerField(
                 label: l10n.accentColorLabel,
                 description: l10n.accentColorDescription,
-                value: _color ?? 0x5865F2,
-                defaultValue: 0x5865F2,
-                isDefaultValue: _color == null || _color == 0,
+                value: isColorDefault ? effectiveDefaultColor : _color!,
+                defaultValue: effectiveDefaultColor,
+                isDefaultValue: isColorDefault,
                 disabled: _isSaving,
                 onReset: () {
                   setState(() => _color = null);
