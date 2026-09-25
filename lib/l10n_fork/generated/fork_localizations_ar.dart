@@ -22,6 +22,32 @@ class ForkLocalizationsAr extends ForkLocalizations {
       'استبدال زر الرسالة الصوتية في حقل الإدخال بزر التبديل السريع للتنقل السهل';
 
   @override
+  String get userSettingsCheckForUpdates => 'التحقق من وجود تحديثات';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'جارٍ التحقق من وجود تحديثات…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer محدّث لأحدث إصدار';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'تحديث متوفر';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'تنزيل وتثبيت';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'تثبيت التحديث';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'جارٍ تنزيل التحديث ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'فشل التحقق من التحديث أو تنزيله.';
+
+  @override
   String get personaSelectTitle => 'اختيار الشخصية';
 
   @override
