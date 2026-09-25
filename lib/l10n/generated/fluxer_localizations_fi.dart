@@ -11061,6 +11061,33 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Voit kirjautua takaisin milloin tahansa.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Tarkista päivitykset';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Tarkistetaan päivityksiä…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer on ajan tasalla';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Päivitys saatavilla';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Lataa ja asenna';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Asenna päivitys';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Ladataan päivitystä ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Päivityksen tarkistaminen tai lataaminen epäonnistui.';
+
+  @override
   String get quickSwitcherTabSearch => 'Haku';
 
   @override

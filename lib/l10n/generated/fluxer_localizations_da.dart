@@ -11040,6 +11040,33 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
       'Du kan logge ind igen når som helst.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Søg efter opdateringer';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Søger efter opdateringer…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer er opdateret';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Opdatering tilgængelig';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Download og installer';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Installer opdatering';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Downloader opdatering ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Kunne ikke søge efter eller downloade opdatering.';
+
+  @override
   String get quickSwitcherTabSearch => 'Søg';
 
   @override

@@ -11073,6 +11073,33 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Kdykoli se můžete znovu přihlásit.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Zkontrolovat aktualizace';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Kontrola aktualizací…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer je aktuální';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Je k dispozici aktualizace';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Stáhnout a instalovat';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Instalovat aktualizaci';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Stahování aktualizace ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Kontrola nebo stažení aktualizace se nezdařilo.';
+
+  @override
   String get quickSwitcherTabSearch => 'Hledat';
 
   @override

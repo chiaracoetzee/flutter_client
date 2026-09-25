@@ -30,6 +30,7 @@ import 'package:fluxer_app/core/quick_actions/pending_home_quick_action_provider
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/core/updater/app_update_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
@@ -352,6 +353,16 @@ class AppStartup extends _$AppStartup {
     }
     if (PushProviderGuard.isUnifiedPush) {
       ref.read(unifiedPushMobileDeviceRegistrationProvider);
+    }
+
+    if (Platform.isAndroid) {
+      unawaited(
+        Future<void>.delayed(const Duration(seconds: 3), () {
+          if (ref.mounted) {
+            unawaited(ref.read(appUpdateProvider.notifier).checkForUpdate());
+          }
+        }),
+      );
     }
 
     debugPrint(

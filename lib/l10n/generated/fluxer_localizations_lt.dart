@@ -11159,6 +11159,33 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Prisijungti galėsite bet kada.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Tikrinti, ar yra naujinimų';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Tikrinama, ar yra naujinimų…';
+
+  @override
+  String get userSettingsAppUpToDate => '„Fluxer“ yra atnaujintas';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Yra naujinimas';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Atsisiųsti ir įdiegti';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Įdiegti naujinimą';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Atsisiunčiamas naujinimas ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Nepavyko patikrinti arba atsisiųsti naujinimo.';
+
+  @override
   String get quickSwitcherTabSearch => 'Ieškoti';
 
   @override

@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Αναζήτηση ζωνών ώρας...",
     "userProfileTimezoneSettingLabel": "Ζώνη ώρας",
     "userProfileTimezoneSettingDescription": "Χρησιμοποιείται για την εμφάνιση της τοπικής ώρας στο προφίλ σας.",
-    "userProfileTimezoneNone": "Κανένα"
+    "userProfileTimezoneNone": "Κανένα",
+    "userSettingsCheckForUpdates": "Έλεγχος για ενημερώσεις",
+    "userSettingsCheckingForUpdates": "Έλεγχος για ενημερώσεις…",
+    "userSettingsAppUpToDate": "Το Fluxer είναι ενημερωμένο",
+    "userSettingsUpdateAvailableTitle": "Διαθέσιμη ενημέρωση",
+    "userSettingsUpdateDownloadAction": "Λήψη & εγκατάσταση",
+    "userSettingsUpdateInstallAction": "Εγκατάσταση ενημέρωσης",
+    "userSettingsDownloadingUpdate": "Λήψη ενημέρωσης ({percent}%)…",
+    "userSettingsUpdateFailed": "Αποτυχία ελέγχου ή λήψης ενημέρωσης."
 }

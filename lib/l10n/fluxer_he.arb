@@ -17023,5 +17023,13 @@
     "timestampPickerSearchTimezones": "חיפוש אזורי זמן...",
     "userProfileTimezoneSettingLabel": "אזור זמן",
     "userProfileTimezoneSettingDescription": "משמש להצגת השעה המקומית שלך בפרופיל.",
-    "userProfileTimezoneNone": "ללא"
+    "userProfileTimezoneNone": "ללא",
+    "userSettingsCheckForUpdates": "בדוק עדכונים",
+    "userSettingsCheckingForUpdates": "בודק עדכונים…",
+    "userSettingsAppUpToDate": "Fluxer מעודכנת",
+    "userSettingsUpdateAvailableTitle": "עדכון זמין",
+    "userSettingsUpdateDownloadAction": "הורד והתקן",
+    "userSettingsUpdateInstallAction": "התקן עדכון",
+    "userSettingsDownloadingUpdate": "מוריד עדכון ({percent}%)…",
+    "userSettingsUpdateFailed": "בדיקת העדכון או הורדתו נכשלה."
 }

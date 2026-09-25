@@ -10892,6 +10892,32 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get userSettingsLogOutConfirmDescription => 'תוכל להיכנס שוב בכל עת.';
 
   @override
+  String get userSettingsCheckForUpdates => 'בדוק עדכונים';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'בודק עדכונים…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer מעודכנת';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'עדכון זמין';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'הורד והתקן';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'התקן עדכון';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'מוריד עדכון ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'בדיקת העדכון או הורדתו נכשלה.';
+
+  @override
   String get quickSwitcherTabSearch => 'חיפוש';
 
   @override
