@@ -22,6 +22,33 @@ class ForkLocalizationsVi extends ForkLocalizations {
       'Thay thế nút tin nhắn thoại trong khung soạn thảo bằng nút chuyển nhanh để điều hướng thuận tiện';
 
   @override
+  String get userSettingsCheckForUpdates => 'Kiểm tra cập nhật';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Đang kiểm tra cập nhật…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer đã được cập nhật';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Có bản cập nhật mới';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Tải về và cài đặt';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Cài đặt bản cập nhật';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Đang tải bản cập nhật ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Không thể kiểm tra hoặc tải xuống bản cập nhật.';
+
+  @override
   String get personaSelectTitle => 'Chọn persona';
 
   @override
