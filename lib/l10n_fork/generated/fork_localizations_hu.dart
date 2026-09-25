@@ -22,6 +22,33 @@ class ForkLocalizationsHu extends ForkLocalizations {
       'A hangüzenet gomb lecserélése a beviteli mezőben gyorsváltóra a gyorsabb navigációért';
 
   @override
+  String get userSettingsCheckForUpdates => 'Frissítések keresése';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Frissítések keresése…';
+
+  @override
+  String get userSettingsAppUpToDate => 'A Fluxer naprakész';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Frissítés érhető el';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Letöltés és telepítés';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Frissítés telepítése';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Frissítés letöltése ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Nem sikerült a frissítést ellenőrizni vagy letölteni.';
+
+  @override
   String get personaSelectTitle => 'Persona kiválasztása';
 
   @override

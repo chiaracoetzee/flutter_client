@@ -22,6 +22,32 @@ class ForkLocalizationsTh extends ForkLocalizations {
       'แทนที่ปุ่มข้อความเสียงในช่องพิมพ์ด้วยปุ่มตัวสลับด่วนเพื่อการนำทางที่รวดเร็ว';
 
   @override
+  String get userSettingsCheckForUpdates => 'ตรวจหาอัปเดต';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'กำลังตรวจหาอัปเดต…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer เป็นเวอร์ชันล่าสุดแล้ว';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'มีอัปเดตใหม่';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'ดาวน์โหลดและติดตั้ง';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'ติดตั้งอัปเดต';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'กำลังดาวน์โหลดอัปเดต ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'ตรวจหาหรือดาวน์โหลดอัปเดตไม่สำเร็จ';
+
+  @override
   String get personaSelectTitle => 'เลือก Persona';
 
   @override
