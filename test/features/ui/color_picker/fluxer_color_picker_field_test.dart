@@ -151,3 +151,12 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that fluxer_color_picker_field_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by fluxer_color_picker_field_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Widget Function(Widget child, {Size size}) wrap,
+});
+// ignore: unreachable_from_main // Fork: used by fluxer_color_picker_field_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (wrap: _wrap);
