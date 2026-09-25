@@ -23,6 +23,34 @@ class ForkLocalizationsIt extends ForkLocalizations {
       'Sostituisci il pulsante dei messaggi vocali nel campo di testo con un selettore rapido per una navigazione veloce';
 
   @override
+  String get userSettingsCheckForUpdates => 'Controlla aggiornamenti';
+
+  @override
+  String get userSettingsCheckingForUpdates =>
+      'Controllo aggiornamenti in corso…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer è aggiornato';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Aggiornamento disponibile';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Scarica e installa';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Installa aggiornamento';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Download aggiornamento in corso ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Impossibile verificare o scaricare l\'aggiornamento.';
+
+  @override
   String get personaSelectTitle => 'Seleziona persona';
 
   @override
