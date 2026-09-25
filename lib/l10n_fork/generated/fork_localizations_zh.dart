@@ -22,6 +22,32 @@ class ForkLocalizationsZh extends ForkLocalizations {
       '将消息输入框中的语音消息按钮替换为快速切换按钮，以便快速导航';
 
   @override
+  String get userSettingsCheckForUpdates => '检查更新';
+
+  @override
+  String get userSettingsCheckingForUpdates => '正在检查更新…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer 已是最新版本';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => '有可用更新';
+
+  @override
+  String get userSettingsUpdateDownloadAction => '下载并安装';
+
+  @override
+  String get userSettingsUpdateInstallAction => '安装更新';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return '正在下载更新（$percent%）…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => '检查或下载更新失败。';
+
+  @override
   String get personaSelectTitle => '选择人格';
 
   @override
@@ -303,6 +329,32 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   @override
   String get advancedSettingQuickSwitcherButtonDescription =>
       '將訊息輸入框中的語音訊息按鈕替換為快速切換按鈕，以便快速導航';
+
+  @override
+  String get userSettingsCheckForUpdates => '檢查更新';
+
+  @override
+  String get userSettingsCheckingForUpdates => '正在檢查更新…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer 已是最新版本';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => '有可用更新';
+
+  @override
+  String get userSettingsUpdateDownloadAction => '下載並安裝';
+
+  @override
+  String get userSettingsUpdateInstallAction => '安裝更新';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return '正在下載更新（$percent%）…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => '檢查或下載更新失敗。';
 
   @override
   String get personaSelectTitle => '選擇人格';
