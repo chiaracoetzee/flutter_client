@@ -28,7 +28,9 @@ class PersonaTag {
   String get displayPattern {
     final p = prefix ?? '';
     final s = suffix ?? '';
-    if (p.isEmpty && s.isEmpty) return '';
+    if (p.isEmpty && s.isEmpty) {
+      return '';
+    }
     return '${p}text$s';
   }
 }
@@ -42,6 +44,7 @@ class Persona {
     this.systemName,
     this.pronouns,
     this.color,
+    this.avatarColor,
     this.bio,
     this.autoTagDisabled = false,
     this.personaTags = const [],
@@ -60,6 +63,7 @@ class Persona {
   final String? systemName;
   final String? pronouns;
   final int? color;
+  final int? avatarColor;
   final String? bio;
   final bool autoTagDisabled;
   final List<PersonaTag> personaTags;
@@ -75,7 +79,7 @@ class Persona {
         json['personaTags'] as List<dynamic>? ??
         const [];
     final tags = rawTags
-        .whereType<Map>()
+        .whereType<Map<dynamic, dynamic>>()
         .map((t) => PersonaTag.fromJson(Map<String, dynamic>.from(t)))
         .toList();
 
@@ -103,6 +107,8 @@ class Persona {
       color: (json['color'] as num?)?.toInt() ??
           (json['accentColor'] as num?)?.toInt() ??
           (json['accent_color'] as num?)?.toInt(),
+      avatarColor: (json['avatar_color'] as num?)?.toInt() ??
+          (json['avatarColor'] as num?)?.toInt(),
       bio: json['bio'] as String?,
       autoTagDisabled: (json['auto_tag_disabled'] as bool?) ??
           (json['autoTagDisabled'] as bool?) ??
@@ -129,6 +135,7 @@ class Persona {
       if (systemName != null) 'system_name': systemName,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
+      if (avatarColor != null) 'avatar_color': avatarColor,
       if (bio != null) 'bio': bio,
       'auto_tag_disabled': autoTagDisabled,
       'persona_tags': personaTags.map((t) => t.toJson()).toList(),
@@ -149,6 +156,7 @@ class Persona {
     String? systemName,
     String? pronouns,
     int? color,
+    int? avatarColor,
     String? bio,
     bool? autoTagDisabled,
     List<PersonaTag>? personaTags,
@@ -167,6 +175,7 @@ class Persona {
       systemName: systemName ?? this.systemName,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
+      avatarColor: avatarColor ?? this.avatarColor,
       bio: bio ?? this.bio,
       autoTagDisabled: autoTagDisabled ?? this.autoTagDisabled,
       personaTags: personaTags ?? this.personaTags,
@@ -188,6 +197,7 @@ class Persona {
       systemName: systemName,
       pronouns: pronouns,
       color: color,
+      avatarColor: avatarColor,
       bio: bio,
       visibility: visibility,
       autoTagDisabled: autoTagDisabled,
