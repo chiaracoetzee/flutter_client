@@ -22,6 +22,33 @@ class ForkLocalizationsId extends ForkLocalizations {
       'Ganti tombol pesan suara di kolom input dengan tombol Pengalih Cepat untuk navigasi cepat';
 
   @override
+  String get userSettingsCheckForUpdates => 'Cek pembaruan';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Memeriksa pembaruan…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer sudah yang terbaru';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Pembaruan Tersedia';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Unduh & Pasang';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Pasang Pembaruan';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Mengunduh pembaruan ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Gagal memeriksa atau mengunduh pembaruan.';
+
+  @override
   String get personaSelectTitle => 'Pilih Persona';
 
   @override

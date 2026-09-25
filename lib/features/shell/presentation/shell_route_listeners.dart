@@ -39,7 +39,10 @@ import 'package:fluxer_app/material_ui.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/updater/app_update_provider.dart';
+import 'package:fluxer_app/core/updater/app_update_service.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
+import 'package:fluxer_app/features/updater/presentation/app_update_sheet.dart';
 
 class ShellRouteListeners extends ConsumerStatefulWidget {
   const ShellRouteListeners({required this.child, super.key});
@@ -155,6 +158,28 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
           _schedulePushRelayConsentPrompt();
         });
       }, fireImmediately: true);
+    }
+
+    if (AppUpdateService.isSupportedPlatform()) {
+      ref.listenManual<AppUpdateState>(appUpdateProvider, (
+        AppUpdateState? previous,
+        AppUpdateState next,
+      ) {
+        if (next.status == AppUpdateStatus.available &&
+            previous?.status != AppUpdateStatus.available &&
+            next.updateInfo != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) {
+              return;
+            }
+            final BuildContext? rootContext = rootNavigatorKey.currentContext;
+            if (rootContext == null || !rootContext.mounted) {
+              return;
+            }
+            unawaited(AppUpdateSheet.show(rootContext, next.updateInfo!));
+          });
+        }
+      });
     }
 
     ref.listenManual<HomeQuickAction?>(pendingHomeQuickActionProvider, (

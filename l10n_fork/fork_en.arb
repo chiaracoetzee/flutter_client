@@ -10,6 +10,43 @@
     },
     "advancedSettingQuickSwitcherButtonLabel": "Quick Switcher button",
     "advancedSettingQuickSwitcherButtonDescription": "Replace the voice message button in the message input with a Quick Switcher button for fast navigation",
+    "userSettingsCheckForUpdates": "Check for updates",
+    "@userSettingsCheckForUpdates": {
+        "description": "Button and navigation item to check for application updates."
+    },
+    "userSettingsCheckingForUpdates": "Checking for updates…",
+    "@userSettingsCheckingForUpdates": {
+        "description": "Toast message indicating that the app is checking for updates."
+    },
+    "userSettingsAppUpToDate": "Fluxer is up to date",
+    "@userSettingsAppUpToDate": {
+        "description": "Toast message indicating that the app is already on the latest version."
+    },
+    "userSettingsUpdateAvailableTitle": "Update Available",
+    "@userSettingsUpdateAvailableTitle": {
+        "description": "Title of the modal sheet notifying the user that a new version of the app is available."
+    },
+    "userSettingsUpdateDownloadAction": "Download & Install",
+    "@userSettingsUpdateDownloadAction": {
+        "description": "Button action to download and install the new update."
+    },
+    "userSettingsUpdateInstallAction": "Install Update",
+    "@userSettingsUpdateInstallAction": {
+        "description": "Button action to launch package installer for a downloaded update."
+    },
+    "userSettingsDownloadingUpdate": "Downloading update ({percent}%)…",
+    "@userSettingsDownloadingUpdate": {
+        "description": "Progress message while downloading an in-app update.",
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "userSettingsUpdateFailed": "Failed to check or download update.",
+    "@userSettingsUpdateFailed": {
+        "description": "Toast or error message shown when checking for or downloading an update fails."
+    },
     "personaSelectTitle": "Select Persona",
     "@personaSelectTitle": {
         "description": "Title of the persona selection modal sheet."
