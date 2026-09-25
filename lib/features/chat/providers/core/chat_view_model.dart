@@ -4929,11 +4929,13 @@ class ChatViewModel extends _$ChatViewModel {
     required String filePath,
     required int duration,
     required String waveform,
+    Map<String, dynamic>? personaData,
   }) => _afterPreparingSends(
     () => _sendVoiceMessageInner(
       filePath: filePath,
       duration: duration,
       waveform: waveform,
+      personaData: personaData,
     ),
   );
 
@@ -5049,6 +5051,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String filePath,
     required int duration,
     required String waveform,
+    Map<String, dynamic>? personaData,
   }) async {
     final String channelId = state.channelId;
     if (channelId.isEmpty) {
@@ -5132,6 +5135,18 @@ class ChatViewModel extends _$ChatViewModel {
           claimed: claimed,
           labelForMultiple: l10n.chatUploadingAttachmentsSummary,
         );
+    Map<String, dynamic>? resolvedPersonaData = personaData;
+    if (resolvedPersonaData == null) {
+      final Persona? latchedPersona = ref.read(activePersonaOrNullProvider);
+      if (latchedPersona != null) {
+        resolvedPersonaData = _buildPersonaPayload(latchedPersona);
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .recordUsage(latchedPersona.id),
+        );
+      }
+    }
     final Message optimisticMessage = _buildOptimisticMessage(
       channelId: channelId,
       content: '',
@@ -5149,6 +5164,7 @@ class ChatViewModel extends _$ChatViewModel {
           ? <String>[state.replyingTo!.authorId]
           : const <String>[],
       flags: kMessageFlagVoiceMessage,
+      personaData: resolvedPersonaData,
     );
     _retrySendOptions[optimisticMessage.id] = _RetrySendOptions(
       replyMention: replyMention,
@@ -5179,6 +5195,7 @@ class ChatViewModel extends _$ChatViewModel {
         optimisticMessageId: optimisticMessage.id,
         uploadNotifier: uploadNotifier,
         messageFlags: kMessageFlagVoiceMessage,
+        personaData: resolvedPersonaData,
       ),
     );
   }
@@ -5316,6 +5333,30 @@ class ChatViewModel extends _$ChatViewModel {
             labelForMultiple: l10n.chatUploadingAttachmentsSummary,
           )
         : const <Attachment>[];
+    Map<String, dynamic>? resolvedPersonaData = personaData;
+    if (resolvedPersonaData == null) {
+      final List<Persona> personas =
+          ref.read(myPersonasProvider).asData?.value ?? const [];
+      final activeState = ref.read(activePersonaProvider);
+      final String? latchedId = activeState.isLatched
+          ? activeState.activePersonaId
+          : null;
+      final MatchResult matchResult = matchPersona(
+        outgoingText,
+        personas,
+        latchedId,
+        hasPendingAttachments,
+        allowEmptyContent: hasPendingAttachments,
+      );
+      if (matchResult.matched && matchResult.persona != null) {
+        resolvedPersonaData = _buildPersonaPayload(matchResult.persona!);
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .recordUsage(matchResult.persona!.id),
+        );
+      }
+    }
     final Message optimisticMessage = _buildOptimisticMessage(
       channelId: channelId,
       content: outgoingText,
@@ -5333,7 +5374,7 @@ class ChatViewModel extends _$ChatViewModel {
           ? <String>[state.replyingTo!.authorId]
           : const <String>[],
       flags: messageFlags,
-      personaData: personaData,
+      personaData: resolvedPersonaData,
     );
     _retrySendOptions[optimisticMessage.id] = _RetrySendOptions(
       replyMention: replyMention,
@@ -5382,7 +5423,7 @@ class ChatViewModel extends _$ChatViewModel {
           optimisticMessageId: optimisticMessage.id,
           messageFlags: messageFlags,
           tts: tts,
-          personaData: personaData,
+          personaData: resolvedPersonaData,
         ),
       );
       return true;
@@ -5402,7 +5443,7 @@ class ChatViewModel extends _$ChatViewModel {
         uploadNotifier: uploadNotifier,
         messageFlags: messageFlags,
         tts: tts,
-        personaData: personaData,
+        personaData: resolvedPersonaData,
       ),
     );
     return true;
@@ -6158,6 +6199,30 @@ class ChatViewModel extends _$ChatViewModel {
             _kSendNonceDedupeWindow.inMilliseconds;
   }
 
+  // Fork: a retried message goes out as the persona it was first sent as.
+  Map<String, dynamic>? _retryPersonaData(Message message) {
+    if (message.personaId == null || message.personaId!.isEmpty) {
+      return null;
+    }
+    final String? pTag = message.personaTag;
+    unawaited(
+      ref.read(activePersonaProvider.notifier).recordUsage(message.personaId!),
+    );
+    return <String, dynamic>{
+      'id': message.personaId,
+      if (message.personaName != null) 'name': message.personaName,
+      if (message.personaAvatar != null) 'avatar': message.personaAvatar,
+      if (message.personaBanner != null) 'banner': message.personaBanner,
+      'display_tag_text': ?pTag,
+      'system_name': ?pTag,
+      if (message.personaTagIcon != null)
+        'display_tag_icon': message.personaTagIcon,
+      if (message.authorAvatarColor != null)
+        'avatar_color': message.authorAvatarColor,
+      if (message.authorAvatarColor != null) 'color': message.authorAvatarColor,
+    };
+  }
+
   Future<void> _resendLocalMessage(Message message) async {
     if (_maybeCreatedSends.containsKey(message.id) &&
         !_insideSendNonceDedupeWindow(message)) {
@@ -6177,6 +6242,7 @@ class ChatViewModel extends _$ChatViewModel {
       }
     }
     final _RetrySendOptions? options = _retrySendOptions[message.id];
+    final Map<String, dynamic>? retryPersonaData = _retryPersonaData(message);
     final String? uploadNonce = message.clientNonce;
     if (uploadNonce != null && _isMessageUploadSessionActive(uploadNonce)) {
       _registerInFlightOptimisticSend(
@@ -6199,6 +6265,7 @@ class ChatViewModel extends _$ChatViewModel {
         ),
         messageFlags: message.flags,
         tts: options?.tts ?? false,
+        personaData: retryPersonaData,
       );
       return;
     }
@@ -6234,6 +6301,7 @@ class ChatViewModel extends _$ChatViewModel {
                     favoriteMemeId: options?.favoriteMemeId,
                     messageFlags: message.flags,
                     tts: options?.tts ?? false,
+                    personaData: retryPersonaData,
                   ),
             );
       if (!ref.mounted) {
