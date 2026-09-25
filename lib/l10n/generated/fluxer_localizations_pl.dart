@@ -11144,6 +11144,33 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
       'Zawsze możesz zalogować się ponownie.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Sprawdź aktualizacje';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Sprawdzanie aktualizacji…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer jest aktualny';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Dostępna aktualizacja';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Pobierz i zainstaluj';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Zainstaluj aktualizację';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Pobieranie aktualizacji ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Nie udało się sprawdzić lub pobrać aktualizacji.';
+
+  @override
   String get quickSwitcherTabSearch => 'Szukaj';
 
   @override

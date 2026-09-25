@@ -17023,5 +17023,13 @@
     "timestampPickerSearchTimezones": "Cari zona waktu...",
     "userProfileTimezoneSettingLabel": "Zona waktu",
     "userProfileTimezoneSettingDescription": "Digunakan untuk menampilkan waktu lokal di profil Anda.",
-    "userProfileTimezoneNone": "Tidak ada"
+    "userProfileTimezoneNone": "Tidak ada",
+    "userSettingsCheckForUpdates": "Cek pembaruan",
+    "userSettingsCheckingForUpdates": "Memeriksa pembaruan…",
+    "userSettingsAppUpToDate": "Fluxer sudah yang terbaru",
+    "userSettingsUpdateAvailableTitle": "Pembaruan Tersedia",
+    "userSettingsUpdateDownloadAction": "Unduh & Pasang",
+    "userSettingsUpdateInstallAction": "Pasang Pembaruan",
+    "userSettingsDownloadingUpdate": "Mengunduh pembaruan ({percent}%)…",
+    "userSettingsUpdateFailed": "Gagal memeriksa atau mengunduh pembaruan."
 }

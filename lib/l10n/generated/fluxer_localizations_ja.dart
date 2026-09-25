@@ -10588,6 +10588,32 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsLogOutConfirmDescription => 'いつでもサインインし直せます。';
 
   @override
+  String get userSettingsCheckForUpdates => 'アップデートを確認';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'アップデートを確認中…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer は最新です';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'アップデートが利用可能です';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'ダウンロードしてインストール';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'アップデートをインストール';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'アップデートをダウンロード中（$percent%）…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'アップデートの確認またはダウンロードに失敗しました。';
+
+  @override
   String get quickSwitcherTabSearch => '検索';
 
   @override

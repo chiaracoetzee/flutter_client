@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Søk etter tidssoner...",
     "userProfileTimezoneSettingLabel": "Tidssone",
     "userProfileTimezoneSettingDescription": "Brukes til å vise din lokale tid på profilen din.",
-    "userProfileTimezoneNone": "Ingen"
+    "userProfileTimezoneNone": "Ingen",
+    "userSettingsCheckForUpdates": "Se etter oppdateringer",
+    "userSettingsCheckingForUpdates": "Ser etter oppdateringer…",
+    "userSettingsAppUpToDate": "Fluxer er oppdatert",
+    "userSettingsUpdateAvailableTitle": "Oppdatering tilgjengelig",
+    "userSettingsUpdateDownloadAction": "Last ned og installer",
+    "userSettingsUpdateInstallAction": "Installer oppdatering",
+    "userSettingsDownloadingUpdate": "Laster ned oppdatering ({percent} %)…",
+    "userSettingsUpdateFailed": "Kunne ikke søke etter eller laste ned oppdatering."
 }

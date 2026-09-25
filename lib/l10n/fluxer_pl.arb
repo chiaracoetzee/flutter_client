@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Szukaj stref czasowych...",
     "userProfileTimezoneSettingLabel": "Strefa czasowa",
     "userProfileTimezoneSettingDescription": "Służy do pokazywania Twojego czasu lokalnego na profilu.",
-    "userProfileTimezoneNone": "Brak"
+    "userProfileTimezoneNone": "Brak",
+    "userSettingsCheckForUpdates": "Sprawdź aktualizacje",
+    "userSettingsCheckingForUpdates": "Sprawdzanie aktualizacji…",
+    "userSettingsAppUpToDate": "Fluxer jest aktualny",
+    "userSettingsUpdateAvailableTitle": "Dostępna aktualizacja",
+    "userSettingsUpdateDownloadAction": "Pobierz i zainstaluj",
+    "userSettingsUpdateInstallAction": "Zainstaluj aktualizację",
+    "userSettingsDownloadingUpdate": "Pobieranie aktualizacji ({percent}%)…",
+    "userSettingsUpdateFailed": "Nie udało się sprawdzić lub pobrać aktualizacji."
 }

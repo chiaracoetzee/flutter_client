@@ -12,6 +12,8 @@ import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart'
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/updater/app_update_provider.dart';
+import 'package:fluxer_app/core/updater/app_update_service.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -569,6 +571,30 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = isTouchPrimaryInput(ref);
+
+    ref.listen<AppUpdateState>(appUpdateProvider, (previous, next) {
+      if (!next.isManualCheck) {
+        return;
+      }
+      if (next.status == AppUpdateStatus.upToDate &&
+          previous?.status != AppUpdateStatus.upToDate) {
+        ref.read(toastProvider.notifier).show(
+          FluxerToast(
+            message: l10n.userSettingsAppUpToDate,
+            variant: FluxerToastVariant.success,
+          ),
+        );
+      } else if (next.status == AppUpdateStatus.error &&
+          previous?.status != AppUpdateStatus.error) {
+        ref.read(toastProvider.notifier).show(
+          FluxerToast(
+            message: l10n.userSettingsUpdateFailed,
+            variant: FluxerToastVariant.danger,
+          ),
+        );
+      }
+    });
+
     final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
       l10n: l10n,
       query: debouncedSearchQuery,
@@ -605,6 +631,9 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               onOpenAppLogs: _openAppLogs,
               onJoinFluxerLabs: () => unawaited(_joinFluxerLabs()),
               onLogout: _logout,
+              onCheckForUpdates: AppUpdateService.isSupportedPlatform()
+                  ? _checkForUpdates
+                  : null,
               showBilling: showBilling,
               showJoinFluxerLabs: showJoinFluxerLabs,
               isTouchPrimary: isTouchPrimary,
@@ -670,6 +699,19 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
 
   void _openAppLogs() {
     unawaited(pushTalkerLogScreen(context));
+  }
+
+  void _checkForUpdates() {
+    final l10n = FluxerLocalizations.of(context);
+    ref.read(toastProvider.notifier).show(
+      FluxerToast(
+        message: l10n.userSettingsCheckingForUpdates,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+    unawaited(
+      ref.read(appUpdateProvider.notifier).checkForUpdate(manual: true),
+    );
   }
 
   Future<void> _logout() async {
@@ -963,16 +1005,72 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
             ),
           ),
         );
+        final Widget? updateLink = AppUpdateService.isSupportedPlatform()
+            ? Semantics(
+                button: true,
+                child: FluxerGestureDetector(
+                  onTap: () => _triggerCheckForUpdates(context, ref, l10n),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      l10n.userSettingsCheckForUpdates,
+                      textAlign: inSidebar ? TextAlign.start : TextAlign.center,
+                      style: context.textStyles.timestamp.copyWith(
+                        fontSize: 11,
+                        color: context.colors.brandPrimary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : null;
+
         if (inSidebar) {
-          return buildInfo;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              buildInfo,
+              if (updateLink != null) ...[
+                const SizedBox(height: 4),
+                updateLink,
+              ],
+            ],
+          );
         }
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 10),
-          child: Align(child: buildInfo),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(child: buildInfo),
+              if (updateLink != null) ...[
+                const SizedBox(height: 4),
+                Align(child: updateLink),
+              ],
+            ],
+          ),
         );
       },
       loading: () => const SizedBox.shrink(),
       error: (_, _) => const SizedBox.shrink(),
+    );
+  }
+
+  void _triggerCheckForUpdates(
+    BuildContext context,
+    WidgetRef ref,
+    FluxerLocalizations l10n,
+  ) {
+    ref.read(toastProvider.notifier).show(
+      FluxerToast(
+        message: l10n.userSettingsCheckingForUpdates,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+    unawaited(
+      ref.read(appUpdateProvider.notifier).checkForUpdate(manual: true),
     );
   }
 

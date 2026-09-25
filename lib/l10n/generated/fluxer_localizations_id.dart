@@ -11055,6 +11055,33 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Kamu dapat masuk kembali kapan saja.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Cek pembaruan';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Memeriksa pembaruan…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer sudah yang terbaru';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Pembaruan Tersedia';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Unduh & Pasang';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Pasang Pembaruan';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Mengunduh pembaruan ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Gagal memeriksa atau mengunduh pembaruan.';
+
+  @override
   String get quickSwitcherTabSearch => 'Cari';
 
   @override

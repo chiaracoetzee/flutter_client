@@ -11085,6 +11085,33 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Možete se ponovno prijaviti bilo kada.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Provjeri ažuriranja';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Provjera ažuriranja…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer je ažuran';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Dostupno ažuriranje';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Preuzmi i instaliraj';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Instaliraj ažuriranje';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Preuzimanje ažuriranja ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Provjera ili preuzimanje ažuriranja nije uspjelo.';
+
+  @override
   String get quickSwitcherTabSearch => 'Pretraživanje';
 
   @override

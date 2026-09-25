@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Поиск часовых поясов...",
     "userProfileTimezoneSettingLabel": "Часовой пояс",
     "userProfileTimezoneSettingDescription": "Используется для отображения вашего местного времени в профиле.",
-    "userProfileTimezoneNone": "Нет"
+    "userProfileTimezoneNone": "Нет",
+    "userSettingsCheckForUpdates": "Проверить обновления",
+    "userSettingsCheckingForUpdates": "Проверка обновлений…",
+    "userSettingsAppUpToDate": "Fluxer обновлен до последней версии",
+    "userSettingsUpdateAvailableTitle": "Доступно обновление",
+    "userSettingsUpdateDownloadAction": "Скачать и установить",
+    "userSettingsUpdateInstallAction": "Установить обновление",
+    "userSettingsDownloadingUpdate": "Скачивание обновления ({percent}%)…",
+    "userSettingsUpdateFailed": "Не удалось проверить или скачать обновление."
 }
