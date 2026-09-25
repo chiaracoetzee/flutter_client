@@ -786,23 +786,32 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         '';
     final String rootUsername =
         rootProfile?.user.username ?? message?.authorName ?? '';
-    final String? rootAvatarUrl = rootProfile?.user.avatar != null
+    final String? avatarHash = rootProfile?.user.avatar;
+    final String? rootAvatarUrl = avatarHash != null
         ? FluxerMediaUrl.userAvatar(
             userId: effectiveUserId,
-            hash: rootProfile!.user.avatar!,
-            size: MediaProxySizes.avatarDefault,
+            hash: avatarHash,
           )
         : message?.authorAvatar;
     final int? rootAvatarColor =
         rootProfile?.user.avatarColor ?? message?.authorAvatarColor;
 
+    final bool hasCustomAvatar =
+        personaAvatarUrl != null && personaAvatarUrl.isNotEmpty;
+    final int? personaAvatarColor = hasCustomAvatar
+        ? publicPersona?.avatarColor
+        : (rootAvatarColor ?? publicPersona?.avatarColor);
+
+    final String? effectiveAvatarUrl =
+        hasCustomAvatar ? personaAvatarUrl : rootAvatarUrl;
+
     final Color bannerColor = personaColor != null && personaColor != 0
         ? Color(personaColor | 0xFF000000)
-        : resolveGuildProfileBannerColor(
-            bannerColor: null,
-            accentColor: rootProfile?.userProfile.accentColor,
-            avatarColor: rootAvatarColor,
-          );
+        : (personaAvatarColor != null
+            ? Color(personaAvatarColor | 0xFF000000)
+            : (rootAvatarColor != null
+                ? Color(rootAvatarColor | 0xFF000000)
+                : colors.backgroundSecondary));
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -857,7 +866,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   Positioned(
                     left: layout.s4,
                     top: _kBannerHeight - _kAvatarOverlap,
-                    child: Container(
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
@@ -867,9 +876,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       ),
                       child: FluxerAvatar.user(
                         userId: effectiveUserId,
-                        imageUrl: personaAvatarUrl,
+                        imageUrl: effectiveAvatarUrl,
                         fallbackText: displayName,
-                        avatarColor: rootAvatarColor,
+                        avatarColor: personaAvatarColor,
                         size: _kAvatarSize,
                       ),
                     ),
@@ -902,7 +911,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     ),
                     if (personaTag != null && personaTag.trim().isNotEmpty)
                       FluxerUserTag(
-                        isSystem: false,
                         label: personaTag.trim(),
                       ),
                   ],
@@ -964,8 +972,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         context,
                         userId: effectiveUserId,
                         guildId: widget.guildId,
-                        isWebhook: false,
-                        message: null,
                       ),
                     );
                   },

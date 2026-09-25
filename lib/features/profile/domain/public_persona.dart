@@ -9,6 +9,7 @@ class PublicPersona {
     this.systemName,
     this.pronouns,
     this.color,
+    this.avatarColor,
     this.bio,
     this.visibility,
     this.autoTagDisabled = false,
@@ -22,6 +23,7 @@ class PublicPersona {
   final String? systemName;
   final String? pronouns;
   final int? color;
+  final int? avatarColor;
   final String? bio;
   final String? visibility;
   final bool autoTagDisabled;
@@ -33,7 +35,9 @@ class PublicPersona {
         const [];
     final tags = rawTags
         .map((t) {
-          if (t is Map<String, dynamic>) return PersonaTag.fromJson(t);
+          if (t is Map<String, dynamic>) {
+            return PersonaTag.fromJson(t);
+          }
           if (t is Map) {
             return PersonaTag.fromJson(Map<String, dynamic>.from(t));
           }
@@ -55,6 +59,8 @@ class PublicPersona {
           json['system_name'] as String? ?? json['display_tag_text'] as String?,
       pronouns: json['pronouns'] as String?,
       color: (json['color'] as num?)?.toInt(),
+      avatarColor: (json['avatar_color'] as num?)?.toInt() ??
+          (json['avatarColor'] as num?)?.toInt(),
       bio: json['bio'] as String?,
       visibility: json['visibility'] as String?,
       autoTagDisabled: json['auto_tag_disabled'] as bool? ?? false,
@@ -71,6 +77,7 @@ class PublicPersona {
       if (systemName != null) 'system_name': systemName,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
+      if (avatarColor != null) 'avatar_color': avatarColor,
       if (bio != null) 'bio': bio,
       if (visibility != null) 'visibility': visibility,
       'auto_tag_disabled': autoTagDisabled,
@@ -86,6 +93,7 @@ class PublicPersona {
     String? systemName,
     String? pronouns,
     int? color,
+    int? avatarColor,
     String? bio,
     String? visibility,
     bool? autoTagDisabled,
@@ -99,6 +107,7 @@ class PublicPersona {
       systemName: systemName ?? this.systemName,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
+      avatarColor: avatarColor ?? this.avatarColor,
       bio: bio ?? this.bio,
       visibility: visibility ?? this.visibility,
       autoTagDisabled: autoTagDisabled ?? this.autoTagDisabled,
@@ -115,6 +124,7 @@ class PublicPersona {
       systemName: systemName,
       pronouns: pronouns,
       color: color,
+      avatarColor: avatarColor,
       bio: bio,
       visibility: visibility ?? 'unlisted',
       autoTagDisabled: autoTagDisabled,
