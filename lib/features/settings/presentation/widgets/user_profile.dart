@@ -35,19 +35,26 @@ const int _kMaxPronounsLength = 40;
 const int _kMaxBioLength = 320;
 const int _kDefaultProfileAccentColor = 0x4641D9;
 
+int _defaultProfileAccentColor(UserSettingsViewState state) {
+  final userDefault = state.avatarColor ?? _kDefaultProfileAccentColor;
+  if (state.isPerGuildProfile) {
+    return state.accentColor ?? userDefault;
+  }
+  return userDefault;
+}
+
 int _accentColorPickerValue(UserSettingsViewState state) {
+  final defaultColor = _defaultProfileAccentColor(state);
   if (state.isPerGuildProfile) {
     if (state.isEditedGuildAccentColorSet) {
-      return state.editedGuildAccentColor ?? _kDefaultProfileAccentColor;
+      return state.editedGuildAccentColor ?? defaultColor;
     }
-    return state.guildAccentColor ??
-        state.accentColor ??
-        _kDefaultProfileAccentColor;
+    return state.guildAccentColor ?? defaultColor;
   }
   if (state.isEditedAccentColorSet) {
-    return state.editedAccentColor ?? _kDefaultProfileAccentColor;
+    return state.editedAccentColor ?? defaultColor;
   }
-  return state.accentColor ?? _kDefaultProfileAccentColor;
+  return state.accentColor ?? defaultColor;
 }
 
 bool _accentColorIsDefault(UserSettingsViewState state) {
@@ -55,7 +62,7 @@ bool _accentColorIsDefault(UserSettingsViewState state) {
     if (state.isEditedGuildAccentColorSet) {
       return state.editedGuildAccentColor == null;
     }
-    return state.guildAccentColor == null && state.accentColor == null;
+    return state.guildAccentColor == null;
   }
   if (state.isEditedAccentColorSet) {
     return state.editedAccentColor == null;
@@ -602,7 +609,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                               label: l10n.accentColorLabel,
                               description: l10n.accentColorDescription,
                               value: _accentColorPickerValue(state),
-                              defaultValue: _kDefaultProfileAccentColor,
+                              defaultValue: _defaultProfileAccentColor(state),
                               isDefaultValue: _accentColorIsDefault(state),
                               onReset: state.isPerGuildProfile
                                   ? vm.resetGuildAccentColor
