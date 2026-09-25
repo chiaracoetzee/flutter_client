@@ -11062,6 +11062,34 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'İstediğiniz zaman tekrar giriş yapabilirsiniz.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Güncellemeleri kontrol et';
+
+  @override
+  String get userSettingsCheckingForUpdates =>
+      'Güncellemeler kontrol ediliyor…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer güncel';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Güncelleme Mevcut';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'İndir ve Yükle';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Güncellemeyi Yükle';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Güncelleme indiriliyor (%$percent)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Güncelleme kontrol edilemedi veya indirilemedi.';
+
+  @override
   String get quickSwitcherTabSearch => 'Ara';
 
   @override

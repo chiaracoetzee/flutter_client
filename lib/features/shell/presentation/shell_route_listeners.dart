@@ -20,6 +20,8 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/share/pending_share_provider.dart';
 import 'package:fluxer_app/core/share/shared_media_payload.dart';
+import 'package:fluxer_app/core/updater/app_update_provider.dart';
+import 'package:fluxer_app/core/updater/app_update_service.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/share_media_sheet.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
@@ -32,6 +34,7 @@ import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_swi
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
+import 'package:fluxer_app/features/updater/presentation/app_update_sheet.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -136,6 +139,28 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
             ),
           );
         });
+      });
+    }
+
+    if (AppUpdateService.isSupportedPlatform()) {
+      ref.listenManual<AppUpdateState>(appUpdateProvider, (
+        AppUpdateState? previous,
+        AppUpdateState next,
+      ) {
+        if (next.status == AppUpdateStatus.available &&
+            previous?.status != AppUpdateStatus.available &&
+            next.updateInfo != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) {
+              return;
+            }
+            final BuildContext? rootContext = rootNavigatorKey.currentContext;
+            if (rootContext == null || !rootContext.mounted) {
+              return;
+            }
+            unawaited(AppUpdateSheet.show(rootContext, next.updateInfo!));
+          });
+        }
       });
     }
 

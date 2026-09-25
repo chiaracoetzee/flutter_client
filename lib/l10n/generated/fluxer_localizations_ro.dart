@@ -11139,6 +11139,33 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Te poți conecta oricând din nou.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Caută actualizări';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Se caută actualizări…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer este la zi';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Actualizare disponibilă';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Descarcă și instalează';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Instalează actualizarea';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Se descarcă actualizarea ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Nu s-a putut verifica sau descărca actualizarea.';
+
+  @override
   String get quickSwitcherTabSearch => 'Căutare';
 
   @override

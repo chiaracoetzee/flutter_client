@@ -11039,6 +11039,33 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'आप कभी भी वापस साइन इन कर सकते हैं।';
 
   @override
+  String get userSettingsCheckForUpdates => 'अपडेट देखें';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'अपडेट की जाँच की जा रही है…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer अप-टू-डेट है';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'अपडेट उपलब्ध है';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'डाउनलोड और इंस्टॉल करें';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'अपडेट इंस्टॉल करें';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'अपडेट डाउनलोड हो रहा है ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'अपडेट की जाँच करने या डाउनलोड करने में विफल।';
+
+  @override
   String get quickSwitcherTabSearch => 'खोजें';
 
   @override

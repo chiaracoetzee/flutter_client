@@ -17023,5 +17023,13 @@
     "timestampPickerSearchTimezones": "Търсене на часови зони...",
     "userProfileTimezoneSettingLabel": "Часова зона",
     "userProfileTimezoneSettingDescription": "Използва се за показване на вашето местно време в профила.",
-    "userProfileTimezoneNone": "Няма"
+    "userProfileTimezoneNone": "Няма",
+    "userSettingsCheckForUpdates": "Проверка за актуализации",
+    "userSettingsCheckingForUpdates": "Проверка за актуализации…",
+    "userSettingsAppUpToDate": "Fluxer е актуален",
+    "userSettingsUpdateAvailableTitle": "Налична е актуализация",
+    "userSettingsUpdateDownloadAction": "Изтегляне и инсталиране",
+    "userSettingsUpdateInstallAction": "Инсталиране на актуализацията",
+    "userSettingsDownloadingUpdate": "Изтегляне на актуализация ({percent}%)…",
+    "userSettingsUpdateFailed": "Неуспешна проверка или изтегляне на актуализация."
 }

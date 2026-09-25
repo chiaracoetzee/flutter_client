@@ -17002,5 +17002,13 @@
     "timestampPickerSearchTimezones": "Search time zones...",
     "userProfileTimezoneSettingLabel": "Time zone",
     "userProfileTimezoneSettingDescription": "Used to show your local time on your profile.",
-    "userProfileTimezoneNone": "None"
+    "userProfileTimezoneNone": "None",
+    "userSettingsCheckForUpdates": "Check for updates",
+    "userSettingsCheckingForUpdates": "Checking for updates…",
+    "userSettingsAppUpToDate": "Fluxer is up to date",
+    "userSettingsUpdateAvailableTitle": "Update Available",
+    "userSettingsUpdateDownloadAction": "Download & Install",
+    "userSettingsUpdateInstallAction": "Install Update",
+    "userSettingsDownloadingUpdate": "Downloading update ({percent}%)…",
+    "userSettingsUpdateFailed": "Failed to check or download update."
 }

@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Sök tidszoner...",
     "userProfileTimezoneSettingLabel": "Tidszon",
     "userProfileTimezoneSettingDescription": "Används för att visa din lokala tid på din profil.",
-    "userProfileTimezoneNone": "Ingen"
+    "userProfileTimezoneNone": "Ingen",
+    "userSettingsCheckForUpdates": "Sök efter uppdateringar",
+    "userSettingsCheckingForUpdates": "Söker efter uppdateringar…",
+    "userSettingsAppUpToDate": "Fluxer är uppdaterad",
+    "userSettingsUpdateAvailableTitle": "Uppdatering tillgänglig",
+    "userSettingsUpdateDownloadAction": "Ladda ner och installera",
+    "userSettingsUpdateInstallAction": "Installera uppdatering",
+    "userSettingsDownloadingUpdate": "Laddar ner uppdatering ({percent} %)…",
+    "userSettingsUpdateFailed": "Kunde inte söka efter eller ladda ner uppdatering."
 }

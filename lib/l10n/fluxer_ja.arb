@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "タイムゾーンを検索...",
     "userProfileTimezoneSettingLabel": "タイムゾーン",
     "userProfileTimezoneSettingDescription": "プロフィールに現地時間を表示するために使用されます。",
-    "userProfileTimezoneNone": "なし"
+    "userProfileTimezoneNone": "なし",
+    "userSettingsCheckForUpdates": "アップデートを確認",
+    "userSettingsCheckingForUpdates": "アップデートを確認中…",
+    "userSettingsAppUpToDate": "Fluxer は最新です",
+    "userSettingsUpdateAvailableTitle": "アップデートが利用可能です",
+    "userSettingsUpdateDownloadAction": "ダウンロードしてインストール",
+    "userSettingsUpdateInstallAction": "アップデートをインストール",
+    "userSettingsDownloadingUpdate": "アップデートをダウンロード中（{percent}%）…",
+    "userSettingsUpdateFailed": "アップデートの確認またはダウンロードに失敗しました。"
 }
