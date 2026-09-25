@@ -185,6 +185,54 @@ abstract class ForkLocalizations {
   /// **'Replace the voice message button in the message input with a Quick Switcher button for fast navigation'**
   String get advancedSettingQuickSwitcherButtonDescription;
 
+  /// Button and navigation item to check for application updates.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for updates'**
+  String get userSettingsCheckForUpdates;
+
+  /// Toast message indicating that the app is checking for updates.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking for updates…'**
+  String get userSettingsCheckingForUpdates;
+
+  /// Toast message indicating that the app is already on the latest version.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer is up to date'**
+  String get userSettingsAppUpToDate;
+
+  /// Title of the modal sheet notifying the user that a new version of the app is available.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Available'**
+  String get userSettingsUpdateAvailableTitle;
+
+  /// Button action to download and install the new update.
+  ///
+  /// In en, this message translates to:
+  /// **'Download & Install'**
+  String get userSettingsUpdateDownloadAction;
+
+  /// Button action to launch package installer for a downloaded update.
+  ///
+  /// In en, this message translates to:
+  /// **'Install Update'**
+  String get userSettingsUpdateInstallAction;
+
+  /// Progress message while downloading an in-app update.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading update ({percent}%)…'**
+  String userSettingsDownloadingUpdate(int percent);
+
+  /// Toast or error message shown when checking for or downloading an update fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to check or download update.'**
+  String get userSettingsUpdateFailed;
+
   /// Title of the persona selection modal sheet.
   ///
   /// In en, this message translates to:

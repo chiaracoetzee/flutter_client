@@ -22,6 +22,34 @@ class ForkLocalizationsTr extends ForkLocalizations {
       'Daha hızlı gezinme için metin girişindeki sesli mesaj düğmesini Hızlı Geçiş ile değiştirin';
 
   @override
+  String get userSettingsCheckForUpdates => 'Güncellemeleri kontrol et';
+
+  @override
+  String get userSettingsCheckingForUpdates =>
+      'Güncellemeler kontrol ediliyor…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer güncel';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Güncelleme Mevcut';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'İndir ve Yükle';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Güncellemeyi Yükle';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Güncelleme indiriliyor (%$percent)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Güncelleme kontrol edilemedi veya indirilemedi.';
+
+  @override
   String get personaSelectTitle => 'Persona Seç';
 
   @override

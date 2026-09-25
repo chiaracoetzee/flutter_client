@@ -22,6 +22,33 @@ class ForkLocalizationsSv extends ForkLocalizations {
       'Ersätt knappen för röstmeddelande i inmatningsfältet med en snabbväxlare för smidig navigering';
 
   @override
+  String get userSettingsCheckForUpdates => 'Sök efter uppdateringar';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Söker efter uppdateringar…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer är uppdaterad';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Uppdatering tillgänglig';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Ladda ner och installera';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Installera uppdatering';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Laddar ner uppdatering ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Kunde inte söka efter eller ladda ner uppdatering.';
+
+  @override
   String get personaSelectTitle => 'Välj persona';
 
   @override

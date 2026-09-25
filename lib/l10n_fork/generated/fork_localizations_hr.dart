@@ -23,6 +23,33 @@ class ForkLocalizationsHr extends ForkLocalizations {
       'Zamijenite gumb glasovne poruke u polju za unos brzim prebacivanjem za lakšu navigaciju';
 
   @override
+  String get userSettingsCheckForUpdates => 'Provjeri ažuriranja';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Provjera ažuriranja…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer je ažuran';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Dostupno ažuriranje';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Preuzmi i instaliraj';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Instaliraj ažuriranje';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Preuzimanje ažuriranja ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Provjera ili preuzimanje ažuriranja nije uspjelo.';
+
+  @override
   String get personaSelectTitle => 'Odaberite personu';
 
   @override
