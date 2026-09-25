@@ -4801,12 +4801,14 @@ class ChatViewModel extends _$ChatViewModel {
     required String filePath,
     required int duration,
     required String waveform,
+    Map<String, dynamic>? personaData,
   }) async {
     try {
       await _sendVoiceMessageInner(
         filePath: filePath,
         duration: duration,
         waveform: waveform,
+        personaData: personaData,
       );
     } on Object catch (error, st) {
       talker.error('[ChatViewModel] voice send failed unexpectedly', error, st);
@@ -4866,6 +4868,7 @@ class ChatViewModel extends _$ChatViewModel {
     required String filePath,
     required int duration,
     required String waveform,
+    Map<String, dynamic>? personaData,
   }) async {
     final String channelId = state.channelId;
     if (channelId.isEmpty) {
@@ -4949,6 +4952,18 @@ class ChatViewModel extends _$ChatViewModel {
           claimed: claimed,
           labelForMultiple: l10n.chatUploadingAttachmentsSummary,
         );
+    Map<String, dynamic>? resolvedPersonaData = personaData;
+    if (resolvedPersonaData == null) {
+      final Persona? latchedPersona = ref.read(activePersonaOrNullProvider);
+      if (latchedPersona != null) {
+        resolvedPersonaData = _buildPersonaPayload(latchedPersona);
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .recordUsage(latchedPersona.id),
+        );
+      }
+    }
     final Message optimisticMessage = _buildOptimisticMessage(
       channelId: channelId,
       content: '',
@@ -4966,6 +4981,7 @@ class ChatViewModel extends _$ChatViewModel {
           ? <String>[state.replyingTo!.authorId]
           : const <String>[],
       flags: kMessageFlagVoiceMessage,
+      personaData: resolvedPersonaData,
     );
     state = state.copyWith(
       replyingTo: null,
@@ -4993,6 +5009,7 @@ class ChatViewModel extends _$ChatViewModel {
         optimisticMessageId: optimisticMessage.id,
         uploadNotifier: uploadNotifier,
         messageFlags: kMessageFlagVoiceMessage,
+        personaData: resolvedPersonaData,
       ),
     );
   }
@@ -5128,6 +5145,29 @@ class ChatViewModel extends _$ChatViewModel {
             labelForMultiple: l10n.chatUploadingAttachmentsSummary,
           )
         : const <Attachment>[];
+    Map<String, dynamic>? resolvedPersonaData = personaData;
+    if (resolvedPersonaData == null) {
+      final List<Persona> personas =
+          ref.read(myPersonasProvider).asData?.value ?? const [];
+      final activeState = ref.read(activePersonaProvider);
+      final String? latchedId =
+          activeState.isLatched ? activeState.activePersonaId : null;
+      final MatchResult matchResult = matchPersona(
+        outgoingText,
+        personas,
+        latchedId,
+        hasPendingAttachments,
+        allowEmptyContent: hasPendingAttachments,
+      );
+      if (matchResult.matched && matchResult.persona != null) {
+        resolvedPersonaData = _buildPersonaPayload(matchResult.persona!);
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .recordUsage(matchResult.persona!.id),
+        );
+      }
+    }
     final Message optimisticMessage = _buildOptimisticMessage(
       channelId: channelId,
       content: outgoingText,
@@ -5145,7 +5185,7 @@ class ChatViewModel extends _$ChatViewModel {
           ? <String>[state.replyingTo!.authorId]
           : const <String>[],
       flags: messageFlags,
-      personaData: personaData,
+      personaData: resolvedPersonaData,
     );
 
     talker.debug('[ChatViewModel] send optimistic channelId=$channelId');
@@ -5188,7 +5228,7 @@ class ChatViewModel extends _$ChatViewModel {
           optimisticMessageId: optimisticMessage.id,
           messageFlags: messageFlags,
           tts: tts,
-          personaData: personaData,
+          personaData: resolvedPersonaData,
         ),
       );
       return;
@@ -5208,7 +5248,7 @@ class ChatViewModel extends _$ChatViewModel {
         uploadNotifier: uploadNotifier,
         messageFlags: messageFlags,
         tts: tts,
-        personaData: personaData,
+        personaData: resolvedPersonaData,
       ),
     );
   }
@@ -5573,6 +5613,24 @@ class ChatViewModel extends _$ChatViewModel {
       write: (messages: pendingMessages, origin: MessagesOrigin.localMutation),
       errorMessage: null,
     );
+    Map<String, dynamic>? retryPersonaData;
+    if (message.personaId != null && message.personaId!.isNotEmpty) {
+      final String? pTag = message.personaTag;
+      retryPersonaData = <String, dynamic>{
+        'id': message.personaId,
+        if (message.personaName != null) 'name': message.personaName,
+        if (message.personaAvatar != null) 'avatar': message.personaAvatar,
+        if (message.personaBanner != null) 'banner': message.personaBanner,
+        if (pTag != null) 'display_tag_text': pTag,
+        if (pTag != null) 'system_name': pTag,
+        if (message.personaTagIcon != null) 'display_tag_icon': message.personaTagIcon,
+        if (message.authorAvatarColor != null) 'avatar_color': message.authorAvatarColor,
+        if (message.authorAvatarColor != null) 'color': message.authorAvatarColor,
+      };
+      unawaited(
+        ref.read(activePersonaProvider.notifier).recordUsage(message.personaId!),
+      );
+    }
     try {
       final Message sent = await ref
           .read(messageRepositoryProvider)
@@ -5584,6 +5642,8 @@ class ChatViewModel extends _$ChatViewModel {
             stickerIds: message.stickers
                 .map((MessageSticker s) => s.id)
                 .toList(),
+            messageFlags: message.flags != 0 ? message.flags : null,
+            personaData: retryPersonaData,
           );
       final List<Message> nextMessages = _replaceOptimisticWithDelivered(
         messages: state.messages,
