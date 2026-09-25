@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/settings/utils/user_settings_search.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -365,6 +366,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
   bool showGifts = true,
+  VoidCallback? onCheckForUpdates,
 }) {
   FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
     return FluxerSettingsNavItem(
@@ -449,6 +451,12 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
             label: l10n.userSettingsGiveFeedback,
             icon: PhosphorIconsFill.chatTeardropText,
             onTap: onGiveFeedback,
+          ),
+        if (onCheckForUpdates != null)
+          FluxerSettingsNavItem(
+            label: l10n.fork.userSettingsCheckForUpdates,
+            icon: PhosphorIconsFill.arrowsClockwise,
+            onTap: onCheckForUpdates,
           ),
         if (showJoinFluxerLabs)
           FluxerSettingsNavItem(

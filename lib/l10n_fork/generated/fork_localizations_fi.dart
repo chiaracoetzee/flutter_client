@@ -22,6 +22,33 @@ class ForkLocalizationsFi extends ForkLocalizations {
       'Korvaa viestikentän ääniviestipainike pikavaihtimella nopeaa siirtymistä varten';
 
   @override
+  String get userSettingsCheckForUpdates => 'Tarkista päivitykset';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Tarkistetaan päivityksiä…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer on ajan tasalla';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Päivitys saatavilla';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Lataa ja asenna';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Asenna päivitys';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Ladataan päivitystä ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Päivityksen tarkistaminen tai lataaminen epäonnistui.';
+
+  @override
   String get personaSelectTitle => 'Valitse persoona';
 
   @override
