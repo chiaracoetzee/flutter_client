@@ -10359,6 +10359,32 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsLogOutConfirmDescription => '你可以随时重新登录。';
 
   @override
+  String get userSettingsCheckForUpdates => '检查更新';
+
+  @override
+  String get userSettingsCheckingForUpdates => '正在检查更新…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer 已是最新版本';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => '有可用更新';
+
+  @override
+  String get userSettingsUpdateDownloadAction => '下载并安装';
+
+  @override
+  String get userSettingsUpdateInstallAction => '安装更新';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return '正在下载更新（$percent%）…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => '检查或下载更新失败。';
+
+  @override
   String get quickSwitcherTabSearch => '搜索';
 
   @override
@@ -24134,6 +24160,32 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get userSettingsLogOutConfirmDescription => '您可以隨時重新登入。';
+
+  @override
+  String get userSettingsCheckForUpdates => '檢查更新';
+
+  @override
+  String get userSettingsCheckingForUpdates => '正在檢查更新…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer 已是最新版本';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => '有可用更新';
+
+  @override
+  String get userSettingsUpdateDownloadAction => '下載並安裝';
+
+  @override
+  String get userSettingsUpdateInstallAction => '安裝更新';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return '正在下載更新（$percent%）…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => '檢查或下載更新失敗。';
 
   @override
   String get quickSwitcherTabSearch => '搜尋';

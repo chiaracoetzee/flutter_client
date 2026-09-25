@@ -11157,6 +11157,33 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ви можете ввійти знову в будь-який час.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Перевірити наявність оновлень';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Перевірка оновлень…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer оновлено до найновішої версії';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Доступне оновлення';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Завантажити та встановити';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Встановити оновлення';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Завантаження оновлення ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Не вдалося перевірити або завантажити оновлення.';
+
+  @override
   String get quickSwitcherTabSearch => 'Пошук';
 
   @override

@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Шукати часові пояси...",
     "userProfileTimezoneSettingLabel": "Часовий пояс",
     "userProfileTimezoneSettingDescription": "Використовується для відображення вашого місцевого часу у профілі.",
-    "userProfileTimezoneNone": "Немає"
+    "userProfileTimezoneNone": "Немає",
+    "userSettingsCheckForUpdates": "Перевірити наявність оновлень",
+    "userSettingsCheckingForUpdates": "Перевірка оновлень…",
+    "userSettingsAppUpToDate": "Fluxer оновлено до найновішої версії",
+    "userSettingsUpdateAvailableTitle": "Доступне оновлення",
+    "userSettingsUpdateDownloadAction": "Завантажити та встановити",
+    "userSettingsUpdateInstallAction": "Встановити оновлення",
+    "userSettingsDownloadingUpdate": "Завантаження оновлення ({percent}%)…",
+    "userSettingsUpdateFailed": "Не вдалося перевірити або завантажити оновлення."
 }

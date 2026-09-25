@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "البحث في المناطق الزمنية...",
     "userProfileTimezoneSettingLabel": "المنطقة الزمنية",
     "userProfileTimezoneSettingDescription": "تُستخدم لعرض وقتك المحلي في ملفك الشخصي.",
-    "userProfileTimezoneNone": "بلا"
+    "userProfileTimezoneNone": "بلا",
+    "userSettingsCheckForUpdates": "التحقق من وجود تحديثات",
+    "userSettingsCheckingForUpdates": "جارٍ التحقق من وجود تحديثات…",
+    "userSettingsAppUpToDate": "Fluxer محدّث لأحدث إصدار",
+    "userSettingsUpdateAvailableTitle": "تحديث متوفر",
+    "userSettingsUpdateDownloadAction": "تنزيل وتثبيت",
+    "userSettingsUpdateInstallAction": "تثبيت التحديث",
+    "userSettingsDownloadingUpdate": "جارٍ تنزيل التحديث ({percent}%)…",
+    "userSettingsUpdateFailed": "فشل التحقق من التحديث أو تنزيله."
 }

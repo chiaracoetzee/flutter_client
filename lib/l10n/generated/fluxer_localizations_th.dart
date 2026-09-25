@@ -10960,6 +10960,32 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'คุณสามารถลงชื่อเข้าใช้ได้ทุกเมื่อ';
 
   @override
+  String get userSettingsCheckForUpdates => 'ตรวจหาอัปเดต';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'กำลังตรวจหาอัปเดต…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer เป็นเวอร์ชันล่าสุดแล้ว';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'มีอัปเดตใหม่';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'ดาวน์โหลดและติดตั้ง';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'ติดตั้งอัปเดต';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'กำลังดาวน์โหลดอัปเดต ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'ตรวจหาหรือดาวน์โหลดอัปเดตไม่สำเร็จ';
+
+  @override
   String get quickSwitcherTabSearch => 'ค้นหา';
 
   @override

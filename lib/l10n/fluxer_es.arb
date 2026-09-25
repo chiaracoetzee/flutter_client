@@ -16997,5 +16997,13 @@
     "timestampPickerSearchTimezones": "Buscar zonas horarias...",
     "userProfileTimezoneSettingLabel": "Zona horaria",
     "userProfileTimezoneSettingDescription": "Se usa para mostrar tu hora local en tu perfil.",
-    "userProfileTimezoneNone": "Ninguno"
+    "userProfileTimezoneNone": "Ninguno",
+    "userSettingsCheckForUpdates": "Buscar actualizaciones",
+    "userSettingsCheckingForUpdates": "Buscando actualizaciones…",
+    "userSettingsAppUpToDate": "Fluxer está actualizado",
+    "userSettingsUpdateAvailableTitle": "Actualización disponible",
+    "userSettingsUpdateDownloadAction": "Descargar e instalar",
+    "userSettingsUpdateInstallAction": "Instalar actualización",
+    "userSettingsDownloadingUpdate": "Descargando actualización ({percent} %)…",
+    "userSettingsUpdateFailed": "Error al buscar o descargar la actualización."
 }

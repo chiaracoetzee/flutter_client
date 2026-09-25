@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Ieškoti laiko juostų...",
     "userProfileTimezoneSettingLabel": "Laiko juosta",
     "userProfileTimezoneSettingDescription": "Naudojama vietiniam laikui rodyti jūsų profilyje.",
-    "userProfileTimezoneNone": "Nėra"
+    "userProfileTimezoneNone": "Nėra",
+    "userSettingsCheckForUpdates": "Tikrinti, ar yra naujinimų",
+    "userSettingsCheckingForUpdates": "Tikrinama, ar yra naujinimų…",
+    "userSettingsAppUpToDate": "„Fluxer“ yra atnaujintas",
+    "userSettingsUpdateAvailableTitle": "Yra naujinimas",
+    "userSettingsUpdateDownloadAction": "Atsisiųsti ir įdiegti",
+    "userSettingsUpdateInstallAction": "Įdiegti naujinimą",
+    "userSettingsDownloadingUpdate": "Atsisiunčiamas naujinimas ({percent} %)…",
+    "userSettingsUpdateFailed": "Nepavyko patikrinti arba atsisiųsti naujinimo."
 }

@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Hledat časová pásma...",
     "userProfileTimezoneSettingLabel": "Časové pásmo",
     "userProfileTimezoneSettingDescription": "Slouží k zobrazení vašeho místního času na profilu.",
-    "userProfileTimezoneNone": "Žádné"
+    "userProfileTimezoneNone": "Žádné",
+    "userSettingsCheckForUpdates": "Zkontrolovat aktualizace",
+    "userSettingsCheckingForUpdates": "Kontrola aktualizací…",
+    "userSettingsAppUpToDate": "Fluxer je aktuální",
+    "userSettingsUpdateAvailableTitle": "Je k dispozici aktualizace",
+    "userSettingsUpdateDownloadAction": "Stáhnout a instalovat",
+    "userSettingsUpdateInstallAction": "Instalovat aktualizaci",
+    "userSettingsDownloadingUpdate": "Stahování aktualizace ({percent} %)…",
+    "userSettingsUpdateFailed": "Kontrola nebo stažení aktualizace se nezdařilo."
 }

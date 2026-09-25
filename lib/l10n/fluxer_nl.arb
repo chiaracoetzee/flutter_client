@@ -17023,5 +17023,13 @@
     "timestampPickerSearchTimezones": "Tijdzones zoeken...",
     "userProfileTimezoneSettingLabel": "Tijdzone",
     "userProfileTimezoneSettingDescription": "Wordt gebruikt om uw lokale tijd op uw profiel te tonen.",
-    "userProfileTimezoneNone": "Geen"
+    "userProfileTimezoneNone": "Geen",
+    "userSettingsCheckForUpdates": "Controleren op updates",
+    "userSettingsCheckingForUpdates": "Controleren op updates…",
+    "userSettingsAppUpToDate": "Fluxer is up-to-date",
+    "userSettingsUpdateAvailableTitle": "Update beschikbaar",
+    "userSettingsUpdateDownloadAction": "Downloaden & installeren",
+    "userSettingsUpdateInstallAction": "Update installeren",
+    "userSettingsDownloadingUpdate": "Update downloaden ({percent}%)…",
+    "userSettingsUpdateFailed": "Kan niet controleren op of downloaden van update."
 }

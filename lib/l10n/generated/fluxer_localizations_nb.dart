@@ -11057,6 +11057,33 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
       'Du kan logge på igjen når som helst.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Se etter oppdateringer';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Ser etter oppdateringer…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer er oppdatert';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Oppdatering tilgjengelig';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Last ned og installer';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Installer oppdatering';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Laster ned oppdatering ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Kunne ikke søke etter eller laste ned oppdatering.';
+
+  @override
   String get quickSwitcherTabSearch => 'Søk';
 
   @override

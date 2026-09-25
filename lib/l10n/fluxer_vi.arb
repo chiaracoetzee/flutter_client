@@ -17023,5 +17023,13 @@
     "timestampPickerSearchTimezones": "Tìm kiếm múi giờ...",
     "userProfileTimezoneSettingLabel": "Múi giờ",
     "userProfileTimezoneSettingDescription": "Được sử dụng để hiển thị giờ địa phương trên hồ sơ của bạn.",
-    "userProfileTimezoneNone": "Không có"
+    "userProfileTimezoneNone": "Không có",
+    "userSettingsCheckForUpdates": "Kiểm tra cập nhật",
+    "userSettingsCheckingForUpdates": "Đang kiểm tra cập nhật…",
+    "userSettingsAppUpToDate": "Fluxer đã được cập nhật",
+    "userSettingsUpdateAvailableTitle": "Có bản cập nhật mới",
+    "userSettingsUpdateDownloadAction": "Tải về và cài đặt",
+    "userSettingsUpdateInstallAction": "Cài đặt bản cập nhật",
+    "userSettingsDownloadingUpdate": "Đang tải bản cập nhật ({percent}%)…",
+    "userSettingsUpdateFailed": "Không thể kiểm tra hoặc tải xuống bản cập nhật."
 }
