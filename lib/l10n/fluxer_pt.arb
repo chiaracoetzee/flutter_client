@@ -9535,5 +9535,13 @@
     "userProfileTimezoneSettingLabel": "Fuso horário",
     "userProfileTimezoneSettingDescription": "Usado para mostrar sua hora local em seu perfil.",
     "userProfileTimezoneNone": "Nenhum",
-    "chatAttachmentPanelVoice": "Voz"
+    "chatAttachmentPanelVoice": "Voz",
+    "userSettingsCheckForUpdates": "Procurar atualizações",
+    "userSettingsCheckingForUpdates": "A procurar atualizações…",
+    "userSettingsAppUpToDate": "O Fluxer está atualizado",
+    "userSettingsUpdateAvailableTitle": "Atualização disponível",
+    "userSettingsUpdateDownloadAction": "Transferir e instalar",
+    "userSettingsUpdateInstallAction": "Instalar atualização",
+    "userSettingsDownloadingUpdate": "A transferir atualização ({percent}%)…",
+    "userSettingsUpdateFailed": "Falha ao procurar ou transferir a atualização."
 }

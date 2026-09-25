@@ -11182,6 +11182,33 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Du kannst dich jederzeit wieder anmelden.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Auf Updates überprüfen';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Nach Updates suchen…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer ist auf dem neuesten Stand';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Update verfügbar';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Herunterladen & installieren';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Update installieren';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Update wird heruntergeladen ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Update konnte nicht geprüft oder heruntergeladen werden.';
+
+  @override
   String get quickSwitcherTabSearch => 'Suchen';
 
   @override

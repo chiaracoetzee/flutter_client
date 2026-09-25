@@ -10961,6 +10961,32 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'يمكنك تسجيل الدخول مرة أخرى في أي وقت.';
 
   @override
+  String get userSettingsCheckForUpdates => 'التحقق من وجود تحديثات';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'جارٍ التحقق من وجود تحديثات…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer محدّث لأحدث إصدار';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'تحديث متوفر';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'تنزيل وتثبيت';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'تثبيت التحديث';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'جارٍ تنزيل التحديث ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => 'فشل التحقق من التحديث أو تنزيله.';
+
+  @override
   String get quickSwitcherTabSearch => 'بحث';
 
   @override

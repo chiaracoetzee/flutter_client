@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "搜索时区...",
     "userProfileTimezoneSettingLabel": "时区",
     "userProfileTimezoneSettingDescription": "用于在个人资料中显示您的当地时间。",
-    "userProfileTimezoneNone": "无"
+    "userProfileTimezoneNone": "无",
+    "userSettingsCheckForUpdates": "检查更新",
+    "userSettingsCheckingForUpdates": "正在检查更新…",
+    "userSettingsAppUpToDate": "Fluxer 已是最新版本",
+    "userSettingsUpdateAvailableTitle": "有可用更新",
+    "userSettingsUpdateDownloadAction": "下载并安装",
+    "userSettingsUpdateInstallAction": "安装更新",
+    "userSettingsDownloadingUpdate": "正在下载更新（{percent}%）…",
+    "userSettingsUpdateFailed": "检查或下载更新失败。"
 }

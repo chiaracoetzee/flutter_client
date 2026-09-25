@@ -17023,5 +17023,13 @@
     "timestampPickerSearchTimezones": "Caută fusuri orare...",
     "userProfileTimezoneSettingLabel": "Fus orar",
     "userProfileTimezoneSettingDescription": "Folosit pentru a afișa ora locală pe profilul tău.",
-    "userProfileTimezoneNone": "Niciunul"
+    "userProfileTimezoneNone": "Niciunul",
+    "userSettingsCheckForUpdates": "Caută actualizări",
+    "userSettingsCheckingForUpdates": "Se caută actualizări…",
+    "userSettingsAppUpToDate": "Fluxer este la zi",
+    "userSettingsUpdateAvailableTitle": "Actualizare disponibilă",
+    "userSettingsUpdateDownloadAction": "Descarcă și instalează",
+    "userSettingsUpdateInstallAction": "Instalează actualizarea",
+    "userSettingsDownloadingUpdate": "Se descarcă actualizarea ({percent}%)…",
+    "userSettingsUpdateFailed": "Nu s-a putut verifica sau descărca actualizarea."
 }

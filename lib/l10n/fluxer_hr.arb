@@ -17023,5 +17023,13 @@
     "timestampPickerSearchTimezones": "Pretraži vremenske zone...",
     "userProfileTimezoneSettingLabel": "Vremenska zona",
     "userProfileTimezoneSettingDescription": "Koristi se za prikaz vašeg lokalnog vremena na profilu.",
-    "userProfileTimezoneNone": "Nijedno"
+    "userProfileTimezoneNone": "Nijedno",
+    "userSettingsCheckForUpdates": "Provjeri ažuriranja",
+    "userSettingsCheckingForUpdates": "Provjera ažuriranja…",
+    "userSettingsAppUpToDate": "Fluxer je ažuran",
+    "userSettingsUpdateAvailableTitle": "Dostupno ažuriranje",
+    "userSettingsUpdateDownloadAction": "Preuzmi i instaliraj",
+    "userSettingsUpdateInstallAction": "Instaliraj ažuriranje",
+    "userSettingsDownloadingUpdate": "Preuzimanje ažuriranja ({percent}%)…",
+    "userSettingsUpdateFailed": "Provjera ili preuzimanje ažuriranja nije uspjelo."
 }

@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "搜尋時區...",
     "userProfileTimezoneSettingLabel": "時區",
     "userProfileTimezoneSettingDescription": "用於在個人檔案中顯示您的當地時間。",
-    "userProfileTimezoneNone": "無"
+    "userProfileTimezoneNone": "無",
+    "userSettingsCheckForUpdates": "檢查更新",
+    "userSettingsCheckingForUpdates": "正在檢查更新…",
+    "userSettingsAppUpToDate": "Fluxer 已是最新版本",
+    "userSettingsUpdateAvailableTitle": "有可用更新",
+    "userSettingsUpdateDownloadAction": "下載並安裝",
+    "userSettingsUpdateInstallAction": "安裝更新",
+    "userSettingsDownloadingUpdate": "正在下載更新（{percent}%）…",
+    "userSettingsUpdateFailed": "檢查或下載更新失敗。"
 }

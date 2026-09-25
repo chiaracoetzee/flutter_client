@@ -17023,5 +17023,13 @@
     "timestampPickerSearchTimezones": "समय क्षेत्र खोजें...",
     "userProfileTimezoneSettingLabel": "समय क्षेत्र",
     "userProfileTimezoneSettingDescription": "आपकी प्रोफ़ाइल पर आपका स्थानीय समय दिखाने के लिए उपयोग किया जाता है।",
-    "userProfileTimezoneNone": "कोई नहीं"
+    "userProfileTimezoneNone": "कोई नहीं",
+    "userSettingsCheckForUpdates": "अपडेट देखें",
+    "userSettingsCheckingForUpdates": "अपडेट की जाँच की जा रही है…",
+    "userSettingsAppUpToDate": "Fluxer अप-टू-डेट है",
+    "userSettingsUpdateAvailableTitle": "अपडेट उपलब्ध है",
+    "userSettingsUpdateDownloadAction": "डाउनलोड और इंस्टॉल करें",
+    "userSettingsUpdateInstallAction": "अपडेट इंस्टॉल करें",
+    "userSettingsDownloadingUpdate": "अपडेट डाउनलोड हो रहा है ({percent}%)…",
+    "userSettingsUpdateFailed": "अपडेट की जाँच करने या डाउनलोड करने में विफल।"
 }

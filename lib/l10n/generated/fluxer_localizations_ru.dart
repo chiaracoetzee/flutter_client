@@ -11147,6 +11147,33 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
       'Вы сможете снова войти в аккаунт в любое время.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Проверить обновления';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Проверка обновлений…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer обновлен до последней версии';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Доступно обновление';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Скачать и установить';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Установить обновление';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Скачивание обновления ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Не удалось проверить или скачать обновление.';
+
+  @override
   String get quickSwitcherTabSearch => 'Поиск';
 
   @override

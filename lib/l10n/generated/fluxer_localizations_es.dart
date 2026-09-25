@@ -11171,6 +11171,33 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Puedes volver a iniciar sesión en cualquier momento.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Buscar actualizaciones';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Buscando actualizaciones…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer está actualizado';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Actualización disponible';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Descargar e instalar';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Instalar actualización';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Descargando actualización ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Error al buscar o descargar la actualización.';
+
+  @override
   String get quickSwitcherTabSearch => 'Buscar';
 
   @override
@@ -26351,6 +26378,33 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get userSettingsLogOutConfirmDescription =>
       'Puedes volver a iniciar sesión en cualquier momento.';
+
+  @override
+  String get userSettingsCheckForUpdates => 'Buscar actualizaciones';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Buscando actualizaciones…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer está actualizado';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Actualización disponible';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Descargar e instalar';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Instalar actualización';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Descargando actualización ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Error al buscar o descargar la actualización.';
 
   @override
   String get quickSwitcherTabSearch => 'Buscar';

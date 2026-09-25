@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Időzónák keresése...",
     "userProfileTimezoneSettingLabel": "Időzóna",
     "userProfileTimezoneSettingDescription": "A helyi idő megjelenítésére szolgál a profilodban.",
-    "userProfileTimezoneNone": "Nincs"
+    "userProfileTimezoneNone": "Nincs",
+    "userSettingsCheckForUpdates": "Frissítések keresése",
+    "userSettingsCheckingForUpdates": "Frissítések keresése…",
+    "userSettingsAppUpToDate": "A Fluxer naprakész",
+    "userSettingsUpdateAvailableTitle": "Frissítés érhető el",
+    "userSettingsUpdateDownloadAction": "Letöltés és telepítés",
+    "userSettingsUpdateInstallAction": "Frissítés telepítése",
+    "userSettingsDownloadingUpdate": "Frissítés letöltése ({percent}%)…",
+    "userSettingsUpdateFailed": "Nem sikerült a frissítést ellenőrizni vagy letölteni."
 }

@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "ค้นหาเขตเวลา...",
     "userProfileTimezoneSettingLabel": "เขตเวลา",
     "userProfileTimezoneSettingDescription": "ใช้เพื่อแสดงเวลาท้องถิ่นของคุณในโปรไฟล์",
-    "userProfileTimezoneNone": "ไม่มี"
+    "userProfileTimezoneNone": "ไม่มี",
+    "userSettingsCheckForUpdates": "ตรวจหาอัปเดต",
+    "userSettingsCheckingForUpdates": "กำลังตรวจหาอัปเดต…",
+    "userSettingsAppUpToDate": "Fluxer เป็นเวอร์ชันล่าสุดแล้ว",
+    "userSettingsUpdateAvailableTitle": "มีอัปเดตใหม่",
+    "userSettingsUpdateDownloadAction": "ดาวน์โหลดและติดตั้ง",
+    "userSettingsUpdateInstallAction": "ติดตั้งอัปเดต",
+    "userSettingsDownloadingUpdate": "กำลังดาวน์โหลดอัปเดต ({percent}%)…",
+    "userSettingsUpdateFailed": "ตรวจหาหรือดาวน์โหลดอัปเดตไม่สำเร็จ"
 }
