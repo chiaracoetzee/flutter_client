@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Pesquisar fusos horários...",
     "userProfileTimezoneSettingLabel": "Fuso horário",
     "userProfileTimezoneSettingDescription": "Usado para mostrar sua hora local em seu perfil.",
-    "userProfileTimezoneNone": "Nenhum"
+    "userProfileTimezoneNone": "Nenhum",
+    "userSettingsCheckForUpdates": "Verificar atualizações",
+    "userSettingsCheckingForUpdates": "Verificando atualizações…",
+    "userSettingsAppUpToDate": "O Fluxer está atualizado",
+    "userSettingsUpdateAvailableTitle": "Atualização disponível",
+    "userSettingsUpdateDownloadAction": "Baixar e instalar",
+    "userSettingsUpdateInstallAction": "Instalar atualização",
+    "userSettingsDownloadingUpdate": "Baixando atualização ({percent}%)…",
+    "userSettingsUpdateFailed": "Falha ao verificar ou baixar a atualização."
 }

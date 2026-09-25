@@ -11209,6 +11209,33 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Vous pouvez vous reconnecter à tout moment.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Rechercher les mises à jour';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Recherche de mises à jour…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer est à jour';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Mise à jour disponible';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Télécharger et installer';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Installer la mise à jour';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Téléchargement de la mise à jour ($percent %)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Échec de la recherche ou du téléchargement de la mise à jour.';
+
+  @override
   String get quickSwitcherTabSearch => 'Recherche';
 
   @override

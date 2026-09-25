@@ -11024,6 +11024,33 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
       'Você pode entrar novamente a qualquer momento.';
 
   @override
+  String get userSettingsCheckForUpdates => 'Procurar atualizações';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'A procurar atualizações…';
+
+  @override
+  String get userSettingsAppUpToDate => 'O Fluxer está atualizado';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Atualização disponível';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Transferir e instalar';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Instalar atualização';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'A transferir atualização ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Falha ao procurar ou transferir a atualização.';
+
+  @override
   String get quickSwitcherTabSearch => 'Pesquisar';
 
   @override
@@ -25772,6 +25799,33 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get userSettingsLogOutConfirmDescription =>
       'Você pode entrar novamente a qualquer momento.';
+
+  @override
+  String get userSettingsCheckForUpdates => 'Verificar atualizações';
+
+  @override
+  String get userSettingsCheckingForUpdates => 'Verificando atualizações…';
+
+  @override
+  String get userSettingsAppUpToDate => 'O Fluxer está atualizado';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => 'Atualização disponível';
+
+  @override
+  String get userSettingsUpdateDownloadAction => 'Baixar e instalar';
+
+  @override
+  String get userSettingsUpdateInstallAction => 'Instalar atualização';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return 'Baixando atualização ($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed =>
+      'Falha ao verificar ou baixar a atualização.';
 
   @override
   String get quickSwitcherTabSearch => 'Pesquisar';

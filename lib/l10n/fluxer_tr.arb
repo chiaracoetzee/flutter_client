@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Saat dilimlerini ara...",
     "userProfileTimezoneSettingLabel": "Saat dilimi",
     "userProfileTimezoneSettingDescription": "Profilinizde yerel saatinizi göstermek için kullanılır.",
-    "userProfileTimezoneNone": "Yok"
+    "userProfileTimezoneNone": "Yok",
+    "userSettingsCheckForUpdates": "Güncellemeleri kontrol et",
+    "userSettingsCheckingForUpdates": "Güncellemeler kontrol ediliyor…",
+    "userSettingsAppUpToDate": "Fluxer güncel",
+    "userSettingsUpdateAvailableTitle": "Güncelleme Mevcut",
+    "userSettingsUpdateDownloadAction": "İndir ve Yükle",
+    "userSettingsUpdateInstallAction": "Güncellemeyi Yükle",
+    "userSettingsDownloadingUpdate": "Güncelleme indiriliyor (%{percent})…",
+    "userSettingsUpdateFailed": "Güncelleme kontrol edilemedi veya indirilemedi."
 }

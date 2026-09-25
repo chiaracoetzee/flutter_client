@@ -16998,5 +16998,13 @@
     "timestampPickerSearchTimezones": "Cerca fusi orari...",
     "userProfileTimezoneSettingLabel": "Fuso orario",
     "userProfileTimezoneSettingDescription": "Usato per mostrare la tua ora locale sul tuo profilo.",
-    "userProfileTimezoneNone": "Nessuno"
+    "userProfileTimezoneNone": "Nessuno",
+    "userSettingsCheckForUpdates": "Controlla aggiornamenti",
+    "userSettingsCheckingForUpdates": "Controllo aggiornamenti in corso…",
+    "userSettingsAppUpToDate": "Fluxer è aggiornato",
+    "userSettingsUpdateAvailableTitle": "Aggiornamento disponibile",
+    "userSettingsUpdateDownloadAction": "Scarica e installa",
+    "userSettingsUpdateInstallAction": "Installa aggiornamento",
+    "userSettingsDownloadingUpdate": "Download aggiornamento in corso ({percent}%)…",
+    "userSettingsUpdateFailed": "Impossibile verificare o scaricare l'aggiornamento."
 }

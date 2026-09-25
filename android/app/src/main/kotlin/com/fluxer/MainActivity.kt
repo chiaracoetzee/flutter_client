@@ -41,6 +41,7 @@ class MainActivity : AudioServiceActivity() {
         BrowserLaunchBridge(applicationContext).register(flutterEngine)
         AnimatorDurationScaleBridge(applicationContext).register(flutterEngine)
         PhysicalKeyboardBridge(applicationContext).register(flutterEngine)
+        AppInstallBridge(applicationContext).register(flutterEngine)
     }
 
     private fun deferOAuthDeepLinkToBrowser(intent: Intent?): Boolean {

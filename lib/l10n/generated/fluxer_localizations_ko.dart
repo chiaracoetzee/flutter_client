@@ -10565,6 +10565,32 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsLogOutConfirmDescription => '언제든지 다시 로그인할 수 있습니다.';
 
   @override
+  String get userSettingsCheckForUpdates => '업데이트 확인';
+
+  @override
+  String get userSettingsCheckingForUpdates => '업데이트 확인 중…';
+
+  @override
+  String get userSettingsAppUpToDate => 'Fluxer가 최신 상태입니다';
+
+  @override
+  String get userSettingsUpdateAvailableTitle => '업데이트 사용 가능';
+
+  @override
+  String get userSettingsUpdateDownloadAction => '다운로드 및 설치';
+
+  @override
+  String get userSettingsUpdateInstallAction => '업데이트 설치';
+
+  @override
+  String userSettingsDownloadingUpdate(int percent) {
+    return '업데이트 다운로드 중($percent%)…';
+  }
+
+  @override
+  String get userSettingsUpdateFailed => '업데이트 확인 또는 다운로드에 실패했습니다.';
+
+  @override
   String get quickSwitcherTabSearch => '검색';
 
   @override
