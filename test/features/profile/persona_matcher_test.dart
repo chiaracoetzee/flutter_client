@@ -111,11 +111,35 @@ void main() {
       expect(res.strippedContent, 'hello unlatched');
     });
 
+    test('double backslash without space clears latch and preserves message', () {
+      final res = matchPersona(r'\\test', personas, bob.id, false);
+      expect(res.clearedLatch, isTrue);
+      expect(res.wasEscaped, isTrue);
+      expect(res.matched, isFalse);
+      expect(res.strippedContent, 'test');
+    });
+
+    test('double backslash without space when unlatched preserves message and clears latch', () {
+      final res = matchPersona(r'\\test', personas, null, false);
+      expect(res.clearedLatch, isTrue);
+      expect(res.wasEscaped, isTrue);
+      expect(res.matched, isFalse);
+      expect(res.strippedContent, 'test');
+    });
+
     test('backslash escape disables tag matching and strips escape prefix', () {
       final res = matchPersona(r'\ A: this is escaped', personas, null, false);
       expect(res.wasEscaped, isTrue);
       expect(res.matched, isFalse);
       expect(res.strippedContent, 'A: this is escaped');
+    });
+
+    test('single backslash without space escapes latched persona without clearing latch', () {
+      final res = matchPersona(r'\test', personas, bob.id, false);
+      expect(res.wasEscaped, isTrue);
+      expect(res.clearedLatch, isFalse);
+      expect(res.matched, isFalse);
+      expect(res.strippedContent, 'test');
     });
 
     test('returns unmatched for regular message with no latch and no tag', () {
@@ -215,8 +239,18 @@ void main() {
       expect(preview.persona, isNull);
     });
 
+    test('previews nothing when escaped without space with latched persona', () {
+      final preview = previewPersona(r'\test', personas, bob.id, false);
+      expect(preview.persona, isNull);
+    });
+
     test('previews nothing when latch cleared with double backslash', () {
       final preview = previewPersona(r'\\ typing...', personas, bob.id, false);
+      expect(preview.persona, isNull);
+    });
+
+    test('previews nothing when latch cleared with double backslash without space', () {
+      final preview = previewPersona(r'\\test', personas, bob.id, false);
       expect(preview.persona, isNull);
     });
 
