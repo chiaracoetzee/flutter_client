@@ -13,7 +13,10 @@ void main() {
     timestamp: DateTime.utc(2026),
   );
 
-  setUp(InstanceEndpoints.resetToDefaults);
+  setUp(() {
+    InstanceEndpoints.resetToDefaults();
+    InstanceEndpoints.gift = 'https://fluxer.app/gift';
+  });
 
   tearDown(InstanceEndpoints.resetToDefaults);
 
