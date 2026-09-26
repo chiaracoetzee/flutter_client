@@ -62,17 +62,10 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Ieškoti personų, žymų, įvardžių...';
 
   @override
-  String get personaModeOff => 'Išjungta';
-
-  @override
   String get personaModeManual => 'Rankinis';
 
   @override
   String get personaModeLast => 'Paskiausiai naudota';
-
-  @override
-  String get personaModeOffDescription =>
-      'Siunčiama iš pagrindinės paskyros, nebent įvestos personos žymos.';
 
   @override
   String get personaModeManualDescription =>
