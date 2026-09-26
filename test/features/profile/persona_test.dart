@@ -43,7 +43,6 @@ void main() {
         'id': 'persona_1',
         'name': 'Test Persona',
         'avatar_url': 'https://example.com/avatar.png',
-        'system_name': 'System Tag',
         'pronouns': 'they/them',
         'color': 0xFF00FF,
         'bio': 'A test bio',
@@ -63,7 +62,6 @@ void main() {
       expect(persona.id, 'persona_1');
       expect(persona.name, 'Test Persona');
       expect(persona.avatarUrl, 'https://example.com/avatar.png');
-      expect(persona.systemName, 'System Tag');
       expect(persona.pronouns, 'they/them');
       expect(persona.color, 0xFF00FF);
       expect(persona.bio, 'A test bio');
@@ -88,7 +86,6 @@ void main() {
         'id': 'p2',
         'name': 'Fallback',
         'avatar': 'https://example.com/p2.png',
-        'display_tag_text': 'Fallback Tag',
         'accent_color': 12345,
         'autoTagDisabled': false,
         'personaTags': [
@@ -100,7 +97,6 @@ void main() {
       });
 
       expect(persona.avatarUrl, 'https://example.com/p2.png');
-      expect(persona.systemName, 'Fallback Tag');
       expect(persona.color, 12345);
       expect(persona.lastUsedAtMs, 987654321);
       expect(persona.personaTags.length, 1);
@@ -130,6 +126,26 @@ void main() {
       expect(untouched.name, original.name);
       expect(untouched.bio, original.bio);
       expect(untouched.useCount, original.useCount);
+    });
+
+    test('parses deleted_at correctly and reports isDeleted', () {
+      final active = Persona.fromJson(const {
+        'id': 'p_active',
+        'name': 'Active Persona',
+      });
+      expect(active.deletedAt, isNull);
+      expect(active.isDeleted, isFalse);
+
+      final deleted = Persona.fromJson(const {
+        'id': 'p_deleted',
+        'name': 'Deleted Persona',
+        'deleted_at': '2026-09-25T12:00:00.000Z',
+      });
+      expect(deleted.deletedAt, isNotNull);
+      expect(deleted.isDeleted, isTrue);
+
+      final copy = active.copyWith(deletedAt: DateTime.utc(2026, 9, 25));
+      expect(copy.isDeleted, isTrue);
     });
   });
 
@@ -212,7 +228,7 @@ void main() {
         'id': 'pub_1',
         'name': 'Public Alice',
         'avatar_url': 'https://example.com/alice.png',
-        'system_name': 'Alice System',
+        'display_tag_text': 'Alice System',
         'pronouns': 'she/her',
         'color': 0x00FF00,
         'bio': 'A public bio',
@@ -227,7 +243,7 @@ void main() {
       expect(persona.id, 'pub_1');
       expect(persona.name, 'Public Alice');
       expect(persona.avatarUrl, 'https://example.com/alice.png');
-      expect(persona.systemName, 'Alice System');
+      expect(persona.displayTagText, 'Alice System');
       expect(persona.pronouns, 'she/her');
       expect(persona.color, 0x00FF00);
       expect(persona.bio, 'A public bio');
@@ -240,6 +256,7 @@ void main() {
       expect(serialized['id'], 'pub_1');
       expect(serialized['name'], 'Public Alice');
       expect(serialized['avatar_url'], 'https://example.com/alice.png');
+      expect(serialized['display_tag_text'], 'Alice System');
       expect(serialized['auto_tag_disabled'], isTrue);
     });
 
@@ -258,7 +275,7 @@ void main() {
       expect(persona.id, 'pub_2');
       expect(persona.name, 'Bob');
       expect(persona.avatarUrl, 'hash_123');
-      expect(persona.systemName, 'Bob Tag');
+      expect(persona.displayTagText, 'Bob Tag');
       expect(persona.personaTags.length, 1);
       expect(persona.personaTags.first.suffix, '-B');
       expect(persona.autoTagDisabled, isFalse);
