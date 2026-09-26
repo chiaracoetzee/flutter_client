@@ -61,17 +61,10 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get personaSearchPlaceholder => 'परसोना, टैग, प्रोनाउन खोजें...';
 
   @override
-  String get personaModeOff => 'बंद';
-
-  @override
   String get personaModeManual => 'मैनुअल';
 
   @override
   String get personaModeLast => 'पिछली बार इस्तेमाल किया गया';
-
-  @override
-  String get personaModeOffDescription =>
-      'जब तक परसोना टैग टाइप नहीं किए जाते, तब तक रूट अकाउंट से भेजता है।';
 
   @override
   String get personaModeManualDescription =>
