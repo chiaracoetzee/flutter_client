@@ -246,4 +246,40 @@ void main() {
     );
     expect(parsed.clientNonce, 'nonce-1');
   });
+
+  test('updatePersonaAttributes updates cached message persona attributes in SQLite', () async {
+    final db = openTestDatabase();
+    final Message msg1 = _msg(idA).copyWith(
+      personaId: 'p_target',
+      personaName: 'Alice Old',
+      personaAvatar: 'avatar1',
+      personaTag: '[Old]',
+    );
+    final Message msg2 = _msg(idB).copyWith(
+      personaId: 'p_other',
+      personaName: 'Bob',
+    );
+    await db.messageDao.upsertMessage(msg1.toCompanion());
+    await db.messageDao.upsertMessage(msg2.toCompanion());
+
+    await db.messageDao.updatePersonaAttributes(
+      personaId: 'p_target',
+      personaName: 'Alice New',
+      personaAvatar: 'avatar2',
+      personaTag: '[New]',
+      personaTagIcon: 'icon2',
+    );
+
+    final Message row1 = Message.fromRow((await db.messageDao.getMessage(idA))!);
+    final Message row2 = Message.fromRow((await db.messageDao.getMessage(idB))!);
+
+    expect(row1.personaName, 'Alice New');
+    expect(row1.personaAvatar, 'avatar2');
+    expect(row1.personaTag, '[New]');
+    expect(row1.personaTagIcon, 'icon2');
+
+    // Untargeted persona should remain untouched
+    expect(row2.personaName, 'Bob');
+    expect(row2.personaAvatar, isNull);
+  });
 }
