@@ -965,8 +965,8 @@ class ComposerAutocompleteFieldState
         'name': pName,
         'avatar_url': msg.personaAvatar,
         'avatar_color': msg.authorAvatarColor,
-        'system_name': msg.personaTag,
-        'system_tag_icon': msg.personaTagIcon,
+        'display_tag_text': msg.personaTag,
+        'display_tag_icon': msg.personaTagIcon,
         'owner_user_id': msg.authorId,
         'owner_username': resolvedOwnerUsername,
         'owner_discriminator': ownerDisc,
@@ -1026,10 +1026,9 @@ class ComposerAutocompleteFieldState
               (ownerDisc != null && ownerDisc.isNotEmpty && ownerDisc != '0')
                   ? '$resolvedOwner#$ownerDisc'
                   : resolvedOwner;
-          final String? systemTag = (map['system_name'] as String?)?.trim();
+          final String? systemTag = (map['display_tag_text'] as String?)?.trim();
           final String? systemTagIcon =
-              (map['display_tag_icon'] as String?)?.trim() ??
-              (map['system_tag_icon'] as String?)?.trim();
+              (map['display_tag_icon'] as String?)?.trim();
           final String? ownerAvatarHash = map['owner_avatar'] as String?;
           final String? rootAvatarUrl = (ownerAvatarHash != null &&
                   ownerAvatarHash.isNotEmpty)
