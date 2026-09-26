@@ -38,7 +38,6 @@ class Persona {
     required this.name,
     this.avatarUrl,
     this.bannerUrl,
-    this.systemName,
     this.pronouns,
     this.color,
     this.avatarColor,
@@ -51,13 +50,13 @@ class Persona {
     this.externalUuid,
     this.createdAt,
     this.updatedAt,
+    this.deletedAt,
   });
 
   final String id;
   final String name;
   final String? avatarUrl;
   final String? bannerUrl;
-  final String? systemName;
   final String? pronouns;
   final int? color;
   final int? avatarColor;
@@ -70,6 +69,9 @@ class Persona {
   final String? externalUuid;
   final String? createdAt;
   final String? updatedAt;
+  final DateTime? deletedAt;
+
+  bool get isDeleted => deletedAt != null;
 
   factory Persona.fromJson(Map<String, dynamic> json) {
     final rawTags =
@@ -100,10 +102,6 @@ class Persona {
           (json['banner_url'] as String?) ??
           (json['bannerUrl'] as String?) ??
           (json['banner'] as String?),
-      systemName:
-          (json['system_name'] as String?) ??
-          (json['systemName'] as String?) ??
-          (json['display_tag_text'] as String?),
       pronouns: json['pronouns'] as String?,
       color:
           (json['color'] as num?)?.toInt() ??
@@ -129,6 +127,11 @@ class Persona {
           (json['externalUuid'] as String?),
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
+      deletedAt: (json['deleted_at'] != null || json['deletedAt'] != null)
+          ? DateTime.tryParse(
+              (json['deleted_at'] ?? json['deletedAt']) as String,
+            )
+          : null,
     );
   }
 
@@ -138,7 +141,6 @@ class Persona {
       'name': name,
       if (avatarUrl != null) 'avatar_url': avatarUrl,
       if (bannerUrl != null) 'banner_url': bannerUrl,
-      if (systemName != null) 'system_name': systemName,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
       if (avatarColor != null) 'avatar_color': avatarColor,
@@ -151,6 +153,7 @@ class Persona {
       if (externalUuid != null) 'external_uuid': externalUuid,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt!.toIso8601String(),
     };
   }
 
@@ -159,7 +162,6 @@ class Persona {
     String? name,
     String? avatarUrl,
     String? bannerUrl,
-    String? systemName,
     String? pronouns,
     int? color,
     int? avatarColor,
@@ -172,13 +174,13 @@ class Persona {
     String? externalUuid,
     String? createdAt,
     String? updatedAt,
+    DateTime? deletedAt,
   }) {
     return Persona(
       id: id ?? this.id,
       name: name ?? this.name,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       bannerUrl: bannerUrl ?? this.bannerUrl,
-      systemName: systemName ?? this.systemName,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
       avatarColor: avatarColor ?? this.avatarColor,
@@ -191,6 +193,7 @@ class Persona {
       externalUuid: externalUuid ?? this.externalUuid,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -200,7 +203,6 @@ class Persona {
       name: name,
       avatarUrl: avatarUrl,
       bannerUrl: bannerUrl,
-      systemName: systemName,
       pronouns: pronouns,
       color: color,
       avatarColor: avatarColor,
