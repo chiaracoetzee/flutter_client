@@ -259,6 +259,9 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   if (webhookId != null && webhookId.isNotEmpty) {
     return messageDisplay;
   }
+  if (message.isDeletedAuthor) {
+    return messageDisplay;
+  }
   final GuildUserDisplay display = guildDisplay ?? messageDisplay;
   final String? nickname = channelNickname?.trim();
   if (nickname == null || nickname.isEmpty) {

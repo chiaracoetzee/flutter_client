@@ -766,3 +766,23 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that message_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by message_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Message Function({
+    String content,
+    DateTime? editedTimestamp,
+    int flags,
+    bool isPinned,
+    List<Embed> embeds,
+    List<Attachment> attachments,
+    List<Reaction> reactions,
+    List<String> mentionedUserIds,
+    MessageTranslation? translation,
+  })
+  message,
+});
+// ignore: unreachable_from_main // Fork: used by message_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (message: _message);
