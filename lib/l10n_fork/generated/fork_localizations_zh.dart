@@ -60,16 +60,10 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get personaSearchPlaceholder => '搜索人格、标签、代词...';
 
   @override
-  String get personaModeOff => '关';
-
-  @override
   String get personaModeManual => '手动';
 
   @override
   String get personaModeLast => '最近使用';
-
-  @override
-  String get personaModeOffDescription => '除非输入人格标签，否则作为根账户发送。';
 
   @override
   String get personaModeManualDescription => '在更改之前，始终以选定的人格发送。';
@@ -369,16 +363,10 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String get personaSearchPlaceholder => '搜尋人格、標籤、代名詞...';
 
   @override
-  String get personaModeOff => '關閉';
-
-  @override
   String get personaModeManual => '手動';
 
   @override
   String get personaModeLast => '最後使用';
-
-  @override
-  String get personaModeOffDescription => '除非輸入人格標籤，否則一律以根帳號傳送。';
 
   @override
   String get personaModeManualDescription => '在變更之前，一律以選定的人格傳送。';

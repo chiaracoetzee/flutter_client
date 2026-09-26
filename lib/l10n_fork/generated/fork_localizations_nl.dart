@@ -62,17 +62,10 @@ class ForkLocalizationsNl extends ForkLocalizations {
       'Zoek persona\'s, tags, voornaamwoorden...';
 
   @override
-  String get personaModeOff => 'Uit';
-
-  @override
   String get personaModeManual => 'Handmatig';
 
   @override
   String get personaModeLast => 'Laatst gebruikt';
-
-  @override
-  String get personaModeOffDescription =>
-      'Verzendt als hoofdaccount tenzij persona-tags worden getypt.';
 
   @override
   String get personaModeManualDescription =>
