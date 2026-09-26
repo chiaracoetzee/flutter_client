@@ -6,7 +6,8 @@ class PublicPersona {
     required this.name,
     this.avatarUrl,
     this.bannerUrl,
-    this.systemName,
+    this.displayTagText,
+    this.displayTagIcon,
     this.pronouns,
     this.color,
     this.avatarColor,
@@ -20,7 +21,8 @@ class PublicPersona {
   final String name;
   final String? avatarUrl;
   final String? bannerUrl;
-  final String? systemName;
+  final String? displayTagText;
+  final String? displayTagIcon;
   final String? pronouns;
   final int? color;
   final int? avatarColor;
@@ -55,8 +57,8 @@ class PublicPersona {
       bannerUrl: json['banner_url'] as String? ??
           json['bannerUrl'] as String? ??
           json['banner'] as String?,
-      systemName:
-          json['system_name'] as String? ?? json['display_tag_text'] as String?,
+      displayTagText: json['display_tag_text'] as String?,
+      displayTagIcon: json['display_tag_icon'] as String?,
       pronouns: json['pronouns'] as String?,
       color: (json['color'] as num?)?.toInt(),
       avatarColor: (json['avatar_color'] as num?)?.toInt() ??
@@ -74,7 +76,8 @@ class PublicPersona {
       'name': name,
       if (avatarUrl != null) 'avatar_url': avatarUrl,
       if (bannerUrl != null) 'banner_url': bannerUrl,
-      if (systemName != null) 'system_name': systemName,
+      if (displayTagText != null) 'display_tag_text': displayTagText,
+      if (displayTagIcon != null) 'display_tag_icon': displayTagIcon,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
       if (avatarColor != null) 'avatar_color': avatarColor,
@@ -90,7 +93,8 @@ class PublicPersona {
     String? name,
     String? avatarUrl,
     String? bannerUrl,
-    String? systemName,
+    String? displayTagText,
+    String? displayTagIcon,
     String? pronouns,
     int? color,
     int? avatarColor,
@@ -104,7 +108,8 @@ class PublicPersona {
       name: name ?? this.name,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       bannerUrl: bannerUrl ?? this.bannerUrl,
-      systemName: systemName ?? this.systemName,
+      displayTagText: displayTagText ?? this.displayTagText,
+      displayTagIcon: displayTagIcon ?? this.displayTagIcon,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
       avatarColor: avatarColor ?? this.avatarColor,
@@ -121,7 +126,6 @@ class PublicPersona {
       name: name,
       avatarUrl: avatarUrl,
       bannerUrl: bannerUrl,
-      systemName: systemName,
       pronouns: pronouns,
       color: color,
       avatarColor: avatarColor,
