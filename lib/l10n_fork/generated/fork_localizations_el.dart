@@ -62,17 +62,10 @@ class ForkLocalizationsEl extends ForkLocalizations {
       'Αναζήτηση persona, ετικετών, αντωνυμιών...';
 
   @override
-  String get personaModeOff => 'Ανενεργό';
-
-  @override
   String get personaModeManual => 'Μη αυτόματα';
 
   @override
   String get personaModeLast => 'Τελευταία χρήση';
-
-  @override
-  String get personaModeOffDescription =>
-      'Αποστέλλεται από τον κύριο λογαριασμό εκτός εάν πληκτρολογηθούν ετικέτες persona.';
 
   @override
   String get personaModeManualDescription =>
