@@ -310,11 +310,6 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                 value: activeState.mode,
                 items: [
                   FluxerRadioItem(
-                    value: PersonaMode.off,
-                    label: l10n.fork.personaModeOff,
-                    description: l10n.fork.personaModeOffDescription,
-                  ),
-                  FluxerRadioItem(
                     value: PersonaMode.manual,
                     label: l10n.fork.personaModeManual,
                     description: l10n.fork.personaModeManualDescription,

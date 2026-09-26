@@ -3,7 +3,7 @@
 class PersonaSettings {
   const PersonaSettings({
     this.userId = '',
-    this.activePersonaMode = 'off',
+    this.activePersonaMode = 'manual',
     this.activePersonaId,
     this.isLatched = false,
     this.displayTagText = '',
@@ -20,7 +20,7 @@ class PersonaSettings {
   factory PersonaSettings.fromJson(Map<String, dynamic> json) {
     return PersonaSettings(
       userId: (json['user_id'] as String?) ?? '',
-      activePersonaMode: (json['active_persona_mode'] as String?) ?? 'off',
+      activePersonaMode: (json['active_persona_mode'] as String?) ?? 'manual',
       activePersonaId: json['active_persona_id'] as String?,
       isLatched: (json['is_latched'] as bool?) ?? false,
       displayTagText: (json['display_tag_text'] as String?) ?? '',
