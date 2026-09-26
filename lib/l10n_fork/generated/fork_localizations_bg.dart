@@ -63,17 +63,10 @@ class ForkLocalizationsBg extends ForkLocalizations {
       'Търсене на персони, тагове, местоимения...';
 
   @override
-  String get personaModeOff => 'Изкл';
-
-  @override
   String get personaModeManual => 'Ръчно';
 
   @override
   String get personaModeLast => 'Последно използвана';
-
-  @override
-  String get personaModeOffDescription =>
-      'Изпраща се от основния акаунт, освен ако не са въведени тагове на персона.';
 
   @override
   String get personaModeManualDescription =>

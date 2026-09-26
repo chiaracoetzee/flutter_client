@@ -60,17 +60,10 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get personaSearchPlaceholder => 'ابحث عن شخصيات، علامات، ضمائر...';
 
   @override
-  String get personaModeOff => 'إيقاف';
-
-  @override
   String get personaModeManual => 'يدوي';
 
   @override
   String get personaModeLast => 'آخر استخدام';
-
-  @override
-  String get personaModeOffDescription =>
-      'يُرسل من الحساب الأساسي ما لم تتم كتابة علامات الشخصية.';
 
   @override
   String get personaModeManualDescription =>

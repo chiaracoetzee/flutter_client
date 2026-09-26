@@ -60,16 +60,10 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get personaSearchPlaceholder => 'ペルソナ、タグ、代名詞を検索...';
 
   @override
-  String get personaModeOff => 'オフ';
-
-  @override
   String get personaModeManual => '手動';
 
   @override
   String get personaModeLast => '最終使用';
-
-  @override
-  String get personaModeOffDescription => 'ペルソナタグを入力しない限り、ルートアカウントとして送信されます。';
 
   @override
   String get personaModeManualDescription => '変更されるまで、常に選択したペルソナとして送信されます。';

@@ -61,17 +61,10 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Caută personas, etichete, pronume...';
 
   @override
-  String get personaModeOff => 'Dezactivat';
-
-  @override
   String get personaModeManual => 'Manual';
 
   @override
   String get personaModeLast => 'Utilizată recent';
-
-  @override
-  String get personaModeOffDescription =>
-      'Trimite de pe contul principal, cu excepția cazului în care sunt introduse etichete de persona.';
 
   @override
   String get personaModeManualDescription =>
