@@ -343,3 +343,16 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that message_dao_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by message_dao_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Message Function(String id, {MessageDeliveryState deliveryState}) msg,
+  String Function(DateTime utc) snowflakeForUtc,
+});
+// ignore: unreachable_from_main // Fork: used by message_dao_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  msg: _msg,
+  snowflakeForUtc: _snowflakeForUtc,
+);
