@@ -65,7 +65,7 @@ void main() {
         calculatePersonaMatchScore(
           personaName: 'Bob',
           query: 'won',
-          systemName: 'Wonderland',
+          displayTagText: 'Wonderland',
         ),
         equals(350),
       );
@@ -73,7 +73,7 @@ void main() {
         calculatePersonaMatchScore(
           personaName: 'Bob',
           query: 'land',
-          systemName: 'Wonderland',
+          displayTagText: 'Wonderland',
         ),
         equals(250),
       );
