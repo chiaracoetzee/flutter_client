@@ -61,17 +61,10 @@ class ForkLocalizationsId extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Cari persona, tag, kata ganti...';
 
   @override
-  String get personaModeOff => 'Nonaktif';
-
-  @override
   String get personaModeManual => 'Manual';
 
   @override
   String get personaModeLast => 'Terakhir Digunakan';
-
-  @override
-  String get personaModeOffDescription =>
-      'Mengirim sebagai akun utama kecuali tag persona diketik.';
 
   @override
   String get personaModeManualDescription =>

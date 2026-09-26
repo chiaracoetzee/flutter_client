@@ -61,17 +61,10 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Sök personas, taggar, pronomen...';
 
   @override
-  String get personaModeOff => 'Av';
-
-  @override
   String get personaModeManual => 'Manuellt';
 
   @override
   String get personaModeLast => 'Senast använd';
-
-  @override
-  String get personaModeOffDescription =>
-      'Skickar som huvudkonto såvida inte personataggar skrivs.';
 
   @override
   String get personaModeManualDescription =>
