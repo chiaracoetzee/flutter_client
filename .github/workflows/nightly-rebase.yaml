@@ -1,6 +1,16 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 name: Nightly Rebase & AI Conflict Resolver
 
+# SCHEDULING NOTE:
+# GitHub Actions disables `on: schedule` triggers on forked repositories at the
+# platform level. Since this repo is a public fork of fluxerapp/flutter_client,
+# cron schedules defined here will NEVER fire regardless of workflow state.
+#
+# Nightly runs are instead triggered by a cron schedule in the standalone
+# (non-fork) repository: chiaracoetzee/workflow-scheduler
+# That repo dispatches this workflow daily at 4:35 AM PDT (11:35 UTC) via
+# `gh workflow run`.
+
 on:
   workflow_dispatch:
     inputs:
@@ -14,8 +24,8 @@ on:
         required: false
         default: false
         type: boolean
-      verify_push_permissions:
-        description: 'Test remote write & workflow push permissions on a scratch branch'
+      force_tests:
+        description: 'Force execution of baseline and post-rebase tests even if 0 commits behind upstream'
         required: false
         default: false
         type: boolean
@@ -27,20 +37,24 @@ permissions:
 jobs:
   nightly-rebase:
     runs-on: ubuntu-24.04
-    timeout-minutes: 50
+    timeout-minutes: 60
 
     steps:
-      - name: Checkout automation tools
+      - name: Checkout features/subprofiles-mobile
         uses: actions/checkout@v4
         with:
-          path: automation-tools
+          ref: features/subprofiles-mobile
+          fetch-depth: 0
+          submodules: recursive
+          token: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
 
-      - name: Cache rebase agent script
-        run: |
-          mkdir -p /tmp/rebase_tools
-          cp automation-tools/tool/rebase/rebase_agent.py /tmp/rebase_tools/
-          chmod +x /tmp/rebase_tools/rebase_agent.py
-          rm -rf automation-tools
+      - name: Checkout shared rebase tools
+        uses: actions/checkout@v4
+        with:
+          repository: chiaracoetzee/fluxer-mobile-tools
+          ref: main
+          token: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+          path: /tmp/rebase_tools
 
       - name: Set up Python for AI Resolver
         uses: actions/setup-python@v5
@@ -55,305 +69,36 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python /tmp/rebase_tools/rebase_agent.py --self-test
+          python /tmp/rebase_tools/rebase/rebase_agent.py --self-test
           echo "Resting 10s to ensure clean quota before rebase..."
           sleep 10
 
-      - name: Checkout features/subprofiles-mobile
-        uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
-          ref: features/subprofiles-mobile
-          fetch-depth: 0
-          submodules: recursive
-          token: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
-
-      - name: Configure Git Identity & Remotes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote add upstream https://github.com/fluxerapp/flutter_client.git || git remote set-url upstream https://github.com/fluxerapp/flutter_client.git
-          git fetch upstream canary
-          git fetch origin features/subprofiles-mobile
-
-      - name: Check for upstream changes & submodule updates
-        id: check_upstream
-        run: |
-          COMMITS_BEHIND=$(git rev-list HEAD..upstream/canary --count)
-          echo "Commits behind upstream/canary: $COMMITS_BEHIND"
-          echo "commits_behind=$COMMITS_BEHIND" >> "$GITHUB_OUTPUT"
-
-          # Check if submodules have new commits on their tracking branches
-          git submodule sync --recursive
-          git submodule foreach 'git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'
-          git submodule foreach 'git fetch origin'
-
-          SUBMODULES_AHEAD=0
-          for sub in dart_sdk fluxer; do
-            branch=$(git config -f .gitmodules submodule.$sub.branch || echo "main")
-            remote_sha=$(git -C "$sub" rev-parse "origin/$branch" 2>/dev/null || true)
-            local_sha=$(git -C "$sub" rev-parse HEAD 2>/dev/null || true)
-            if [ -n "$remote_sha" ] && [ "$remote_sha" != "$local_sha" ]; then
-              echo "Submodule $sub has update on $branch: $local_sha -> $remote_sha"
-              SUBMODULES_AHEAD=1
-            fi
-          done
-
-          if [ "$COMMITS_BEHIND" -eq 0 ] && [ "$SUBMODULES_AHEAD" -eq 0 ] && [ "${{ inputs.force_test_agent }}" != "true" ]; then
-            echo "Branch is already up to date with upstream/canary and all submodules. Nothing to rebase."
-            echo "skip_rebase=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "skip_rebase=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Verify Submodule Upstream Compatibility Gate
-        id: check_submodule_compatibility
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: |
-          echo "Verifying submodule upstream compatibility..."
-
-          UPSTREAM_SDK_COMMIT=$(git rev-parse upstream/canary:dart_sdk 2>/dev/null || true)
-          echo "Upstream canary expects dart_sdk at: $UPSTREAM_SDK_COMMIT"
-
-          git -C dart_sdk fetch origin features/subprofiles --quiet
-          FORK_SDK_COMMIT=$(git -C dart_sdk rev-parse origin/features/subprofiles 2>/dev/null || true)
-          echo "Subprofiles fork (chiaracoetzee/dart_sdk) features/subprofiles is at: $FORK_SDK_COMMIT"
-
-          if [ -n "$UPSTREAM_SDK_COMMIT" ] && [ -n "$FORK_SDK_COMMIT" ]; then
-            if ! git -C dart_sdk merge-base --is-ancestor "$UPSTREAM_SDK_COMMIT" "$FORK_SDK_COMMIT"; then
-              echo "::error::Submodule dart_sdk fork ($FORK_SDK_COMMIT) has not been rebased onto upstream canary's SDK ($UPSTREAM_SDK_COMMIT)!"
-
-              echo "## 🛑 Blocked: Submodule dart_sdk Requires Prior Rebase" > /tmp/rebase_escalation_reason.md
-              echo "" >> /tmp/rebase_escalation_reason.md
-              echo "The rebase of features/subprofiles-mobile cannot proceed because upstream/canary has updated the dart_sdk submodule, but our subprofiles fork has not yet been rebased onto that commit." >> /tmp/rebase_escalation_reason.md
-              echo "" >> /tmp/rebase_escalation_reason.md
-              echo "### Diagnostics:" >> /tmp/rebase_escalation_reason.md
-              echo "- **Upstream Canary SDK Commit**: $UPSTREAM_SDK_COMMIT" >> /tmp/rebase_escalation_reason.md
-              echo "- **Fork SDK Commit**: $FORK_SDK_COMMIT (chiaracoetzee/dart_sdk @ features/subprofiles)" >> /tmp/rebase_escalation_reason.md
-              echo "" >> /tmp/rebase_escalation_reason.md
-              echo "### Resolution:" >> /tmp/rebase_escalation_reason.md
-              echo "1. Wait for the dart_sdk nightly rebase job (chiaracoetzee/dart_sdk) to complete cleanly and push its rebased branch." >> /tmp/rebase_escalation_reason.md
-              echo "2. Once dart_sdk is pushed, re-run this flutter_client rebase workflow." >> /tmp/rebase_escalation_reason.md
-              exit 1
-            fi
-            echo "Submodule dart_sdk is compatible and contains upstream commit."
-          fi
-
-      - name: Push safety snapshot tag
-        if: steps.check_upstream.outputs.skip_rebase != 'true' && (github.event_name == 'schedule' || inputs.dry_run == false || inputs.dry_run == 'false')
-        run: |
-          BACKUP_TAG="backup/subprofiles-mobile-$(date +'%Y%m%d-%H%M%S')"
-          echo "Creating safety tag $BACKUP_TAG..."
-          git tag "$BACKUP_TAG"
-          git push origin "$BACKUP_TAG"
-          echo "backup_tag=$BACKUP_TAG" >> "$GITHUB_ENV"
+          distribution: temurin
+          java-version: 17
 
       - name: Set up Flutter
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
 
-      - name: Set up Rust (Native Markdown Parser)
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: stable
-
-      - name: Enable native assets
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: flutter config --enable-native-assets
-
-      - name: Install dependencies
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: |
-          flutter pub get
-          (cd packages/fluxer_markdown_native && dart pub get)
-          (cd dart_sdk && dart pub get)
-          for pkg in packages/*/; do
-            [ "$pkg" = "packages/fluxer_fcm/" ] && continue
-            [ -f "${pkg}pubspec.yaml" ] || continue
-            flutter pub get --directory "$pkg"
-          done
-
-      - name: Restore build_runner cache
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        uses: actions/cache@v4
-        with:
-          path: .dart_tool/build
-          key: ${{ runner.os }}-build-runner-${{ hashFiles('pubspec.lock', 'lib/**', 'build.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-runner-
-
-      - name: Run code generation (pre-rebase)
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: dart run build_runner build
-
-      - name: Run Baseline Pre-Rebase Test Gate
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: |
-          echo "Running baseline test verification on features/subprofiles-mobile before rebase..."
-          (cd packages/fluxer_markdown_native && dart test)
-          (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)
-          flutter test \
-            test/features/chat/services/composer_mention_controller_test.dart \
-            test/features/chat/presentation/widgets/messages/message_mention_test.dart \
-            test/features/profile/persona_test.dart \
-            test/features/profile/persona_matcher_test.dart \
-            test/features/profile/persona_providers_test.dart \
-            test/features/chat/presentation/widgets/composer/typing_indicator_bar_test.dart \
-            test/features/chat/utils/messages/message_grouping_utils_test.dart
-          echo "Running baseline static code analysis..."
-          flutter analyze --no-fatal-warnings --no-fatal-infos
-
-      - name: Attempt Git Rebase against upstream/canary
-        id: attempt_rebase
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: |
-          set +e
-          git rebase upstream/canary
-          REBASE_EXIT=$?
-          if [ $REBASE_EXIT -ne 0 ]; then
-            UNMERGED=$(git diff --name-only --diff-filter=U)
-            echo "Conflicts detected during rebase: $UNMERGED"
-
-            ONLY_SUBMODULES=true
-            for f in $UNMERGED; do
-              if [ "$f" != "dart_sdk" ] && [ "$f" != "fluxer" ]; then
-                ONLY_SUBMODULES=false
-                break
-              fi
-            done
-
-            if [ "$ONLY_SUBMODULES" = "true" ] && [ -n "$UNMERGED" ]; then
-              echo "Conflicts are isolated to submodule pointers. Auto-resolving to latest tracking branches..."
-              for sub in $UNMERGED; do
-                branch=$(git config -f .gitmodules submodule.$sub.branch || echo "main")
-                git -C "$sub" fetch origin "$branch" --quiet
-                git -C "$sub" checkout "origin/$branch"
-                git add "$sub"
-              done
-              GIT_EDITOR=true git rebase --continue
-              REBASE_EXIT=$?
-            fi
-
-            if [ $REBASE_EXIT -ne 0 ]; then
-              echo "Code conflicts remain requiring AI resolution."
-              echo "has_conflicts=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "Rebase successfully completed after auto-resolving submodule pointers!"
-              echo "has_conflicts=false" >> "$GITHUB_OUTPUT"
-            fi
-          else
-            echo "Clean rebase! No conflicts encountered."
-            echo "has_conflicts=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Stage 1 - Gemini Flash Conflict Resolution
-        if: steps.attempt_rebase.outputs.has_conflicts == 'true'
-        timeout-minutes: 25
+      - name: Run Autonomous Rebase & Test Repair Pipeline
+        id: rebase_pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          echo "Invoking Gemini 3.8 Flash Rebase Agent..."
-          python /tmp/rebase_tools/rebase_agent.py
-
-      - name: Update Submodules to Tracking Branches
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: |
-          echo "Updating submodules to latest tracked commits..."
-          git submodule sync --recursive
-          git submodule foreach 'git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'
-          git submodule update --init --remote
-          if ! git diff --quiet dart_sdk fluxer; then
-            echo "Committing updated submodule pointers..."
-            git add dart_sdk fluxer
-            git commit -m "chore(submodules): update submodules to latest tracked commits" || true
-            (cd packages/fluxer_markdown_native && dart pub get)
-            (cd dart_sdk && dart pub get)
-            for pkg in packages/*/; do
-              [ "$pkg" = "packages/fluxer_fcm/" ] && continue
-              [ -f "${pkg}pubspec.yaml" ] || continue
-              flutter pub get --directory "$pkg"
-            done
-          else
-            echo "Submodules already up to date."
-          fi
-
-      - name: Run code generation (post-rebase)
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: dart run build_runner build
-
-      - name: Ensure Clean Working Tree
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "Uncommitted changes detected in working tree. Committing changes..."
-            git status --short
-            git add -A
-            git commit -m "fix(rebase): commit agent post-rebase adjustments and generated files"
-          else
-            echo "Working tree is completely clean."
-          fi
-
-      - name: Run Post-Rebase Test Verification Gate
-        id: test_gate
-        if: steps.check_upstream.outputs.skip_rebase != 'true'
-        run: |
-          echo "Running post-rebase test verification..."
-          (cd packages/fluxer_markdown_native && dart test)
-          (cd dart_sdk && dart test test/serialization/model_roundtrip_test.dart)
-          flutter test \
-            test/features/chat/services/composer_mention_controller_test.dart \
-            test/features/chat/presentation/widgets/messages/message_mention_test.dart \
-            test/features/profile/persona_test.dart \
-            test/features/profile/persona_matcher_test.dart \
-            test/features/profile/persona_providers_test.dart \
-            test/features/chat/presentation/widgets/composer/typing_indicator_bar_test.dart \
-            test/features/chat/utils/messages/message_grouping_utils_test.dart
-          echo "Running post-rebase static code analysis..."
-          flutter analyze --no-fatal-warnings --no-fatal-infos
-
-      - name: Push Rebased Branch
-        if: steps.check_upstream.outputs.skip_rebase != 'true' && (github.event_name == 'schedule' || inputs.dry_run == false || inputs.dry_run == 'false')
-        run: |
-          git push --force-with-lease origin features/subprofiles-mobile
-          echo "Successfully rebased and pushed features/subprofiles-mobile."
-
-      - name: Stage 2 - Escalate to Human Developer on Failure
-        if: (failure() || cancelled()) && steps.check_upstream.outputs.skip_rebase != 'true'
-        env:
           GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          git rebase --abort 2>/dev/null || true
-          
-          ESCALATION_CONTENT=""
-          if [ -f /tmp/rebase_escalation_reason.md ]; then
-            ESCALATION_CONTENT=$(cat /tmp/rebase_escalation_reason.md)
-          else
-            ESCALATION_CONTENT="The AI agent encountered conflicts, rate limits, or test failures that could not be resolved automatically."
+          FLAGS=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            FLAGS="$FLAGS --dry-run"
           fi
-
-          ISSUE_BODY=$(cat <<EOF
-          Hey @chiaracoetzee! 👋
-
-          The automated nightly rebase of \`features/subprofiles-mobile\` against \`upstream/canary\` requires human intervention.
-
-          ### 🤖 AI Diagnosis & Reason for Escalation
-          $ESCALATION_CONTENT
-
-          ### Details
-          - **Workflow Run**: [View GitHub Actions Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-          - **Safety Backup Tag**: \`${{ env.backup_tag || 'None created' }}\`
-
-          The rebase has been aborted to protect your branch. Your remote branch has **not** been modified.
-          EOF
-          )
-
-          gh repo set-default "${{ github.repository }}" 2>/dev/null || true
-          gh label create "needs-rebase" --repo "${{ github.repository }}" --color "d73a4a" --description "Rebase conflicts require human intervention" 2>/dev/null || true
-
-          gh issue create             --repo "${{ github.repository }}"             --title "⚠️ Nightly Rebase Failed: Human Intervention Required ($(date +'%Y-%m-%d'))"             --body "$ISSUE_BODY"             --assignee chiaracoetzee             --label "needs-rebase" 2>/dev/null ||           gh issue create             --repo "${{ github.repository }}"             --title "⚠️ Nightly Rebase Failed: Human Intervention Required ($(date +'%Y-%m-%d'))"             --body "$ISSUE_BODY"             --assignee chiaracoetzee
+          if [ "${{ inputs.force_tests }}" = "true" ] || [ "${{ inputs.force_test_agent }}" = "true" ]; then
+            FLAGS="$FLAGS --force-tests"
+          fi
+          python /tmp/rebase_tools/rebase/rebase_orchestrator.py --profile flutter $FLAGS
 
       - name: Upload AI Agent Logs & Artifacts
         if: always()
@@ -363,5 +108,5 @@ jobs:
           path: |
             /tmp/rebase_transcript.md
             /tmp/rebase_escalation_reason.md
+            /tmp/test_failures.log
             /tmp/antigravity_data
-            /tmp/rebase_tools
