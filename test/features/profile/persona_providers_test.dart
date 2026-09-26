@@ -158,6 +158,10 @@ void main() {
       notifier.removePersona('p1');
       expect(container.read(myPersonasProvider).asData?.value, [p2]);
 
+      final p2Deleted = p2.copyWith(deletedAt: DateTime.utc(2026, 9, 25));
+      notifier.upsertPersona(p2Deleted);
+      expect(container.read(myPersonasProvider).asData?.value, isEmpty);
+
       notifier.reset();
       expect(container.read(myPersonasProvider).asData?.value, isEmpty);
     });
