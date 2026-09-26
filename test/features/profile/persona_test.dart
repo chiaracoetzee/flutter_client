@@ -153,7 +153,7 @@ void main() {
     test('default constructor sets fallback values', () {
       const settings = PersonaSettings();
       expect(settings.userId, '');
-      expect(settings.activePersonaMode, 'off');
+      expect(settings.activePersonaMode, 'manual');
       expect(settings.activePersonaId, isNull);
       expect(settings.isLatched, isFalse);
       expect(settings.displayTagText, '');
@@ -212,8 +212,8 @@ void main() {
     });
 
     test('implements value equality and hashCode', () {
-      const s1 = PersonaSettings(userId: 'u1', activePersonaMode: 'off');
-      const s2 = PersonaSettings(userId: 'u1', activePersonaMode: 'off');
+      const s1 = PersonaSettings(userId: 'u1', activePersonaMode: 'manual');
+      const s2 = PersonaSettings(userId: 'u1', activePersonaMode: 'manual');
       const s3 = PersonaSettings(userId: 'u1', activePersonaMode: 'forced');
 
       expect(s1, equals(s2));

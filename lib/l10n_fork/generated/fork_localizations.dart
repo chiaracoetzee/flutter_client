@@ -257,12 +257,6 @@ abstract class ForkLocalizations {
   /// **'Search personas, tags, pronouns...'**
   String get personaSearchPlaceholder;
 
-  /// Label for Off mode in persona active mode selector.
-  ///
-  /// In en, this message translates to:
-  /// **'Off'**
-  String get personaModeOff;
-
   /// Label for Manual mode in persona active mode selector.
   ///
   /// In en, this message translates to:
@@ -274,12 +268,6 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Last Used'**
   String get personaModeLast;
-
-  /// Helper text explaining Off persona mode.
-  ///
-  /// In en, this message translates to:
-  /// **'Sends as root account unless persona tags are typed.'**
-  String get personaModeOffDescription;
 
   /// Helper text explaining Manual persona mode.
   ///
