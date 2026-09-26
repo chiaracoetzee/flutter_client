@@ -1,4 +1,5 @@
 import Foundation
+import LocalAuthentication
 import Security
 
 enum WebPushKeychain {
@@ -13,12 +14,15 @@ enum WebPushKeychain {
   }
 
   static func accountKeys(prefix: String = alertKeyPrefix) -> [AccountKey] {
+    let context = LAContext()
+    context.interactionNotAllowed = true
     let query: [String: Any] = [
       kSecClass as String: kSecClassGenericPassword,
       kSecAttrService as String: service,
       kSecReturnAttributes as String: true,
       kSecReturnData as String: true,
       kSecMatchLimit as String: kSecMatchLimitAll,
+      kSecUseAuthenticationContext as String: context,
     ]
     var result: CFTypeRef?
     let status = SecItemCopyMatching(query as CFDictionary, &result)

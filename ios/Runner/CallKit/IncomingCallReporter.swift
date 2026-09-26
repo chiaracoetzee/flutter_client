@@ -11,7 +11,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
 
   let queue: DispatchQueue = {
     let queue = DispatchQueue(label: "app.fluxer.voip")
-    queue.setSpecific(key: IncomingCallReporter.queueSpecific, value: 1)
+    queue.sync {
+      queue.setSpecific(key: IncomingCallReporter.queueSpecific, value: 1)
+    }
     return queue
   }()
 
@@ -38,7 +40,11 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     if callProvider != nil {
       return
     }
-    callProvider = CallProvider(delegate: self, queue: queue)
+    let provider = CallProvider(delegate: self, queue: .main)
+    callProvider = provider
+    for call in CXCallObserver().calls where !call.hasEnded {
+      provider.end(uuid: call.uuid, reason: .failed)
+    }
   }
 
   func register(messenger: FlutterBinaryMessenger) {
@@ -97,15 +103,20 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   }
 
   func providerDidReset(_ provider: CXProvider) {
-    answerHangup?.cancel()
-    answerHangup = nil
-    for timer in ringTimers.values {
-      timer.cancel()
+    queue.async { [weak self] in
+      guard let self else {
+        return
+      }
+      self.answerHangup?.cancel()
+      self.answerHangup = nil
+      for timer in self.ringTimers.values {
+        timer.cancel()
+      }
+      self.ringTimers.removeAll()
+      self.calls.removeAll()
+      self.pendingNotify = nil
+      self.callAudioActive = false
     }
-    ringTimers.removeAll()
-    calls.removeAll()
-    pendingNotify = nil
-    callAudioActive = false
   }
 
   func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
@@ -116,13 +127,8 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     CallAudioSession.prepareForAnswer()
     action.fulfill()
     let uuid = action.callUUID
-    ringTimers[uuid]?.cancel()
-    ringTimers[uuid] = nil
-    if var call = calls[uuid] {
-      call.answered = true
-      calls[uuid] = call
-      scheduleAnswerHangup()
-      publish(Self.acceptEvent, uuid: uuid, body: eventBody(call, uuid: uuid, accepted: true))
+    queue.async { [weak self] in
+      self?.didAnswer(uuid)
     }
     keepAlive()
     bringAppForward()
@@ -131,6 +137,59 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
     action.fulfill()
     let uuid = action.callUUID
+    queue.async { [weak self] in
+      self?.didEnd(uuid)
+    }
+    keepAlive()
+  }
+
+  func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
+    action.fulfill()
+    let uuid = action.callUUID
+    let muted = action.isMuted
+    queue.async { [weak self] in
+      self?.emit(Self.muteEvent, body: [
+        "id": uuid.uuidString.lowercased(),
+        "isMuted": muted,
+      ])
+    }
+  }
+
+  func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
+    CallAudioSession.activate(audioSession)
+    queue.async { [weak self] in
+      guard let self else {
+        return
+      }
+      self.callAudioActive = true
+      self.emit(Self.audioSessionEvent, body: ["isActive": true])
+    }
+  }
+
+  func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
+    CallAudioSession.deactivate(audioSession)
+    queue.async { [weak self] in
+      guard let self else {
+        return
+      }
+      self.callAudioActive = false
+      self.emit(Self.audioSessionEvent, body: ["isActive": false])
+    }
+  }
+
+  private func didAnswer(_ uuid: UUID) {
+    ringTimers[uuid]?.cancel()
+    ringTimers[uuid] = nil
+    guard var call = calls[uuid] else {
+      return
+    }
+    call.answered = true
+    calls[uuid] = call
+    scheduleAnswerHangup()
+    publish(Self.acceptEvent, uuid: uuid, body: eventBody(call, uuid: uuid, accepted: true))
+  }
+
+  private func didEnd(_ uuid: UUID) {
     let call = calls.removeValue(forKey: uuid)
     ringTimers[uuid]?.cancel()
     ringTimers[uuid] = nil
@@ -140,31 +199,11 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     if pendingNotify?.uuid == uuid {
       pendingNotify = nil
     }
-    if let call {
-      let event = call.answered ? Self.endedEvent : Self.declineEvent
-      emit(event, body: eventBody(call, uuid: uuid, accepted: call.answered))
+    guard let call else {
+      return
     }
-    keepAlive()
-  }
-
-  func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
-    action.fulfill()
-    emit(Self.muteEvent, body: [
-      "id": action.callUUID.uuidString.lowercased(),
-      "isMuted": action.isMuted,
-    ])
-  }
-
-  func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
-    callAudioActive = true
-    CallAudioSession.activate(audioSession)
-    emit(Self.audioSessionEvent, body: ["isActive": true])
-  }
-
-  func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
-    callAudioActive = false
-    CallAudioSession.deactivate(audioSession)
-    emit(Self.audioSessionEvent, body: ["isActive": false])
+    let event = call.answered ? Self.endedEvent : Self.declineEvent
+    emit(event, body: eventBody(call, uuid: uuid, accepted: call.answered))
   }
 
   private func report(
@@ -405,8 +444,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       }
     }
     DispatchQueue.main.async(execute: clear)
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: clear)
-    DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: clear)
+    for delay in [1.0, 3.0, 10.0] {
+      DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: clear)
+    }
   }
 
   private func keepAlive() {
