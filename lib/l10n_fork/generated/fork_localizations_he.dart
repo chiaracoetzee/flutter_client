@@ -60,17 +60,10 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String get personaSearchPlaceholder => 'חפש פרסונות, תגיות, כינויי גוף...';
 
   @override
-  String get personaModeOff => 'כבוי';
-
-  @override
   String get personaModeManual => 'ידני';
 
   @override
   String get personaModeLast => 'שימוש אחרון';
-
-  @override
-  String get personaModeOffDescription =>
-      'שולח מהחשבון הראשי אלא אם מוקלדות תגיות פרסונה.';
 
   @override
   String get personaModeManualDescription =>

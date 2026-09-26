@@ -63,17 +63,10 @@ class ForkLocalizationsTr extends ForkLocalizations {
       'Personaları, etiketleri, zamirleri ara...';
 
   @override
-  String get personaModeOff => 'Kapalı';
-
-  @override
   String get personaModeManual => 'Manuel';
 
   @override
   String get personaModeLast => 'Son kullanılan';
-
-  @override
-  String get personaModeOffDescription =>
-      'Persona etiketleri yazılmadıkça kök hesap olarak gönderir.';
 
   @override
   String get personaModeManualDescription =>
