@@ -14,8 +14,8 @@ void main() {
         gatewayUrl: 'wss://gateway.fluxer.app',
         displayDomain: 'fluxer.app',
       );
-      final InstanceConfigSnapshot? migrated =
-          migrator.migrateOfficialSnapshotIfNeeded(legacy);
+      final InstanceConfigSnapshot? migrated = migrator
+          .migrateOfficialSnapshotIfNeeded(legacy);
       expect(migrated, isNotNull);
       expect(migrated!.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
       expect(migrated.gatewayUrl, InstanceConstants.defaultGatewayUrl);
@@ -29,25 +29,28 @@ void main() {
         gatewayUrl: 'wss://gateway.canary.fluxer.app',
         displayDomain: 'canary.fluxer.app',
       );
-      final InstanceConfigSnapshot? migrated =
-          migrator.migrateOfficialSnapshotIfNeeded(legacy);
+      final InstanceConfigSnapshot? migrated = migrator
+          .migrateOfficialSnapshotIfNeeded(legacy);
       expect(migrated, isNotNull);
       expect(migrated!.apiBaseUrl, InstanceConstants.canaryApiBaseUrl);
       expect(migrated.gatewayUrl, InstanceConstants.defaultGatewayUrl);
       expect(migrated.displayDomain, InstanceConstants.canaryInstanceInputUrl);
     });
 
-    test('rewrites legacy api host even when display domain is not official', () {
-      const InstanceConfigSnapshot legacy = InstanceConfigSnapshot(
-        apiBaseUrl: 'https://api.fluxer.app/v1',
-        gatewayUrl: '',
-        displayDomain: 'api.fluxer.app',
-      );
-      final InstanceConfigSnapshot? migrated =
-          migrator.migrateOfficialSnapshotIfNeeded(legacy);
-      expect(migrated, isNotNull);
-      expect(migrated!.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-    });
+    test(
+      'rewrites legacy api host even when display domain is not official',
+      () {
+        const InstanceConfigSnapshot legacy = InstanceConfigSnapshot(
+          apiBaseUrl: 'https://api.fluxer.app/v1',
+          gatewayUrl: '',
+          displayDomain: 'api.fluxer.app',
+        );
+        final InstanceConfigSnapshot? migrated = migrator
+            .migrateOfficialSnapshotIfNeeded(legacy);
+        expect(migrated, isNotNull);
+        expect(migrated!.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
+      },
+    );
 
     test('leaves self-hosted snapshots unchanged', () {
       const InstanceConfigSnapshot selfHosted = InstanceConfigSnapshot(

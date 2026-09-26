@@ -90,7 +90,8 @@ class InstanceLegacyEndpointMigrator {
     required String displayDomain,
     required _OfficialTargets targets,
   }) {
-    if (isLegacyOfficialApiBaseUrl(apiBaseUrl) || _isLegacyGatewayUrl(gatewayUrl)) {
+    if (isLegacyOfficialApiBaseUrl(apiBaseUrl) ||
+        _isLegacyGatewayUrl(gatewayUrl)) {
       return true;
     }
     if (displayDomain.isNotEmpty && displayDomain != targets.displayDomain) {
