@@ -91,6 +91,14 @@ jobs:
           channel: stable
           cache: true
 
+      - name: Set up Rust (Native Markdown Parser)
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+
+      - name: Enable native assets
+        run: flutter config --enable-native-assets
+
       - name: Run Autonomous Rebase & Test Repair Pipeline
         id: rebase_pipeline
         env:
