@@ -18,6 +18,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+
 bool _isDesktopFileDropSupported() {
   return isFluxerDesktopOs;
 }
@@ -74,7 +78,19 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
             result.isValid &&
             files.isNotEmpty &&
             context.mounted) {
-          await ref.read(chatViewModelProvider.notifier).sendMessage();
+          final String draftText = ref.read(chatViewModelProvider).messageText;
+          final resolution = await resolveOutgoingPersona(
+            ref: ref,
+            rawText: draftText,
+            channelId: widget.channelId,
+            allowEmptyContent: true,
+          );
+          await ref
+              .read(chatViewModelProvider.notifier)
+              .sendMessage(
+                text: resolution.text.trim(),
+                personaData: resolution.personaData,
+              );
         }
       },
       child: Stack(
