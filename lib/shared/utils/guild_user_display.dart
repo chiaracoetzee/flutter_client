@@ -245,7 +245,6 @@ GuildUserDisplay resolveMessageAuthorDisplay({
     return GuildUserDisplay(
       displayName: personaName,
       accountDisplayName: personaName,
-      isBot: false,
       avatarUrl: message.personaAvatar,
       avatarColor: message.authorAvatarColor,
       pronouns: message.personaTag,
@@ -268,7 +267,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   if (webhookId != null && webhookId.isNotEmpty) {
     return messageDisplay;
   }
-  if (guildId == null || guildDisplay == null) {
+  if (message.isDeletedAuthor || guildId == null || guildDisplay == null) {
     return messageDisplay;
   }
   return guildDisplay;
