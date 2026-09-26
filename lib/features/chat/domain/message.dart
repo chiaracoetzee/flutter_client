@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/constants/user_flags.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
@@ -965,9 +966,13 @@ class Message {
   final String? personaTag;
   final String? personaTagIcon;
 
+  bool get isDeletedAuthor =>
+      (authorPublicFlags & (kUserFlagDeleted | kUserFlagSelfDeleted)) != 0;
+
   bool get isPersona =>
-      (personaName != null && personaName!.isNotEmpty) ||
-      (personaId != null && personaId!.isNotEmpty);
+      !isDeletedAuthor &&
+      ((personaName != null && personaName!.isNotEmpty) ||
+          (personaId != null && personaId!.isNotEmpty));
 
   const Message({
     required this.id,
