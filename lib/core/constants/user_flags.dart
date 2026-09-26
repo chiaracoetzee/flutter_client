@@ -1,6 +1,9 @@
+const int kUserFlagStaff = 1 << 0;
 const int kUserFlagFriendlyBot = 1 << 4;
 const int kUserFlagFriendlyBotManualApproval = 1 << 5;
 const int kUserFlagSpammer = 1 << 6;
+const int kUserFlagDeleted = 1 << 34;
+const int kUserFlagSelfDeleted = 1 << 36;
 
 bool isFriendlyBot(int userFlags) {
   return (userFlags & kUserFlagFriendlyBot) != 0;
