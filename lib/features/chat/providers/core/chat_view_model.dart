@@ -5220,29 +5220,6 @@ class ChatViewModel extends _$ChatViewModel {
             labelForMultiple: l10n.chatUploadingAttachmentsSummary,
           )
         : const <Attachment>[];
-    Map<String, dynamic>? resolvedPersonaData = personaData;
-    if (resolvedPersonaData == null) {
-      final List<Persona> personas =
-          ref.read(myPersonasProvider).asData?.value ?? const [];
-      final activeState = ref.read(activePersonaProvider);
-      final String? latchedId =
-          activeState.isLatched ? activeState.activePersonaId : null;
-      final MatchResult matchResult = matchPersona(
-        outgoingText,
-        personas,
-        latchedId,
-        hasPendingAttachments,
-        allowEmptyContent: hasPendingAttachments,
-      );
-      if (matchResult.matched && matchResult.persona != null) {
-        resolvedPersonaData = _buildPersonaPayload(matchResult.persona!);
-        unawaited(
-          ref
-              .read(activePersonaProvider.notifier)
-              .recordUsage(matchResult.persona!.id),
-        );
-      }
-    }
     final Message optimisticMessage = _buildOptimisticMessage(
       channelId: channelId,
       content: outgoingText,
@@ -5260,7 +5237,7 @@ class ChatViewModel extends _$ChatViewModel {
           ? <String>[state.replyingTo!.authorId]
           : const <String>[],
       flags: messageFlags,
-      personaData: resolvedPersonaData,
+      personaData: personaData,
     );
 
     talker.debug('[ChatViewModel] send optimistic channelId=$channelId');
@@ -5303,7 +5280,7 @@ class ChatViewModel extends _$ChatViewModel {
           optimisticMessageId: optimisticMessage.id,
           messageFlags: messageFlags,
           tts: tts,
-          personaData: resolvedPersonaData,
+          personaData: personaData,
         ),
       );
       return;
@@ -5323,7 +5300,7 @@ class ChatViewModel extends _$ChatViewModel {
         uploadNotifier: uploadNotifier,
         messageFlags: messageFlags,
         tts: tts,
-        personaData: resolvedPersonaData,
+        personaData: personaData,
       ),
     );
   }
@@ -6516,26 +6493,10 @@ class ChatViewModel extends _$ChatViewModel {
 
   Map<String, dynamic> _buildPersonaPayload(Persona persona) {
     final systemTag = ref.read(systemDisplayTagProvider);
-    final String? tagText =
-        (systemTag.text != null && systemTag.text!.trim().isNotEmpty)
-            ? systemTag.text!.trim()
-            : null;
-    final String? tagIcon =
-        (systemTag.iconUrl != null && systemTag.iconUrl!.trim().isNotEmpty)
-            ? systemTag.iconUrl!.trim()
-            : null;
-    return <String, dynamic>{
-      'id': persona.id,
-      'name': persona.name,
-      if (persona.avatarUrl != null) 'avatar': persona.avatarUrl,
-      if (persona.bannerUrl != null) 'banner': persona.bannerUrl,
-      if (persona.color != null) 'avatar_color': persona.color,
-      if (tagText != null) 'display_tag_text': tagText,
-      if (tagIcon != null) 'display_tag_icon': tagIcon,
-      if (persona.pronouns != null) 'pronouns': persona.pronouns,
-      if (persona.color != null) 'color': persona.color,
-      if (persona.bio != null) 'bio': persona.bio,
-    };
+    return persona.toSubprofilePayload(
+      displayTagText: systemTag.text,
+      displayTagIcon: systemTag.iconUrl,
+    );
   }
 
   Future<void> saveEditedMessage({String? text}) async {
