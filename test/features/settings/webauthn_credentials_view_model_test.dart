@@ -48,6 +48,7 @@ WebAuthnCredentialResponse _cred({required String id, String name = 'Key'}) {
     name: name,
     createdAt: '2026-01-01T00:00:00Z',
     lastUsedAt: null,
+    rpId: 'fluxer.com',
   );
 }
 
