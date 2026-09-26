@@ -1,4 +1,5 @@
 import Flutter
+import Foundation
 import PushKit
 import flutter_callkit_incoming
 
@@ -42,7 +43,11 @@ final class VoipRegistry: NSObject, PKPushRegistryDelegate {
     }
     let hex = pushCredentials.token.map { String(format: "%02x", $0) }.joined()
     pendingTokenHex = hex
-    applyPendingVoipToken()
+    UserDefaults.standard.set(hex, forKey: "DevicePushTokenVoIP")
+    NSLog("[CallKit] voip token ready")
+    DispatchQueue.main.async { [weak self] in
+      self?.applyPendingVoipToken()
+    }
   }
 
   func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
@@ -50,7 +55,10 @@ final class VoipRegistry: NSObject, PKPushRegistryDelegate {
       return
     }
     pendingTokenHex = nil
-    SwiftFlutterCallkitIncomingPlugin.sharedInstance?.setDevicePushTokenVoIP("")
+    UserDefaults.standard.removeObject(forKey: "DevicePushTokenVoIP")
+    DispatchQueue.main.async {
+      SwiftFlutterCallkitIncomingPlugin.sharedInstance?.setDevicePushTokenVoIP("")
+    }
   }
 
   func pushRegistry(

@@ -70,6 +70,13 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       case "endAll":
         self.queue.async { self.endAll() }
         result(nil)
+      case "hasUnanswered":
+        self.queue.async {
+          let ringing = self.hasUnansweredCall()
+          DispatchQueue.main.async {
+            result(ringing)
+          }
+        }
       default:
         result(FlutterMethodNotImplemented)
       }
@@ -90,13 +97,14 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
         completion: completion
       )
     case .reject(let messageId):
+      NSLog("[CallKit] voip push kept on screen without a parsed ring")
       let uuid = messageId.map { CallRingUuid.v5(name: $0) } ?? UUID()
       report(
         uuid: uuid,
         name: CallRingResolver.fallbackName,
         handle: CallRingResolver.fallbackHandle,
         fields: nil,
-        endAfterReport: true,
+        endAfterReport: false,
         completion: completion
       )
     }
@@ -272,7 +280,27 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       callProvider?.end(uuid: uuid, reason: .failed)
       return
     }
+    guard fields != nil else {
+      scheduleBareTimeout(uuid)
+      return
+    }
     publishRing(uuid: uuid, fields: fields)
+  }
+
+  private func scheduleBareTimeout(_ uuid: UUID) {
+    ringTimers[uuid]?.cancel()
+    let work = DispatchWorkItem { [weak self] in
+      guard let self else {
+        return
+      }
+      self.ringTimers[uuid] = nil
+      guard self.calls[uuid]?.answered != true else {
+        return
+      }
+      self.callProvider?.end(uuid: uuid, reason: .unanswered)
+    }
+    ringTimers[uuid] = work
+    queue.asyncAfter(deadline: .now() + 30, execute: work)
   }
 
   private func publishRing(uuid: UUID, fields: CallRingFields?) {
@@ -287,17 +315,25 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   }
 
   private func decide(encoded: String?) -> CallRingOutcome {
-    guard let encoded,
-      let record = WebPushKeychain.decodeBase64Url(encoded),
-      let decrypted = WebPushRecordDecryptor.decryptVoip(record: record)
-    else {
+    guard let encoded else {
+      NSLog("[CallKit] voip payload missing p")
       return .reject(messageId: nil)
     }
-    return CallRingResolver.resolve(
+    guard let record = WebPushKeychain.decodeBase64Url(encoded),
+      let decrypted = WebPushRecordDecryptor.decryptVoip(record: record)
+    else {
+      NSLog("[CallKit] voip payload did not decrypt")
+      return .reject(messageId: nil)
+    }
+    let outcome = CallRingResolver.resolve(
       plaintext: decrypted.plaintext,
       accountUserId: decrypted.userId,
       nowMs: Int64(Date().timeIntervalSince1970 * 1000)
     )
+    if case .reject = outcome {
+      NSLog("[CallKit] voip payload was not a live ring")
+    }
+    return outcome
   }
 
   private func dropOtherRings(except uuid: UUID) {
@@ -347,6 +383,15 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   private func cancelAnswerHangup() {
     answerHangup?.cancel()
     answerHangup = nil
+  }
+
+  private func hasUnansweredCall() -> Bool {
+    if calls.values.contains(where: { !$0.answered }) {
+      return true
+    }
+    return CXCallObserver().calls.contains { call in
+      !call.hasEnded && !call.isOutgoing && !call.hasConnected
+    }
   }
 
   private func endAll() {
