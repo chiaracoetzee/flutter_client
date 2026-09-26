@@ -62,16 +62,15 @@ void main() {
   });
 
   group('PersonaMode', () {
-    test('fromString parses valid strings and falls back to off', () {
+    test('fromString parses valid strings and falls back to manual', () {
       expect(PersonaMode.fromString('manual'), PersonaMode.manual);
       expect(PersonaMode.fromString('last'), PersonaMode.last);
-      expect(PersonaMode.fromString('off'), PersonaMode.off);
-      expect(PersonaMode.fromString(null), PersonaMode.off);
-      expect(PersonaMode.fromString('invalid'), PersonaMode.off);
+      expect(PersonaMode.fromString('off'), PersonaMode.manual);
+      expect(PersonaMode.fromString(null), PersonaMode.manual);
+      expect(PersonaMode.fromString('invalid'), PersonaMode.manual);
     });
 
     test('toPrefString returns name matching enum identifier', () {
-      expect(PersonaMode.off.toPrefString(), 'off');
       expect(PersonaMode.manual.toPrefString(), 'manual');
       expect(PersonaMode.last.toPrefString(), 'last');
     });
@@ -80,18 +79,14 @@ void main() {
   group('ActivePersonaState', () {
     test('default constructor initializes expected defaults', () {
       const state = ActivePersonaState();
-      expect(state.mode, PersonaMode.off);
+      expect(state.mode, PersonaMode.manual);
       expect(state.activePersonaId, isNull);
       expect(state.isLatched, isFalse);
       expect(state.frecencyUsage, isEmpty);
     });
 
     test('copyWith modifies specified fields and allows null clearing', () {
-      const state = ActivePersonaState(
-        mode: PersonaMode.manual,
-        activePersonaId: 'p1',
-        isLatched: true,
-      );
+      const state = ActivePersonaState(activePersonaId: 'p1', isLatched: true);
 
       final updated = state.copyWith(mode: PersonaMode.last, isLatched: false);
       expect(updated.mode, PersonaMode.last);
@@ -219,7 +214,7 @@ void main() {
           ?.value;
       expect(resetSettings, isNotNull);
       expect(resetSettings!.userId, '');
-      expect(resetSettings.activePersonaMode, 'off');
+      expect(resetSettings.activePersonaMode, 'manual');
       expect(resetSettings.isLatched, isFalse);
     });
   });

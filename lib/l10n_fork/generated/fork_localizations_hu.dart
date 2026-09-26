@@ -61,17 +61,10 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Personák, címkék, pronév keresése...';
 
   @override
-  String get personaModeOff => 'Ki';
-
-  @override
   String get personaModeManual => 'Kézi';
 
   @override
   String get personaModeLast => 'Legutóbb használt';
-
-  @override
-  String get personaModeOffDescription =>
-      'Fő fiókként küldi el, kivéve, ha persona címkék vannak beírva.';
 
   @override
   String get personaModeManualDescription =>

@@ -63,17 +63,10 @@ class ForkLocalizationsHr extends ForkLocalizations {
       'Pretraži persone, oznake, zamjenice...';
 
   @override
-  String get personaModeOff => 'Isključeno';
-
-  @override
   String get personaModeManual => 'Ručno';
 
   @override
   String get personaModeLast => 'Zadnje korišteno';
-
-  @override
-  String get personaModeOffDescription =>
-      'Šalje se s glavnog računa osim ako nisu upisane oznake persone.';
 
   @override
   String get personaModeManualDescription =>
