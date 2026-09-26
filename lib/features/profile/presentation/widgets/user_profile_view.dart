@@ -772,9 +772,10 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final String? personaBannerUrl = publicPersona != null
         ? publicPersona.bannerUrl
         : message?.personaBanner;
-    final String? personaTag = publicPersona != null
-        ? (publicPersona.systemName ?? message?.personaTag)
-        : message?.personaTag;
+    final String? personaTag =
+        publicPersona?.displayTagText ?? message?.personaTag;
+    final String? personaTagIcon =
+        publicPersona?.displayTagIcon ?? message?.personaTagIcon;
     final String? personaBio = publicPersona?.bio;
     final String? pronouns = publicPersona?.pronouns;
     final int? personaColor = publicPersona?.color;
@@ -912,6 +913,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     if (personaTag != null && personaTag.trim().isNotEmpty)
                       FluxerUserTag(
                         label: personaTag.trim(),
+                        iconUrl: personaTagIcon,
                       ),
                   ],
                 ),
