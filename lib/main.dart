@@ -165,13 +165,15 @@ Future<void> _bootstrapFluxer(List<String> args) async {
 
   await FluxerObservability.instance.traceAsync(
     'app.bootstrap.active_instance',
-    () => container
-        .read(activeInstanceProvider.notifier)
-        .restorePersistedSnapshot(
-          container
-              .read(authRepositoryProvider)
-              .resolveActiveInstanceSnapshot(),
-        ),
+    () async {
+      final authRepository = container.read(authRepositoryProvider);
+      await authRepository.migrateLegacyInstanceEndpoints();
+      await container
+          .read(activeInstanceProvider.notifier)
+          .restorePersistedSnapshot(
+            authRepository.resolveActiveInstanceSnapshot(),
+          );
+    },
   );
 
   // First frame no longer waits for session validation: the router keeps the
