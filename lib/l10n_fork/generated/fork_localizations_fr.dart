@@ -63,17 +63,10 @@ class ForkLocalizationsFr extends ForkLocalizations {
       'Rechercher des personas, balises, pronoms…';
 
   @override
-  String get personaModeOff => 'Désactivé';
-
-  @override
   String get personaModeManual => 'Manuel';
 
   @override
   String get personaModeLast => 'Dernier utilisé';
-
-  @override
-  String get personaModeOffDescription =>
-      'Envoie avec le compte principal sauf si les balises de persona sont saisies.';
 
   @override
   String get personaModeManualDescription =>

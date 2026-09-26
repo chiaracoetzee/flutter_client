@@ -62,17 +62,10 @@ class ForkLocalizationsFi extends ForkLocalizations {
       'Hae persoonia, tunnisteita, pronomineja...';
 
   @override
-  String get personaModeOff => 'Pois päältä';
-
-  @override
   String get personaModeManual => 'Manuaalinen';
 
   @override
   String get personaModeLast => 'Viimeksi käytetty';
-
-  @override
-  String get personaModeOffDescription =>
-      'Lähettää päätilinä, ellei persoonatunnisteita kirjoiteta.';
 
   @override
   String get personaModeManualDescription =>

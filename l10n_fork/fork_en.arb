@@ -63,10 +63,6 @@
     "@personaSearchPlaceholder": {
         "description": "Placeholder in the persona picker search input."
     },
-    "personaModeOff": "Off",
-    "@personaModeOff": {
-        "description": "Label for Off mode in persona active mode selector."
-    },
     "personaModeManual": "Manual",
     "@personaModeManual": {
         "description": "Label for Manual mode in persona active mode selector."
@@ -74,10 +70,6 @@
     "personaModeLast": "Last Used",
     "@personaModeLast": {
         "description": "Label for Last Used mode in persona active mode selector."
-    },
-    "personaModeOffDescription": "Sends as root account unless persona tags are typed.",
-    "@personaModeOffDescription": {
-        "description": "Helper text explaining Off persona mode."
     },
     "personaModeManualDescription": "Always sends as selected persona until changed.",
     "@personaModeManualDescription": {

@@ -60,16 +60,10 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get personaSearchPlaceholder => '페르소나, 태그, 대명사 검색...';
 
   @override
-  String get personaModeOff => '꺼짐';
-
-  @override
   String get personaModeManual => '수동';
 
   @override
   String get personaModeLast => '최근 사용됨';
-
-  @override
-  String get personaModeOffDescription => '페르소나 태그를 입력하지 않는 한 기본 계정으로 전송됩니다.';
 
   @override
   String get personaModeManualDescription => '변경할 때까지 항상 선택한 페르소나로 전송됩니다.';
