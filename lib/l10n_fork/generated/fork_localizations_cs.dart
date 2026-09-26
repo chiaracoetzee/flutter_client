@@ -62,17 +62,10 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Hledat persony, značky, zájmena...';
 
   @override
-  String get personaModeOff => 'Vypnuto';
-
-  @override
   String get personaModeManual => 'Ručně';
 
   @override
   String get personaModeLast => 'Naposledy použito';
-
-  @override
-  String get personaModeOffDescription =>
-      'Odesílá se z hlavního účtu, pokud nejsou zadány značky persony.';
 
   @override
   String get personaModeManualDescription =>
