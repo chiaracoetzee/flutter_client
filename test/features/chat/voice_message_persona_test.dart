@@ -16,7 +16,6 @@ void main() {
           'avatar': 'https://example.com/avatar.png',
           'banner': 'https://example.com/banner.png',
           'display_tag_text': 'TAG',
-          'system_name': 'TAG',
           'display_tag_icon': 'https://example.com/icon.png',
           'avatar_color': 0xFF00FF,
           'color': 0xFF00FF,
@@ -85,7 +84,6 @@ void main() {
                 if (failedMessage.personaBanner != null)
                   'banner': failedMessage.personaBanner,
                 'display_tag_text': ?pTag,
-                'system_name': ?pTag,
                 if (failedMessage.personaTagIcon != null)
                   'display_tag_icon': failedMessage.personaTagIcon,
                 if (failedMessage.authorAvatarColor != null)
@@ -107,7 +105,6 @@ void main() {
           equals('https://example.com/alice_banner.png'),
         );
         expect(retryPersonaData['display_tag_text'], equals('ALICE_TAG'));
-        expect(retryPersonaData['system_name'], equals('ALICE_TAG'));
         expect(
           retryPersonaData['display_tag_icon'],
           equals('https://example.com/alice_icon.png'),
