@@ -63,17 +63,10 @@ class ForkLocalizationsDa extends ForkLocalizations {
       'Søg efter personaer, tags, pronominer...';
 
   @override
-  String get personaModeOff => 'Fra';
-
-  @override
   String get personaModeManual => 'Manuel';
 
   @override
   String get personaModeLast => 'Senest brugt';
-
-  @override
-  String get personaModeOffDescription =>
-      'Sender som hovedkonto, medmindre der skrives persona-tags.';
 
   @override
   String get personaModeManualDescription =>

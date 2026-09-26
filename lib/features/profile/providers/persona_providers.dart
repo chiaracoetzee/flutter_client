@@ -12,15 +12,13 @@ import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum PersonaMode {
-  off,
   manual,
   last;
 
   static PersonaMode fromString(String? value) {
     return switch (value) {
-      'manual' => PersonaMode.manual,
       'last' => PersonaMode.last,
-      _ => PersonaMode.off,
+      _ => PersonaMode.manual,
     };
   }
 
@@ -29,7 +27,7 @@ enum PersonaMode {
 
 class ActivePersonaState {
   const ActivePersonaState({
-    this.mode = PersonaMode.off,
+    this.mode = PersonaMode.manual,
     this.activePersonaId,
     this.isLatched = false,
     this.frecencyUsage = const {},
@@ -217,39 +215,18 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_kPrefMode, mode.toPrefString());
 
-    if (mode == PersonaMode.off) {
-      await prefs.remove(_kPrefId);
-      await prefs.setBool(_kPrefLatched, false);
-      state = state.copyWith(
-        mode: mode,
-        activePersonaId: () => null,
-        isLatched: false,
-      );
-    } else if (mode == PersonaMode.manual) {
-      final currentId = state.activePersonaId;
-      final targetId = currentId ?? '';
-      await prefs.setString(_kPrefId, targetId);
-      await prefs.setBool(_kPrefLatched, targetId.isNotEmpty);
-      state = state.copyWith(
-        mode: mode,
-        isLatched: targetId.isNotEmpty,
-      );
-    } else if (mode == PersonaMode.last) {
-      final currentId = state.activePersonaId;
-      final latched = currentId != null && currentId.isNotEmpty;
-      await prefs.setBool(_kPrefLatched, latched);
-      state = state.copyWith(
-        mode: mode,
-        isLatched: latched,
-      );
-    }
+    final currentId = state.activePersonaId;
+    final latched = currentId != null && currentId.isNotEmpty;
+    await prefs.setBool(_kPrefLatched, latched);
+    state = state.copyWith(
+      mode: mode,
+      isLatched: latched,
+    );
 
     try {
       unawaited(
         ref.read(personaSettingsProvider.notifier).updateSettings(
               activePersonaMode: mode.toPrefString(),
-              activePersonaId: mode == PersonaMode.off ? () => null : null,
-              isLatched: mode == PersonaMode.off ? false : null,
             ),
       );
     } catch (_) {}
@@ -261,10 +238,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
     PersonaMode? mode,
   }) async {
     final prefs = await SharedPreferences.getInstance();
-    final effectiveMode = mode ??
-        (id != null && latch && state.mode == PersonaMode.off
-            ? PersonaMode.manual
-            : state.mode);
+    final effectiveMode = mode ?? state.mode;
 
     await prefs.setString(_kPrefMode, effectiveMode.toPrefString());
     if (id != null && id.isNotEmpty) {
@@ -294,14 +268,10 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
 
   Future<void> unlatch({bool preserveMode = false}) async {
     final prefs = await SharedPreferences.getInstance();
-    final shouldPreserve = preserveMode || state.mode == PersonaMode.last;
-    final newMode = shouldPreserve ? state.mode : PersonaMode.off;
+    final newMode = state.mode;
 
     await prefs.setBool(_kPrefLatched, false);
     await prefs.remove(_kPrefId);
-    if (!shouldPreserve) {
-      await prefs.setString(_kPrefMode, newMode.toPrefString());
-    }
 
     state = state.copyWith(
       mode: newMode,
