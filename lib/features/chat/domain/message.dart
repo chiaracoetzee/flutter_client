@@ -1088,7 +1088,6 @@ class Message {
       personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
       personaBanner: sdk.subprofile?.banner,
       personaTag: sdk.subprofile?.displayTagText ??
-          sdk.subprofile?.systemName ??
           sdk.personaTag,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
@@ -1148,7 +1147,6 @@ class Message {
       personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
       personaBanner: sdk.subprofile?.banner,
       personaTag: sdk.subprofile?.displayTagText ??
-          sdk.subprofile?.systemName ??
           sdk.personaTag,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
