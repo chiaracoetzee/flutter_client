@@ -50,7 +50,7 @@ double calculatePersonaFrecencyScore({
 int calculatePersonaMatchScore({
   required String personaName,
   required String query,
-  String? systemName,
+  String? displayTagText,
   String? ownerUsername,
   String? ownerNickname,
   String? ownerGlobalName,
@@ -70,7 +70,7 @@ int calculatePersonaMatchScore({
   if (name.contains(q)) {
     return 500;
   }
-  final String sys = (systemName ?? '').toLowerCase();
+  final String sys = (displayTagText ?? '').toLowerCase();
   if (sys.startsWith(q)) {
     return 350;
   }
@@ -196,14 +196,14 @@ class ChannelPersonaMentionCache {
         ? List<Map<String, dynamic>>.from(items)
         : items.where((Map<String, dynamic> item) {
             final String name = item['name'] as String? ?? '';
-            final String? sys = item['system_name'] as String?;
+            final String? sys = item['display_tag_text'] as String?;
             final String? user = item['owner_username'] as String?;
             final String? nick = item['owner_nickname'] as String?;
             final String? global = item['owner_global_name'] as String?;
             final int match = calculatePersonaMatchScore(
               personaName: name,
               query: q,
-              systemName: sys,
+              displayTagText: sys,
               ownerUsername: user,
               ownerNickname: nick,
               ownerGlobalName: global,
@@ -215,7 +215,7 @@ class ChannelPersonaMentionCache {
         final int aMatch = calculatePersonaMatchScore(
           personaName: a['name'] as String? ?? '',
           query: q,
-          systemName: a['system_name'] as String?,
+          displayTagText: a['display_tag_text'] as String?,
           ownerUsername: a['owner_username'] as String?,
           ownerNickname: a['owner_nickname'] as String?,
           ownerGlobalName: a['owner_global_name'] as String?,
@@ -223,7 +223,7 @@ class ChannelPersonaMentionCache {
         final int bMatch = calculatePersonaMatchScore(
           personaName: b['name'] as String? ?? '',
           query: q,
-          systemName: b['system_name'] as String?,
+          displayTagText: b['display_tag_text'] as String?,
           ownerUsername: b['owner_username'] as String?,
           ownerNickname: b['owner_nickname'] as String?,
           ownerGlobalName: b['owner_global_name'] as String?,
