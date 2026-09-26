@@ -62,17 +62,10 @@ class ForkLocalizationsDe extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Personas, Tags, Pronomen suchen...';
 
   @override
-  String get personaModeOff => 'Aus';
-
-  @override
   String get personaModeManual => 'Manuell';
 
   @override
   String get personaModeLast => 'Zuletzt verwendet';
-
-  @override
-  String get personaModeOffDescription =>
-      'Sendet als Hauptaccount, sofern keine Persona-Tags eingegeben werden.';
 
   @override
   String get personaModeManualDescription =>

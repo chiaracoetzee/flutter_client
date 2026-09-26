@@ -150,7 +150,7 @@ void main() {
     test('default constructor sets fallback values', () {
       const settings = PersonaSettings();
       expect(settings.userId, '');
-      expect(settings.activePersonaMode, 'off');
+      expect(settings.activePersonaMode, 'manual');
       expect(settings.activePersonaId, isNull);
       expect(settings.isLatched, isFalse);
       expect(settings.displayTagText, '');

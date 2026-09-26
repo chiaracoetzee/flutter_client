@@ -61,17 +61,10 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Tìm kiếm persona, thẻ, đại từ...';
 
   @override
-  String get personaModeOff => 'Tắt';
-
-  @override
   String get personaModeManual => 'Thủ công';
 
   @override
   String get personaModeLast => 'Sử dụng lần cuối';
-
-  @override
-  String get personaModeOffDescription =>
-      'Gửi dưới dạng tài khoản gốc trừ khi nhập thẻ persona.';
 
   @override
   String get personaModeManualDescription =>

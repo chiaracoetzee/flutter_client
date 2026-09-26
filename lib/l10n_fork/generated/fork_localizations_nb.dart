@@ -63,17 +63,10 @@ class ForkLocalizationsNb extends ForkLocalizations {
       'Søk etter personaer, tagger, pronomen...';
 
   @override
-  String get personaModeOff => 'Av';
-
-  @override
   String get personaModeManual => 'Manuell';
 
   @override
   String get personaModeLast => 'Sist brukt';
-
-  @override
-  String get personaModeOffDescription =>
-      'Sender som hovedkonto med mindre personatagger skrives.';
 
   @override
   String get personaModeManualDescription =>
