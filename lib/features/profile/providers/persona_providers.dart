@@ -237,9 +237,14 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
     bool latch = true,
     PersonaMode? mode,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
     final effectiveMode = mode ?? state.mode;
+    state = state.copyWith(
+      mode: effectiveMode,
+      activePersonaId: () => id != null && id.isNotEmpty ? id : null,
+      isLatched: id != null && id.isNotEmpty && latch,
+    );
 
+    final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_kPrefMode, effectiveMode.toPrefString());
     if (id != null && id.isNotEmpty) {
       await prefs.setString(_kPrefId, id);
@@ -248,12 +253,6 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
       await prefs.remove(_kPrefId);
       await prefs.setBool(_kPrefLatched, false);
     }
-
-    state = state.copyWith(
-      mode: effectiveMode,
-      activePersonaId: () => id != null && id.isNotEmpty ? id : null,
-      isLatched: id != null && id.isNotEmpty && latch,
-    );
 
     try {
       unawaited(
@@ -267,17 +266,16 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
   }
 
   Future<void> unlatch({bool preserveMode = false}) async {
-    final prefs = await SharedPreferences.getInstance();
     final newMode = state.mode;
-
-    await prefs.setBool(_kPrefLatched, false);
-    await prefs.remove(_kPrefId);
-
     state = state.copyWith(
       mode: newMode,
       activePersonaId: () => null,
       isLatched: false,
     );
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_kPrefLatched, false);
+    await prefs.remove(_kPrefId);
 
     try {
       unawaited(
