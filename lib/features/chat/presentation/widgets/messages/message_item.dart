@@ -526,7 +526,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               textDirection: Directionality.of(context),
             )..layout();
             fullBadgeWidth =
-                tagPainter.width + (personaTagIcon != null ? 23.5 : 11.0);
+                tagPainter.width + (personaTagIcon != null ? 25.0 : 13.0);
           } else if (personaTagIcon != null) {
             fullBadgeWidth = 16.0;
           } else {
@@ -538,7 +538,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             return Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                buildNameWidget(),
+                Flexible(child: buildNameWidget()),
                 const SizedBox(width: gap),
                 _buildPersonaAccountBadge(context, msg),
               ],
@@ -547,13 +547,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
 
           // Priority 2: Full name and tag icon (if there is one) fit completely without shortening name
           final bool hasIcon = personaTagIcon != null || personaTagText == null;
-          final double iconBadgeWidth = (personaTagText != null) ? 18.0 : 16.0;
+          final double iconBadgeWidth = (personaTagText != null) ? 20.0 : 16.0;
 
           if (hasIcon && (naturalNameWidth + gap + iconBadgeWidth <= maxAvailable)) {
             return Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                buildNameWidget(),
+                Flexible(child: buildNameWidget()),
                 const SizedBox(width: gap),
                 _buildPersonaAccountBadge(context, msg, forceIconOnly: true),
               ],
@@ -579,13 +579,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           maxLines: 1,
           textDirection: Directionality.of(context),
         )..layout();
-        final double botTagWidth = tagPainter.width + 11.0;
+        final double botTagWidth = tagPainter.width + 13.0;
 
         if (naturalNameWidth + gap + botTagWidth <= maxAvailable) {
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              buildNameWidget(),
+              Flexible(child: buildNameWidget()),
               const SizedBox(width: gap),
               FluxerUserTag(
                 isSystem: messageAuthorUserTagIsSystem(
