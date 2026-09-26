@@ -63,8 +63,8 @@ MatchResult matchPersona(
     }
   }
 
-  // Check unlatch trigger: "\\" clears active latch if latched
-  if (latchedPersona != null && text.trim() == r'\\') {
+  // Check unlatch trigger: "\\" clears active latch
+  if (text.trim() == r'\\') {
     return const MatchResult(
       matched: false,
       strippedContent: '',
@@ -74,7 +74,7 @@ MatchResult matchPersona(
   }
 
   // Check double backslash with message: "\\ [message]" sends as root account and CLEARS latch
-  if (latchedPersona != null && text.startsWith(r'\\')) {
+  if (text.startsWith(r'\\')) {
     final rawRest = text.substring(2);
     final stripped = rawRest.startsWith(' ') ? rawRest.substring(1) : rawRest;
     return MatchResult(
