@@ -63,17 +63,10 @@ class ForkLocalizationsPt extends ForkLocalizations {
       'Pesquisar personas, tags, pronomes...';
 
   @override
-  String get personaModeOff => 'Desativado';
-
-  @override
   String get personaModeManual => 'Manual';
 
   @override
   String get personaModeLast => 'Última utilizada';
-
-  @override
-  String get personaModeOffDescription =>
-      'Envia como a conta principal a menos que sejam digitadas tags de persona.';
 
   @override
   String get personaModeManualDescription =>
@@ -387,17 +380,10 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
       'Pesquisar personas, tags, pronomes...';
 
   @override
-  String get personaModeOff => 'Desativado';
-
-  @override
   String get personaModeManual => 'Manual';
 
   @override
   String get personaModeLast => 'Usada por último';
-
-  @override
-  String get personaModeOffDescription =>
-      'Envia como a conta principal a menos que tags de persona sejam digitadas.';
 
   @override
   String get personaModeManualDescription =>

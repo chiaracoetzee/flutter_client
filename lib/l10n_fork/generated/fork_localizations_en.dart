@@ -60,17 +60,10 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
 
   @override
-  String get personaModeOff => 'Off';
-
-  @override
   String get personaModeManual => 'Manual';
 
   @override
   String get personaModeLast => 'Last Used';
-
-  @override
-  String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
 
   @override
   String get personaModeManualDescription =>
@@ -380,17 +373,10 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
 
   @override
-  String get personaModeOff => 'Off';
-
-  @override
   String get personaModeManual => 'Manual';
 
   @override
   String get personaModeLast => 'Last Used';
-
-  @override
-  String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
 
   @override
   String get personaModeManualDescription =>
@@ -700,17 +686,10 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String get personaSearchPlaceholder => 'Search personas, tags, pronouns...';
 
   @override
-  String get personaModeOff => 'Off';
-
-  @override
   String get personaModeManual => 'Manual';
 
   @override
   String get personaModeLast => 'Last Used';
-
-  @override
-  String get personaModeOffDescription =>
-      'Sends as root account unless persona tags are typed.';
 
   @override
   String get personaModeManualDescription =>

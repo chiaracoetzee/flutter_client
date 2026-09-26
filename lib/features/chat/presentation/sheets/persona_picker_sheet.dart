@@ -182,15 +182,13 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
     }
 
     final modeIndex = switch (activeState.mode) {
-      PersonaMode.off => 0,
-      PersonaMode.manual => 1,
-      PersonaMode.last => 2,
+      PersonaMode.last => 1,
+      _ => 0,
     };
 
     final modeDescription = switch (activeState.mode) {
-      PersonaMode.off => l10n.fork.personaModeOffDescription,
-      PersonaMode.manual => l10n.fork.personaModeManualDescription,
       PersonaMode.last => l10n.fork.personaModeLastDescription,
+      _ => l10n.fork.personaModeManualDescription,
     };
 
     return ListView(
@@ -260,17 +258,13 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
           FluxerSegmentedTabs(
             expanded: true,
             tabs: [
-              FluxerTab(label: l10n.fork.personaModeOff),
               FluxerTab(label: l10n.fork.personaModeManual),
               FluxerTab(label: l10n.fork.personaModeLast),
             ],
             selectedIndex: modeIndex,
             onChanged: (index) {
-              final newMode = switch (index) {
-                1 => PersonaMode.manual,
-                2 => PersonaMode.last,
-                _ => PersonaMode.off,
-              };
+              final newMode =
+                  index == 1 ? PersonaMode.last : PersonaMode.manual;
               unawaited(
                 ref.read(activePersonaProvider.notifier).setMode(newMode),
               );
