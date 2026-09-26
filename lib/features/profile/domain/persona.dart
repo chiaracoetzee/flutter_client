@@ -207,4 +207,32 @@ class Persona {
       personaTags: personaTags,
     );
   }
+
+  Map<String, dynamic> toSubprofilePayload({
+    String? displayTagText,
+    String? displayTagIcon,
+  }) {
+    final String? trimmedTagText =
+        (displayTagText != null && displayTagText.trim().isNotEmpty)
+            ? displayTagText.trim()
+            : null;
+    final String? trimmedTagIcon =
+        (displayTagIcon != null && displayTagIcon.trim().isNotEmpty)
+            ? displayTagIcon.trim()
+            : null;
+    final int? effectiveColor = avatarColor ?? color;
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      if (avatarUrl != null) 'avatar': avatarUrl,
+      if (bannerUrl != null) 'banner': bannerUrl,
+      if (effectiveColor != null) 'avatar_color': effectiveColor,
+      if (trimmedTagText != null) 'display_tag_text': trimmedTagText,
+      if (trimmedTagText != null) 'system_name': trimmedTagText,
+      if (trimmedTagIcon != null) 'display_tag_icon': trimmedTagIcon,
+      if (pronouns != null) 'pronouns': pronouns,
+      if (effectiveColor != null) 'color': effectiveColor,
+      if (bio != null) 'bio': bio,
+    };
+  }
 }
