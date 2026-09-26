@@ -62,17 +62,10 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String get personaSearchPlaceholder => 'Поиск персон, тегов, местоимений...';
 
   @override
-  String get personaModeOff => 'Выкл';
-
-  @override
   String get personaModeManual => 'Вручную';
 
   @override
   String get personaModeLast => 'Последнее использование';
-
-  @override
-  String get personaModeOffDescription =>
-      'Отправка с основного аккаунта, если не введены теги персоны.';
 
   @override
   String get personaModeManualDescription =>
