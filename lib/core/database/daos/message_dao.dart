@@ -363,6 +363,36 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
         MessagesCompanion(reactionsJson: Value(json)),
       );
 
+  Future<void> updatePersonaAttributes({
+    required String personaId,
+    required String? personaName,
+    required String? personaAvatar,
+    required String? personaTag,
+    required String? personaTagIcon,
+  }) =>
+      (update(messages)..where((m) => m.personaId.equals(personaId))).write(
+        MessagesCompanion(
+          personaName: Value(personaName),
+          personaAvatar: Value(personaAvatar),
+          personaTag: Value(personaTag),
+          personaTagIcon: Value(personaTagIcon),
+        ),
+      );
+
+  Future<void> updateAuthorDisplayTag({
+    required String authorId,
+    required String? personaTag,
+    required String? personaTagIcon,
+  }) =>
+      (update(messages)
+            ..where((m) => m.authorId.equals(authorId) & m.personaId.isNotNull()))
+          .write(
+        MessagesCompanion(
+          personaTag: Value(personaTag),
+          personaTagIcon: Value(personaTagIcon),
+        ),
+      );
+
   Future<void> deleteMessage(String id) =>
       (delete(messages)..where((m) => m.id.equals(id))).go();
 
