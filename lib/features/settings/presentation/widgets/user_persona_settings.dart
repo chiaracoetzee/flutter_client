@@ -213,9 +213,6 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       if (p.name.toLowerCase().contains(_searchQuery)) {
         return true;
       }
-      if (p.systemName?.toLowerCase().contains(_searchQuery) ?? false) {
-        return true;
-      }
       if (p.pronouns?.toLowerCase().contains(_searchQuery) ?? false) {
         return true;
       }
