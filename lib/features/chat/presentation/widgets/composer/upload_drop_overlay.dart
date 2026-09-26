@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_pro
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -75,7 +76,18 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
             result.isValid &&
             files.isNotEmpty &&
             context.mounted) {
-          await ref.read(chatViewModelProvider.notifier).sendMessage();
+          final String draftText =
+              ref.read(chatViewModelProvider).messageText;
+          final resolution = await resolveOutgoingPersona(
+            ref: ref,
+            rawText: draftText,
+            channelId: widget.channelId,
+            allowEmptyContent: true,
+          );
+          await ref.read(chatViewModelProvider.notifier).sendMessage(
+                text: resolution.text.trim(),
+                personaData: resolution.personaData,
+              );
         }
       },
       child: Stack(
