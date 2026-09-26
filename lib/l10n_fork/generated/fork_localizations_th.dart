@@ -60,17 +60,10 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get personaSearchPlaceholder => 'ค้นหา Persona, แท็ก, คำสรรพนาม...';
 
   @override
-  String get personaModeOff => 'ปิด';
-
-  @override
   String get personaModeManual => 'ดำเนินการเอง';
 
   @override
   String get personaModeLast => 'ใช้งานล่าสุด';
-
-  @override
-  String get personaModeOffDescription =>
-      'ส่งในชื่อบัญชีหลัก เว้นแต่จะพิมพ์แท็ก Persona';
 
   @override
   String get personaModeManualDescription =>
