@@ -95,6 +95,7 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
             return null;
           })
           .whereType<Persona>()
+          .where((p) => !p.isDeleted)
           .toList();
 
       if (!ref.mounted) return;
@@ -120,6 +121,10 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
   }
 
   void upsertPersona(Persona persona) {
+    if (persona.isDeleted) {
+      removePersona(persona.id);
+      return;
+    }
     state.whenData((current) {
       final idx = current.indexWhere((p) => p.id == persona.id);
       if (idx >= 0) {
