@@ -493,16 +493,72 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           ? data['guild_id'].toString()
           : null;
       ChannelPersonaMentionCache.instance.invalidate(guildId);
+
       if (eventType == 'GUILD_PERSONAS_DIRTY') {
+        if (data is Map) {
+          final persona = data['persona'];
+          final action = data['action']?.toString() ?? 'sync';
+          final userId = data['user_id']?.toString();
+          final personaId = (persona is Map
+                  ? persona['id']
+                  : data['persona_id'] ?? data['id'])
+              ?.toString();
+
+          if (personaId != null && personaId.isNotEmpty) {
+            if (userId != null && userId.isNotEmpty) {
+              ref.invalidate(
+                publicPersonaProvider((userId: userId, personaId: personaId)),
+              );
+            }
+
+            if (action == 'delete') {
+              ref.read(chatViewModelProvider.notifier).onPersonaUpdated(
+                    personaId: personaId,
+                    name: 'Deleted Persona',
+                    avatar: null,
+                    tag: null,
+                    tagIcon: null,
+                  );
+            } else if (persona is Map) {
+              final String? name = persona['name']?.toString();
+              final String? avatar =
+                  (persona['avatar'] ?? persona['avatar_url'])?.toString();
+              final String? tag = persona['display_tag_text']?.toString();
+              final String? tagIcon = persona['display_tag_icon']?.toString();
+
+              ref.read(chatViewModelProvider.notifier).onPersonaUpdated(
+                    personaId: personaId,
+                    name: name,
+                    avatar: avatar,
+                    tag: tag,
+                    tagIcon: tagIcon,
+                  );
+            }
+          }
+        }
         return;
       }
+
       if (eventType == 'USER_PERSONA_SETTINGS_UPDATE') {
-        if (data is Map<String, dynamic>) {
-          ref.read(personaSettingsProvider.notifier).updateFromGateway(data);
-        } else if (data is Map) {
-          ref
-              .read(personaSettingsProvider.notifier)
-              .updateFromGateway(Map<String, dynamic>.from(data));
+        final Map<String, dynamic> payload = data is Map<String, dynamic>
+            ? data
+            : (data is Map
+                ? Map<String, dynamic>.from(data)
+                : const <String, dynamic>{});
+        ref.read(personaSettingsProvider.notifier).updateFromGateway(payload);
+        final String? uid = (payload['user_id'] ??
+                ref.read(currentUserIdProvider) ??
+                currentUserId ??
+                ref.read(userSettingsViewModelProvider).userId)
+            ?.toString();
+        if (uid != null && uid.isNotEmpty) {
+          final String? tag = payload['display_tag_text']?.toString();
+          final String? tagIcon = payload['display_tag_icon']?.toString();
+          ref.read(chatViewModelProvider.notifier).onAuthorDisplayTagUpdated(
+                authorId: uid,
+                tag: tag,
+                tagIcon: tagIcon,
+              );
         }
         return;
       }
@@ -534,6 +590,13 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
 
           if (eventType == 'USER_PERSONA_DELETE') {
             ref.read(myPersonasProvider.notifier).removePersona(id);
+            ref.read(chatViewModelProvider.notifier).onPersonaUpdated(
+                  personaId: id,
+                  name: 'Deleted Persona',
+                  avatar: null,
+                  tag: null,
+                  tagIcon: null,
+                );
           }
         }
 
@@ -544,6 +607,15 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
                 : Map<String, dynamic>.from(persona);
             final p = Persona.fromJson(map);
             ref.read(myPersonasProvider.notifier).upsertPersona(p);
+
+            final userPersonaSettings = ref.read(personaSettingsProvider).asData?.value;
+            ref.read(chatViewModelProvider.notifier).onPersonaUpdated(
+                  personaId: p.id,
+                  name: p.name,
+                  avatar: p.avatarUrl,
+                  tag: userPersonaSettings?.displayTagText,
+                  tagIcon: userPersonaSettings?.displayTagIcon,
+                );
           } on Object catch (e, st) {
             talker.warning(
               '[Gateway] Failed to parse persona from gateway: $e',
