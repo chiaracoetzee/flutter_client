@@ -57,7 +57,6 @@ import 'package:fluxer_app/features/members/data/member_repository.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
-import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
