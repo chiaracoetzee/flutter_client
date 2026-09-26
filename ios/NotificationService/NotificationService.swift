@@ -29,7 +29,7 @@ final class NotificationService: UNNotificationServiceExtension {
         let resolved = WebPushRecordDecryptor.resolvedUserInfo(request.content.userInfo)
         applyDecryptedFields(to: mutableContent, userInfo: resolved)
         if PushNotificationPayload.isCallRingPayload(from: resolved) {
-            Self.applyCallRingFields(to: mutableContent, userInfo: resolved)
+            Self.silenceCallRing(mutableContent)
             bestAttemptContent = mutableContent
             deliver(content: mutableContent)
             return
@@ -182,23 +182,11 @@ private extension NotificationService {
         content.sound = sound
     }
 
-    static func applyCallRingFields(
-        to content: UNMutableNotificationContent,
-        userInfo: [AnyHashable: Any]
-    ) {
-        guard PushNotificationPayload.isCallRingPayload(from: userInfo) else {
-            return
-        }
-        if content.title.isEmpty {
-            if let callerName = userInfo["caller_name"] as? String, !callerName.isEmpty {
-                content.title = callerName
-            } else {
-                content.title = "Fluxer"
-            }
-        }
-        if content.body.isEmpty {
-            content.body = "Incoming call"
-        }
+    static func silenceCallRing(_ content: UNMutableNotificationContent) {
+        content.title = ""
+        content.subtitle = ""
+        content.body = ""
+        content.sound = nil
     }
 
     static func communicationContent(
