@@ -1084,10 +1084,7 @@ class Message {
       personaName: sdk.subprofile?.name ?? sdk.personaName,
       personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
       personaBanner: sdk.subprofile?.banner,
-      personaTag:
-          sdk.subprofile?.displayTagText ??
-          sdk.subprofile?.systemName ??
-          sdk.personaTag,
+      personaTag: sdk.subprofile?.displayTagText ?? sdk.personaTag,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
   }
@@ -1153,10 +1150,7 @@ class Message {
       personaName: sdk.subprofile?.name ?? sdk.personaName,
       personaAvatar: sdk.subprofile?.avatar ?? sdk.personaAvatar,
       personaBanner: sdk.subprofile?.banner,
-      personaTag:
-          sdk.subprofile?.displayTagText ??
-          sdk.subprofile?.systemName ??
-          sdk.personaTag,
+      personaTag: sdk.subprofile?.displayTagText ?? sdk.personaTag,
       personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
   }
