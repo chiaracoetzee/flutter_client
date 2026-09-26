@@ -1808,6 +1808,143 @@ class ChatViewModel extends _$ChatViewModel {
     return filtered.length == list.length ? null : filtered;
   }
 
+  void onPersonaUpdated({
+    required String personaId,
+    required String? name,
+    required String? avatar,
+    required String? tag,
+    required String? tagIcon,
+  }) {
+    if (personaId.isEmpty) {
+      return;
+    }
+
+    unawaited(
+      ref.read(fluxerDatabaseProvider).messageDao.updatePersonaAttributes(
+        personaId: personaId,
+        personaName: name,
+        personaAvatar: avatar,
+        personaTag: tag,
+        personaTagIcon: tagIcon,
+      ),
+    );
+
+    final currentMessages = state.messages;
+    bool anyChanged = false;
+    final updatedMessages = currentMessages.map((m) {
+      if (m.personaId == personaId) {
+        anyChanged = true;
+        return m.copyWith(
+          personaName: name,
+          personaAvatar: avatar,
+          personaTag: tag,
+          personaTagIcon: tagIcon,
+        );
+      }
+      return m;
+    }).toList();
+
+    Message? updatedReplyingTo = state.replyingTo;
+    if (state.replyingTo != null && state.replyingTo!.personaId == personaId) {
+      anyChanged = true;
+      updatedReplyingTo = state.replyingTo!.copyWith(
+        personaName: name,
+        personaAvatar: avatar,
+        personaTag: tag,
+        personaTagIcon: tagIcon,
+      );
+    }
+
+    Message? updatedEditing = state.editingMessage;
+    if (state.editingMessage != null &&
+        state.editingMessage!.personaId == personaId) {
+      anyChanged = true;
+      updatedEditing = state.editingMessage!.copyWith(
+        personaName: name,
+        personaAvatar: avatar,
+        personaTag: tag,
+        personaTagIcon: tagIcon,
+      );
+    }
+
+    if (anyChanged) {
+      state = state.copyWith(
+        write: (
+          messages: updatedMessages,
+          origin: MessagesOrigin.realtimeEvent,
+        ),
+        replyingTo: updatedReplyingTo,
+        editingMessage: updatedEditing,
+      );
+    }
+  }
+
+  void onAuthorDisplayTagUpdated({
+    required String authorId,
+    required String? tag,
+    required String? tagIcon,
+  }) {
+    if (authorId.isEmpty) {
+      return;
+    }
+
+    unawaited(
+      ref.read(fluxerDatabaseProvider).messageDao.updateAuthorDisplayTag(
+        authorId: authorId,
+        personaTag: tag,
+        personaTagIcon: tagIcon,
+      ),
+    );
+
+    final currentMessages = state.messages;
+    bool anyChanged = false;
+    final updatedMessages = currentMessages.map((m) {
+      if (m.authorId == authorId && m.personaId != null && m.personaId!.isNotEmpty) {
+        anyChanged = true;
+        return m.copyWith(
+          personaTag: tag,
+          personaTagIcon: tagIcon,
+        );
+      }
+      return m;
+    }).toList();
+
+    Message? updatedReplyingTo = state.replyingTo;
+    if (state.replyingTo != null &&
+        state.replyingTo!.authorId == authorId &&
+        state.replyingTo!.personaId != null &&
+        state.replyingTo!.personaId!.isNotEmpty) {
+      anyChanged = true;
+      updatedReplyingTo = state.replyingTo!.copyWith(
+        personaTag: tag,
+        personaTagIcon: tagIcon,
+      );
+    }
+
+    Message? updatedEditing = state.editingMessage;
+    if (state.editingMessage != null &&
+        state.editingMessage!.authorId == authorId &&
+        state.editingMessage!.personaId != null &&
+        state.editingMessage!.personaId!.isNotEmpty) {
+      anyChanged = true;
+      updatedEditing = state.editingMessage!.copyWith(
+        personaTag: tag,
+        personaTagIcon: tagIcon,
+      );
+    }
+
+    if (anyChanged) {
+      state = state.copyWith(
+        write: (
+          messages: updatedMessages,
+          origin: MessagesOrigin.realtimeEvent,
+        ),
+        replyingTo: updatedReplyingTo,
+        editingMessage: updatedEditing,
+      );
+    }
+  }
+
   Future<void> _flushComposerDraftSave() async {
     _draftSaveTimer?.cancel();
     _draftSaveTimer = null;
