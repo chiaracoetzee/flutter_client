@@ -13,6 +13,10 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/constants/user_flags.dart';
+
 enum EmbedType { rich, image, gifv, link, video }
 
 enum MessageDeliveryState { sending, sent, failed }
@@ -970,9 +974,13 @@ class Message {
   final String? personaTag;
   final String? personaTagIcon;
 
+  bool get isDeletedAuthor =>
+      (authorPublicFlags & (kUserFlagDeleted | kUserFlagSelfDeleted)) != 0;
+
   bool get isPersona =>
-      (personaName != null && personaName!.isNotEmpty) ||
-      (personaId != null && personaId!.isNotEmpty);
+      !isDeletedAuthor &&
+      ((personaName != null && personaName!.isNotEmpty) ||
+          (personaId != null && personaId!.isNotEmpty));
 
   const Message({
     required this.id,
