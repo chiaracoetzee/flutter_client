@@ -35,14 +35,17 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
   late final TextEditingController _tagTextController;
   late final TextEditingController _searchController;
   String _searchQuery = '';
-  Timer? _tagTextDebounce;
   bool _isUploadingTagIcon = false;
+  bool _isSaving = false;
+  String? _pendingTagIcon;
 
   @override
   void initState() {
     super.initState();
-    final initialTag = ref.read(systemDisplayTagProvider).text ?? '';
-    _tagTextController = TextEditingController(text: initialTag);
+    final initialTag = ref.read(systemDisplayTagProvider);
+    _tagTextController = TextEditingController(text: initialTag.text ?? '');
+    _pendingTagIcon = initialTag.iconUrl;
+    _tagTextController.addListener(_onTagControllerChanged);
     _searchController = TextEditingController();
     _searchController.addListener(() {
       final q = _searchController.text.trim().toLowerCase();
@@ -54,25 +57,66 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
 
   @override
   void dispose() {
-    _tagTextDebounce?.cancel();
+    _tagTextController.removeListener(_onTagControllerChanged);
     _tagTextController.dispose();
     _searchController.dispose();
     super.dispose();
   }
 
-  void _onTagTextChanged(String text) {
-    _tagTextDebounce?.cancel();
-    _tagTextDebounce = Timer(const Duration(milliseconds: 400), () {
-      final currentIcon = ref.read(systemDisplayTagProvider).iconUrl;
-      ref
-          .read(systemDisplayTagProvider.notifier)
-          .updateDisplayTag(text.trim(), currentIcon);
+  void _onTagControllerChanged() {
+    setState(() {});
+  }
+
+  bool _computeIsDirty(SystemDisplayTag currentTag) {
+    final currentText = currentTag.text ?? '';
+    final textDirty = _tagTextController.text.trim() != currentText.trim();
+    final iconDirty = _pendingTagIcon != currentTag.iconUrl;
+    return textDirty || iconDirty;
+  }
+
+  bool get _isDirty => _computeIsDirty(ref.read(systemDisplayTagProvider));
+
+  void _onReset() {
+    final currentTag = ref.read(systemDisplayTagProvider);
+    _tagTextController.text = currentTag.text ?? '';
+    setState(() {
+      _pendingTagIcon = currentTag.iconUrl;
     });
+  }
+
+  Future<void> _onSave() async {
+    setState(() => _isSaving = true);
+    try {
+      await ref
+          .read(systemDisplayTagProvider.notifier)
+          .updateDisplayTag(_tagTextController.text.trim(), _pendingTagIcon);
+      if (mounted) {
+        final l10n = FluxerLocalizations.of(context);
+        ref.read(toastProvider.notifier).show(
+              FluxerToast(
+                message: l10n.fork.personaUpdatedToast,
+                variant: FluxerToastVariant.success,
+              ),
+            );
+      }
+    } on Object catch (err, st) {
+      talker.error(
+        '[UserPersonaSettings] Failed to save display tag: $err',
+        err,
+        st,
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isSaving = false);
+      }
+    }
   }
 
   Future<void> _pickTagIcon() async {
     final picked = await ImageUtils.pickImage();
-    if (picked == null || !mounted) return;
+    if (picked == null || !mounted) {
+      return;
+    }
 
     if (ImageUtils.isOverSizeLimit(picked.bytes)) {
       final l10n = FluxerLocalizations.of(context);
@@ -97,20 +141,13 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       final dynamic data = response.data;
       if (data is Map && data['avatar_url'] is String) {
         final newIconUrl = data['avatar_url'] as String;
-        await ref
-            .read(systemDisplayTagProvider.notifier)
-            .updateDisplayTag(_tagTextController.text.trim(), newIconUrl);
         if (mounted) {
-          final l10n = FluxerLocalizations.of(context);
-          ref.read(toastProvider.notifier).show(
-                FluxerToast(
-                  message: l10n.fork.personaUpdatedToast,
-                  variant: FluxerToastVariant.success,
-                ),
-              );
+          setState(() {
+            _pendingTagIcon = newIconUrl;
+          });
         }
       }
-    } catch (err, st) {
+    } on Object catch (err, st) {
       talker.error(
         '[UserPersonaSettings] Tag icon upload failed: $err',
         err,
@@ -123,10 +160,10 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     }
   }
 
-  Future<void> _removeTagIcon() async {
-    await ref
-        .read(systemDisplayTagProvider.notifier)
-        .updateDisplayTag(_tagTextController.text.trim(), null);
+  void _removeTagIcon() {
+    setState(() {
+      _pendingTagIcon = null;
+    });
   }
 
   Future<void> _confirmDeletePersona(
@@ -157,7 +194,9 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       builder: (_, _) => const SizedBox.shrink(),
     );
 
-    if (confirmed != true) return;
+    if (confirmed != true) {
+      return;
+    }
 
     try {
       final Dio dio = ref.read(fluxerDioProvider);
@@ -177,7 +216,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
               ),
             );
       }
-    } catch (err, st) {
+    } on Object catch (err, st) {
       talker.error(
         '[UserPersonaSettings] Failed to delete persona: $err',
         err,
@@ -198,12 +237,17 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     final personasAsync = ref.watch(myPersonasProvider);
     final currentUser = ref.watch(currentUserPrivateReadProvider);
 
-    // Sync tag text controller if state updated externally (e.g. gateway)
-    final currentTagText = systemDisplayTag.text ?? '';
-    if (!_tagTextController.selection.isValid &&
-        _tagTextController.text != currentTagText) {
-      _tagTextController.text = currentTagText;
-    }
+    ref.listen<SystemDisplayTag>(systemDisplayTagProvider, (prev, next) {
+      if (!_isDirty) {
+        final newText = next.text ?? '';
+        if (_tagTextController.text != newText) {
+          _tagTextController.text = newText;
+        }
+        setState(() {
+          _pendingTagIcon = next.iconUrl;
+        });
+      }
+    });
 
     final List<Persona> personas = personasAsync.asData?.value ?? const [];
 
@@ -243,12 +287,15 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
         currentUser?.username ??
         'User';
     final String? previewAvatar = activePersona?.avatarUrl ?? userAvatar;
-    final String tagText = systemDisplayTag.text?.trim() ?? '';
-    final String? tagIcon = systemDisplayTag.iconUrl;
+    final String tagText = _tagTextController.text.trim();
+    final String? tagIcon = _pendingTagIcon;
+    final bool isDirty = _computeIsDirty(systemDisplayTag);
 
-    return SingleChildScrollView(
+    final Widget content = SingleChildScrollView(
       controller: widget.scrollController,
-      padding: settingsScrollPadding(context),
+      padding: isDirty
+          ? settingsScrollPaddingWithSaveBar(context)
+          : settingsScrollPadding(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -279,7 +326,9 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                   ),
                 ],
                 onChanged: (mode) {
-                  ref.read(activePersonaProvider.notifier).setMode(mode);
+                  unawaited(
+                    ref.read(activePersonaProvider.notifier).setMode(mode),
+                  );
                 },
               ),
             ],
@@ -296,7 +345,6 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                 label: l10n.fork.personaDisplayTagLabel,
                 hint: l10n.fork.personaDisplayTagHint,
                 maxLength: 32,
-                onChanged: _onTagTextChanged,
               ),
               // Display Tag Icon
               Column(
@@ -323,7 +371,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                             width: 36,
                             height: 36,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, _) => Container(
+                            errorBuilder: (_, _, _) => Container(
                               width: 36,
                               height: 36,
                               color: colors.backgroundSecondary,
@@ -400,7 +448,6 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Flexible(
                                     child: Text(
@@ -417,7 +464,6 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                                           tagIcon.isNotEmpty)) ...[
                                     SizedBox(width: layout.s1_5),
                                     FluxerUserTag(
-                                      isSystem: false,
                                       label:
                                           tagText.isNotEmpty ? tagText : null,
                                       iconUrl: tagIcon,
@@ -563,6 +609,14 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
           ),
         ],
       ),
+    );
+
+    return FluxerSettingsSheet(
+      hasUnsavedChanges: isDirty,
+      isSaving: _isSaving,
+      onReset: _onReset,
+      onSave: _onSave,
+      child: content,
     );
   }
 
@@ -719,7 +773,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                   icon: PhosphorIconsBold.lockSimpleOpen,
                   onPressed: () => ref
                       .read(activePersonaProvider.notifier)
-                      .setActivePersona(persona.id, latch: true),
+                      .setActivePersona(persona.id),
                 ),
               SizedBox(width: layout.s2),
               FluxerButton.secondary(
