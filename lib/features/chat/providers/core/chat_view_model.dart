@@ -6505,8 +6505,8 @@ class ChatViewModel extends _$ChatViewModel {
         personaData = <String, dynamic>{
           'id': p.id,
           'name': p.name,
-          'avatar': ?p.avatarUrl,
-          'banner': ?p.bannerUrl,
+          'avatar': ?p.avatarHash,
+          'banner': ?p.bannerHash,
           'avatar_color': ?p.color,
           'display_tag_text': ?tagText,
           'display_tag_icon': ?tagIcon,
