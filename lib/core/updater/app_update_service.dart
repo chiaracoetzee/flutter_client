@@ -19,7 +19,10 @@ class AppUpdateService {
   static const MethodChannel _kInstallChannel =
       MethodChannel('fluxer_app/app_install');
 
-  static bool isSupportedPlatform() => Platform.isAndroid;
+  static bool isSupportedPlatform() => platformOverride ?? Platform.isAndroid;
+
+  @visibleForTesting
+  static bool? platformOverride;
 
   Future<AppUpdateInfo?> checkForUpdate() async {
     if (!isSupportedPlatform()) {
@@ -148,7 +151,7 @@ class AppUpdateService {
   }
 
   Future<bool> canRequestPackageInstalls() async {
-    if (!Platform.isAndroid) {
+    if (!isSupportedPlatform()) {
       return false;
     }
     try {
@@ -164,7 +167,7 @@ class AppUpdateService {
   }
 
   Future<bool> openInstallPermissionSettings() async {
-    if (!Platform.isAndroid) {
+    if (!isSupportedPlatform()) {
       return false;
     }
     try {
@@ -180,7 +183,7 @@ class AppUpdateService {
   }
 
   Future<bool> installUpdate(String filePath) async {
-    if (!Platform.isAndroid) {
+    if (!isSupportedPlatform()) {
       return false;
     }
     try {
