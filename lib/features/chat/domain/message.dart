@@ -975,9 +975,8 @@ class Message {
       (authorPublicFlags & (kUserFlagDeleted | kUserFlagSelfDeleted)) != 0;
 
   bool get isPersona =>
-      !isDeletedAuthor &&
       ((personaName != null && personaName!.isNotEmpty) ||
-          (personaId != null && personaId!.isNotEmpty));
+      (personaId != null && personaId!.isNotEmpty));
 
   const Message({
     required this.id,
