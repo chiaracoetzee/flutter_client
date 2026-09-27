@@ -496,9 +496,6 @@ class _PersonaListTile extends StatelessWidget {
         ? persona.personaTags.first.displayPattern
         : null;
 
-    final Color? nameColor =
-        persona.color != null ? Color(persona.color!) : null;
-
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onSelect,
@@ -538,7 +535,7 @@ class _PersonaListTile extends StatelessWidget {
                         child: Text(
                           persona.name,
                           style: textStyles.username.copyWith(
-                            color: nameColor ?? colors.textPrimary,
+                            color: colors.textPrimary,
                             fontWeight: FontWeight.w600,
                           ),
                           overflow: TextOverflow.ellipsis,
