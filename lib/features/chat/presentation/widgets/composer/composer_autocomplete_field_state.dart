@@ -987,7 +987,7 @@ class ComposerAutocompleteFieldState
       channelMsgPersonas.add(<String, dynamic>{
         'id': pid,
         'name': pName,
-        'avatar_url': msg.personaAvatar,
+        'avatar_hash': msg.personaAvatar,
         'avatar_color': msg.authorAvatarColor,
         'display_tag_text': msg.personaTag,
         'display_tag_icon': msg.personaTagIcon,
@@ -1041,7 +1041,17 @@ class ComposerAutocompleteFieldState
               : (ownerMember?.username ??
                   (rawOwnerUsername.isNotEmpty ? rawOwnerUsername : ''));
 
-          final String? avatarUrl = map['avatar_url'] as String?;
+          final String? rawAvatar = map['avatar_hash'] as String?;
+          final String? avatarUrl = rawAvatar == null
+              ? null
+              : (rawAvatar.startsWith('http://') ||
+                      rawAvatar.startsWith('https://') ||
+                      rawAvatar.startsWith('data:'))
+                  ? rawAvatar
+                  : FluxerMediaUrl.userAvatar(
+                      userId: ownerId,
+                      hash: rawAvatar,
+                    );
           final int? color = (map['avatar_color'] as num?)?.toInt() ??
               (map['color'] as num?)?.toInt();
           final String? ownerDisc =
@@ -1051,8 +1061,18 @@ class ComposerAutocompleteFieldState
                   ? '$resolvedOwner#$ownerDisc'
                   : resolvedOwner;
           final String? systemTag = (map['display_tag_text'] as String?)?.trim();
-          final String? systemTagIcon =
+          final String? rawTagIcon =
               (map['display_tag_icon'] as String?)?.trim();
+          final String? systemTagIcon = rawTagIcon == null
+              ? null
+              : (rawTagIcon.startsWith('http://') ||
+                      rawTagIcon.startsWith('https://') ||
+                      rawTagIcon.startsWith('data:'))
+                  ? rawTagIcon
+                  : FluxerMediaUrl.userAvatar(
+                      userId: ownerId,
+                      hash: rawTagIcon,
+                    );
           final String? ownerAvatarHash = map['owner_avatar'] as String?;
           final String? rootAvatarUrl = (ownerAvatarHash != null &&
                   ownerAvatarHash.isNotEmpty)

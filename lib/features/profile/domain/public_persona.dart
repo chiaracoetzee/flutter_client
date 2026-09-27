@@ -4,8 +4,8 @@ class PublicPersona {
   const PublicPersona({
     required this.id,
     required this.name,
-    this.avatarUrl,
-    this.bannerUrl,
+    this.avatarHash,
+    this.bannerHash,
     this.displayTagText,
     this.displayTagIcon,
     this.pronouns,
@@ -19,8 +19,8 @@ class PublicPersona {
 
   final String id;
   final String name;
-  final String? avatarUrl;
-  final String? bannerUrl;
+  final String? avatarHash;
+  final String? bannerHash;
   final String? displayTagText;
   final String? displayTagIcon;
   final String? pronouns;
@@ -51,12 +51,10 @@ class PublicPersona {
     return PublicPersona(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
-      avatarUrl: json['avatar_url'] as String? ??
-          json['avatarUrl'] as String? ??
-          json['avatar'] as String?,
-      bannerUrl: json['banner_url'] as String? ??
-          json['bannerUrl'] as String? ??
-          json['banner'] as String?,
+      avatarHash: (json['avatar_hash'] as String?) ??
+          (json['avatar'] as String?),
+      bannerHash: (json['banner_hash'] as String?) ??
+          (json['banner'] as String?),
       displayTagText: json['display_tag_text'] as String?,
       displayTagIcon: json['display_tag_icon'] as String?,
       pronouns: json['pronouns'] as String?,
@@ -74,8 +72,8 @@ class PublicPersona {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      if (avatarUrl != null) 'avatar_url': avatarUrl,
-      if (bannerUrl != null) 'banner_url': bannerUrl,
+      if (avatarHash != null) 'avatar_hash': avatarHash,
+      if (bannerHash != null) 'banner_hash': bannerHash,
       if (displayTagText != null) 'display_tag_text': displayTagText,
       if (displayTagIcon != null) 'display_tag_icon': displayTagIcon,
       if (pronouns != null) 'pronouns': pronouns,
@@ -91,8 +89,8 @@ class PublicPersona {
   PublicPersona copyWith({
     String? id,
     String? name,
-    String? avatarUrl,
-    String? bannerUrl,
+    String? avatarHash,
+    String? bannerHash,
     String? displayTagText,
     String? displayTagIcon,
     String? pronouns,
@@ -106,8 +104,8 @@ class PublicPersona {
     return PublicPersona(
       id: id ?? this.id,
       name: name ?? this.name,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      bannerUrl: bannerUrl ?? this.bannerUrl,
+      avatarHash: avatarHash ?? this.avatarHash,
+      bannerHash: bannerHash ?? this.bannerHash,
       displayTagText: displayTagText ?? this.displayTagText,
       displayTagIcon: displayTagIcon ?? this.displayTagIcon,
       pronouns: pronouns ?? this.pronouns,
@@ -124,8 +122,8 @@ class PublicPersona {
     return Persona(
       id: id,
       name: name,
-      avatarUrl: avatarUrl,
-      bannerUrl: bannerUrl,
+      avatarHash: avatarHash,
+      bannerHash: bannerHash,
       pronouns: pronouns,
       color: color,
       avatarColor: avatarColor,
