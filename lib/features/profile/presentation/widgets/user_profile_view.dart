@@ -766,15 +766,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             rootProfile?.user.username ??
             message?.authorName ??
             '');
-    final String? personaAvatarUrl = publicPersona != null
-        ? publicPersona.avatarUrl
+    final String? rawPersonaAvatar = publicPersona != null
+        ? publicPersona.avatarHash
         : message?.personaAvatar;
-    final String? personaBannerUrl = publicPersona != null
-        ? publicPersona.bannerUrl
+    final String? rawPersonaBanner = publicPersona != null
+        ? publicPersona.bannerHash
         : message?.personaBanner;
     final String? personaTag =
         publicPersona?.displayTagText ?? message?.personaTag;
-    final String? personaTagIcon =
+    final String? rawPersonaTagIcon =
         publicPersona?.displayTagIcon ?? message?.personaTagIcon;
     final String? personaBio = publicPersona?.bio;
     final String? pronouns = publicPersona?.pronouns;
@@ -796,6 +796,42 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         : message?.authorAvatar;
     final int? rootAvatarColor =
         rootProfile?.user.avatarColor ?? message?.authorAvatarColor;
+
+    final String? personaAvatarUrl = rawPersonaAvatar == null
+        ? null
+        : (rawPersonaAvatar.startsWith('http://') ||
+                rawPersonaAvatar.startsWith('https://') ||
+                rawPersonaAvatar.startsWith('data:'))
+            ? rawPersonaAvatar
+            : FluxerMediaUrl.userAvatar(
+                userId: effectiveUserId,
+                hash: rawPersonaAvatar,
+                size: MediaProxySizes.avatarProfile,
+                animated: true,
+              );
+
+    final String? personaBannerUrl = rawPersonaBanner == null
+        ? null
+        : (rawPersonaBanner.startsWith('http://') ||
+                rawPersonaBanner.startsWith('https://') ||
+                rawPersonaBanner.startsWith('data:'))
+            ? rawPersonaBanner
+            : FluxerMediaUrl.userBanner(
+                userId: effectiveUserId,
+                hash: rawPersonaBanner,
+                animated: true,
+              );
+
+    final String? personaTagIcon = rawPersonaTagIcon == null
+        ? null
+        : (rawPersonaTagIcon.startsWith('http://') ||
+                rawPersonaTagIcon.startsWith('https://') ||
+                rawPersonaTagIcon.startsWith('data:'))
+            ? rawPersonaTagIcon
+            : FluxerMediaUrl.userAvatar(
+                userId: effectiveUserId,
+                hash: rawPersonaTagIcon,
+              );
 
     final bool hasCustomAvatar =
         personaAvatarUrl != null && personaAvatarUrl.isNotEmpty;
@@ -841,6 +877,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       child: UserProfileBanner(
                         key: ValueKey(personaBannerUrl),
                         bannerUrl: personaBannerUrl,
+                        userId: effectiveUserId,
                         bannerColor: bannerColor,
                       ),
                     ),
@@ -1046,8 +1083,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                                 PublicPersona(
                                   id: effectivePersonaId,
                                   name: displayName,
-                                  avatarUrl: personaAvatarUrl,
-                                  bannerUrl: personaBannerUrl,
+                                  avatarHash: rawPersonaAvatar,
+                                  bannerHash: rawPersonaBanner,
                                   pronouns: pronouns,
                                   color: personaColor,
                                   bio: personaBio,

@@ -1,5 +1,6 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -156,7 +157,30 @@ class FluxerAvatar extends StatelessWidget {
   String? get _defaultAvatarUrl =>
       userId == null ? null : FluxerMediaUrl.defaultAvatar(userId: userId!);
 
-  String? get _resolvedImageUrl => imageUrl ?? _defaultAvatarUrl;
+  String? get _resolvedImageUrl {
+    if (imageUrl == null || imageUrl!.isEmpty) {
+      return _defaultAvatarUrl;
+    }
+    final String url = imageUrl!;
+    if (url.startsWith('http://') ||
+        url.startsWith('https://') ||
+        url.startsWith('data:') ||
+        url.startsWith('blob:')) {
+      return url;
+    }
+    if (userId != null && userId!.isNotEmpty) {
+      return FluxerMediaUrl.userAvatar(
+            userId: userId!,
+            hash: url,
+            size: size >= 128
+                ? MediaProxySizes.avatarProfile
+                : MediaProxySizes.avatarDefault,
+            animated: true,
+          ) ??
+          _defaultAvatarUrl;
+    }
+    return url;
+  }
 
   Color get _backgroundColor {
     if (avatarColor != null) {
