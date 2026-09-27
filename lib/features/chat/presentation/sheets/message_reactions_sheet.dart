@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_reactors_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/badge/fluxer_user_tag.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
@@ -300,6 +301,7 @@ class _ReactorRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final subprofile = user.subprofile;
     final hasGlobalName = user.globalName?.isNotEmpty ?? false;
     final String? resolvedGuildId = guildId;
     final GuildUserDisplay? resolved =
@@ -309,12 +311,43 @@ class _ReactorRow extends ConsumerWidget {
               .watch(guildUserDisplayFromDbProvider((user.id, resolvedGuildId)))
               .value;
     final displayName =
+        subprofile?.name ??
         resolved?.displayName ??
         resolveDisplayName(
           friendNickname: ref.watch(friendNicknameProvider(user.id)).value,
           globalName: user.globalName,
           username: user.username,
         );
+
+    final avatarUrl = subprofile?.avatar != null
+        ? FluxerMediaUrl.userAvatar(
+            userId: user.id,
+            hash: subprofile!.avatar,
+          )
+        : FluxerMediaUrl.userAvatar(
+            userId: user.id,
+            hash: user.avatar,
+          );
+    final avatarColor = subprofile?.avatarColor ?? user.avatarColor;
+    final tagText = (subprofile?.displayTagText != null &&
+            subprofile!.displayTagText!.trim().isNotEmpty)
+        ? subprofile.displayTagText!.trim()
+        : null;
+    final rawTagIcon = (subprofile?.displayTagIcon != null &&
+            subprofile!.displayTagIcon!.trim().isNotEmpty)
+        ? subprofile.displayTagIcon!.trim()
+        : null;
+    final tagIcon = rawTagIcon == null
+        ? null
+        : (rawTagIcon.startsWith('http://') ||
+                rawTagIcon.startsWith('https://') ||
+                rawTagIcon.startsWith('data:'))
+            ? rawTagIcon
+            : FluxerMediaUrl.userAvatar(
+                userId: user.id,
+                hash: rawTagIcon,
+              );
+    final hasTag = tagText != null || tagIcon != null;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
@@ -323,11 +356,8 @@ class _ReactorRow extends ConsumerWidget {
           FluxerAvatar.user(
             userId: user.id,
             fallbackText: displayName,
-            imageUrl: FluxerMediaUrl.userAvatar(
-              userId: user.id,
-              hash: user.avatar,
-            ),
-            avatarColor: user.avatarColor,
+            imageUrl: avatarUrl,
+            avatarColor: avatarColor,
             showStatus: false,
             size: _kAvatarSize,
           ),
@@ -337,15 +367,29 @@ class _ReactorRow extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  displayName,
-                  style: context.textStyles.label.copyWith(
-                    color: context.colors.textPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        displayName,
+                        style: context.textStyles.label.copyWith(
+                          color: context.colors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (hasTag) ...[
+                      const SizedBox(width: 6),
+                      FluxerUserTag(
+                        label: tagText,
+                        iconUrl: tagIcon,
+                      ),
+                    ],
+                  ],
                 ),
-                if (hasGlobalName)
+                if (subprofile != null || hasGlobalName)
                   Text(
                     user.username,
                     style: context.textStyles.bodySmall.copyWith(
