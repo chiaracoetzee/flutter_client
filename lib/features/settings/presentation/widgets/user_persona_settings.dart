@@ -139,8 +139,10 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
         data: <String, dynamic>{'avatar': dataUri},
       );
       final dynamic data = response.data;
-      if (data is Map && data['avatar_url'] is String) {
-        final newIconUrl = data['avatar_url'] as String;
+      final newIconUrl = (data is Map)
+          ? (data['avatar_hash'] as String?)
+          : null;
+      if (newIconUrl != null) {
         if (mounted) {
           setState(() {
             _pendingTagIcon = newIconUrl;
@@ -286,9 +288,34 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
         currentUser?.globalName ??
         currentUser?.username ??
         'User';
-    final String? previewAvatar = activePersona?.avatarUrl ?? userAvatar;
+    final String? rawPreviewAvatar = activePersona?.avatarHash;
+    final String? previewAvatar = (rawPreviewAvatar != null &&
+            rawPreviewAvatar.isNotEmpty)
+        ? (rawPreviewAvatar.startsWith('http://') ||
+                rawPreviewAvatar.startsWith('https://') ||
+                rawPreviewAvatar.startsWith('data:'))
+            ? rawPreviewAvatar
+            : (currentUser != null
+                ? FluxerMediaUrl.userAvatar(
+                    userId: currentUser.id,
+                    hash: rawPreviewAvatar,
+                  )
+                : null)
+        : userAvatar;
     final String tagText = _tagTextController.text.trim();
     final String? tagIcon = _pendingTagIcon;
+    final String? resolvedTagIcon = tagIcon == null
+        ? null
+        : (tagIcon.startsWith('http://') ||
+                tagIcon.startsWith('https://') ||
+                tagIcon.startsWith('data:'))
+            ? tagIcon
+            : (currentUser != null
+                ? FluxerMediaUrl.userAvatar(
+                    userId: currentUser.id,
+                    hash: tagIcon,
+                  )
+                : null);
     final bool isDirty = _computeIsDirty(systemDisplayTag);
 
     final Widget content = SingleChildScrollView(
@@ -358,11 +385,11 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     runSpacing: layout.s2,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      if (tagIcon != null && tagIcon.isNotEmpty) ...[
+                      if (resolvedTagIcon != null && resolvedTagIcon.isNotEmpty) ...[
                         ClipRRect(
                           borderRadius: BorderRadius.circular(layout.s1),
                           child: Image.network(
-                            tagIcon,
+                            resolvedTagIcon,
                             width: 36,
                             height: 36,
                             fit: BoxFit.cover,
@@ -432,10 +459,12 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        FluxerAvatar(
+                        FluxerAvatar.user(
+                          userId: currentUser?.id,
                           imageUrl: previewAvatar,
                           fallbackText: previewName,
                           size: 38,
+                          showStatus: false,
                         ),
                         SizedBox(width: layout.s3),
                         Expanded(
@@ -455,13 +484,13 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                                     ),
                                   ),
                                   if (tagText.isNotEmpty ||
-                                      (tagIcon != null &&
-                                          tagIcon.isNotEmpty)) ...[
+                                      (resolvedTagIcon != null &&
+                                          resolvedTagIcon.isNotEmpty)) ...[
                                     SizedBox(width: layout.s1_5),
                                     FluxerUserTag(
                                       label:
                                           tagText.isNotEmpty ? tagText : null,
-                                      iconUrl: tagIcon,
+                                      iconUrl: resolvedTagIcon,
                                     ),
                                   ],
                                   SizedBox(width: layout.s2),
@@ -596,6 +625,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                   (persona) => _buildPersonaCard(
                     context,
                     persona,
+                    userId: currentUser?.id,
                     isThisActive: activeState.isLatched &&
                         activeState.activePersonaId == persona.id,
                   ),
@@ -619,6 +649,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     BuildContext context,
     Persona persona, {
     required bool isThisActive,
+    String? userId,
   }) {
     final colors = context.colors;
     final layout = context.layout;
@@ -642,10 +673,10 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
         children: [
           Row(
             children: [
-              FluxerAvatar(
-                imageUrl: persona.avatarUrl,
+              FluxerAvatar.user(
+                userId: userId,
+                imageUrl: persona.avatarHash,
                 fallbackText: persona.name,
-                size: 40,
               ),
               SizedBox(width: layout.s3),
               Expanded(
