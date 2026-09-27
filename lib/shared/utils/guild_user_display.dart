@@ -219,10 +219,22 @@ GuildUserDisplay resolveMessageAuthorDisplay({
 }) {
   if (message.isPersona) {
     final String personaName = message.personaName ?? message.authorName;
+    final String? rawAvatar = message.personaAvatar;
+    final String? avatarUrl = rawAvatar == null
+        ? null
+        : (rawAvatar.startsWith('http://') ||
+                rawAvatar.startsWith('https://') ||
+                rawAvatar.startsWith('data:'))
+            ? rawAvatar
+            : FluxerMediaUrl.userAvatar(
+                userId: message.authorId,
+                hash: rawAvatar,
+                size: MediaProxySizes.avatarProfile,
+              );
     return GuildUserDisplay(
       displayName: personaName,
       accountDisplayName: personaName,
-      avatarUrl: message.personaAvatar,
+      avatarUrl: avatarUrl,
       avatarColor: message.authorAvatarColor,
       pronouns: message.personaTag,
     );

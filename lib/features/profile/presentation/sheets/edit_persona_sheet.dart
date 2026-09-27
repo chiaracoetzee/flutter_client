@@ -106,15 +106,15 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   late String _initialPronouns;
   late String _initialBio;
   late List<({String prefix, String suffix})> _initialTags;
-  String? _initialAvatarUrl;
-  String? _initialBannerUrl;
+  String? _initialAvatarHash;
+  String? _initialBannerHash;
   int? _initialColor;
   int? _initialAvatarColor;
   late String _initialVisibility;
   late bool _initialAutoTagDisabled;
 
-  String? _avatarUrl;
-  String? _bannerUrl;
+  String? _avatarHash;
+  String? _bannerHash;
   int? _color;
   int? _avatarColor;
   bool _autoTagDisabled = false;
@@ -164,8 +164,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       );
     }
 
-    _initialAvatarUrl = p?.avatarUrl;
-    _initialBannerUrl = p?.bannerUrl;
+    _initialAvatarHash = p?.avatarHash;
+    _initialBannerHash = p?.bannerHash;
     _initialColor = p?.color;
     _initialAvatarColor = p?.avatarColor;
     _initialAutoTagDisabled = p?.autoTagDisabled ?? false;
@@ -179,8 +179,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     _pronounsController.addListener(_onFieldChanged);
     _bioController.addListener(_onFieldChanged);
 
-    _avatarUrl = _initialAvatarUrl;
-    _bannerUrl = _initialBannerUrl;
+    _avatarHash = _initialAvatarHash;
+    _bannerHash = _initialBannerHash;
     _color = _initialColor;
     _avatarColor = _initialAvatarColor;
     _autoTagDisabled = _initialAutoTagDisabled;
@@ -191,8 +191,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     if (_nameController.text.trim() != _initialName ||
         _pronounsController.text.trim() != _initialPronouns ||
         _bioController.text.trim() != _initialBio ||
-        _avatarUrl != _initialAvatarUrl ||
-        _bannerUrl != _initialBannerUrl ||
+        _avatarHash != _initialAvatarHash ||
+        _bannerHash != _initialBannerHash ||
         _color != _initialColor ||
         _avatarColor != _initialAvatarColor ||
         _visibility != _initialVisibility ||
@@ -241,8 +241,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     }
 
     setState(() {
-      _avatarUrl = _initialAvatarUrl;
-      _bannerUrl = _initialBannerUrl;
+      _avatarHash = _initialAvatarHash;
+      _bannerHash = _initialBannerHash;
       _color = _initialColor;
       _avatarColor = _initialAvatarColor;
       _autoTagDisabled = _initialAutoTagDisabled;
@@ -349,14 +349,16 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         data: <String, dynamic>{'avatar': dataUri},
       );
       final dynamic data = response.data;
-      if (data is Map && data['avatar_url'] is String) {
-        final newUrl = data['avatar_url'] as String;
+      final newHash = (data is Map)
+          ? (data['avatar_hash'] as String?)
+          : null;
+      if (newHash != null) {
         final newColor = (data['avatar_color'] as num?)?.toInt();
-        if (_avatarUrl != null && _avatarUrl != newUrl) {
-          unawaited(CachedNetworkImage.evictFromCache(_avatarUrl!));
+        if (_avatarHash != null && _avatarHash != newHash) {
+          unawaited(CachedNetworkImage.evictFromCache(_avatarHash!));
         }
         setState(() {
-          _avatarUrl = newUrl;
+          _avatarHash = newHash;
           if (newColor != null) {
             _avatarColor = newColor;
           }
@@ -420,13 +422,15 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         data: <String, dynamic>{'banner': dataUri},
       );
       final dynamic data = response.data;
-      if (data is Map && data['banner_url'] is String) {
-        final newUrl = data['banner_url'] as String;
-        if (_bannerUrl != null && _bannerUrl != newUrl) {
-          unawaited(CachedNetworkImage.evictFromCache(_bannerUrl!));
+      final newHash = (data is Map)
+          ? (data['banner_hash'] as String?)
+          : null;
+      if (newHash != null) {
+        if (_bannerHash != null && _bannerHash != newHash) {
+          unawaited(CachedNetworkImage.evictFromCache(_bannerHash!));
         }
         setState(() {
-          _bannerUrl = newUrl;
+          _bannerHash = newHash;
         });
         _onFieldChanged();
       }
@@ -557,8 +561,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
 
       final payload = <String, dynamic>{
         'name': name,
-        'avatar_url': _avatarUrl,
-        'banner_url': _bannerUrl,
+        'avatar_hash': _avatarHash,
+        'banner_hash': _bannerHash,
         'color': _color,
         'avatar_color': _avatarColor,
         'pronouns': pronouns,
@@ -582,8 +586,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         } else {
           result = widget.persona!.copyWith(
             name: name,
-            avatarUrl: _avatarUrl,
-            bannerUrl: _bannerUrl,
+            avatarHash: _avatarHash,
+            bannerHash: _bannerHash,
             color: _color,
             avatarColor: _avatarColor,
             pronouns: pronouns,
@@ -607,14 +611,26 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               (userId: ownUserId, personaId: widget.persona!.id),
             ),
           );
-        }
-        if (widget.persona?.bannerUrl != null &&
-            widget.persona!.bannerUrl != _bannerUrl) {
-          unawaited(CachedNetworkImage.evictFromCache(widget.persona!.bannerUrl!));
-        }
-        if (widget.persona?.avatarUrl != null &&
-            widget.persona!.avatarUrl != _avatarUrl) {
-          unawaited(CachedNetworkImage.evictFromCache(widget.persona!.avatarUrl!));
+          if (widget.persona?.bannerHash != null &&
+              widget.persona!.bannerHash != _bannerHash) {
+            final oldBannerUrl = FluxerMediaUrl.userBanner(
+              userId: ownUserId,
+              hash: widget.persona!.bannerHash,
+            );
+            if (oldBannerUrl != null) {
+              unawaited(CachedNetworkImage.evictFromCache(oldBannerUrl));
+            }
+          }
+          if (widget.persona?.avatarHash != null &&
+              widget.persona!.avatarHash != _avatarHash) {
+            final oldAvatarUrl = FluxerMediaUrl.userAvatar(
+              userId: ownUserId,
+              hash: widget.persona!.avatarHash,
+            );
+            if (oldAvatarUrl != null) {
+              unawaited(CachedNetworkImage.evictFromCache(oldAvatarUrl));
+            }
+          }
         }
         if (mounted) {
           ref.read(toastProvider.notifier).show(
@@ -638,8 +654,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           result = PublicPersona(
             id: '',
             name: name,
-            avatarUrl: _avatarUrl,
-            bannerUrl: _bannerUrl,
+            avatarHash: _avatarHash,
+            bannerHash: _bannerHash,
             color: _color,
             pronouns: pronouns,
             bio: bio,
@@ -675,8 +691,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         if (_initialTags.isEmpty) {
           _initialTags = [(prefix: '', suffix: '')];
         }
-        _initialAvatarUrl = _avatarUrl;
-        _initialBannerUrl = _bannerUrl;
+        _initialAvatarHash = _avatarHash;
+        _initialBannerHash = _bannerHash;
         _initialColor = _color;
         _initialVisibility = _visibility;
         _initialAutoTagDisabled = _autoTagDisabled;
@@ -788,7 +804,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
 
     final currentUserSettings = ref.watch(userSettingsViewModelProvider);
     final bool hasCustomAvatar =
-        _avatarUrl != null && _avatarUrl!.trim().isNotEmpty;
+        _avatarHash != null && _avatarHash!.trim().isNotEmpty;
     final int effectiveDefaultColor;
     if (hasCustomAvatar) {
       effectiveDefaultColor = (_avatarColor != null && _avatarColor != 0)
@@ -812,8 +828,28 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
             hash: currentUserSettings.avatar,
           )
         : null;
+    final String? customAvatarUrl = _avatarHash == null
+        ? null
+        : (_avatarHash!.startsWith('http://') ||
+                _avatarHash!.startsWith('https://') ||
+                _avatarHash!.startsWith('data:'))
+            ? _avatarHash
+            : FluxerMediaUrl.userAvatar(
+                userId: currentUserSettings.userId,
+                hash: _avatarHash,
+              );
     final String? effectiveAvatarUrl =
-        hasCustomAvatar ? _avatarUrl : rootAvatarUrl;
+        hasCustomAvatar ? customAvatarUrl : rootAvatarUrl;
+    final String? effectiveBannerUrl = _bannerHash == null
+        ? null
+        : (_bannerHash!.startsWith('http://') ||
+                _bannerHash!.startsWith('https://') ||
+                _bannerHash!.startsWith('data:'))
+            ? _bannerHash
+            : FluxerMediaUrl.userBanner(
+                userId: currentUserSettings.userId,
+                hash: _bannerHash,
+              );
     final bool isColorDefault = _color == null || _color == 0;
 
     return FluxerSettingsSheet(
@@ -875,9 +911,9 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                             children: [
                               UserProfileBanner(
                                 key: ValueKey(
-                                  '$_bannerUrl-$_color-$effectiveDefaultColor',
+                                  '$_bannerHash-$_color-$effectiveDefaultColor',
                                 ),
-                                bannerUrl: _bannerUrl,
+                                bannerUrl: effectiveBannerUrl,
                                 bannerColor: _color != null && _color != 0
                                     ? Color(_color! | 0xFF000000)
                                     : Color(effectiveDefaultColor | 0xFF000000),
@@ -972,7 +1008,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
           Row(
             children: [
               FluxerButton.secondary(
-                label: _avatarUrl != null
+                label: _avatarHash != null
                     ? l10n.fork.personaChangeAvatar
                     : l10n.fork.personaUploadAvatar,
                 icon: PhosphorIconsFill.uploadSimple,
@@ -981,7 +1017,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                 isLoading: _isUploadingAvatar,
                 onPressed: _isSaving || _isUploadingAvatar ? null : _pickAvatar,
               ),
-              if (_avatarUrl != null) ...[
+              if (_avatarHash != null) ...[
                 SizedBox(width: layout.s2),
                 FluxerButton.ghost(
                   label: l10n.fork.personaRemoveAvatar,
@@ -991,13 +1027,24 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                   onPressed: _isSaving || _isUploadingAvatar
                       ? null
                       : () {
-                          if (_avatarUrl != null) {
-                            unawaited(CachedNetworkImage.evictFromCache(
-                              _avatarUrl!,
-                            ));
+                          final avatarHash = _avatarHash;
+                          if (avatarHash != null) {
+                            final ownUserId =
+                                ref.read(userSettingsViewModelProvider).userId;
+                            if (ownUserId.isNotEmpty) {
+                              final oldUrl = FluxerMediaUrl.userAvatar(
+                                userId: ownUserId,
+                                hash: avatarHash,
+                              );
+                              if (oldUrl != null) {
+                                unawaited(
+                                  CachedNetworkImage.evictFromCache(oldUrl),
+                                );
+                              }
+                            }
                           }
                           setState(() {
-                            _avatarUrl = null;
+                            _avatarHash = null;
                             _avatarColor = null;
                           });
                           _onFieldChanged();
@@ -1019,7 +1066,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                 isLoading: _isUploadingBanner,
                 onPressed: _isSaving || _isUploadingBanner ? null : _pickBanner,
               ),
-              if (_bannerUrl != null) ...[
+              if (_bannerHash != null) ...[
                 SizedBox(width: layout.s2),
                 FluxerButton.ghost(
                   label: l10n.removeBanner,
@@ -1029,12 +1076,23 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                   onPressed: _isSaving || _isUploadingBanner
                       ? null
                       : () {
-                          if (_bannerUrl != null) {
-                            unawaited(CachedNetworkImage.evictFromCache(
-                              _bannerUrl!,
-                            ));
+                          final bannerHash = _bannerHash;
+                          if (bannerHash != null) {
+                            final ownUserId =
+                                ref.read(userSettingsViewModelProvider).userId;
+                            if (ownUserId.isNotEmpty) {
+                              final oldUrl = FluxerMediaUrl.userBanner(
+                                userId: ownUserId,
+                                hash: bannerHash,
+                              );
+                              if (oldUrl != null) {
+                                unawaited(
+                                  CachedNetworkImage.evictFromCache(oldUrl),
+                                );
+                              }
+                            }
                           }
-                          setState(() => _bannerUrl = null);
+                          setState(() => _bannerHash = null);
                           _onFieldChanged();
                         },
                 ),
