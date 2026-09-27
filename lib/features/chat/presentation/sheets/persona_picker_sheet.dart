@@ -326,10 +326,12 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            FluxerAvatar(
-                              imageUrl: p.avatarUrl,
+                            FluxerAvatar.user(
+                              userId: userSettings.userId,
+                              imageUrl: p.avatarHash,
                               fallbackText: p.name,
                               size: 20,
+                              showStatus: false,
                             ),
                             SizedBox(width: layout.s1),
                             Text(
@@ -448,6 +450,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
           for (final persona in filteredPersonas) ...[
             _PersonaListTile(
               persona: persona,
+              userId: userSettings.userId,
               isActive: isPersonaActive(persona.id),
               onSelect: () => _selectPersona(persona.id),
               onLongPress: () async {
@@ -475,12 +478,14 @@ class _PersonaListTile extends StatelessWidget {
     required this.isActive,
     required this.onSelect,
     required this.onLongPress,
+    this.userId,
   });
 
   final Persona persona;
   final bool isActive;
   final VoidCallback onSelect;
   final VoidCallback onLongPress;
+  final String? userId;
 
   @override
   Widget build(BuildContext context) {
@@ -515,10 +520,12 @@ class _PersonaListTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            FluxerAvatar(
-              imageUrl: persona.avatarUrl,
+            FluxerAvatar.user(
+              userId: userId,
+              imageUrl: persona.avatarHash,
               fallbackText: persona.name,
               size: 38,
+              showStatus: false,
             ),
             SizedBox(width: layout.s2),
             Expanded(
