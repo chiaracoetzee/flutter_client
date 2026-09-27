@@ -41,7 +41,8 @@ void main() {
       final jsonInput = {
         'id': 'persona_1',
         'name': 'Test Persona',
-        'avatar_url': 'https://example.com/avatar.png',
+        'avatar_hash': 'avatar_hash_1',
+        'banner_hash': 'banner_hash_1',
         'pronouns': 'they/them',
         'color': 0xFF00FF,
         'bio': 'A test bio',
@@ -60,7 +61,8 @@ void main() {
       final persona = Persona.fromJson(jsonInput);
       expect(persona.id, 'persona_1');
       expect(persona.name, 'Test Persona');
-      expect(persona.avatarUrl, 'https://example.com/avatar.png');
+      expect(persona.avatarHash, 'avatar_hash_1');
+      expect(persona.bannerHash, 'banner_hash_1');
       expect(persona.pronouns, 'they/them');
       expect(persona.color, 0xFF00FF);
       expect(persona.bio, 'A test bio');
@@ -75,7 +77,8 @@ void main() {
       final serialized = persona.toJson();
       expect(serialized['id'], 'persona_1');
       expect(serialized['name'], 'Test Persona');
-      expect(serialized['avatar_url'], 'https://example.com/avatar.png');
+      expect(serialized['avatar_hash'], 'avatar_hash_1');
+      expect(serialized['banner_hash'], 'banner_hash_1');
       expect(serialized['use_count'], 42);
       expect(serialized['last_used_at_ms'], '123456789');
     });
@@ -84,7 +87,8 @@ void main() {
       final persona = Persona.fromJson(const {
         'id': 'p2',
         'name': 'Fallback',
-        'avatar': 'https://example.com/p2.png',
+        'avatar': 'avatar_hash_2',
+        'banner': 'banner_hash_2',
         'accent_color': 12345,
         'autoTagDisabled': false,
         'personaTags': [
@@ -95,7 +99,8 @@ void main() {
         'externalUuid': 'ext-uuid-2',
       });
 
-      expect(persona.avatarUrl, 'https://example.com/p2.png');
+      expect(persona.avatarHash, 'avatar_hash_2');
+      expect(persona.bannerHash, 'banner_hash_2');
       expect(persona.color, 12345);
       expect(persona.lastUsedAtMs, 987654321);
       expect(persona.personaTags.length, 1);
@@ -226,7 +231,8 @@ void main() {
       final json = <String, dynamic>{
         'id': 'pub_1',
         'name': 'Public Alice',
-        'avatar_url': 'https://example.com/alice.png',
+        'avatar_hash': 'alice_avatar_hash',
+        'banner_hash': 'alice_banner_hash',
         'display_tag_text': 'Alice System',
         'pronouns': 'she/her',
         'color': 0x00FF00,
@@ -241,7 +247,8 @@ void main() {
       final persona = PublicPersona.fromJson(json);
       expect(persona.id, 'pub_1');
       expect(persona.name, 'Public Alice');
-      expect(persona.avatarUrl, 'https://example.com/alice.png');
+      expect(persona.avatarHash, 'alice_avatar_hash');
+      expect(persona.bannerHash, 'alice_banner_hash');
       expect(persona.displayTagText, 'Alice System');
       expect(persona.pronouns, 'she/her');
       expect(persona.color, 0x00FF00);
@@ -254,7 +261,8 @@ void main() {
       final serialized = persona.toJson();
       expect(serialized['id'], 'pub_1');
       expect(serialized['name'], 'Public Alice');
-      expect(serialized['avatar_url'], 'https://example.com/alice.png');
+      expect(serialized['avatar_hash'], 'alice_avatar_hash');
+      expect(serialized['banner_hash'], 'alice_banner_hash');
       expect(serialized['display_tag_text'], 'Alice System');
       expect(serialized['auto_tag_disabled'], isTrue);
     });
@@ -264,6 +272,7 @@ void main() {
         'id': 'pub_2',
         'name': 'Bob',
         'avatar': 'hash_123',
+        'banner': 'banner_456',
         'display_tag_text': 'Bob Tag',
         'personaTags': [
           {'prefix': null, 'suffix': '-B'},
@@ -273,7 +282,8 @@ void main() {
       final persona = PublicPersona.fromJson(json);
       expect(persona.id, 'pub_2');
       expect(persona.name, 'Bob');
-      expect(persona.avatarUrl, 'hash_123');
+      expect(persona.avatarHash, 'hash_123');
+      expect(persona.bannerHash, 'banner_456');
       expect(persona.displayTagText, 'Bob Tag');
       expect(persona.personaTags.length, 1);
       expect(persona.personaTags.first.suffix, '-B');
