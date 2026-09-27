@@ -413,10 +413,20 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         (msg.personaTag != null && msg.personaTag!.trim().isNotEmpty)
             ? msg.personaTag!.trim()
             : null;
-    final String? tagIcon =
+    final String? rawTagIcon =
         (msg.personaTagIcon != null && msg.personaTagIcon!.trim().isNotEmpty)
             ? msg.personaTagIcon!.trim()
             : null;
+    final String? tagIcon = rawTagIcon == null
+        ? null
+        : (rawTagIcon.startsWith('http://') ||
+                rawTagIcon.startsWith('https://') ||
+                rawTagIcon.startsWith('data:'))
+            ? rawTagIcon
+            : FluxerMediaUrl.userAvatar(
+                userId: msg.authorId,
+                hash: rawTagIcon,
+              );
 
     final Widget badge;
     if (tagText != null) {

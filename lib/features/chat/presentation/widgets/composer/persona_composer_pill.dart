@@ -56,7 +56,7 @@ class PersonaComposerPill extends ConsumerWidget {
     final colors = context.colors;
 
     final String? avatarUrl = effectivePersona != null
-        ? effectivePersona.avatarUrl
+        ? effectivePersona.avatarHash
         : userSettings.avatarUrl;
     final String fallbackName = effectivePersona != null
         ? effectivePersona.name
@@ -104,7 +104,7 @@ class PersonaComposerPill extends ConsumerWidget {
                 ),
                 child: ClipOval(
                   child: FluxerAvatar.user(
-                    userId: effectivePersona != null ? null : userSettings.userId,
+                    userId: userSettings.userId,
                     imageUrl: avatarUrl,
                     fallbackText: fallbackName,
                     avatarColor: avatarColor,
