@@ -39,8 +39,8 @@ class Persona {
   const Persona({
     required this.id,
     required this.name,
-    this.avatarUrl,
-    this.bannerUrl,
+    this.avatarHash,
+    this.bannerHash,
     this.pronouns,
     this.color,
     this.avatarColor,
@@ -58,8 +58,8 @@ class Persona {
 
   final String id;
   final String name;
-  final String? avatarUrl;
-  final String? bannerUrl;
+  final String? avatarHash;
+  final String? bannerHash;
   final String? pronouns;
   final int? color;
   final int? avatarColor;
@@ -96,11 +96,9 @@ class Persona {
     return Persona(
       id: (json['id'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
-      avatarUrl: (json['avatar_url'] as String?) ??
-          (json['avatarUrl'] as String?) ??
+      avatarHash: (json['avatar_hash'] as String?) ??
           (json['avatar'] as String?),
-      bannerUrl: (json['banner_url'] as String?) ??
-          (json['bannerUrl'] as String?) ??
+      bannerHash: (json['banner_hash'] as String?) ??
           (json['banner'] as String?),
       pronouns: json['pronouns'] as String?,
       color: (json['color'] as num?)?.toInt() ??
@@ -134,8 +132,8 @@ class Persona {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      if (avatarUrl != null) 'avatar_url': avatarUrl,
-      if (bannerUrl != null) 'banner_url': bannerUrl,
+      if (avatarHash != null) 'avatar_hash': avatarHash,
+      if (bannerHash != null) 'banner_hash': bannerHash,
       if (pronouns != null) 'pronouns': pronouns,
       if (color != null) 'color': color,
       if (avatarColor != null) 'avatar_color': avatarColor,
@@ -155,8 +153,8 @@ class Persona {
   Persona copyWith({
     String? id,
     String? name,
-    String? avatarUrl,
-    String? bannerUrl,
+    String? avatarHash,
+    String? bannerHash,
     String? pronouns,
     int? color,
     int? avatarColor,
@@ -174,8 +172,8 @@ class Persona {
     return Persona(
       id: id ?? this.id,
       name: name ?? this.name,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      bannerUrl: bannerUrl ?? this.bannerUrl,
+      avatarHash: avatarHash ?? this.avatarHash,
+      bannerHash: bannerHash ?? this.bannerHash,
       pronouns: pronouns ?? this.pronouns,
       color: color ?? this.color,
       avatarColor: avatarColor ?? this.avatarColor,
@@ -196,8 +194,8 @@ class Persona {
     return PublicPersona(
       id: id,
       name: name,
-      avatarUrl: avatarUrl,
-      bannerUrl: bannerUrl,
+      avatarHash: avatarHash,
+      bannerHash: bannerHash,
       pronouns: pronouns,
       color: color,
       avatarColor: avatarColor,
@@ -224,8 +222,8 @@ class Persona {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      if (avatarUrl != null) 'avatar': avatarUrl,
-      if (bannerUrl != null) 'banner': bannerUrl,
+      if (avatarHash != null) 'avatar': avatarHash,
+      if (bannerHash != null) 'banner': bannerHash,
       if (effectiveColor != null) 'avatar_color': effectiveColor,
       if (trimmedTagText != null) 'display_tag_text': trimmedTagText,
       if (trimmedTagText != null) 'system_name': trimmedTagText,
