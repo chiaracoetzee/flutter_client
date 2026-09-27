@@ -282,5 +282,22 @@ void main() {
       // Both check icons: only 1 check icon should exist (on Beta Alter)
       expect(find.byIcon(PhosphorIconsBold.check), findsOneWidget);
     });
+
+    testWidgets('renders persona name in standard primary text color even when persona has custom color', (tester) async {
+      const coloredPersona = Persona(
+        id: 'p_colored',
+        name: 'Colored Alter',
+        color: 0xFF8A2E, // 24-bit hex #FF8A2E
+      );
+
+      await openPicker(tester, personas: [coloredPersona]);
+
+      final nameFinder = find.text('Colored Alter');
+      expect(nameFinder, findsNWidgets(2)); // Once in recents, once in all personas
+
+      final dynamic listTileText = tester.firstWidget(nameFinder.last);
+      expect(listTileText.style?.color?.a, 1.0);
+      expect(listTileText.style?.color, isNot(const Color(0x00FF8A2E)));
+    });
   });
 }
