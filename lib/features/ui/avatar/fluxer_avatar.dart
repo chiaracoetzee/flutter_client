@@ -11,6 +11,10 @@ import 'package:fluxer_app/features/profile/providers/user_settings_status_provi
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_status_badge.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
+
 const _kFallbackColors = [
   Color(0xFF5865F2),
   Color(0xFF57F287),
@@ -132,7 +136,30 @@ class FluxerAvatar extends StatelessWidget {
   String? get _defaultAvatarUrl =>
       userId == null ? null : FluxerMediaUrl.defaultAvatar(userId: userId!);
 
-  String? get _resolvedImageUrl => imageUrl ?? _defaultAvatarUrl;
+  String? get _resolvedImageUrl {
+    if (imageUrl == null || imageUrl!.isEmpty) {
+      return _defaultAvatarUrl;
+    }
+    final String url = imageUrl!;
+    if (url.startsWith('http://') ||
+        url.startsWith('https://') ||
+        url.startsWith('data:') ||
+        url.startsWith('blob:')) {
+      return url;
+    }
+    if (userId != null && userId!.isNotEmpty) {
+      return FluxerMediaUrl.userAvatar(
+            userId: userId!,
+            hash: url,
+            size: size >= 128
+                ? MediaProxySizes.avatarProfile
+                : MediaProxySizes.avatarDefault,
+            animated: true,
+          ) ??
+          _defaultAvatarUrl;
+    }
+    return url;
+  }
 
   Color get _backgroundColor {
     if (avatarColor != null) {
