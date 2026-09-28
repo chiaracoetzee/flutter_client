@@ -925,6 +925,53 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
+  testWidgets('first move of exactly touch slop on wide table stays in table', (
+    tester,
+  ) async {
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: _drawerHarnessWithWideTable,
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pumpAndSettle();
+    final ScrollableState scrollable = tableScrollableState(tester);
+    scrollable.position.jumpTo(scrollable.position.maxScrollExtent / 2);
+    await tester.pump();
+    final double before = scrollable.position.pixels;
+    final gesture = await tester.startGesture(tableDragStart(tester));
+    await gesture.moveBy(const Offset(kTouchSlop, 0));
+    await gesture.moveBy(const Offset(60, 0));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(scrollable.position.pixels, lessThan(before));
+    expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('rightward drag on narrow table opens the drawer', (
+    tester,
+  ) async {
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: _drawerHarnessWithNarrowTable,
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pumpAndSettle();
+    expect(tableScrollableState(tester).position.maxScrollExtent, 0);
+    await tester.dragFrom(tableDragStart(tester), const Offset(200, 0));
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 400);
+  });
+
   testWidgets('ignores horizontal drag on playback seek surface', (
     tester,
   ) async {
@@ -1156,6 +1203,24 @@ Widget _drawerHarnessWithWideTable() {
       child: FluxerMarkdown(
         astParser: parseNativeFluxerMarkdownAst,
         data: kWideMarkdownTable,
+        config: kWideTableMarkdownConfig,
+      ),
+    ),
+  );
+}
+
+Widget _drawerHarnessWithNarrowTable() {
+  return const SidebarDrawer(
+    revealDuration: Duration.zero,
+    snapBackDuration: Duration.zero,
+    base: ColoredBox(color: Colors.blue),
+    slider: SizedBox(
+      key: _sliderKey,
+      width: 400,
+      height: 120,
+      child: FluxerMarkdown(
+        astParser: parseNativeFluxerMarkdownAst,
+        data: kNarrowMarkdownTable,
         config: kWideTableMarkdownConfig,
       ),
     ),

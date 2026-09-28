@@ -14,7 +14,6 @@ import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_p
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
@@ -285,32 +284,9 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   }
 
   bool _shouldDeferDrawerGesture(PointerDownEvent event) {
-    if (isPointerOverHorizontalDragCoastDefer(
+    return isPointerOverShellHorizontalGestureBlock(
       context,
       event.position,
-      viewId: event.viewId,
-    )) {
-      return true;
-    }
-    if (isPointerOverOverflowingHorizontalScrollable(
-      context,
-      event.position,
-      viewId: event.viewId,
-    )) {
-      return true;
-    }
-    if (isPointerOverDescendantWithKey(
-      context,
-      event.position,
-      key: kExpressionPanelShellGestureBlockKey,
-      viewId: event.viewId,
-    )) {
-      return true;
-    }
-    return isPointerOverDescendantWithKey(
-      context,
-      event.position,
-      key: kPlaybackSeekShellGestureBlockKey,
       viewId: event.viewId,
     );
   }
