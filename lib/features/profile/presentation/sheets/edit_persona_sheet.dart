@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_banner.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -19,11 +20,15 @@ import 'package:fluxer_app/features/profile/providers/public_persona_provider.da
 import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
+import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _kDefaultProfileAccentColor = 0x4641D9;
@@ -106,6 +111,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   late String _initialPronouns;
   late String _initialBio;
   late List<({String prefix, String suffix})> _initialTags;
+  late List<SignatureEmoji> _initialSignatureEmojis;
+  List<SignatureEmoji> _signatureEmojis = [];
   String? _initialAvatarHash;
   String? _initialBannerHash;
   int? _initialColor;
@@ -153,6 +160,11 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     } else {
       _initialTags = [(prefix: '', suffix: '')];
     }
+
+    final List<SignatureEmoji> existingSigs =
+        p?.signatureEmojis ?? const <SignatureEmoji>[];
+    _initialSignatureEmojis = List<SignatureEmoji>.from(existingSigs);
+    _signatureEmojis = List<SignatureEmoji>.from(existingSigs);
 
     for (final tag in _initialTags) {
       _tagControllers.add(
@@ -218,6 +230,18 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
       }
     }
 
+    if (_signatureEmojis.length != _initialSignatureEmojis.length) {
+      return true;
+    }
+    for (int i = 0; i < _signatureEmojis.length; i++) {
+      if (!_signatureEmojis[i].matches(
+        emojiName: _initialSignatureEmojis[i].name,
+        emojiId: _initialSignatureEmojis[i].id,
+      )) {
+        return true;
+      }
+    }
+
     return false;
   }
 
@@ -239,6 +263,8 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         ),
       );
     }
+
+    _signatureEmojis = List<SignatureEmoji>.from(_initialSignatureEmojis);
 
     setState(() {
       _avatarHash = _initialAvatarHash;
@@ -443,6 +469,74 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     }
   }
 
+  void _addSignatureEmoji() {
+    FluxerEmojiPickerSheet.show(
+      context,
+      visibleTabs: const [ExpressionPickerTab.emojis],
+      trackEmojiUsageOnSelect: false,
+      onEmojiSelected: (selectedEmoji) {
+        final emojiName = selectedEmoji.isCustom
+            ? selectedEmoji.name
+            : selectedEmoji.surrogates;
+        final emojiId = selectedEmoji.isCustom ? selectedEmoji.emojiId : null;
+
+        // Intra-persona duplicate check
+        final alreadyAdded = _signatureEmojis.any(
+          (s) => s.matches(emojiName: emojiName, emojiId: emojiId),
+        );
+        if (alreadyAdded) {
+          ref.read(toastProvider.notifier).show(
+                FluxerToast(
+                  message: FluxerLocalizations.of(context)
+                      .fork.personaSignatureEmojiAlreadyAdded,
+                  variant: FluxerToastVariant.danger,
+                ),
+              );
+          return;
+        }
+
+        // Cross-persona duplicate collision check
+        final existingPersonas =
+            ref.read(myPersonasProvider).asData?.value ?? const [];
+        final currentId = widget.persona?.id;
+        for (final other in existingPersonas) {
+          if (currentId != null && other.id == currentId) continue;
+          final conflict = other.signatureEmojis.any(
+            (s) => s.matches(emojiName: emojiName, emojiId: emojiId),
+          );
+          if (conflict) {
+            ref.read(toastProvider.notifier).show(
+                  FluxerToast(
+                    message: FluxerLocalizations.of(context)
+                        .fork.personaSignatureEmojiAlreadyUsedByOther(other.name),
+                    variant: FluxerToastVariant.danger,
+                  ),
+                );
+            return;
+          }
+        }
+
+        setState(() {
+          _signatureEmojis.add(
+            SignatureEmoji(
+              id: emojiId,
+              name: emojiName,
+              animated: selectedEmoji.animated,
+            ),
+          );
+        });
+        _onFieldChanged();
+      },
+    );
+  }
+
+  void _removeSignatureEmoji(int index) {
+    setState(() {
+      _signatureEmojis.removeAt(index);
+    });
+    _onFieldChanged();
+  }
+
   Future<void> _save() async {
     final l10n = FluxerLocalizations.of(context);
     final String name = _nameController.text.trim();
@@ -509,10 +603,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     }
 
     // Client-side duplicate tag collision check against own personas
+    final existingPersonas =
+        ref.read(myPersonasProvider).asData?.value ?? const [];
+    final currentId = widget.persona?.id;
     if (validTags.isNotEmpty) {
-      final existingPersonas =
-          ref.read(myPersonasProvider).asData?.value ?? const [];
-      final currentId = widget.persona?.id;
       for (final tag in validTags) {
         for (final other in existingPersonas) {
           if (currentId != null && other.id == currentId) {
@@ -537,6 +631,22 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
               return;
             }
           }
+        }
+      }
+    }
+
+    // Client-side duplicate signature emoji collision check against own personas
+    for (final sig in _signatureEmojis) {
+      for (final other in existingPersonas) {
+        if (currentId != null && other.id == currentId) continue;
+        if (other.signatureEmojis.any((s) => s.matches(emojiName: sig.name, emojiId: sig.id))) {
+          ref.read(toastProvider.notifier).show(
+                FluxerToast(
+                  message: l10n.fork.personaSignatureEmojiAlreadyUsedByOther(other.name),
+                  variant: FluxerToastVariant.danger,
+                ),
+              );
+          return;
         }
       }
     }
@@ -569,6 +679,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         'bio': bio,
         'auto_tag_disabled': _autoTagDisabled,
         'persona_tags': tags,
+        'signature_emojis': _signatureEmojis.map((e) => e.toJson()).toList(),
         'visibility': _visibility,
       };
 
@@ -602,6 +713,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                   ),
                 )
                 .toList(),
+            signatureEmojis: _signatureEmojis,
           );
         }
         final ownUserId = ref.read(userSettingsViewModelProvider).userId;
@@ -669,6 +781,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                   ),
                 )
                 .toList(),
+            signatureEmojis: _signatureEmojis,
           );
         }
         if (mounted) {
@@ -1222,6 +1335,106 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
                       ],
                     ],
                   ),
+                ),
+              ],
+              SizedBox(height: layout.s3),
+
+              // Signature Emojis
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    l10n.fork.personaSignatureEmojisLabel,
+                    style: textStyles.label.copyWith(color: colors.textPrimary),
+                  ),
+                  FluxerButton.secondary(
+                    label: _signatureEmojis.isEmpty
+                        ? l10n.fork.personaAddSignatureEmoji
+                        : '${l10n.fork.personaAddSignatureEmoji} (${_signatureEmojis.length})',
+                    icon: PhosphorIconsBold.plus,
+                    size: FluxerButtonSize.small,
+                    fitContent: true,
+                    onPressed: _isSaving ? null : _addSignatureEmoji,
+                  ),
+                ],
+              ),
+              SizedBox(height: layout.s1),
+              Text(
+                l10n.fork.personaSignatureEmojisDescription,
+                style: textStyles.bodySmall.copyWith(
+                  color: colors.textSecondary,
+                  fontSize: 12,
+                ),
+              ),
+              if (_signatureEmojis.isNotEmpty) ...[
+                SizedBox(height: layout.s2),
+                Wrap(
+                  spacing: layout.s2,
+                  runSpacing: layout.s2,
+                  children: [
+                    for (int i = 0; i < _signatureEmojis.length; i++) ...[
+                      Builder(
+                        builder: (context) {
+                          final sig = _signatureEmojis[i];
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colors.backgroundSecondary,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: colors.borderColor,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (sig.isCustom)
+                                  CachedEmojiImage(
+                                    emojiId: sig.id!,
+                                    animated: sig.animated ?? false,
+                                    size: 20,
+                                    requestSize: kCustomEmojiFetchSize,
+                                  )
+                                else
+                                  UnicodeEmojiWidget(
+                                    emoji: sig.name,
+                                    size: 20,
+                                  ),
+                                if (sig.isCustom) ...[
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    ':${sig.name}:',
+                                    style: textStyles.bodySmall.copyWith(
+                                      color: colors.textPrimary,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                                const SizedBox(width: 6),
+                                Semantics(
+                                  label: l10n.fork.personaRemoveSignatureEmoji,
+                                  button: true,
+                                  child: FluxerGestureDetector(
+                                    onTap: _isSaving
+                                        ? null
+                                        : () => _removeSignatureEmoji(i),
+                                    child: PhosphorIcon(
+                                      PhosphorIconsBold.x,
+                                      size: 14,
+                                      color: colors.textSecondary,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ],
                 ),
               ],
               SizedBox(height: layout.s3),

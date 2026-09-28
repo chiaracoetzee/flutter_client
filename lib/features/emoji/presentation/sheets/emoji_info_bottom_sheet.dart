@@ -1,16 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/persona_react_as_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_attribution.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
 import 'package:fluxer_app/features/emoji/providers/emoji_info_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_bottom_sheet_avatar.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
@@ -26,13 +31,21 @@ class EmojiInfoBottomSheet {
   static Future<void> show(
     BuildContext context, {
     required EmojiInfoData emoji,
+    String? channelId,
+    String? messageId,
+    VoidCallback? onReacted,
   }) {
     FluxerHaptics.medium();
     return FluxerBottomSheet.show<void>(
       context,
-      maxHeight: 0.45,
+      maxHeight: 0.65,
       builder: (sheetContext, close) {
-        return _EmojiInfoBottomSheetContent(emoji: emoji);
+        return _EmojiInfoBottomSheetContent(
+          emoji: emoji,
+          channelId: channelId,
+          messageId: messageId,
+          onReacted: onReacted,
+        );
       },
     );
   }
@@ -41,8 +54,19 @@ class EmojiInfoBottomSheet {
 void openEmojiInfoBottomSheet(
   BuildContext context, {
   required EmojiInfoData emoji,
+  String? channelId,
+  String? messageId,
+  VoidCallback? onReacted,
 }) {
-  unawaited(EmojiInfoBottomSheet.show(context, emoji: emoji));
+  unawaited(
+    EmojiInfoBottomSheet.show(
+      context,
+      emoji: emoji,
+      channelId: channelId,
+      messageId: messageId,
+      onReacted: onReacted,
+    ),
+  );
 }
 
 void handleFluxerMarkdownEmojiLongPress(
@@ -66,9 +90,17 @@ FluxerEmojiLongPressHandler get fluxerMarkdownEmojiLongPressHandler =>
     handleFluxerMarkdownEmojiLongPress;
 
 class _EmojiInfoBottomSheetContent extends ConsumerWidget {
-  const _EmojiInfoBottomSheetContent({required this.emoji});
+  const _EmojiInfoBottomSheetContent({
+    required this.emoji,
+    this.channelId,
+    this.messageId,
+    this.onReacted,
+  });
 
   final EmojiInfoData emoji;
+  final String? channelId;
+  final String? messageId;
+  final VoidCallback? onReacted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -77,6 +109,8 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     final resolvedAsync = ref.watch(emojiInfoResolvedProvider(emoji));
     final favoriteKeys =
         ref.watch(favoriteEmojiKeysProvider).value ?? const <String>[];
+    final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
+    final bool canReactAs = messageId != null && personas.isNotEmpty;
 
     final resolved =
         resolvedAsync.value ??
@@ -91,71 +125,133 @@ class _EmojiInfoBottomSheetContent extends ConsumerWidget {
     final showGuildSection = resolved.attribution.guild != null;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s6),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, layout.s4),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _EmojiPreview(emoji: emoji),
-              SizedBox(width: layout.s3),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      emoji.displayName,
-                      style: context.textStyles.heading.copyWith(
-                        fontSize: 18,
-                        color: context.colors.textPrimary,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: layout.s4),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _EmojiPreview(emoji: emoji),
+                SizedBox(width: layout.s3),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        emoji.displayName,
+                        style: context.textStyles.heading.copyWith(
+                          fontSize: 18,
+                          color: context.colors.textPrimary,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: layout.s1),
-                    Text(
-                      emojiAttributionDescription(l10n, resolved.attribution),
-                      style: context.textStyles.bodySmall.copyWith(
-                        color: context.colors.textSecondary,
+                      SizedBox(height: layout.s1),
+                      Text(
+                        emojiAttributionDescription(l10n, resolved.attribution),
+                        style: context.textStyles.bodySmall.copyWith(
+                          color: context.colors.textSecondary,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              if (favoriteKey != null)
-                _FavoriteButton(
-                  isFavorite: isFavorite,
-                  onToggle: () {
-                    FluxerHaptics.selection();
-                    unawaited(
-                      ref
-                          .read(favoriteEmojiKeysProvider.notifier)
-                          .toggle(favoriteKey),
-                    );
-                  },
-                  addLabel: l10n.emojiInfoAddToFavorites,
-                  removeLabel: l10n.emojiInfoRemoveFromFavorites,
-                ),
-            ],
+                if (favoriteKey != null)
+                  _FavoriteButton(
+                    isFavorite: isFavorite,
+                    onToggle: () {
+                      FluxerHaptics.selection();
+                      unawaited(
+                        ref
+                            .read(favoriteEmojiKeysProvider.notifier)
+                            .toggle(favoriteKey),
+                      );
+                    },
+                    addLabel: l10n.emojiInfoAddToFavorites,
+                    removeLabel: l10n.emojiInfoRemoveFromFavorites,
+                  ),
+              ],
+            ),
           ),
           if (showGuildSection) ...[
             SizedBox(height: layout.s4),
-            Divider(color: context.colors.borderColor, height: 1),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: layout.s4),
+              child: Divider(color: context.colors.borderColor, height: 1),
+            ),
             SizedBox(height: layout.s4),
-            Text(
-              l10n.emojiInfoFromHeader.toUpperCase(),
-              style: context.textStyles.label.copyWith(
-                color: context.colors.textPrimaryMuted,
-                letterSpacing: 0.4,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: layout.s4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.emojiInfoFromHeader.toUpperCase(),
+                    style: context.textStyles.label.copyWith(
+                      color: context.colors.textPrimaryMuted,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
+                  SizedBox(height: layout.s3),
+                  _GuildSourceRow(
+                    guild: resolved.attribution.guild!,
+                    l10n: l10n,
+                    isVerified: resolved.attribution.isVerified,
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: layout.s3),
-            _GuildSourceRow(
-              guild: resolved.attribution.guild!,
-              l10n: l10n,
-              isVerified: resolved.attribution.isVerified,
-            ),
           ],
+          SizedBox(height: layout.s3),
+          Divider(color: context.colors.borderColor, height: 1),
+          SizedBox(height: layout.s1),
+          if (canReactAs)
+            FluxerBottomSheetMenuItem(
+              label: l10n.fork.chatReactAs,
+              icon: PhosphorIconsBold.userSwitch,
+              onTap: () {
+                Navigator.of(context).pop();
+                unawaited(
+                  PersonaReactAsSheet.show(
+                    context,
+                    channelId: channelId ?? '',
+                    messageId: messageId!,
+                    emoji: emoji.isCustom
+                        ? emoji.name
+                        : emoji.unicodeSurrogate,
+                    emojiId: emoji.id,
+                    animated: emoji.animated,
+                    onReacted: onReacted,
+                  ),
+                );
+              },
+            ),
+          FluxerBottomSheetMenuItem(
+            label: l10n.fork.emojiCopy,
+            icon: PhosphorIconsBold.copy,
+            onTap: () {
+              final copyText = emoji.isCustom
+                  ? ':${emoji.name}:'
+                  : emoji.unicodeSurrogate;
+              unawaited(copyToClipboard(context: context, value: copyText));
+              Navigator.of(context).pop();
+            },
+          ),
+          if (emoji.isCustom && emoji.id != null)
+            FluxerBottomSheetMenuItem(
+              label: l10n.fork.emojiCopyLink,
+              icon: PhosphorIconsBold.link,
+              onTap: () {
+                final url = FluxerMediaUrl.customEmoji(
+                  id: emoji.id!,
+                  animated: emoji.animated,
+                );
+                unawaited(copyToClipboard(context: context, value: url));
+                Navigator.of(context).pop();
+              },
+            ),
         ],
       ),
     );
