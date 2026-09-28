@@ -75,4 +75,28 @@ void main() {
     expect(staticEmoji.animated, isFalse);
     expect(staticEmoji.pauseWhenOffscreen, isFalse);
   });
+
+  testWidgets('triggers onLongPressReaction on long press', (tester) async {
+    QuickReactionItem? longPressedItem;
+    final items = [
+      const UnicodeQuickReaction('👍'),
+    ];
+
+    await tester.pumpWidget(
+      buildApp(
+        QuickReactionRow(
+          items: items,
+          onReaction: (_) {},
+          onLongPressReaction: (item) => longPressedItem = item,
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await tester.longPress(find.byType(UnicodeEmojiWidget));
+    await tester.pumpAndSettle();
+
+    expect(longPressedItem, isA<UnicodeQuickReaction>());
+    expect((longPressedItem! as UnicodeQuickReaction).emoji, '👍');
+  });
 }
