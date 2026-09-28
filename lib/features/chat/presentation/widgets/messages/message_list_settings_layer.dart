@@ -6,6 +6,7 @@ class _MessageListSettingsLayer extends ConsumerWidget {
     required this.isDmChannel,
     required this.channelPermissionBits,
     required this.builder,
+    super.key,
   });
 
   final String channelId;
@@ -110,6 +111,21 @@ class _MessageListSettingsLayer extends ConsumerWidget {
         selectionContextMenuBuilder: selectionMenuBuilderFor(searchEngines),
       ),
     );
+    final int? effectiveBits = channelPermissionBits ??
+        (channelId.isEmpty
+            ? null
+            : ref.watch(
+                channelPermissionCacheProvider.select(
+                  (ChannelPermissionCaches c) => c[channelId],
+                ),
+              ));
+    if (effectiveBits == null && !isDmChannel && channelId.isNotEmpty) {
+      unawaited(
+        ref
+            .read(channelPermissionCacheProvider.notifier)
+            .rebuildChannel(channelId),
+      );
+    }
     return builder(
       context,
       settings,
@@ -119,17 +135,17 @@ class _MessageListSettingsLayer extends ConsumerWidget {
         canSendMessages: channelMessagePerms.canSendMessages,
         canAddReactions: canAddReactionsInChannel(
           isDmChannel: isDmChannel,
-          channelPermissionBits: channelPermissionBits,
+          channelPermissionBits: effectiveBits,
           interactionsBlocked: interactionsBlocked,
         ),
         canPinMessage: canPinMessageInChannel(
           isDmChannel: isDmChannel,
-          channelPermissionBits: channelPermissionBits,
+          channelPermissionBits: effectiveBits,
           interactionsBlocked: interactionsBlocked,
         ),
         canManageMessages: canManageMessagesInChannel(
           isDmChannel: isDmChannel,
-          channelPermissionBits: channelPermissionBits,
+          channelPermissionBits: effectiveBits,
         ),
       ),
     );
@@ -144,4 +160,15 @@ ChatPreferencesState _watchChatMediaPreferences(WidgetRef ref) {
     ),
   );
   return ref.read(chatPreferencesProvider);
+}
+
+@visibleForTesting
+class MessageListSettingsLayer extends _MessageListSettingsLayer {
+  const MessageListSettingsLayer({
+    required super.channelId,
+    required super.isDmChannel,
+    required super.channelPermissionBits,
+    required super.builder,
+    super.key,
+  });
 }
