@@ -15236,6 +15236,37 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'None';
+
+  @override
+  String get chatReactAs => 'React as...';
+
+  @override
+  String get emojiCopy => 'Copy emoji';
+
+  @override
+  String get emojiCopyLink => 'Copy link';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Signature Emojis';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reacting with a signature emoji will always react as this persona, regardless of active persona.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Add Emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'This emoji is already added as a signature emoji';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Signature emoji already in use by persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Remove signature emoji';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -30122,6 +30153,37 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get userProfileTimezoneNone => 'None';
+
+  @override
+  String get chatReactAs => 'React as...';
+
+  @override
+  String get emojiCopy => 'Copy emoji';
+
+  @override
+  String get emojiCopyLink => 'Copy link';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Signature Emojis';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reacting with a signature emoji will always react as this persona, regardless of active persona.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Add Emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'This emoji is already added as a signature emoji';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Signature emoji already in use by persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Remove signature emoji';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -44686,4 +44748,35 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get userProfileTimezoneNone => 'None';
+
+  @override
+  String get chatReactAs => 'React as...';
+
+  @override
+  String get emojiCopy => 'Copy emoji';
+
+  @override
+  String get emojiCopyLink => 'Copy link';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Signature Emojis';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reacting with a signature emoji will always react as this persona, regardless of active persona.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Add Emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'This emoji is already added as a signature emoji';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Signature emoji already in use by persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Remove signature emoji';
 }
