@@ -16,7 +16,8 @@ void _ensureInitialized() {
 /// Falls back to 'UTC' if the platform plugin fails.
 Future<String> getDeviceIanaTimezone() async {
   try {
-    return await FlutterTimezone.getLocalTimezone();
+    final TimezoneInfo info = await FlutterTimezone.getLocalTimezone();
+    return info.identifier;
   } on Object {
     return 'UTC';
   }
