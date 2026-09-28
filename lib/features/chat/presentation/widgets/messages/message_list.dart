@@ -1179,6 +1179,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       openReactionPickerSheet(
         context,
         channelId: message.channelId,
+        messageId: message.id,
         onEmojiSelected: (FluxerSelectedEmoji emoji) {
           dispatchSelectedEmojiReaction(
             emoji,

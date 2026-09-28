@@ -308,4 +308,34 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => '없음';
+
+  @override
+  String get chatReactAs => '다른 프로필로 반응하기...';
+
+  @override
+  String get emojiCopy => '이모티콘 복사';
+
+  @override
+  String get emojiCopyLink => '링크 복사';
+
+  @override
+  String get personaSignatureEmojisLabel => '시그니처 이모지';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      '시그니처 이모지로 반응하면 활성 페르소나와 관계없이 항상 이 페르소나로 반응합니다.';
+
+  @override
+  String get personaAddSignatureEmoji => '이모지 추가';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded => '이 이모지는 이미 시그니처 이모지로 추가되었습니다';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return '시그니처 이모지가 이미 \"$name\" 페르소나에서 사용 중입니다';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => '시그니처 이모지 삭제';
 }

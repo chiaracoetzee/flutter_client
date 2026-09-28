@@ -16,12 +16,16 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_pre
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_display_categories.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_layout_index.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_precache.dart';
+import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_rendering_policy.dart';
 import 'package:fluxer_app/features/chat/utils/composer/emoji_picker_visibility.dart';
 import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
 import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
+import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -74,6 +78,9 @@ class EmojiPickerContent extends ConsumerStatefulWidget {
     this.skinTone = '',
     this.isMobile = false,
     this.channelId,
+    this.messageId,
+    this.personaId,
+    this.onClose,
     this.scrollController,
     this.trackUsageOnSelect = true,
     super.key,
@@ -85,6 +92,9 @@ class EmojiPickerContent extends ConsumerStatefulWidget {
   final String skinTone;
   final bool isMobile;
   final String? channelId;
+  final String? messageId;
+  final String? personaId;
+  final VoidCallback? onClose;
   final ScrollController? scrollController;
 
   /// Whether selecting an emoji records it in the local frecency store.
@@ -373,29 +383,86 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     return emoji.surrogates;
   }
 
+  String? _watchEffectivePersonaId() {
+    if (widget.personaId != null) {
+      return widget.personaId == '0' ? null : widget.personaId;
+    }
+    final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
+    if (personas.isEmpty) return null;
+
+    final composerText =
+        ref.watch(chatViewModelProvider.select((s) => s.messageText));
+    final activeState = ref.watch(activePersonaProvider);
+    final String? latchedId =
+        activeState.isLatched ? activeState.activePersonaId : null;
+    final preview = previewPersona(composerText, personas, latchedId, false);
+    if (preview.isFromTag && preview.persona != null) {
+      return preview.persona!.id;
+    }
+    if (activeState.isLatched && activeState.activePersonaId != null) {
+      return activeState.activePersonaId;
+    }
+    return null;
+  }
+
+  String? _readEffectivePersonaId() {
+    if (widget.personaId != null) {
+      return widget.personaId == '0' ? null : widget.personaId;
+    }
+    final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
+    if (personas.isEmpty) return null;
+
+    final composerText = ref.read(chatViewModelProvider).messageText;
+    final activeState = ref.read(activePersonaProvider);
+    final String? latchedId =
+        activeState.isLatched ? activeState.activePersonaId : null;
+    final preview = previewPersona(composerText, personas, latchedId, false);
+    if (preview.isFromTag && preview.persona != null) {
+      return preview.persona!.id;
+    }
+    if (activeState.isLatched && activeState.activePersonaId != null) {
+      return activeState.activePersonaId;
+    }
+    return null;
+  }
+
   void _onEmojiSelected(EmojiEntry emoji) {
     final surrogates = _displaySurrogatesFor(emoji);
     if (widget.trackUsageOnSelect) {
+      final key = 'unicode:${emoji.primaryName}';
       unawaited(
         ref
             .read(fluxerDatabaseProvider)
             .emojiUsageDao
-            .trackUsage('unicode:${emoji.primaryName}'),
+            .trackUsage(key),
       );
       ref.invalidate(rankedEmojiUsageKeysProvider);
+
+      final personaId = _readEffectivePersonaId();
+      if (personaId != null && personaId != '0') {
+        unawaited(PersonaEmojiUsageStore.trackUsage(key, personaId));
+        ref.invalidate(rankedEmojiUsageKeysForPersonaProvider(personaId));
+      }
     }
     widget.onSelect?.call(emoji.primaryName, surrogates);
   }
 
   void _onCustomEmojiSelected(GuildEmojiEntry emoji) {
     if (widget.trackUsageOnSelect) {
+      final key = 'custom:${emoji.guildId}:${emoji.id}';
       unawaited(
         ref
             .read(fluxerDatabaseProvider)
             .emojiUsageDao
-            .trackUsage('custom:${emoji.guildId}:${emoji.id}'),
+            .trackUsage(key),
       );
       ref.invalidate(rankedEmojiUsageKeysProvider);
+
+      final personaId = _readEffectivePersonaId();
+      if (personaId != null && personaId != '0') {
+        unawaited(PersonaEmojiUsageStore.trackUsage(key, personaId));
+        ref.invalidate(rankedEmojiUsageKeysForPersonaProvider(personaId));
+      }
     }
     widget.onSelect?.call(emoji.name, emoji.markdown);
   }
@@ -407,6 +474,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     openEmojiInfoBottomSheet(
       context,
       emoji: EmojiInfoData.fromEmojiEntry(emoji),
+      channelId: widget.channelId,
+      messageId: widget.messageId,
+      onReacted: widget.onClose,
     );
   }
 
@@ -417,6 +487,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     openEmojiInfoBottomSheet(
       context,
       emoji: EmojiInfoData.fromGuildEmoji(emoji),
+      channelId: widget.channelId,
+      messageId: widget.messageId,
+      onReacted: widget.onClose,
     );
   }
 
@@ -445,8 +518,11 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       canUseExternalEmojis: canUseExternalEmojis,
       allGuildEmojis: allGuildEmojis,
     );
-    final rankedUsageKeys =
-        ref.watch(rankedEmojiUsageKeysProvider).value ?? const <String>[];
+    final effectivePersonaId = _watchEffectivePersonaId();
+    final rankedUsageKeys = ref
+            .watch(rankedEmojiUsageKeysForPersonaProvider(effectivePersonaId))
+            .value ??
+        const <String>[];
     final frecent = _frecentFor(
       rankedUsageKeys: rankedUsageKeys,
       guildEmojisByGuild: guildEmojisByGuild,
@@ -816,9 +892,12 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         ref.read(collapsedEmojiPickerCategoriesProvider).value ??
         const <String>[];
     final guildEmojisByGuild = _readGuildEmojisByGuild();
+    final effectivePersonaId = _readEffectivePersonaId();
     final frecent = _frecentFor(
-      rankedUsageKeys:
-          ref.read(rankedEmojiUsageKeysProvider).value ?? const <String>[],
+      rankedUsageKeys: ref
+              .read(rankedEmojiUsageKeysForPersonaProvider(effectivePersonaId))
+              .value ??
+          const <String>[],
       guildEmojisByGuild: guildEmojisByGuild,
     );
     final favoriteItems = _favoriteEmojiItems(

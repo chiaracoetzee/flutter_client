@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Preuzmi i instaliraj",
     "userSettingsUpdateInstallAction": "Instaliraj ažuriranje",
     "userSettingsDownloadingUpdate": "Preuzimanje ažuriranja ({percent}%)…",
-    "userSettingsUpdateFailed": "Provjera ili preuzimanje ažuriranja nije uspjelo."
+    "userSettingsUpdateFailed": "Provjera ili preuzimanje ažuriranja nije uspjelo.",
+    "chatReactAs": "Reagiraj kao...",
+    "emojiCopy": "Kopiraj emoji",
+    "emojiCopyLink": "Kopiraj poveznicu",
+    "personaSignatureEmojisLabel": "Prepoznatljivi emojiji",
+    "personaSignatureEmojisDescription": "Reagiranje s prepoznatljivim emojijem uvijek će reagirati kao ova persona, bez obzira na aktivnu personu.",
+    "personaAddSignatureEmoji": "Dodaj emoji",
+    "personaSignatureEmojiAlreadyAdded": "Ovaj emoji je već dodan kao prepoznatljivi emoji",
+    "personaRemoveSignatureEmoji": "Ukloni prepoznatljivi emoji",
+    "personaSignatureEmojiAlreadyUsedByOther": "Prepoznatljivi emoji već koristi persona \"{name}\""
 }

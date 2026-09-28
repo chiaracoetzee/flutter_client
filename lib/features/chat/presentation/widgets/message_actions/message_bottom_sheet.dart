@@ -16,6 +16,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/do
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
+import 'package:fluxer_app/features/emoji/domain/emoji_info_data.dart';
+import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
@@ -776,6 +778,21 @@ class _MessageBottomSheetBody extends ConsumerWidget {
                   onQuickReaction?.call(item);
                   Navigator.of(context).pop();
                 },
+                onLongPressReaction: (item) {
+                  final emojiInfo = switch (item) {
+                    UnicodeQuickReaction(:final emoji) =>
+                      EmojiInfoData(name: emoji),
+                    CustomQuickReaction(:final emoji) =>
+                      EmojiInfoData.fromGuildEmoji(emoji),
+                  };
+                  Navigator.of(context).pop();
+                  openEmojiInfoBottomSheet(
+                    context,
+                    emoji: emojiInfo,
+                    channelId: message.channelId,
+                    messageId: message.id,
+                  );
+                },
                 onAddMore: () => _pop(context, MessageAction.addReaction),
               )
             else
@@ -784,6 +801,21 @@ class _MessageBottomSheetBody extends ConsumerWidget {
                 onReaction: (item) {
                   onQuickReaction?.call(item);
                   Navigator.of(context).pop();
+                },
+                onLongPressReaction: (item) {
+                  final emojiInfo = switch (item) {
+                    UnicodeQuickReaction(:final emoji) =>
+                      EmojiInfoData(name: emoji),
+                    CustomQuickReaction(:final emoji) =>
+                      EmojiInfoData.fromGuildEmoji(emoji),
+                  };
+                  Navigator.of(context).pop();
+                  openEmojiInfoBottomSheet(
+                    context,
+                    emoji: emojiInfo,
+                    channelId: message.channelId,
+                    messageId: message.id,
+                  );
                 },
                 onAddMore: () => _pop(context, MessageAction.addReaction),
               ),
