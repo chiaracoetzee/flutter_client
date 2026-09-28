@@ -2,7 +2,7 @@ part of 'package:fluxer_app/features/chat/presentation/widgets/composer/composer
 
 const int _kRoleMentionLimit = 10;
 const int _kChannelLimit = 10;
-const int _kEmojiLimit = 10;
+const int _kEmojiLimit = 50;
 const int _kAutocompleteTypingDebounceMs = 300;
 const Duration _kAutocompleteFadeDuration = FluxerMotionTheme.fastDuration;
 
