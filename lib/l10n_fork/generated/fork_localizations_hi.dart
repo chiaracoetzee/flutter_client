@@ -316,4 +316,35 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'कोई नहीं';
+
+  @override
+  String get chatReactAs => 'के रूप में प्रतिक्रिया दें...';
+
+  @override
+  String get emojiCopy => 'इमोजी कॉपी करें';
+
+  @override
+  String get emojiCopyLink => 'लिंक कॉपी करें';
+
+  @override
+  String get personaSignatureEmojisLabel => 'हस्ताक्षर इमोजी';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'हस्ताक्षर इमोजी के साथ प्रतिक्रिया देने पर हमेशा इस व्यक्तित्व के रूप में प्रतिक्रिया होगी, चाहे कोई भी सक्रिय व्यक्तित्व हो।';
+
+  @override
+  String get personaAddSignatureEmoji => 'इमोजी जोड़ें';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'यह इमोजी पहले से ही एक हस्ताक्षर इमोजी के रूप में जोड़ा गया है';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'हस्ताक्षर इमोजी का उपयोग पहले से ही व्यक्तित्व \"$name\" द्वारा किया जा रहा है';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'हस्ताक्षर इमोजी हटाएं';
 }

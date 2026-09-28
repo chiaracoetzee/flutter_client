@@ -317,4 +317,35 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Κανένα';
+
+  @override
+  String get chatReactAs => 'Αντίδραση ως...';
+
+  @override
+  String get emojiCopy => 'Αντιγραφή emoji';
+
+  @override
+  String get emojiCopyLink => 'Αντιγραφή συνδέσμου';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Χαρακτηριστικά emoji';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Η αντίδραση με ένα χαρακτηριστικό emoji θα αντιδρά πάντα ως αυτή η περσόνα, ανεξάρτητα από την ενεργή περσόνα.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Προσθήκη emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Αυτό το emoji έχει ήδη προστεθεί ως χαρακτηριστικό emoji';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Το χαρακτηριστικό emoji χρησιμοποιείται ήδη από την περσόνα «$name»';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Κατάργηση χαρακτηριστικού emoji';
 }
