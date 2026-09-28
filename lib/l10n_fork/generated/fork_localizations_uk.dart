@@ -319,4 +319,35 @@ class ForkLocalizationsUk extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Немає';
+
+  @override
+  String get chatReactAs => 'Відреагувати як...';
+
+  @override
+  String get emojiCopy => 'Копіювати емодзі';
+
+  @override
+  String get emojiCopyLink => 'Копіювати посилання';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Фірмові емодзі';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Реакція фірмовим емодзі завжди залишається від імені цієї персони, незалежно від активної.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Додати емодзі';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Цей емодзі вже додано як фірмовий емодзі';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Фірмовий емодзі вже використовується персоною «$name»';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Видалити фірмовий емодзі';
 }

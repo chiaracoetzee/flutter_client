@@ -315,4 +315,35 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'ללא';
+
+  @override
+  String get chatReactAs => 'הגב בתור...';
+
+  @override
+  String get emojiCopy => 'העתקת אימוג\'י';
+
+  @override
+  String get emojiCopyLink => 'העתקת קישור';
+
+  @override
+  String get personaSignatureEmojisLabel => 'אימוג\'י חתימה';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'תגובה עם אימוג\'י חתימה תגיב תמיד בתור פרסונה זו, ללא קשר לפרסונה הפעילה.';
+
+  @override
+  String get personaAddSignatureEmoji => 'הוסף אימוג\'י';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'אימוג\'י זה כבר נוסף כאימוג\'י חתימה';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'אימוג\'י החתימה כבר נמצא בשימוש על ידי הפרסונה \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'הסר אימוג\'י חתימה';
 }

@@ -414,5 +414,46 @@
     "userProfileTimezoneNone": "None",
     "@userProfileTimezoneNone": {
         "description": "Option to clear timezone in user profile settings."
+    },
+    "chatReactAs": "React as...",
+    "@chatReactAs": {
+        "description": "Menu action and sheet title to react as a persona."
+    },
+    "emojiCopy": "Copy emoji",
+    "@emojiCopy": {
+        "description": "Action to copy an emoji character or markdown code to clipboard."
+    },
+    "emojiCopyLink": "Copy link",
+    "@emojiCopyLink": {
+        "description": "Action to copy a custom emoji image URL to clipboard."
+    },
+    "personaSignatureEmojisLabel": "Signature Emojis",
+    "@personaSignatureEmojisLabel": {
+        "description": "Section header for signature emojis on persona."
+    },
+    "personaSignatureEmojisDescription": "Reacting with a signature emoji will always react as this persona, regardless of active persona.",
+    "@personaSignatureEmojisDescription": {
+        "description": "Explanation text for persona signature emojis."
+    },
+    "personaAddSignatureEmoji": "Add Emoji",
+    "@personaAddSignatureEmoji": {
+        "description": "Button to add a signature emoji to persona."
+    },
+    "personaSignatureEmojiAlreadyAdded": "This emoji is already added as a signature emoji",
+    "@personaSignatureEmojiAlreadyAdded": {
+        "description": "Toast when attempting to add duplicate signature emoji to same persona."
+    },
+    "personaSignatureEmojiAlreadyUsedByOther": "Signature emoji already in use by persona \"{name}\"",
+    "@personaSignatureEmojiAlreadyUsedByOther": {
+        "description": "Toast when attempting to add signature emoji already assigned to another persona.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "personaRemoveSignatureEmoji": "Remove signature emoji",
+    "@personaRemoveSignatureEmoji": {
+        "description": "Aria label for removing signature emoji from persona."
     }
 }

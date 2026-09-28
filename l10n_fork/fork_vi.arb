@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Tải về và cài đặt",
     "userSettingsUpdateInstallAction": "Cài đặt bản cập nhật",
     "userSettingsDownloadingUpdate": "Đang tải bản cập nhật ({percent}%)…",
-    "userSettingsUpdateFailed": "Không thể kiểm tra hoặc tải xuống bản cập nhật."
+    "userSettingsUpdateFailed": "Không thể kiểm tra hoặc tải xuống bản cập nhật.",
+    "chatReactAs": "Thả cảm xúc dưới tên...",
+    "emojiCopy": "Sao chép biểu tượng cảm xúc",
+    "emojiCopyLink": "Sao chép liên kết",
+    "personaSignatureEmojisLabel": "Biểu tượng cảm xúc đặc trưng",
+    "personaSignatureEmojisDescription": "Bày tỏ cảm xúc bằng biểu tượng đặc trưng sẽ luôn phản hồi dưới tư cách nhân cách này, bất kể nhân cách đang hoạt động là gì.",
+    "personaAddSignatureEmoji": "Thêm biểu tượng cảm xúc",
+    "personaSignatureEmojiAlreadyAdded": "Biểu tượng cảm xúc này đã được thêm làm biểu tượng đặc trưng",
+    "personaRemoveSignatureEmoji": "Xóa biểu tượng cảm xúc đặc trưng",
+    "personaSignatureEmojiAlreadyUsedByOther": "Biểu tượng cảm xúc đặc trưng đã được nhân cách \"{name}\" sử dụng"
 }
