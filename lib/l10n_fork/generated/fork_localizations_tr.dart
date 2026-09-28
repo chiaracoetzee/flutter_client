@@ -318,4 +318,35 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Yok';
+
+  @override
+  String get chatReactAs => 'Farklı bir profil olarak tepki ver...';
+
+  @override
+  String get emojiCopy => 'Emoji kopyala';
+
+  @override
+  String get emojiCopyLink => 'Bağlantıyı kopyala';
+
+  @override
+  String get personaSignatureEmojisLabel => 'İmza Emojileri';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'İmza emojisiyle tepki vermek, etkin personadan bağımsız olarak her zaman bu persona olarak tepki verir.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Emoji Ekle';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Bu emoji zaten imza emojisi olarak eklenmiş';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'İmza emojisi zaten \"$name\" personası tarafından kullanılıyor';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'İmza emojisini kaldır';
 }

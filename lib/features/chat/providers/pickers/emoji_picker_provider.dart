@@ -9,6 +9,9 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dir
 import 'package:fluxer_app/core/synced_preferences/usage_frecency.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_usage_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:riverpod/riverpod.dart' as rp;
@@ -129,6 +132,60 @@ Future<List<String>> rankedEmojiUsageKeys(Ref ref) async {
   );
   return rankUsageKeys(usage, DateTime.now().millisecondsSinceEpoch);
 }
+
+final rankedEmojiUsageKeysForPersonaProvider =
+    FutureProvider.family<List<String>, String?>((ref, personaId) async {
+  final globalKeys = await ref.watch(rankedEmojiUsageKeysProvider.future);
+
+  if (personaId == null || personaId.isEmpty || personaId == '0') {
+    return globalKeys;
+  }
+
+  final db = ref.watch(fluxerDatabaseProvider);
+  final result = <String>[];
+  final seen = <String>{};
+
+  // 1. Signature emojis for this persona prepopulated at the very top
+  final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
+  final persona = personas.where((p) => p.id == personaId).firstOrNull;
+
+  if (persona != null) {
+    for (final sig in persona.signatureEmojis) {
+      String? key;
+      if (sig.isCustom && sig.id != null) {
+        final row = await db.guildEmojiDao.getById(sig.id!);
+        final guildId = row?.guildId ?? '';
+        key = 'custom:$guildId:${sig.id}';
+      } else if (sig.name.isNotEmpty) {
+        final name =
+            EmojiRegistry.entryBySurrogates(sig.name)?.primaryName ?? sig.name;
+        key = 'unicode:$name';
+      }
+      if (key != null && seen.add(key)) {
+        result.add(key);
+      }
+    }
+  }
+
+  // 2. Persona's own ranked keys
+  final personaKeys = await PersonaEmojiUsageStore.getRankedKeys(
+    personaId,
+  );
+  for (final key in personaKeys) {
+    if (seen.add(key)) {
+      result.add(key);
+    }
+  }
+
+  // 3. Fallback to global keys
+  for (final key in globalKeys) {
+    if (seen.add(key)) {
+      result.add(key);
+    }
+  }
+
+  return result.take(kMaxFrecentEmojis).toList(growable: false);
+});
 
 final allGuildEmojisForPickerProvider =
     rp.StreamProvider<List<GuildEmojiEntry>>((ref) {

@@ -319,6 +319,37 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Nenhum';
+
+  @override
+  String get chatReactAs => 'Reagir como...';
+
+  @override
+  String get emojiCopy => 'Copiar emoji';
+
+  @override
+  String get emojiCopyLink => 'Copiar link';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Emojis de assinatura';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reagir com um emoji de assinatura sempre reagirá como esta persona, independentemente da persona ativa.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Adicionar emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Este emoji já foi adicionado como emoji de assinatura';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'O emoji de assinatura já está em uso pela persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Remover emoji de assinatura';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -636,4 +667,35 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get userProfileTimezoneNone => 'Nenhum';
+
+  @override
+  String get chatReactAs => 'Reagir como...';
+
+  @override
+  String get emojiCopy => 'Copiar emoji';
+
+  @override
+  String get emojiCopyLink => 'Copiar link';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Emojis de assinatura';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reagir com um emoji de assinatura sempre reagirá como esta persona, independentemente da persona ativa.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Adicionar emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Este emoji já foi adicionado como emoji de assinatura';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'O emoji de assinatura já está em uso pela persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Remover emoji de assinatura';
 }

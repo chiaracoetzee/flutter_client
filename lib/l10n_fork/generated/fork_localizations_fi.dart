@@ -317,4 +317,35 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Ei mitään';
+
+  @override
+  String get chatReactAs => 'Reagoi käyttäjänä...';
+
+  @override
+  String get emojiCopy => 'Kopioi emoji';
+
+  @override
+  String get emojiCopyLink => 'Kopioi linkki';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Nimikkoemojit';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Nimikkoemojilla reagoiminen reagoi aina tällä persoonalla aktiivisesta persoonasta riippumatta.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Lisää emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Tämä emoji on jo lisätty nimikkoemojiksi';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Nimikkoemoji on jo käytössä persoonalla \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Poista nimikkoemoji';
 }
