@@ -32,6 +32,7 @@ class ReactionWriteBatcher {
     required ReactionEmoji emoji,
     required bool isAdd,
     required bool isCurrentUser,
+    String? personaId,
   }) {
     final _PendingReactionBatch batch = _pending.putIfAbsent(
       (channelId: channelId, id: messageId),
@@ -42,7 +43,12 @@ class ReactionWriteBatcher {
       ),
     );
     batch.deltas.add(
-      _ReactionDelta(emoji: emoji, isAdd: isAdd, isCurrentUser: isCurrentUser),
+      _ReactionDelta(
+        emoji: emoji,
+        isAdd: isAdd,
+        isCurrentUser: isCurrentUser,
+        personaId: personaId,
+      ),
     );
   }
 
@@ -103,6 +109,7 @@ class ReactionWriteBatcher {
           delta.emoji,
           isAdd: delta.isAdd,
           isCurrentUser: delta.isCurrentUser,
+          personaId: delta.personaId,
         );
         changed = changed || applied;
       }
@@ -133,9 +140,11 @@ class _ReactionDelta {
     required this.emoji,
     required this.isAdd,
     required this.isCurrentUser,
+    this.personaId,
   });
 
   final ReactionEmoji emoji;
   final bool isAdd;
   final bool isCurrentUser;
+  final String? personaId;
 }

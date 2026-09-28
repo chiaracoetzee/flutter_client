@@ -627,12 +627,14 @@ class MessageRepository {
     required String channelId,
     required String messageId,
     required String emoji,
+    String? personaId,
   }) async {
     await _client.channels.addReaction(
       channelId: channelId,
       messageId: messageId,
       emoji: emoji,
       sessionId: _gatewaySessionId?.call(),
+      body: personaId != null ? {'persona_id': personaId} : null,
     );
   }
 
@@ -640,12 +642,14 @@ class MessageRepository {
     required String channelId,
     required String messageId,
     required String emoji,
+    String? personaId,
   }) async {
     await _client.channels.removeOwnReaction(
       channelId: channelId,
       messageId: messageId,
       emoji: emoji,
       sessionId: _gatewaySessionId?.call(),
+      personaId: personaId ?? '0',
     );
   }
 
