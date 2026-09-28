@@ -559,6 +559,8 @@ class Reaction {
   final bool animated;
   final int count;
   final bool hasReacted;
+  final bool meRoot;
+  final List<String> personaReactions;
 
   const Reaction({
     required this.emoji,
@@ -566,25 +568,68 @@ class Reaction {
     this.emojiId,
     this.animated = false,
     this.hasReacted = false,
+    this.meRoot = false,
+    this.personaReactions = const [],
   });
 
   factory Reaction.fromSdk(MessageReactionResponse sdk) {
+    final List<String> myPersonaReactions = [];
+    if (sdk.personaReactions != null) {
+      for (final entry in sdk.personaReactions!) {
+        if (entry.me == true) {
+          myPersonaReactions.add(entry.personaId);
+        }
+      }
+    }
+    final bool rootReacted = sdk.meRoot ??
+        ((sdk.me ?? false) && myPersonaReactions.isEmpty);
+
     return Reaction(
       emoji: sdk.emoji.name,
       emojiId: sdk.emoji.id,
       animated: sdk.emoji.animated ?? false,
       count: sdk.count,
       hasReacted: sdk.me ?? false,
+      meRoot: rootReacted,
+      personaReactions: myPersonaReactions,
     );
   }
 
   factory Reaction.fromJson(Map<String, dynamic> json) {
+    final rawPersonas = json['persona_reactions'] as List<dynamic>? ??
+        json['personaReactions'] as List<dynamic>? ??
+        const [];
+    final List<String> personaReactions = [];
+    for (final item in rawPersonas) {
+      if (item is Map) {
+        if (item['me'] == true) {
+          final pid = item['persona_id'] ?? item['personaId'];
+          if (pid != null) {
+            personaReactions.add(pid.toString());
+          }
+        }
+      } else if (item != null) {
+        personaReactions.add(item.toString());
+      }
+    }
+
+    final bool hasReacted =
+        (json['hasReacted'] as bool?) ?? (json['me'] as bool?) ?? false;
+    bool meRoot = (json['meRoot'] as bool?) ??
+        (json['me_root'] as bool?) ??
+        false;
+    if (hasReacted && personaReactions.isEmpty) {
+      meRoot = true;
+    }
+
     return Reaction(
       emoji: json['emoji'] as String? ?? '',
       emojiId: json['emojiId'] as String?,
       animated: json['animated'] as bool? ?? false,
       count: json['count'] as int? ?? 0,
-      hasReacted: json['hasReacted'] as bool? ?? false,
+      hasReacted: hasReacted,
+      meRoot: meRoot,
+      personaReactions: personaReactions,
     );
   }
 
@@ -594,7 +639,36 @@ class Reaction {
     'animated': animated,
     'count': count,
     'hasReacted': hasReacted,
+    'meRoot': meRoot || (hasReacted && personaReactions.isEmpty),
+    'personaReactions': personaReactions,
   };
+
+  bool hasPersonaReacted(String? personaId) {
+    if (personaId == null || personaId == '0') {
+      return meRoot;
+    }
+    return personaReactions.contains(personaId);
+  }
+
+  Reaction copyWith({
+    String? emoji,
+    String? emojiId,
+    bool? animated,
+    int? count,
+    bool? hasReacted,
+    bool? meRoot,
+    List<String>? personaReactions,
+  }) {
+    return Reaction(
+      emoji: emoji ?? this.emoji,
+      emojiId: emojiId ?? this.emojiId,
+      animated: animated ?? this.animated,
+      count: count ?? this.count,
+      hasReacted: hasReacted ?? this.hasReacted,
+      meRoot: meRoot ?? this.meRoot,
+      personaReactions: personaReactions ?? this.personaReactions,
+    );
+  }
 
   bool get isCustom => emojiId != null;
 
