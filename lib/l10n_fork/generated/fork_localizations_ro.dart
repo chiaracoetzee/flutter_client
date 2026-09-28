@@ -317,4 +317,35 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Niciunul';
+
+  @override
+  String get chatReactAs => 'Reacționează ca...';
+
+  @override
+  String get emojiCopy => 'Copiază emoji';
+
+  @override
+  String get emojiCopyLink => 'Copiază linkul';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Emoji-uri semnătură';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reacționarea cu un emoji semnătură va reacționa întotdeauna ca această persona, indiferent de persona activă.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Adăugare emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Acest emoji este deja adăugat ca emoji semnătură';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Emoji-ul semnătură este deja utilizat de persona „$name”';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Elimină emoji semnătură';
 }

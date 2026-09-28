@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Stáhnout a instalovat",
     "userSettingsUpdateInstallAction": "Instalovat aktualizaci",
     "userSettingsDownloadingUpdate": "Stahování aktualizace ({percent} %)…",
-    "userSettingsUpdateFailed": "Kontrola nebo stažení aktualizace se nezdařilo."
+    "userSettingsUpdateFailed": "Kontrola nebo stažení aktualizace se nezdařilo.",
+    "chatReactAs": "Reagovat jako...",
+    "emojiCopy": "Kopírovat emoji",
+    "emojiCopyLink": "Kopírovat odkaz",
+    "personaSignatureEmojisLabel": "Podpisové emoji",
+    "personaSignatureEmojisDescription": "Reagování podpisovým emoji vždy zareaguje jako tato persona, bez ohledu na aktivní personu.",
+    "personaAddSignatureEmoji": "Přidat emoji",
+    "personaSignatureEmojiAlreadyAdded": "Toto emoji je již přidáno jako podpisové emoji",
+    "personaRemoveSignatureEmoji": "Odebrat podpisové emoji",
+    "personaSignatureEmojiAlreadyUsedByOther": "Podpisové emoji již používá persona \"{name}\""
 }

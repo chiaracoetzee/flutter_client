@@ -314,4 +314,35 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'بلا';
+
+  @override
+  String get chatReactAs => 'تفاعل باسم...';
+
+  @override
+  String get emojiCopy => 'نسخ الرمز التعبيري';
+
+  @override
+  String get emojiCopyLink => 'نسخ الرابط';
+
+  @override
+  String get personaSignatureEmojisLabel => 'الرموز التعبيرية المميزة';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'التفاعل برمز تعبيري مميز سيتفاعل دائمًا بهذه الشخصية، بغض النظر عن الشخصية النشطة.';
+
+  @override
+  String get personaAddSignatureEmoji => 'إضافة إيموجي';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'تمت إضافة هذا الرمز التعبيري بالفعل كرمز مميز';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'الرمز التعبيري المميز مستخدم بالفعل من قبل الشخصية \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'إزالة الرمز التعبيري المميز';
 }

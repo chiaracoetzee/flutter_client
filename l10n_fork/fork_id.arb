@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Unduh & Pasang",
     "userSettingsUpdateInstallAction": "Pasang Pembaruan",
     "userSettingsDownloadingUpdate": "Mengunduh pembaruan ({percent}%)…",
-    "userSettingsUpdateFailed": "Gagal memeriksa atau mengunduh pembaruan."
+    "userSettingsUpdateFailed": "Gagal memeriksa atau mengunduh pembaruan.",
+    "chatReactAs": "Bereaksi sebagai...",
+    "emojiCopy": "Salin emoji",
+    "emojiCopyLink": "Salin tautan",
+    "personaSignatureEmojisLabel": "Emoji Tanda Tangan",
+    "personaSignatureEmojisDescription": "Bereaksi dengan emoji tanda tangan akan selalu bereaksi sebagai persona ini, terlepas dari persona yang aktif.",
+    "personaAddSignatureEmoji": "Tambah Emoji",
+    "personaSignatureEmojiAlreadyAdded": "Emoji ini sudah ditambahkan sebagai emoji tanda tangan",
+    "personaRemoveSignatureEmoji": "Hapus emoji tanda tangan",
+    "personaSignatureEmojiAlreadyUsedByOther": "Emoji tanda tangan sudah digunakan oleh persona \"{name}\""
 }

@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "הורד והתקן",
     "userSettingsUpdateInstallAction": "התקן עדכון",
     "userSettingsDownloadingUpdate": "מוריד עדכון ({percent}%)…",
-    "userSettingsUpdateFailed": "בדיקת העדכון או הורדתו נכשלה."
+    "userSettingsUpdateFailed": "בדיקת העדכון או הורדתו נכשלה.",
+    "chatReactAs": "הגב בתור...",
+    "emojiCopy": "העתקת אימוג'י",
+    "emojiCopyLink": "העתקת קישור",
+    "personaSignatureEmojisLabel": "אימוג'י חתימה",
+    "personaSignatureEmojisDescription": "תגובה עם אימוג'י חתימה תגיב תמיד בתור פרסונה זו, ללא קשר לפרסונה הפעילה.",
+    "personaAddSignatureEmoji": "הוסף אימוג'י",
+    "personaSignatureEmojiAlreadyAdded": "אימוג'י זה כבר נוסף כאימוג'י חתימה",
+    "personaRemoveSignatureEmoji": "הסר אימוג'י חתימה",
+    "personaSignatureEmojiAlreadyUsedByOther": "אימוג'י החתימה כבר נמצא בשימוש על ידי הפרסונה \"{name}\""
 }
