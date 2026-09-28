@@ -15263,4 +15263,35 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Nėra';
+
+  @override
+  String get chatReactAs => 'Reaguoti kaip...';
+
+  @override
+  String get emojiCopy => 'Kopijuoti jaustuką';
+
+  @override
+  String get emojiCopyLink => 'Kopijuoti nuorodą';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Parašo jaustukai';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reagavimas su parašo jaustuku visada reaguos kaip šis profilis, nepriklausomai nuo aktyvaus profilio.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Pridėti jaustuką';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Šis jaustukas jau pridėtas kaip parašo jaustukas';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Parašo jaustuką jau naudoja profilis „$name“';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Pašalinti parašo jaustuką';
 }
