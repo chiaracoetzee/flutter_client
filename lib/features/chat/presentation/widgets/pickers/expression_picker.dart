@@ -51,6 +51,8 @@ class ExpressionPicker extends ConsumerStatefulWidget {
     this.onStickerSelect,
     this.onFavoriteMemeSelect,
     this.channelId,
+    this.messageId,
+    this.personaId,
     this.contentSearchHorizontalPadding,
     this.contentSearchTopPadding,
     this.contentSearchBottomPadding,
@@ -81,6 +83,8 @@ class ExpressionPicker extends ConsumerStatefulWidget {
   final ValueChanged<StickerEntry>? onStickerSelect;
   final ValueChanged<FavoriteMemeSelection>? onFavoriteMemeSelect;
   final String? channelId;
+  final String? messageId;
+  final String? personaId;
   final double? contentSearchHorizontalPadding;
   final double? contentSearchTopPadding;
   final double? contentSearchBottomPadding;
@@ -259,6 +263,9 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
         onHoveredEmojiChanged: _onHoveredChanged,
         onSelect: widget.onEmojiSelect,
         channelId: widget.channelId,
+        messageId: widget.messageId,
+        personaId: widget.personaId,
+        onClose: widget.onClose,
         trackUsageOnSelect: widget.trackEmojiUsageOnSelect,
       );
     }

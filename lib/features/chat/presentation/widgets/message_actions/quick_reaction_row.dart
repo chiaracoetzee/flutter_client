@@ -32,10 +32,12 @@ const List<QuickReactionItem> kQuickReactionDefaults = [
 class QuickReactionRow extends StatelessWidget {
   final List<QuickReactionItem> items;
   final ValueChanged<QuickReactionItem> onReaction;
+  final ValueChanged<QuickReactionItem>? onLongPressReaction;
   final VoidCallback? onAddMore;
 
   const QuickReactionRow({
     required this.onReaction,
+    this.onLongPressReaction,
     this.items = kQuickReactionDefaults,
     this.onAddMore,
     super.key,
@@ -58,6 +60,9 @@ class QuickReactionRow extends StatelessWidget {
             Expanded(
               child: _QuickReactionButton(
                 onTap: () => onReaction(item),
+                onLongPress: onLongPressReaction != null
+                    ? () => onLongPressReaction!(item)
+                    : null,
                 child: _QuickReactionGlyph(item: item),
               ),
             ),
@@ -104,8 +109,13 @@ class _QuickReactionGlyph extends StatelessWidget {
 class _QuickReactionButton extends StatefulWidget {
   final Widget child;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
 
-  const _QuickReactionButton({required this.child, required this.onTap});
+  const _QuickReactionButton({
+    required this.child,
+    required this.onTap,
+    this.onLongPress,
+  });
 
   @override
   State<_QuickReactionButton> createState() => _QuickReactionButtonState();
@@ -125,6 +135,12 @@ class _QuickReactionButtonState extends State<_QuickReactionButton> {
           FluxerHaptics.selection();
           widget.onTap();
         },
+        onLongPress: widget.onLongPress != null
+            ? () {
+                FluxerHaptics.medium();
+                widget.onLongPress!();
+              }
+            : null,
         child: AspectRatio(
           aspectRatio: 1,
           child: DecoratedBox(
