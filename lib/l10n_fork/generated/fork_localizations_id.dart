@@ -317,4 +317,35 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Tidak ada';
+
+  @override
+  String get chatReactAs => 'Bereaksi sebagai...';
+
+  @override
+  String get emojiCopy => 'Salin emoji';
+
+  @override
+  String get emojiCopyLink => 'Salin tautan';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Emoji Tanda Tangan';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Bereaksi dengan emoji tanda tangan akan selalu bereaksi sebagai persona ini, terlepas dari persona yang aktif.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Tambah Emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Emoji ini sudah ditambahkan sebagai emoji tanda tangan';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Emoji tanda tangan sudah digunakan oleh persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Hapus emoji tanda tangan';
 }

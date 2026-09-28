@@ -51,7 +51,9 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_fra
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessions_provider.dart';
+import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/chat/providers/messages/typing_sender.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
@@ -6824,11 +6826,50 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
+  String? resolveEffectiveReactionPersona({
+    required String emoji,
+    String? emojiId,
+  }) {
+    final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
+    if (personas.isEmpty) {
+      return null;
+    }
+
+    // 1. Signature emoji match across all personas
+    for (final persona in personas) {
+      for (final sig in persona.signatureEmojis) {
+        if (sig.matches(emojiName: emoji, emojiId: emojiId)) {
+          return persona.id;
+        }
+      }
+    }
+
+    // 2. Composer proxy tag match
+    final composerText = state.messageText;
+    final activeState = ref.read(activePersonaProvider);
+    final String? latchedId =
+        activeState.isLatched ? activeState.activePersonaId : null;
+    final preview = previewPersona(composerText, personas, latchedId, false);
+    if (preview.isFromTag && preview.persona != null) {
+      return preview.persona!.id;
+    }
+
+    // 3. Active latched persona
+    if (activeState.isLatched && activeState.activePersonaId != null) {
+      return activeState.activePersonaId;
+    }
+
+    // 4. Default: root account
+    return null;
+  }
+
   Future<void> toggleReaction(
     String messageId,
     String emoji, {
     String? emojiId,
     bool animated = false,
+    String? personaId,
+    bool explicitRoot = false,
   }) async {
     final msgIndex = state.messages.indexWhere((m) => m.id == messageId);
     if (msgIndex == -1) {
@@ -6840,30 +6881,53 @@ class ChatViewModel extends _$ChatViewModel {
     final existingIdx = msg.reactions.indexWhere(
       (r) => r.emoji == emoji && r.emojiId == emojiId,
     );
-    final hasReacted =
-        existingIdx != -1 && msg.reactions[existingIdx].hasReacted;
+
+    final String? effectivePersonaId = explicitRoot
+        ? null
+        : (personaId ??
+            resolveEffectiveReactionPersona(emoji: emoji, emojiId: emojiId));
+
+    final bool isRootTarget =
+        effectivePersonaId == null || effectivePersonaId == '0';
+    final bool hasReactedTarget = existingIdx != -1 &&
+        msg.reactions[existingIdx].hasPersonaReacted(effectivePersonaId);
 
     final updatedReactions = List<Reaction>.from(msg.reactions);
-    if (hasReacted) {
+    if (hasReactedTarget) {
       final old = updatedReactions[existingIdx];
       if (old.count <= 1) {
         updatedReactions.removeAt(existingIdx);
       } else {
+        final updatedPersonas = List<String>.from(old.personaReactions);
+        if (!isRootTarget) {
+          updatedPersonas.remove(effectivePersonaId);
+        }
+        final bool newMeRoot = isRootTarget ? false : old.meRoot;
         updatedReactions[existingIdx] = Reaction(
           emoji: emoji,
           emojiId: emojiId,
           animated: animated,
           count: old.count - 1,
+          hasReacted: newMeRoot || updatedPersonas.isNotEmpty,
+          meRoot: newMeRoot,
+          personaReactions: updatedPersonas,
         );
       }
     } else if (existingIdx != -1) {
       final old = updatedReactions[existingIdx];
+      final updatedPersonas = List<String>.from(old.personaReactions);
+      if (!isRootTarget && !updatedPersonas.contains(effectivePersonaId)) {
+        updatedPersonas.add(effectivePersonaId);
+      }
+      final bool newMeRoot = isRootTarget ? true : old.meRoot;
       updatedReactions[existingIdx] = Reaction(
         emoji: emoji,
         emojiId: emojiId,
         animated: animated,
         count: old.count + 1,
         hasReacted: true,
+        meRoot: newMeRoot,
+        personaReactions: updatedPersonas,
       );
     } else {
       updatedReactions.add(
@@ -6873,6 +6937,9 @@ class ChatViewModel extends _$ChatViewModel {
           animated: animated,
           count: 1,
           hasReacted: true,
+          meRoot: isRootTarget,
+          personaReactions:
+              !isRootTarget ? [effectivePersonaId] : const [],
         ),
       );
     }
@@ -6892,8 +6959,12 @@ class ChatViewModel extends _$ChatViewModel {
           ),
     );
 
-    if (!hasReacted) {
-      unawaited(_trackReactionFrecency(emoji, emojiId));
+    if (!hasReactedTarget) {
+      unawaited(_trackReactionFrecency(
+        emoji,
+        emojiId,
+        personaId: isRootTarget ? null : effectivePersonaId,
+      ));
     }
 
     final reaction = Reaction(
@@ -6905,23 +6976,25 @@ class ChatViewModel extends _$ChatViewModel {
 
     try {
       final repo = ref.read(messageRepositoryProvider);
-      if (hasReacted) {
+      if (hasReactedTarget) {
         await repo.removeReaction(
           channelId: state.channelId,
           messageId: messageId,
           emoji: reaction.apiParam,
+          personaId: isRootTarget ? '0' : effectivePersonaId,
         );
       } else {
         await repo.addReaction(
           channelId: state.channelId,
           messageId: messageId,
           emoji: reaction.apiParam,
+          personaId: isRootTarget ? null : effectivePersonaId,
         );
       }
     } on Exception catch (e) {
       talker.error('[ChatViewModel] Reaction failed', e);
       final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
-      final String fallback = hasReacted
+      final String fallback = hasReactedTarget
           ? l10n.chatReactionRemoveFailed
           : l10n.chatReactionAddFailed;
       _restoreMessageReactions(
@@ -7001,7 +7074,11 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
-  Future<void> _trackReactionFrecency(String emoji, String? emojiId) async {
+  Future<void> _trackReactionFrecency(
+    String emoji,
+    String? emojiId, {
+    String? personaId,
+  }) async {
     final database = ref.read(fluxerDatabaseProvider);
     final String key;
     if (emojiId != null) {
@@ -7013,6 +7090,12 @@ class ChatViewModel extends _$ChatViewModel {
       key = name != null ? 'unicode:$name' : 'unicode:$emoji';
     }
     await database.emojiUsageDao.trackUsage(key);
+    ref.invalidate(rankedEmojiUsageKeysProvider);
+
+    if (personaId != null && personaId != '0') {
+      await PersonaEmojiUsageStore.trackUsage(key, personaId);
+      ref.invalidate(rankedEmojiUsageKeysForPersonaProvider(personaId));
+    }
   }
 
   Message _buildOptimisticMessage({
