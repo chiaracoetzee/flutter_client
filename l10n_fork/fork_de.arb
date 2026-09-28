@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Herunterladen & installieren",
     "userSettingsUpdateInstallAction": "Update installieren",
     "userSettingsDownloadingUpdate": "Update wird heruntergeladen ({percent} %)…",
-    "userSettingsUpdateFailed": "Update konnte nicht geprüft oder heruntergeladen werden."
+    "userSettingsUpdateFailed": "Update konnte nicht geprüft oder heruntergeladen werden.",
+    "chatReactAs": "Reagieren als...",
+    "emojiCopy": "Emoji kopieren",
+    "emojiCopyLink": "Link kopieren",
+    "personaSignatureEmojisLabel": "Signatur-Emojis",
+    "personaSignatureEmojisDescription": "Reaktionen mit einem Signatur-Emoji erfolgen immer als diese Persona, unabhängig von der aktiven Persona.",
+    "personaAddSignatureEmoji": "Emoji hinzufügen",
+    "personaSignatureEmojiAlreadyAdded": "Dieses Emoji wurde bereits als Signatur-Emoji hinzugefügt",
+    "personaRemoveSignatureEmoji": "Signatur-Emoji entfernen",
+    "personaSignatureEmojiAlreadyUsedByOther": "Signatur-Emoji wird bereits von Persona \"{name}\" verwendet"
 }

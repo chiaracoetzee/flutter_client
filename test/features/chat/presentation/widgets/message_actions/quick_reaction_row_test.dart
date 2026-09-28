@@ -77,4 +77,30 @@ void main() {
       expect(staticEmoji.pauseWhenOffscreen, isFalse);
     },
   );
+
+  testWidgets('triggers onLongPressReaction on long press', (tester) async {
+    QuickReactionItem? longPressedItem;
+    final items = [const UnicodeQuickReaction('👍')];
+
+    await tester.pumpWidget(
+      buildApp(
+        QuickReactionRow(
+          items: items,
+          onReaction: (_) {},
+          onLongPressReaction: (item) => longPressedItem = item,
+        ),
+      ),
+    );
+    await tester.pump();
+
+    // The glyph no longer takes pointer events itself; the press lands on the button around it.
+    await tester.longPress(
+      find.byType(UnicodeEmojiWidget),
+      warnIfMissed: false,
+    );
+    await tester.pumpAndSettle();
+
+    expect(longPressedItem, isA<UnicodeQuickReaction>());
+    expect((longPressedItem! as UnicodeQuickReaction).emoji, '👍');
+  });
 }
