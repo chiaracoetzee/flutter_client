@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
@@ -12,6 +10,8 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_save_bar.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../helpers/pump_fluxer_app.dart';
@@ -275,6 +275,99 @@ void main() {
       await tester.tap(find.text('Cancel'));
       await tester.pumpAndSettle();
       expect(find.text('Cancel'), findsNothing);
+    });
+
+    testWidgets('renders existing signature emojis, allows removing a chip, and resets on demand', (tester) async {
+      const personaWithSigs = PublicPersona(
+        id: 'p_sig_test',
+        name: 'Signature Persona',
+        pronouns: 'they/them',
+        personaTags: [
+          PersonaTag(prefix: 's:', suffix: ''),
+        ],
+        signatureEmojis: [
+          SignatureEmoji(name: '🌟'),
+          SignatureEmoji(id: 'custom_123', name: 'custom_star', animated: false),
+        ],
+      );
+
+      await openSheet(tester, persona: personaWithSigs);
+
+      // Verify button shows count and custom emoji label appears
+      expect(find.text('Add Emoji (2)'), findsOneWidget);
+      expect(find.text(':custom_star:'), findsOneWidget);
+      expect(isSaveBarVisible(tester), isFalse);
+
+      // Remove the first signature emoji chip
+      final removeButtons = find.bySemanticsLabel('Remove signature emoji');
+      expect(removeButtons, findsNWidgets(2));
+      await tester.tap(removeButtons.first);
+      await tester.pumpAndSettle();
+
+      // Count decrements and SaveBar is now visible
+      expect(find.text('Add Emoji (1)'), findsOneWidget);
+      expect(isSaveBarVisible(tester), isTrue);
+
+      // Reset restores original state and hides SaveBar
+      await tester.tap(find.text('Reset'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Add Emoji (2)'), findsOneWidget);
+      expect(isSaveBarVisible(tester), isFalse);
+    });
+
+    testWidgets('validates signature emoji collision against existing personas on save without literal backslashes', (tester) async {
+      WidgetRef? capturedRef;
+      const personaWithCollision = PublicPersona(
+        id: 'p_colliding',
+        name: 'Alice',
+        personaTags: [
+          PersonaTag(prefix: 'a:', suffix: ''),
+        ],
+        signatureEmojis: [
+          SignatureEmoji(name: '🦊'),
+        ],
+      );
+      const otherPersona = Persona(
+        id: 'p_other',
+        name: 'Bob the Fox',
+        signatureEmojis: [
+          SignatureEmoji(name: '🦊'),
+        ],
+      );
+
+      await openSheet(
+        tester,
+        persona: personaWithCollision,
+        otherPersonas: const [otherPersona],
+        onRef: (ref) => capturedRef = ref,
+      );
+
+      // Make a change to trigger the save bar
+      final textFields = find.byType(TextField);
+      await tester.enterText(textFields.at(2), 'she/her');
+      await tester.pumpAndSettle();
+
+      expect(isSaveBarVisible(tester), isTrue);
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      final toasts = capturedRef!.read(toastProvider);
+      expect(toasts, isNotEmpty);
+      final toastMessage = toasts.last.toast.message;
+      expect(toastMessage, contains('Bob the Fox'));
+      expect(toastMessage, contains('"Bob the Fox"'));
+      expect(toastMessage, isNot(contains(r'\"')));
+      expect(toastMessage, 'Signature emoji already in use by persona "Bob the Fox"');
+    });
+
+    test('personaSignatureEmojiAlreadyUsedByOther formats cleanly across all supported locales', () async {
+      for (final locale in FluxerLocalizations.supportedLocales) {
+        final l10n = await FluxerLocalizations.delegate.load(locale);
+        final formatted = l10n.fork.personaSignatureEmojiAlreadyUsedByOther('Bob the Fox');
+        expect(formatted, contains('Bob the Fox'), reason: 'Locale ${locale.languageCode} should contain persona name');
+        expect(formatted, isNot(contains(r'\"')), reason: 'Locale ${locale.languageCode} must not contain literal backslashes');
+      }
     });
   });
 }

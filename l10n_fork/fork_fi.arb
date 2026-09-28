@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Lataa ja asenna",
     "userSettingsUpdateInstallAction": "Asenna päivitys",
     "userSettingsDownloadingUpdate": "Ladataan päivitystä ({percent} %)…",
-    "userSettingsUpdateFailed": "Päivityksen tarkistaminen tai lataaminen epäonnistui."
+    "userSettingsUpdateFailed": "Päivityksen tarkistaminen tai lataaminen epäonnistui.",
+    "chatReactAs": "Reagoi käyttäjänä...",
+    "emojiCopy": "Kopioi emoji",
+    "emojiCopyLink": "Kopioi linkki",
+    "personaSignatureEmojisLabel": "Nimikkoemojit",
+    "personaSignatureEmojisDescription": "Nimikkoemojilla reagoiminen reagoi aina tällä persoonalla aktiivisesta persoonasta riippumatta.",
+    "personaAddSignatureEmoji": "Lisää emoji",
+    "personaSignatureEmojiAlreadyAdded": "Tämä emoji on jo lisätty nimikkoemojiksi",
+    "personaRemoveSignatureEmoji": "Poista nimikkoemoji",
+    "personaSignatureEmojiAlreadyUsedByOther": "Nimikkoemoji on jo käytössä persoonalla \"{name}\""
 }
