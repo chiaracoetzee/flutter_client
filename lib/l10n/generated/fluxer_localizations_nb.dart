@@ -15062,4 +15062,35 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Ingen';
+
+  @override
+  String get chatReactAs => 'Reager som...';
+
+  @override
+  String get emojiCopy => 'Kopier emoji';
+
+  @override
+  String get emojiCopyLink => 'Kopier lenke';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Signaturemojier';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reaksjon med en signaturemoji vil alltid reagere som denne personaen, uavhengig av aktiv persona.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Legg til emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Denne emojien er allerede lagt til som en signaturemoji';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Signaturemojien brukes allerede av personaen «$name»';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Fjern signaturemoji';
 }

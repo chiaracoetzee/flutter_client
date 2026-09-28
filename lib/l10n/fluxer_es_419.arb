@@ -6461,7 +6461,7 @@
     "@chatMessagePinConfirm": {
         "description": "Confirm button label on the pin message confirmation modal."
     },
-    "chatMessagePinConfirmDescription": "Fija este mensaje en el canal para que todos lo vean.",
+    "chatMessagePinConfirmDescription": "Fija este mensaje en el canal para que todos puedan verlo.",
     "@chatMessagePinConfirmDescription": {
         "description": "Body text for the pin message confirmation modal."
     },
@@ -8923,7 +8923,7 @@
     "@guildSettingsDeleteCommunity": {
         "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
     },
-    "guildSettingsDeleteCommunityConfirm": "¿De verdad quieres eliminar esta comunidad? Esta acción no se puede deshacer. Se eliminarán permanentemente todos los canales, mensajes y la configuración.",
+    "guildSettingsDeleteCommunityConfirm": "¿Seguro que quieres eliminar esta comunidad? Esta acción no se puede deshacer. Todos los canales, mensajes y ajustes se eliminarán de forma permanente.",
     "@guildSettingsDeleteCommunityConfirm": {
         "description": "Confirmation copy for deleting a community."
     },
@@ -17224,42 +17224,6 @@
     "@applicationsSearchDocumentation": {
         "description": "Settings search synonym for the applications docs link."
     },
-    "linkedDevicesViewDetails": "Ver detalles",
-    "@linkedDevicesViewDetails": {
-        "description": "Tooltip and accessibility label for opening a linked device details modal."
-    },
-    "linkedDevicesDetailsTitle": "Detalles del dispositivo",
-    "@linkedDevicesDetailsTitle": {
-        "description": "Title of the linked device details modal."
-    },
-    "linkedDevicesDetailsDevice": "Dispositivo",
-    "@linkedDevicesDetailsDevice": {
-        "description": "Label for the operating system in the linked device details modal."
-    },
-    "linkedDevicesDetailsClient": "Cliente",
-    "@linkedDevicesDetailsClient": {
-        "description": "Label for the client/platform in the linked device details modal."
-    },
-    "linkedDevicesDetailsLocation": "Ubicación",
-    "@linkedDevicesDetailsLocation": {
-        "description": "Label for the approximate location in the linked device details modal."
-    },
-    "linkedDevicesDetailsIp": "Dirección IP",
-    "@linkedDevicesDetailsIp": {
-        "description": "Label for the masked IP address in the linked device details modal."
-    },
-    "linkedDevicesDetailsLastUsed": "Último uso",
-    "@linkedDevicesDetailsLastUsed": {
-        "description": "Label for last activity time in the linked device details modal."
-    },
-    "linkedDevicesCurrentSession": "Sesión actual",
-    "@linkedDevicesCurrentSession": {
-        "description": "Last-used value shown for the session currently making the request."
-    },
-    "linkedDevicesUnknown": "Desconocido",
-    "@linkedDevicesUnknown": {
-        "description": "Fallback when a linked device detail such as last used time is missing."
-    },
     "lookAndFeelThemeDarkLegacy": "Tema oscuro (clásico)",
     "@lookAndFeelThemeDarkLegacy": {
         "description": "Label on the legacy dark theme swatch button."
@@ -17296,22 +17260,6 @@
     "@chatImageCouldNotLoad": {
         "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
-    "chatMessagePinConfirm": "Fijar",
-    "@chatMessagePinConfirm": {
-        "description": "Confirm button label on the pin message confirmation modal."
-    },
-    "chatMessagePinConfirmDescription": "Fija este mensaje en el canal para que todos puedan verlo.",
-    "@chatMessagePinConfirmDescription": {
-        "description": "Body text for the pin message confirmation modal."
-    },
-    "userSettingsLogOutConfirmTitle": "¿Cerrar sesión?",
-    "@userSettingsLogOutConfirmTitle": {
-        "description": "Title of the confirmation shown before logging out from user settings."
-    },
-    "userSettingsLogOutConfirmDescription": "Puedes volver a iniciar sesión en cualquier momento.",
-    "@userSettingsLogOutConfirmDescription": {
-        "description": "Body of the confirmation shown before logging out from user settings."
-    },
     "savedMessagesAddedToast": "Añadido a los marcadores",
     "@savedMessagesAddedToast": {
         "description": "Toast confirming a message was bookmarked."
@@ -17323,22 +17271,6 @@
     "instanceUrlHelper": "Usa fluxer.app para la instancia oficial o la URL exacta de una instancia propia.",
     "@instanceUrlHelper": {
         "description": "Helper text explaining official vs self-hosted instance URLs."
-    },
-    "guildSettingsDeleteCommunity": "Eliminar comunidad",
-    "@guildSettingsDeleteCommunity": {
-        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
-    },
-    "guildSettingsDeleteCommunityConfirm": "¿Seguro que quieres eliminar esta comunidad? Esta acción no se puede deshacer. Todos los canales, mensajes y ajustes se eliminarán de forma permanente.",
-    "@guildSettingsDeleteCommunityConfirm": {
-        "description": "Confirmation copy for deleting a community."
-    },
-    "guildSettingsCommunityDeleted": "Comunidad eliminada",
-    "@guildSettingsCommunityDeleted": {
-        "description": "Success toast after a community is deleted."
-    },
-    "guildSettingsDeleteCommunityFailed": "No se pudo eliminar esta comunidad",
-    "@guildSettingsDeleteCommunityFailed": {
-        "description": "Error toast when deleting a community fails."
     },
     "assistantNeedsLogin": "Abre Fluxer e inicia sesión primero.",
     "@assistantNeedsLogin": {
@@ -17486,5 +17418,14 @@
     "userSettingsUpdateDownloadAction": "Descargar e instalar",
     "userSettingsUpdateInstallAction": "Instalar actualización",
     "userSettingsDownloadingUpdate": "Descargando actualización ({percent} %)…",
-    "userSettingsUpdateFailed": "Error al buscar o descargar la actualización."
+    "userSettingsUpdateFailed": "Error al buscar o descargar la actualización.",
+    "chatReactAs": "Reaccionar como...",
+    "emojiCopy": "Copiar emoji",
+    "emojiCopyLink": "Copiar enlace",
+    "personaSignatureEmojisLabel": "Emojis distintivos",
+    "personaSignatureEmojisDescription": "Reaccionar con un emoji distintivo siempre reaccionará como esta persona, sin importar la persona activa.",
+    "personaAddSignatureEmoji": "Agregar emoji",
+    "personaSignatureEmojiAlreadyAdded": "Este emoji ya está agregado como emoji distintivo",
+    "personaRemoveSignatureEmoji": "Eliminar emoji distintivo",
+    "personaSignatureEmojiAlreadyUsedByOther": "El emoji distintivo ya está en uso por la persona \"{name}\""
 }

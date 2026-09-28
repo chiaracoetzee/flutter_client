@@ -15213,6 +15213,37 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Ninguno';
+
+  @override
+  String get chatReactAs => 'Reaccionar como...';
+
+  @override
+  String get emojiCopy => 'Copiar emoji';
+
+  @override
+  String get emojiCopyLink => 'Copiar enlace';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Emojis de firma';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reaccionar con un emoji de firma siempre reaccionará como esta persona, independientemente de la persona activa.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Añadir emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Este emoji ya está añadido como emoji de firma';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'El emoji de firma ya está en uso por la persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Eliminar emoji de firma';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -30422,4 +30453,35 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get userProfileTimezoneNone => 'Ninguno';
+
+  @override
+  String get chatReactAs => 'Reaccionar como...';
+
+  @override
+  String get emojiCopy => 'Copiar emoji';
+
+  @override
+  String get emojiCopyLink => 'Copiar enlace';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Emojis distintivos';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reaccionar con un emoji distintivo siempre reaccionará como esta persona, sin importar la persona activa.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Agregar emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Este emoji ya está agregado como emoji distintivo';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'El emoji distintivo ya está en uso por la persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Eliminar emoji distintivo';
 }
