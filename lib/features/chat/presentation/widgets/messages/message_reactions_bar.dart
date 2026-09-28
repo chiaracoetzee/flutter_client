@@ -36,10 +36,12 @@ Future<void> openReactionPickerSheet(
   BuildContext context, {
   required ValueChanged<FluxerSelectedEmoji> onEmojiSelected,
   String? channelId,
+  String? messageId,
 }) {
   return FluxerEmojiPickerSheet.show(
     context,
     channelId: channelId,
+    messageId: messageId,
     visibleTabs: const [ExpressionPickerTab.emojis],
     onEmojiSelected: onEmojiSelected,
   );
@@ -50,6 +52,7 @@ class MessageReactionsBar extends StatelessWidget {
     required this.reactions,
     required this.channelId,
     required this.onReactionTap,
+    this.messageId,
     this.onReactionLongPress,
     this.showAddReaction = false,
     this.isMobile = false,
@@ -58,6 +61,7 @@ class MessageReactionsBar extends StatelessWidget {
 
   final List<Reaction> reactions;
   final String channelId;
+  final String? messageId;
   final ReactionToggleCallback onReactionTap;
   final ValueChanged<Reaction>? onReactionLongPress;
   final bool showAddReaction;
@@ -91,6 +95,7 @@ class MessageReactionsBar extends StatelessWidget {
           if (showAddReaction)
             _InlineAddReactionButton(
               channelId: channelId,
+              messageId: messageId,
               onReaction: onReactionTap,
               isMobile: isMobile,
             ),
@@ -213,9 +218,11 @@ class _InlineAddReactionButton extends StatefulWidget {
     required this.channelId,
     required this.onReaction,
     required this.isMobile,
+    this.messageId,
   });
 
   final String channelId;
+  final String? messageId;
   final ReactionToggleCallback onReaction;
   final bool isMobile;
 
@@ -241,6 +248,7 @@ class _InlineAddReactionButtonState extends State<_InlineAddReactionButton> {
           openReactionPickerSheet(
             context,
             channelId: widget.channelId,
+            messageId: widget.messageId,
             onEmojiSelected: _handleEmojiSelected,
           ),
         ),

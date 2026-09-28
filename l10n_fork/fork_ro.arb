@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Descarcă și instalează",
     "userSettingsUpdateInstallAction": "Instalează actualizarea",
     "userSettingsDownloadingUpdate": "Se descarcă actualizarea ({percent}%)…",
-    "userSettingsUpdateFailed": "Nu s-a putut verifica sau descărca actualizarea."
+    "userSettingsUpdateFailed": "Nu s-a putut verifica sau descărca actualizarea.",
+    "chatReactAs": "Reacționează ca...",
+    "emojiCopy": "Copiază emoji",
+    "emojiCopyLink": "Copiază linkul",
+    "personaSignatureEmojisLabel": "Emoji-uri semnătură",
+    "personaSignatureEmojisDescription": "Reacționarea cu un emoji semnătură va reacționa întotdeauna ca această persona, indiferent de persona activă.",
+    "personaAddSignatureEmoji": "Adăugare emoji",
+    "personaSignatureEmojiAlreadyAdded": "Acest emoji este deja adăugat ca emoji semnătură",
+    "personaRemoveSignatureEmoji": "Elimină emoji semnătură",
+    "personaSignatureEmojiAlreadyUsedByOther": "Emoji-ul semnătură este deja utilizat de persona „{name}”"
 }

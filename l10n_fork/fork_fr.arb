@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Télécharger et installer",
     "userSettingsUpdateInstallAction": "Installer la mise à jour",
     "userSettingsDownloadingUpdate": "Téléchargement de la mise à jour ({percent} %)…",
-    "userSettingsUpdateFailed": "Échec de la recherche ou du téléchargement de la mise à jour."
+    "userSettingsUpdateFailed": "Échec de la recherche ou du téléchargement de la mise à jour.",
+    "chatReactAs": "Réagir en tant que...",
+    "emojiCopy": "Copier l'emoji",
+    "emojiCopyLink": "Copier le lien",
+    "personaSignatureEmojisLabel": "Emojis signature",
+    "personaSignatureEmojisDescription": "Réagir avec un emoji signature réagira toujours sous cette persona, quelle que soit la persona active.",
+    "personaAddSignatureEmoji": "Ajouter un emoji",
+    "personaSignatureEmojiAlreadyAdded": "Cet emoji est déjà ajouté comme emoji signature",
+    "personaRemoveSignatureEmoji": "Supprimer l'emoji signature",
+    "personaSignatureEmojiAlreadyUsedByOther": "L'emoji signature est déjà utilisé par la persona « {name} »"
 }

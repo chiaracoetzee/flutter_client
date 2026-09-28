@@ -317,4 +317,35 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Nincs';
+
+  @override
+  String get chatReactAs => 'Reakció mint...';
+
+  @override
+  String get emojiCopy => 'Emoji másolása';
+
+  @override
+  String get emojiCopyLink => 'Link másolása';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Aláírási hangulatjelek';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Az aláírási hangulatjellel való reagálás mindig ezen személyként történik, a függetlenül az aktív személytől.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Hangulatjel hozzáadása';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Ez a hangulatjel már hozzá van adva aláírási hangulatjelként';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Ezt az aláírási hangulatjelet már használja a(z) \"$name\" személy';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Aláírási hangulatjel eltávolítása';
 }

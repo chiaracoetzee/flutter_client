@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
+import 'package:fluxer_app/features/profile/domain/signature_emoji.dart';
+
+export 'package:fluxer_app/features/profile/domain/signature_emoji.dart';
 
 class PersonaTag {
   const PersonaTag({
@@ -47,6 +50,7 @@ class Persona {
     this.bio,
     this.autoTagDisabled = false,
     this.personaTags = const [],
+    this.signatureEmojis = const [],
     this.useCount = 0,
     this.lastUsedAtMs,
     this.visibility = 'unlisted',
@@ -66,6 +70,7 @@ class Persona {
   final String? bio;
   final bool autoTagDisabled;
   final List<PersonaTag> personaTags;
+  final List<SignatureEmoji> signatureEmojis;
   final int useCount;
   final int? lastUsedAtMs;
   final String visibility;
@@ -83,6 +88,14 @@ class Persona {
     final tags = rawTags
         .whereType<Map<dynamic, dynamic>>()
         .map((t) => PersonaTag.fromJson(Map<String, dynamic>.from(t)))
+        .toList();
+
+    final rawSigs = json['signature_emojis'] as List<dynamic>? ??
+        json['signatureEmojis'] as List<dynamic>? ??
+        const [];
+    final sigs = rawSigs
+        .whereType<Map<dynamic, dynamic>>()
+        .map((s) => SignatureEmoji.fromJson(Map<String, dynamic>.from(s)))
         .toList();
 
     int? lastUsed;
@@ -111,6 +124,7 @@ class Persona {
           (json['autoTagDisabled'] as bool?) ??
           false,
       personaTags: tags,
+      signatureEmojis: sigs,
       useCount: (json['use_count'] as num?)?.toInt() ??
           (json['useCount'] as num?)?.toInt() ??
           0,
@@ -140,6 +154,7 @@ class Persona {
       if (bio != null) 'bio': bio,
       'auto_tag_disabled': autoTagDisabled,
       'persona_tags': personaTags.map((t) => t.toJson()).toList(),
+      'signature_emojis': signatureEmojis.map((s) => s.toJson()).toList(),
       'use_count': useCount,
       if (lastUsedAtMs != null) 'last_used_at_ms': lastUsedAtMs.toString(),
       'visibility': visibility,
@@ -168,6 +183,7 @@ class Persona {
     String? createdAt,
     String? updatedAt,
     DateTime? deletedAt,
+    List<SignatureEmoji>? signatureEmojis,
   }) {
     return Persona(
       id: id ?? this.id,
@@ -180,6 +196,7 @@ class Persona {
       bio: bio ?? this.bio,
       autoTagDisabled: autoTagDisabled ?? this.autoTagDisabled,
       personaTags: personaTags ?? this.personaTags,
+      signatureEmojis: signatureEmojis ?? this.signatureEmojis,
       useCount: useCount ?? this.useCount,
       lastUsedAtMs: lastUsedAtMs ?? this.lastUsedAtMs,
       visibility: visibility ?? this.visibility,
@@ -203,6 +220,7 @@ class Persona {
       visibility: visibility,
       autoTagDisabled: autoTagDisabled,
       personaTags: personaTags,
+      signatureEmojis: signatureEmojis,
     );
   }
 
