@@ -308,4 +308,35 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'なし';
+
+  @override
+  String get chatReactAs => '別名でリアクション...';
+
+  @override
+  String get emojiCopy => '絵文字をコピー';
+
+  @override
+  String get emojiCopyLink => 'リンクをコピー';
+
+  @override
+  String get personaSignatureEmojisLabel => 'シグネチャー絵文字';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'シグネチャー絵文字でリアクションすると、アクティブなペルソナに関係なく、常にこのペルソナとしてリアクションします。';
+
+  @override
+  String get personaAddSignatureEmoji => '絵文字を追加';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'この絵文字はすでにシグネチャー絵文字として追加されています';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'シグネチャー絵文字はすでにペルソナ「$name」で使用されています';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'シグネチャー絵文字を削除';
 }
