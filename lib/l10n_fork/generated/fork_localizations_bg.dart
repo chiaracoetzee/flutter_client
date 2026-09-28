@@ -318,4 +318,35 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Няма';
+
+  @override
+  String get chatReactAs => 'Реагиране като...';
+
+  @override
+  String get emojiCopy => 'Копирай емоджи';
+
+  @override
+  String get emojiCopyLink => 'Копирай линка';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Подписни емоджита';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Реагирането с подписано емоджи винаги ще реагира като тази персона, независимо от активната персона.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Добавяне на емоджи';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Това емоджи вече е добавено като подписано емоджи';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Подписаното емоджи вече се използва от персона \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Премахване на подписано емоджи';
 }

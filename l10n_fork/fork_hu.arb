@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Letöltés és telepítés",
     "userSettingsUpdateInstallAction": "Frissítés telepítése",
     "userSettingsDownloadingUpdate": "Frissítés letöltése ({percent}%)…",
-    "userSettingsUpdateFailed": "Nem sikerült a frissítést ellenőrizni vagy letölteni."
+    "userSettingsUpdateFailed": "Nem sikerült a frissítést ellenőrizni vagy letölteni.",
+    "chatReactAs": "Reakció mint...",
+    "emojiCopy": "Emoji másolása",
+    "emojiCopyLink": "Link másolása",
+    "personaSignatureEmojisLabel": "Aláírási hangulatjelek",
+    "personaSignatureEmojisDescription": "Az aláírási hangulatjellel való reagálás mindig ezen személyként történik, a függetlenül az aktív személytől.",
+    "personaAddSignatureEmoji": "Hangulatjel hozzáadása",
+    "personaSignatureEmojiAlreadyAdded": "Ez a hangulatjel már hozzá van adva aláírási hangulatjelként",
+    "personaRemoveSignatureEmoji": "Aláírási hangulatjel eltávolítása",
+    "personaSignatureEmojiAlreadyUsedByOther": "Ezt az aláírási hangulatjelet már használja a(z) \"{name}\" személy"
 }

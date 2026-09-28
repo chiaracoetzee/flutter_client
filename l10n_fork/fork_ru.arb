@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Скачать и установить",
     "userSettingsUpdateInstallAction": "Установить обновление",
     "userSettingsDownloadingUpdate": "Скачивание обновления ({percent}%)…",
-    "userSettingsUpdateFailed": "Не удалось проверить или скачать обновление."
+    "userSettingsUpdateFailed": "Не удалось проверить или скачать обновление.",
+    "chatReactAs": "Реагировать как...",
+    "emojiCopy": "Скопировать эмодзи",
+    "emojiCopyLink": "Скопировать ссылку",
+    "personaSignatureEmojisLabel": "Фирменные эмодзи",
+    "personaSignatureEmojisDescription": "Реакция фирменным эмодзи всегда ставится от имени этой персоны независимо от активной.",
+    "personaAddSignatureEmoji": "Добавить эмодзи",
+    "personaSignatureEmojiAlreadyAdded": "Этот эмодзи уже добавлен как фирменный эмодзи",
+    "personaRemoveSignatureEmoji": "Удалить фирменный эмодзи",
+    "personaSignatureEmojiAlreadyUsedByOther": "Фирменный эмодзи уже используется персоной «{name}»"
 }

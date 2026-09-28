@@ -316,4 +316,35 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Không có';
+
+  @override
+  String get chatReactAs => 'Thả cảm xúc dưới tên...';
+
+  @override
+  String get emojiCopy => 'Sao chép biểu tượng cảm xúc';
+
+  @override
+  String get emojiCopyLink => 'Sao chép liên kết';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Biểu tượng cảm xúc đặc trưng';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Bày tỏ cảm xúc bằng biểu tượng đặc trưng sẽ luôn phản hồi dưới tư cách nhân cách này, bất kể nhân cách đang hoạt động là gì.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Thêm biểu tượng cảm xúc';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Biểu tượng cảm xúc này đã được thêm làm biểu tượng đặc trưng';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Biểu tượng cảm xúc đặc trưng đã được nhân cách \"$name\" sử dụng';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Xóa biểu tượng cảm xúc đặc trưng';
 }
