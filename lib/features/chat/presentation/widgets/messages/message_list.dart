@@ -597,9 +597,11 @@ class _MessageListState extends ConsumerState<MessageList> {
         : resolveGuildChannel(ref, channelId);
     final int? channelPermissionBits = channelId.isEmpty
         ? null
-        : ref
-              .read(channelPermissionCacheProvider.notifier)
-              .getChannelBits(channelId);
+        : ref.watch(
+            channelPermissionCacheProvider.select(
+              (ChannelPermissionCaches c) => c[channelId],
+            ),
+          );
     final AsyncValue<drift_db.ReadState?> readStateAsync = channelId.isEmpty
         ? const AsyncValue<drift_db.ReadState?>.data(null)
         : ref.watch(messageListReadStateProvider(channelId));
