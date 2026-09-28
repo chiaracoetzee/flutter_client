@@ -305,6 +305,36 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => '无';
+
+  @override
+  String get chatReactAs => '回应身份...';
+
+  @override
+  String get emojiCopy => '复制表情';
+
+  @override
+  String get emojiCopyLink => '复制链接';
+
+  @override
+  String get personaSignatureEmojisLabel => '专属表情符号';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      '使用专属表情符号回应时，无论当前活跃角色是谁，都将始终以此角色身份回应。';
+
+  @override
+  String get personaAddSignatureEmoji => '添加表情符号';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded => '此表情符号已添加为专属表情符号';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return '专属表情符号已被角色“$name”使用';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => '移除专属表情符号';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -608,4 +638,34 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get userProfileTimezoneNone => '無';
+
+  @override
+  String get chatReactAs => '回應身分...';
+
+  @override
+  String get emojiCopy => '複製表情符號';
+
+  @override
+  String get emojiCopyLink => '複製連結';
+
+  @override
+  String get personaSignatureEmojisLabel => '專屬表情符號';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      '使用專屬表情符號回應時，無論目前啟用的角色是誰，都會一律以此角色身分回應。';
+
+  @override
+  String get personaAddSignatureEmoji => '新增表情符號';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded => '此表情符號已新增為專屬表情符號';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return '專屬表情符號已由角色「$name」使用';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => '移除專屬表情符號';
 }

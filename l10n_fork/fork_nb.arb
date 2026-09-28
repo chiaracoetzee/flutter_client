@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Last ned og installer",
     "userSettingsUpdateInstallAction": "Installer oppdatering",
     "userSettingsDownloadingUpdate": "Laster ned oppdatering ({percent} %)…",
-    "userSettingsUpdateFailed": "Kunne ikke søke etter eller laste ned oppdatering."
+    "userSettingsUpdateFailed": "Kunne ikke søke etter eller laste ned oppdatering.",
+    "chatReactAs": "Reager som...",
+    "emojiCopy": "Kopier emoji",
+    "emojiCopyLink": "Kopier lenke",
+    "personaSignatureEmojisLabel": "Signaturemojier",
+    "personaSignatureEmojisDescription": "Reaksjon med en signaturemoji vil alltid reagere som denne personaen, uavhengig av aktiv persona.",
+    "personaAddSignatureEmoji": "Legg til emoji",
+    "personaSignatureEmojiAlreadyAdded": "Denne emojien er allerede lagt til som en signaturemoji",
+    "personaRemoveSignatureEmoji": "Fjern signaturemoji",
+    "personaSignatureEmojiAlreadyUsedByOther": "Signaturemojien brukes allerede av personaen «{name}»"
 }

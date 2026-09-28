@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "ดาวน์โหลดและติดตั้ง",
     "userSettingsUpdateInstallAction": "ติดตั้งอัปเดต",
     "userSettingsDownloadingUpdate": "กำลังดาวน์โหลดอัปเดต ({percent}%)…",
-    "userSettingsUpdateFailed": "ตรวจหาหรือดาวน์โหลดอัปเดตไม่สำเร็จ"
+    "userSettingsUpdateFailed": "ตรวจหาหรือดาวน์โหลดอัปเดตไม่สำเร็จ",
+    "chatReactAs": "แสดงความรู้สึกในฐานะ...",
+    "emojiCopy": "คัดลอกอิโมจิ",
+    "emojiCopyLink": "คัดลอกลิงก์",
+    "personaSignatureEmojisLabel": "อีโมจิประจำตัว",
+    "personaSignatureEmojisDescription": "การแสดงความรู้สึกด้วยอีโมจิประจำตัวจะแสดงความรู้สึกในฐานะตัวตนนี้เสมอ ไม่ว่าจะใช้ตัวตนใดอยู่ก็ตาม",
+    "personaAddSignatureEmoji": "เพิ่มอีโมจิ",
+    "personaSignatureEmojiAlreadyAdded": "อีโมจินี้ถูกเพิ่มเป็นอีโมจิประจำตัวแล้ว",
+    "personaRemoveSignatureEmoji": "ลบอีโมจิประจำตัว",
+    "personaSignatureEmojiAlreadyUsedByOther": "อีโมจิประจำตัวถูกใช้งานแล้วโดยตัวตน \"{name}\""
 }

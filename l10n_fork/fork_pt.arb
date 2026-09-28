@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Transferir e instalar",
     "userSettingsUpdateInstallAction": "Instalar atualização",
     "userSettingsDownloadingUpdate": "A transferir atualização ({percent}%)…",
-    "userSettingsUpdateFailed": "Falha ao procurar ou transferir a atualização."
+    "userSettingsUpdateFailed": "Falha ao procurar ou transferir a atualização.",
+    "chatReactAs": "Reagir como...",
+    "emojiCopy": "Copiar emoji",
+    "emojiCopyLink": "Copiar link",
+    "personaSignatureEmojisLabel": "Emojis de assinatura",
+    "personaSignatureEmojisDescription": "Reagir com um emoji de assinatura sempre reagirá como esta persona, independentemente da persona ativa.",
+    "personaAddSignatureEmoji": "Adicionar emoji",
+    "personaSignatureEmojiAlreadyAdded": "Este emoji já foi adicionado como emoji de assinatura",
+    "personaRemoveSignatureEmoji": "Remover emoji de assinatura",
+    "personaSignatureEmojiAlreadyUsedByOther": "O emoji de assinatura já está em uso pela persona \"{name}\""
 }

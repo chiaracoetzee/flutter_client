@@ -712,6 +712,60 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'None'**
   String get userProfileTimezoneNone;
+
+  /// Menu action and sheet title to react as a persona.
+  ///
+  /// In en, this message translates to:
+  /// **'React as...'**
+  String get chatReactAs;
+
+  /// Action to copy an emoji character or markdown code to clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy emoji'**
+  String get emojiCopy;
+
+  /// Action to copy a custom emoji image URL to clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get emojiCopyLink;
+
+  /// Section header for signature emojis on persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature Emojis'**
+  String get personaSignatureEmojisLabel;
+
+  /// Explanation text for persona signature emojis.
+  ///
+  /// In en, this message translates to:
+  /// **'Reacting with a signature emoji will always react as this persona, regardless of active persona.'**
+  String get personaSignatureEmojisDescription;
+
+  /// Button to add a signature emoji to persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Emoji'**
+  String get personaAddSignatureEmoji;
+
+  /// Toast when attempting to add duplicate signature emoji to same persona.
+  ///
+  /// In en, this message translates to:
+  /// **'This emoji is already added as a signature emoji'**
+  String get personaSignatureEmojiAlreadyAdded;
+
+  /// Toast when attempting to add signature emoji already assigned to another persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature emoji already in use by persona \"{name}\"'**
+  String personaSignatureEmojiAlreadyUsedByOther(String name);
+
+  /// Aria label for removing signature emoji from persona.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove signature emoji'**
+  String get personaRemoveSignatureEmoji;
 }
 
 class _ForkLocalizationsDelegate
