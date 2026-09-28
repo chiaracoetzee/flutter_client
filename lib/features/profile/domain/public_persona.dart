@@ -15,6 +15,7 @@ class PublicPersona {
     this.visibility,
     this.autoTagDisabled = false,
     this.personaTags = const [],
+    this.signatureEmojis = const [],
   });
 
   final String id;
@@ -30,6 +31,7 @@ class PublicPersona {
   final String? visibility;
   final bool autoTagDisabled;
   final List<PersonaTag> personaTags;
+  final List<SignatureEmoji> signatureEmojis;
 
   factory PublicPersona.fromJson(Map<String, dynamic> json) {
     final rawTags =
@@ -47,6 +49,23 @@ class PublicPersona {
           return null;
         })
         .whereType<PersonaTag>()
+        .toList();
+
+    final rawSigs =
+        json['signature_emojis'] as List<dynamic>? ??
+        json['signatureEmojis'] as List<dynamic>? ??
+        const [];
+    final sigs = rawSigs
+        .map((s) {
+          if (s is Map<String, dynamic>) {
+            return SignatureEmoji.fromJson(s);
+          }
+          if (s is Map) {
+            return SignatureEmoji.fromJson(Map<String, dynamic>.from(s));
+          }
+          return null;
+        })
+        .whereType<SignatureEmoji>()
         .toList();
 
     return PublicPersona(
@@ -67,6 +86,7 @@ class PublicPersona {
       visibility: json['visibility'] as String?,
       autoTagDisabled: json['auto_tag_disabled'] as bool? ?? false,
       personaTags: tags,
+      signatureEmojis: sigs,
     );
   }
 
@@ -85,6 +105,7 @@ class PublicPersona {
       if (visibility != null) 'visibility': visibility,
       'auto_tag_disabled': autoTagDisabled,
       'persona_tags': personaTags.map((t) => t.toJson()).toList(),
+      'signature_emojis': signatureEmojis.map((s) => s.toJson()).toList(),
     };
   }
 
@@ -102,6 +123,7 @@ class PublicPersona {
     String? visibility,
     bool? autoTagDisabled,
     List<PersonaTag>? personaTags,
+    List<SignatureEmoji>? signatureEmojis,
   }) {
     return PublicPersona(
       id: id ?? this.id,
@@ -117,6 +139,7 @@ class PublicPersona {
       visibility: visibility ?? this.visibility,
       autoTagDisabled: autoTagDisabled ?? this.autoTagDisabled,
       personaTags: personaTags ?? this.personaTags,
+      signatureEmojis: signatureEmojis ?? this.signatureEmojis,
     );
   }
 
@@ -133,6 +156,7 @@ class PublicPersona {
       visibility: visibility ?? 'unlisted',
       autoTagDisabled: autoTagDisabled,
       personaTags: personaTags,
+      signatureEmojis: signatureEmojis,
       useCount: useCount,
       lastUsedAtMs: lastUsedAtMs,
     );
