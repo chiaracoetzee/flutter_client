@@ -315,4 +315,35 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'ไม่มี';
+
+  @override
+  String get chatReactAs => 'แสดงความรู้สึกในฐานะ...';
+
+  @override
+  String get emojiCopy => 'คัดลอกอิโมจิ';
+
+  @override
+  String get emojiCopyLink => 'คัดลอกลิงก์';
+
+  @override
+  String get personaSignatureEmojisLabel => 'อีโมจิประจำตัว';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'การแสดงความรู้สึกด้วยอีโมจิประจำตัวจะแสดงความรู้สึกในฐานะตัวตนนี้เสมอ ไม่ว่าจะใช้ตัวตนใดอยู่ก็ตาม';
+
+  @override
+  String get personaAddSignatureEmoji => 'เพิ่มอีโมจิ';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'อีโมจินี้ถูกเพิ่มเป็นอีโมจิประจำตัวแล้ว';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'อีโมจิประจำตัวถูกใช้งานแล้วโดยตัวตน \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'ลบอีโมจิประจำตัว';
 }

@@ -32,6 +32,13 @@ import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+
 const _kGridColumns = 9;
 const _kMobileGridColumns = 9;
 const _kUnicodeEmojiSize = 32.0;
@@ -72,6 +79,9 @@ class EmojiPickerContent extends ConsumerStatefulWidget {
     this.skinTone = '',
     this.isMobile = false,
     this.channelId,
+    this.messageId,
+    this.personaId,
+    this.onClose,
     this.scrollController,
     this.onBackspace,
     super.key,
@@ -84,6 +94,9 @@ class EmojiPickerContent extends ConsumerStatefulWidget {
   final String skinTone;
   final bool isMobile;
   final String? channelId;
+  final String? messageId;
+  final String? personaId;
+  final VoidCallback? onClose;
   final ScrollController? scrollController;
 
   @override
@@ -384,6 +397,62 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
           .read(expressionUsageProvider(ExpressionUsageKind.emoji).notifier)
           .track(key),
     );
+    // Fork: also count the emoji for the persona it is used as.
+    final personaId = _readEffectivePersonaId();
+    if (personaId != null && personaId != '0') {
+      unawaited(PersonaEmojiUsageStore.trackUsage(key, personaId));
+      ref.invalidate(rankedEmojiUsageKeysForPersonaProvider(personaId));
+    }
+  }
+
+  String? _watchEffectivePersonaId() {
+    if (widget.personaId != null) {
+      return widget.personaId == '0' ? null : widget.personaId;
+    }
+    final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
+    if (personas.isEmpty) {
+      return null;
+    }
+
+    final composerText = ref.watch(
+      chatViewModelProvider.select((s) => s.messageText),
+    );
+    final activeState = ref.watch(activePersonaProvider);
+    final String? latchedId = activeState.isLatched
+        ? activeState.activePersonaId
+        : null;
+    final preview = previewPersona(composerText, personas, latchedId, false);
+    if (preview.isFromTag && preview.persona != null) {
+      return preview.persona!.id;
+    }
+    if (activeState.isLatched && activeState.activePersonaId != null) {
+      return activeState.activePersonaId;
+    }
+    return null;
+  }
+
+  String? _readEffectivePersonaId() {
+    if (widget.personaId != null) {
+      return widget.personaId == '0' ? null : widget.personaId;
+    }
+    final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
+    if (personas.isEmpty) {
+      return null;
+    }
+
+    final composerText = ref.read(chatViewModelProvider).messageText;
+    final activeState = ref.read(activePersonaProvider);
+    final String? latchedId = activeState.isLatched
+        ? activeState.activePersonaId
+        : null;
+    final preview = previewPersona(composerText, personas, latchedId, false);
+    if (preview.isFromTag && preview.persona != null) {
+      return preview.persona!.id;
+    }
+    if (activeState.isLatched && activeState.activePersonaId != null) {
+      return activeState.activePersonaId;
+    }
+    return null;
   }
 
   void _onEmojiSelected(EmojiEntry emoji) {
@@ -402,9 +471,13 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     if (pinned != null) {
       return pinned;
     }
+    // Fork: the ranking of the persona in use (the global one without a persona).
+    final String? personaId = watch
+        ? _watchEffectivePersonaId()
+        : _readEffectivePersonaId();
     final AsyncValue<List<String>> ranking = watch
-        ? ref.watch(rankedEmojiUsageKeysProvider)
-        : ref.read(rankedEmojiUsageKeysProvider);
+        ? ref.watch(rankedEmojiUsageKeysForPersonaProvider(personaId))
+        : ref.read(rankedEmojiUsageKeysForPersonaProvider(personaId));
     final List<String>? value = ranking.value;
     if (value == null) {
       return const <String>[];
@@ -442,6 +515,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     openEmojiInfoBottomSheet(
       context,
       emoji: EmojiInfoData.fromEmojiEntry(emoji),
+      channelId: widget.channelId,
+      messageId: widget.messageId,
+      onReacted: widget.onClose,
     );
   }
 
@@ -452,6 +528,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     openEmojiInfoBottomSheet(
       context,
       emoji: EmojiInfoData.fromGuildEmoji(emoji),
+      channelId: widget.channelId,
+      messageId: widget.messageId,
+      onReacted: widget.onClose,
     );
   }
 

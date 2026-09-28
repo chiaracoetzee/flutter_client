@@ -319,4 +319,35 @@ class ForkLocalizationsIt extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Nessuno';
+
+  @override
+  String get chatReactAs => 'Reagisci come...';
+
+  @override
+  String get emojiCopy => 'Copia emoji';
+
+  @override
+  String get emojiCopyLink => 'Copia link';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Emoji distintive';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reagire con un\'emoji distintiva reagirà sempre come questa persona, indipendentemente dalla persona attiva.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Aggiungi emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Questa emoji è già stata aggiunta come emoji distintiva';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Emoji distintiva già in uso dalla persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Rimuovi emoji distintiva';
 }

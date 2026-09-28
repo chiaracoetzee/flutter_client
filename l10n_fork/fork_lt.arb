@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Atsisiųsti ir įdiegti",
     "userSettingsUpdateInstallAction": "Įdiegti naujinimą",
     "userSettingsDownloadingUpdate": "Atsisiunčiamas naujinimas ({percent} %)…",
-    "userSettingsUpdateFailed": "Nepavyko patikrinti arba atsisiųsti naujinimo."
+    "userSettingsUpdateFailed": "Nepavyko patikrinti arba atsisiųsti naujinimo.",
+    "chatReactAs": "Reaguoti kaip...",
+    "emojiCopy": "Kopijuoti jaustuką",
+    "emojiCopyLink": "Kopijuoti nuorodą",
+    "personaSignatureEmojisLabel": "Parašo jaustukai",
+    "personaSignatureEmojisDescription": "Reagavimas su parašo jaustuku visada reaguos kaip šis profilis, nepriklausomai nuo aktyvaus profilio.",
+    "personaAddSignatureEmoji": "Pridėti jaustuką",
+    "personaSignatureEmojiAlreadyAdded": "Šis jaustukas jau pridėtas kaip parašo jaustukas",
+    "personaRemoveSignatureEmoji": "Pašalinti parašo jaustuką",
+    "personaSignatureEmojiAlreadyUsedByOther": "Parašo jaustuką jau naudoja profilis „{name}“"
 }
