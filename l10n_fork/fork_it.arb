@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Scarica e installa",
     "userSettingsUpdateInstallAction": "Installa aggiornamento",
     "userSettingsDownloadingUpdate": "Download aggiornamento in corso ({percent}%)…",
-    "userSettingsUpdateFailed": "Impossibile verificare o scaricare l'aggiornamento."
+    "userSettingsUpdateFailed": "Impossibile verificare o scaricare l'aggiornamento.",
+    "chatReactAs": "Reagisci come...",
+    "emojiCopy": "Copia emoji",
+    "emojiCopyLink": "Copia link",
+    "personaSignatureEmojisLabel": "Emoji distintive",
+    "personaSignatureEmojisDescription": "Reagire con un'emoji distintiva reagirà sempre come questa persona, indipendentemente dalla persona attiva.",
+    "personaAddSignatureEmoji": "Aggiungi emoji",
+    "personaSignatureEmojiAlreadyAdded": "Questa emoji è già stata aggiunta come emoji distintiva",
+    "personaRemoveSignatureEmoji": "Rimuovi emoji distintiva",
+    "personaSignatureEmojiAlreadyUsedByOther": "Emoji distintiva già in uso dalla persona \"{name}\""
 }

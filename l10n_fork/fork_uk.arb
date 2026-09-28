@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Завантажити та встановити",
     "userSettingsUpdateInstallAction": "Встановити оновлення",
     "userSettingsDownloadingUpdate": "Завантаження оновлення ({percent}%)…",
-    "userSettingsUpdateFailed": "Не вдалося перевірити або завантажити оновлення."
+    "userSettingsUpdateFailed": "Не вдалося перевірити або завантажити оновлення.",
+    "chatReactAs": "Відреагувати як...",
+    "emojiCopy": "Копіювати емодзі",
+    "emojiCopyLink": "Копіювати посилання",
+    "personaSignatureEmojisLabel": "Фірмові емодзі",
+    "personaSignatureEmojisDescription": "Реакція фірмовим емодзі завжди залишається від імені цієї персони, незалежно від активної.",
+    "personaAddSignatureEmoji": "Додати емодзі",
+    "personaSignatureEmojiAlreadyAdded": "Цей емодзі вже додано як фірмовий емодзі",
+    "personaRemoveSignatureEmoji": "Видалити фірмовий емодзі",
+    "personaSignatureEmojiAlreadyUsedByOther": "Фірмовий емодзі вже використовується персоною «{name}»"
 }
