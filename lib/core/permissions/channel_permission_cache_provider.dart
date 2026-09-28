@@ -4,6 +4,10 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'dart:async';
+
 part 'channel_permission_cache_provider.g.dart';
 
 class ChannelPermissionCaches {
@@ -24,9 +28,13 @@ class ChannelPermissionCaches {
 
 @Riverpod(keepAlive: true)
 class ChannelPermissionCache extends _$ChannelPermissionCache {
+  final Map<String, Future<void>> _inFlightRebuilds = <String, Future<void>>{};
+
   @override
   ChannelPermissionCaches build() {
     ref.watch(currentUserIdProvider);
+    _inFlightRebuilds.clear();
+    ref.onDispose(_inFlightRebuilds.clear);
     return const ChannelPermissionCaches();
   }
 
@@ -34,13 +42,47 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
 
   int? getLocalChannelBits(String channelId) => state.local[channelId];
 
-  Future<void> rebuildChannel(
-    String channelId, {
-    bool localOnly = false,
-  }) async {
+  Future<void> rebuildChannel(String channelId, {bool localOnly = false}) {
     if (channelId.isEmpty) {
-      return;
+      return Future<void>.value();
     }
+    final String key = localOnly ? 'local:$channelId' : 'effective:$channelId';
+    final Future<void>? inFlight = _inFlightRebuilds[key];
+    if (inFlight != null) {
+      return inFlight;
+    }
+
+    final Completer<void> completer = Completer<void>();
+    _inFlightRebuilds[key] = completer.future;
+
+    unawaited(
+      _rebuildChannelInternal(channelId, localOnly: localOnly)
+          .then(
+            (_) {
+              if (!completer.isCompleted) {
+                completer.complete();
+              }
+            },
+            onError: (Object error, StackTrace stack) {
+              if (!completer.isCompleted) {
+                completer.completeError(error, stack);
+              }
+            },
+          )
+          .whenComplete(() {
+            if (identical(_inFlightRebuilds[key], completer.future)) {
+              final _ = _inFlightRebuilds.remove(key);
+            }
+          }),
+    );
+
+    return completer.future;
+  }
+
+  Future<void> _rebuildChannelInternal(
+    String channelId, {
+    required bool localOnly,
+  }) async {
     final ChannelPermissionBitsOutcome outcome = localOnly
         ? await computeChannelLocalGuildChannelPermissionBitsOutcome(
             ref: ref,
@@ -143,6 +185,7 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
   }
 
   void clearAll() {
+    _inFlightRebuilds.clear();
     if (state.isEmpty) {
       return;
     }

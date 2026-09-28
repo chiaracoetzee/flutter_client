@@ -14,6 +14,11 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
 import 'package:riverpod/riverpod.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/shared/utils/sdk_converters.dart';
+
 typedef ChannelPermissionBitsOutcome = ({int value, bool shouldCache});
 
 bool bypassesChannelSlowmode(ChannelPermissionBitsOutcome? outcome) {
@@ -69,12 +74,25 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
   if (!ref.mounted) {
     return (value: 0, shouldCache: false);
   }
-  final memberRow = await db.memberDao.getMemberByUserId(
-    currentUserId,
-    guildId,
-  );
+  var memberRow = await db.memberDao.getMemberByUserId(currentUserId, guildId);
   if (!ref.mounted) {
     return (value: 0, shouldCache: false);
+  }
+  if (memberRow == null && currentUserId.isNotEmpty) {
+    try {
+      final client = ref.read(fluxerClientProvider);
+      final sdk = await client.guilds.getGuildMember(
+        guildId: guildId,
+        userId: currentUserId,
+      );
+      if (!ref.mounted) {
+        return (value: 0, shouldCache: false);
+      }
+      await upsertGuildMembersFromSdk(db, guildId, [sdk]);
+      memberRow = await db.memberDao.getMemberByUserId(currentUserId, guildId);
+    } on Object catch (_) {
+      // Member not found or network offline
+    }
   }
   if (memberRow == null) {
     return (value: 0, shouldCache: false);
