@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Download & Install",
     "userSettingsUpdateInstallAction": "Install Update",
     "userSettingsDownloadingUpdate": "Downloading update ({percent}%)…",
-    "userSettingsUpdateFailed": "Failed to check or download update."
+    "userSettingsUpdateFailed": "Failed to check or download update.",
+    "chatReactAs": "React as...",
+    "emojiCopy": "Copy emoji",
+    "emojiCopyLink": "Copy link",
+    "personaSignatureEmojisLabel": "Signature Emojis",
+    "personaSignatureEmojisDescription": "Reacting with a signature emoji will always react as this persona, regardless of active persona.",
+    "personaAddSignatureEmoji": "Add Emoji",
+    "personaSignatureEmojiAlreadyAdded": "This emoji is already added as a signature emoji",
+    "personaRemoveSignatureEmoji": "Remove signature emoji",
+    "personaSignatureEmojiAlreadyUsedByOther": "Signature emoji already in use by persona \"{name}\""
 }

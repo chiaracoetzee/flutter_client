@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "다운로드 및 설치",
     "userSettingsUpdateInstallAction": "업데이트 설치",
     "userSettingsDownloadingUpdate": "업데이트 다운로드 중({percent}%)…",
-    "userSettingsUpdateFailed": "업데이트 확인 또는 다운로드에 실패했습니다."
+    "userSettingsUpdateFailed": "업데이트 확인 또는 다운로드에 실패했습니다.",
+    "chatReactAs": "다른 프로필로 반응하기...",
+    "emojiCopy": "이모티콘 복사",
+    "emojiCopyLink": "링크 복사",
+    "personaSignatureEmojisLabel": "시그니처 이모지",
+    "personaSignatureEmojisDescription": "시그니처 이모지로 반응하면 활성 페르소나와 관계없이 항상 이 페르소나로 반응합니다.",
+    "personaAddSignatureEmoji": "이모지 추가",
+    "personaSignatureEmojiAlreadyAdded": "이 이모지는 이미 시그니처 이모지로 추가되었습니다",
+    "personaRemoveSignatureEmoji": "시그니처 이모지 삭제",
+    "personaSignatureEmojiAlreadyUsedByOther": "시그니처 이모지가 이미 \"{name}\" 페르소나에서 사용 중입니다"
 }

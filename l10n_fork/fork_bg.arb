@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Изтегляне и инсталиране",
     "userSettingsUpdateInstallAction": "Инсталиране на актуализацията",
     "userSettingsDownloadingUpdate": "Изтегляне на актуализация ({percent}%)…",
-    "userSettingsUpdateFailed": "Неуспешна проверка или изтегляне на актуализация."
+    "userSettingsUpdateFailed": "Неуспешна проверка или изтегляне на актуализация.",
+    "chatReactAs": "Реагиране като...",
+    "emojiCopy": "Копирай емоджи",
+    "emojiCopyLink": "Копирай линка",
+    "personaSignatureEmojisLabel": "Подписни емоджита",
+    "personaSignatureEmojisDescription": "Реагирането с подписано емоджи винаги ще реагира като тази персона, независимо от активната персона.",
+    "personaAddSignatureEmoji": "Добавяне на емоджи",
+    "personaSignatureEmojiAlreadyAdded": "Това емоджи вече е добавено като подписано емоджи",
+    "personaRemoveSignatureEmoji": "Премахване на подписано емоджи",
+    "personaSignatureEmojiAlreadyUsedByOther": "Подписаното емоджи вече се използва от персона \"{name}\""
 }

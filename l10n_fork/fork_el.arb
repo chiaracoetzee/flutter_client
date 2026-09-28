@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Λήψη & εγκατάσταση",
     "userSettingsUpdateInstallAction": "Εγκατάσταση ενημέρωσης",
     "userSettingsDownloadingUpdate": "Λήψη ενημέρωσης ({percent}%)…",
-    "userSettingsUpdateFailed": "Αποτυχία ελέγχου ή λήψης ενημέρωσης."
+    "userSettingsUpdateFailed": "Αποτυχία ελέγχου ή λήψης ενημέρωσης.",
+    "chatReactAs": "Αντίδραση ως...",
+    "emojiCopy": "Αντιγραφή emoji",
+    "emojiCopyLink": "Αντιγραφή συνδέσμου",
+    "personaSignatureEmojisLabel": "Χαρακτηριστικά emoji",
+    "personaSignatureEmojisDescription": "Η αντίδραση με ένα χαρακτηριστικό emoji θα αντιδρά πάντα ως αυτή η περσόνα, ανεξάρτητα από την ενεργή περσόνα.",
+    "personaAddSignatureEmoji": "Προσθήκη emoji",
+    "personaSignatureEmojiAlreadyAdded": "Αυτό το emoji έχει ήδη προστεθεί ως χαρακτηριστικό emoji",
+    "personaRemoveSignatureEmoji": "Κατάργηση χαρακτηριστικού emoji",
+    "personaSignatureEmojiAlreadyUsedByOther": "Το χαρακτηριστικό emoji χρησιμοποιείται ήδη από την περσόνα «{name}»"
 }
