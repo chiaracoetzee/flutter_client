@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "डाउनलोड और इंस्टॉल करें",
     "userSettingsUpdateInstallAction": "अपडेट इंस्टॉल करें",
     "userSettingsDownloadingUpdate": "अपडेट डाउनलोड हो रहा है ({percent}%)…",
-    "userSettingsUpdateFailed": "अपडेट की जाँच करने या डाउनलोड करने में विफल।"
+    "userSettingsUpdateFailed": "अपडेट की जाँच करने या डाउनलोड करने में विफल।",
+    "chatReactAs": "के रूप में प्रतिक्रिया दें...",
+    "emojiCopy": "इमोजी कॉपी करें",
+    "emojiCopyLink": "लिंक कॉपी करें",
+    "personaSignatureEmojisLabel": "हस्ताक्षर इमोजी",
+    "personaSignatureEmojisDescription": "हस्ताक्षर इमोजी के साथ प्रतिक्रिया देने पर हमेशा इस व्यक्तित्व के रूप में प्रतिक्रिया होगी, चाहे कोई भी सक्रिय व्यक्तित्व हो।",
+    "personaAddSignatureEmoji": "इमोजी जोड़ें",
+    "personaSignatureEmojiAlreadyAdded": "यह इमोजी पहले से ही एक हस्ताक्षर इमोजी के रूप में जोड़ा गया है",
+    "personaRemoveSignatureEmoji": "हस्ताक्षर इमोजी हटाएं",
+    "personaSignatureEmojiAlreadyUsedByOther": "हस्ताक्षर इमोजी का उपयोग पहले से ही व्यक्तित्व \"{name}\" द्वारा किया जा रहा है"
 }

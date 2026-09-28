@@ -318,4 +318,35 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Nijedno';
+
+  @override
+  String get chatReactAs => 'Reagiraj kao...';
+
+  @override
+  String get emojiCopy => 'Kopiraj emoji';
+
+  @override
+  String get emojiCopyLink => 'Kopiraj poveznicu';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Prepoznatljivi emojiji';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reagiranje s prepoznatljivim emojijem uvijek će reagirati kao ova persona, bez obzira na aktivnu personu.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Dodaj emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Ovaj emoji je već dodan kao prepoznatljivi emoji';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Prepoznatljivi emoji već koristi persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Ukloni prepoznatljivi emoji';
 }

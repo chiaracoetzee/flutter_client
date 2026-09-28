@@ -317,4 +317,35 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Brak';
+
+  @override
+  String get chatReactAs => 'Zareaguj jako...';
+
+  @override
+  String get emojiCopy => 'Kopiuj emoji';
+
+  @override
+  String get emojiCopyLink => 'Kopiuj link';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Emoji podpisu';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reagowanie za pomocą emoji podpisu zawsze doda reakcję jako ta persona, niezależnie od aktywnej persony.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Dodaj emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'To emoji zostało już dodane jako emoji podpisu';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Emoji podpisu jest już używane przez personę \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Usuń emoji podpisu';
 }

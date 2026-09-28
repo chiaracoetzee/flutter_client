@@ -318,4 +318,35 @@ class ForkLocalizationsRu extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Нет';
+
+  @override
+  String get chatReactAs => 'Реагировать как...';
+
+  @override
+  String get emojiCopy => 'Скопировать эмодзи';
+
+  @override
+  String get emojiCopyLink => 'Скопировать ссылку';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Фирменные эмодзи';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Реакция фирменным эмодзи всегда ставится от имени этой персоны независимо от активной.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Добавить эмодзи';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Этот эмодзи уже добавлен как фирменный эмодзи';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Фирменный эмодзи уже используется персоной «$name»';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Удалить фирменный эмодзи';
 }

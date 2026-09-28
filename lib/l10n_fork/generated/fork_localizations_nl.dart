@@ -317,4 +317,35 @@ class ForkLocalizationsNl extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Geen';
+
+  @override
+  String get chatReactAs => 'Reageren als...';
+
+  @override
+  String get emojiCopy => 'Emoji kopiëren';
+
+  @override
+  String get emojiCopyLink => 'Link kopiëren';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Handtekening-emoji\'s';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reageren met een handtekening-emoji reageert altijd als deze persona, ongeacht de actieve persona.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Emoji toevoegen';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Deze emoji is al toegevoegd als handtekening-emoji';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Handtekening-emoji is al in gebruik door persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Handtekening-emoji verwijderen';
 }

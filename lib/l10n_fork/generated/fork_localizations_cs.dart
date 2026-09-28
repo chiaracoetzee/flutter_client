@@ -318,4 +318,35 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get userProfileTimezoneNone => 'Žádné';
+
+  @override
+  String get chatReactAs => 'Reagovat jako...';
+
+  @override
+  String get emojiCopy => 'Kopírovat emoji';
+
+  @override
+  String get emojiCopyLink => 'Kopírovat odkaz';
+
+  @override
+  String get personaSignatureEmojisLabel => 'Podpisové emoji';
+
+  @override
+  String get personaSignatureEmojisDescription =>
+      'Reagování podpisovým emoji vždy zareaguje jako tato persona, bez ohledu na aktivní personu.';
+
+  @override
+  String get personaAddSignatureEmoji => 'Přidat emoji';
+
+  @override
+  String get personaSignatureEmojiAlreadyAdded =>
+      'Toto emoji je již přidáno jako podpisové emoji';
+
+  @override
+  String personaSignatureEmojiAlreadyUsedByOther(String name) {
+    return 'Podpisové emoji již používá persona \"$name\"';
+  }
+
+  @override
+  String get personaRemoveSignatureEmoji => 'Odebrat podpisové emoji';
 }
