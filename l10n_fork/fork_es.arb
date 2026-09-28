@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Descargar e instalar",
     "userSettingsUpdateInstallAction": "Instalar actualización",
     "userSettingsDownloadingUpdate": "Descargando actualización ({percent} %)…",
-    "userSettingsUpdateFailed": "Error al buscar o descargar la actualización."
+    "userSettingsUpdateFailed": "Error al buscar o descargar la actualización.",
+    "chatReactAs": "Reaccionar como...",
+    "emojiCopy": "Copiar emoji",
+    "emojiCopyLink": "Copiar enlace",
+    "personaSignatureEmojisLabel": "Emojis de firma",
+    "personaSignatureEmojisDescription": "Reaccionar con un emoji de firma siempre reaccionará como esta persona, independientemente de la persona activa.",
+    "personaAddSignatureEmoji": "Añadir emoji",
+    "personaSignatureEmojiAlreadyAdded": "Este emoji ya está añadido como emoji de firma",
+    "personaRemoveSignatureEmoji": "Eliminar emoji de firma",
+    "personaSignatureEmojiAlreadyUsedByOther": "El emoji de firma ya está en uso por la persona \"{name}\""
 }

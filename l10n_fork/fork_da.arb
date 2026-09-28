@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Download og installer",
     "userSettingsUpdateInstallAction": "Installer opdatering",
     "userSettingsDownloadingUpdate": "Downloader opdatering ({percent} %)…",
-    "userSettingsUpdateFailed": "Kunne ikke søge efter eller downloade opdatering."
+    "userSettingsUpdateFailed": "Kunne ikke søge efter eller downloade opdatering.",
+    "chatReactAs": "Reager som...",
+    "emojiCopy": "Kopiér emoji",
+    "emojiCopyLink": "Kopiér link",
+    "personaSignatureEmojisLabel": "Signatur-emojis",
+    "personaSignatureEmojisDescription": "Reaktion med en signatur-emoji vil altid reagere som denne persona, uanset aktiv persona.",
+    "personaAddSignatureEmoji": "Tilføj emoji",
+    "personaSignatureEmojiAlreadyAdded": "Denne emoji er allerede tilføjet som en signatur-emoji",
+    "personaRemoveSignatureEmoji": "Fjern signatur-emoji",
+    "personaSignatureEmojiAlreadyUsedByOther": "Signatur-emoji bruges allerede af personaen \"{name}\""
 }

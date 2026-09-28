@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Pobierz i zainstaluj",
     "userSettingsUpdateInstallAction": "Zainstaluj aktualizację",
     "userSettingsDownloadingUpdate": "Pobieranie aktualizacji ({percent}%)…",
-    "userSettingsUpdateFailed": "Nie udało się sprawdzić lub pobrać aktualizacji."
+    "userSettingsUpdateFailed": "Nie udało się sprawdzić lub pobrać aktualizacji.",
+    "chatReactAs": "Zareaguj jako...",
+    "emojiCopy": "Kopiuj emoji",
+    "emojiCopyLink": "Kopiuj link",
+    "personaSignatureEmojisLabel": "Emoji podpisu",
+    "personaSignatureEmojisDescription": "Reagowanie za pomocą emoji podpisu zawsze doda reakcję jako ta persona, niezależnie od aktywnej persony.",
+    "personaAddSignatureEmoji": "Dodaj emoji",
+    "personaSignatureEmojiAlreadyAdded": "To emoji zostało już dodane jako emoji podpisu",
+    "personaRemoveSignatureEmoji": "Usuń emoji podpisu",
+    "personaSignatureEmojiAlreadyUsedByOther": "Emoji podpisu jest już używane przez personę \"{name}\""
 }

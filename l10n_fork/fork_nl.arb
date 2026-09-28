@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Downloaden & installeren",
     "userSettingsUpdateInstallAction": "Update installeren",
     "userSettingsDownloadingUpdate": "Update downloaden ({percent}%)…",
-    "userSettingsUpdateFailed": "Kan niet controleren op of downloaden van update."
+    "userSettingsUpdateFailed": "Kan niet controleren op of downloaden van update.",
+    "chatReactAs": "Reageren als...",
+    "emojiCopy": "Emoji kopiëren",
+    "emojiCopyLink": "Link kopiëren",
+    "personaSignatureEmojisLabel": "Handtekening-emoji's",
+    "personaSignatureEmojisDescription": "Reageren met een handtekening-emoji reageert altijd als deze persona, ongeacht de actieve persona.",
+    "personaAddSignatureEmoji": "Emoji toevoegen",
+    "personaSignatureEmojiAlreadyAdded": "Deze emoji is al toegevoegd als handtekening-emoji",
+    "personaRemoveSignatureEmoji": "Handtekening-emoji verwijderen",
+    "personaSignatureEmojiAlreadyUsedByOther": "Handtekening-emoji is al in gebruik door persona \"{name}\""
 }
