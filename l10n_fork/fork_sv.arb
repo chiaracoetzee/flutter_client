@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "Ladda ner och installera",
     "userSettingsUpdateInstallAction": "Installera uppdatering",
     "userSettingsDownloadingUpdate": "Laddar ner uppdatering ({percent} %)…",
-    "userSettingsUpdateFailed": "Kunde inte söka efter eller ladda ner uppdatering."
+    "userSettingsUpdateFailed": "Kunde inte söka efter eller ladda ner uppdatering.",
+    "chatReactAs": "Reagera som...",
+    "emojiCopy": "Kopiera emoji",
+    "emojiCopyLink": "Kopiera länk",
+    "personaSignatureEmojisLabel": "Signaturemojier",
+    "personaSignatureEmojisDescription": "Att reagera med en signaturemoji reagerar alltid som den här personan, oavsett aktiv persona.",
+    "personaAddSignatureEmoji": "Lägg till emoji",
+    "personaSignatureEmojiAlreadyAdded": "Den här emojin har redan lagts till som en signaturemoji",
+    "personaRemoveSignatureEmoji": "Ta bort signaturemoji",
+    "personaSignatureEmojiAlreadyUsedByOther": "Signaturemojin används redan av personan \"{name}\""
 }

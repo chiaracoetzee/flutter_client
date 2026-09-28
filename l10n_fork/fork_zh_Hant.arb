@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "下載並安裝",
     "userSettingsUpdateInstallAction": "安裝更新",
     "userSettingsDownloadingUpdate": "正在下載更新（{percent}%）…",
-    "userSettingsUpdateFailed": "檢查或下載更新失敗。"
+    "userSettingsUpdateFailed": "檢查或下載更新失敗。",
+    "chatReactAs": "回應身分...",
+    "emojiCopy": "複製表情符號",
+    "emojiCopyLink": "複製連結",
+    "personaSignatureEmojisLabel": "專屬表情符號",
+    "personaSignatureEmojisDescription": "使用專屬表情符號回應時，無論目前啟用的角色是誰，都會一律以此角色身分回應。",
+    "personaAddSignatureEmoji": "新增表情符號",
+    "personaSignatureEmojiAlreadyAdded": "此表情符號已新增為專屬表情符號",
+    "personaRemoveSignatureEmoji": "移除專屬表情符號",
+    "personaSignatureEmojiAlreadyUsedByOther": "專屬表情符號已由角色「{name}」使用"
 }

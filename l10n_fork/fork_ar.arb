@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "تنزيل وتثبيت",
     "userSettingsUpdateInstallAction": "تثبيت التحديث",
     "userSettingsDownloadingUpdate": "جارٍ تنزيل التحديث ({percent}%)…",
-    "userSettingsUpdateFailed": "فشل التحقق من التحديث أو تنزيله."
+    "userSettingsUpdateFailed": "فشل التحقق من التحديث أو تنزيله.",
+    "chatReactAs": "تفاعل باسم...",
+    "emojiCopy": "نسخ الرمز التعبيري",
+    "emojiCopyLink": "نسخ الرابط",
+    "personaSignatureEmojisLabel": "الرموز التعبيرية المميزة",
+    "personaSignatureEmojisDescription": "التفاعل برمز تعبيري مميز سيتفاعل دائمًا بهذه الشخصية، بغض النظر عن الشخصية النشطة.",
+    "personaAddSignatureEmoji": "إضافة إيموجي",
+    "personaSignatureEmojiAlreadyAdded": "تمت إضافة هذا الرمز التعبيري بالفعل كرمز مميز",
+    "personaRemoveSignatureEmoji": "إزالة الرمز التعبيري المميز",
+    "personaSignatureEmojiAlreadyUsedByOther": "الرمز التعبيري المميز مستخدم بالفعل من قبل الشخصية \"{name}\""
 }
