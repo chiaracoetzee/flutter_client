@@ -96,6 +96,7 @@ class MessageQuickReactionRow extends ConsumerStatefulWidget {
     required this.channelId,
     required this.guildId,
     required this.onReaction,
+    this.onLongPressReaction,
     this.onAddMore,
     super.key,
   });
@@ -103,6 +104,7 @@ class MessageQuickReactionRow extends ConsumerStatefulWidget {
   final String channelId;
   final String? guildId;
   final ValueChanged<QuickReactionItem> onReaction;
+  final ValueChanged<QuickReactionItem>? onLongPressReaction;
   final VoidCallback? onAddMore;
 
   @override
@@ -164,6 +166,7 @@ class _MessageQuickReactionRowState
     return QuickReactionRow(
       items: _items,
       onReaction: widget.onReaction,
+      onLongPressReaction: widget.onLongPressReaction,
       onAddMore: widget.onAddMore,
     );
   }
