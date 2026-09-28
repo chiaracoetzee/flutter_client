@@ -296,6 +296,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       openReactionPickerSheet(
         context,
         channelId: channelId,
+        messageId: widget.message.id,
         onEmojiSelected: _addReactionFromPicker,
       ),
     );
@@ -1481,6 +1482,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             child: MessageReactionsBar(
               reactions: msg.reactions,
               channelId: msg.channelId,
+              messageId: msg.id,
               onReactionTap: (emoji, {emojiId, animated = false}) => widget
                   .onReaction
                   ?.call(emoji, emojiId: emojiId, animated: animated),
