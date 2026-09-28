@@ -22,6 +22,10 @@ import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 import '../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:riverpod/src/framework.dart' show Override;
+
 class _FakeFavoriteEmojiKeys extends FavoriteEmojiKeys {
   @override
   Future<List<String>> build() => Future.value(const <String>[]);
@@ -37,6 +41,7 @@ class _FakeGuildListViewModel extends GuildListViewModel {
 Widget _buildTestApp({
   required Widget child,
   String? currentGuildId = 'guild-1',
+  List<Override> extraOverrides = const [],
 }) {
   final colorTheme = buildDarkColorTheme();
 
@@ -53,6 +58,7 @@ Widget _buildTestApp({
         ),
       ),
       guildByIdProvider('guild-3').overrideWith((ref) => null),
+      ...extraOverrides,
     ],
     child: MaterialApp(
       locale: kTestLocale,

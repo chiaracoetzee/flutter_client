@@ -90,5 +90,14 @@
     "userSettingsUpdateDownloadAction": "İndir ve Yükle",
     "userSettingsUpdateInstallAction": "Güncellemeyi Yükle",
     "userSettingsDownloadingUpdate": "Güncelleme indiriliyor (%{percent})…",
-    "userSettingsUpdateFailed": "Güncelleme kontrol edilemedi veya indirilemedi."
+    "userSettingsUpdateFailed": "Güncelleme kontrol edilemedi veya indirilemedi.",
+    "chatReactAs": "Farklı bir profil olarak tepki ver...",
+    "emojiCopy": "Emoji kopyala",
+    "emojiCopyLink": "Bağlantıyı kopyala",
+    "personaSignatureEmojisLabel": "İmza Emojileri",
+    "personaSignatureEmojisDescription": "İmza emojisiyle tepki vermek, etkin personadan bağımsız olarak her zaman bu persona olarak tepki verir.",
+    "personaAddSignatureEmoji": "Emoji Ekle",
+    "personaSignatureEmojiAlreadyAdded": "Bu emoji zaten imza emojisi olarak eklenmiş",
+    "personaRemoveSignatureEmoji": "İmza emojisini kaldır",
+    "personaSignatureEmojiAlreadyUsedByOther": "İmza emojisi zaten \"{name}\" personası tarafından kullanılıyor"
 }
