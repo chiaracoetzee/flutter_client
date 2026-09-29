@@ -360,10 +360,12 @@ class _ReactorRow extends ConsumerWidget {
         ? FluxerMediaUrl.userAvatar(
             userId: user.id,
             hash: subprofile!.avatar,
+            animated: true,
           )
         : FluxerMediaUrl.userAvatar(
             userId: user.id,
             hash: user.avatar,
+            animated: true,
           );
     final avatarColor = subprofile?.avatarColor ?? user.avatarColor;
     final tagText = (subprofile?.displayTagText != null &&
@@ -383,6 +385,7 @@ class _ReactorRow extends ConsumerWidget {
             : FluxerMediaUrl.userAvatar(
                 userId: user.id,
                 hash: rawTagIcon,
+                animated: true,
               );
     final hasTag = tagText != null || tagIcon != null;
 
