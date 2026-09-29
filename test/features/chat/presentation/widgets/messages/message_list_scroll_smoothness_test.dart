@@ -587,9 +587,8 @@ void main() {
       await disposeMessageList(tester);
     });
 
-    testWidgets('an idle trim far from the anchor rebases once', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('an idle trim after a long scroll does not remount the '
+        'viewport (#713)', (WidgetTester tester) async {
       final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
         tester,
         hasMoreNewer: false,
@@ -600,20 +599,64 @@ void main() {
       ).jumpTo(messageListOldestRowOffset(tester) + 200);
       await pumpFluxerFrames(tester);
       final int epoch = messageListAnchorEpoch(tester);
-      final ({String id, Rect rect}) before = anchorSample(
-        tester,
-        centerVisibleMessageItemId(tester),
-      );
+      final String probeId = centerVisibleMessageItemId(tester);
+      final ({String id, Rect rect}) before = anchorSample(tester, probeId);
+      final Element probe = tester.element(messageItemFor(probeId));
 
       await pumpMessageListIdleTrim(tester);
 
       expect(chatViewModel.detachedTrimCallCount, 1);
       expect(
-        chatViewModel.testState.messages,
-        hasLength(kTrimmedMessageWindowSize),
+        chatViewModel.testState.messages.length,
+        lessThanOrEqualTo(kMaxLoadedMessages),
       );
-      expect(messageListAnchorEpoch(tester), epoch + 1);
-      expectPreserved(tester, before, reason: 'the rebase must not move rows');
+      expect(
+        messageListAnchorEpoch(tester),
+        epoch,
+        reason: 'a remount rebuilds every attached row in one frame',
+      );
+      expect(tester.element(messageItemFor(probeId)), same(probe));
+      expectPreserved(tester, before, reason: 'the trim must not move rows');
+      await _expectSmoothScrollAcross(
+        tester,
+        messageListAnchorId(tester)!,
+        delta: 100,
+      );
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('an idle trim far below an older anchor does not remount the '
+        'viewport (#713)', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: kMaxLoadedMessagesHard - 20,
+      );
+      chatViewModel.scrollToMessage(chatViewModel.testState.messages[10].id);
+      await pumpFluxerFrames(tester);
+      final ScrollPosition position = messageListScrollPosition(tester);
+      position.jumpTo(position.maxScrollExtent - 2000);
+      await pumpFluxerFrames(tester);
+      final int epoch = messageListAnchorEpoch(tester);
+      final String probeId = centerVisibleMessageItemId(tester);
+      final ({String id, Rect rect}) before = anchorSample(tester, probeId);
+      final Element probe = tester.element(messageItemFor(probeId));
+
+      await pumpMessageListIdleTrim(tester);
+
+      expect(chatViewModel.detachedTrimCallCount, 1);
+      expect(
+        chatViewModel.testState.messages.length,
+        lessThanOrEqualTo(kMaxLoadedMessages),
+      );
+      expect(messageListAnchorEpoch(tester), epoch);
+      expect(tester.element(messageItemFor(probeId)), same(probe));
+      expectPreserved(tester, before, reason: 'the trim must not move rows');
+      await _expectSmoothScrollAcross(
+        tester,
+        messageListAnchorId(tester)!,
+        delta: -100,
+      );
       await disposeMessageList(tester);
     });
   });
@@ -812,4 +855,33 @@ void main() {
       await disposeMessageList(tester);
     });
   });
+}
+
+Future<void> _expectSmoothScrollAcross(
+  WidgetTester tester,
+  String splitRowId, {
+  required double delta,
+}) async {
+  final ScrollPosition position = messageListScrollPosition(tester);
+  final Rect viewport = tester.getRect(messageListScrollable());
+  bool splitSeen = false;
+  for (int step = 0; step < 60 && !splitSeen; step += 1) {
+    final double next = position.pixels + delta;
+    if (next < position.minScrollExtent || next > position.maxScrollExtent) {
+      break;
+    }
+    final String id = centerVisibleMessageItemId(tester);
+    final double top = tester.getRect(messageItemFor(id)).top;
+    position.jumpTo(next);
+    await tester.pump();
+    expect(
+      tester.getRect(messageItemFor(id)).top,
+      moreOrLessEquals(top - delta, epsilon: 0.5),
+      reason: 'step $step',
+    );
+    final Finder split = messageItemFor(splitRowId);
+    splitSeen =
+        split.evaluate().isNotEmpty && tester.getRect(split).overlaps(viewport);
+  }
+  expect(splitSeen, isTrue, reason: 'the scroll never reached the split');
 }

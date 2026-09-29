@@ -180,6 +180,18 @@ const Duration _kPendingScrollTargetTimeout = Duration(seconds: 6);
 
 const Duration _kDetachedTrimIdleDelay = Duration(seconds: 2);
 
+typedef _AttachedRows = ({
+  String id,
+  int first,
+  int last,
+  String firstId,
+  double firstTop,
+  String lastId,
+  double lastBottom,
+  double viewportTop,
+  double viewportHeight,
+});
+
 /// The scrollable list of messages in the chat area: one center-anchored
 /// [MessageListViewport] for every open/jump/live state. Positioning is the
 /// (anchorId, anchorFraction, anchorEdge) triple; prepends and appends are
@@ -2064,31 +2076,33 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (state.messages.length <= kMaxLoadedMessages) {
       return;
     }
-    final ({String id, double fraction, int first, int last})? rows =
-        _measureAttachedRows(state);
+    final _AttachedRows? rows = _measureAttachedRows(state);
     if (rows == null) {
       // Nothing measurable this cycle; the next scroll end retries.
       return;
     }
-    final ({int start, int end})? span = _anchoredTrimSpan(
-      state.messages,
-      firstAttached: rows.first,
-      lastAttached: rows.last,
-    );
-    if (span != null) {
-      _chatViewModel.trimToSpan(
-        firstId: state.messages[span.start].id,
-        lastId: state.messages[span.end].id,
-      );
-    } else {
-      _reanchor(
-        rows.id,
-        rows.fraction,
-        edge: MessageListAnchorEdge.before,
-        rebase: true,
-      );
-      _chatViewModel.trimAroundVisible(rows.id);
+    final List<Message> messages = state.messages;
+    int anchorIdx = messages.indexWhere((Message m) => m.id == _anchorId);
+    if (anchorIdx < 0) {
+      anchorIdx = messages.length - 1;
     }
+    ({int start, int end})? span = _trimSpan(messages.length, anchorIdx, rows);
+    if (span == null) {
+      final bool anchorNewer = anchorIdx > rows.last;
+      span = _trimSpan(
+        messages.length,
+        anchorNewer ? rows.last : rows.first,
+        rows,
+      );
+      if (span == null) {
+        return;
+      }
+      _moveAnchorToAttachedEdge(rows, anchorNewer: anchorNewer);
+    }
+    _chatViewModel.trimToSpan(
+      firstId: messages[span.start].id,
+      lastId: messages[span.end].id,
+    );
     final int epoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _runIfSameEpoch(epoch, () {
@@ -2098,25 +2112,18 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
   }
 
-  ({int start, int end})? _anchoredTrimSpan(
-    List<Message> messages, {
-    required int firstAttached,
-    required int lastAttached,
-  }) {
-    // A null anchor lays the list out from its newest row.
-    final int anchorIdx = _anchorId == null
-        ? messages.length - 1
-        : messages.indexWhere((Message m) => m.id == _anchorId);
-    if (anchorIdx < 0) {
-      return null;
-    }
-    int start = anchorIdx < firstAttached ? anchorIdx : firstAttached;
-    int end = anchorIdx > lastAttached ? anchorIdx : lastAttached;
+  ({int start, int end})? _trimSpan(
+    int messageCount,
+    int anchorIdx,
+    _AttachedRows rows,
+  ) {
+    int start = anchorIdx < rows.first ? anchorIdx : rows.first;
+    int end = anchorIdx > rows.last ? anchorIdx : rows.last;
     final int shortfall = kTrimmedMessageWindowSize - (end - start + 1);
     if (shortfall > 0) {
       start = (start - shortfall ~/ 2).clamp(
         0,
-        messages.length - kTrimmedMessageWindowSize,
+        messageCount - kTrimmedMessageWindowSize,
       );
       end = start + kTrimmedMessageWindowSize - 1;
     }
@@ -2126,9 +2133,28 @@ class _MessageListState extends ConsumerState<MessageList> {
     return (start: start, end: end);
   }
 
-  ({String id, double fraction, int first, int last})? _measureAttachedRows(
-    ChatViewState state,
-  ) {
+  void _moveAnchorToAttachedEdge(
+    _AttachedRows rows, {
+    required bool anchorNewer,
+  }) {
+    final double splitY = anchorNewer ? rows.lastBottom : rows.firstTop;
+    final double fraction = ((splitY - rows.viewportTop) / rows.viewportHeight)
+        .clamp(0.0, 1.0);
+    _scrollController.position.correctPixels(
+      rows.viewportTop + fraction * rows.viewportHeight - splitY,
+    );
+    setState(() {
+      _anchorId = anchorNewer ? rows.lastId : rows.firstId;
+      _anchorFraction = fraction;
+      _anchorEdge = anchorNewer
+          ? MessageListAnchorEdge.after
+          : MessageListAnchorEdge.before;
+      _exposeOlderRowsNow();
+      _uiEpoch++;
+    });
+  }
+
+  _AttachedRows? _measureAttachedRows(ChatViewState state) {
     final BuildContext? scrollableContext =
         _scrollController.position.context.notificationContext;
     final RenderObject? viewportRender = scrollableContext?.findRenderObject();
@@ -2139,10 +2165,13 @@ class _MessageListState extends ConsumerState<MessageList> {
     final double viewportH = _scrollController.position.viewportDimension;
     final double centerY = viewportTop + viewportH / 2;
     String? visibleId;
-    double visibleTop = 0;
     double bestDistance = double.infinity;
     int firstIdx = state.messages.length;
     int lastIdx = -1;
+    String firstId = '';
+    String lastId = '';
+    double firstTop = 0;
+    double lastBottom = 0;
     final BuildContext? scrollRoot =
         _scrollController.position.context.notificationContext;
     if (scrollRoot == null) {
@@ -2173,9 +2202,6 @@ class _MessageListState extends ConsumerState<MessageList> {
       if (inner is! RenderBox || !inner.hasSize || !inner.attached) {
         return;
       }
-      // The anchor positions the OUTER sliver child (the separator wrapper
-      // around this MessageItem, dividers included) - ascend to it, or the
-      // rebase would shift by the wrapper prefix height.
       RenderObject? node = inner;
       while (node != null &&
           node.parentData is! SliverMultiBoxAdaptorParentData) {
@@ -2184,18 +2210,28 @@ class _MessageListState extends ConsumerState<MessageList> {
       if (node is! RenderBox || !node.hasSize) {
         return;
       }
+      final RenderObject? sliver = node.parent;
+      if (sliver is RenderSliver && (sliver.geometry?.cacheExtent ?? 0) <= 0) {
+        return;
+      }
+      if ((node.parentData! as SliverMultiBoxAdaptorParentData).keptAlive) {
+        return;
+      }
+      final double top = node.localToGlobal(Offset.zero).dy;
       if (idx < firstIdx) {
         firstIdx = idx;
+        firstId = messageId;
+        firstTop = top;
       }
       if (idx > lastIdx) {
         lastIdx = idx;
+        lastId = messageId;
+        lastBottom = top + node.size.height;
       }
-      final double top = node.localToGlobal(Offset.zero).dy;
       final double distance = (top - centerY).abs();
       if (distance < bestDistance) {
         bestDistance = distance;
         visibleId = messageId;
-        visibleTop = top;
       }
     }
 
@@ -2206,9 +2242,14 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     return (
       id: nearestId,
-      fraction: ((visibleTop - viewportTop) / viewportH).clamp(0.0, 1.0),
       first: firstIdx,
       last: lastIdx,
+      firstId: firstId,
+      firstTop: firstTop,
+      lastId: lastId,
+      lastBottom: lastBottom,
+      viewportTop: viewportTop,
+      viewportHeight: viewportH,
     );
   }
 
