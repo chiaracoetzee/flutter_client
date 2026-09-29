@@ -14,13 +14,13 @@ import 'package:fluxer_dart/export.dart';
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/test_l10n.dart';
 
-Message _message() => Message(
+Message _message({String content = 'hello world'}) => Message(
   id: '1',
   channelId: 'c1',
   authorId: '123456789012345678',
   authorName: 'Webhook',
   webhookId: 'wh1',
-  content: 'hello world',
+  content: content,
   timestamp: DateTime.utc(2026, 1, 1, 12),
 );
 
@@ -65,6 +65,31 @@ void main() {
       find.bySemanticsLabel(RegExp('Webhook.*hello world')),
       findsOneWidget,
     );
+  });
+
+  testWidgets('the semantics label follows an edit of the same message', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(MessageItem(message: _message(), renderSettings: _settings)),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.pumpWidget(
+      _app(
+        MessageItem(
+          message: _message(content: 'edited words'),
+          renderSettings: _settings,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.bySemanticsLabel(RegExp('Webhook.*edited words')),
+      findsOneWidget,
+    );
+    expect(find.bySemanticsLabel(RegExp('hello world')), findsNothing);
   });
 
   testWidgets('reaction chips expose emoji and count labels', (tester) async {

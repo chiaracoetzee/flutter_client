@@ -253,6 +253,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
   bool _animateJumpHighlight = false;
+  Message? _semanticLabelMessage;
+  FluxerLocalizations? _semanticLabelL10n;
+  bool _semanticLabelSending = false;
+  bool _semanticLabelFailed = false;
+  String? _semanticLabel;
 
   FluxerSpoilerSyncController get _spoilerSyncController => ref
       .watch(channelSpoilerSyncProvider(widget.message.channelId).notifier)
@@ -872,6 +877,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     required bool isFailed,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? cached = _semanticLabel;
+    if (cached != null &&
+        identical(msg, _semanticLabelMessage) &&
+        identical(l10n, _semanticLabelL10n) &&
+        isSending == _semanticLabelSending &&
+        isFailed == _semanticLabelFailed) {
+      return cached;
+    }
     final String author = msg.authorName.isNotEmpty
         ? msg.authorName
         : msg.authorId;
@@ -884,7 +897,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     } else if (isFailed) {
       label.write(l10n.messageAccessibilityFailedSuffix);
     }
-    return label.toString();
+    _semanticLabelMessage = msg;
+    _semanticLabelL10n = l10n;
+    _semanticLabelSending = isSending;
+    _semanticLabelFailed = isFailed;
+    return _semanticLabel = label.toString();
   }
 
   bool _hasUploadingPlaceholderAttachments(Message msg) {
