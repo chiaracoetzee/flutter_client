@@ -807,6 +807,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         ? FluxerMediaUrl.userAvatar(
             userId: effectiveUserId,
             hash: avatarHash,
+            size: MediaProxySizes.avatarProfile,
+            animated: true,
           )
         : message?.authorAvatar;
     final int? rootAvatarColor =
@@ -846,6 +848,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             : FluxerMediaUrl.userAvatar(
                 userId: effectiveUserId,
                 hash: rawPersonaTagIcon,
+                animated: true,
               );
 
     final bool hasCustomAvatar =
