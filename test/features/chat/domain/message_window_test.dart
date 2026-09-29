@@ -275,8 +275,6 @@ void main() {
     });
 
     test('older pages merge whole and keep the tail attached', () {
-      // Installs never trim: shrinking is the scroll-end around-trim's job
-      // (a directional trim landing mid-fling teleports the viewport).
       final MessageWindowSnapshot window = MessageWindowSnapshot(
         messages: _range(100, 150),
         hasMoreOlder: true,
@@ -437,8 +435,6 @@ void main() {
     });
 
     test('older page merges past the old cap without trimming', () {
-      // Installs never trim: a directional trim landing mid-fling teleports
-      // the viewport. The scroll-end around-trim owns shrinking the window.
       final Message sending = _localMessage(250, MessageDeliveryState.sending);
       final Message failed = _localMessage(251, MessageDeliveryState.failed);
       final List<Message> messages = <Message>[

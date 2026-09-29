@@ -3311,10 +3311,6 @@ class ChatViewModel extends _$ChatViewModel {
       );
     }
     if (state.messages.length >= kMaxLoadedMessagesHard) {
-      // At the in-memory cap: pause instead of installing - installs never
-      // trim (a directional trim mid-fling teleports the viewport). The
-      // coordinator parks this edge; the next scroll gesture re-arms it,
-      // after the scroll-end around-trim has shrunk the window.
       return older(
         status: PageLoadStatus.skipped,
         hasMoreAtEdge: state.hasMoreMessages,
@@ -3536,10 +3532,6 @@ class ChatViewModel extends _$ChatViewModel {
       );
     }
     if (state.messages.length >= kMaxLoadedMessagesHard) {
-      // At the in-memory cap: pause instead of installing - installs never
-      // trim (a directional trim mid-fling teleports the viewport). The
-      // coordinator parks this edge; the scroll-end around-trim shrinks the
-      // window and re-arms it via MessageListDemandSource.onWindowTrimmed.
       return newer(
         status: PageLoadStatus.skipped,
         hasMoreAtEdge: state.hasMoreNewerMessages,
@@ -3809,22 +3801,6 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
-  /// Idle trim for a detached window (a scroll-end one at the hard cap):
-  /// keeps the rows around what the user is looking at and re-opens
-  /// pagination for whichever sides were dropped. The widget re-anchors
-  /// before calling this when the current anchor falls outside the kept
-  /// span, so the write is structurally scroll-stable (both removals happen
-  /// at the far sliver ends).
-  void trimAroundVisible(String visibleMessageId) {
-    _pendingTrimAround = null;
-    if (state.messages.length <= kMaxLoadedMessages) {
-      return;
-    }
-    _writeTrim(
-      trimMessageWindowAround(state.messages, aroundId: visibleMessageId),
-    );
-  }
-
   /// Trims a detached window to the rows from [firstId] through [lastId] and
   /// re-opens pagination on the dropped sides. The span must hold every
   /// attached row and the anchor, so the removals land at the far sliver ends.
@@ -3853,9 +3829,9 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
-  /// Records the row a deferred [trimAroundVisible] will keep centered, or
-  /// clears it (null [messageId]) when that trim is cancelled. Leaving the
-  /// channel before the trim runs parks the window trimmed around this row.
+  /// Records the row a deferred [trimToSpan] will keep, or clears it when
+  /// [messageId] is null. Leaving the channel before that trim runs parks the
+  /// window trimmed around this row.
   void setPendingTrimAround({
     required String channelId,
     required String? messageId,

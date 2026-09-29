@@ -13,10 +13,9 @@ const int kTrimmedMessageWindowSize = 120;
 
 /// In-memory cap at which loadMore/loadNewer PAUSE instead of installing:
 /// installs never trim (a directional trim landing mid-fling evicts the
-/// anchor and teleports the viewport). The scroll-end around-trim (the
-/// widget calls ChatViewModel.trimAroundVisible) shrinks the window back to
-/// [kTrimmedMessageWindowSize], and the parked edge re-arms on the next
-/// scroll gesture.
+/// anchor and teleports the viewport). The scroll-end trim (the widget
+/// calls ChatViewModel.trimToSpan) shrinks the window to its attached rows
+/// plus the anchor, and the parked edge re-arms on the next scroll gesture.
 const int kMaxLoadedMessagesHard = 400;
 
 /// Result of trimming a message window down to [kMaxLoadedMessages].

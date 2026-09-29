@@ -91,9 +91,10 @@ void main() {
     expect(merged.messages, hasLength(250));
     expect(merged.hasMoreNewerMessages, isFalse);
 
-    // The scroll-end around-trim (the widget's settle path) bounds the
-    // window around the reader and re-opens the dropped newer side.
-    notifier.trimAroundVisible(oldestId);
+    notifier.trimToSpan(
+      firstId: oldestId,
+      lastId: merged.messages[kTrimmedMessageWindowSize - 1].id,
+    );
     await paginationFlushAsync();
 
     final bounded = container.read(chatViewModelProvider);
@@ -236,9 +237,12 @@ void main() {
     expect(adapter.beforeFetchCount, 2, reason: 'no request at the cap');
     expect(container.read(chatViewModelProvider).messages, hasLength(450));
 
-    // The scroll-end around-trim shrinks the window; loads resume.
-    notifier.trimAroundVisible(
-      container.read(chatViewModelProvider).messages.first.id,
+    notifier.trimToSpan(
+      firstId: container.read(chatViewModelProvider).messages.first.id,
+      lastId: container
+          .read(chatViewModelProvider)
+          .messages[kTrimmedMessageWindowSize - 1]
+          .id,
     );
     await paginationFlushAsync();
     expect(

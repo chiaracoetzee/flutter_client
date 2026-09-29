@@ -666,12 +666,6 @@ class InstrumentedChatViewModel extends ChatViewModel {
   }
 
   @override
-  void trimAroundVisible(String visibleMessageId) {
-    detachedTrimCallCount += 1;
-    super.trimAroundVisible(visibleMessageId);
-  }
-
-  @override
   void trimToSpan({required String firstId, required String lastId}) {
     detachedTrimCallCount += 1;
     super.trimToSpan(firstId: firstId, lastId: lastId);
