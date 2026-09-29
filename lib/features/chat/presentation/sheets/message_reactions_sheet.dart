@@ -360,8 +360,16 @@ class _ReactorRow extends ConsumerWidget {
         );
 
     final avatarUrl = subprofile?.avatar != null
-        ? FluxerMediaUrl.userAvatar(userId: user.id, hash: subprofile!.avatar)
-        : FluxerMediaUrl.userAvatar(userId: user.id, hash: user.avatar);
+        ? FluxerMediaUrl.userAvatar(
+            userId: user.id,
+            hash: subprofile!.avatar,
+            animated: true,
+          )
+        : FluxerMediaUrl.userAvatar(
+            userId: user.id,
+            hash: user.avatar,
+            animated: true,
+          );
     final avatarColor = subprofile?.avatarColor ?? user.avatarColor;
     final tagText =
         (subprofile?.displayTagText != null &&
@@ -379,7 +387,11 @@ class _ReactorRow extends ConsumerWidget {
               rawTagIcon.startsWith('https://') ||
               rawTagIcon.startsWith('data:'))
         ? rawTagIcon
-        : FluxerMediaUrl.userAvatar(userId: user.id, hash: rawTagIcon);
+        : FluxerMediaUrl.userAvatar(
+            userId: user.id,
+            hash: rawTagIcon,
+            animated: true,
+          );
     final hasTag = tagText != null || tagIcon != null;
 
     return FluxerGestureDetector(
