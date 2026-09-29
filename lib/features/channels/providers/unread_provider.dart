@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
@@ -12,6 +13,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'unread_provider.g.dart';
 
+@immutable
 class UnreadState {
   final bool hasUnread;
   final bool hasUnreadMessages;
@@ -26,6 +28,24 @@ class UnreadState {
     this.hasUnreadPins = false,
     this.unreadBadgesLevel,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      other is UnreadState &&
+      other.hasUnread == hasUnread &&
+      other.hasUnreadMessages == hasUnreadMessages &&
+      other.mentionCount == mentionCount &&
+      other.hasUnreadPins == hasUnreadPins &&
+      other.unreadBadgesLevel == unreadBadgesLevel;
+
+  @override
+  int get hashCode => Object.hash(
+    hasUnread,
+    hasUnreadMessages,
+    mentionCount,
+    hasUnreadPins,
+    unreadBadgesLevel,
+  );
 }
 
 @riverpod
@@ -42,6 +62,15 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   String? watchedMemberGuildId;
   StreamSubscription<Object?>? settingsSub;
   String? watchedSettingsGuildId;
+  UnreadState? lastEmitted;
+
+  void emit(UnreadState next) {
+    if (disposed || next == lastEmitted) {
+      return;
+    }
+    lastEmitted = next;
+    controller.add(next);
+  }
 
   late void Function() scheduleRecompute;
 
@@ -67,9 +96,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
         currentUserId: currentUserId,
       );
       if (permissionOutcome.isDefinitive && !permissionOutcome.canRead) {
-        if (!disposed) {
-          controller.add(const UnreadState());
-        }
+        emit(const UnreadState());
         return;
       }
       if (currentUserId != null &&
@@ -79,6 +106,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
         watchedMemberGuildId = channel.guildId;
         memberSub = db.memberDao
             .watchMemberByUserId(currentUserId, channel.guildId)
+            .distinct()
             .listen((_) => scheduleRecompute());
       }
       if (channel.guildId.isNotEmpty &&
@@ -87,6 +115,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
         watchedSettingsGuildId = channel.guildId;
         settingsSub = db.userGuildSettingsDao
             .watchByGuildId(channel.guildId)
+            .distinct()
             .listen((_) => scheduleRecompute());
       }
     }
@@ -120,17 +149,15 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
       ackLastPinTimestamp: readState?.lastPinTimestamp,
     );
 
-    if (!disposed) {
-      controller.add(
-        UnreadState(
-          hasUnread: hasUnread,
-          hasUnreadMessages: hasUnreadMessage,
-          mentionCount: mentionCount,
-          hasUnreadPins: hasPinUnread,
-          unreadBadgesLevel: unreadBadgesLevel,
-        ),
-      );
-    }
+    emit(
+      UnreadState(
+        hasUnread: hasUnread,
+        hasUnreadMessages: hasUnreadMessage,
+        mentionCount: mentionCount,
+        hasUnreadPins: hasPinUnread,
+        unreadBadgesLevel: unreadBadgesLevel,
+      ),
+    );
   }
 
   scheduleRecompute = () {
@@ -148,12 +175,16 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
 
   final channelSub = db.channelDao
       .watchChannelById(channelId)
+      .distinct()
       .listen((_) => scheduleRecompute());
   final readStateSub = db.readStateDao
       .watchReadState(channelId)
+      .distinct()
       .listen((_) => scheduleRecompute());
   final messageSub = db.messageDao
       .watchLastMessage(channelId)
+      .map((message) => message?.id)
+      .distinct()
       .listen((_) => scheduleRecompute());
 
   scheduleRecompute();
