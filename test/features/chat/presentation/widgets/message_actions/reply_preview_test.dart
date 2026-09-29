@@ -2,22 +2,30 @@
 // ProviderScope written inline in pumpWidget.
 // ignore_for_file: riverpod_lint/scoped_providers_should_specify_dependencies
 
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 void main() {
@@ -159,18 +167,114 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 1));
   });
+
+  testWidgets('an older page landing does not rebuild reply previews already '
+      'on screen (#713)', (tester) async {
+    final parent = _message(
+      id: 'parent-1',
+      authorId: '1001',
+      authorName: 'Sample User',
+      content: 'first draft',
+    );
+    final reply = _replyTo('parent-1');
+    final _TestChatViewModel chatViewModel = _TestChatViewModel(
+      _chatState(messages: [parent, reply]),
+    );
+    await tester.pumpWidget(
+      _buildTestApp(
+        chatViewModel: chatViewModel,
+        child: InlineReplyPreview(message: reply),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    int previewBuilds = 0;
+    debugOnRebuildDirtyWidget = (Element element, bool builtOnce) {
+      if (element.widget is InlineReplyPreview) {
+        previewBuilds += 1;
+      }
+    };
+    addTearDown(() => debugOnRebuildDirtyWidget = null);
+
+    final older = _message(id: 'older-1', authorId: '1003', authorName: 'Ada');
+    chatViewModel.write([older, parent, reply], MessagesOrigin.olderPage);
+    await tester.pump();
+    expect(
+      previewBuilds,
+      0,
+      reason: 'a page that leaves the parent untouched must not rebuild',
+    );
+
+    final editedParent = _message(
+      id: 'parent-1',
+      authorId: '1001',
+      authorName: 'Sample User',
+      content: 'final wording',
+    );
+    chatViewModel.write([
+      older,
+      editedParent,
+      reply,
+    ], MessagesOrigin.realtimeEvent);
+    await tester.pumpAndSettle();
+    expect(find.text('final wording', findRichText: true), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
+
+  testWidgets('a reply whose parent is outside the window still fetches and '
+      'shows it', (tester) async {
+    final _GatedMessageRepository repository = _GatedMessageRepository();
+    final reply = _replyTo('parent-1');
+
+    await tester.pumpWidget(
+      _buildTestApp(
+        chatViewModel: _TestChatViewModel(_chatState(messages: [reply])),
+        database: openTestDatabase(),
+        repository: repository,
+        child: InlineReplyPreview(message: reply),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(repository.requestedIds, <String>['parent-1']);
+
+    repository.parent.complete(
+      _message(
+        id: 'parent-1',
+        authorId: '1001',
+        authorName: 'Sample User',
+        content: 'from the archive',
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('from the archive', findRichText: true), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
 }
 
 Widget _buildTestApp({
-  required ChatViewState chatState,
   required Widget child,
+  ChatViewState? chatState,
+  _TestChatViewModel? chatViewModel,
+  FluxerDatabase? database,
+  MessageRepository? repository,
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
-      chatViewModelProvider.overrideWithValue(chatState),
+      if (chatViewModel != null)
+        chatViewModelProvider.overrideWith(() => chatViewModel)
+      else
+        chatViewModelProvider.overrideWithValue(chatState!),
       activeGuildIdProvider.overrideWithValue(null),
       currentUserIdProvider.overrideWithValue(null),
+      if (database != null) fluxerDatabaseProvider.overrideWithValue(database),
+      if (repository != null)
+        messageRepositoryProvider.overrideWithValue(repository),
     ],
     child: MaterialApp(
       locale: kTestLocale,
@@ -185,6 +289,45 @@ Widget _buildTestApp({
     ),
   );
 }
+
+class _TestChatViewModel extends ChatViewModel {
+  _TestChatViewModel(this._initialState);
+
+  final ChatViewState _initialState;
+
+  void write(List<Message> messages, MessagesOrigin origin) {
+    state = state.copyWith(write: (messages: messages, origin: origin));
+  }
+
+  @override
+  ChatViewState build() => _initialState;
+}
+
+class _GatedMessageRepository extends Fake implements MessageRepository {
+  final List<String> requestedIds = <String>[];
+  final Completer<Message> parent = Completer<Message>();
+
+  @override
+  Future<Message> fetchMessage({
+    required String channelId,
+    required String messageId,
+  }) {
+    requestedIds.add(messageId);
+    return parent.future;
+  }
+}
+
+Message _replyTo(String parentId) => _message(
+  id: 'reply-1',
+  authorId: '1002',
+  authorName: 'August',
+  type: messageTypeReply,
+  messageReference: MessageReference(
+    channelId: 'channel-1',
+    messageId: parentId,
+    type: MessageReferenceType.valueDefault,
+  ),
+);
 
 ChatViewState _chatState({required List<Message> messages}) {
   return ChatViewState(

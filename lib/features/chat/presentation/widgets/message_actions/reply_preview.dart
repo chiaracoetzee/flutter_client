@@ -57,12 +57,23 @@ class InlineReplyPreview extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     final parentChannelId = message.replyParentChannelId;
-    ref.watch(messageReferencesProvider);
-    final List<Message> channelMessages = ref.watch(
+    final Message? windowParent = ref.watch(
       chatViewModelProvider.select(
-        (state) => state.channelId == parentChannelId
-            ? state.messages
-            : const <Message>[],
+        (ChatViewState state) => state.channelId == parentChannelId
+            ? _findMessage(state.messages, parentMessageId)
+            : null,
+      ),
+    );
+    final String referenceKey = MessageReferencesState.key(
+      parentChannelId,
+      parentMessageId,
+    );
+    ref.watch(
+      messageReferencesProvider.select(
+        (MessageReferencesState state) => (
+          deleted: state.deletedKeys.contains(referenceKey),
+          cached: state.cachedMessages[referenceKey],
+        ),
       ),
     );
     final resolution = ref
@@ -70,29 +81,38 @@ class InlineReplyPreview extends ConsumerWidget {
         .resolveSync(
           channelId: parentChannelId,
           messageId: parentMessageId,
-          channelMessages: channelMessages,
+          channelMessages: windowParent == null
+              ? const <Message>[]
+              : <Message>[windowParent],
         );
     final replyMsg = resolution.message;
     final String? resolvedGuildId =
         guildId ?? ref.watch(contextualGuildIdProvider);
     final String? resolvedCurrentUserId =
         currentUserId ?? ref.watch(currentUserIdProvider);
-    final String? revealedCollapsedGroupKey = ref.watch(
-      chatViewModelProvider.select((state) => state.revealedCollapsedGroupKey),
-    );
     final ChannelCollapseContext collapseContext = ref.watch(
       channelCollapseContextProvider,
     );
+    final ChannelStreamType? replyCollapsedType = replyMsg == null
+        ? null
+        : collapseContext.collapsedTypeFor(replyMsg);
     final bool isReplyVisible =
         replyMsg == null ||
-        isMessageInRevealedCollapsedGroup(
-          messages: channelMessages,
-          messageId: replyMsg.id,
-          revealedCollapsedGroupKey: revealedCollapsedGroupKey,
-          context: collapseContext,
+        replyCollapsedType == null ||
+        ref.watch(
+          chatViewModelProvider.select(
+            (ChatViewState state) =>
+                state.channelId != parentChannelId ||
+                isMessageInRevealedCollapsedGroup(
+                  messages: state.messages,
+                  messageId: replyMsg.id,
+                  revealedCollapsedGroupKey: state.revealedCollapsedGroupKey,
+                  context: collapseContext,
+                ),
+          ),
         );
     final ChannelStreamType? hiddenReplyType = !isReplyVisible
-        ? collapseContext.collapsedTypeFor(replyMsg)
+        ? replyCollapsedType
         : null;
     final String? hiddenReplyLabel = switch (hiddenReplyType) {
       ChannelStreamType.messageGroupBlocked =>
@@ -233,6 +253,15 @@ class InlineReplyPreview extends ConsumerWidget {
       ),
     );
   }
+}
+
+Message? _findMessage(List<Message> messages, String messageId) {
+  for (final Message message in messages) {
+    if (message.id == messageId) {
+      return message;
+    }
+  }
+  return null;
 }
 
 class _ReplyPreviewContent extends StatelessWidget {
