@@ -5609,6 +5609,93 @@ abstract class FluxerLocalizations {
   /// **'Local time'**
   String get userProfileLocalTime;
 
+  /// Profile settings row title for profile local time.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile local time'**
+  String get profileLocalTimeSettingsTitle;
+
+  /// Description for the profile local time settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your time zone once so {productName} can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.'**
+  String profileLocalTimeSettingsSummary(String productName);
+
+  /// Opens the profile local time editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile local time'**
+  String get profileLocalTimeEditButton;
+
+  /// Field label for the profile timezone picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone'**
+  String get profileLocalTimeTimezoneLabel;
+
+  /// Helper text under the profile timezone picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the time zone {productName} uses to calculate your UTC offset for profile local time.'**
+  String profileLocalTimeTimezoneHelp(String productName);
+
+  /// Placeholder in the profile timezone picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Search time zones'**
+  String get profileLocalTimeSearchTimezones;
+
+  /// Profile timezone picker option when no timezone is selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get profileLocalTimeNotSet;
+
+  /// Privacy note in profile timezone settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as {timezoneIdentifierExample}. {productName} stores that identifier only so the offset can update automatically when daylight saving time changes.'**
+  String profileLocalTimePrivacyNote(
+    String timezoneIdentifierExample,
+    String productName,
+  );
+
+  /// Profile timezone privacy option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone'**
+  String get profileLocalTimePrivacyEveryone;
+
+  /// Profile timezone privacy option description for Everyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow anyone who can view your full profile to see your local time'**
+  String get profileLocalTimePrivacyEveryoneDesc;
+
+  /// Profile timezone privacy option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get profileLocalTimePrivacyFriends;
+
+  /// Profile timezone privacy option description for Friends.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow your friends to see your local time'**
+  String get profileLocalTimePrivacyFriendsDesc;
+
+  /// Profile timezone privacy option label.
+  ///
+  /// In en, this message translates to:
+  /// **'Community members'**
+  String get profileLocalTimePrivacyCommunityMembers;
+
+  /// Profile timezone privacy option description for Community members.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow members from communities you\'re in to see your local time'**
+  String get profileLocalTimePrivacyCommunityMembersDesc;
+
   /// Profile timezone difference when the target matches the viewer.
   ///
   /// In en, this message translates to:
