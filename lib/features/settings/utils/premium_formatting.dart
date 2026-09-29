@@ -76,10 +76,10 @@ String formatPremiumShortDate(DateTime date, String locale) {
   return DateFormat.yMMMd(locale).format(date.toLocal());
 }
 
-String? priceIdsCurrencyCode(PremiumCurrency currency) {
-  return currency.json;
+String? priceIdsCurrencyCode(PremiumCurrency? currency) {
+  return currency;
 }
 
-String? giftCurrencyCode(PremiumCurrency currency) {
-  return currency.json;
+String? giftCurrencyCode(PremiumCurrency? currency) {
+  return currency;
 }

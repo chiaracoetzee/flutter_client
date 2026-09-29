@@ -58,7 +58,7 @@ Future<void> startPremiumCheckout({
   }
 
   CheckoutPaymentMethodEnum? paymentMethod;
-  final String? currency = priceIds.currency.json;
+  final String? currency = priceIds.currency;
   if (!selected.isGift &&
       (plan == PremiumCheckoutPlan.monthly ||
           plan == PremiumCheckoutPlan.yearly)) {

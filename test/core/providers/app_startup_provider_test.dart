@@ -47,6 +47,8 @@ class _FakeWellKnown extends WellKnown {
       features: InstanceFeaturesSchema(
         voiceEnabled: false,
         stripeEnabled: false,
+        premiumEnabled: false,
+        stripeServiceable: false,
         selfHosted: false,
         presignedAttachmentUploads: false,
         emailsEnabled: false,
@@ -94,6 +96,8 @@ class _FakeWellKnown extends WellKnown {
           themeColor: null,
           statusPageUrl: null,
           statusPageIncidentHistoryUrl: null,
+          premiumProductName: 'Plutonium',
+          premiumInfoUrl: null,
         ),
         setup: InstanceSetupSchema(configured: true, adminUrl: null),
         legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
