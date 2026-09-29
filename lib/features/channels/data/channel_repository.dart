@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_move_operation.dart';
@@ -15,10 +16,12 @@ class ChannelRepository {
 
   const ChannelRepository(this._client, this._dio, this._db);
 
+  /// Emits only when the domain channels change, not on tail-pointer writes.
   Stream<List<Channel>> watchChannels(String guildId) {
     return _db.channelDao
         .watchChannels(guildId)
-        .map((rows) => rows.map(Channel.fromRow).toList());
+        .map((rows) => rows.map(Channel.fromRow).toList())
+        .distinct(listEquals);
   }
 
   Future<List<ChannelCategory>> getChannels(String guildId) async {
