@@ -156,6 +156,22 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
         ChannelsCompanion(lastMessageId: Value(messageId)),
       );
 
+  /// Advances the tail pointer without notifying drift streams; readers must
+  /// use `ChannelLastMessageIndex`. Never moves the pointer back: rewinds go
+  /// through [setLastMessageId].
+  Future<void> advanceLastMessageIdSilently(
+    String channelId,
+    String messageId,
+  ) => customUpdate(
+    'UPDATE channels SET last_message_id = ?1 WHERE id = ?2 AND '
+    '(last_message_id IS NULL OR '
+    'CAST(last_message_id AS INTEGER) <= CAST(?1 AS INTEGER))',
+    variables: <Variable<Object>>[
+      Variable<String>(messageId),
+      Variable<String>(channelId),
+    ],
+  );
+
   Future<String?> mergeLastMessageIdForUpsert(
     String channelId,
     String? incomingLastMessageId,

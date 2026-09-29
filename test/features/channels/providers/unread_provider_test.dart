@@ -6,8 +6,10 @@ import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -16,6 +18,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_dart/gateway.dart' show PassiveUpdatesEvent;
 
 import '../../../helpers/open_test_database.dart';
 
@@ -594,6 +597,37 @@ void main() {
       watched.notificationsA[0],
       notifications,
       reason: 'an equal unread state would rebuild every sidebar watcher',
+    );
+  });
+
+  test('a PASSIVE_UPDATES tail advance flips channelUnread (#713)', () async {
+    final watched = await _watchTwoChannels();
+    final ProviderContainer container = watched.container;
+    expect(
+      container.read(channelUnreadProvider('channel-a')).value?.hasUnread,
+      isFalse,
+    );
+
+    await GatewayEventHandler(
+      database: watched.db,
+      channelLastMessageIndex: container.read(channelLastMessageIndexProvider),
+    ).handle(
+      PassiveUpdatesEvent(
+        guildId: 'guild-1',
+        channels: <String, String>{
+          'channel-a': _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12)),
+        },
+      ),
+    );
+
+    await _waitFor(
+      () =>
+          container.read(channelUnreadProvider('channel-a')).value?.hasUnread ??
+          false,
+    );
+    expect(
+      container.read(channelUnreadProvider('channel-b')).value?.hasUnread,
+      isFalse,
     );
   });
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -186,6 +187,11 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
       .map((message) => message?.id)
       .distinct()
       .listen((_) => scheduleRecompute());
+  final indexSub = ref
+      .watch(channelLastMessageIndexProvider)
+      .flushStream
+      .where((Map<String, String> updates) => updates.containsKey(channelId))
+      .listen((_) => scheduleRecompute());
 
   scheduleRecompute();
 
@@ -194,6 +200,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     unawaited(channelSub.cancel());
     unawaited(readStateSub.cancel());
     unawaited(messageSub.cancel());
+    unawaited(indexSub.cancel());
     unawaited(settingsSub?.cancel());
     unawaited(memberSub?.cancel());
     unawaited(controller.close());

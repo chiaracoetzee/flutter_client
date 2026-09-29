@@ -1952,6 +1952,16 @@ class GatewayEventHandler {
         deletedMessageIds: messageIds,
         currentUserId: currentUserId,
       );
+      final ChannelLastMessageIndex? index = channelLastMessageIndex;
+      if (index != null &&
+          messageIds.contains(index.lastMessageIdFor(channelId))) {
+        final db.Channel? row = await database.channelDao.getChannelById(
+          channelId,
+        );
+        if (row != null) {
+          index.setLastMessageId(channelId, row.lastMessageId);
+        }
+      }
     }
   }
 
@@ -2629,7 +2639,10 @@ class GatewayEventHandler {
     }
     await database.transaction(() async {
       for (final entry in updates.entries) {
-        await database.channelDao.updateLastMessageId(entry.key, entry.value);
+        await database.channelDao.advanceLastMessageIdSilently(
+          entry.key,
+          entry.value,
+        );
       }
     });
     channelLastMessageIndex?.applyBatch(updates);
