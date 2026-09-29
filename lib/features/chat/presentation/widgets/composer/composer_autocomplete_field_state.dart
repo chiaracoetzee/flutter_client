@@ -1045,6 +1045,7 @@ class ComposerAutocompleteFieldState
                   : FluxerMediaUrl.userAvatar(
                       userId: ownerId,
                       hash: rawAvatar,
+                      animated: true,
                     );
           final int? color = (map['avatar_color'] as num?)?.toInt() ??
               (map['color'] as num?)?.toInt();
@@ -1066,6 +1067,7 @@ class ComposerAutocompleteFieldState
                   : FluxerMediaUrl.userAvatar(
                       userId: ownerId,
                       hash: rawTagIcon,
+                      animated: true,
                     );
           final String? ownerAvatarHash = map['owner_avatar'] as String?;
           final String? rootAvatarUrl = (ownerAvatarHash != null &&
@@ -1073,6 +1075,7 @@ class ComposerAutocompleteFieldState
               ? FluxerMediaUrl.userAvatar(
                   userId: ownerId,
                   hash: ownerAvatarHash,
+                  animated: true,
                 )
               : (ownerId == userSettings.userId &&
                       userSettings.avatar != null &&
@@ -1080,12 +1083,14 @@ class ComposerAutocompleteFieldState
                   ? FluxerMediaUrl.userAvatar(
                       userId: userSettings.userId,
                       hash: userSettings.avatar,
+                      animated: true,
                     )
                   : (ownerMember?.avatar != null &&
                           ownerMember!.avatar!.isNotEmpty
                       ? FluxerMediaUrl.userAvatar(
                           userId: ownerId,
                           hash: ownerMember.avatar,
+                          animated: true,
                         )
                       : null));
 

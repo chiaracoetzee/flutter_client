@@ -974,6 +974,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         ? FluxerMediaUrl.userAvatar(
             userId: currentUserSettings.userId,
             hash: currentUserSettings.avatar,
+            animated: true,
           )
         : null;
     final String? customAvatarUrl = _avatarHash == null
@@ -985,6 +986,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         : FluxerMediaUrl.userAvatar(
             userId: currentUserSettings.userId,
             hash: _avatarHash,
+            animated: true,
           );
     final String? effectiveAvatarUrl = hasCustomAvatar
         ? customAvatarUrl
@@ -998,6 +1000,7 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         : FluxerMediaUrl.userBanner(
             userId: currentUserSettings.userId,
             hash: _bannerHash,
+            animated: true,
           );
     final bool isColorDefault = _color == null || _color == 0;
 
