@@ -121,6 +121,7 @@ GuildUserDisplay resolveGuildUserDisplayFromRows({
   String? fallbackDisplayName,
   String? fallbackAvatarHash,
   int? fallbackAvatarColor,
+  bool animatedAvatar = true,
 }) {
   final String displayName = resolveDisplayName(
     guildNickname: member?.nick,
@@ -144,11 +145,13 @@ GuildUserDisplay resolveGuildUserDisplayFromRows({
           userId: user.id,
           type: GuildMemberMediaType.avatar,
           hash: memberAvatar,
+          animated: animatedAvatar,
         )
       : FluxerMediaUrl.userAvatar(
           userId: user.id,
           hash: resolvedAvatarHash,
           size: MediaProxySizes.avatarProfile,
+          animated: animatedAvatar,
         );
   return GuildUserDisplay(
     displayName: displayName,
@@ -239,6 +242,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   required String? guildId,
   GuildUserDisplay? guildDisplay,
   String productName = InstanceConstants.defaultProductName,
+  bool animatedAvatar = true,
 }) {
   if (message.isPersona) {
     final String personaName = message.personaName ?? message.authorName;
@@ -253,6 +257,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
                 userId: message.authorId,
                 hash: rawAvatar,
                 size: MediaProxySizes.avatarProfile,
+                animated: animatedAvatar,
               );
     return GuildUserDisplay(
       displayName: personaName,
@@ -273,7 +278,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
     fallbackAvatarColor: message.authorAvatarColor,
     member: null,
     guildId: null,
-    animatedAvatar: false,
+    animatedAvatar: animatedAvatar,
   );
   final String? webhookId = message.webhookId;
   if (webhookId != null && webhookId.isNotEmpty) {
