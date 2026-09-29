@@ -794,13 +794,14 @@ Future<InstrumentedChatViewModel> pumpBottomList(
   required bool hasMoreNewer,
   int count = 60,
   bool enableTrimToNewestWindow = false,
+  List<Message>? messages,
 }) async {
   tester.view.physicalSize = const Size(420, 640);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
   final InstrumentedChatViewModel chatViewModel = InstrumentedChatViewModel(
-    detachedState(seedMessages(count), hasMoreNewer: hasMoreNewer),
+    detachedState(messages ?? seedMessages(count), hasMoreNewer: hasMoreNewer),
     enableTrimToNewestWindow: enableTrimToNewestWindow,
   );
   await tester.pumpWidget(

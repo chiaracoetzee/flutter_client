@@ -239,7 +239,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   int _pendingOlderReveal = 0;
   bool _olderRevealScheduled = false;
   String? _olderRevealBoundaryId;
-  List<ChannelStreamItem> _builtStream = const <ChannelStreamItem>[];
+  ChannelStreamIndex _builtStreamIndex = ChannelStreamIndex.empty;
   // True while the open anchor is the unread divider; underfill must not
   // bottom-pin short trailing blocks.
   bool _unreadOpenLayout = false;
@@ -647,23 +647,20 @@ class _MessageListState extends ConsumerState<MessageList> {
       stickyUnreadId: stickyUnreadId,
       oldestUnreadId: oldestUnreadId,
     );
-    final List<ChannelStreamItem> channelStream = _channelStreamFor(
-      messages: messages,
-      oldestUnreadMessageId: visualUnreadId,
-      currentUserId: currentUserId,
-      blockedUserIds: blockedUserIds,
-    );
+    final ({List<ChannelStreamItem> items, ChannelStreamIndex index}) built =
+        _channelStreamFor(
+          messages: messages,
+          oldestUnreadMessageId: visualUnreadId,
+          currentUserId: currentUserId,
+          blockedUserIds: blockedUserIds,
+        );
+    final List<ChannelStreamItem> channelStream = built.items;
+    final ChannelStreamIndex streamIndex = built.index;
     final String? revealBoundaryId = _olderRevealBoundaryId;
     if (revealBoundaryId != null) {
       _olderRevealBoundaryId = null;
-      final int? before = findChannelStreamDataIndex(
-        _builtStream,
-        revealBoundaryId,
-      );
-      final int? after = findChannelStreamDataIndex(
-        channelStream,
-        revealBoundaryId,
-      );
+      final int? before = _builtStreamIndex.itemOfMessage(revealBoundaryId);
+      final int? after = streamIndex.itemOfMessage(revealBoundaryId);
       final int addedItems = before == null || after == null
           ? 0
           : after - before;
@@ -672,7 +669,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         _scheduleOlderReveal();
       }
     }
-    _builtStream = channelStream;
+    _builtStreamIndex = streamIndex;
     final bool hasJumpTarget =
         widget.targetMessageId != null || _pendingScrollTarget != null;
     if (!_anchorResolved && (!isLoading || messages.isNotEmpty)) {
@@ -683,7 +680,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         final String? unreadAnchorId = hasJumpTarget ? null : visualUnreadId;
         final bool canAnchorUnread =
             unreadAnchorId != null &&
-            findChannelStreamDataIndex(channelStream, unreadAnchorId) != null;
+            streamIndex.itemOfMessage(unreadAnchorId) != null;
         final String? jumpRequestId =
             _pendingScrollTarget ?? widget.targetMessageId;
         final String? jumpAnchorId =
@@ -1039,7 +1036,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                           required bool reverse,
                         }) => _centerChildIndexForStream(
                           key,
-                          channelStream,
+                          streamIndex,
                           startInclusive,
                           endExclusive,
                           reverse: reverse,
@@ -1471,7 +1468,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       final Key? key = element.widget.key;
       if (key is ValueKey<String>) {
         final String value = key.value;
-        if (value.startsWith('msg-') || value.startsWith('group-')) {
+        if (value.startsWith('msg-') ||
+            value.startsWith('group-') ||
+            value.startsWith('divider-')) {
           done = visit(value, element);
           return;
         }
@@ -2163,6 +2162,16 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     final double viewportTop = viewportRender.localToGlobal(Offset.zero).dy;
     final double viewportH = _scrollController.position.viewportDimension;
+    final int? Function(String id) windowIndexOf;
+    if (identical(_builtStreamIndex.messages, state.messages)) {
+      windowIndexOf = _builtStreamIndex.windowIndexOf;
+    } else {
+      final Map<String, int> byId = <String, int>{
+        for (int i = 0; i < state.messages.length; i += 1)
+          state.messages[i].id: i,
+      };
+      windowIndexOf = (String id) => byId[id];
+    }
     final double centerY = viewportTop + viewportH / 2;
     String? visibleId;
     double bestDistance = double.infinity;
@@ -2184,7 +2193,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         return;
       }
       final String value = key.value;
-      if (value.startsWith('group-')) {
+      if (value.startsWith('group-') || value.startsWith('divider-')) {
         return;
       }
       if (!value.startsWith('msg-')) {
@@ -2192,9 +2201,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         return;
       }
       final String messageId = value.substring('msg-'.length);
-      final int idx = state.messages.indexWhere(
-        (Message m) => m.id == messageId,
-      );
+      final int idx = windowIndexOf(messageId) ?? -1;
       if (idx < 0) {
         return;
       }
@@ -2458,16 +2465,14 @@ class _MessageListState extends ConsumerState<MessageList> {
     _pendingScrollTargetWindowEpoch = null;
   }
 
-  List<ChannelStreamItem> _channelStreamFor({
+  ({List<ChannelStreamItem> items, ChannelStreamIndex index})
+  _channelStreamFor({
     required List<Message> messages,
     required String? oldestUnreadMessageId,
     required String? currentUserId,
     required Set<String> blockedUserIds,
   }) {
-    if (messages.isEmpty) {
-      return const <ChannelStreamItem>[];
-    }
-    return createChannelStream(
+    return createIndexedChannelStream(
       messages: messages,
       oldestUnreadMessageId: oldestUnreadMessageId,
       // An after-edge anchor's containing item sits leading-of-center; the
@@ -3243,9 +3248,12 @@ class _MessageListState extends ConsumerState<MessageList> {
     required bool isGuildSendDisabled,
   }) {
     final ChannelStreamItem item = stream[dataIndex];
-    final String keyValue = item.type.isCollapsedGroup
-        ? 'group-${item.groupKey}'
-        : 'msg-${item.singleMessage?.id ?? dataIndex}';
+    final String keyValue = switch (item.type) {
+      ChannelStreamType.divider when dataIndex + 1 < stream.length =>
+        channelStreamDividerKey(stream[dataIndex + 1].messages.first.id),
+      _ when item.type.isCollapsedGroup => 'group-${item.groupKey}',
+      _ => 'msg-${item.singleMessage?.id ?? dataIndex}',
+    };
     return KeyedSubtree(
       key: ValueKey<String>(keyValue),
       child: _buildStreamItem(
@@ -3273,7 +3281,7 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   int? _centerChildIndexForStream(
     Key key,
-    List<ChannelStreamItem> stream,
+    ChannelStreamIndex index,
     int startInclusive,
     int endExclusive, {
     required bool reverse,
@@ -3284,17 +3292,11 @@ class _MessageListState extends ConsumerState<MessageList> {
     final String value = key.value;
     const String messagePrefix = 'msg-';
     const String groupPrefix = 'group-';
-    int? dataIndex;
-    if (value.startsWith(messagePrefix)) {
-      final String id = value.substring(messagePrefix.length);
-      dataIndex = findChannelStreamDataIndex(stream, id);
-    } else if (value.startsWith(groupPrefix)) {
-      final String groupKey = value.substring(groupPrefix.length);
-      dataIndex = stream.indexWhere((item) => item.groupKey == groupKey);
-      if (dataIndex < 0) {
-        dataIndex = null;
-      }
-    }
+    final int? dataIndex = value.startsWith(messagePrefix)
+        ? index.itemOfMessage(value.substring(messagePrefix.length))
+        : value.startsWith(groupPrefix)
+        ? index.itemOfGroup(value.substring(groupPrefix.length))
+        : index.itemOfDivider(value);
     if (dataIndex == null ||
         dataIndex < startInclusive ||
         dataIndex >= endExclusive) {

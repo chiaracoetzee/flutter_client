@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_overlay.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/pump_fluxer_app.dart';
@@ -479,6 +480,60 @@ void main() {
 
       expect(chatViewModel.detachedTrimCallCount, 1);
       expect(chatViewModel.userScrollActiveLog.where((bool v) => !v).length, 1);
+      await disposeMessageList(tester);
+    });
+  });
+
+  group('stream keys', () {
+    testWidgets('an older page landing keeps date divider elements (#713)', (
+      WidgetTester tester,
+    ) async {
+      List<Message> rows(int firstDay, int count) => <Message>[
+        for (int i = 0; i < count; i += 1)
+          harnessMessage(
+            id: snowflakeForUtc(
+              DateTime.utc(2026, 6, 1 + firstDay + i ~/ 4, 12, i),
+            ),
+            content: 'day ${firstDay + i ~/ 4} row $i',
+            timestamp: DateTime.utc(2026, 6, 1 + firstDay + i ~/ 4, 12, i),
+          ),
+      ];
+      final List<Message> window = rows(10, 60);
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        messages: window,
+      );
+      final Map<String, Element> dividers = <String, Element>{
+        for (int row = 44; row < 60; row += 4)
+          window[row].id: tester.element(
+            find.byKey(
+              ValueKey<String>(channelStreamDividerKey(window[row].id)),
+              skipOffstage: false,
+            ),
+          ),
+      };
+
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (
+          messages: <Message>[...rows(0, 40), ...window],
+          origin: MessagesOrigin.olderPage,
+        ),
+      );
+      await pumpFluxerFrames(tester);
+
+      for (final MapEntry<String, Element> entry in dividers.entries) {
+        expect(
+          tester.element(
+            find.byKey(
+              ValueKey<String>(channelStreamDividerKey(entry.key)),
+              skipOffstage: false,
+            ),
+          ),
+          same(entry.value),
+          reason: 'a re-keyed divider is re-inflated on every landing',
+        );
+      }
       await disposeMessageList(tester);
     });
   });
