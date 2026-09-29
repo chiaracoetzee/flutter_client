@@ -178,6 +178,67 @@ void main() {
     });
   });
 
+  group('trimMessageWindowBetween', () {
+    test('keeps exactly the span and flags both dropped sides', () {
+      final messages = _build(300);
+      final trim = trimMessageWindowBetween(
+        messages,
+        firstId: messages[40].id,
+        lastId: messages[219].id,
+      );
+      expect(trim.messages, hasLength(180));
+      expect(trim.messages.first.id, messages[40].id);
+      expect(trim.messages.last.id, messages[219].id);
+      expect(trim.droppedOlder, isTrue);
+      expect(trim.droppedNewer, isTrue);
+    });
+
+    test('a span reaching the newest row drops only the older side', () {
+      final messages = _build(300);
+      final trim = trimMessageWindowBetween(
+        messages,
+        firstId: messages[180].id,
+        lastId: messages[299].id,
+      );
+      expect(trim.messages, hasLength(120));
+      expect(trim.droppedOlder, isTrue);
+      expect(trim.droppedNewer, isFalse);
+    });
+
+    test('re-appends local-only rows dropped from the newest side', () {
+      final Message sending = _localMessage(300, MessageDeliveryState.sending);
+      final Message failed = _localMessage(301, MessageDeliveryState.failed);
+      final List<Message> messages = <Message>[..._build(300), sending, failed];
+      final trim = trimMessageWindowBetween(
+        messages,
+        firstId: messages[0].id,
+        lastId: messages[149].id,
+      );
+      expect(trim.messages, hasLength(152));
+      expect(trim.messages[150].id, sending.id);
+      expect(trim.messages.last.id, failed.id);
+      expect(trim.droppedNewer, isTrue);
+    });
+
+    test('a missing or reversed span leaves the window untouched', () {
+      final messages = _build(300);
+      for (final (String firstId, String lastId) in <(String, String)>[
+        ('absent', messages[10].id),
+        (messages[10].id, 'absent'),
+        (messages[200].id, messages[100].id),
+      ]) {
+        final trim = trimMessageWindowBetween(
+          messages,
+          firstId: firstId,
+          lastId: lastId,
+        );
+        expect(identical(trim.messages, messages), isTrue);
+        expect(trim.droppedOlder, isFalse);
+        expect(trim.droppedNewer, isFalse);
+      }
+    });
+  });
+
   group('window page reducers', () {
     test('supersedes older pages when the leading boundary moved', () {
       final MessageWindowSnapshot window = MessageWindowSnapshot(

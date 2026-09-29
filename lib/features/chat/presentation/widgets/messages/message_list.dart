@@ -177,6 +177,8 @@ const double _kUnreadOpenFillSlop = 32;
 /// comes back as a neighbour window with no error - so the wait is bounded.
 const Duration _kPendingScrollTargetTimeout = Duration(seconds: 6);
 
+const Duration _kDetachedTrimIdleDelay = Duration(seconds: 2);
+
 /// The scrollable list of messages in the chat area: one center-anchored
 /// [MessageListViewport] for every open/jump/live state. Positioning is the
 /// (anchorId, anchorFraction, anchorEdge) triple; prepends and appends are
@@ -272,6 +274,8 @@ class _MessageListState extends ConsumerState<MessageList> {
   );
   final _LiveDouble _openPad = _LiveDouble(0);
   bool _settleDeferredForHold = false;
+  Timer? _detachedTrimTimer;
+  bool _detachedTrimPending = false;
   // Extent the edge skeleton fillers add beyond the loaded rows; demand
   // geometry measures to the rows, not the skeleton, so pagination fires as
   // the reader approaches real history, not when they run out of filler.
@@ -351,6 +355,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (nextViewportChannelId != _viewportChannelId) {
       final String previousViewportChannelId = _viewportChannelId;
       _viewportChannelId = nextViewportChannelId;
+      _cancelDetachedTrim();
       if (oldWidget.visible) {
         _readViewport.setViewportActive(
           channelId: previousViewportChannelId,
@@ -378,6 +383,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       focusNext: _focusNextMessage,
       focusPrevious: _focusPreviousMessage,
     );
+    _detachedTrimTimer?.cancel();
     _pendingScrollTargetTimer?.cancel();
     _pendingScrollTargetTimer = null;
     _readViewport.setViewportActive(
@@ -1764,6 +1770,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       return;
     }
     _lastChannelId = channelId;
+    _cancelDetachedTrim();
     if (ref.read(focusedMessageProvider).hasFocus) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) {
@@ -1877,6 +1884,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       // A drag, ballistic, or programmatic start after a hold owns the next
       // End; the held settle is superseded.
       _settleDeferredForHold = false;
+      _cancelDetachedTrim();
       if (notification.dragDetails == null) {
         _deferHorizontalWhileCoasting.value = true;
       }
@@ -1942,6 +1950,8 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   void _onViewportPointerDown(PointerDownEvent event) {
     _activePointers++;
+    _detachedTrimTimer?.cancel();
+    _detachedTrimTimer = null;
   }
 
   void _onViewportPointerUp(PointerEvent event) {
@@ -1952,6 +1962,8 @@ class _MessageListState extends ConsumerState<MessageList> {
       // Lifted without dragging: the hold cancelled straight to idle, which
       // dispatches no End, so the withheld settle runs here.
       scheduleMicrotask(_settleUnlessHeld);
+    } else if (_activePointers == 0 && _detachedTrimPending) {
+      _armDetachedTrim();
     }
   }
 
@@ -1988,8 +2000,14 @@ class _MessageListState extends ConsumerState<MessageList> {
         _chatViewModel.trimToNewestWindow();
       }
       _maybeRecenterPinnedTail(state.messages);
-    } else {
+    } else if (state.messages.length >= kMaxLoadedMessagesHard) {
       _maybeTrimDetachedWindow(state);
+    } else if (state.messages.length > kMaxLoadedMessages) {
+      _chatViewModel.setPendingTrimAround(
+        channelId: _viewportChannelId,
+        messageId: _measureAttachedRows(state)?.id,
+      );
+      _armDetachedTrim();
     }
     // A reader who scrolled back to the edge is the one the underfill repair
     // was withheld from while they were in history.
@@ -2004,33 +2022,130 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
-  /// Scroll-end trim of a detached window (the pinned tail path uses
-  /// trimToNewestWindow). Measures the sliver child nearest the viewport
-  /// center, re-anchors to it when the current anchor would fall outside
-  /// the kept span (epoch remount, pixel-exact: the measured leading-edge
-  /// fraction is exactly where the fresh before-edge layout places it),
-  /// then trims around it and re-arms pagination on the fresh geometry.
+  void _armDetachedTrim() {
+    _detachedTrimPending = true;
+    _detachedTrimTimer?.cancel();
+    final int epoch = _uiEpoch;
+    final String channelId = _viewportChannelId;
+    _detachedTrimTimer = Timer(_kDetachedTrimIdleDelay, () {
+      _detachedTrimTimer = null;
+      _runIdleDetachedTrim(epoch, channelId);
+    });
+  }
+
+  void _cancelDetachedTrim() {
+    _detachedTrimPending = false;
+    _detachedTrimTimer?.cancel();
+    _detachedTrimTimer = null;
+    _chatViewModel.setPendingTrimAround(
+      channelId: _viewportChannelId,
+      messageId: null,
+    );
+  }
+
+  void _runIdleDetachedTrim(int epoch, String channelId) {
+    if (!mounted || epoch != _uiEpoch || channelId != _viewportChannelId) {
+      _detachedTrimPending = false;
+      return;
+    }
+    if (!_anchorResolved ||
+        !_scrollController.hasClients ||
+        _activePointers > 0 ||
+        _userDragActive ||
+        _scrollController.position.isScrollingNotifier.value) {
+      return;
+    }
+    _detachedTrimPending = false;
+    _maybeTrimDetachedWindow(ref.read(chatViewModelProvider));
+  }
+
   void _maybeTrimDetachedWindow(ChatViewState state) {
     if (state.messages.length <= kMaxLoadedMessages) {
       return;
     }
+    final ({String id, double fraction, int first, int last})? rows =
+        _measureAttachedRows(state);
+    if (rows == null) {
+      // Nothing measurable this cycle; the next scroll end retries.
+      return;
+    }
+    final ({int start, int end})? span = _anchoredTrimSpan(
+      state.messages,
+      firstAttached: rows.first,
+      lastAttached: rows.last,
+    );
+    if (span != null) {
+      _chatViewModel.trimToSpan(
+        firstId: state.messages[span.start].id,
+        lastId: state.messages[span.end].id,
+      );
+    } else {
+      _reanchor(
+        rows.id,
+        rows.fraction,
+        edge: MessageListAnchorEdge.before,
+        rebase: true,
+      );
+      _chatViewModel.trimAroundVisible(rows.id);
+    }
+    final int epoch = _uiEpoch;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _runIfSameEpoch(epoch, () {
+        _publishDemandGeometry();
+        _demandSource.onWindowTrimmed();
+      });
+    });
+  }
+
+  ({int start, int end})? _anchoredTrimSpan(
+    List<Message> messages, {
+    required int firstAttached,
+    required int lastAttached,
+  }) {
+    // A null anchor lays the list out from its newest row.
+    final int anchorIdx = _anchorId == null
+        ? messages.length - 1
+        : messages.indexWhere((Message m) => m.id == _anchorId);
+    if (anchorIdx < 0) {
+      return null;
+    }
+    int start = anchorIdx < firstAttached ? anchorIdx : firstAttached;
+    int end = anchorIdx > lastAttached ? anchorIdx : lastAttached;
+    final int shortfall = kTrimmedMessageWindowSize - (end - start + 1);
+    if (shortfall > 0) {
+      start = (start - shortfall ~/ 2).clamp(
+        0,
+        messages.length - kTrimmedMessageWindowSize,
+      );
+      end = start + kTrimmedMessageWindowSize - 1;
+    }
+    if (end - start + 1 > kMaxLoadedMessages) {
+      return null;
+    }
+    return (start: start, end: end);
+  }
+
+  ({String id, double fraction, int first, int last})? _measureAttachedRows(
+    ChatViewState state,
+  ) {
     final BuildContext? scrollableContext =
         _scrollController.position.context.notificationContext;
     final RenderObject? viewportRender = scrollableContext?.findRenderObject();
     if (viewportRender is! RenderBox || !viewportRender.hasSize) {
-      return;
+      return null;
     }
     final double viewportTop = viewportRender.localToGlobal(Offset.zero).dy;
     final double viewportH = _scrollController.position.viewportDimension;
     final double centerY = viewportTop + viewportH / 2;
     String? visibleId;
-    int visibleIdx = -1;
     double visibleTop = 0;
     double bestDistance = double.infinity;
+    int firstIdx = state.messages.length;
+    int lastIdx = -1;
     final BuildContext? scrollRoot =
         _scrollController.position.context.notificationContext;
     if (scrollRoot == null) {
-      return;
+      return null;
     }
     void visitor(Element element) {
       final Key? key = element.widget.key;
@@ -2068,12 +2183,17 @@ class _MessageListState extends ConsumerState<MessageList> {
       if (node is! RenderBox || !node.hasSize) {
         return;
       }
+      if (idx < firstIdx) {
+        firstIdx = idx;
+      }
+      if (idx > lastIdx) {
+        lastIdx = idx;
+      }
       final double top = node.localToGlobal(Offset.zero).dy;
       final double distance = (top - centerY).abs();
       if (distance < bestDistance) {
         bestDistance = distance;
         visibleId = messageId;
-        visibleIdx = idx;
         visibleTop = top;
       }
     }
@@ -2081,37 +2201,14 @@ class _MessageListState extends ConsumerState<MessageList> {
     scrollRoot.visitChildElements(visitor);
     final String? nearestId = visibleId;
     if (nearestId == null) {
-      // Nothing measurable this cycle; the next scroll end retries.
-      return;
+      return null;
     }
-    final int len = state.messages.length;
-    final int start = (visibleIdx - kTrimmedMessageWindowSize ~/ 2).clamp(
-      0,
-      len - kTrimmedMessageWindowSize,
+    return (
+      id: nearestId,
+      fraction: ((visibleTop - viewportTop) / viewportH).clamp(0.0, 1.0),
+      first: firstIdx,
+      last: lastIdx,
     );
-    final int anchorIdx = _anchorId == null
-        ? -1
-        : state.messages.indexWhere((Message m) => m.id == _anchorId);
-    if (anchorIdx < start || anchorIdx >= start + kTrimmedMessageWindowSize) {
-      _reanchor(
-        nearestId,
-        ((visibleTop - viewportTop) / viewportH).clamp(0.0, 1.0),
-        edge: MessageListAnchorEdge.before,
-        rebase: true,
-      );
-    }
-    _chatViewModel.trimAroundVisible(nearestId);
-    // Re-arm pagination on the post-trim layout: the revision bump releases
-    // idle pumps; onWindowTrimmed buys parked ones (capped mid-fling) one
-    // retry. Epoch captured AFTER any rebase so the callback runs on the
-    // layout it describes.
-    final int epoch = _uiEpoch;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _runIfSameEpoch(epoch, () {
-        _publishDemandGeometry();
-        _demandSource.onWindowTrimmed();
-      });
-    });
   }
 
   /// Re-center policy: a pinned reader with a deep trailing run re-anchors

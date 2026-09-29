@@ -412,7 +412,7 @@ void main() {
         'scroll lock until the finger lifts', (WidgetTester tester) async {
       final held = await flingThenHold(tester);
 
-      expect(held.vm.trimAroundVisibleCallCount, 0);
+      expect(held.vm.detachedTrimCallCount, 0);
       expect(messageListAnchorEpoch(tester), held.epoch);
       expect(held.vm.userScrollActiveLog, isNot(contains(false)));
 
@@ -420,8 +420,9 @@ void main() {
       await tester.pump();
       await tester.pump();
 
-      expect(held.vm.trimAroundVisibleCallCount, 1);
       expect(held.vm.userScrollActiveLog.where((bool v) => !v).length, 1);
+      await pumpMessageListIdleTrim(tester);
+      expect(held.vm.detachedTrimCallCount, 1);
       await disposeMessageList(tester);
     });
 
@@ -433,12 +434,13 @@ void main() {
       await held.hold.moveBy(const Offset(0, 40));
       await held.hold.moveBy(const Offset(0, 40));
       await tester.pump();
-      expect(held.vm.trimAroundVisibleCallCount, 0);
+      expect(held.vm.detachedTrimCallCount, 0);
 
       await held.hold.up();
       await pumpFluxerFrames(tester);
+      await pumpMessageListIdleTrim(tester);
 
-      expect(held.vm.trimAroundVisibleCallCount, 1);
+      expect(held.vm.detachedTrimCallCount, 1);
       expect(held.vm.userScrollActiveLog.where((bool v) => !v).length, 1);
       await disposeMessageList(tester);
     });
@@ -465,7 +467,7 @@ void main() {
         await tester.pump();
       }
 
-      expect(chatViewModel.trimAroundVisibleCallCount, 0);
+      expect(chatViewModel.detachedTrimCallCount, 0);
       expect(chatViewModel.userScrollActiveLog, isNot(contains(false)));
       expect(
         messageListScrollPosition(tester).isScrollingNotifier.value,
@@ -473,9 +475,145 @@ void main() {
       );
 
       await tester.pumpAndSettle();
+      await pumpMessageListIdleTrim(tester);
 
-      expect(chatViewModel.trimAroundVisibleCallCount, 1);
+      expect(chatViewModel.detachedTrimCallCount, 1);
       expect(chatViewModel.userScrollActiveLog.where((bool v) => !v).length, 1);
+      await disposeMessageList(tester);
+    });
+  });
+
+  group('idle trim', () {
+    testWidgets('a detached trim waits until the list is idle (#713)', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: kMaxLoadedMessages + 30,
+      );
+
+      await tester.drag(messageListScrollable(), const Offset(0, 300));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 1500));
+      expect(
+        chatViewModel.detachedTrimCallCount,
+        0,
+        reason: 'a trim at settle rebuilds rows under the next fling',
+      );
+
+      final TestGesture drag = await tester.startGesture(
+        tester.getCenter(messageListScrollable()),
+      );
+      await drag.moveBy(const Offset(0, 40));
+      await drag.moveBy(const Offset(0, 40));
+      await tester.pump(const Duration(milliseconds: 700));
+      expect(
+        chatViewModel.detachedTrimCallCount,
+        0,
+        reason: 'a trim must not land under the next drag',
+      );
+
+      await drag.up();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 1000));
+      expect(
+        chatViewModel.detachedTrimCallCount,
+        0,
+        reason: 'the idle wait restarts at the second settle',
+      );
+
+      await tester.pump(const Duration(milliseconds: 1100));
+      expect(chatViewModel.detachedTrimCallCount, 1);
+      expect(
+        chatViewModel.testState.messages.length,
+        lessThanOrEqualTo(kMaxLoadedMessages),
+      );
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('a window at the hard cap trims at the next settle', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: kMaxLoadedMessagesHard,
+      );
+
+      await tester.drag(messageListScrollable(), const Offset(0, 300));
+      await tester.pump();
+
+      expect(
+        chatViewModel.detachedTrimCallCount,
+        1,
+        reason: 'pagination stays parked at the cap until a trim',
+      );
+      expect(
+        chatViewModel.testState.messages.length,
+        lessThanOrEqualTo(kMaxLoadedMessages),
+      );
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('an idle trim that can keep the anchor does not remount the '
+        'viewport (#713)', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: kMaxLoadedMessages + 30,
+      );
+      await tester.drag(messageListScrollable(), const Offset(0, 300));
+      await pumpFluxerFrames(tester);
+      final int epoch = messageListAnchorEpoch(tester);
+      final ({String id, Rect rect}) before = anchorSample(
+        tester,
+        centerVisibleMessageItemId(tester),
+      );
+
+      await pumpMessageListIdleTrim(tester);
+
+      expect(chatViewModel.detachedTrimCallCount, 1);
+      expect(
+        chatViewModel.testState.messages.length,
+        lessThanOrEqualTo(kMaxLoadedMessages),
+      );
+      expect(
+        messageListAnchorEpoch(tester),
+        epoch,
+        reason: 'a remount rebuilds every attached row in one frame',
+      );
+      expectPreserved(tester, before, reason: 'the trim must not move rows');
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('an idle trim far from the anchor rebases once', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        count: kMaxLoadedMessagesHard - 20,
+      );
+      messageListScrollPosition(
+        tester,
+      ).jumpTo(messageListOldestRowOffset(tester) + 200);
+      await pumpFluxerFrames(tester);
+      final int epoch = messageListAnchorEpoch(tester);
+      final ({String id, Rect rect}) before = anchorSample(
+        tester,
+        centerVisibleMessageItemId(tester),
+      );
+
+      await pumpMessageListIdleTrim(tester);
+
+      expect(chatViewModel.detachedTrimCallCount, 1);
+      expect(
+        chatViewModel.testState.messages,
+        hasLength(kTrimmedMessageWindowSize),
+      );
+      expect(messageListAnchorEpoch(tester), epoch + 1);
+      expectPreserved(tester, before, reason: 'the rebase must not move rows');
       await disposeMessageList(tester);
     });
   });

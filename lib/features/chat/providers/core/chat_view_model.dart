@@ -600,6 +600,7 @@ class ChatViewModel extends _$ChatViewModel {
   Future<void>? _switchInFlightFuture;
   final LinkedHashMap<String, _ParkedChannelWindow> _parkedWindows =
       LinkedHashMap<String, _ParkedChannelWindow>();
+  ({String channelId, String messageId})? _pendingTrimAround;
   // Bumped whenever the loaded window is replaced wholesale. In-flight page
   // loads compare it before applying, so a slow response cannot resurrect
   // the window it was fetched for after a jump replaced it.
@@ -645,6 +646,7 @@ class ChatViewModel extends _$ChatViewModel {
     _channelSwitchGeneration++;
     _windowGeneration++;
     _parkedWindows.clear();
+    _pendingTrimAround = null;
     _lastReconciledGatewayGenerationByChannel.clear();
     _lastReconciledForegroundGenerationByChannel.clear();
     _lastReconciledConnectivityGapGenerationByChannel.clear();
@@ -1865,14 +1867,27 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void _parkLoadedWindow(String channelId) {
+    final ({String channelId, String messageId})? pendingTrim =
+        _pendingTrimAround;
+    _pendingTrimAround = null;
     if (channelId.isEmpty || state.messages.isEmpty) {
       return;
     }
+    final MessageWindowTrim trim = pendingTrim?.channelId == channelId
+        ? trimMessageWindowAround(
+            state.messages,
+            aroundId: pendingTrim!.messageId,
+          )
+        : MessageWindowTrim(
+            messages: state.messages,
+            droppedOlder: false,
+            droppedNewer: false,
+          );
     _parkedWindows.remove(channelId);
     _parkedWindows[channelId] = _ParkedChannelWindow(
-      messages: List<Message>.unmodifiable(state.messages),
-      hasMoreMessages: state.hasMoreMessages,
-      hasMoreNewerMessages: state.hasMoreNewerMessages,
+      messages: List<Message>.unmodifiable(trim.messages),
+      hasMoreMessages: state.hasMoreMessages || trim.droppedOlder,
+      hasMoreNewerMessages: state.hasMoreNewerMessages || trim.droppedNewer,
     );
     while (_parkedWindows.length > _kMaxParkedWindows) {
       _parkedWindows.remove(_parkedWindows.keys.first);
@@ -3794,19 +3809,40 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
-  /// Scroll-end trim for a detached window: keeps the rows around what the
-  /// user is looking at and re-opens pagination for whichever sides were
-  /// dropped. The widget re-anchors before calling this when the current
-  /// anchor falls outside the kept span, so the write is structurally
-  /// scroll-stable (both removals happen at the far sliver ends).
+  /// Idle trim for a detached window (a scroll-end one at the hard cap):
+  /// keeps the rows around what the user is looking at and re-opens
+  /// pagination for whichever sides were dropped. The widget re-anchors
+  /// before calling this when the current anchor falls outside the kept
+  /// span, so the write is structurally scroll-stable (both removals happen
+  /// at the far sliver ends).
   void trimAroundVisible(String visibleMessageId) {
+    _pendingTrimAround = null;
     if (state.messages.length <= kMaxLoadedMessages) {
       return;
     }
-    final MessageWindowTrim trim = trimMessageWindowAround(
-      state.messages,
-      aroundId: visibleMessageId,
+    _writeTrim(
+      trimMessageWindowAround(state.messages, aroundId: visibleMessageId),
     );
+  }
+
+  /// Trims a detached window to the rows from [firstId] through [lastId] and
+  /// re-opens pagination on the dropped sides. The span must hold every
+  /// attached row and the anchor, so the removals land at the far sliver ends.
+  void trimToSpan({required String firstId, required String lastId}) {
+    _pendingTrimAround = null;
+    if (state.messages.length <= kMaxLoadedMessages) {
+      return;
+    }
+    _writeTrim(
+      trimMessageWindowBetween(
+        state.messages,
+        firstId: firstId,
+        lastId: lastId,
+      ),
+    );
+  }
+
+  void _writeTrim(MessageWindowTrim trim) {
     if (identical(trim.messages, state.messages)) {
       return;
     }
@@ -3815,6 +3851,25 @@ class ChatViewModel extends _$ChatViewModel {
       hasMoreMessages: state.hasMoreMessages || trim.droppedOlder,
       hasMoreNewerMessages: state.hasMoreNewerMessages || trim.droppedNewer,
     );
+  }
+
+  /// Records the row a deferred [trimAroundVisible] will keep centered, or
+  /// clears it (null [messageId]) when that trim is cancelled. Leaving the
+  /// channel before the trim runs parks the window trimmed around this row.
+  void setPendingTrimAround({
+    required String channelId,
+    required String? messageId,
+  }) {
+    if (messageId == null) {
+      if (_pendingTrimAround?.channelId == channelId) {
+        _pendingTrimAround = null;
+      }
+      return;
+    }
+    if (state.channelId != channelId) {
+      return;
+    }
+    _pendingTrimAround = (channelId: channelId, messageId: messageId);
   }
 
   /// Widget-reported scroll activity (drag or ballistic). While true,

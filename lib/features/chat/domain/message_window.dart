@@ -117,14 +117,46 @@ MessageWindowTrim trimMessageWindowAround(
     );
   }
   final int start = (idx - target ~/ 2).clamp(0, messages.length - target);
-  List<Message> kept = messages.sublist(start, start + target);
+  return _keepRange(messages, start, start + target);
+}
+
+/// Trims to the rows from [firstId] through [lastId], both inclusive,
+/// re-appending local-only rows dropped from the newest side. Returns
+/// [messages] unchanged when either id is missing or [lastId] precedes
+/// [firstId].
+MessageWindowTrim trimMessageWindowBetween(
+  List<Message> messages, {
+  required String firstId,
+  required String lastId,
+}) {
+  final int start = messages.indexWhere((Message m) => m.id == firstId);
+  final int last = messages.indexWhere((Message m) => m.id == lastId);
+  if (start < 0 || last < start) {
+    return MessageWindowTrim(
+      messages: messages,
+      droppedOlder: false,
+      droppedNewer: false,
+    );
+  }
+  return _keepRange(messages, start, last + 1);
+}
+
+MessageWindowTrim _keepRange(List<Message> messages, int start, int end) {
+  if (start == 0 && end == messages.length) {
+    return MessageWindowTrim(
+      messages: messages,
+      droppedOlder: false,
+      droppedNewer: false,
+    );
+  }
+  List<Message> kept = messages.sublist(start, end);
   final bool droppedOlder = start > 0;
-  final bool droppedNewer = start + target < messages.length;
+  final bool droppedNewer = end < messages.length;
   if (droppedNewer) {
     // The newest side holds optimistic sends, failed retries, and client
     // system rows that exist only in memory - keep them.
     final List<Message> localOnly = messages
-        .sublist(start + target)
+        .sublist(end)
         .where(isLocalOnlyMessage)
         .toList();
     if (localOnly.isNotEmpty) {

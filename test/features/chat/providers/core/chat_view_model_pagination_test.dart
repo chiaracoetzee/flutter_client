@@ -104,6 +104,49 @@ void main() {
     expect(bounded.hasMoreNewerMessages, isTrue);
   });
 
+  test('leaving a channel with a pending idle trim parks a trimmed '
+      'window', () async {
+    final db = openTestDatabase();
+    for (final String id in <String>['channel-1', 'channel-2']) {
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(id: id, guildId: 'guild-1', name: id),
+      );
+    }
+    final List<Map<String, Object?>> all = paginationChannelMessages(
+      'channel-1',
+      250,
+    );
+    final adapter = PaginatingAdapter(
+      messagesByChannel: {'channel-1': all},
+      pageLimit: 150,
+    );
+    final container = paginationContainer(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await paginationFlushAsync();
+    await notifier.loadMore();
+    await paginationFlushAsync();
+    expect(container.read(chatViewModelProvider).messages, hasLength(250));
+
+    final String readerId = all[125]['id']! as String;
+    notifier.setPendingTrimAround(channelId: 'channel-1', messageId: readerId);
+    await notifier.switchChannel('channel-2', loadMessages: false);
+    await paginationFlushAsync();
+    await notifier.switchChannel('channel-1');
+    await paginationFlushAsync();
+
+    final ChatViewState restored = container.read(chatViewModelProvider);
+    expect(
+      restored.messages,
+      hasLength(kTrimmedMessageWindowSize),
+      reason: 'the parked window must be no larger than the settle trim left',
+    );
+    expect(restored.messages.map((m) => m.id), contains(readerId));
+    expect(restored.hasMoreNewerMessages, isTrue);
+  });
+
   test('recovery reconcile defers while the user is scrolling', () async {
     final db = openTestDatabase();
     final List<Map<String, Object?>> all = paginationChannelMessages(
