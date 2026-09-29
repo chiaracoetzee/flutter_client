@@ -22,6 +22,13 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
   Stream<List<Channel>> watchAllChannels() =>
       select(channels).watch().suppressDriftCancellation;
 
+  Stream<List<Channel>> watchChannelsByIds(Iterable<String> ids) =>
+      (select(channels)
+            ..where((c) => c.id.isIn(ids))
+            ..orderBy([(c) => OrderingTerm.asc(c.id)]))
+          .watch()
+          .suppressDriftCancellation;
+
   Future<List<Channel>> getAllChannels() => select(channels).get();
 
   Future<List<Channel>> getChannels(String guildId) =>
