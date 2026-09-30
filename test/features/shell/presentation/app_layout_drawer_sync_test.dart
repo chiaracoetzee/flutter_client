@@ -41,12 +41,16 @@ void main() {
       expect(container.read(currentRevealSideProvider), RevealSide.left);
     });
 
-    test('chat sync leaves reveal side alone', () {
+    test('opening a chat route shows the chat side', () {
       final container = _bareContainer();
 
       syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
 
+      syncForRoute(container, '/channels/guild/channel');
+      expect(container.read(currentRevealSideProvider), RevealSide.main);
+
+      setRevealSide(container, RevealSide.left);
       syncForRoute(container, '/channels/guild/channel');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
     });

@@ -421,6 +421,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_slashSession.isActive) {
+      if (state == AppLifecycleState.resumed) {
+        _maybeReserveUnmeasuredKeyboard();
+      }
+      return;
+    }
     _keyboardRestore.handleLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       _maybeReserveUnmeasuredKeyboard();
@@ -625,12 +631,19 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (ref.read(physicalKeyboardConnectedProvider).value ?? false) {
       return;
     }
-    if (!_focusNode.hasFocus && !_keyboardRestore.hasPendingRestore) {
+    if (!_composerEntryFocused() && !_keyboardRestore.hasPendingRestore) {
       return;
     }
     ref
         .read(mobileKeyboardMetricsProvider.notifier)
         .reserveUnmeasuredKeyboard();
+  }
+
+  bool _composerEntryFocused() {
+    if (_slashSession.isActive) {
+      return _slashSession.focus == ComposerSlashFocus.slot;
+    }
+    return _focusNode.hasFocus;
   }
 
   @override
@@ -646,6 +659,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   @override
   void dispose() {
     _chatKeybindEffectsSubscription?.close();
+    _keyboardRestore.dispose();
     _composerFocus.unregister(_requestComposerFocus);
     WidgetsBinding.instance.removeObserver(this);
     _focusNode
@@ -893,6 +907,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                       ),
                                     )) {
                                       _closeComposerPanelsAndFocusComposer();
+                                      return;
+                                    }
+                                    if (_focusNode.hasFocus &&
+                                        ref
+                                                .read(
+                                                  mobileKeyboardMetricsProvider,
+                                                )
+                                                .liveKeyboardHeight <=
+                                            0) {
+                                      reconnectComposerKeyboard(_focusNode);
                                     }
                                   },
                                 ),
@@ -1792,7 +1816,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           ? _buildMobileLayout(context, perms)
           : _buildLargeLayout(context, perms),
     );
-    if (!isMobileLayout(context) || !isPanelOpen) {
+    final bool panelClosing = ref.watch(composerPanelClosingProvider);
+    if (!isMobileLayout(context) || !isPanelOpen || panelClosing) {
       return composerField;
     }
     return ExcludeFocus(child: composerField);
