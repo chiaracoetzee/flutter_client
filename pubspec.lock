@@ -1458,14 +1458,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-  latext:
-    dependency: transitive
-    description:
-      name: latext
-      sha256: "4dc2e3b8436cf8bce2d74b3af53055d56b9dc83c816fec5cf1c8f2789bf89a64"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.1"
   leak_tracker:
     dependency: transitive
     description:

@@ -20,10 +20,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_highlight: ^0.7.0
+  flutter_math_fork: ^0.7.4
   flutter_svg: ^2.2.4
   highlight: ^0.7.0
   intl: ^0.20.2
-  latext: ^0.5.1
   markdown: ^7.3.1
   material_ui: ^1.0.0
   phosphor_flutter:
