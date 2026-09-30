@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "3b19a47f6ea7c2632760777c78174f47f6aec1e05f0cd611380d4593b8af1dbc"
+      sha256: fdcd9f70f9eb80df3bc5ed0fa67280df2595fd481948df8a9ab082e6a40ad04b
       url: "https://pub.dev"
     source: hosted
-    version: "96.0.0"
+    version: "108.0.0"
   accessibility_radar:
     dependency: "direct dev"
     description:
@@ -37,10 +37,10 @@ packages:
     dependency: "direct overridden"
     description:
       name: analyzer
-      sha256: "0c516bc4ad36a1a75759e54d5047cb9d15cded4459df01aa35a0b5ec7db2c2a0"
+      sha256: a51c769bff3b6dfbe9d60199b8606d808290702a296bef0c26a4ca391d414e46
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.0"
+    version: "14.4.0"
   analyzer_buffer:
     dependency: transitive
     description:
@@ -1574,10 +1574,10 @@ packages:
     dependency: "direct main"
     description:
       name: material_ui
-      sha256: "134ab2f0843545c4e661e4ba2753fe1bcf0753cb690d5a9ee4870638a40411e9"
+      sha256: "32d98f11cf5942a095a8c3e01b03e4de3b17941437713dcf36b1088fb62e23d2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.5.0"
   media_kit:
     dependency: "direct main"
     description:
@@ -2239,34 +2239,34 @@ packages:
     dependency: transitive
     description:
       name: riverpod_analyzer_utils
-      sha256: "3e275138862ccc22ed61444a1f9a840f753094c367f28f4123f50289cd204d68"
+      sha256: bb13cb3985815840cc103eda1027158358c5fdc00f308fc6f76574d0594107af
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0-dev.10"
+    version: "1.0.0-dev.12"
   riverpod_annotation:
     dependency: "direct main"
     description:
       name: riverpod_annotation
-      sha256: "674dbb26e2db3d9253166faf4758c796af14146b8fbcf5e7102bc8a04cd359b8"
+      sha256: "322e56ad198928ef26ba240f85421bfff2493bd65665c887b1299e6386b6206d"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.3"
+    version: "4.0.7"
   riverpod_generator:
     dependency: "direct dev"
     description:
       name: riverpod_generator
-      sha256: "54d790c3fee1ae281c448801bfdbfaa9fd961a9d3998494e0fcd9ee32184d7eb"
+      sha256: c94dcb8b60ff4805d2bb8cacca969c48237bcb563e2ab0b5afb50204470c7636
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.4"
+    version: "4.0.9"
   riverpod_lint:
     dependency: "direct dev"
     description:
       name: riverpod_lint
-      sha256: a9b4578bf8eee50f1403767bce0fb8cdc76ba64894fee011eac13377f28f66ff
+      sha256: "215cb3cd54a97e09bc3512535fa4e8bedd3bf2a06dc2ae015ac8e0050fc71bd1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.6"
+    version: "3.1.9"
   rxdart:
     dependency: transitive
     description:
