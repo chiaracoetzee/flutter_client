@@ -12286,6 +12286,13 @@
     "storePlutoniumLearnVisionary": "Learn more about Visionary.",
     "storePlutoniumDonatePrompt": "Just want to support Fluxer's open source development? ",
     "storePlutoniumDonateLink": "Donate instead.",
+    "storePlutoniumHighlightsLead": "Subscribing funds Fluxer and unlocks",
+    "storePlutoniumHighlightEmoji": "Custom emoji and stickers in any chat",
+    "storePlutoniumHighlightProfile": "Animated profile, badge, and custom 4-digit number",
+    "storePlutoniumHighlightFiles": "Uploads up to 500 MB",
+    "storePlutoniumHighlightMessages": "Send messages up to 4,000 characters",
+    "storePlutoniumHighlightCommunityProfile": "A separate profile for each community",
+    "storePlutoniumHighlightsMore": "And more",
     "storePlutoniumRenewsThroughPlay": "Renews automatically through Google Play until you cancel.",
     "storePlutoniumSavePercent": "Save {percent}%",
     "@storePlutoniumSavePercent": {

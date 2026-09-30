@@ -22,8 +22,10 @@ class PlutoniumStoreHero extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final bool wide = constraints.maxWidth >= 560;
-        final double crownWidth = wide ? 220 : 152;
+        final double crownWidth = wide ? 180 : 112;
         final textStyles = context.textStyles;
+        final bool showPrices =
+            !priceLoading && monthlyPrice != null && yearlyPrice != null;
         return Column(
           children: [
             Image.asset(
@@ -32,18 +34,11 @@ class PlutoniumStoreHero extends StatelessWidget {
               fit: BoxFit.contain,
               excludeFromSemantics: true,
             ),
-            SizedBox(height: wide ? 20 : 12),
-            Text(
-              l10n.userSettingsNavFluxerPlutonium,
-              textAlign: TextAlign.center,
-              style: textStyles.heading.copyWith(
-                color: PlutoniumStoreStyle.ink,
-              ),
-            ),
-            const SizedBox(height: 14),
-            if (priceLoading)
-              const FluxerLoadingSpinner()
-            else if (monthlyPrice != null && yearlyPrice != null)
+            if (priceLoading) ...[
+              SizedBox(height: wide ? 16 : 12),
+              const FluxerLoadingSpinner(),
+            ] else if (showPrices) ...[
+              SizedBox(height: wide ? 16 : 12),
               Semantics(
                 label: l10n.storePlutoniumPriceLine(
                   monthlyPrice!,
@@ -75,6 +70,7 @@ class PlutoniumStoreHero extends StatelessWidget {
                   ],
                 ),
               ),
+            ],
           ],
         );
       },

@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_bar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_comparison.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_hero.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_highlights.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_perk.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_stars.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
@@ -126,7 +127,9 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
                       ),
                       const SizedBox(height: 16),
                       const _DonateLine(),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 16),
+                      const PlutoniumStoreHighlights(),
+                      const SizedBox(height: 16),
                       PlutoniumStorePerk(
                         asset: 'assets/images/plutonium/perk-expressions.webp',
                         title: l10n.storePlutoniumEmojiTitle,

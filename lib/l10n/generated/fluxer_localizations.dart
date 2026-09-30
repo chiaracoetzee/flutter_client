@@ -16615,6 +16615,48 @@ abstract class FluxerLocalizations {
   /// **'Donate instead.'**
   String get storePlutoniumDonateLink;
 
+  /// No description provided for @storePlutoniumHighlightsLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribing funds Fluxer and unlocks'**
+  String get storePlutoniumHighlightsLead;
+
+  /// No description provided for @storePlutoniumHighlightEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom emoji and stickers in any chat'**
+  String get storePlutoniumHighlightEmoji;
+
+  /// No description provided for @storePlutoniumHighlightProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated profile, badge, and custom 4-digit number'**
+  String get storePlutoniumHighlightProfile;
+
+  /// No description provided for @storePlutoniumHighlightFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploads up to 500 MB'**
+  String get storePlutoniumHighlightFiles;
+
+  /// No description provided for @storePlutoniumHighlightMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Send messages up to 4,000 characters'**
+  String get storePlutoniumHighlightMessages;
+
+  /// No description provided for @storePlutoniumHighlightCommunityProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'A separate profile for each community'**
+  String get storePlutoniumHighlightCommunityProfile;
+
+  /// No description provided for @storePlutoniumHighlightsMore.
+  ///
+  /// In en, this message translates to:
+  /// **'And more'**
+  String get storePlutoniumHighlightsMore;
+
   /// No description provided for @storePlutoniumRenewsThroughPlay.
   ///
   /// In en, this message translates to:
