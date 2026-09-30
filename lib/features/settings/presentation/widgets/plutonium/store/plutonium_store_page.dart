@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_backdrop.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_bar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_comparison.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_hero.dart';
@@ -101,79 +102,73 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
       l10n.storePlutoniumYearSuffix,
     );
 
-    return DecoratedBox(
-      decoration: PlutoniumStoreStyle.page,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: PlutoniumStoreStars(controller: _scrollController),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      PlutoniumStoreHero(
-                        monthlyPrice: monthlyPrice,
-                        yearlyPrice: yearlyPrice,
-                        priceLoading:
-                            store.loading &&
-                            (monthlyPrice == null || yearlyPrice == null),
-                      ),
-                      const SizedBox(height: 16),
-                      const _DonateLine(),
-                      const SizedBox(height: 16),
-                      const PlutoniumStoreHighlights(),
-                      const SizedBox(height: 16),
-                      PlutoniumStorePerk(
-                        asset: 'assets/images/plutonium/perk-expressions.webp',
-                        title: l10n.storePlutoniumEmojiTitle,
-                        body: l10n.storePlutoniumEmojiBody,
-                        imageFirst: true,
-                      ),
-                      const SizedBox(height: 16),
-                      PlutoniumStorePerk(
-                        asset: 'assets/images/plutonium/perk-profile.webp',
-                        title: l10n.storePlutoniumProfileTitle,
-                        body: l10n.storePlutoniumProfileBody,
-                        imageFirst: false,
-                      ),
-                      const SizedBox(height: 16),
-                      PlutoniumStorePerk(
-                        asset: 'assets/images/plutonium/perk-upload.webp',
-                        title: l10n.storePlutoniumFilesTitle,
-                        body: l10n.storePlutoniumFilesBody,
-                        imageFirst: true,
-                      ),
-                      const SizedBox(height: 16),
-                      const PlutoniumStoreComparison(),
-                      const SizedBox(height: 16),
-                      const _TagFootnote(),
-                    ],
+    return ColoredBox(
+      color: PlutoniumStoreStyle.spaceTop,
+      child: PlutoniumStoreBackdrop(
+        controller: _scrollController,
+        bar: PlutoniumStoreBar(
+          mode: mode,
+          status: status,
+          store: store,
+          purchaseDisabled: purchaseDisabled,
+          purchaseDisabledMessage: purchaseDisabledMessage,
+          onBuy: (PlutoniumStorePlan plan) {
+            unawaited(ref.read(plutoniumStoreProvider.notifier).buy(plan));
+          },
+          onManage: () => unawaited(_openPlaySubscriptions()),
+        ),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: PlutoniumStoreStars(controller: _scrollController),
+            ),
+            SingleChildScrollView(
+              controller: _scrollController,
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PlutoniumStoreHero(
+                    monthlyPrice: monthlyPrice,
+                    yearlyPrice: yearlyPrice,
+                    priceLoading:
+                        store.loading &&
+                        (monthlyPrice == null || yearlyPrice == null),
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  const _DonateLine(),
+                  const SizedBox(height: 16),
+                  const PlutoniumStoreHighlights(),
+                  const SizedBox(height: 16),
+                  PlutoniumStorePerk(
+                    asset: 'assets/images/plutonium/perk-expressions.webp',
+                    title: l10n.storePlutoniumEmojiTitle,
+                    body: l10n.storePlutoniumEmojiBody,
+                    imageFirst: true,
+                  ),
+                  const SizedBox(height: 16),
+                  PlutoniumStorePerk(
+                    asset: 'assets/images/plutonium/perk-profile.webp',
+                    title: l10n.storePlutoniumProfileTitle,
+                    body: l10n.storePlutoniumProfileBody,
+                    imageFirst: false,
+                  ),
+                  const SizedBox(height: 16),
+                  PlutoniumStorePerk(
+                    asset: 'assets/images/plutonium/perk-upload.webp',
+                    title: l10n.storePlutoniumFilesTitle,
+                    body: l10n.storePlutoniumFilesBody,
+                    imageFirst: true,
+                  ),
+                  const SizedBox(height: 16),
+                  const PlutoniumStoreComparison(),
+                  const SizedBox(height: 16),
+                  const _TagFootnote(),
+                ],
               ),
-              PlutoniumStoreBar(
-                mode: mode,
-                status: status,
-                store: store,
-                purchaseDisabled: purchaseDisabled,
-                purchaseDisabledMessage: purchaseDisabledMessage,
-                onBuy: (PlutoniumStorePlan plan) {
-                  unawaited(
-                    ref.read(plutoniumStoreProvider.notifier).buy(plan),
-                  );
-                },
-                onManage: () => unawaited(_openPlaySubscriptions()),
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

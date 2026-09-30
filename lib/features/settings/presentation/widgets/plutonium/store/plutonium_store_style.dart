@@ -1,9 +1,9 @@
 import 'package:fluxer_app/material_ui.dart';
 
 abstract final class PlutoniumStoreStyle {
-  static const Color spaceTop = Color(0xFF1A1644);
-  static const Color spaceMid = Color(0xFF141036);
-  static const Color spaceBottom = Color(0xFF1A1644);
+  static const Color spaceTop = Color(0xFF07061A);
+  static const Color spaceMid = Color(0xFF0C0A28);
+  static const Color spaceBottom = Color(0xFF110D35);
   static const Color ink = Color(0xFFFFFFFF);
   static const Color inkMuted = Color(0xB8FFFFFF);
   static const Color inkSoft = Color(0xF2FFFFFF);
@@ -21,14 +21,5 @@ abstract final class PlutoniumStoreStyle {
     ),
     border: Border.fromBorderSide(BorderSide(color: line)),
     borderRadius: panelRadius,
-  );
-
-  static const BoxDecoration page = BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: [spaceTop, spaceMid, spaceBottom],
-      stops: [0, 0.5, 1],
-    ),
   );
 }

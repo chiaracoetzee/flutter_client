@@ -40,7 +40,6 @@ class PlutoniumStoreBar extends StatelessWidget {
 
     return DecoratedBox(
       decoration: const BoxDecoration(
-        color: PlutoniumStoreStyle.spaceBottom,
         border: Border(top: BorderSide(color: PlutoniumStoreStyle.line)),
       ),
       child: Padding(
