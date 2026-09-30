@@ -100,7 +100,6 @@ RevealSide? eagerRevealSideFor(String location) {
 RevealSide? syncedRevealSideFor(String location) {
   return switch (classifyRoute(location)) {
     RouteKind.channelsRoot => RevealSide.left,
-    RouteKind.chat => RevealSide.main,
     _ => null,
   };
 }
