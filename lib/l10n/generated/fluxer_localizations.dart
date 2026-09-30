@@ -16663,6 +16663,18 @@ abstract class FluxerLocalizations {
   /// **'Renews automatically through Google Play until you cancel.'**
   String get storePlutoniumRenewsThroughPlay;
 
+  /// No description provided for @storePlutoniumRenewsThroughAppStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Renews automatically through the App Store until you cancel.'**
+  String get storePlutoniumRenewsThroughAppStore;
+
+  /// No description provided for @storePlutoniumAlreadySubscribed.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have a Fluxer Plutonium subscription.'**
+  String get storePlutoniumAlreadySubscribed;
+
   /// No description provided for @storePlutoniumSavePercent.
   ///
   /// In en, this message translates to:

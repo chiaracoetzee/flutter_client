@@ -21,6 +21,7 @@ class PlutoniumStoreBar extends StatelessWidget {
     required this.purchaseDisabledMessage,
     required this.onBuy,
     required this.onManage,
+    this.otherStoreNotice,
     super.key,
   });
 
@@ -30,7 +31,8 @@ class PlutoniumStoreBar extends StatelessWidget {
   final bool purchaseDisabled;
   final String? purchaseDisabledMessage;
   final void Function(PlutoniumStorePlan plan) onBuy;
-  final VoidCallback onManage;
+  final VoidCallback? onManage;
+  final String? otherStoreNotice;
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +61,14 @@ class PlutoniumStoreBar extends StatelessWidget {
             detail: _manageDetail(l10n),
             cycle: _cycleLabel(l10n),
             onManage: onManage,
+            otherStoreNotice: otherStoreNotice,
           ),
           PlutoniumStoreBarMode.subscribe => _SubscribeActions(
             l10n: l10n,
             store: store,
             purchaseDisabled: purchaseDisabled,
             purchaseDisabledMessage: purchaseDisabledMessage,
+            otherStoreNotice: otherStoreNotice,
             onBuy: onBuy,
           ),
         },
@@ -148,11 +152,13 @@ class _ManageStatus extends StatelessWidget {
     required this.detail,
     required this.cycle,
     required this.onManage,
+    required this.otherStoreNotice,
   });
 
   final String? detail;
   final String? cycle;
-  final VoidCallback onManage;
+  final VoidCallback? onManage;
+  final String? otherStoreNotice;
 
   @override
   Widget build(BuildContext context) {
@@ -179,11 +185,22 @@ class _ManageStatus extends StatelessWidget {
             ),
           ),
         ],
-        SizedBox(height: layout.s3),
-        FluxerButton.secondary(
-          label: l10n.premiumManageSubscription,
-          onPressed: onManage,
-        ),
+        if (onManage != null) ...[
+          SizedBox(height: layout.s3),
+          FluxerButton.secondary(
+            label: l10n.premiumManageSubscription,
+            onPressed: onManage,
+          ),
+        ] else if (otherStoreNotice != null) ...[
+          SizedBox(height: layout.s3),
+          Text(
+            otherStoreNotice!,
+            textAlign: TextAlign.center,
+            style: context.textStyles.bodySmall.copyWith(
+              color: PlutoniumStoreStyle.inkMuted,
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -195,6 +212,7 @@ class _SubscribeActions extends StatelessWidget {
     required this.store,
     required this.purchaseDisabled,
     required this.purchaseDisabledMessage,
+    required this.otherStoreNotice,
     required this.onBuy,
   });
 
@@ -202,6 +220,7 @@ class _SubscribeActions extends StatelessWidget {
   final PlutoniumStoreState store;
   final bool purchaseDisabled;
   final String? purchaseDisabledMessage;
+  final String? otherStoreNotice;
   final void Function(PlutoniumStorePlan plan) onBuy;
 
   @override
@@ -218,9 +237,20 @@ class _SubscribeActions extends StatelessWidget {
         ? purchaseDisabledMessage
         : store.storeUnavailable
         ? l10n.storePlutoniumUnavailable
-        : missingProducts
-        ? l10n.premiumPlanUnavailable
-        : null;
+        : store.accountPurchasesDisabled
+        ? l10n.premiumPurchasesDisabledBody
+        : otherStoreNotice ??
+              (store.subscriptionPurchaseBlocked
+                  ? l10n.storePlutoniumAlreadySubscribed
+                  : missingProducts
+                  ? l10n.premiumPlanUnavailable
+                  : null);
+    final String? renewsThrough = switch (store.billingStore) {
+      PlutoniumBillingStore.appStore =>
+        l10n.storePlutoniumRenewsThroughAppStore,
+      PlutoniumBillingStore.googlePlay => l10n.storePlutoniumRenewsThroughPlay,
+      null => null,
+    };
 
     final Widget yearly = _PlanButton(
       title: l10n.premiumYearly,
@@ -231,6 +261,7 @@ class _SubscribeActions extends StatelessWidget {
       disabled:
           purchaseDisabled ||
           store.storeUnavailable ||
+          store.subscriptionPurchaseBlocked ||
           store.yearly == null ||
           store.purchasingPlan != null,
       onPressed: () => onBuy(PlutoniumStorePlan.yearly),
@@ -243,6 +274,7 @@ class _SubscribeActions extends StatelessWidget {
       disabled:
           purchaseDisabled ||
           store.storeUnavailable ||
+          store.subscriptionPurchaseBlocked ||
           store.monthly == null ||
           store.purchasingPlan != null,
       onPressed: () => onBuy(PlutoniumStorePlan.monthly),
@@ -251,9 +283,12 @@ class _SubscribeActions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (!store.storeUnavailable && !missingProducts)
+        if (renewsThrough != null &&
+            !store.storeUnavailable &&
+            !missingProducts &&
+            !store.subscriptionPurchaseBlocked)
           Text(
-            l10n.storePlutoniumRenewsThroughPlay,
+            renewsThrough,
             textAlign: TextAlign.center,
             style: context.textStyles.timestamp.copyWith(
               color: PlutoniumStoreStyle.inkMuted,
@@ -269,23 +304,25 @@ class _SubscribeActions extends StatelessWidget {
             ),
           ),
         ],
-        SizedBox(height: layout.s3),
-        if (sideBySide)
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: yearly),
-              SizedBox(width: layout.s3),
-              Expanded(child: monthly),
-            ],
-          )
-        else ...[
-          yearly,
-          SizedBox(height: layout.s2),
-          monthly,
+        if (!store.subscriptionPurchaseBlocked) ...[
+          SizedBox(height: layout.s3),
+          if (sideBySide)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: yearly),
+                SizedBox(width: layout.s3),
+                Expanded(child: monthly),
+              ],
+            )
+          else ...[
+            yearly,
+            SizedBox(height: layout.s2),
+            monthly,
+          ],
+          SizedBox(height: layout.s3),
+          const _PurchaseTerms(),
         ],
-        SizedBox(height: layout.s3),
-        const _PurchaseTerms(),
       ],
     );
   }

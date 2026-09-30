@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
+import 'package:fluxer_app/features/settings/providers/store_billing_context_provider.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_purchase_client.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 enum PlutoniumStorePlan { monthly, yearly }
@@ -20,6 +22,10 @@ class PlutoniumStoreState {
     this.purchasePending = false,
     this.purchasingPlan,
     this.errorSerial = 0,
+    this.purchaseBlockedReason,
+    this.blockingProvider,
+    this.billingStore,
+    this.productIds = const <String>{},
   });
 
   final PlutoniumStoreProduct? monthly;
@@ -29,6 +35,22 @@ class PlutoniumStoreState {
   final bool purchasePending;
   final PlutoniumStorePlan? purchasingPlan;
   final int errorSerial;
+  final StorePurchaseBlockedReason? purchaseBlockedReason;
+  final StoreBlockingProvider? blockingProvider;
+  final PlutoniumBillingStore? billingStore;
+  final Set<String> productIds;
+
+  bool get subscriptionPurchaseBlocked {
+    return switch (purchaseBlockedReason) {
+      StorePurchaseBlockedReason.lifetime ||
+      StorePurchaseBlockedReason.existingSubscription ||
+      StorePurchaseBlockedReason.purchaseDisabled => true,
+      StorePurchaseBlockedReason.$unknown || null => false,
+    };
+  }
+
+  bool get accountPurchasesDisabled =>
+      purchaseBlockedReason == StorePurchaseBlockedReason.purchaseDisabled;
 
   PlutoniumStoreState copyWith({
     Object? monthly = _keep,
@@ -38,6 +60,10 @@ class PlutoniumStoreState {
     bool? storeUnavailable,
     bool? purchasePending,
     int? errorSerial,
+    Object? purchaseBlockedReason = _keep,
+    Object? blockingProvider = _keep,
+    Object? billingStore = _keep,
+    Set<String>? productIds,
   }) {
     return PlutoniumStoreState(
       monthly: identical(monthly, _keep)
@@ -53,6 +79,16 @@ class PlutoniumStoreState {
       storeUnavailable: storeUnavailable ?? this.storeUnavailable,
       purchasePending: purchasePending ?? this.purchasePending,
       errorSerial: errorSerial ?? this.errorSerial,
+      purchaseBlockedReason: identical(purchaseBlockedReason, _keep)
+          ? this.purchaseBlockedReason
+          : purchaseBlockedReason as StorePurchaseBlockedReason?,
+      blockingProvider: identical(blockingProvider, _keep)
+          ? this.blockingProvider
+          : blockingProvider as StoreBlockingProvider?,
+      billingStore: identical(billingStore, _keep)
+          ? this.billingStore
+          : billingStore as PlutoniumBillingStore?,
+      productIds: productIds ?? this.productIds,
     );
   }
 }
@@ -82,26 +118,57 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
     final PlutoniumStorePurchaseClient client = ref.watch(
       plutoniumStorePurchaseClientProvider,
     );
+    final AsyncValue<StoreBillingContextResponse?> billing = ref.watch(
+      storeBillingContextProvider,
+    );
     if (!isPlutoniumStorePageActive() || !client.supportsPurchases) {
       return const PlutoniumStoreState(storeUnavailable: true);
     }
-    final StreamSubscription<List<PurchaseDetails>> purchases = client
-        .purchaseUpdates
-        .listen(
-          _onPurchases,
-          onError: (Object error, StackTrace stackTrace) {
-            _bumpError();
-          },
-        );
-    ref.onDispose(() {
-      unawaited(purchases.cancel());
-    });
-    unawaited(_start(client));
-    return const PlutoniumStoreState(loading: true);
+    if (plutoniumStorePurchasesEnabled) {
+      final StreamSubscription<List<PurchaseDetails>> purchases = client
+          .purchaseUpdates
+          .listen(
+            _onPurchases,
+            onError: (Object error, StackTrace stackTrace) {
+              _bumpError();
+            },
+          );
+      ref.onDispose(() {
+        unawaited(purchases.cancel());
+      });
+    }
+    if (billing.isLoading) {
+      return const PlutoniumStoreState(loading: true);
+    }
+    final StoreBillingContextResponse? context = billing.value;
+    if (context == null) {
+      return const PlutoniumStoreState(storeUnavailable: true);
+    }
+    final PlutoniumBillingStore? platform = currentPlutoniumBillingStore();
+    final PlutoniumStoreCatalog? catalog = plutoniumStoreCatalog(
+      context: context,
+      store: platform,
+    );
+    if (catalog == null || !catalog.hasSubscriptionProducts) {
+      return PlutoniumStoreState(
+        storeUnavailable: true,
+        purchaseBlockedReason: context.purchaseBlockedReason,
+        blockingProvider: context.blockingProvider,
+        billingStore: platform,
+      );
+    }
+    unawaited(_start(client, catalog));
+    return PlutoniumStoreState(
+      loading: true,
+      purchaseBlockedReason: context.purchaseBlockedReason,
+      blockingProvider: context.blockingProvider,
+      billingStore: platform,
+      productIds: catalog.productIds,
+    );
   }
 
   Future<void> buy(PlutoniumStorePlan plan) async {
-    if (!plutoniumStorePurchasesEnabled) {
+    if (!plutoniumStorePurchasesEnabled || state.subscriptionPurchaseBlocked) {
       return;
     }
     final PlutoniumStoreProduct? product = switch (plan) {
@@ -136,26 +203,33 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
     }
   }
 
-  Future<void> _start(PlutoniumStorePurchaseClient client) async {
+  Future<void> _start(
+    PlutoniumStorePurchaseClient client,
+    PlutoniumStoreCatalog catalog,
+  ) async {
     final int generation = ++_loadGeneration;
     final bool available = await client.isStoreAvailable();
     if (!ref.mounted || generation != _loadGeneration) {
       return;
     }
     if (!available) {
-      state = const PlutoniumStoreState(storeUnavailable: true);
+      state = state.copyWith(loading: false, storeUnavailable: true);
       return;
     }
-    try {
-      await client.restore();
-    } on Object {
-      // Billing can still list products if restore fails.
+    if (plutoniumStorePurchasesEnabled) {
+      try {
+        await client.restore();
+      } on Object {
+        // Billing can still list products if restore fails.
+      }
     }
     if (!ref.mounted || generation != _loadGeneration) {
       return;
     }
     try {
-      final PlutoniumStoreProductSet products = await client.loadProducts();
+      final PlutoniumStoreProductSet products = await client.loadProducts(
+        catalog,
+      );
       if (!ref.mounted || generation != _loadGeneration) {
         return;
       }
@@ -163,6 +237,7 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
         monthly: products.monthly,
         yearly: products.yearly,
         loading: false,
+        productIds: catalog.productIds,
       );
     } on Object {
       if (!ref.mounted || generation != _loadGeneration) {
@@ -174,7 +249,7 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
 
   void _onPurchases(List<PurchaseDetails> purchases) {
     for (final PurchaseDetails purchase in purchases) {
-      if (!kPlutoniumStoreProductIds.contains(purchase.productID)) {
+      if (!state.productIds.contains(purchase.productID)) {
         continue;
       }
       switch (purchase.status) {

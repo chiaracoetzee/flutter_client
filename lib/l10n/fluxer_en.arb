@@ -12294,6 +12294,8 @@
     "storePlutoniumHighlightCommunityProfile": "A separate profile for each community",
     "storePlutoniumHighlightsMore": "And more",
     "storePlutoniumRenewsThroughPlay": "Renews automatically through Google Play until you cancel.",
+    "storePlutoniumRenewsThroughAppStore": "Renews automatically through the App Store until you cancel.",
+    "storePlutoniumAlreadySubscribed": "You already have a Fluxer Plutonium subscription.",
     "storePlutoniumSavePercent": "Save {percent}%",
     "@storePlutoniumSavePercent": {
         "placeholders": {

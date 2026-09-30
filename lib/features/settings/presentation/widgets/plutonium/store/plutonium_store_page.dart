@@ -14,16 +14,16 @@ import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/stor
 import 'package:fluxer_app/features/settings/providers/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/services/premium_checkout_service.dart';
 import 'package:fluxer_app/features/settings/utils/plutonium_store_bar_mode.dart';
+import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_status.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 const String _kDonateUrl = 'https://fluxer.app/donate';
 const String _kVisionaryUrl = 'https://fluxer.app/visionary';
@@ -88,10 +88,30 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
           .isEffectivelyPremium,
       userPrivate: user,
     );
+    final PremiumManageAction? manage = premiumManageAction(
+      surface: PremiumManageSurface.store,
+      provider: status.subscriptionProvider,
+      manageUrl: status.manageUrl,
+      currentStore: store.billingStore,
+    );
     final PlutoniumStoreBarMode mode = plutoniumStoreBarMode(
       status: status,
       purchasePending: store.purchasePending,
+      manageOnDevice: manage != null,
     );
+    VoidCallback? onManage;
+    if (manage != null) {
+      final PremiumManageAction action = manage;
+      onManage = () => unawaited(openPremiumManageAction(context, ref, action));
+    }
+    final String? otherStoreNotice =
+        plutoniumStorePurchaseBlockedByOtherPlatform(
+          reason: store.purchaseBlockedReason,
+          blockingProvider: store.blockingProvider,
+          currentStore: store.billingStore,
+        )
+        ? l10n.storePlutoniumAlreadySubscribed
+        : null;
 
     final String? monthlyPrice = _periodPrice(
       store.monthly?.priceLabel,
@@ -115,7 +135,8 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
           onBuy: (PlutoniumStorePlan plan) {
             unawaited(ref.read(plutoniumStoreProvider.notifier).buy(plan));
           },
-          onManage: () => unawaited(_openPlaySubscriptions()),
+          onManage: onManage,
+          otherStoreNotice: otherStoreNotice,
         ),
         child: Stack(
           children: [
@@ -193,21 +214,6 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
         TextButton(onPressed: () => pop(), child: Text(l10n.okay)),
       ],
       builder: (_, _) => const SizedBox.shrink(),
-    );
-  }
-
-  Future<void> _openPlaySubscriptions() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    final String packageName = info.packageName.isEmpty
-        ? 'com.fluxer'
-        : info.packageName;
-    if (!mounted) {
-      return;
-    }
-    await handleExternalLinkTap(
-      context,
-      'https://play.google.com/store/account/subscriptions?package=$packageName',
-      skipWarning: true,
     );
   }
 }

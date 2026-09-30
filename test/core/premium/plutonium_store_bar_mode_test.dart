@@ -96,6 +96,17 @@ void main() {
       );
     });
 
+    test('keeps manage during grace when this device can manage it', () {
+      expect(
+        plutoniumStoreBarMode(
+          status: _status(shouldShowPremiumCard: true, inGrace: true),
+          purchasePending: false,
+          manageOnDevice: true,
+        ),
+        PlutoniumStoreBarMode.manage,
+      );
+    });
+
     test('returns the buy bar during grace', () {
       expect(
         plutoniumStoreBarMode(

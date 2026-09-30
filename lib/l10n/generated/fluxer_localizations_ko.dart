@@ -9650,6 +9650,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       'Renews automatically through Google Play until you cancel.';
 
   @override
+  String get storePlutoniumRenewsThroughAppStore =>
+      'Renews automatically through the App Store until you cancel.';
+
+  @override
+  String get storePlutoniumAlreadySubscribed =>
+      'You already have a Fluxer Plutonium subscription.';
+
+  @override
   String storePlutoniumSavePercent(int percent) {
     return 'Save $percent%';
   }

@@ -5,6 +5,7 @@ enum PlutoniumStoreBarMode { subscribe, manage, visionary, gift, waiting }
 PlutoniumStoreBarMode plutoniumStoreBarMode({
   required PremiumSubscriptionStatus status,
   required bool purchasePending,
+  bool manageOnDevice = false,
 }) {
   if (status.isVisionary) {
     return PlutoniumStoreBarMode.visionary;
@@ -19,7 +20,7 @@ PlutoniumStoreBarMode plutoniumStoreBarMode({
   if (status.isGiftSubscription && !graceOrExpired) {
     return PlutoniumStoreBarMode.gift;
   }
-  if (graceOrExpired) {
+  if (graceOrExpired && !manageOnDevice) {
     return PlutoniumStoreBarMode.subscribe;
   }
   if (status.shouldShowPremiumCard && !status.isGiftSubscription) {
