@@ -762,3 +762,8 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that gateway_reconnect_provider_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by gateway_reconnect_provider_fork_test.dart.
+typedef ForkTestGatewayConnection = _TestGatewayConnection;
