@@ -11,6 +11,10 @@ import 'package:riverpod/src/framework.dart' show Override;
 import '../../../helpers/pump_fluxer_app.dart';
 import '../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+
 class _RetryCountingGatewayConnection extends GatewayConnection {
   _RetryCountingGatewayConnection() : super(token: 'test', dio: Dio());
 
@@ -60,6 +64,53 @@ void main() {
     expect(find.text(testL10n.gatewayReconnectingToast), findsNothing);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('connected toast dismisses cleanly when hide is called', (
+    tester,
+  ) async {
+    final ProviderContainer container = await pumpBanner(tester);
+
+    container.read(gatewayReconnectBannerProvider.notifier).showConnected();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 450));
+
+    expect(find.text(testL10n.gatewayConnectedToast), findsOneWidget);
+
+    container.read(gatewayReconnectBannerProvider.notifier).hide();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(find.text(testL10n.gatewayConnectedToast), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets(
+    'rapid background/foreground transitions dismiss banner cleanly without getting stuck',
+    (tester) async {
+      final ProviderContainer container = await pumpBanner(tester);
+      // Upstream's lifecycle starts in the background when the binding has no
+      // state yet, as in tests; the app is in the foreground here.
+      container.read(appUiForegroundProvider.notifier).setResumed(true);
+
+      container.read(gatewayReconnectBannerProvider.notifier).showConnected();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 450));
+
+      expect(find.text(testL10n.gatewayConnectedToast), findsOneWidget);
+
+      container.read(appUiForegroundProvider.notifier).setResumed(false);
+      await tester.pump();
+
+      expect(find.text(testL10n.gatewayConnectedToast), findsNothing);
+
+      container.read(appUiForegroundProvider.notifier).setResumed(true);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.text(testL10n.gatewayConnectedToast), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   testWidgets('renders reconnecting copy with reduced motion', (tester) async {
     await tester.pumpWidget(

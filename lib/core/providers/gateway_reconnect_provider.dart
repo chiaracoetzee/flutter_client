@@ -448,16 +448,39 @@ void gatewayForegroundListener(Ref ref) {
 @Riverpod(keepAlive: true)
 class GatewayReconnectBanner extends _$GatewayReconnectBanner {
   Timer? _successHideTimer;
+  DateTime? _hideDeadline;
 
   @override
   GatewayReconnectBannerPhase build() {
     ref.onDispose(_cancelSuccessHide);
+    ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
+      if (!next) {
+        if (state == GatewayReconnectBannerPhase.connected) {
+          hide();
+        }
+        return;
+      }
+      if (state == GatewayReconnectBannerPhase.connected) {
+        final DateTime? deadline = _hideDeadline;
+        if (deadline == null || DateTime.now().isAfter(deadline)) {
+          hide();
+        } else {
+          _cancelSuccessHideTimerOnly();
+          _successHideTimer = Timer(deadline.difference(DateTime.now()), hide);
+        }
+      }
+    });
     return GatewayReconnectBannerPhase.hidden;
   }
 
-  void _cancelSuccessHide() {
+  void _cancelSuccessHideTimerOnly() {
     _successHideTimer?.cancel();
     _successHideTimer = null;
+  }
+
+  void _cancelSuccessHide() {
+    _cancelSuccessHideTimerOnly();
+    _hideDeadline = null;
   }
 
   void showReconnecting() {
@@ -468,6 +491,7 @@ class GatewayReconnectBanner extends _$GatewayReconnectBanner {
   void showConnected() {
     _cancelSuccessHide();
     state = GatewayReconnectBannerPhase.connected;
+    _hideDeadline = DateTime.now().add(kReconnectBannerSuccessHold);
     _successHideTimer = Timer(kReconnectBannerSuccessHold, hide);
   }
 
@@ -510,10 +534,36 @@ void gatewayReconnectBannerListener(Ref ref) {
     hideBanner();
   });
 
+  ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
+    if (!next) {
+      clearPendingReconnectBanner();
+      final GatewayReconnectBannerPhase phase = ref.read(
+        gatewayReconnectBannerProvider,
+      );
+      if (phase == GatewayReconnectBannerPhase.connected) {
+        hideBanner();
+      }
+    }
+  });
+
   final subscription = connection.stateChanges.listen((GatewayState state) {
     if (ref.read(gatewayConnectionFailedProvider)) {
       clearPendingReconnectBanner();
       hideBanner();
+      previousState = state;
+      return;
+    }
+    if (!ref.read(appUiForegroundProvider)) {
+      clearPendingReconnectBanner();
+      if (state == GatewayState.connected) {
+        reconnectBannerShown = false;
+        final GatewayReconnectBannerPhase phase = ref.read(
+          gatewayReconnectBannerProvider,
+        );
+        if (phase == GatewayReconnectBannerPhase.connected) {
+          hideBanner();
+        }
+      }
       previousState = state;
       return;
     }
@@ -539,7 +589,8 @@ void gatewayReconnectBannerListener(Ref ref) {
         clearPendingReconnectBanner();
         pendingReconnectBannerTimer = Timer(kReconnectBannerDelay, () {
           pendingReconnectBannerTimer = null;
-          if (ref.read(gatewayConnectionFailedProvider)) {
+          if (ref.read(gatewayConnectionFailedProvider) ||
+              !ref.read(appUiForegroundProvider)) {
             return;
           }
           if (!isReconnectingState(connection.state)) {
