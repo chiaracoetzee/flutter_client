@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -23,6 +23,7 @@ import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
+import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
@@ -34,6 +35,7 @@ import 'package:fluxer_app/features/chat/domain/message_upload_send_cancelled_ex
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/domain/pagination_pump_policy.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/publish_message_sheets.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_ack_gate.dart';
@@ -6320,6 +6322,16 @@ class ChatViewModel extends _$ChatViewModel {
     if (editedContent.length > maxMessageLength) {
       return;
     }
+    if (editingMessage.isCrossposted) {
+      final BuildContext? sheetContext = rootNavigatorKey.currentContext;
+      if (sheetContext == null || !sheetContext.mounted) {
+        return;
+      }
+      final bool confirmed = await confirmPublishedMessageEdit(sheetContext);
+      if (!confirmed) {
+        return;
+      }
+    }
     try {
       final Message updatedMessage = await ref
           .read(messageRepositoryProvider)
@@ -6341,6 +6353,22 @@ class ChatViewModel extends _$ChatViewModel {
         errorMessage: null,
       );
       await _restoreComposerDraftFromDb();
+    } on DioException catch (error) {
+      if (apiErrorCodeFromDioException(error) ==
+          kPublishedMessageEditRateLimited) {
+        final BuildContext? sheetContext = rootNavigatorKey.currentContext;
+        if (sheetContext != null && sheetContext.mounted) {
+          unawaited(
+            showPublishedEditLimitSheet(
+              sheetContext,
+              retryAfterMs: retryAfterMsFromDioException(error),
+            ),
+          );
+        }
+        return;
+      }
+      debugPrint('[ChatViewModel] Failed to edit message: $error');
+      state = state.copyWith(errorMessage: 'Failed to edit message');
     } on Exception catch (e) {
       debugPrint('[ChatViewModel] Failed to edit message: $e');
       state = state.copyWith(errorMessage: 'Failed to edit message');

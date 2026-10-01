@@ -38,6 +38,12 @@ class CreateChannelSheet {
         permissionOverwrites: [],
         contentWarningLevel: ContentWarningLevelInput.inherit,
       ),
+      5 => ChannelCreateRequest5(
+        name: name,
+        type: GuildAnnouncementChannelCreateRequestTypeType.guildAnnouncement,
+        parentId: parentId,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
+      ),
       998 => ChannelCreateRequest998(
         name: name,
         type: GuildLinkChannelCreateRequestTypeType.guildLink,
@@ -114,6 +120,12 @@ class CreateChannelSheet {
                             value: ChannelType.guildText.wireValue,
                             label: l10n.guildNavbarTextChannel,
                             description: l10n.guildNavbarTextChannelDescription,
+                          ),
+                          FluxerRadioItem<int>(
+                            value: ChannelType.guildAnnouncement.wireValue,
+                            label: l10n.guildNavbarAnnouncementChannel,
+                            description:
+                                l10n.guildNavbarAnnouncementChannelDescription,
                           ),
                           FluxerRadioItem<int>(
                             value: ChannelType.guildVoice.wireValue,

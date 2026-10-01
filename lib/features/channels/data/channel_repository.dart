@@ -128,9 +128,23 @@ class ChannelRepository {
         throw Exception('Failed to load updated channel');
       }
       return Channel.fromRow(row);
-    } on DioException catch (e) {
-      throw Exception(e.response?.statusMessage ?? 'Failed to update channel');
+    } on DioException {
+      rethrow;
     }
+  }
+
+  Future<ChannelFollowerStatsResponse> getFollowerStats(String channelId) {
+    return _client.channels.getChannelFollowerStats(channelId: channelId);
+  }
+
+  Future<FollowedChannelResponse> followAnnouncementChannel({
+    required String channelId,
+    required String webhookChannelId,
+  }) {
+    return _client.channels.followChannel(
+      channelId: channelId,
+      body: ChannelFollowRequest(webhookChannelId: webhookChannelId),
+    );
   }
 
   Future<void> moveChannel({
