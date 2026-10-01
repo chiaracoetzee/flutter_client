@@ -15,6 +15,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+
 double _reconnectMarkBounce(double t) {
   final double clamped = t.clamp(0.0, 1.0);
   return clamped < 1 ? (1 - clamped) * clamped * 4 : 0;
@@ -131,6 +135,15 @@ class _GatewayReconnectBannerState
     _labelController.duration = animationsEnabled
         ? _phaseDuration
         : Duration.zero;
+    final GatewayReconnectBannerPhase phase = ref.read(
+      gatewayReconnectBannerProvider,
+    );
+    if (phase == GatewayReconnectBannerPhase.hidden &&
+        _enterController.value == 0) {
+      _contentPhase = GatewayReconnectBannerPhase.hidden;
+      _labelController.value = 0;
+      return;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _syncControllers();
@@ -179,14 +192,19 @@ class _GatewayReconnectBannerState
       _contentPhase = phase;
     }
     if (phase == GatewayReconnectBannerPhase.hidden) {
-      if (_enterController.value > 0) {
+      if (_enterController.value > 0 && animationsEnabled) {
         _setController(
           controller: _enterController,
           active: false,
           animationsEnabled: animationsEnabled,
         );
+      } else {
+        _contentPhase = GatewayReconnectBannerPhase.hidden;
+        _labelController.value = 0;
+        _enterController.value = 0;
       }
       _pulseController.stop();
+      _celebrateController.stop();
       return;
     }
     _setController(
@@ -231,11 +249,41 @@ class _GatewayReconnectBannerState
     ) {
       _syncControllers();
     });
+    ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
+      if (!next) {
+        _contentPhase = GatewayReconnectBannerPhase.hidden;
+        _enterController.value = 0;
+        _labelController.value = 0;
+        _pulseController.stop();
+        _celebrateController.stop();
+        if (mounted) {
+          setState(() {});
+        }
+        return;
+      }
+      final GatewayReconnectBannerPhase currentPhase = ref.read(
+        gatewayReconnectBannerProvider,
+      );
+      if (currentPhase == GatewayReconnectBannerPhase.hidden) {
+        _contentPhase = GatewayReconnectBannerPhase.hidden;
+        _enterController.value = 0;
+        _labelController.value = 0;
+        _pulseController.stop();
+        _celebrateController.stop();
+        if (mounted) {
+          setState(() {});
+        }
+      } else {
+        _syncControllers();
+      }
+    });
     if (phase != GatewayReconnectBannerPhase.hidden) {
       _contentPhase = phase;
     }
-    if (_contentPhase == GatewayReconnectBannerPhase.hidden &&
+    if ((phase == GatewayReconnectBannerPhase.hidden ||
+            _contentPhase == GatewayReconnectBannerPhase.hidden) &&
         _enterController.value == 0) {
+      _contentPhase = GatewayReconnectBannerPhase.hidden;
       return const SizedBox.shrink();
     }
 
