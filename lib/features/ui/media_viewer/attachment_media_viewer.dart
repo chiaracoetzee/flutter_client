@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/gif_preview_media_policy.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
@@ -71,6 +72,15 @@ class AttachmentMediaViewerItem {
   final bool isExpired;
   final String? contentHash;
   final String? description;
+}
+
+bool _mayBeAnimated(AttachmentMediaViewerItem item) {
+  final String? contentType = item.contentType?.toLowerCase();
+  return mediaProxyUrlIsAnimated(item.url) ||
+      isAnimatedImagePreviewUrl(item.filename) ||
+      contentType == 'image/gif' ||
+      contentType == 'image/webp' ||
+      contentType == 'image/avif';
 }
 
 Future<void> showAttachmentMediaViewer(
@@ -134,6 +144,7 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
 class _AttachmentMediaViewerShellState
     extends ConsumerState<AttachmentMediaViewerShell> {
   static const double _desktopZoomScale = 2.5;
+  static const double _pageDecodeScreenFactor = 2;
   late final PageController _pageController;
   late final List<TransformationController> _touchControllers;
   late int _currentIndex;
@@ -145,6 +156,8 @@ class _AttachmentMediaViewerShellState
   bool _isDesktopDragging = false;
   double _touchDismissProgress = 0;
   bool _isTouchZoomed = false;
+
+  int? _pageDecodeCap;
 
   @override
   void initState() {
@@ -718,11 +731,21 @@ class _AttachmentMediaViewerShellState
       contentType: item.contentType,
     );
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
+    final int? decodeCap = _mayBeAnimated(item)
+        ? null
+        : _pageDecodeCap ??=
+              (MediaQuery.sizeOf(context).longestSide *
+                      MediaQuery.devicePixelRatioOf(context) *
+                      _pageDecodeScreenFactor)
+                  .ceil();
+    final bool isPortrait = (item.height ?? 0) > (item.width ?? 0);
     final Widget image = imageUrl.isEmpty
         ? errorPlaceholder
         : CachedNetworkImage(
             imageUrl: imageUrl,
             fit: BoxFit.contain,
+            memCacheWidth: isPortrait ? null : decodeCap,
+            memCacheHeight: isPortrait ? decodeCap : null,
             errorBuilder: (_, _, _) => errorPlaceholder,
           );
     final Widget media = MatureMediaOverlay(
@@ -917,6 +940,8 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
         (AppearancePreferencesState state) => state.hdrDisplayMode,
       ),
     );
+    final int thumbnailDecodeSide =
+        (56 * MediaQuery.devicePixelRatioOf(context)).ceil();
     return SizedBox(
       height: 70,
       child: ListView.separated(
@@ -954,7 +979,11 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
                             color: context.colors.spoilerBackground,
                             child: const SizedBox.expand(),
                           )
-                        : _thumbnailImage(item, hdrDisplayMode),
+                        : _thumbnailImage(
+                            item,
+                            hdrDisplayMode,
+                            thumbnailDecodeSide,
+                          ),
                   ),
                 ),
               ),
@@ -970,6 +999,7 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
   Widget _thumbnailImage(
     AttachmentMediaViewerItem item,
     HdrDisplayMode hdrDisplayMode,
+    int decodeSide,
   ) {
     final String imageUrl = buildHdrAwareDisplayImageUrl(
       url: item.url,
@@ -981,11 +1011,15 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
       return const MediaLoadErrorPlaceholder(showLabel: false);
     }
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder(showLabel: false);
+    final int? decodeCap = _mayBeAnimated(item) ? null : decodeSide;
+    final bool isLandscape = (item.width ?? 0) > (item.height ?? 0);
     return CachedNetworkImage(
       imageUrl: imageUrl,
       fit: BoxFit.cover,
       width: double.infinity,
       height: double.infinity,
+      memCacheWidth: isLandscape ? null : decodeCap,
+      memCacheHeight: isLandscape ? decodeCap : null,
       errorBuilder: (_, _, _) => errorPlaceholder,
     );
   }
