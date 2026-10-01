@@ -54,7 +54,7 @@ void main() {
     );
 
     test(
-      'isPersona returns true only for non-deleted authors with persona attributes',
+      'isPersona returns true for authors with persona attributes, including deleted authors',
       () {
         final normalUser = forkUpstream.message().copyWith(authorName: 'Alice');
         expect(normalUser.isPersona, isFalse);
@@ -78,11 +78,13 @@ void main() {
         );
         expect(nicknamedPersonaAuthor.isPersona, isTrue);
 
-        // Truly flagged deleted root author suppresses persona
+        // Flagged deleted root author with persona attributes preserves isPersona so it displays as "Deleted Persona"
         final flaggedDeletedAuthor = personaUser.copyWith(
+          authorName: 'Deleted User',
           authorPublicFlags: kUserFlagDeleted,
+          personaName: 'Deleted Persona',
         );
-        expect(flaggedDeletedAuthor.isPersona, isFalse);
+        expect(flaggedDeletedAuthor.isPersona, isTrue);
       },
     );
   });
