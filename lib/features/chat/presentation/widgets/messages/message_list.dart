@@ -245,7 +245,10 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _unreadOpenLayout = false;
   final MessageListPin _pin = MessageListPin();
   final AnimatedImagePlaybackController _animatedImagePlaybackController =
-      AnimatedImagePlaybackController(suppressWhileScrolling: true);
+      AnimatedImagePlaybackController(
+        maxActiveVideos: kMaxActiveChatAnimatedImages,
+        suppressWhileScrolling: true,
+      );
   final MessageTileCache _tileCache = MessageTileCache();
   late final ChatViewModel _chatViewModel;
   late final ChatReadViewport _readViewport;
