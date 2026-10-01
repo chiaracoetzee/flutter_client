@@ -7,10 +7,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_highlight/themes/github.dart';
 import 'package:flutter_highlight/themes/vs2015.dart';
-import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
-import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_element_tags.dart';
 import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/bounded_text.dart';
@@ -25,6 +23,7 @@ import 'package:fluxer_markdown/src/widgets/fluxer_live_timestamp.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
 import 'package:intl/intl.dart';
+import 'package:katex/katex.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -2297,24 +2296,8 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
   }
 }
 
-const TexParserSettings _kLatexParserSettings = TexParserSettings(
-  displayMode: true,
-  strict: Strict.ignore,
-);
-
-final MarkdownParseCache<String, Math> _latexParseCache = MarkdownParseCache(
-  maxEntries: 64,
-);
-
 bool _isLatexLanguage(String language) {
   return language == 'latex' || language == 'tex' || language == 'katex';
-}
-
-Math _cachedLatexParse(String code) {
-  return _latexParseCache.resolve(
-    code,
-    () => Math.tex(code, settings: _kLatexParserSettings),
-  );
 }
 
 class FluxerCodeBlockWidget extends StatelessWidget {
@@ -2376,30 +2359,23 @@ class FluxerCodeBlockWidget extends StatelessWidget {
       if (!_isValidLatexContent(code)) {
         return plainCode();
       }
-      final Math parsed = _cachedLatexParse(code);
-      if (parsed.parseError != null || parsed.ast == null) {
-        return plainCode();
-      }
       final Color textColor =
           baseStyle.color ?? Theme.of(context).colorScheme.onSurface;
+      final TextStyle monoStyle = codeTextStyleFrom(
+        baseStyle,
+        codeTextStyle: codeTextStyle,
+        color: textColor,
+      );
       return _FluxerCodeBlockWithCopy(
         code: code,
         onCopyCode: onCopyCode,
         child: _FluxerLatexCodeBlockBody(
           math: Math(
-            ast: parsed.ast,
-            textStyle: baseStyle.copyWith(
-              color: textColor,
-              fontSize: FluxerMarkupSpacing.rem(0.75),
-            ),
-            onErrorFallback: (_) => Text(
-              code,
-              style: codeTextStyleFrom(
-                baseStyle,
-                codeTextStyle: codeTextStyle,
-                color: textColor,
-              ),
-            ),
+            code,
+            displayMode: true,
+            fontSize: FluxerMarkupSpacing.rem(0.75),
+            color: textColor,
+            onError: (context, error) => Text(code, style: monoStyle),
           ),
           bgColor: codeBackgroundColor ?? bgColor,
         ),

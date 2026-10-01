@@ -20,8 +20,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_highlight: ^0.7.0
-  flutter_math_fork: ^0.7.4
   flutter_svg: ^2.2.4
+  katex: ^1.0.0
   highlight: ^0.7.0
   intl: ^0.20.2
   markdown: ^7.3.1

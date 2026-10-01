@@ -1,8 +1,8 @@
-import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
+import 'package:katex/katex.dart';
 import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
@@ -71,6 +71,17 @@ E = mc^2
       expect(find.textContaining('katex\n'), findsNothing);
     });
 
+    testWidgets('renders fluxer art with KaTeX', (tester) async {
+      const String input = r'''
+```latex
+% FluxerArt, fluxer.art
+\def\B#1#2#3#4{\rlap{\hspace{#1pt}\raisebox{#2pt}{\color{##4641D9}\rule{#3pt}{#4pt}}}}\def\W#1#2#3#4{\rlap{\hspace{#1pt}\raisebox{#2pt}{\color{##ffffff}\rule{#3pt}{#4pt}}}}\B{46}{0}{40}{6}\B{33}{6}{66}{6}\rule{0pt}{132pt}\hspace{132pt}
+```''';
+      await _pumpMarkdown(tester, input);
+      expect(find.byType(Math), findsOneWidget);
+      expect(find.textContaining(r'\def'), findsNothing);
+    });
+
     testWidgets(r'keeps a multiline formula with \neq as one Math', (
       tester,
     ) async {
@@ -90,7 +101,6 @@ c = d
 \frac{
 ```''';
       await _pumpMarkdown(tester, input);
-      expect(find.byType(Math), findsNothing);
       expect(find.textContaining(r'\frac{'), findsOneWidget);
     });
 
