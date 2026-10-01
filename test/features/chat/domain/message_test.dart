@@ -655,7 +655,7 @@ void main() {
       expect(byFlagSelfDeleted.isDeletedAuthor, isTrue);
     });
 
-    test('isPersona returns true only for non-deleted authors with persona attributes', () {
+    test('isPersona returns true for authors with persona attributes, including deleted authors', () {
       final normalUser = _message().copyWith(authorName: 'Alice');
       expect(normalUser.isPersona, isFalse);
 
@@ -676,9 +676,13 @@ void main() {
       final nicknamedPersonaAuthor = personaUser.copyWith(authorName: 'Deleted User');
       expect(nicknamedPersonaAuthor.isPersona, isTrue);
 
-      // Truly flagged deleted root author suppresses persona
-      final flaggedDeletedAuthor = personaUser.copyWith(authorPublicFlags: kUserFlagDeleted);
-      expect(flaggedDeletedAuthor.isPersona, isFalse);
+      // Flagged deleted root author with persona attributes preserves isPersona so it displays as "Deleted Persona"
+      final flaggedDeletedAuthor = personaUser.copyWith(
+        authorName: 'Deleted User',
+        authorPublicFlags: kUserFlagDeleted,
+        personaName: 'Deleted Persona',
+      );
+      expect(flaggedDeletedAuthor.isPersona, isTrue);
     });
   });
 }
