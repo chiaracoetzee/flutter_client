@@ -911,13 +911,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                       return;
                                     }
                                     if (_focusNode.hasFocus &&
-                                        ref
-                                                .read(
-                                                  mobileKeyboardMetricsProvider,
-                                                )
-                                                .liveKeyboardHeight <=
+                                        MediaQuery.viewInsetsOf(
+                                              context,
+                                            ).bottom <=
                                             0) {
-                                      reconnectComposerKeyboard(_focusNode);
+                                      _keyboardRestore.reconnectOpenField();
                                     }
                                   },
                                 ),
@@ -1054,6 +1052,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ..listen<String>(
         chatViewModelProvider.select((ChatViewState state) => state.channelId),
         (String? previous, String next) {
+          if (previous != null && previous != next && mounted) {
+            _clearSlashSession();
+            if (MediaQuery.viewInsetsOf(context).bottom <= 0) {
+              _keyboardRestore.replaceFocusedConnection();
+            }
+          }
           final DmConversation? nextDm = findDmById(
             ref.read(
               dmViewModelProvider.select(

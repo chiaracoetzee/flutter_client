@@ -156,6 +156,57 @@ void main() {
       },
     );
 
+    test('stale native height drops after viewInsets closes', () async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      container.listen(
+        mobileKeyboardMetricsProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      await Future<void>.value();
+
+      final MobileKeyboardMetrics notifier = container.read(
+        mobileKeyboardMetricsProvider.notifier,
+      );
+      notifier
+        ..debugApplyNativeMetrics(
+          keyboardHeight: 336,
+          isKeyboardVisible: true,
+          nativeSafeAreaBottom: 34,
+        )
+        ..syncViewInsets(302, safeAreaBottom: 0)
+        ..syncViewInsets(0, safeAreaBottom: 0);
+      expect(
+        container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+        336,
+      );
+
+      await Future<void>.delayed(kUnmeasuredKeyboardReservationTimeout);
+      await Future<void>.value();
+
+      expect(
+        container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+        0,
+      );
+
+      notifier.debugApplyNativeMetrics(
+        keyboardHeight: 336,
+        isKeyboardVisible: true,
+        nativeSafeAreaBottom: 34,
+      );
+      expect(
+        container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+        0,
+      );
+
+      notifier.syncViewInsets(302, safeAreaBottom: 0);
+      expect(
+        container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+        302,
+      );
+    });
+
     test(
       'slot height is full IME height without MediaQuery safe-area netting',
       () {

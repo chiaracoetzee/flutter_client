@@ -86,7 +86,10 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   double _nativeSafeAreaBottom = 0;
 
   bool _hadKeyboardInsetWhileReserved = false;
+  bool _sawViewInsets = false;
+  bool _ignoreNativeUntilHidden = false;
   Timer? _unmeasuredReservationTimer;
+  Timer? _nativeOnlyTimer;
 
   @override
   MobileKeyboardMetricsState build() {
@@ -125,6 +128,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     }
     _persistDebounce?.cancel();
     _unmeasuredReservationTimer?.cancel();
+    _nativeOnlyTimer?.cancel();
   }
 
   Future<void> _loadPersistedAnchor() async {
@@ -183,9 +187,10 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void _applyNativeMetrics(KeyboardMetrics metrics) {
-    _nativeKeyboardHeight = metrics.isKeyboardVisible
-        ? metrics.keyboardHeight
-        : 0;
+    _setNativeKeyboardHeight(
+      metrics.keyboardHeight,
+      visible: metrics.isKeyboardVisible,
+    );
     // Keep the paired native safeArea for IME normalization; do not write it
     // into state (MediaQuery.padding is the slot-netting source when needed).
     _nativeSafeAreaBottom = metrics.safeAreaBottom;
@@ -194,6 +199,10 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
 
   void syncViewInsets(double bottomInset, {double? safeAreaBottom}) {
     _viewInsetsKeyboardHeight = bottomInset > 0 ? bottomInset : 0;
+    if (_viewInsetsKeyboardHeight > 0) {
+      _sawViewInsets = true;
+      _ignoreNativeUntilHidden = false;
+    }
     _commitMergedHeights(safeAreaBottom: safeAreaBottom);
   }
 
@@ -204,7 +213,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     required bool isKeyboardVisible,
     double nativeSafeAreaBottom = 0,
   }) {
-    _nativeKeyboardHeight = isKeyboardVisible ? keyboardHeight : 0;
+    _setNativeKeyboardHeight(keyboardHeight, visible: isKeyboardVisible);
     _nativeSafeAreaBottom = nativeSafeAreaBottom;
     _commitMergedHeights();
   }
@@ -256,6 +265,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       if (clearUnmeasuredReservation && state.unmeasuredKeyboardReserved) {
         state = state.copyWith(unmeasuredKeyboardReserved: false);
       }
+      _syncNativeOnlyHold();
       return;
     }
     final double? previousAnchored = state.anchoredKeyboardHeight;
@@ -279,6 +289,44 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
         (previousAnchored == null || nextAnchored > previousAnchored)) {
       _schedulePersistAnchor(nextAnchored);
     }
+    _syncNativeOnlyHold();
+  }
+
+  void _setNativeKeyboardHeight(double height, {required bool visible}) {
+    if (!visible || height <= 0) {
+      _ignoreNativeUntilHidden = false;
+      _nativeKeyboardHeight = 0;
+      if (_viewInsetsKeyboardHeight <= 0) {
+        _sawViewInsets = false;
+      }
+      return;
+    }
+    if (_ignoreNativeUntilHidden) {
+      _nativeKeyboardHeight = 0;
+      return;
+    }
+    _nativeKeyboardHeight = height;
+  }
+
+  void _syncNativeOnlyHold() {
+    final bool nativeOnly =
+        _sawViewInsets &&
+        _viewInsetsKeyboardHeight <= 0 &&
+        _nativeKeyboardHeight > 0;
+    if (!nativeOnly) {
+      _nativeOnlyTimer?.cancel();
+      _nativeOnlyTimer = null;
+      return;
+    }
+    _nativeOnlyTimer ??= Timer(kUnmeasuredKeyboardReservationTimeout, () {
+      _nativeOnlyTimer = null;
+      if (!ref.mounted || _viewInsetsKeyboardHeight > 0) {
+        return;
+      }
+      _ignoreNativeUntilHidden = true;
+      _nativeKeyboardHeight = 0;
+      _commitMergedHeights();
+    });
   }
 
   void reserveUnmeasuredKeyboard() {

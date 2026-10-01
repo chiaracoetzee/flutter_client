@@ -38,6 +38,30 @@ class KeyboardFocusRestoreHandle {
     _restoreGeneration++;
   }
 
+  void reconnectOpenField() {
+    _pendingRestore = false;
+    if (!_canAttemptRestore() || _anotherEditableHasFocus()) {
+      return;
+    }
+    if (!focusNode.hasFocus) {
+      focusNode.requestFocus();
+      return;
+    }
+    final int generation = ++_restoreGeneration;
+    _reconnectFocused(generation);
+  }
+
+  void replaceFocusedConnection() {
+    _pendingRestore = false;
+    if (!focusNode.hasFocus || !_canAttemptRestore()) {
+      return;
+    }
+    _deadImeRetry?.cancel();
+    final int generation = ++_restoreGeneration;
+    focusNode.unfocus();
+    _focusOnNextFrame(generation);
+  }
+
   void handleLifecycleState(AppLifecycleState state) {
     if (isAppBackgroundLifecycleState(state)) {
       if (shouldTrackOnBackground()) {
@@ -79,11 +103,15 @@ class KeyboardFocusRestoreHandle {
       return;
     }
     if (focusNode.hasFocus) {
-      reconnectComposerKeyboard(focusNode);
-      _scheduleDeadImeRetry(generation);
+      _reconnectFocused(generation);
       return;
     }
     focusNode.requestFocus();
+  }
+
+  void _reconnectFocused(int generation) {
+    reconnectComposerKeyboard(focusNode);
+    _scheduleDeadImeRetry(generation);
   }
 
   bool _canAttemptRestore() {
@@ -114,18 +142,24 @@ class KeyboardFocusRestoreHandle {
         return;
       }
       focusNode.unfocus();
-      WidgetsBinding.instance
-        ..scheduleFrame()
-        ..addPostFrameCallback((_) {
-          if (generation != _restoreGeneration || !_canAttemptRestore()) {
-            return;
-          }
-          if (focusNode.hasFocus || _anotherEditableHasFocus()) {
-            return;
-          }
-          focusNode.requestFocus();
-        });
+      _focusOnNextFrame(generation);
     });
+  }
+
+  void _focusOnNextFrame(int generation) {
+    WidgetsBinding.instance
+      ..scheduleFrame()
+      ..addPostFrameCallback((_) {
+        if (generation != _restoreGeneration || !_canAttemptRestore()) {
+          return;
+        }
+        if (focusNode.context == null ||
+            focusNode.hasFocus ||
+            _anotherEditableHasFocus()) {
+          return;
+        }
+        focusNode.requestFocus();
+      });
   }
 
   double _keyboardInsetBottom() {

@@ -163,6 +163,39 @@ void main() {
     await tester.pump();
   });
 
+  testWidgets('replaces a focused connection on the next frame', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
+      focusNode: focusNode,
+      shouldTrackOnBackground: () => true,
+      canRestoreFocus: () => true,
+    );
+    addTearDown(handle.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    tester.testTextInput.log.clear();
+
+    handle.replaceFocusedConnection();
+    await tester.pump();
+
+    expect(focusNode.hasFocus, isTrue);
+    expect(
+      tester.testTextInput.log.map((call) => call.method),
+      contains('TextInput.show'),
+    );
+  });
+
   testWidgets('refocuses when the keyboard stays closed after resume', (
     tester,
   ) async {
