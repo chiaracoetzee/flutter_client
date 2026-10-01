@@ -64,6 +64,7 @@ typedef WebauthnCredentialsUpdateCallback =
     void Function(List<WebAuthnCredentialResponse> credentials);
 typedef UserSettingsHydrateCallback =
     void Function(UserSettingsResponse settings);
+typedef CurrentUserUpdateCallback = void Function(UserPrivateResponse user);
 typedef SessionChangingCallback = void Function();
 typedef UnavailableGuildsReadyCallback =
     void Function(List<Map<String, dynamic>> rawGuilds);
@@ -151,6 +152,7 @@ class GatewayEventHandler {
     this.onConnectionsUpdate,
     this.onWebauthnCredentialsUpdate,
     this.onUserSettingsHydrate,
+    this.onCurrentUserUpdate,
     this.onSessionChanging,
     this.onUnavailableGuildsReady,
     this.onGuildAvailabilityChanged,
@@ -218,6 +220,7 @@ class GatewayEventHandler {
   final ConnectionsUpdateCallback? onConnectionsUpdate;
   final WebauthnCredentialsUpdateCallback? onWebauthnCredentialsUpdate;
   final UserSettingsHydrateCallback? onUserSettingsHydrate;
+  final CurrentUserUpdateCallback? onCurrentUserUpdate;
   final SessionChangingCallback? onSessionChanging;
   final UnavailableGuildsReadyCallback? onUnavailableGuildsReady;
   final GuildAvailabilityChangedCallback? onGuildAvailabilityChanged;
@@ -2080,6 +2083,7 @@ class GatewayEventHandler {
         ),
       ),
     );
+    _emit(() => onCurrentUserUpdate?.call(event.user));
   }
 
   Future<void> _handleMessageDeleteBulk(MessageDeleteBulkEvent event) async {
