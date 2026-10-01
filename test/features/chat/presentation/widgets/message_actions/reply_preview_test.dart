@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
@@ -18,10 +19,12 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -163,6 +166,67 @@ void main() {
 
     expect(find.text('top secret'), findsNothing);
     expect(find.byType(GestureDetector), findsWidgets);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
+
+  testWidgets('reply preview loops the parent message animated custom emoji '
+      '(#713)', (tester) async {
+    const String content = '<a:party:123456789012345678>';
+    final parent = _message(
+      id: 'parent-1',
+      authorId: '1001',
+      authorName: 'Sample User',
+      content: content,
+    );
+    final reply = _message(
+      id: 'reply-1',
+      authorId: '1002',
+      authorName: 'August',
+      type: messageTypeReply,
+      messageReference: const MessageReference(
+        channelId: 'channel-1',
+        messageId: 'parent-1',
+        type: MessageReferenceType.valueDefault,
+      ),
+    );
+    const Key bodyKey = ValueKey<String>('body');
+
+    await tester.pumpWidget(
+      _buildTestApp(
+        chatState: _chatState(messages: [parent]),
+        child: MessageMarkdownSettingsScope(
+          settings: MessageMarkdownSettings.defaults,
+          child: Column(
+            children: [
+              InlineReplyPreview(message: reply),
+              const MessageMarkdown(key: bodyKey, data: content),
+            ],
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    List<String> urlsUnder(Finder scope) => tester
+        .widgetList<CachedNetworkImage>(
+          find.descendant(of: scope, matching: find.byType(CachedNetworkImage)),
+        )
+        .map((image) => image.imageUrl)
+        .toList();
+
+    final List<String> previewUrls = urlsUnder(find.byType(InlineReplyPreview));
+    expect(previewUrls, isNotEmpty);
+    expect(
+      previewUrls.where((url) => url.contains('emojis/123456789012345678')),
+      isNotEmpty,
+    );
+    expect(previewUrls.where((url) => url.contains('animated=true')), isEmpty);
+    expect(
+      urlsUnder(find.byKey(bodyKey)),
+      contains(contains('emojis/123456789012345678.webp?animated=true')),
+    );
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 1));

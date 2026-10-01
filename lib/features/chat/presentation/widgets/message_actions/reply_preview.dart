@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.d
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart'
@@ -264,14 +265,14 @@ Message? _findMessage(List<Message> messages, String messageId) {
   return null;
 }
 
-class _ReplyPreviewContent extends StatelessWidget {
+class _ReplyPreviewContent extends ConsumerWidget {
   const _ReplyPreviewContent({required this.message, required this.emptyLabel});
 
   final Message message;
   final String emptyLabel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final style = context.textStyles.bodySmall.copyWith(
       color: context.colors.textPrimaryMuted,
       fontSize: _kReplyPreviewFontSize,
@@ -286,18 +287,32 @@ class _ReplyPreviewContent extends StatelessWidget {
         maxLines: 1,
       );
     }
+    final MessageMarkdownSettings settings =
+        MessageMarkdownSettingsScope.maybeOf(context) ??
+        MessageMarkdownSettings.watch(ref, context);
     return IgnorePointer(
       child: SizedBox(
         width: double.infinity,
-        child: MessageMarkdown(
-          data: content,
-          channelId: message.channelId,
-          messageId: message.id,
-          mentionChannels: message.mentionChannels,
-          markdownContext: FluxerMarkdownContext.restrictedInlineReply,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          baseStyle: style,
+        child: MessageMarkdownSettingsScope(
+          settings: MessageMarkdownSettings(
+            use12Hour: settings.use12Hour,
+            alwaysUnderlineLinks: settings.alwaysUnderlineLinks,
+            dimStrikethroughText: settings.dimStrikethroughText,
+            animateCustomEmoji: false,
+            enableTextSelection: settings.enableTextSelection,
+            searchEngines: settings.searchEngines,
+            selectionContextMenuBuilder: settings.selectionContextMenuBuilder,
+          ),
+          child: MessageMarkdown(
+            data: content,
+            channelId: message.channelId,
+            messageId: message.id,
+            mentionChannels: message.mentionChannels,
+            markdownContext: FluxerMarkdownContext.restrictedInlineReply,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            baseStyle: style,
+          ),
         ),
       ),
     );
