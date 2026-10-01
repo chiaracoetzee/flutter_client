@@ -170,11 +170,7 @@ class _CrosspostCommunityBodyState
         if (bannerUrl != null) SizedBox(height: context.layout.s3),
         Row(
           children: <Widget>[
-            FluxerAvatar(
-              fallbackText: guild.name,
-              imageUrl: iconUrl,
-              size: 48,
-            ),
+            FluxerAvatar(fallbackText: guild.name, imageUrl: iconUrl, size: 48),
             SizedBox(width: context.layout.s3),
             Expanded(
               child: Column(

@@ -59,9 +59,7 @@ bool isAllowedAnnouncementFollowTarget({
   };
 }
 
-bool canManageAnnouncementFollow({
-  required int permissionBits,
-}) {
+bool canManageAnnouncementFollow({required int permissionBits}) {
   return hasPermission(permissionBits, Permission.manageWebhooks) &&
       hasPermission(permissionBits, Permission.viewChannel);
 }

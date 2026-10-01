@@ -59,9 +59,7 @@ class CrosspostPublishNudge extends ConsumerWidget {
           ),
           FluxerButton.ghost(
             onPressed: () => unawaited(
-              ref
-                  .read(publishNudgeControllerProvider.notifier)
-                  .hideForever(),
+              ref.read(publishNudgeControllerProvider.notifier).hideForever(),
             ),
             label: l10n.publishNudgeHideForever,
             size: FluxerButtonSize.small,

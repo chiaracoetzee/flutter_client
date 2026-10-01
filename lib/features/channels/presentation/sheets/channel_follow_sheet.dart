@@ -152,10 +152,12 @@ class _ChannelFollowFormState extends ConsumerState<_ChannelFollowForm> {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     setState(() => _submitting = true);
     try {
-      await ref.read(channelRepositoryProvider).followAnnouncementChannel(
-        channelId: widget.source.id,
-        webhookChannelId: channelId,
-      );
+      await ref
+          .read(channelRepositoryProvider)
+          .followAnnouncementChannel(
+            channelId: widget.source.id,
+            webhookChannelId: channelId,
+          );
       if (!mounted) {
         return;
       }
@@ -242,13 +244,14 @@ class _ChannelFollowFormState extends ConsumerState<_ChannelFollowForm> {
             if (value == null) {
               return;
             }
-            final List<Channel> channels = _targets
-                .where(
-                  (AnnouncementFollowGuildTargets target) =>
-                      target.guild.id == value,
-                )
-                .firstOrNull
-                ?.channels ??
+            final List<Channel> channels =
+                _targets
+                    .where(
+                      (AnnouncementFollowGuildTargets target) =>
+                          target.guild.id == value,
+                    )
+                    .firstOrNull
+                    ?.channels ??
                 const <Channel>[];
             setState(() {
               _guildId = value;
