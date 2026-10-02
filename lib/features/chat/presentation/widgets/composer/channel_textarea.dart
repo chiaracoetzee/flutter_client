@@ -272,6 +272,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   bool _isApplyingWireText = false;
   bool _composerFocused = false;
   String? _lastWireTextPushedToState;
+  final ValueNotifier<bool> _showComposerCounter = ValueNotifier<bool>(false);
 
   Widget _wideComposerIconButton({
     required BuildContext context,
@@ -467,6 +468,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _syncStateFromController() {
+    _syncComposerCounterPadding();
     if (_isApplyingWireText) {
       return;
     }
@@ -520,6 +522,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return true;
     }
     return false;
+  }
+
+  void _syncComposerCounterPadding() {
+    final int maxMessageLength = ref.read(maxMessageLengthProvider);
+    final bool show =
+        _composerContentLength(_sendableWireText()) >
+        (maxMessageLength * 0.8).floor();
+    if (show == _showComposerCounter.value) {
+      return;
+    }
+    _showComposerCounter.value = show;
   }
 
   Future<void> _applyWireTextFromState(
@@ -707,6 +720,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     _controller
       ..removeListener(_syncStateFromController)
       ..dispose();
+    _showComposerCounter.dispose();
     _voiceRecording.dispose();
     super.dispose();
   }
@@ -872,74 +886,86 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                 unawaited(_onSendPressed());
                               },
                             )
-                          : TextField(
-                              key: const ValueKey<String>(
-                                'channel-composer-field',
-                              ),
-                              controller: _controller,
-                              focusNode: focusNode,
-                              scrollController: _composerScrollController,
-                              enabled: perms.isComposerEnabled,
-                              style: context.textStyles.inputText,
-                              strutStyle: boundedStrutFor(
-                                context.textStyles.inputText,
-                                forceHeight: false,
-                              ),
-                              minLines: minLines,
-                              maxLines: maxLines,
-                              selectionWidthStyle: BoxWidthStyle.tight,
-                              decoration: decoration.copyWith(
-                                contentPadding:
-                                    basePadding +
-                                    const EdgeInsets.only(
-                                      right: 28,
-                                      bottom: 18,
-                                    ),
-                              ),
-                              textAlignVertical: textAlignVertical,
-                              textCapitalization: TextCapitalization.sentences,
-                              autocorrect: true,
-                              enableInlinePrediction: true,
-                              contextMenuBuilder:
-                                  clipboardScope.buildContextMenu,
-                              contentInsertionConfiguration:
-                                  perms.isAttachEnabled
-                                  ? ContentInsertionConfiguration(
-                                      onContentInserted:
-                                          (KeyboardInsertedContent content) {
-                                            unawaited(() async {
-                                              final FileUploadValidationResult?
-                                              result =
-                                                  await handleComposerContentInserted(
-                                                    ref: ref,
-                                                    channelId: channelId,
-                                                    content: content,
-                                                    isAttachEnabled:
-                                                        perms.isAttachEnabled,
-                                                  );
-                                              if (result != null) {
-                                                _toastUploadValidation(result);
-                                              }
-                                            }());
-                                          },
-                                    )
-                                  : null,
-                              onTap: () {
-                                if (isComposerPanelOpen(
-                                  expressionPanelOpen: ref.read(
-                                    expressionPanelProvider,
+                          : ValueListenableBuilder<bool>(
+                              valueListenable: _showComposerCounter,
+                              builder: (BuildContext context, bool showCounter, Widget? _) {
+                                return TextField(
+                                  key: const ValueKey<String>(
+                                    'channel-composer-field',
                                   ),
-                                  attachmentPanelOpen: ref.read(
-                                    attachmentPanelProvider,
+                                  controller: _controller,
+                                  focusNode: focusNode,
+                                  scrollController: _composerScrollController,
+                                  enabled: perms.isComposerEnabled,
+                                  style: context.textStyles.inputText,
+                                  strutStyle: boundedStrutFor(
+                                    context.textStyles.inputText,
+                                    forceHeight: false,
                                   ),
-                                )) {
-                                  _closeComposerPanelsAndFocusComposer();
-                                  return;
-                                }
-                                if (_focusNode.hasFocus &&
-                                    resolvedKeyboardInsetBottom(context) <= 0) {
-                                  _keyboardRestore.reconnectOpenField();
-                                }
+                                  minLines: minLines,
+                                  maxLines: maxLines,
+                                  selectionWidthStyle: BoxWidthStyle.tight,
+                                  decoration: decoration.copyWith(
+                                    contentPadding: showCounter
+                                        ? basePadding +
+                                              const EdgeInsets.only(
+                                                right: 28,
+                                                bottom: 18,
+                                              )
+                                        : basePadding,
+                                  ),
+                                  textAlignVertical: textAlignVertical,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  autocorrect: true,
+                                  enableInlinePrediction: true,
+                                  contextMenuBuilder:
+                                      clipboardScope.buildContextMenu,
+                                  contentInsertionConfiguration:
+                                      perms.isAttachEnabled
+                                      ? ContentInsertionConfiguration(
+                                          onContentInserted:
+                                              (
+                                                KeyboardInsertedContent content,
+                                              ) {
+                                                unawaited(() async {
+                                                  final FileUploadValidationResult?
+                                                  result =
+                                                      await handleComposerContentInserted(
+                                                        ref: ref,
+                                                        channelId: channelId,
+                                                        content: content,
+                                                        isAttachEnabled: perms
+                                                            .isAttachEnabled,
+                                                      );
+                                                  if (result != null) {
+                                                    _toastUploadValidation(
+                                                      result,
+                                                    );
+                                                  }
+                                                }());
+                                              },
+                                        )
+                                      : null,
+                                  onTap: () {
+                                    if (isComposerPanelOpen(
+                                      expressionPanelOpen: ref.read(
+                                        expressionPanelProvider,
+                                      ),
+                                      attachmentPanelOpen: ref.read(
+                                        attachmentPanelProvider,
+                                      ),
+                                    )) {
+                                      _closeComposerPanelsAndFocusComposer();
+                                      return;
+                                    }
+                                    if (_focusNode.hasFocus &&
+                                        resolvedKeyboardInsetBottom(context) <=
+                                            0) {
+                                      _keyboardRestore.reconnectOpenField();
+                                    }
+                                  },
+                                );
                               },
                             ),
                     ),
