@@ -58,10 +58,7 @@ void main() {
       );
       for (final String soundType in kAllNotificationSoundTypes) {
         expect(
-          shouldPlaySoundEffect(
-            soundPrefs: prefs,
-            soundType: soundType,
-          ),
+          shouldPlaySoundEffect(soundPrefs: prefs, soundType: soundType),
           isFalse,
           reason: soundType,
         );
@@ -78,10 +75,7 @@ void main() {
           },
         );
         expect(
-          shouldPlaySoundEffect(
-            soundPrefs: prefs,
-            soundType: soundType,
-          ),
+          shouldPlaySoundEffect(soundPrefs: prefs, soundType: soundType),
           isFalse,
           reason: soundType,
         );
@@ -90,10 +84,7 @@ void main() {
               type != soundType && type != kSoundTypeSameChannelMessage,
         );
         expect(
-          shouldPlaySoundEffect(
-            soundPrefs: prefs,
-            soundType: other,
-          ),
+          shouldPlaySoundEffect(soundPrefs: prefs, soundType: other),
           isTrue,
           reason: '$soundType should not silence $other',
         );
