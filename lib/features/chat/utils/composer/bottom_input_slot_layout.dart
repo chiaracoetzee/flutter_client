@@ -12,6 +12,7 @@ enum InlineExpressionPanelSnapTarget { close, anchor, expanded }
 
 const double kKeyboardHeightQuantizeThreshold = 1;
 const double kKeyboardAnchorPersistThreshold = 4;
+const double kShortKeyboardInsetGap = 48;
 const double kMinImeKeyboardHeight = 120;
 const double kInlineExpressionPanelAnchorMagneticFraction = 0.12;
 const double kInlineExpressionPanelDismissHeightFraction = 0.55;
@@ -213,6 +214,12 @@ double resolveNativeImeOnlyHeight({
   }
   final double imeOnly = nativeKeyboardHeight - nativeSafeAreaBottom;
   return imeOnly > 0 ? imeOnly : 0;
+}
+
+double resolvedKeyboardInsetBottom(BuildContext context) {
+  final double mediaQueryInset = MediaQuery.viewInsetsOf(context).bottom;
+  final double viewInset = View.of(context).viewInsets.bottom;
+  return math.max(mediaQueryInset, viewInset);
 }
 
 /// viewInsets when it is non-zero, otherwise the native height.

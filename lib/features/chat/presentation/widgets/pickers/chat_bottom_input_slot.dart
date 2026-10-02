@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_provider.dart';
@@ -52,16 +54,33 @@ class BottomInputSpacer extends ConsumerWidget {
       return _animatedSpacer(context, reservedHeight);
     }
 
-    final double spacerHeight = _keyboardSpacerHeight(context, slotHeight);
+    final double liveKeyboardHeight = ref.watch(
+      mobileKeyboardMetricsProvider.select(
+        (MobileKeyboardMetricsState metrics) =>
+            metrics.isKeyboardVisible ? metrics.liveKeyboardHeight : 0,
+      ),
+    );
+    final double spacerHeight = _keyboardSpacerHeight(
+      context,
+      slotHeight,
+      liveKeyboardHeight,
+    );
     if (spacerHeight <= 0) {
       return const SizedBox.shrink();
     }
     return _coloredSpacer(context, spacerHeight);
   }
 
-  double _keyboardSpacerHeight(BuildContext context, double slotHeight) {
-    final double viewInset = MediaQuery.viewInsetsOf(context).bottom;
-    final double resolved = viewInset > 0 ? viewInset : slotHeight;
+  double _keyboardSpacerHeight(
+    BuildContext context,
+    double slotHeight,
+    double liveKeyboardHeight,
+  ) {
+    final double measured = math.max(
+      resolvedKeyboardInsetBottom(context),
+      liveKeyboardHeight,
+    );
+    final double resolved = measured > 0 ? measured : slotHeight;
     if (resolved <= 0) {
       return 0;
     }
