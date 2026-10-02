@@ -1,10 +1,15 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
+import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
-import 'package:test/test.dart';
+import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    await EmojiRegistry.preload();
+  });
+
   const alice = Persona(
     id: 'persona_alice',
     name: 'Alice',
@@ -46,7 +51,31 @@ void main() {
     ],
   );
 
-  final List<Persona> personas = [alice, bob, bracketMan, doubleBracketMan, longAlice];
+  const dragon = Persona(
+    id: 'persona_dragon',
+    name: 'Knightmoon',
+    personaTags: [
+      PersonaTag(prefix: '🐉'),
+    ],
+  );
+
+  const fox = Persona(
+    id: 'persona_fox',
+    name: 'FoxBoy',
+    personaTags: [
+      PersonaTag(prefix: ':fox:'),
+    ],
+  );
+
+  final List<Persona> personas = [
+    alice,
+    bob,
+    bracketMan,
+    doubleBracketMan,
+    longAlice,
+    dragon,
+    fox,
+  ];
 
   group('PersonaMatcher', () {
     test('matches prefix persona tag and strips prefix', () {
@@ -219,9 +248,46 @@ void main() {
       final res = matchPersona('D: test', [disabledPersona], null, false);
       expect(res.matched, isFalse);
     });
+
+    test('matches raw unicode emoji tag prefix and strips emoji', () {
+      final res = matchPersona('🐉 hello world', personas, null, false);
+      expect(res.matched, isTrue);
+      expect(res.persona?.id, dragon.id);
+      expect(res.strippedContent, 'hello world');
+      expect(res.isFromTag, isTrue);
+    });
+
+    test('matches shortcode representation of unicode emoji tag prefix', () {
+      final res = matchPersona(':dragon: hello world', personas, null, false);
+      expect(res.matched, isTrue);
+      expect(res.persona?.id, dragon.id);
+      expect(res.strippedContent, 'hello world');
+      expect(res.isFromTag, isTrue);
+    });
+
+    test('matches raw unicode representation of shortcode tag prefix', () {
+      final res = matchPersona('🦊 hello world', personas, null, false);
+      expect(res.matched, isTrue);
+      expect(res.persona?.id, fox.id);
+      expect(res.strippedContent, 'hello world');
+      expect(res.isFromTag, isTrue);
+    });
   });
 
   group('PreviewPersona', () {
+    test('previews emoji persona tag for raw unicode and shortcode', () {
+      final previewRaw = previewPersona('🐉', personas, null, false);
+      expect(previewRaw.persona?.id, dragon.id);
+      expect(previewRaw.isFromTag, isTrue);
+
+      final previewShortcode = previewPersona(':dragon:', personas, null, false);
+      expect(previewShortcode.persona?.id, dragon.id);
+      expect(previewShortcode.isFromTag, isTrue);
+
+      final previewFoxRaw = previewPersona('🦊', personas, null, false);
+      expect(previewFoxRaw.persona?.id, fox.id);
+      expect(previewFoxRaw.isFromTag, isTrue);
+    });
     test('previews persona from tag in real-time', () {
       final preview = previewPersona('A: typing...', personas, null, false);
       expect(preview.persona?.id, alice.id);
@@ -419,7 +485,6 @@ void main() {
         content: 'B:',
         personas: personas,
         currentPersonaId: alice.id,
-        hasAttachments: false,
       );
       expect(res.finalContent, '');
       expect(res.shouldUpdatePersona, isTrue);
@@ -431,7 +496,6 @@ void main() {
         content: r'\',
         personas: personas,
         currentPersonaId: alice.id,
-        hasAttachments: false,
       );
       expect(res.finalContent, '');
       expect(res.shouldUpdatePersona, isTrue);
