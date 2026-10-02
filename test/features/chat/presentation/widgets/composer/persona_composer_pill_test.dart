@@ -196,6 +196,30 @@ void main() {
       expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
     });
 
+    testWidgets('renders tag matched persona with tag badge for emoji prefix tag', (tester) async {
+      const emojiPersona = Persona(
+        id: 'p_dragon',
+        name: 'Knightmoon',
+        personaTags: [
+          PersonaTag(prefix: '🐉'),
+        ],
+      );
+
+      await tester.pumpWidget(
+        buildTestBed(
+          personas: [...allPersonas, emojiPersona],
+          latchedPersonaId: 'p_alpha',
+          text: '🐉 Hello world',
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final tooltip = tester.widget<Tooltip>(find.byType(Tooltip));
+      expect(tooltip.message, 'Sending as Knightmoon (Matched by tag)');
+      expect(find.byIcon(PhosphorIconsBold.tag), findsOneWidget);
+      expect(find.byIcon(PhosphorIconsBold.lockSimple), findsNothing);
+    });
+
     testWidgets('tapping pill opens PersonaPickerSheet', (tester) async {
       tester.view.physicalSize = const Size(800, 1600);
       tester.view.devicePixelRatio = 1.0;
