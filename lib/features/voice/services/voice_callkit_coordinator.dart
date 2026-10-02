@@ -363,12 +363,15 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   void _scheduleSync(Future<void> Function() work) {
-    _syncQueue = _syncQueue.then((_) => work()).catchError((
-      Object error,
-      StackTrace stackTrace,
-    ) {
+    unawaited(_enqueueSync(work));
+  }
+
+  Future<void> _enqueueSync(Future<void> Function() work) {
+    final Future<void> scheduled = _syncQueue.then((_) => work());
+    _syncQueue = scheduled.catchError((Object error, StackTrace stackTrace) {
       talker.warning('[VoiceCallKit] sync failed: $error\n$stackTrace');
     });
+    return scheduled;
   }
 
   Future<void> _ensureAndroidPermissions() async {
@@ -492,8 +495,13 @@ class VoiceCallKitCoordinatorLogic {
     if (!next.isInVoice) {
       _cancelSpeakerOutputReapply();
       ChatAttachmentAudioSession.instance.restoreAfterVoiceCall();
-      if ((previous?.isInVoice ?? false) && !_sessions.hasIncomingRing) {
-        await _endAllCallKitSessions();
+      if (previous?.isInVoice ?? false) {
+        final String? leftChannelId = previous?.channelId;
+        if (_sessions.hasIncomingRing && leftChannelId != null) {
+          await _endCallKitForChannel(leftChannelId);
+        } else {
+          await _endAllCallKitSessions();
+        }
       }
       return;
     }
@@ -829,12 +837,18 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  Future<void> _endIosVoipCall() async {
+  Future<void> _endIosVoipCall([String? callKitId]) async {
     if (!Platform.isIOS) {
       return;
     }
     try {
-      await _iosVoipCallKit.invokeMethod<void>('endAll');
+      if (callKitId == null) {
+        await _iosVoipCallKit.invokeMethod<void>('endAll');
+      } else {
+        await _iosVoipCallKit.invokeMethod<void>('end', <String, Object>{
+          'id': callKitId,
+        });
+      }
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] end ios call failed: $error');
     }
@@ -931,7 +945,7 @@ class VoiceCallKitCoordinatorLogic {
     await _runProgrammaticCallKitEnd(() async {
       try {
         if (Platform.isIOS) {
-          await _endIosVoipCall();
+          await _endIosVoipCall(callKitId);
         } else {
           await FlutterCallkitIncoming.endCall(callKitId);
         }
@@ -988,13 +1002,13 @@ class VoiceCallKitCoordinatorLogic {
     }
     switch (event) {
       case CallEventActionCallAccept(:final callKitParams):
-        await _handleAccept(callKitParams);
+        await _enqueueSync(() => _handleAccept(callKitParams));
       case CallEventActionCallDecline(:final callKitParams):
-        await _handleUserEndedCallKitCall(callKitParams);
+        await _enqueueSync(() => _handleUserEndedCallKitCall(callKitParams));
       case CallEventActionCallEnded(:final callKitParams):
-        await _handleUserEndedCallKitCall(callKitParams);
+        await _enqueueSync(() => _handleUserEndedCallKitCall(callKitParams));
       case CallEventActionCallTimeout(:final id):
-        await _handleTimeout(id);
+        await _enqueueSync(() => _handleTimeout(id));
       case CallEventActionCallToggleMute(:final id, :final isMuted):
         _scheduleSync(() => _handleToggleMute(id, isMuted: isMuted));
       case CallEventActionCallToggleAudioSession(:final isActive):

@@ -75,6 +75,10 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       case "endAll":
         self.queue.async { self.endAll() }
         result(nil)
+      case "end":
+        let id = (call.arguments as? [String: Any])?["id"] as? String
+        self.queue.async { self.end(id: id) }
+        result(nil)
       case "hasUnanswered":
         self.queue.async {
           let ringing = self.hasUnansweredCall()
@@ -418,6 +422,23 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     return CXCallObserver().calls.contains { call in
       !call.hasEnded && !call.isOutgoing && !call.hasConnected
     }
+  }
+
+  private func end(id: String?) {
+    guard let id, let uuid = UUID(uuidString: id) else {
+      return
+    }
+    let call = calls.removeValue(forKey: uuid)
+    ringTimers[uuid]?.cancel()
+    ringTimers[uuid] = nil
+    if call?.answered == true {
+      cancelAnswerHangup()
+    }
+    if pendingNotify?.uuid == uuid {
+      pendingNotify = nil
+      cancelNotifyRetry()
+    }
+    callProvider?.end(uuid: uuid, reason: .remoteEnded)
   }
 
   private func endAll() {
