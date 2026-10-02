@@ -272,7 +272,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   bool _isApplyingWireText = false;
   bool _composerFocused = false;
   String? _lastWireTextPushedToState;
-  final ValueNotifier<bool> _showComposerCounter = ValueNotifier<bool>(false);
 
   Widget _wideComposerIconButton({
     required BuildContext context,
@@ -468,7 +467,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _syncStateFromController() {
-    _syncComposerCounterPadding();
     if (_isApplyingWireText) {
       return;
     }
@@ -494,24 +492,46 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       _lastWireTextPushedToState = wire;
       return;
     }
+    if (_shouldDeferComposerStateWriteBack(wire)) {
+      return;
+    }
     unawaited(_applyWireTextFromState(wire));
   }
 
-  void _syncComposerCounterPadding() {
-    final int maxMessageLength = ref.read(maxMessageLengthProvider);
-    final bool show =
-        _composerContentLength(_sendableWireText()) >
-        (maxMessageLength * 0.8).floor();
-    if (show == _showComposerCounter.value) {
-      return;
+  bool _shouldDeferComposerStateWriteBack(String wireFromState) {
+    if (!_focusNode.hasFocus) {
+      return false;
     }
-    _showComposerCounter.value = show;
+    final TextEditingValue editing = _controller.value;
+    if (editing.composing.isValid) {
+      return true;
+    }
+    final String localWire = stripPrivateUseCharacters(
+      _controller.toWireText(),
+    );
+    if (localWire.isEmpty) {
+      return wireFromState.isNotEmpty;
+    }
+    if (wireFromState.isEmpty) {
+      return true;
+    }
+    if (wireFromState.length < localWire.length &&
+        localWire.startsWith(wireFromState)) {
+      return true;
+    }
+    return false;
   }
 
-  Future<void> _applyWireTextFromState(String wire) async {
+  Future<void> _applyWireTextFromState(
+    String wire, {
+    bool force = false,
+  }) async {
+    if (!force && _focusNode.hasFocus && _controller.value.composing.isValid) {
+      return;
+    }
     _isApplyingWireText = true;
     try {
-      await _controller.applyWireText(wire);
+      await _controller.applyWireText(wire, force: force);
       _lastWireTextPushedToState = wire;
     } finally {
       _isApplyingWireText = false;
@@ -687,7 +707,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     _controller
       ..removeListener(_syncStateFromController)
       ..dispose();
-    _showComposerCounter.dispose();
     _voiceRecording.dispose();
     super.dispose();
   }
@@ -830,109 +849,101 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: _showComposerCounter,
-                  builder: (BuildContext context, bool showCounter, Widget? _) {
-                    final InputDecoration effectiveDecoration = decoration
-                        .copyWith(
-                          contentPadding: showCounter
-                              ? basePadding +
-                                    const EdgeInsets.only(right: 28, bottom: 18)
-                              : basePadding,
-                        );
-                    return _composerOpacity(
-                      context: context,
-                      enabled: perms.isComposerEnabled,
-                      child: Semantics(
-                        label: _resolveHintText(),
-                        textField: true,
-                        child: wrapBoundedTextClip(
-                          maxLines: maxLines,
-                          child: _slashSession.isActive
-                              ? SlashCommandComposer(
-                                  session: _slashSession,
-                                  enabled: perms.isComposerEnabled,
-                                  style: context.textStyles.inputText,
-                                  enterSends: _enterSends,
-                                  onKeyEvent: (KeyEvent event) =>
-                                      handleComposerAutocompleteKey(
-                                        _composerFieldKey.currentState,
-                                        event,
-                                      ),
-                                  onSubmit: () {
-                                    unawaited(_onSendPressed());
-                                  },
-                                )
-                              : TextField(
-                                  controller: _controller,
-                                  focusNode: focusNode,
-                                  scrollController: _composerScrollController,
-                                  enabled: perms.isComposerEnabled,
-                                  style: context.textStyles.inputText,
-                                  strutStyle: boundedStrutFor(
-                                    context.textStyles.inputText,
-                                    forceHeight: false,
+                _composerOpacity(
+                  context: context,
+                  enabled: perms.isComposerEnabled,
+                  child: Semantics(
+                    label: _resolveHintText(),
+                    textField: true,
+                    child: wrapBoundedTextClip(
+                      maxLines: maxLines,
+                      child: _slashSession.isActive
+                          ? SlashCommandComposer(
+                              session: _slashSession,
+                              enabled: perms.isComposerEnabled,
+                              style: context.textStyles.inputText,
+                              enterSends: _enterSends,
+                              onKeyEvent: (KeyEvent event) =>
+                                  handleComposerAutocompleteKey(
+                                    _composerFieldKey.currentState,
+                                    event,
                                   ),
-                                  minLines: minLines,
-                                  maxLines: maxLines,
-                                  selectionWidthStyle: BoxWidthStyle.tight,
-                                  decoration: effectiveDecoration,
-                                  textAlignVertical: textAlignVertical,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  autocorrect: true,
-                                  enableInlinePrediction: true,
-                                  contextMenuBuilder:
-                                      clipboardScope.buildContextMenu,
-                                  contentInsertionConfiguration:
-                                      perms.isAttachEnabled
-                                      ? ContentInsertionConfiguration(
-                                          onContentInserted:
-                                              (
-                                                KeyboardInsertedContent content,
-                                              ) {
-                                                unawaited(() async {
-                                                  final FileUploadValidationResult?
-                                                  result =
-                                                      await handleComposerContentInserted(
-                                                        ref: ref,
-                                                        channelId: channelId,
-                                                        content: content,
-                                                        isAttachEnabled: perms
-                                                            .isAttachEnabled,
-                                                      );
-                                                  if (result != null) {
-                                                    _toastUploadValidation(
-                                                      result,
-                                                    );
-                                                  }
-                                                }());
-                                              },
-                                        )
-                                      : null,
-                                  onTap: () {
-                                    if (isComposerPanelOpen(
-                                      expressionPanelOpen: ref.read(
-                                        expressionPanelProvider,
-                                      ),
-                                      attachmentPanelOpen: ref.read(
-                                        attachmentPanelProvider,
-                                      ),
-                                    )) {
-                                      _closeComposerPanelsAndFocusComposer();
-                                      return;
-                                    }
-                                    if (_focusNode.hasFocus &&
-                                        resolvedKeyboardInsetBottom(context) <=
-                                            0) {
-                                      _keyboardRestore.reconnectOpenField();
-                                    }
-                                  },
-                                ),
-                        ),
-                      ),
-                    );
-                  },
+                              onSubmit: () {
+                                unawaited(_onSendPressed());
+                              },
+                            )
+                          : TextField(
+                              key: const ValueKey<String>(
+                                'channel-composer-field',
+                              ),
+                              controller: _controller,
+                              focusNode: focusNode,
+                              scrollController: _composerScrollController,
+                              enabled: perms.isComposerEnabled,
+                              style: context.textStyles.inputText,
+                              strutStyle: boundedStrutFor(
+                                context.textStyles.inputText,
+                                forceHeight: false,
+                              ),
+                              minLines: minLines,
+                              maxLines: maxLines,
+                              selectionWidthStyle: BoxWidthStyle.tight,
+                              decoration: decoration.copyWith(
+                                contentPadding:
+                                    basePadding +
+                                    const EdgeInsets.only(
+                                      right: 28,
+                                      bottom: 18,
+                                    ),
+                              ),
+                              textAlignVertical: textAlignVertical,
+                              textCapitalization: TextCapitalization.sentences,
+                              autocorrect: true,
+                              enableInlinePrediction: true,
+                              contextMenuBuilder:
+                                  clipboardScope.buildContextMenu,
+                              contentInsertionConfiguration:
+                                  perms.isAttachEnabled
+                                  ? ContentInsertionConfiguration(
+                                      onContentInserted:
+                                          (KeyboardInsertedContent content) {
+                                            unawaited(() async {
+                                              final FileUploadValidationResult?
+                                              result =
+                                                  await handleComposerContentInserted(
+                                                    ref: ref,
+                                                    channelId: channelId,
+                                                    content: content,
+                                                    isAttachEnabled:
+                                                        perms.isAttachEnabled,
+                                                  );
+                                              if (result != null) {
+                                                _toastUploadValidation(result);
+                                              }
+                                            }());
+                                          },
+                                    )
+                                  : null,
+                              onTap: () {
+                                if (isComposerPanelOpen(
+                                  expressionPanelOpen: ref.read(
+                                    expressionPanelProvider,
+                                  ),
+                                  attachmentPanelOpen: ref.read(
+                                    attachmentPanelProvider,
+                                  ),
+                                )) {
+                                  _closeComposerPanelsAndFocusComposer();
+                                  return;
+                                }
+                                if (_focusNode.hasFocus &&
+                                    resolvedKeyboardInsetBottom(context) <= 0) {
+                                  _keyboardRestore.reconnectOpenField();
+                                }
+                              },
+                            ),
+                    ),
+                  ),
                 ),
                 Positioned(
                   right: 8,
@@ -2547,6 +2558,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           stripPrivateUseCharacters(
             ref.read(chatViewModelProvider).messageText,
           ),
+          force: true,
         );
       } else {
         _controller.selection = TextSelection.collapsed(
