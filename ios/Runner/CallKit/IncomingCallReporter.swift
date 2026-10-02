@@ -37,6 +37,8 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     let messageId: String
     let name: String
     let handle: String
+    let targetUserId: String
+    let guildId: String
     var answered = false
     var published = false
   }
@@ -262,7 +264,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
         channelId: fields.channelId,
         messageId: fields.messageId,
         name: name,
-        handle: handle
+        handle: handle,
+        targetUserId: fields.targetUserId ?? "",
+        guildId: fields.guildId ?? ""
       )
     }
     let update = CallProvider.update(name: name, handle: handle)
@@ -459,6 +463,20 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     }
   }
 
+  private func extraFields(_ call: LiveCall) -> [String: String] {
+    var extra = [
+      "channelId": call.channelId,
+      "messageId": call.messageId,
+    ]
+    if !call.targetUserId.isEmpty {
+      extra["targetUserId"] = call.targetUserId
+    }
+    if !call.guildId.isEmpty {
+      extra["guildId"] = call.guildId
+    }
+    return extra
+  }
+
   private func eventBody(_ call: LiveCall, uuid: UUID, accepted: Bool) -> [String: Any] {
     [
       "id": uuid.uuidString.lowercased(),
@@ -467,10 +485,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       "appName": "Fluxer",
       "type": 0,
       "isAccepted": accepted,
-      "extra": [
-        "channelId": call.channelId,
-        "messageId": call.messageId,
-      ],
+      "extra": extraFields(call),
     ]
   }
 
