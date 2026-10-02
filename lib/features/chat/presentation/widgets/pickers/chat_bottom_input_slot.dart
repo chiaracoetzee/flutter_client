@@ -54,33 +54,18 @@ class BottomInputSpacer extends ConsumerWidget {
       return _animatedSpacer(context, reservedHeight);
     }
 
-    final double liveKeyboardHeight = ref.watch(
-      mobileKeyboardMetricsProvider.select(
-        (MobileKeyboardMetricsState metrics) =>
-            metrics.isKeyboardVisible ? metrics.liveKeyboardHeight : 0,
-      ),
-    );
-    final double spacerHeight = _keyboardSpacerHeight(
-      context,
-      slotHeight,
-      liveKeyboardHeight,
-    );
+    final double spacerHeight = _keyboardSpacerHeight(context, slotHeight);
     if (spacerHeight <= 0) {
       return const SizedBox.shrink();
     }
     return _coloredSpacer(context, spacerHeight);
   }
 
-  double _keyboardSpacerHeight(
-    BuildContext context,
-    double slotHeight,
-    double liveKeyboardHeight,
-  ) {
-    final double measured = math.max(
-      resolvedKeyboardInsetBottom(context),
-      liveKeyboardHeight,
-    );
-    final double resolved = measured > 0 ? measured : slotHeight;
+  double _keyboardSpacerHeight(BuildContext context, double slotHeight) {
+    final double inset = resolvedKeyboardInsetBottom(context);
+    final double resolved = inset > 0
+        ? math.max(inset, slotHeight)
+        : slotHeight;
     if (resolved <= 0) {
       return 0;
     }

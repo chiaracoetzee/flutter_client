@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 
 const Duration kKeyboardFocusRestoreRetryDelay = Duration(milliseconds: 350);
 
@@ -168,8 +169,12 @@ class KeyboardFocusRestoreHandle {
       return 0;
     }
     final double mediaQueryInset = MediaQuery.viewInsetsOf(context).bottom;
-    final double viewInset = View.of(context).viewInsets.bottom;
-    return mediaQueryInset > viewInset ? mediaQueryInset : viewInset;
+    final view = View.of(context);
+    return resolvedKeyboardInsetBottomFrom(
+      mediaQueryInsetBottom: mediaQueryInset,
+      physicalViewInsetBottom: view.viewInsets.bottom,
+      devicePixelRatio: view.devicePixelRatio,
+    );
   }
 
   bool _fieldIsComposing() {

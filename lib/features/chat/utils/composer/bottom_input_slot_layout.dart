@@ -216,10 +216,25 @@ double resolveNativeImeOnlyHeight({
   return imeOnly > 0 ? imeOnly : 0;
 }
 
+double resolvedKeyboardInsetBottomFrom({
+  required double mediaQueryInsetBottom,
+  required double physicalViewInsetBottom,
+  required double devicePixelRatio,
+}) {
+  if (devicePixelRatio <= 0) {
+    return mediaQueryInsetBottom;
+  }
+  final double viewInsetLogical = physicalViewInsetBottom / devicePixelRatio;
+  return math.max(mediaQueryInsetBottom, viewInsetLogical);
+}
+
 double resolvedKeyboardInsetBottom(BuildContext context) {
-  final double mediaQueryInset = MediaQuery.viewInsetsOf(context).bottom;
-  final double viewInset = View.of(context).viewInsets.bottom;
-  return math.max(mediaQueryInset, viewInset);
+  final MediaQueryData mediaQuery = MediaQuery.of(context);
+  return resolvedKeyboardInsetBottomFrom(
+    mediaQueryInsetBottom: mediaQuery.viewInsets.bottom,
+    physicalViewInsetBottom: View.of(context).viewInsets.bottom,
+    devicePixelRatio: mediaQuery.devicePixelRatio,
+  );
 }
 
 /// viewInsets when it is non-zero, otherwise the native height.
