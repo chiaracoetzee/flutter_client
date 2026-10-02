@@ -1811,7 +1811,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 2, right: 6),
                       child: PersonaComposerPill(
-                        text: _controller.text,
+                        text: _sendableWireText(),
                         hasAttachments: hasAttachments,
                       ),
                     );
@@ -1867,7 +1867,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (selection.autoSend) {
       final resolution = await resolveOutgoingPersona(
         ref: ref,
-        rawText: _controller.text,
+        rawText: _sendableWireText(),
         channelId: ref.read(chatViewModelProvider).channelId,
         allowEmptyContent: true,
       );
@@ -1892,7 +1892,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   Future<void> _handleStickerSelection(StickerEntry sticker) async {
     final resolution = await resolveOutgoingPersona(
       ref: ref,
-      rawText: _controller.text,
+      rawText: _sendableWireText(),
       channelId: ref.read(chatViewModelProvider).channelId,
       allowEmptyContent: true,
     );
@@ -1921,7 +1921,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (selection.autoSend) {
       resolution = await resolveOutgoingPersona(
         ref: ref,
-        rawText: _controller.text,
+        rawText: _sendableWireText(),
         channelId: ref.read(chatViewModelProvider).channelId,
         allowEmptyContent: true,
       );
