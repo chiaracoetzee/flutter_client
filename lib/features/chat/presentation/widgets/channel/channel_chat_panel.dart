@@ -36,6 +36,9 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+import 'package:fluxer_app/shared/widgets/rebuild_safe_layout_builder.dart';
+
 const double _kChannelChatNekoBottom = 0;
 const double _kChannelChatNekoBottomAboveSlowmode =
     WideComposerLayout.statusLineHeight;
@@ -202,7 +205,11 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
           const ChatWallpaperBackdrop()
         else
           ColoredBox(color: context.colors.chatBackground),
-        LayoutBuilder(
+        // Rebuild-safe: this scope holds MessageList and the composer, and
+        // MessageList can be dirtied while the list below is mid-layout. A
+        // stock LayoutBuilder loses that rebuild and freezes both (release).
+        RebuildSafeLayoutBuilder(
+          debugLabel: 'ChannelChatPanel',
           builder: (BuildContext context, BoxConstraints constraints) {
             double sheetContentHeight = 0;
             double dragHandleHeight = 0;
