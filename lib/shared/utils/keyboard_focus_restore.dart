@@ -59,8 +59,10 @@ class KeyboardFocusRestoreHandle {
     }
     _deadImeRetry?.cancel();
     final int generation = ++_restoreGeneration;
-    focusNode.unfocus();
-    _focusOnNextFrame(generation);
+    _cycleTextInputConnection(
+      focusNode,
+      () => _canRefocusAfterCycle(generation),
+    );
   }
 
   void handleLifecycleState(AppLifecycleState state) {
@@ -111,7 +113,10 @@ class KeyboardFocusRestoreHandle {
   }
 
   void _reconnectFocused(int generation) {
-    reconnectComposerKeyboard(focusNode);
+    _cycleTextInputConnection(
+      focusNode,
+      () => _canRefocusAfterCycle(generation),
+    );
     _scheduleDeadImeRetry(generation);
   }
 
@@ -142,25 +147,23 @@ class KeyboardFocusRestoreHandle {
       if (_anotherEditableHasFocus() || _fieldIsComposing()) {
         return;
       }
-      focusNode.unfocus();
-      _focusOnNextFrame(generation);
+      _cycleTextInputConnection(
+        focusNode,
+        () => _canRefocusAfterCycle(generation),
+      );
     });
   }
 
-  void _focusOnNextFrame(int generation) {
-    WidgetsBinding.instance
-      ..scheduleFrame()
-      ..addPostFrameCallback((_) {
-        if (generation != _restoreGeneration || !_canAttemptRestore()) {
-          return;
-        }
-        if (focusNode.context == null ||
-            focusNode.hasFocus ||
-            _anotherEditableHasFocus()) {
-          return;
-        }
-        focusNode.requestFocus();
-      });
+  bool _canRefocusAfterCycle(int generation) {
+    if (generation != _restoreGeneration || !_canAttemptRestore()) {
+      return false;
+    }
+    if (focusNode.context == null ||
+        focusNode.hasFocus ||
+        _anotherEditableHasFocus()) {
+      return false;
+    }
+    return focusNode.canRequestFocus;
   }
 
   double _keyboardInsetBottom() {
@@ -188,14 +191,33 @@ class KeyboardFocusRestoreHandle {
 }
 
 void reconnectComposerKeyboard(FocusNode node) {
-  final EditableTextState? editable = _editableTextState(node);
-  if (editable != null) {
-    editable.requestKeyboard();
+  if (!node.canRequestFocus) {
     return;
   }
-  if (node.canRequestFocus) {
+  if (!node.hasFocus) {
     node.requestFocus();
+    return;
   }
+  _cycleTextInputConnection(
+    node,
+    () => node.canRequestFocus && node.context != null && !node.hasFocus,
+  );
+}
+
+// Cycles focus so EditableText opens a fresh TextInputConnection.
+void _cycleTextInputConnection(FocusNode node, bool Function() refocusWhen) {
+  node.unfocus();
+  _scheduleRefocusOnNextFrame(node, refocusWhen);
+}
+
+void _scheduleRefocusOnNextFrame(FocusNode node, bool Function() refocusWhen) {
+  WidgetsBinding.instance
+    ..scheduleFrame()
+    ..addPostFrameCallback((_) {
+      if (refocusWhen()) {
+        node.requestFocus();
+      }
+    });
 }
 
 bool _isEditableFocus(FocusNode node) {

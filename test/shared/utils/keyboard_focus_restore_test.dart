@@ -151,6 +151,7 @@ void main() {
     await backgroundApp(handle);
     await resumeApp(handle);
     await tester.pump();
+    await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
     expect(handle.hasPendingRestore, isFalse);
