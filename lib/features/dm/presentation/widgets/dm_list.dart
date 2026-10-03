@@ -327,18 +327,23 @@ class _DMListState extends ConsumerState<DMList> {
             ],
           ),
           if (isMobile)
-            Positioned(right: 16, bottom: 16, child: _buildComposeFab(context)),
+            Positioned(
+              right: 16,
+              bottom: 16,
+              child: _buildQuickSwitcherFab(context),
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildComposeFab(BuildContext context) {
+  Widget _buildQuickSwitcherFab(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return FluxerCircleFab(
-      icon: PhosphorIconsFill.paperPlane,
-      semanticLabel: l10n.createDmNewMessage,
-      onTap: () => unawaited(CreateDmFlow.show(context)),
+      key: const ValueKey<String>('quick-switcher-fab'),
+      icon: PhosphorIconsFill.lightning,
+      semanticLabel: l10n.quickSwitcherTabSearch,
+      onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
     );
   }
 
