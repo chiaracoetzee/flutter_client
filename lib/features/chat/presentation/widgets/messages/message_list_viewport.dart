@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/widgets/rebuild_safe_layout_builder.dart';
 
 /// Which side of the anchor's stream item the split boundary falls on.
 enum MessageListAnchorEdge {
@@ -51,8 +52,12 @@ enum MessageListAnchorEdge {
 /// silently rebuild. A rebuild that remounted the epoch-keyed subtree or
 /// reshaped the sliver list detached the very sliver being laid out (`owner!`
 /// null in `collectGarbage`), aborting layout and freezing the list and the
-/// composer. A [LayoutBuilder] owns a nested scope: lazy row builds flush only
+/// composer. A layout builder owns a nested scope: lazy row builds flush only
 /// this subtree, and ancestors dirtied during layout rebuild next frame.
+///
+/// It is a [RebuildSafeLayoutBuilder]: a stock [LayoutBuilder] loses a rebuild
+/// requested by a descendant while it is mid-layout and then never rebuilds
+/// this subtree again (release builds only).
 ///
 /// The builder returns the same [child] instance, so constraint changes (the
 /// keyboard animating) do not rebuild the scroll view.
@@ -63,7 +68,8 @@ class MessageListScrollViewBuildScope extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
+    return RebuildSafeLayoutBuilder(
+      debugLabel: 'MessageListScrollView',
       builder: (BuildContext context, BoxConstraints constraints) => child,
     );
   }
