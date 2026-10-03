@@ -2,6 +2,11 @@ import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 
+// Fork imports.
+// Fork: upstream's imports above stay as upstream has them, though the fork's changes leave
+// some of them unused.
+// ignore_for_file: unused_import
+
 enum ShellBackAction {
   popOverlay,
   closePanel,
@@ -44,9 +49,6 @@ ShellBackAction resolveShellBackAction({
     return isSystemBack ? ShellBackAction.exitApp : ShellBackAction.noop;
   }
   if (revealSide == RevealSide.left) {
-    if (classifyRoute(shellLocation) == RouteKind.chat) {
-      return ShellBackAction.leaveChat;
-    }
     return ShellBackAction.closeDrawer;
   }
   return ShellBackAction.revealDrawer;

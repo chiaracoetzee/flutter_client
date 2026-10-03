@@ -46,7 +46,7 @@ void main() {
       );
     });
 
-    test('open drawer on chat returns to dm home', () {
+    test('open drawer on chat closes the drawer', () {
       expect(
         resolveShellBackAction(
           hasPopupOverlay: false,
@@ -56,7 +56,7 @@ void main() {
           revealSide: RevealSide.left,
           shellLocation: '/channels/guild/channel',
         ),
-        ShellBackAction.leaveChat,
+        ShellBackAction.closeDrawer,
       );
     });
 
