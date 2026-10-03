@@ -111,6 +111,7 @@ import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
+import 'package:fluxer_app/shared/utils/frame_safe_value_notifier.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -296,9 +297,13 @@ class _MessageListState extends ConsumerState<MessageList>
   // True while the list is ballistic. Horizontal competitors read the last
   // built value, so a catch-fling pointer-down still defers them after hold()
   // has already stopped the coast.
-  final ValueNotifier<bool> _deferHorizontalWhileCoasting = ValueNotifier<bool>(
-    false,
-  );
+  //
+  // Frame-safe: a viewport resize mid-drag dispatches ScrollStart from
+  // layout, and writing this then would setState the ListenableBuilder in
+  // the middle of layout. Mid-frame writes land at the end of the frame;
+  // the rebuild could not happen before the next frame either way.
+  final FrameSafeValueNotifier<bool> _deferHorizontalWhileCoasting =
+      FrameSafeValueNotifier<bool>(false);
   final _LiveDouble _openPad = _LiveDouble(0);
   bool _settleDeferredForHold = false;
   Timer? _detachedTrimTimer;
