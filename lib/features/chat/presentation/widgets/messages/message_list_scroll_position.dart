@@ -10,6 +10,47 @@ const double _kFollowTau = 0.03;
 const double _kMinTickDt = 1 / 120;
 const double _kSnapEpsilon = 0.5;
 
+/// The message list's controller.
+///
+/// A re-anchor remounts the list's scroll view under a fresh key while this
+/// controller is reused, so for the rest of that frame two positions are
+/// attached: the incoming one attaches during build, but the outgoing one only
+/// detaches when the old [ScrollableState] is disposed in `finalizeTree`,
+/// after layout. The stock [ScrollController.position] calls `.single` and
+/// throws there; when a viewport resize (keyboard) or drag cancel dispatches a
+/// scroll notification in that frame, the throw aborts viewport layout and
+/// leaves the render tree corrupted (a frozen list and stuck composer).
+/// [position] therefore resolves to the most recently attached position,
+/// which belongs to the incoming scroll view.
+class LiveTailScrollController extends ScrollController {
+  /// Initial pixels handed to the next created position, then cleared.
+  double armedInitialOffset = 0;
+
+  @override
+  ScrollPosition get position {
+    assert(hasClients, 'ScrollController not attached to any scroll views.');
+    return positions.last;
+  }
+
+  @override
+  ScrollPosition createScrollPosition(
+    ScrollPhysics physics,
+    ScrollContext context,
+    ScrollPosition? oldPosition,
+  ) {
+    final double initialPixels = armedInitialOffset;
+    armedInitialOffset = 0;
+    return MessageListScrollPosition(
+      physics: physics,
+      context: context,
+      initialPixels: initialPixels,
+      keepScrollOffset: keepScrollOffset,
+      oldPosition: oldPosition,
+      debugLabel: debugLabel,
+    );
+  }
+}
+
 /// Coalesces pointer-scroll ticks into one gesture and skips child hit
 /// testing while the list is moving.
 class MessageListScrollPosition extends ScrollPositionWithSingleContext {
