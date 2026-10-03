@@ -11,6 +11,10 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_composer_gate.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/talker.dart';
+
 const int _kResumeInsetSyncFrames = 4;
 
 class ChatComposerColumn extends ConsumerStatefulWidget {
@@ -54,9 +58,23 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
+      _logResumeInsets();
       _scheduleKeyboardMetricsSync();
       _scheduleResumeInsetSyncRetries();
     }
+  }
+
+  /// Diagnostic for the stuck-composer repro: a task switch during the IME
+  /// show animation can leave the engine reporting a stale keyboard inset.
+  void _logResumeInsets() {
+    if (!mounted) {
+      return;
+    }
+    talker.debug(
+      '[ChatComposerColumn] resumed viewInsets '
+      'view=${View.of(context).viewInsets.bottom} '
+      'mediaQuery=${MediaQuery.viewInsetsOf(context).bottom}',
+    );
   }
 
   @override
