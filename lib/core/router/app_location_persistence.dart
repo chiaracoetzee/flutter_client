@@ -124,6 +124,10 @@ Future<void> clearPersistedLocation(FluxerDatabase db, String location) async {
     await db.guildLastChannelDao.removeGuild(kFavoritesLastChannelKey);
     return;
   }
+  if (path.startsWith('${RoutePaths.me}/')) {
+    await db.guildLastChannelDao.removeGuild(kDmLastChannelKey);
+    return;
+  }
   final String? guildId = extractGuildId(path);
   if (guildId != null) {
     await db.guildLastChannelDao.removeGuild(guildId);
@@ -157,7 +161,8 @@ Future<String> restoreAppLocation({
       await clearPersistedLocation(db, candidate);
     }
   }
-  return RoutePaths.me;
+  return await resolveDmRootRedirect(fullPath: RoutePaths.me, db: db) ??
+      RoutePaths.me;
 }
 
 Future<String?> _resolveValidAppLocation(
@@ -191,7 +196,10 @@ Future<String?> _resolveValidChannelsRoot(
   FluxerDatabase db,
   String path,
 ) async {
-  if (path == RoutePaths.me || path == RoutePaths.favoritesBase) {
+  if (path == RoutePaths.me) {
+    return await resolveDmRootRedirect(fullPath: path, db: db) ?? path;
+  }
+  if (path == RoutePaths.favoritesBase) {
     return path;
   }
   final String? guildId = extractGuildId(path);
@@ -223,13 +231,14 @@ Future<String?> _resolveValidChatLocation(
 ) async {
   if (path.startsWith('${RoutePaths.me}/')) {
     final String? channelId = extractChannelId(path);
-    if (channelId == null) {
-      return null;
+    if (channelId != null &&
+        await isRestorableDmChannel(db, channelId)) {
+      return path;
     }
-    if (await db.dmChannelDao.getDmChannelById(channelId) == null) {
-      return null;
-    }
-    return path;
+    return resolveDmRootRedirect(
+      fullPath: RoutePaths.me,
+      db: db,
+    );
   }
 
   if (path.startsWith('${RoutePaths.favoritesBase}/')) {
