@@ -11,7 +11,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
-  testWidgets('mobile back returns to dm home when the drawer is open', (
+  testWidgets('mobile back closes drawer when the drawer is open', (
     tester,
   ) async {
     final router = _routerFor('/channels/guild/channel');
@@ -40,9 +40,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(secondHandled, isTrue);
+    expect(container.read(currentRevealSideProvider), RevealSide.main);
     expect(
       router.routerDelegate.currentConfiguration.uri.path,
-      '/channels/@me',
+      '/channels/guild/channel',
     );
   });
 
