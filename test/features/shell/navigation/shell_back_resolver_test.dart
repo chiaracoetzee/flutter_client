@@ -46,20 +46,6 @@ void main() {
       );
     });
 
-    test('open drawer on chat returns to dm home', () {
-      expect(
-        resolveShellBackAction(
-          hasPopupOverlay: false,
-          hasManualGestureBlock: false,
-          hasExpressionPanelOpen: false,
-          hasChannelDetailsDrawerOpen: false,
-          revealSide: RevealSide.left,
-          shellLocation: '/channels/guild/channel',
-        ),
-        ShellBackAction.leaveChat,
-      );
-    });
-
     test('open drawer on non-chat routes still closes the drawer', () {
       expect(
         resolveShellBackAction(

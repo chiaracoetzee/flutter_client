@@ -12,41 +12,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
-  testWidgets('mobile back returns to dm home when the drawer is open', (
-    tester,
-  ) async {
-    final router = _routerFor('/channels/guild/channel');
-    addTearDown(router.dispose);
-    final container = _containerFor(router);
-
-    await tester.pumpWidget(_buildBackScopeApp(container, router));
-    await tester.pumpAndSettle();
-
-    expect(container.read(currentRevealSideProvider), RevealSide.main);
-
-    final firstHandled = await tester.binding.handlePopRoute();
-    await tester.pump();
-
-    expect(firstHandled, isTrue);
-    expect(container.read(currentRevealSideProvider), RevealSide.left);
-    expect(
-      router.routerDelegate.currentConfiguration.uri.path,
-      '/channels/guild/channel',
-    );
-
-    container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
-    await tester.pump();
-
-    final secondHandled = await tester.binding.handlePopRoute();
-    await tester.pumpAndSettle();
-
-    expect(secondHandled, isTrue);
-    expect(
-      router.routerDelegate.currentConfiguration.uri.path,
-      '/channels/@me',
-    );
-  });
-
   testWidgets('mobile back on the dm list leaves the app', (tester) async {
     final List<String> platformCalls = _recordPlatformCalls(tester);
     final router = _routerFor('/channels/@me');
@@ -305,3 +270,23 @@ Widget _buildBackScopeApp(ProviderContainer container, GoRouter router) {
     ),
   );
 }
+
+// Fork: upstream's helpers that mobile_chat_back_scope_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by mobile_chat_back_scope_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Widget Function(ProviderContainer container, GoRouter router)
+  buildBackScopeApp,
+  ProviderContainer Function(GoRouter router) containerFor,
+  GoRouter Function(
+    String initialLocation, {
+    List<NavigatorObserver> navigatorObservers,
+  })
+  routerFor,
+});
+// ignore: unreachable_from_main // Fork: used by mobile_chat_back_scope_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (
+  buildBackScopeApp: _buildBackScopeApp,
+  containerFor: _containerFor,
+  routerFor: _routerFor,
+);
