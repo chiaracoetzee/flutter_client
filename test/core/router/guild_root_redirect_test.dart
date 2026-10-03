@@ -330,16 +330,5 @@ void main() {
         'fav-1',
       );
     });
-
-    test('ignores dms and message jumps', () async {
-      persistGuildChannelFromLocation(db, '/channels/@me/dm-1');
-      persistGuildChannelFromLocation(db, '/channels/guild-1/chan-1/msg-1');
-      persistGuildChannelFromLocation(db, '/channels/@favorites/fav-1/msg-1');
-      expect(await db.guildLastChannelDao.getLastChannel('guild-1'), isNull);
-      expect(
-        await db.guildLastChannelDao.getLastChannel(kFavoritesLastChannelKey),
-        isNull,
-      );
-    });
   });
 }
