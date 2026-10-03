@@ -343,6 +343,43 @@ void main() {
         '/channels/guild-2/chan-2',
       );
     });
+
+    test('restores dm channel from last location', () async {
+      await db.dmChannelDao.upsertDmChannels([
+        DmChannelsCompanion.insert(id: 'dm-1', recipientId: 'user-1'),
+      ]);
+      persistAppLocation(db, '/channels/@me/dm-1');
+      persistGuildChannelFromLocation(db, '/channels/@me/dm-1');
+      await Future<void>.delayed(Duration.zero);
+
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      expect(
+        await container
+            .read(preReconnectingLocationProvider.notifier)
+            .takeOrRestore(db),
+        '/channels/@me/dm-1',
+      );
+    });
+
+    test('redirects channels me root to last dm channel', () async {
+      await db.dmChannelDao.upsertDmChannels([
+        DmChannelsCompanion.insert(id: 'dm-1', recipientId: 'user-1'),
+      ]);
+      persistAppLocation(db, RoutePaths.me);
+      await db.guildLastChannelDao.setLastChannel(kDmLastChannelKey, 'dm-1');
+
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      expect(
+        await container
+            .read(preReconnectingLocationProvider.notifier)
+            .takeOrRestore(db),
+        '/channels/@me/dm-1',
+      );
+    });
   });
 
   group('clearPersistedLocation', () {
@@ -357,6 +394,20 @@ void main() {
       expect(await readPersistedAppLocation(db), isNull);
       expect(await db.guildLastChannelDao.getLastChannel('guild-1'), isNull);
       expect(await db.guildLastChannelDao.getLastChannel('guild-2'), 'other');
+    });
+
+    test('clears app location and dm last channel', () async {
+      persistAppLocation(db, '/channels/@me/dm-1');
+      persistGuildChannelFromLocation(db, '/channels/@me/dm-1');
+      await Future<void>.delayed(Duration.zero);
+
+      await clearPersistedLocation(db, '/channels/@me/dm-1');
+
+      expect(await readPersistedAppLocation(db), isNull);
+      expect(
+        await db.guildLastChannelDao.getLastChannel(kDmLastChannelKey),
+        isNull,
+      );
     });
   });
 
