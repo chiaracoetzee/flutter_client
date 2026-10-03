@@ -338,17 +338,22 @@ class _DMListState extends ConsumerState<DMList> {
             ],
           ),
           if (isMobile)
-            Positioned(right: 16, bottom: 16, child: _buildComposeFab(context)),
+            Positioned(
+              right: 16,
+              bottom: 16,
+              child: _buildQuickSwitcherFab(context),
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildComposeFab(BuildContext context) {
+  Widget _buildQuickSwitcherFab(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return FluxerTappable(
-      onTap: () => unawaited(CreateDmFlow.show(context)),
-      semanticLabel: l10n.createDmNewMessage,
+      key: const ValueKey<String>('quick-switcher-fab'),
+      onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
+      semanticLabel: l10n.quickSwitcherTabSearch,
       builder: (context, states) {
         final colors = context.colors;
         final motion = context.motion;
@@ -378,7 +383,7 @@ class _DMListState extends ConsumerState<DMList> {
           ),
           alignment: Alignment.center,
           child: PhosphorIcon(
-            PhosphorIconsFill.paperPlane,
+            PhosphorIconsFill.lightning,
             size: 24,
             color: colors.textOnBrandPrimary,
           ),
