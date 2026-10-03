@@ -42,6 +42,33 @@ enum MessageListAnchorEdge {
   after,
 }
 
+/// Gives the message scroll view its own [BuildScope].
+///
+/// A lazy sliver that builds a row during layout flushes every dirty element
+/// in its build scope. Sharing the root scope, that flush also rebuilt dirty
+/// ANCESTORS (the message list host, the chat panel) in the middle of the
+/// viewport's layout - debug builds assert "wrong build scope", release builds
+/// silently rebuild. A rebuild that remounted the epoch-keyed subtree or
+/// reshaped the sliver list detached the very sliver being laid out (`owner!`
+/// null in `collectGarbage`), aborting layout and freezing the list and the
+/// composer. A [LayoutBuilder] owns a nested scope: lazy row builds flush only
+/// this subtree, and ancestors dirtied during layout rebuild next frame.
+///
+/// The builder returns the same [child] instance, so constraint changes (the
+/// keyboard animating) do not rebuild the scroll view.
+class MessageListScrollViewBuildScope extends StatelessWidget {
+  const MessageListScrollViewBuildScope({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) => child,
+    );
+  }
+}
+
 class MessageListViewport extends StatelessWidget {
   const MessageListViewport({
     required this.anchorEpoch,
@@ -167,13 +194,15 @@ class MessageListViewport extends StatelessWidget {
             onNotification: onScrollNotification,
             child: NotificationListener<ScrollMetricsNotification>(
               onNotification: onScrollMetricsNotification,
-              child: KeyedSubtree(
-                key: ValueKey<int>(anchorEpoch),
-                child: _scrollView(
-                  splitIndex: splitIndex,
-                  effectiveAnchor: anchorDataIndex == null
-                      ? 1.0
-                      : anchorFraction,
+              child: MessageListScrollViewBuildScope(
+                child: KeyedSubtree(
+                  key: ValueKey<int>(anchorEpoch),
+                  child: _scrollView(
+                    splitIndex: splitIndex,
+                    effectiveAnchor: anchorDataIndex == null
+                        ? 1.0
+                        : anchorFraction,
+                  ),
                 ),
               ),
             ),
