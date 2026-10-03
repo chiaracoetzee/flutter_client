@@ -689,6 +689,18 @@ GoRouter fluxerRouter(Ref ref) {
               GoRoute(
                 path: '/channels/@me',
                 name: RouteNames.dms,
+                redirect: (context, state) {
+                  if (shouldStayOnGuildChannelList(
+                    uri: state.uri,
+                    extra: state.extra,
+                  )) {
+                    return null;
+                  }
+                  return resolveDmRootRedirect(
+                    fullPath: state.uri.path,
+                    db: ref.read(fluxerDatabaseProvider),
+                  );
+                },
                 pageBuilder: _dmShellTransitionPage,
                 routes: [
                   GoRoute(
