@@ -209,8 +209,8 @@ const double _kJumpToPresentApproachFraction = 0.75;
 const int _kMaxSimultaneousDeleteCollapses = 3;
 
 class _MessageListState extends ConsumerState<MessageList> {
-  late final _LiveTailScrollController _scrollController =
-      _LiveTailScrollController(holdTrailingEdge: _holdsLiveTailEdge);
+  late final LiveTailScrollController _scrollController =
+      LiveTailScrollController(holdTrailingEdge: _holdsLiveTailEdge);
   final GlobalKey _unreadCenterKey = GlobalKey();
   late final MessageListDemandSource _demandSource;
 
@@ -4071,31 +4071,5 @@ class _LiveDouble extends ChangeNotifier implements ValueListenable<double> {
     if (notify) {
       notifyListeners();
     }
-  }
-}
-
-class _LiveTailScrollController extends ScrollController {
-  _LiveTailScrollController({required this.holdTrailingEdge});
-
-  final bool Function() holdTrailingEdge;
-  double armedInitialOffset = 0;
-
-  @override
-  ScrollPosition createScrollPosition(
-    ScrollPhysics physics,
-    ScrollContext context,
-    ScrollPosition? oldPosition,
-  ) {
-    final double initialPixels = armedInitialOffset;
-    armedInitialOffset = 0;
-    return MessageListScrollPosition(
-      physics: physics,
-      context: context,
-      initialPixels: initialPixels,
-      keepScrollOffset: keepScrollOffset,
-      oldPosition: oldPosition,
-      debugLabel: debugLabel,
-      holdTrailingEdge: holdTrailingEdge,
-    );
   }
 }
