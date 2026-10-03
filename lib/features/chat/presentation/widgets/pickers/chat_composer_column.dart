@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
@@ -54,9 +55,23 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
+      _logResumeInsets();
       _scheduleKeyboardMetricsSync();
       _scheduleResumeInsetSyncRetries();
     }
+  }
+
+  /// Diagnostic for the stuck-composer repro: a task switch during the IME
+  /// show animation can leave the engine reporting a stale keyboard inset.
+  void _logResumeInsets() {
+    if (!mounted) {
+      return;
+    }
+    talker.debug(
+      '[ChatComposerColumn] resumed viewInsets '
+      'view=${View.of(context).viewInsets.bottom} '
+      'mediaQuery=${MediaQuery.viewInsetsOf(context).bottom}',
+    );
   }
 
   @override
