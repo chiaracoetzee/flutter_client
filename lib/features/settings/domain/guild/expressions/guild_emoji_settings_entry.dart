@@ -25,3 +25,18 @@ class GuildEmojiSettingsEntry {
     );
   }
 }
+
+int compareGuildEmojiSettingsEntriesByName(
+  GuildEmojiSettingsEntry left,
+  GuildEmojiSettingsEntry right,
+) {
+  final diff = left.name.toLowerCase().compareTo(right.name.toLowerCase());
+  if (diff != 0) {
+    return diff;
+  }
+  final exactDiff = left.name.compareTo(right.name);
+  if (exactDiff != 0) {
+    return exactDiff;
+  }
+  return left.id.compareTo(right.id);
+}

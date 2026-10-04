@@ -76,7 +76,7 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
       await ref
           .read(guildExpressionsRepositoryProvider)
           .updateEmoji(guildId: guildId, emojiId: emojiId, name: name);
-      final List<GuildEmojiSettingsEntry> updatedEmojis = current.emojis
+      final List<GuildEmojiSettingsEntry> updatedEmojis = (current.emojis
           .map(
             (GuildEmojiSettingsEntry entry) => entry.id == emojiId
                 ? GuildEmojiSettingsEntry(
@@ -87,7 +87,8 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
                   )
                 : entry,
           )
-          .toList(growable: false);
+          .toList())
+        ..sort(compareGuildEmojiSettingsEntriesByName);
       final List<int> indices = filterGuildEmojiIndices(
         updatedEmojis,
         current.debouncedSearchQuery,
@@ -193,9 +194,10 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
       }
     }
     final GuildEmojiSettingsState latest = state.value ?? current;
-    final List<GuildEmojiSettingsEntry> merged = await repository.listEmojis(
-      guildId,
-    );
+    final List<GuildEmojiSettingsEntry> merged =
+        List<GuildEmojiSettingsEntry>.from(
+          await repository.listEmojis(guildId),
+        )..sort(compareGuildEmojiSettingsEntriesByName);
     final List<int> indices = filterGuildEmojiIndices(
       merged,
       latest.debouncedSearchQuery,
@@ -243,10 +245,7 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
             await ref
                 .read(guildExpressionsRepositoryProvider)
                 .listEmojis(guildId),
-          )..sort(
-            (GuildEmojiSettingsEntry left, GuildEmojiSettingsEntry right) =>
-                compareGuildExpressionEntriesByIdDesc(left.id, right.id),
-          );
+          )..sort(compareGuildEmojiSettingsEntriesByName);
       final List<int> indices = filterGuildEmojiIndices(emojis, '');
       return GuildEmojiSettingsState(
         loadStatus: GuildEmojiSettingsLoadStatus.success,
