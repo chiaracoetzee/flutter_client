@@ -349,4 +349,24 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Ukloni prepoznatljivi emoji';
+
+  @override
+  String get signalBarLabel => 'Traka signala';
+
+  @override
+  String get signalBarShow => 'Prikaži traku signala';
+
+  @override
+  String get signalBarHide => 'Sakrij traku signala';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Nitko nema uključen ovaj signal';
+
+  @override
+  String get signalBarReset => 'Poništi signal za sve';
 }
