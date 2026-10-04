@@ -47,6 +47,7 @@ import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -327,25 +328,16 @@ class _DMListState extends ConsumerState<DMList> {
             ],
           ),
           if (isMobile)
-            Positioned(
+            const Positioned(
               right: 16,
               bottom: 16,
-              child: _buildQuickSwitcherFab(context),
+              child: QuickSwitcherFab(),
             ),
         ],
       ),
     );
   }
 
-  Widget _buildQuickSwitcherFab(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return FluxerCircleFab(
-      key: const ValueKey<String>('quick-switcher-fab'),
-      icon: PhosphorIconsFill.lightning,
-      semanticLabel: l10n.quickSwitcherTabSearch,
-      onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
-    );
-  }
 
   Widget _selectableRow(
     BuildContext context, {
