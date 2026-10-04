@@ -105,5 +105,6 @@
     "signalBarHide": "Hide signal bar",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nobody has this signal on",
-    "signalBarReset": "Reset signal for everyone"
+    "signalBarReset": "Reset signal for everyone",
+    "signalBarTurnOff": "Turn off {name}"
 }
