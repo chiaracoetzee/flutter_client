@@ -173,6 +173,7 @@ class GatewayEventHandler {
     this.onEntranceSoundPlay,
     this.resolveDefaultHideMutedChannels,
     this.onUserPersonasUpdate,
+    this.onSignalBarEvent,
   }) {
     final ReactionWriteBatcher? batcher = reactionWriteBatcher;
     if (batcher == null) {
@@ -242,6 +243,10 @@ class GatewayEventHandler {
   final EntranceSoundPlayCallback? onEntranceSoundPlay;
   final DefaultHideMutedChannelsResolver? resolveDefaultHideMutedChannels;
   final UserPersonasUpdateCallback? onUserPersonasUpdate;
+
+  /// CHANNEL_SIGNAL_UPDATE and SIGNAL_BAR_UPDATE, passed through unparsed.
+  final void Function(String eventType, Map<String, dynamic> data)?
+  onSignalBarEvent;
 
   late final PresenceUpdateBatcher _presenceUpdateBatcher =
       PresenceUpdateBatcher(database: database, currentUserId: currentUserId);
@@ -709,6 +714,9 @@ class GatewayEventHandler {
             event.eventType == 'USER_PERSONA_SETTINGS_UPDATE' ||
             event.eventType == 'GUILD_PERSONAS_DIRTY') {
           _emit(() => onUserPersonasUpdate?.call(event.eventType, event.data));
+        } else if (event.eventType == 'CHANNEL_SIGNAL_UPDATE' ||
+            event.eventType == 'SIGNAL_BAR_UPDATE') {
+          _emit(() => onSignalBarEvent?.call(event.eventType, event.data));
         } else if (event.eventType == 'MESSAGE_UPDATE') {
           talker.warning(
             '[Gateway] Failed to parse MESSAGE_UPDATE: ${event.data}',

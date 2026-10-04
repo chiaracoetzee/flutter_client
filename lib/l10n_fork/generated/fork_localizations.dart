@@ -766,6 +766,42 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Remove signature emoji'**
   String get personaRemoveSignatureEmoji;
+
+  /// Accessible label for the row of toggleable signal icons above the message box.
+  ///
+  /// In en, this message translates to:
+  /// **'Signal bar'**
+  String get signalBarLabel;
+
+  /// Tooltip for the arrow button that expands the collapsed signal bar above the message box.
+  ///
+  /// In en, this message translates to:
+  /// **'Show signal bar'**
+  String get signalBarShow;
+
+  /// Tooltip for the arrow button that collapses the signal bar above the message box.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide signal bar'**
+  String get signalBarHide;
+
+  /// Label of a lit signal icon. label is the signal name such as Reading; names is a comma-separated list of the people who turned it on.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: {names}'**
+  String signalBarSignalWithNames(String label, String names);
+
+  /// Shown in the signal details sheet when no one has the signal on.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody has this signal on'**
+  String get signalBarNobody;
+
+  /// Destructive action in the signal details sheet, for moderators, that turns the signal off for everyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset signal for everyone'**
+  String get signalBarReset;
 }
 
 class _ForkLocalizationsDelegate

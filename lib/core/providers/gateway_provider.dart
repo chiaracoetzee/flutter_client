@@ -53,6 +53,7 @@ import 'package:fluxer_app/features/settings/providers/premium_settings_state_pr
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -171,6 +172,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     },
     onReady: () => ifMounted(() {
       talker.info('[Gateway] Setting gatewayReady = true');
+      ref.read(channelSignalsProvider.notifier).invalidate();
+      unawaited(ref.read(signalBarConfigProvider.notifier).refresh());
       if (!kReleaseMode) {
         final stats = connection.compressionStats;
         talker.info(
@@ -491,6 +494,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onEntranceSoundPlay: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
+    }),
+    onSignalBarEvent: (eventType, data) => ifMounted(() {
+      handleSignalBarGatewayEvent(ref, eventType, data);
     }),
     onUserPersonasUpdate: (eventType, data) => ifMounted(() {
       talker.info('[Gateway] Received $eventType');

@@ -345,4 +345,24 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'إزالة الرمز التعبيري المميز';
+
+  @override
+  String get signalBarLabel => 'شريط الإشارات';
+
+  @override
+  String get signalBarShow => 'إظهار شريط الإشارات';
+
+  @override
+  String get signalBarHide => 'إخفاء شريط الإشارات';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'لم يُفعّل أحد هذه الإشارة';
+
+  @override
+  String get signalBarReset => 'إعادة تعيين الإشارة للجميع';
 }

@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "新增表情符號",
     "personaSignatureEmojiAlreadyAdded": "此表情符號已新增為專屬表情符號",
     "personaRemoveSignatureEmoji": "移除專屬表情符號",
-    "personaSignatureEmojiAlreadyUsedByOther": "專屬表情符號已由角色「{name}」使用"
+    "personaSignatureEmojiAlreadyUsedByOther": "專屬表情符號已由角色「{name}」使用",
+    "signalBarLabel": "訊號列",
+    "signalBarShow": "顯示訊號列",
+    "signalBarHide": "隱藏訊號列",
+    "signalBarSignalWithNames": "{label}：{names}",
+    "signalBarNobody": "還沒有人開啟此訊號",
+    "signalBarReset": "為所有人重設訊號"
 }
