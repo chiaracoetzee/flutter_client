@@ -366,4 +366,9 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'איפוס האות לכולם';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'כיבוי $name';
+  }
 }
