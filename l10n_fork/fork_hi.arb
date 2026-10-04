@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "इमोजी जोड़ें",
     "personaSignatureEmojiAlreadyAdded": "यह इमोजी पहले से ही एक हस्ताक्षर इमोजी के रूप में जोड़ा गया है",
     "personaRemoveSignatureEmoji": "हस्ताक्षर इमोजी हटाएं",
-    "personaSignatureEmojiAlreadyUsedByOther": "हस्ताक्षर इमोजी का उपयोग पहले से ही व्यक्तित्व \"{name}\" द्वारा किया जा रहा है"
+    "personaSignatureEmojiAlreadyUsedByOther": "हस्ताक्षर इमोजी का उपयोग पहले से ही व्यक्तित्व \"{name}\" द्वारा किया जा रहा है",
+    "signalBarLabel": "सिग्नल बार",
+    "signalBarShow": "सिग्नल बार दिखाएँ",
+    "signalBarHide": "सिग्नल बार छिपाएँ",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "किसी ने यह सिग्नल चालू नहीं किया है",
+    "signalBarReset": "सभी के लिए सिग्नल रीसेट करें"
 }
