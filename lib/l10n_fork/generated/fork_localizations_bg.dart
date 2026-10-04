@@ -369,4 +369,9 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Нулиране на сигнала за всички';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Изключване на $name';
+  }
 }

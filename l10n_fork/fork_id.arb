@@ -105,5 +105,6 @@
     "signalBarHide": "Sembunyikan bilah sinyal",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Belum ada yang menyalakan sinyal ini",
-    "signalBarReset": "Reset sinyal untuk semua orang"
+    "signalBarReset": "Reset sinyal untuk semua orang",
+    "signalBarTurnOff": "Matikan {name}"
 }

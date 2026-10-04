@@ -105,5 +105,6 @@
     "signalBarHide": "Piilota signaalipalkki",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Kenelläkään ei ole tätä signaalia päällä",
-    "signalBarReset": "Nollaa signaali kaikilta"
+    "signalBarReset": "Nollaa signaali kaikilta",
+    "signalBarTurnOff": "Kytke {name} pois"
 }
