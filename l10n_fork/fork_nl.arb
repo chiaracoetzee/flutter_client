@@ -105,5 +105,6 @@
     "signalBarHide": "Signaalbalk verbergen",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Niemand heeft dit signaal aan staan",
-    "signalBarReset": "Signaal voor iedereen resetten"
+    "signalBarReset": "Signaal voor iedereen resetten",
+    "signalBarTurnOff": "{name} uitzetten"
 }
