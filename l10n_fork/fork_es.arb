@@ -105,5 +105,6 @@
     "signalBarHide": "Ocultar barra de señales",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nadie tiene esta señal activada",
-    "signalBarReset": "Restablecer señal para todos"
+    "signalBarReset": "Restablecer señal para todos",
+    "signalBarTurnOff": "Desactivar {name}"
 }
