@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Pridėti jaustuką",
     "personaSignatureEmojiAlreadyAdded": "Šis jaustukas jau pridėtas kaip parašo jaustukas",
     "personaRemoveSignatureEmoji": "Pašalinti parašo jaustuką",
-    "personaSignatureEmojiAlreadyUsedByOther": "Parašo jaustuką jau naudoja profilis „{name}“"
+    "personaSignatureEmojiAlreadyUsedByOther": "Parašo jaustuką jau naudoja profilis „{name}“",
+    "signalBarLabel": "Signalų juosta",
+    "signalBarShow": "Rodyti signalų juostą",
+    "signalBarHide": "Slėpti signalų juostą",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Niekas neįjungė šio signalo",
+    "signalBarReset": "Atstatyti signalą visiems"
 }
