@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "이모지 추가",
     "personaSignatureEmojiAlreadyAdded": "이 이모지는 이미 시그니처 이모지로 추가되었습니다",
     "personaRemoveSignatureEmoji": "시그니처 이모지 삭제",
-    "personaSignatureEmojiAlreadyUsedByOther": "시그니처 이모지가 이미 \"{name}\" 페르소나에서 사용 중입니다"
+    "personaSignatureEmojiAlreadyUsedByOther": "시그니처 이모지가 이미 \"{name}\" 페르소나에서 사용 중입니다",
+    "signalBarLabel": "시그널 바",
+    "signalBarShow": "시그널 바 표시",
+    "signalBarHide": "시그널 바 숨기기",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "이 시그널을 켠 사람이 없어요",
+    "signalBarReset": "모두의 시그널 초기화"
 }

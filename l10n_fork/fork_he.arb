@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "הוסף אימוג'י",
     "personaSignatureEmojiAlreadyAdded": "אימוג'י זה כבר נוסף כאימוג'י חתימה",
     "personaRemoveSignatureEmoji": "הסר אימוג'י חתימה",
-    "personaSignatureEmojiAlreadyUsedByOther": "אימוג'י החתימה כבר נמצא בשימוש על ידי הפרסונה \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "אימוג'י החתימה כבר נמצא בשימוש על ידי הפרסונה \"{name}\"",
+    "signalBarLabel": "סרגל אותות",
+    "signalBarShow": "הצגת סרגל האותות",
+    "signalBarHide": "הסתרת סרגל האותות",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "אף אחד לא הפעיל את האות הזה",
+    "signalBarReset": "איפוס האות לכולם"
 }

@@ -348,4 +348,24 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Κατάργηση χαρακτηριστικού emoji';
+
+  @override
+  String get signalBarLabel => 'Γραμμή σημάτων';
+
+  @override
+  String get signalBarShow => 'Εμφάνιση γραμμής σημάτων';
+
+  @override
+  String get signalBarHide => 'Απόκρυψη γραμμής σημάτων';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Κανείς δεν έχει ενεργό αυτό το σήμα';
+
+  @override
+  String get signalBarReset => 'Επαναφορά σήματος για όλους';
 }

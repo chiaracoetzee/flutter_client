@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Lisää emoji",
     "personaSignatureEmojiAlreadyAdded": "Tämä emoji on jo lisätty nimikkoemojiksi",
     "personaRemoveSignatureEmoji": "Poista nimikkoemoji",
-    "personaSignatureEmojiAlreadyUsedByOther": "Nimikkoemoji on jo käytössä persoonalla \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "Nimikkoemoji on jo käytössä persoonalla \"{name}\"",
+    "signalBarLabel": "Signaalipalkki",
+    "signalBarShow": "Näytä signaalipalkki",
+    "signalBarHide": "Piilota signaalipalkki",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Kenelläkään ei ole tätä signaalia päällä",
+    "signalBarReset": "Nollaa signaali kaikilta"
 }

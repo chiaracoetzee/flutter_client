@@ -349,4 +349,24 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Odebrat podpisové emoji';
+
+  @override
+  String get signalBarLabel => 'Lišta signálů';
+
+  @override
+  String get signalBarShow => 'Zobrazit lištu signálů';
+
+  @override
+  String get signalBarHide => 'Skrýt lištu signálů';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Tento signál nemá nikdo zapnutý';
+
+  @override
+  String get signalBarReset => 'Resetovat signál pro všechny';
 }

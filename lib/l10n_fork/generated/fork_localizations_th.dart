@@ -346,4 +346,24 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'ลบอีโมจิประจำตัว';
+
+  @override
+  String get signalBarLabel => 'แถบสัญญาณ';
+
+  @override
+  String get signalBarShow => 'แสดงแถบสัญญาณ';
+
+  @override
+  String get signalBarHide => 'ซ่อนแถบสัญญาณ';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'ยังไม่มีใครเปิดสัญญาณนี้';
+
+  @override
+  String get signalBarReset => 'รีเซ็ตสัญญาณสำหรับทุกคน';
 }

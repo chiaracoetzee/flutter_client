@@ -455,5 +455,37 @@
     "personaRemoveSignatureEmoji": "Remove signature emoji",
     "@personaRemoveSignatureEmoji": {
         "description": "Aria label for removing signature emoji from persona."
+    },
+    "signalBarLabel": "Signal bar",
+    "@signalBarLabel": {
+        "description": "Accessible label for the row of toggleable signal icons above the message box."
+    },
+    "signalBarShow": "Show signal bar",
+    "@signalBarShow": {
+        "description": "Tooltip for the arrow button that expands the collapsed signal bar above the message box."
+    },
+    "signalBarHide": "Hide signal bar",
+    "@signalBarHide": {
+        "description": "Tooltip for the arrow button that collapses the signal bar above the message box."
+    },
+    "signalBarSignalWithNames": "{label}: {names}",
+    "@signalBarSignalWithNames": {
+        "description": "Label of a lit signal icon. label is the signal name such as Reading; names is a comma-separated list of the people who turned it on.",
+        "placeholders": {
+            "label": {
+                "type": "String"
+            },
+            "names": {
+                "type": "String"
+            }
+        }
+    },
+    "signalBarNobody": "Nobody has this signal on",
+    "@signalBarNobody": {
+        "description": "Shown in the signal details sheet when no one has the signal on."
+    },
+    "signalBarReset": "Reset signal for everyone",
+    "@signalBarReset": {
+        "description": "Destructive action in the signal details sheet, for moderators, that turns the signal off for everyone."
     }
 }
