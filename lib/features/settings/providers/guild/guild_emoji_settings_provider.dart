@@ -88,6 +88,9 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
                 : entry,
           )
           .toList(growable: false);
+      // Fork: guild emojis are listed A to Z; a separate statement keeps upstream's above intact.
+      // ignore: cascade_invocations
+      updatedEmojis.sort(compareGuildEmojiSettingsEntriesByName);
       final List<int> indices = filterGuildEmojiIndices(
         updatedEmojis,
         current.debouncedSearchQuery,
@@ -193,7 +196,7 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
       }
     }
     final GuildEmojiSettingsState latest = state.value ?? current;
-    final List<GuildEmojiSettingsEntry> merged = _sortNewestFirst(
+    final List<GuildEmojiSettingsEntry> merged = _forkSortedByName(
       await repository.listEmojis(guildId),
     );
     final List<int> indices = filterGuildEmojiIndices(
@@ -238,7 +241,7 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
 
   Future<GuildEmojiSettingsState> _loadState() async {
     try {
-      final List<GuildEmojiSettingsEntry> emojis = _sortNewestFirst(
+      final List<GuildEmojiSettingsEntry> emojis = _forkSortedByName(
         await ref.read(guildExpressionsRepositoryProvider).listEmojis(guildId),
       );
       final List<int> indices = filterGuildEmojiIndices(emojis, '');
@@ -261,6 +264,9 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
   }
 }
 
+// Fork: guild emojis are sorted A to Z (compareGuildEmojiSettingsEntriesByName); this
+// newest-first helper of upstream's is left as upstream has it.
+// ignore: unused_element
 List<GuildEmojiSettingsEntry> _sortNewestFirst(
   List<GuildEmojiSettingsEntry> emojis,
 ) {
@@ -269,3 +275,10 @@ List<GuildEmojiSettingsEntry> _sortNewestFirst(
         compareGuildExpressionEntriesByIdDesc(left.id, right.id),
   );
 }
+
+// Fork: guild emojis are listed A to Z rather than newest first.
+List<GuildEmojiSettingsEntry> _forkSortedByName(
+  List<GuildEmojiSettingsEntry> emojis,
+) =>
+    List<GuildEmojiSettingsEntry>.of(emojis)
+      ..sort(compareGuildEmojiSettingsEntriesByName);
