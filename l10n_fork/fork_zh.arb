@@ -105,5 +105,6 @@
     "signalBarHide": "隐藏信号栏",
     "signalBarSignalWithNames": "{label}：{names}",
     "signalBarNobody": "还没有人开启此信号",
-    "signalBarReset": "为所有人重置信号"
+    "signalBarReset": "为所有人重置信号",
+    "signalBarTurnOff": "关闭 {name}"
 }

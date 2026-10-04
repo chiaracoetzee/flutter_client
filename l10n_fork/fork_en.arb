@@ -487,5 +487,14 @@
     "signalBarReset": "Reset signal for everyone",
     "@signalBarReset": {
         "description": "Destructive action in the signal details sheet, for moderators, that turns the signal off for everyone."
+    },
+    "signalBarTurnOff": "Turn off {name}",
+    "@signalBarTurnOff": {
+        "description": "Action in the signal details sheet, for moderators, that turns one person's signal off. name is the persona or account name the signal is shown as.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     }
 }

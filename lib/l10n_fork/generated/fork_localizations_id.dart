@@ -368,4 +368,9 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Reset sinyal untuk semua orang';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Matikan $name';
+  }
 }

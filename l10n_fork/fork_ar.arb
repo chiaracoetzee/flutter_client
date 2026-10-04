@@ -105,5 +105,6 @@
     "signalBarHide": "إخفاء شريط الإشارات",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "لم يُفعّل أحد هذه الإشارة",
-    "signalBarReset": "إعادة تعيين الإشارة للجميع"
+    "signalBarReset": "إعادة تعيين الإشارة للجميع",
+    "signalBarTurnOff": "إيقاف {name}"
 }

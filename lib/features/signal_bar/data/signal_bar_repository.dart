@@ -16,14 +16,14 @@ class SignalBarRepository {
     return SignalBarConfig.fromJson(response.data ?? const <String, dynamic>{});
   }
 
-  Future<({int barVersion, List<SignalEntry> entries})> fetchChannel(
-    String channelId,
-  ) async {
+  Future<({bool enabled, int barVersion, List<SignalEntry> entries})>
+  fetchChannel(String channelId) async {
     final Response<Map<String, dynamic>> response = await _dio
         .get<Map<String, dynamic>>('/channels/$channelId/signals');
     final Map<String, dynamic> data =
         response.data ?? const <String, dynamic>{};
     return (
+      enabled: data['enabled'] as bool? ?? false,
       barVersion: (data['bar_version'] as num?)?.toInt() ?? 0,
       entries: <SignalEntry>[
         for (final Object? item
@@ -46,6 +46,16 @@ class SignalBarRepository {
 
   Future<void> deactivate(String channelId, String signalId) async {
     await _dio.delete<void>('/channels/$channelId/signals/$signalId/@me');
+  }
+
+  Future<void> removeUser(
+    String channelId,
+    String signalId,
+    String userId,
+  ) async {
+    await _dio.delete<void>(
+      '/channels/$channelId/signals/$signalId/users/$userId',
+    );
   }
 
   Future<void> reset(String channelId, String signalId) async {
