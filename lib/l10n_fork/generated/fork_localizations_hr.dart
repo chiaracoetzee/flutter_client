@@ -369,4 +369,9 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Poništi signal za sve';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Isključi $name';
+  }
 }
