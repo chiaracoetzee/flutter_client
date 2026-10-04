@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/features/auth/domain/phone_verification.dart';
 import 'package:fluxer_app/features/auth/domain/phone_verification_failure.dart';
+import 'package:fluxer_app/features/auth/domain/phone_verification_models.dart';
 import 'package:fluxer_app/features/auth/providers/phone_verification_providers.dart';
 import 'package:fluxer_app/features/auth/utils/country_codes.dart';
 import 'package:fluxer_app/features/auth/utils/phone_verification_errors.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
-import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'phone_verification_view_model.g.dart';
@@ -319,7 +319,7 @@ class PhoneVerificationViewModel extends _$PhoneVerificationViewModel {
         challengeCode: response.challengeCode,
         ourNumber: response.ourNumber,
         expiresAt: response.expiresAt,
-        reason: response.reason.json,
+        reason: response.reason,
       ),
       e164Phone: state.e164Phone,
     );
