@@ -105,5 +105,6 @@
     "signalBarHide": "시그널 바 숨기기",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "이 시그널을 켠 사람이 없어요",
-    "signalBarReset": "모두의 시그널 초기화"
+    "signalBarReset": "모두의 시그널 초기화",
+    "signalBarTurnOff": "{name} 끄기"
 }
