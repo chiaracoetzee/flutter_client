@@ -105,5 +105,6 @@
     "signalBarHide": "シグナルバーを隠す",
     "signalBarSignalWithNames": "{label}：{names}",
     "signalBarNobody": "このシグナルをオンにしている人はいません",
-    "signalBarReset": "全員のシグナルをリセット"
+    "signalBarReset": "全員のシグナルをリセット",
+    "signalBarTurnOff": "{name} をオフにする"
 }

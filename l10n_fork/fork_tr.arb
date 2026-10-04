@@ -105,5 +105,6 @@
     "signalBarHide": "Sinyal çubuğunu gizle",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Bu sinyali açan kimse yok",
-    "signalBarReset": "Sinyali herkes için sıfırla"
+    "signalBarReset": "Sinyali herkes için sıfırla",
+    "signalBarTurnOff": "{name} adına kapat"
 }
