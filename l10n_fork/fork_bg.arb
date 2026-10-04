@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Добавяне на емоджи",
     "personaSignatureEmojiAlreadyAdded": "Това емоджи вече е добавено като подписано емоджи",
     "personaRemoveSignatureEmoji": "Премахване на подписано емоджи",
-    "personaSignatureEmojiAlreadyUsedByOther": "Подписаното емоджи вече се използва от персона \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "Подписаното емоджи вече се използва от персона \"{name}\"",
+    "signalBarLabel": "Лента със сигнали",
+    "signalBarShow": "Показване на лентата със сигнали",
+    "signalBarHide": "Скриване на лентата със сигнали",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Никой не е включил този сигнал",
+    "signalBarReset": "Нулиране на сигнала за всички"
 }
