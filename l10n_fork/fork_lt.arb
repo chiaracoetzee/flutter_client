@@ -105,5 +105,6 @@
     "signalBarHide": "Slėpti signalų juostą",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Niekas neįjungė šio signalo",
-    "signalBarReset": "Atstatyti signalą visiems"
+    "signalBarReset": "Atstatyti signalą visiems",
+    "signalBarTurnOff": "Išjungti {name}"
 }
