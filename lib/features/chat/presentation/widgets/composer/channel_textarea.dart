@@ -109,6 +109,7 @@ import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
+import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_strip.dart';
 
 const double _kComposerDisabledOpacity = 0.6;
 
@@ -1104,6 +1105,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    if (editingMessage == null)
+                      SignalBarStrip(
+                        channelId: channelId,
+                        guildId: guildId,
+                        backgroundColor: composerBackgroundColor,
+                        dividerColor: wideComposerRingColor(
+                          context,
+                          focused: false,
+                        ),
+                      ),
                     if (slashParamBarVisible)
                       SlashCommandParamBar(
                         session: _slashSession,
@@ -1188,6 +1199,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      if (editingMessage == null)
+                        SignalBarStrip(
+                          channelId: channelId,
+                          guildId: guildId,
+                          backgroundColor: composerBackgroundColor,
+                          dividerColor: wideComposerRingColor(
+                            context,
+                            focused: false,
+                          ),
+                        ),
                       if (hasWideActionStack)
                         _buildWideComposerActionStack(
                           context: context,

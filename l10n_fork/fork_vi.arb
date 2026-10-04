@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Thêm biểu tượng cảm xúc",
     "personaSignatureEmojiAlreadyAdded": "Biểu tượng cảm xúc này đã được thêm làm biểu tượng đặc trưng",
     "personaRemoveSignatureEmoji": "Xóa biểu tượng cảm xúc đặc trưng",
-    "personaSignatureEmojiAlreadyUsedByOther": "Biểu tượng cảm xúc đặc trưng đã được nhân cách \"{name}\" sử dụng"
+    "personaSignatureEmojiAlreadyUsedByOther": "Biểu tượng cảm xúc đặc trưng đã được nhân cách \"{name}\" sử dụng",
+    "signalBarLabel": "Thanh tín hiệu",
+    "signalBarShow": "Hiện thanh tín hiệu",
+    "signalBarHide": "Ẩn thanh tín hiệu",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Chưa ai bật tín hiệu này",
+    "signalBarReset": "Đặt lại tín hiệu cho mọi người"
 }
