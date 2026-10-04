@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Tambah Emoji",
     "personaSignatureEmojiAlreadyAdded": "Emoji ini sudah ditambahkan sebagai emoji tanda tangan",
     "personaRemoveSignatureEmoji": "Hapus emoji tanda tangan",
-    "personaSignatureEmojiAlreadyUsedByOther": "Emoji tanda tangan sudah digunakan oleh persona \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "Emoji tanda tangan sudah digunakan oleh persona \"{name}\"",
+    "signalBarLabel": "Bilah Sinyal",
+    "signalBarShow": "Tampilkan bilah sinyal",
+    "signalBarHide": "Sembunyikan bilah sinyal",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Belum ada yang menyalakan sinyal ini",
+    "signalBarReset": "Reset sinyal untuk semua orang"
 }
