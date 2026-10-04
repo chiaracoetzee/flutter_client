@@ -140,7 +140,9 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
           attachmentCallbacks: MessageActionCallbacks(
             onDeleteAttachment: (Attachment attachment) {
               actionScope.callbacks.onDeleteAttachment?.call(attachment);
-              onCloseViewer?.call();
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                onCloseViewer?.call();
+              });
             },
             onEditAttachmentAltText: (Attachment attachment) {
               unawaited(_editAttachmentAltText(actionScope, attachment));
