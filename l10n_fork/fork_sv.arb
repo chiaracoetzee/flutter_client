@@ -105,5 +105,6 @@
     "signalBarHide": "Dölj signalfältet",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Ingen har den här signalen på",
-    "signalBarReset": "Återställ signalen för alla"
+    "signalBarReset": "Återställ signalen för alla",
+    "signalBarTurnOff": "Stäng av {name}"
 }

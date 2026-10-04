@@ -105,5 +105,6 @@
     "signalBarHide": "Ẩn thanh tín hiệu",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Chưa ai bật tín hiệu này",
-    "signalBarReset": "Đặt lại tín hiệu cho mọi người"
+    "signalBarReset": "Đặt lại tín hiệu cho mọi người",
+    "signalBarTurnOff": "Tắt {name}"
 }

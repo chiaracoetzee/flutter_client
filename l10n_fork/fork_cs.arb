@@ -105,5 +105,6 @@
     "signalBarHide": "Skrýt lištu signálů",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Tento signál nemá nikdo zapnutý",
-    "signalBarReset": "Resetovat signál pro všechny"
+    "signalBarReset": "Resetovat signál pro všechny",
+    "signalBarTurnOff": "Vypnout {name}"
 }

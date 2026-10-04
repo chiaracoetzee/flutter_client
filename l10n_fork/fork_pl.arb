@@ -105,5 +105,6 @@
     "signalBarHide": "Ukryj pasek sygnałów",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nikt nie ma włączonego tego sygnału",
-    "signalBarReset": "Zresetuj sygnał dla wszystkich"
+    "signalBarReset": "Zresetuj sygnał dla wszystkich",
+    "signalBarTurnOff": "Wyłącz {name}"
 }

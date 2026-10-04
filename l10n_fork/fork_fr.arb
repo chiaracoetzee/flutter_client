@@ -105,5 +105,6 @@
     "signalBarHide": "Masquer la barre de signaux",
     "signalBarSignalWithNames": "{label} : {names}",
     "signalBarNobody": "Personne n’a activé ce signal",
-    "signalBarReset": "Réinitialiser le signal pour tout le monde"
+    "signalBarReset": "Réinitialiser le signal pour tout le monde",
+    "signalBarTurnOff": "Désactiver {name}"
 }
