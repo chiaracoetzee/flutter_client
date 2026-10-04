@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Přidat emoji",
     "personaSignatureEmojiAlreadyAdded": "Toto emoji je již přidáno jako podpisové emoji",
     "personaRemoveSignatureEmoji": "Odebrat podpisové emoji",
-    "personaSignatureEmojiAlreadyUsedByOther": "Podpisové emoji již používá persona \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "Podpisové emoji již používá persona \"{name}\"",
+    "signalBarLabel": "Lišta signálů",
+    "signalBarShow": "Zobrazit lištu signálů",
+    "signalBarHide": "Skrýt lištu signálů",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Tento signál nemá nikdo zapnutý",
+    "signalBarReset": "Resetovat signál pro všechny"
 }
