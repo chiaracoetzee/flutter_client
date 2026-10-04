@@ -398,11 +398,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       focusNode: _focusNode,
       shouldTrackOnBackground: _shouldTrackKeyboardRestore,
       canRestoreFocus: _canRestoreKeyboardFocus,
-      onBeginKeyboardLayoutHold: _beginComposerKeyboardLayoutHold,
-      onEndKeyboardLayoutHold: _endComposerKeyboardLayoutHold,
-      toggleComposerReadOnly: ({required bool readOnly}) {
-        _setComposerReconnectReadOnly(readOnly);
-      },
+      toggleReadOnly: _setComposerReconnectReadOnly,
     );
     WidgetsBinding.instance.addObserver(this);
     _controller = ComposerMentionController(ref: ref);
@@ -473,25 +469,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     return _focusNode.canRequestFocus;
   }
 
-  void _beginComposerKeyboardLayoutHold() {
-    if (!mounted) {
-      return;
-    }
-    ref.read(mobileKeyboardMetricsProvider.notifier).beginKeyboardLayoutHold();
-  }
-
-  void _endComposerKeyboardLayoutHold() {
-    if (!mounted) {
-      return;
-    }
-    ref.read(mobileKeyboardMetricsProvider.notifier).endKeyboardLayoutHold();
-  }
-
-  void _setComposerReconnectReadOnly(bool readOnly) {
-    if (!mounted) {
-      return;
-    }
-    if (_composerReconnectReadOnly == readOnly) {
+  void _setComposerReconnectReadOnly({required bool readOnly}) {
+    if (!mounted || _composerReconnectReadOnly == readOnly) {
       return;
     }
     setState(() => _composerReconnectReadOnly = readOnly);
@@ -704,13 +683,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
     if (focused) {
       _maybeReserveUnmeasuredKeyboard();
-    } else {
-      final MobileKeyboardMetrics notifier = ref.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      if (!notifier.isKeyboardLayoutHeld) {
-        notifier.clearUnmeasuredKeyboardReservation();
-      }
+    } else if (mounted) {
+      ref
+          .read(mobileKeyboardMetricsProvider.notifier)
+          .clearUnmeasuredKeyboardReservation();
     }
   }
 
@@ -754,6 +730,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   @override
   void dispose() {
+    _composerReconnectReadOnly = false;
     _chatKeybindEffectsSubscription?.close();
     _keyboardRestore.dispose();
     _composerFocus.unregister(_requestComposerFocus);
@@ -1158,9 +1135,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         (String? previous, String next) {
           if (previous != null && previous != next && mounted) {
             _clearSlashSession();
-            if (resolvedKeyboardInsetBottom(context) <= 0) {
-              _keyboardRestore.replaceFocusedConnection();
-            }
           }
           final DmConversation? nextDm = findDmById(
             ref.read(

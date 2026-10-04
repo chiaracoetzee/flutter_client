@@ -331,35 +331,6 @@ void main() {
       );
     });
 
-    test('layout hold blocks clearing reservation on unfocus path', () async {
-      final ProviderContainer container = ProviderContainer();
-      addTearDown(container.dispose);
-      container.listen(mobileKeyboardMetricsProvider, (_, _) {});
-      await Future<void>.value();
-
-      final MobileKeyboardMetrics notifier = container.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      notifier.beginKeyboardLayoutHold();
-      notifier.clearUnmeasuredKeyboardReservation();
-
-      expect(
-        container
-            .read(mobileKeyboardMetricsProvider)
-            .unmeasuredKeyboardReserved,
-        isTrue,
-      );
-      expect(notifier.isKeyboardLayoutHeld, isTrue);
-
-      notifier.endKeyboardLayoutHold();
-      expect(
-        container
-            .read(mobileKeyboardMetricsProvider)
-            .unmeasuredKeyboardReserved,
-        isFalse,
-      );
-    });
-
     test('clearUnmeasuredKeyboardReservation drops flag', () async {
       final ProviderContainer container = ProviderContainer();
       addTearDown(container.dispose);
