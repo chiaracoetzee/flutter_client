@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Dodaj emoji",
     "personaSignatureEmojiAlreadyAdded": "To emoji zostało już dodane jako emoji podpisu",
     "personaRemoveSignatureEmoji": "Usuń emoji podpisu",
-    "personaSignatureEmojiAlreadyUsedByOther": "Emoji podpisu jest już używane przez personę \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "Emoji podpisu jest już używane przez personę \"{name}\"",
+    "signalBarLabel": "Pasek sygnałów",
+    "signalBarShow": "Pokaż pasek sygnałów",
+    "signalBarHide": "Ukryj pasek sygnałów",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Nikt nie ma włączonego tego sygnału",
+    "signalBarReset": "Zresetuj sygnał dla wszystkich"
 }

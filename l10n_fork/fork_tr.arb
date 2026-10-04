@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Emoji Ekle",
     "personaSignatureEmojiAlreadyAdded": "Bu emoji zaten imza emojisi olarak eklenmiş",
     "personaRemoveSignatureEmoji": "İmza emojisini kaldır",
-    "personaSignatureEmojiAlreadyUsedByOther": "İmza emojisi zaten \"{name}\" personası tarafından kullanılıyor"
+    "personaSignatureEmojiAlreadyUsedByOther": "İmza emojisi zaten \"{name}\" personası tarafından kullanılıyor",
+    "signalBarLabel": "Sinyal Çubuğu",
+    "signalBarShow": "Sinyal çubuğunu göster",
+    "signalBarHide": "Sinyal çubuğunu gizle",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Bu sinyali açan kimse yok",
+    "signalBarReset": "Sinyali herkes için sıfırla"
 }

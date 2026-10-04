@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "เพิ่มอีโมจิ",
     "personaSignatureEmojiAlreadyAdded": "อีโมจินี้ถูกเพิ่มเป็นอีโมจิประจำตัวแล้ว",
     "personaRemoveSignatureEmoji": "ลบอีโมจิประจำตัว",
-    "personaSignatureEmojiAlreadyUsedByOther": "อีโมจิประจำตัวถูกใช้งานแล้วโดยตัวตน \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "อีโมจิประจำตัวถูกใช้งานแล้วโดยตัวตน \"{name}\"",
+    "signalBarLabel": "แถบสัญญาณ",
+    "signalBarShow": "แสดงแถบสัญญาณ",
+    "signalBarHide": "ซ่อนแถบสัญญาณ",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "ยังไม่มีใครเปิดสัญญาณนี้",
+    "signalBarReset": "รีเซ็ตสัญญาณสำหรับทุกคน"
 }

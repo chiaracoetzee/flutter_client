@@ -90,5 +90,11 @@
     "userSettingsUpdateDownloadAction": "Descargar e instalar",
     "userSettingsUpdateInstallAction": "Instalar actualización",
     "userSettingsDownloadingUpdate": "Descargando actualización ({percent} %)…",
-    "userSettingsUpdateFailed": "Error al buscar o descargar la actualización."
+    "userSettingsUpdateFailed": "Error al buscar o descargar la actualización.",
+    "signalBarLabel": "Barra de señales",
+    "signalBarShow": "Mostrar barra de señales",
+    "signalBarHide": "Ocultar barra de señales",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Nadie tiene esta señal activada",
+    "signalBarReset": "Restablecer señal para todos"
 }

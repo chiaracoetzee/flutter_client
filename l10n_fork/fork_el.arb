@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Προσθήκη emoji",
     "personaSignatureEmojiAlreadyAdded": "Αυτό το emoji έχει ήδη προστεθεί ως χαρακτηριστικό emoji",
     "personaRemoveSignatureEmoji": "Κατάργηση χαρακτηριστικού emoji",
-    "personaSignatureEmojiAlreadyUsedByOther": "Το χαρακτηριστικό emoji χρησιμοποιείται ήδη από την περσόνα «{name}»"
+    "personaSignatureEmojiAlreadyUsedByOther": "Το χαρακτηριστικό emoji χρησιμοποιείται ήδη από την περσόνα «{name}»",
+    "signalBarLabel": "Γραμμή σημάτων",
+    "signalBarShow": "Εμφάνιση γραμμής σημάτων",
+    "signalBarHide": "Απόκρυψη γραμμής σημάτων",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Κανείς δεν έχει ενεργό αυτό το σήμα",
+    "signalBarReset": "Επαναφορά σήματος για όλους"
 }

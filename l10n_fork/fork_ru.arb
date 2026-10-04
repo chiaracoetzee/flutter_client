@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Добавить эмодзи",
     "personaSignatureEmojiAlreadyAdded": "Этот эмодзи уже добавлен как фирменный эмодзи",
     "personaRemoveSignatureEmoji": "Удалить фирменный эмодзи",
-    "personaSignatureEmojiAlreadyUsedByOther": "Фирменный эмодзи уже используется персоной «{name}»"
+    "personaSignatureEmojiAlreadyUsedByOther": "Фирменный эмодзи уже используется персоной «{name}»",
+    "signalBarLabel": "Панель сигналов",
+    "signalBarShow": "Показать панель сигналов",
+    "signalBarHide": "Скрыть панель сигналов",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Никто не включил этот сигнал",
+    "signalBarReset": "Сбросить сигнал для всех"
 }
