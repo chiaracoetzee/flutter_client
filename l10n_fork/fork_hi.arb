@@ -105,5 +105,6 @@
     "signalBarHide": "सिग्नल बार छिपाएँ",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "किसी ने यह सिग्नल चालू नहीं किया है",
-    "signalBarReset": "सभी के लिए सिग्नल रीसेट करें"
+    "signalBarReset": "सभी के लिए सिग्नल रीसेट करें",
+    "signalBarTurnOff": "{name} बंद करें"
 }

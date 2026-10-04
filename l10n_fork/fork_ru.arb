@@ -105,5 +105,6 @@
     "signalBarHide": "Скрыть панель сигналов",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Никто не включил этот сигнал",
-    "signalBarReset": "Сбросить сигнал для всех"
+    "signalBarReset": "Сбросить сигнал для всех",
+    "signalBarTurnOff": "Выключить {name}"
 }
