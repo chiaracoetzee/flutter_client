@@ -15,9 +15,11 @@ class GuildEmojiDao extends DatabaseAccessor<FluxerDatabase>
       (select(guildEmojis)
             ..where((e) => e.guildId.equals(guildId))
             ..orderBy([
-              (_) => OrderingTerm(
-                expression: const CustomExpression<int>('rowid'),
-                mode: OrderingMode.desc,
+              (e) => OrderingTerm(
+                expression: e.name.collate(Collate.noCase),
+              ),
+              (e) => OrderingTerm(
+                expression: e.id,
               ),
             ]))
           .watch()
@@ -25,9 +27,11 @@ class GuildEmojiDao extends DatabaseAccessor<FluxerDatabase>
 
   Stream<List<GuildEmoji>> watchAll() =>
       (select(guildEmojis)..orderBy([
-            (_) => OrderingTerm(
-              expression: const CustomExpression<int>('rowid'),
-              mode: OrderingMode.desc,
+            (e) => OrderingTerm(
+              expression: e.name.collate(Collate.noCase),
+            ),
+            (e) => OrderingTerm(
+              expression: e.id,
             ),
           ]))
           .watch()
