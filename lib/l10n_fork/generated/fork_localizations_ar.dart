@@ -365,4 +365,9 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'إعادة تعيين الإشارة للجميع';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'إيقاف $name';
+  }
 }

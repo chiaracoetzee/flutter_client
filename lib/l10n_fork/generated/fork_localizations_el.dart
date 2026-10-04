@@ -368,4 +368,9 @@ class ForkLocalizationsEl extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Επαναφορά σήματος για όλους';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Απενεργοποίηση $name';
+  }
 }
