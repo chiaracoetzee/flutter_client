@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Adăugare emoji",
     "personaSignatureEmojiAlreadyAdded": "Acest emoji este deja adăugat ca emoji semnătură",
     "personaRemoveSignatureEmoji": "Elimină emoji semnătură",
-    "personaSignatureEmojiAlreadyUsedByOther": "Emoji-ul semnătură este deja utilizat de persona „{name}”"
+    "personaSignatureEmojiAlreadyUsedByOther": "Emoji-ul semnătură este deja utilizat de persona „{name}”",
+    "signalBarLabel": "Bara de semnale",
+    "signalBarShow": "Afișează bara de semnale",
+    "signalBarHide": "Ascunde bara de semnale",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Nimeni nu are acest semnal activat",
+    "signalBarReset": "Resetează semnalul pentru toți"
 }

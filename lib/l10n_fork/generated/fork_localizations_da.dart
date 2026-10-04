@@ -350,4 +350,24 @@ class ForkLocalizationsDa extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Fjern signatur-emoji';
+
+  @override
+  String get signalBarLabel => 'Signalbjælke';
+
+  @override
+  String get signalBarShow => 'Vis signalbjælke';
+
+  @override
+  String get signalBarHide => 'Skjul signalbjælke';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Ingen har dette signal slået til';
+
+  @override
+  String get signalBarReset => 'Nulstil signal for alle';
 }

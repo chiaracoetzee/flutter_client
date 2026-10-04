@@ -348,4 +348,24 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Usuń emoji podpisu';
+
+  @override
+  String get signalBarLabel => 'Pasek sygnałów';
+
+  @override
+  String get signalBarShow => 'Pokaż pasek sygnałów';
+
+  @override
+  String get signalBarHide => 'Ukryj pasek sygnałów';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Nikt nie ma włączonego tego sygnału';
+
+  @override
+  String get signalBarReset => 'Zresetuj sygnał dla wszystkich';
 }
