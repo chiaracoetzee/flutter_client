@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/channels/providers/channel_settings_provider
 import 'package:fluxer_app/features/channels/providers/channel_sidebar_icon_connect_bits_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_collapsed_categories_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
@@ -33,6 +34,9 @@ import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.d
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
+import 'package:fluxer_app/features/members/data/member_repository.dart';
+import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -1103,6 +1107,57 @@ void main() {
       },
     );
   });
+
+  group('GuildSidebar mobile quick switcher FAB', () {
+    testWidgets('shows FAB on mobile and opens quick switcher sheet', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+
+      final fabFinder =
+          find.byKey(const ValueKey<String>('quick-switcher-fab'));
+      expect(fabFinder, findsOneWidget);
+
+      await tester.tap(fabFinder);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(
+        find.text('Search for channels, people, or communities'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('does not show FAB on wide/desktop layout', (tester) async {
+      tester.view.physicalSize = kWideTestViewportSize;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+
+      final fabFinder =
+          find.byKey(const ValueKey<String>('quick-switcher-fab'));
+      expect(fabFinder, findsNothing);
+    });
+  });
 }
 
 void _setMobileSurface(WidgetTester tester) {
@@ -1213,6 +1268,16 @@ List<Override> _buildOverrides({
   ];
   return [
     fluxerDatabaseProvider.overrideWithValue(db),
+    memberRepositoryProvider.overrideWithValue(_FakeMemberRepository()),
+    dmViewModelProvider.overrideWithValue(
+      const DmViewState(
+        conversations: [],
+        friendsList: [],
+        activeTab: FriendsTab.online,
+        searchQuery: '',
+        hasReceivedInitialConversations: true,
+      ),
+    ),
     currentUserIdProvider.overrideWithValue('me'),
     experimentsProvider.overrideWithValue(null),
     routeStateProvider.overrideWithValue(
@@ -1390,4 +1455,37 @@ class _FakeMatureAgreements extends MatureContentAgreements {
   @override
   MatureContentAgreementsState build() =>
       const MatureContentAgreementsState(isLoaded: true);
+}
+
+class _FakeMemberRepository implements MemberRepository {
+  @override
+  Future<List<Member>> getMembers(String guildId, {int limit = 100}) async =>
+      const <Member>[];
+
+  @override
+  Future<List<Member>> getMembersByUserIds(
+    String guildId,
+    List<String> userIds,
+  ) async => const <Member>[];
+
+  @override
+  Future<void> backfillMembersIfSparse(String guildId) async {}
+
+  @override
+  Future<List<MemberRole>> getRoles(String guildId) async =>
+      const <MemberRole>[];
+
+  @override
+  Future<List<Member>> getCachedMembersForGuild(String guildId) async =>
+      const <Member>[];
+
+  @override
+  Future<bool> isGuildMemberCacheComplete(String guildId) async => true;
+
+  @override
+  Future<List<Member>> searchMembersForAutocomplete({
+    required String guildId,
+    required String query,
+    required List<String> scopeUserIds,
+  }) async => const <Member>[];
 }

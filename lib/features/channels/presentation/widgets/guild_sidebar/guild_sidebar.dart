@@ -62,6 +62,7 @@ import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart'
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -161,35 +162,47 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     final bool showStaticHeader =
         guildOutageUnavailable || !guildReady || !hasReceivedInitialChannelList;
 
+    final bool isMobile = isMobileLayout(context);
+
     return Container(
-      width: isMobileLayout(context) ? null : context.layout.sidebarWidth,
+      width: isMobile ? null : context.layout.sidebarWidth,
       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
       decoration: BoxDecoration(
         color: context.colors.channelSidebarBackground,
         border: Border(right: BorderSide(color: context.colors.borderColor)),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          if (showStaticHeader)
-            GuildSidebarHeader(
-              guild: guild,
-              outageUnavailable: guildOutageUnavailable,
-              onTap: guildOutageUnavailable || guild == null
-                  ? null
-                  : () => unawaited(_handleServerHeaderTap(context, guild)),
-            ),
-          Expanded(
-            child: showStaticHeader
-                ? const GuildSidebarSkeleton()
-                : _GuildSidebarChannelListHost(
-                    activeGuildId: guildId,
-                    guild: guild,
-                    onHeaderTap: guildOutageUnavailable
-                        ? null
-                        : () =>
-                              unawaited(_handleServerHeaderTap(context, guild)),
-                  ),
+          Column(
+            children: [
+              if (showStaticHeader)
+                GuildSidebarHeader(
+                  guild: guild,
+                  outageUnavailable: guildOutageUnavailable,
+                  onTap: guildOutageUnavailable || guild == null
+                      ? null
+                      : () => unawaited(_handleServerHeaderTap(context, guild)),
+                ),
+              Expanded(
+                child: showStaticHeader
+                    ? const GuildSidebarSkeleton()
+                    : _GuildSidebarChannelListHost(
+                        activeGuildId: guildId,
+                        guild: guild,
+                        onHeaderTap: guildOutageUnavailable
+                            ? null
+                            : () =>
+                                  unawaited(_handleServerHeaderTap(context, guild)),
+                      ),
+              ),
+            ],
           ),
+          if (isMobile)
+            const Positioned(
+              right: 16,
+              bottom: 16,
+              child: QuickSwitcherFab(),
+            ),
         ],
       ),
     );

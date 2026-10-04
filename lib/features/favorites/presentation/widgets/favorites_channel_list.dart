@@ -100,7 +100,12 @@ class FavoritesChannelList extends ConsumerWidget {
             )
           : null,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
+        padding: EdgeInsets.fromLTRB(
+          8,
+          8,
+          8,
+          isMobileLayout(context) ? 96 : 24,
+        ),
         children: [
           for (final group in groups) ...[
             _FavoriteCategoryHeader(
