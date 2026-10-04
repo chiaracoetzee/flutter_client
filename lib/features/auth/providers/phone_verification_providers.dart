@@ -6,5 +6,5 @@ part 'phone_verification_providers.g.dart';
 
 @Riverpod(keepAlive: true)
 PhoneVerificationRepository phoneVerificationRepository(Ref ref) {
-  return PhoneVerificationRepository(ref.watch(fluxerClientProvider));
+  return PhoneVerificationRepository(ref.watch(fluxerDioProvider));
 }

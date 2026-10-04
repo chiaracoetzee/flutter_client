@@ -1055,7 +1055,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       verified: profile.verified,
       passwordLastChangedAt: profile.passwordLastChangedAt,
       mfaEnabled: profile.mfaEnabled,
-      phone: profile.phone,
+      phone: null,
       hasVerifiedPhone: profile.hasVerifiedPhone,
       requiredActions: List<String>.from(profile.requiredActions),
       authenticatorTypes:
