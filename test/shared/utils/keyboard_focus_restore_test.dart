@@ -46,6 +46,7 @@ void main() {
 
     await resumeApp(handle);
     await tester.pump();
+    await tester.pump();
     await tester.pump(kKeyboardFocusRestoreRetryDelay);
 
     expect(focusNode.hasFocus, isTrue);
@@ -79,6 +80,7 @@ void main() {
 
     await resumeApp(handle);
     await tester.pump();
+    await tester.pump();
     await tester.pump(kKeyboardFocusRestoreRetryDelay);
     expect(focusNode.hasFocus, isFalse);
     expect(handle.hasPendingRestore, isTrue);
@@ -87,7 +89,10 @@ void main() {
     handle.scheduleRestoreIfPending();
     await tester.pump();
     await tester.pump();
+    await tester.pump();
+    await tester.pump();
     await tester.pump(kKeyboardFocusRestoreRetryDelay);
+    await tester.pump();
     expect(focusNode.hasFocus, isTrue);
     expect(handle.hasPendingRestore, isFalse);
   });
@@ -152,6 +157,8 @@ void main() {
     await resumeApp(handle);
     await tester.pump();
     await tester.pump();
+    await tester.pump();
+    await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
     expect(handle.hasPendingRestore, isFalse);
@@ -161,6 +168,7 @@ void main() {
     );
 
     await tester.pump(kKeyboardFocusRestoreRetryDelay);
+    await tester.pump();
     await tester.pump();
   });
 
@@ -221,7 +229,10 @@ void main() {
     await backgroundApp(handle);
     await resumeApp(handle);
     await tester.pump();
+    await tester.pump();
+    await tester.pump();
     await tester.pump(kKeyboardFocusRestoreRetryDelay);
+    await tester.pump();
     await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
@@ -262,6 +273,7 @@ void main() {
 
     handle.handleLifecycleState(AppLifecycleState.resumed);
     await tester.pump();
+    await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
     expect(handle.hasPendingRestore, isFalse);
@@ -293,6 +305,8 @@ void main() {
     await tester.pump();
 
     await resumeApp(handle);
+    await tester.pump();
+    await tester.pump();
     await tester.pump();
     expect(focusNode.hasFocus, isTrue);
 

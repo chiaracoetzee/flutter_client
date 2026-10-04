@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/shared/utils/composer_text_input_reconnect.dart';
 
 const Duration kKeyboardFocusRestoreRetryDelay = Duration(milliseconds: 350);
 
@@ -22,11 +23,17 @@ class KeyboardFocusRestoreHandle {
     required this.focusNode,
     required this.shouldTrackOnBackground,
     required this.canRestoreFocus,
+    this.onBeginKeyboardLayoutHold,
+    this.onEndKeyboardLayoutHold,
+    this.toggleComposerReadOnly,
   });
 
   final FocusNode focusNode;
   final bool Function() shouldTrackOnBackground;
   final bool Function() canRestoreFocus;
+  final VoidCallback? onBeginKeyboardLayoutHold;
+  final VoidCallback? onEndKeyboardLayoutHold;
+  final void Function({required bool readOnly})? toggleComposerReadOnly;
 
   bool _pendingRestore = false;
   int _restoreGeneration = 0;
@@ -37,6 +44,7 @@ class KeyboardFocusRestoreHandle {
   void dispose() {
     _deadImeRetry?.cancel();
     _restoreGeneration++;
+    onEndKeyboardLayoutHold?.call();
   }
 
   void reconnectOpenField() {
@@ -59,10 +67,7 @@ class KeyboardFocusRestoreHandle {
     }
     _deadImeRetry?.cancel();
     final int generation = ++_restoreGeneration;
-    _cycleTextInputConnection(
-      focusNode,
-      () => _canRefocusAfterCycle(generation),
-    );
+    _restartTextInput(generation, scheduleDeadImeRetry: false);
   }
 
   void handleLifecycleState(AppLifecycleState state) {
@@ -110,14 +115,30 @@ class KeyboardFocusRestoreHandle {
       return;
     }
     focusNode.requestFocus();
+    showComposerKeyboard(focusNode);
   }
 
   void _reconnectFocused(int generation) {
-    _cycleTextInputConnection(
-      focusNode,
-      () => _canRefocusAfterCycle(generation),
+    _restartTextInput(generation, scheduleDeadImeRetry: true);
+  }
+
+  void _restartTextInput(int generation, {required bool scheduleDeadImeRetry}) {
+    onBeginKeyboardLayoutHold?.call();
+    restartComposerTextInput(
+      node: focusNode,
+      toggleReadOnly: toggleComposerReadOnly,
+      refocusWhen: () => _canRefocusAfterCycle(generation),
+      onFinished: () {
+        if (generation != _restoreGeneration) {
+          onEndKeyboardLayoutHold?.call();
+          return;
+        }
+        onEndKeyboardLayoutHold?.call();
+      },
     );
-    _scheduleDeadImeRetry(generation);
+    if (scheduleDeadImeRetry) {
+      _scheduleDeadImeRetry(generation);
+    }
   }
 
   bool _canAttemptRestore() {
@@ -141,16 +162,19 @@ class KeyboardFocusRestoreHandle {
       if (generation != _restoreGeneration || !_canAttemptRestore()) {
         return;
       }
-      if (!focusNode.hasFocus || _keyboardInsetBottom() > 0) {
+      if (!focusNode.hasFocus) {
+        focusNode.requestFocus();
+        showComposerKeyboard(focusNode);
+        return;
+      }
+      if (_keyboardInsetBottom() > 0) {
+        showComposerKeyboard(focusNode);
         return;
       }
       if (_anotherEditableHasFocus() || _fieldIsComposing()) {
         return;
       }
-      _cycleTextInputConnection(
-        focusNode,
-        () => _canRefocusAfterCycle(generation),
-      );
+      _restartTextInput(generation, scheduleDeadImeRetry: false);
     });
   }
 
@@ -181,7 +205,7 @@ class KeyboardFocusRestoreHandle {
   }
 
   bool _fieldIsComposing() {
-    final EditableTextState? editable = _editableTextState(focusNode);
+    final EditableTextState? editable = editableTextStateForFocus(focusNode);
     if (editable == null) {
       return false;
     }
@@ -191,33 +215,11 @@ class KeyboardFocusRestoreHandle {
 }
 
 void reconnectComposerKeyboard(FocusNode node) {
-  if (!node.canRequestFocus) {
-    return;
-  }
-  if (!node.hasFocus) {
-    node.requestFocus();
-    return;
-  }
-  _cycleTextInputConnection(
-    node,
-    () => node.canRequestFocus && node.context != null && !node.hasFocus,
+  restartComposerTextInput(
+    node: node,
+    refocusWhen: () =>
+        node.canRequestFocus && node.context != null && !node.hasFocus,
   );
-}
-
-// Cycles focus so EditableText opens a fresh TextInputConnection.
-void _cycleTextInputConnection(FocusNode node, bool Function() refocusWhen) {
-  node.unfocus();
-  _scheduleRefocusOnNextFrame(node, refocusWhen);
-}
-
-void _scheduleRefocusOnNextFrame(FocusNode node, bool Function() refocusWhen) {
-  WidgetsBinding.instance
-    ..scheduleFrame()
-    ..addPostFrameCallback((_) {
-      if (refocusWhen()) {
-        node.requestFocus();
-      }
-    });
 }
 
 bool _isEditableFocus(FocusNode node) {
@@ -227,12 +229,4 @@ bool _isEditableFocus(FocusNode node) {
   }
   return context.widget is EditableText ||
       context.findAncestorWidgetOfExactType<EditableText>() != null;
-}
-
-EditableTextState? _editableTextState(FocusNode node) {
-  final BuildContext? context = node.context;
-  if (context == null) {
-    return null;
-  }
-  return context.findAncestorStateOfType<EditableTextState>();
 }

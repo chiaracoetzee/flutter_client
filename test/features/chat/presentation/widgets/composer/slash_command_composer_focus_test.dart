@@ -67,6 +67,7 @@ void main() {
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
     await tester.pump();
     await tester.pump();
+    await tester.pump();
 
     expect(slotFocus.hasFocus, isTrue);
     expect(

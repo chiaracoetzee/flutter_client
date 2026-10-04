@@ -271,6 +271,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   bool _isApplyingWireText = false;
   bool _composerFocused = false;
+  bool _composerReconnectReadOnly = false;
   String? _lastWireTextPushedToState;
   final ValueNotifier<bool> _showComposerCounter = ValueNotifier<bool>(false);
 
@@ -397,6 +398,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       focusNode: _focusNode,
       shouldTrackOnBackground: _shouldTrackKeyboardRestore,
       canRestoreFocus: _canRestoreKeyboardFocus,
+      onBeginKeyboardLayoutHold: _beginComposerKeyboardLayoutHold,
+      onEndKeyboardLayoutHold: _endComposerKeyboardLayoutHold,
+      toggleComposerReadOnly: ({required bool readOnly}) {
+        _setComposerReconnectReadOnly(readOnly);
+      },
     );
     WidgetsBinding.instance.addObserver(this);
     _controller = ComposerMentionController(ref: ref);
@@ -465,6 +471,30 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return false;
     }
     return _focusNode.canRequestFocus;
+  }
+
+  void _beginComposerKeyboardLayoutHold() {
+    if (!mounted) {
+      return;
+    }
+    ref.read(mobileKeyboardMetricsProvider.notifier).beginKeyboardLayoutHold();
+  }
+
+  void _endComposerKeyboardLayoutHold() {
+    if (!mounted) {
+      return;
+    }
+    ref.read(mobileKeyboardMetricsProvider.notifier).endKeyboardLayoutHold();
+  }
+
+  void _setComposerReconnectReadOnly(bool readOnly) {
+    if (!mounted) {
+      return;
+    }
+    if (_composerReconnectReadOnly == readOnly) {
+      return;
+    }
+    setState(() => _composerReconnectReadOnly = readOnly);
   }
 
   void _syncStateFromController() {
@@ -675,9 +705,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (focused) {
       _maybeReserveUnmeasuredKeyboard();
     } else {
-      ref
-          .read(mobileKeyboardMetricsProvider.notifier)
-          .clearUnmeasuredKeyboardReservation();
+      final MobileKeyboardMetrics notifier = ref.read(
+        mobileKeyboardMetricsProvider.notifier,
+      );
+      if (!notifier.isKeyboardLayoutHeld) {
+        notifier.clearUnmeasuredKeyboardReservation();
+      }
     }
   }
 
@@ -912,6 +945,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                   controller: _controller,
                                   focusNode: focusNode,
                                   scrollController: _composerScrollController,
+                                  readOnly: _composerReconnectReadOnly,
                                   enabled: perms.isComposerEnabled,
                                   style: context.textStyles.inputText,
                                   strutStyle: boundedStrutFor(

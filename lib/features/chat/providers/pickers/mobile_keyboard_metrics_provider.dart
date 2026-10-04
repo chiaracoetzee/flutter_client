@@ -94,6 +94,9 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   Timer? _unmeasuredReservationTimer;
   Timer? _nativeOnlyTimer;
   Timer? _shortInsetTimer;
+  int _keyboardLayoutHoldCount = 0;
+
+  bool get isKeyboardLayoutHeld => _keyboardLayoutHoldCount > 0;
 
   @override
   MobileKeyboardMetricsState build() {
@@ -402,6 +405,26 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     });
   }
 
+  void beginKeyboardLayoutHold() {
+    if (!ref.mounted) {
+      return;
+    }
+    _keyboardLayoutHoldCount++;
+    reserveUnmeasuredKeyboard();
+  }
+
+  void endKeyboardLayoutHold() {
+    if (!ref.mounted || _keyboardLayoutHoldCount <= 0) {
+      return;
+    }
+    _keyboardLayoutHoldCount--;
+    if (_keyboardLayoutHoldCount == 0 &&
+        state.liveKeyboardHeight <= 0 &&
+        state.unmeasuredKeyboardReserved) {
+      clearUnmeasuredKeyboardReservation();
+    }
+  }
+
   void reserveUnmeasuredKeyboard() {
     if (!ref.mounted || state.liveKeyboardHeight > 0) {
       return;
@@ -432,6 +455,9 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void clearUnmeasuredKeyboardReservation() {
+    if (_keyboardLayoutHoldCount > 0) {
+      return;
+    }
     _unmeasuredReservationTimer?.cancel();
     _unmeasuredReservationTimer = null;
     if (!ref.mounted || !state.unmeasuredKeyboardReserved) {
