@@ -368,4 +368,9 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Zresetuj sygnał dla wszystkich';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Wyłącz $name';
+  }
 }

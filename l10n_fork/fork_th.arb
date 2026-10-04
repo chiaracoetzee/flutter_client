@@ -105,5 +105,6 @@
     "signalBarHide": "ซ่อนแถบสัญญาณ",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "ยังไม่มีใครเปิดสัญญาณนี้",
-    "signalBarReset": "รีเซ็ตสัญญาณสำหรับทุกคน"
+    "signalBarReset": "รีเซ็ตสัญญาณสำหรับทุกคน",
+    "signalBarTurnOff": "ปิด {name}"
 }
