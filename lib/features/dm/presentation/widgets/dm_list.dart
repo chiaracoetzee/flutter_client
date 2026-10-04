@@ -42,6 +42,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -338,57 +339,13 @@ class _DMListState extends ConsumerState<DMList> {
             ],
           ),
           if (isMobile)
-            Positioned(
+            const Positioned(
               right: 16,
               bottom: 16,
-              child: _buildQuickSwitcherFab(context),
+              child: QuickSwitcherFab(),
             ),
         ],
       ),
-    );
-  }
-
-  Widget _buildQuickSwitcherFab(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return FluxerTappable(
-      key: const ValueKey<String>('quick-switcher-fab'),
-      onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
-      semanticLabel: l10n.quickSwitcherTabSearch,
-      builder: (context, states) {
-        final colors = context.colors;
-        final motion = context.motion;
-        final isHovered = states.contains(WidgetState.hovered);
-
-        return AnimatedContainer(
-          duration: motion.fast,
-          curve: motion.curve,
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: isHovered ? colors.brandSecondary : colors.brandPrimary,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: FluxerButtonVariant.primary.borderColor(
-                colors,
-                hovered: isHovered,
-              )!,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x33000000),
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          alignment: Alignment.center,
-          child: PhosphorIcon(
-            PhosphorIconsFill.lightning,
-            size: 24,
-            color: colors.textOnBrandPrimary,
-          ),
-        );
-      },
     );
   }
 

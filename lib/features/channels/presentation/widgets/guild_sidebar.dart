@@ -59,6 +59,7 @@ import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart'
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/members/utils/guild_members_page_permissions.dart';
+import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_switcher_fab.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -142,31 +143,43 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     final bool guildReady =
         guild != null && guildId != null && guild.id == guildId;
 
+    final bool isMobile = isMobileLayout(context);
+
     return Container(
-      width: isMobileLayout(context) ? null : 240,
+      width: isMobile ? null : 240,
       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
       decoration: BoxDecoration(
         color: context.colors.channelSidebarBackground,
         border: Border(right: BorderSide(color: context.colors.borderColor)),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          _buildServerHeader(
-            context,
-            guild,
-            outageUnavailable: guildOutageUnavailable,
+          Column(
+            children: [
+              _buildServerHeader(
+                context,
+                guild,
+                outageUnavailable: guildOutageUnavailable,
+              ),
+              Expanded(
+                child:
+                    guildOutageUnavailable ||
+                        !guildReady ||
+                        !hasReceivedInitialChannelList
+                    ? const GuildSidebarSkeleton()
+                    : _GuildSidebarChannelListHost(
+                        activeGuildId: guildId,
+                        guild: guild,
+                      ),
+              ),
+            ],
           ),
-          Expanded(
-            child:
-                guildOutageUnavailable ||
-                    !guildReady ||
-                    !hasReceivedInitialChannelList
-                ? const GuildSidebarSkeleton()
-                : _GuildSidebarChannelListHost(
-                    activeGuildId: guildId,
-                    guild: guild,
-                  ),
-          ),
+          if (isMobile)
+            const Positioned(
+              right: 16,
+              bottom: 16,
+              child: QuickSwitcherFab(),
+            ),
         ],
       ),
     );
@@ -595,7 +608,10 @@ class _GuildSidebarChannelListState
     final Widget channelListView = ListView.builder(
       controller: _scrollController,
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
-      padding: const EdgeInsets.only(top: 12),
+      padding: EdgeInsets.only(
+        top: 12,
+        bottom: isMobileLayout(context) ? 96 : 0,
+      ),
       itemCount: membersOffset + sidebarEntries.length,
       itemBuilder: (BuildContext context, int index) {
         final int entryIndex = showMembersEntry && index >= membersOffset
