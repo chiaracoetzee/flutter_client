@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Hangulatjel hozzáadása",
     "personaSignatureEmojiAlreadyAdded": "Ez a hangulatjel már hozzá van adva aláírási hangulatjelként",
     "personaRemoveSignatureEmoji": "Aláírási hangulatjel eltávolítása",
-    "personaSignatureEmojiAlreadyUsedByOther": "Ezt az aláírási hangulatjelet már használja a(z) \"{name}\" személy"
+    "personaSignatureEmojiAlreadyUsedByOther": "Ezt az aláírási hangulatjelet már használja a(z) \"{name}\" személy",
+    "signalBarLabel": "Jelzősáv",
+    "signalBarShow": "Jelzősáv megjelenítése",
+    "signalBarHide": "Jelzősáv elrejtése",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Senkinél sincs bekapcsolva ez a jelzés",
+    "signalBarReset": "Jelzés visszaállítása mindenkinél"
 }

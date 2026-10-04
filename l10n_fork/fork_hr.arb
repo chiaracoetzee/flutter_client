@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Dodaj emoji",
     "personaSignatureEmojiAlreadyAdded": "Ovaj emoji je već dodan kao prepoznatljivi emoji",
     "personaRemoveSignatureEmoji": "Ukloni prepoznatljivi emoji",
-    "personaSignatureEmojiAlreadyUsedByOther": "Prepoznatljivi emoji već koristi persona \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "Prepoznatljivi emoji već koristi persona \"{name}\"",
+    "signalBarLabel": "Traka signala",
+    "signalBarShow": "Prikaži traku signala",
+    "signalBarHide": "Sakrij traku signala",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Nitko nema uključen ovaj signal",
+    "signalBarReset": "Poništi signal za sve"
 }
