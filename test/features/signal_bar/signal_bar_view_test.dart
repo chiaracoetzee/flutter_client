@@ -45,7 +45,6 @@ void main() {
     List<SignalEntry> entries = const <SignalEntry>[],
     bool collapsed = false,
     bool canToggle = true,
-    bool canManage = true,
     double width = 400,
     List<SignalBarSignal> signals = const <SignalBarSignal>[_reading, _done],
   }) async {
@@ -67,10 +66,9 @@ void main() {
                     ? (SignalBarSignal signal, {required bool mine}) =>
                           toggles.add('${signal.id}:$mine')
                     : null,
-                onDetails: canManage
-                    ? (SignalBarSignal signal, List<SignalEntry> entries) =>
-                          details.add('${signal.id}:${entries.length}')
-                    : null,
+                onDetails:
+                    (SignalBarSignal signal, List<SignalEntry> entries) =>
+                        details.add('${signal.id}:${entries.length}'),
                 onToggleCollapsed: () => collapseTaps++,
               ),
             ),
@@ -130,35 +128,74 @@ void main() {
     expect(toggles, <String>['reading:true', 'done:false']);
   });
 
-  testWidgets(
-    'long press opens details for managers; tap is inert when read-only',
-    (WidgetTester tester) async {
-      await pump(
-        tester,
-        entries: <SignalEntry>[_entry('reading', '2')],
-        canToggle: false,
-      );
-      await tester.tap(find.byKey(const ValueKey<String>('signal-reading')));
-      await tester.longPress(
-        find.byKey(const ValueKey<String>('signal-reading')),
-      );
-      expect(toggles, isEmpty);
-      expect(details, <String>['reading:1']);
-    },
-  );
-
-  testWidgets('long press does nothing for people who cannot manage signals', (
+  testWidgets('long press opens details; tap is inert when read-only', (
     WidgetTester tester,
   ) async {
     await pump(
       tester,
       entries: <SignalEntry>[_entry('reading', '2')],
-      canManage: false,
+      canToggle: false,
     );
+    await tester.tap(find.byKey(const ValueKey<String>('signal-reading')));
     await tester.longPress(
       find.byKey(const ValueKey<String>('signal-reading')),
     );
-    expect(details, isEmpty);
+    expect(toggles, isEmpty);
+    expect(details, <String>['reading:1']);
+  });
+
+  Future<void> pumpSheet(
+    WidgetTester tester, {
+    required bool canManage,
+    required List<String> actions,
+  }) async {
+    await tester.pumpWidget(
+      pumpFluxerApp(
+        child: Scaffold(
+          body: SignalDetailsSheet(
+            signal: _reading,
+            entries: <SignalEntry>[
+              _entry('reading', '1'),
+              _entry('reading', '2'),
+            ],
+            onTurnOff: canManage
+                ? (SignalEntry entry) => actions.add('off:${entry.userId}')
+                : null,
+            onReset: canManage ? () => actions.add('reset') : null,
+          ),
+        ),
+      ),
+    );
+  }
+
+  testWidgets('details sheet only lists names for people who cannot manage', (
+    WidgetTester tester,
+  ) async {
+    final List<String> actions = <String>[];
+    await pumpSheet(tester, canManage: false, actions: actions);
+    final String name = _entry('reading', '2').displayName;
+    expect(find.text(name), findsOneWidget);
+    expect(find.text('Turn off $name'), findsNothing);
+    expect(
+      find.byKey(const ValueKey<String>('signal-details-reset')),
+      findsNothing,
+    );
+    await tester.tap(find.byKey(const ValueKey<String>('signal-details-2')));
+    expect(actions, isEmpty);
+  });
+
+  testWidgets('details sheet lets managers turn one off or reset', (
+    WidgetTester tester,
+  ) async {
+    final List<String> actions = <String>[];
+    await pumpSheet(tester, canManage: true, actions: actions);
+    final String name = _entry('reading', '2').displayName;
+    expect(find.text('Turn off $name'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey<String>('signal-details-2')));
+    await tester.tap(
+      find.byKey(const ValueKey<String>('signal-details-reset')),
+    );
+    expect(actions, <String>['off:2', 'reset']);
   });
 
   testWidgets('collapsed hides the signals and keeps the caret', (
