@@ -15030,4 +15030,24 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'シグネチャー絵文字を削除';
+
+  @override
+  String get signalBarLabel => 'シグナルバー';
+
+  @override
+  String get signalBarShow => 'シグナルバーを表示';
+
+  @override
+  String get signalBarHide => 'シグナルバーを隠す';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label：$names';
+  }
+
+  @override
+  String get signalBarNobody => 'このシグナルをオンにしている人はいません';
+
+  @override
+  String get signalBarReset => '全員のシグナルをリセット';
 }

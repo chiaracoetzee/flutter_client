@@ -15707,4 +15707,24 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Ta bort signaturemoji';
+
+  @override
+  String get signalBarLabel => 'Signalfält';
+
+  @override
+  String get signalBarShow => 'Visa signalfältet';
+
+  @override
+  String get signalBarHide => 'Dölj signalfältet';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Ingen har den här signalen på';
+
+  @override
+  String get signalBarReset => 'Återställ signalen för alla';
 }

@@ -15814,4 +15814,24 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Aláírási hangulatjel eltávolítása';
+
+  @override
+  String get signalBarLabel => 'Jelzősáv';
+
+  @override
+  String get signalBarShow => 'Jelzősáv megjelenítése';
+
+  @override
+  String get signalBarHide => 'Jelzősáv elrejtése';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Senkinél sincs bekapcsolva ez a jelzés';
+
+  @override
+  String get signalBarReset => 'Jelzés visszaállítása mindenkinél';
 }

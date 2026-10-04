@@ -15757,4 +15757,24 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Handtekening-emoji verwijderen';
+
+  @override
+  String get signalBarLabel => 'Signaalbalk';
+
+  @override
+  String get signalBarShow => 'Signaalbalk tonen';
+
+  @override
+  String get signalBarHide => 'Signaalbalk verbergen';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Niemand heeft dit signaal aan staan';
+
+  @override
+  String get signalBarReset => 'Signaal voor iedereen resetten';
 }

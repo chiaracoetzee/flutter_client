@@ -15925,4 +15925,24 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Supprimer l\'emoji signature';
+
+  @override
+  String get signalBarLabel => 'Barre de signaux';
+
+  @override
+  String get signalBarShow => 'Afficher la barre de signaux';
+
+  @override
+  String get signalBarHide => 'Masquer la barre de signaux';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label : $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Personne n’a activé ce signal';
+
+  @override
+  String get signalBarReset => 'Réinitialiser le signal pour tout le monde';
 }

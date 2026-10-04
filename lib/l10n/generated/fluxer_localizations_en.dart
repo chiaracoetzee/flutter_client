@@ -15567,6 +15567,26 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Remove signature emoji';
+
+  @override
+  String get signalBarLabel => 'Signal bar';
+
+  @override
+  String get signalBarShow => 'Show signal bar';
+
+  @override
+  String get signalBarHide => 'Hide signal bar';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Nobody has this signal on';
+
+  @override
+  String get signalBarReset => 'Reset signal for everyone';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -30484,6 +30504,26 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get personaRemoveSignatureEmoji => 'Remove signature emoji';
+
+  @override
+  String get signalBarLabel => 'Signal bar';
+
+  @override
+  String get signalBarShow => 'Show signal bar';
+
+  @override
+  String get signalBarHide => 'Hide signal bar';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Nobody has this signal on';
+
+  @override
+  String get signalBarReset => 'Reset signal for everyone';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -45079,4 +45119,24 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get personaRemoveSignatureEmoji => 'Remove signature emoji';
+
+  @override
+  String get signalBarLabel => 'Signal bar';
+
+  @override
+  String get signalBarShow => 'Show signal bar';
+
+  @override
+  String get signalBarHide => 'Hide signal bar';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Nobody has this signal on';
+
+  @override
+  String get signalBarReset => 'Reset signal for everyone';
 }

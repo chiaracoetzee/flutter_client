@@ -15800,4 +15800,24 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Видалити фірмовий емодзі';
+
+  @override
+  String get signalBarLabel => 'Панель сигналів';
+
+  @override
+  String get signalBarShow => 'Показати панель сигналів';
+
+  @override
+  String get signalBarHide => 'Сховати панель сигналів';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Ніхто не ввімкнув цей сигнал';
+
+  @override
+  String get signalBarReset => 'Скинути сигнал для всіх';
 }

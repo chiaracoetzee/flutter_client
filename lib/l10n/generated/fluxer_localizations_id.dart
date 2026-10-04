@@ -15677,4 +15677,24 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Hapus emoji tanda tangan';
+
+  @override
+  String get signalBarLabel => 'Bilah Sinyal';
+
+  @override
+  String get signalBarShow => 'Tampilkan bilah sinyal';
+
+  @override
+  String get signalBarHide => 'Sembunyikan bilah sinyal';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Belum ada yang menyalakan sinyal ini';
+
+  @override
+  String get signalBarReset => 'Reset sinyal untuk semua orang';
 }

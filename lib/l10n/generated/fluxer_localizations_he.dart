@@ -15443,4 +15443,24 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'הסר אימוג\'י חתימה';
+
+  @override
+  String get signalBarLabel => 'סרגל אותות';
+
+  @override
+  String get signalBarShow => 'הצגת סרגל האותות';
+
+  @override
+  String get signalBarHide => 'הסתרת סרגל האותות';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'אף אחד לא הפעיל את האות הזה';
+
+  @override
+  String get signalBarReset => 'איפוס האות לכולם';
 }
