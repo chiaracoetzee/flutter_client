@@ -335,6 +335,26 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => '移除专属表情符号';
+
+  @override
+  String get signalBarLabel => '信号栏';
+
+  @override
+  String get signalBarShow => '显示信号栏';
+
+  @override
+  String get signalBarHide => '隐藏信号栏';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label：$names';
+  }
+
+  @override
+  String get signalBarNobody => '还没有人开启此信号';
+
+  @override
+  String get signalBarReset => '为所有人重置信号';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -668,4 +688,24 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaRemoveSignatureEmoji => '移除專屬表情符號';
+
+  @override
+  String get signalBarLabel => '訊號列';
+
+  @override
+  String get signalBarShow => '顯示訊號列';
+
+  @override
+  String get signalBarHide => '隱藏訊號列';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label：$names';
+  }
+
+  @override
+  String get signalBarNobody => '還沒有人開啟此訊號';
+
+  @override
+  String get signalBarReset => '為所有人重設訊號';
 }

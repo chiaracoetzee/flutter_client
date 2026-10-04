@@ -349,4 +349,24 @@ class ForkLocalizationsRu extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Удалить фирменный эмодзи';
+
+  @override
+  String get signalBarLabel => 'Панель сигналов';
+
+  @override
+  String get signalBarShow => 'Показать панель сигналов';
+
+  @override
+  String get signalBarHide => 'Скрыть панель сигналов';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Никто не включил этот сигнал';
+
+  @override
+  String get signalBarReset => 'Сбросить сигнал для всех';
 }

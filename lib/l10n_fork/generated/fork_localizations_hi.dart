@@ -347,4 +347,24 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'हस्ताक्षर इमोजी हटाएं';
+
+  @override
+  String get signalBarLabel => 'सिग्नल बार';
+
+  @override
+  String get signalBarShow => 'सिग्नल बार दिखाएँ';
+
+  @override
+  String get signalBarHide => 'सिग्नल बार छिपाएँ';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'किसी ने यह सिग्नल चालू नहीं किया है';
+
+  @override
+  String get signalBarReset => 'सभी के लिए सिग्नल रीसेट करें';
 }
