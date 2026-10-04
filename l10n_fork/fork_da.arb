@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Tilføj emoji",
     "personaSignatureEmojiAlreadyAdded": "Denne emoji er allerede tilføjet som en signatur-emoji",
     "personaRemoveSignatureEmoji": "Fjern signatur-emoji",
-    "personaSignatureEmojiAlreadyUsedByOther": "Signatur-emoji bruges allerede af personaen \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "Signatur-emoji bruges allerede af personaen \"{name}\"",
+    "signalBarLabel": "Signalbjælke",
+    "signalBarShow": "Vis signalbjælke",
+    "signalBarHide": "Skjul signalbjælke",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Ingen har dette signal slået til",
+    "signalBarReset": "Nulstil signal for alle"
 }
