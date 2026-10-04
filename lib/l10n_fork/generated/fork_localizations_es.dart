@@ -371,6 +371,11 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Restablecer señal para todos';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Desactivar $name';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -709,4 +714,9 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get signalBarReset => 'Restablecer señal para todos';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Desactivar $name';
+  }
 }

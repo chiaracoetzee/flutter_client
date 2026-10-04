@@ -205,13 +205,11 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     }
   }
 
-  void _showDetails(
-    SignalBarSignal signal,
-    List<SignalEntry> entries, {
-    required bool canReset,
-  }) {
+  /// Managers only: turn off one person's signal, or reset it for everyone.
+  void _showDetails(SignalBarSignal signal, List<SignalEntry> entries) {
     FluxerHaptics.light();
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? currentUserId = ref.read(currentUserIdProvider);
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
@@ -234,9 +232,29 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
                 for (final SignalEntry entry in entries)
                   ListTile(
                     leading: _SignalBadge(entry: entry, size: 28),
-                    title: Text(entry.displayName),
+                    title: Text(l10n.fork.signalBarTurnOff(entry.displayName)),
+                    onTap: () {
+                      Navigator.of(sheetContext).pop();
+                      if (entry.userId == currentUserId) {
+                        unawaited(
+                          _signals.deactivate(
+                            widget.channelId,
+                            signal.id,
+                            userId: entry.userId,
+                          ),
+                        );
+                      } else {
+                        unawaited(
+                          _signals.removeUser(
+                            widget.channelId,
+                            signal.id,
+                            userId: entry.userId,
+                          ),
+                        );
+                      }
+                    },
                   ),
-              if (canReset && entries.isNotEmpty)
+              if (entries.isNotEmpty)
                 ListTile(
                   leading: PhosphorIcon(
                     PhosphorIconsRegular.trash,
@@ -277,7 +295,12 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       );
     final SignalBarConfig config = ref.watch(signalBarConfigProvider);
     _schedulePersonaReport(_resolveComposerPersona());
-    if (config.signals.isEmpty) {
+    final bool enabled = ref.watch(
+      channelSignalsProvider.select(
+        (_) => _signals.isEnabled(widget.channelId),
+      ),
+    );
+    if (config.signals.isEmpty || !enabled) {
       return const SizedBox.shrink();
     }
     final List<SignalEntry> entries = ref.watch(
@@ -305,8 +328,7 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       backgroundColor: widget.backgroundColor,
       dividerColor: widget.dividerColor,
       onToggle: canToggle ? _toggle : null,
-      onDetails: (SignalBarSignal signal, List<SignalEntry> signalEntries) =>
-          _showDetails(signal, signalEntries, canReset: canReset),
+      onDetails: canReset ? _showDetails : null,
       onToggleCollapsed: ref.read(signalBarCollapsedProvider.notifier).toggle,
     );
   }
@@ -336,7 +358,9 @@ class SignalBarView extends StatelessWidget {
 
   /// Null when the user may not give signals in this channel.
   final void Function(SignalBarSignal signal, {required bool mine})? onToggle;
-  final void Function(SignalBarSignal signal, List<SignalEntry> entries)
+
+  /// Null for people who may not manage signals; long-press then does nothing.
+  final void Function(SignalBarSignal signal, List<SignalEntry> entries)?
   onDetails;
   final VoidCallback onToggleCollapsed;
 
@@ -425,7 +449,9 @@ class _SignalButton extends StatelessWidget {
   final String? currentUserId;
   final Color surface;
   final void Function(SignalBarSignal signal, {required bool mine})? onToggle;
-  final void Function(SignalBarSignal signal, List<SignalEntry> entries)
+
+  /// Null for people who may not manage signals; long-press then does nothing.
+  final void Function(SignalBarSignal signal, List<SignalEntry> entries)?
   onDetails;
 
   @override
@@ -463,6 +489,8 @@ class _SignalButton extends StatelessWidget {
     }
     final void Function(SignalBarSignal signal, {required bool mine})? toggle =
         onToggle;
+    final void Function(SignalBarSignal signal, List<SignalEntry> entries)?
+    details = onDetails;
     return Semantics(
       button: true,
       toggled: mine,
@@ -470,7 +498,7 @@ class _SignalButton extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: toggle == null ? null : () => toggle(signal, mine: mine),
-        onLongPress: () => onDetails(signal, entries),
+        onLongPress: details == null ? null : () => details(signal, entries),
         child: SizedBox(
           width: _kSignalSize,
           height: _kSignalSize,
