@@ -358,4 +358,9 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get signalBarReset => '모두의 시그널 초기화';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return '$name 끄기';
+  }
 }
