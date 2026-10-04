@@ -349,4 +349,24 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'İmza emojisini kaldır';
+
+  @override
+  String get signalBarLabel => 'Sinyal Çubuğu';
+
+  @override
+  String get signalBarShow => 'Sinyal çubuğunu göster';
+
+  @override
+  String get signalBarHide => 'Sinyal çubuğunu gizle';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Bu sinyali açan kimse yok';
+
+  @override
+  String get signalBarReset => 'Sinyali herkes için sıfırla';
 }
