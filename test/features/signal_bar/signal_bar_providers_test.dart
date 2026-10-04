@@ -12,6 +12,7 @@ class _FakeRepository implements SignalBarRepository {
     ],
   );
   List<SignalEntry> entries = <SignalEntry>[];
+  bool enabled = true;
   int barFetches = 0;
   final List<String> calls = <String>[];
 
@@ -22,9 +23,16 @@ class _FakeRepository implements SignalBarRepository {
   }
 
   @override
-  Future<({int barVersion, List<SignalEntry> entries})> fetchChannel(
+  Future<({bool enabled, int barVersion, List<SignalEntry> entries})>
+  fetchChannel(String channelId) async =>
+      (enabled: enabled, barVersion: bar.version, entries: entries);
+
+  @override
+  Future<void> removeUser(
     String channelId,
-  ) async => (barVersion: bar.version, entries: entries);
+    String signalId,
+    String userId,
+  ) async => calls.add('REMOVE $channelId $signalId $userId');
 
   @override
   Future<void> activate(
@@ -152,6 +160,48 @@ void main() {
       <String, dynamic>{'version': 2},
     );
     expect(repository.barFetches, 2);
+  });
+
+  test(
+    'a channel is off until loaded as enabled, and follows the gateway',
+    () async {
+      expect(signals().isEnabled('c'), isFalse);
+      repository.enabled = false;
+      await signals().loadChannel('c');
+      expect(signals().isEnabled('c'), isFalse);
+
+      handleSignalBarGatewayEvent(
+        container.read(_refProvider),
+        'CHANNEL_SIGNAL_BAR_UPDATE',
+        <String, dynamic>{'channel_id': 'c', 'enabled': true},
+      );
+      expect(signals().isEnabled('c'), isTrue);
+
+      signals().handleChannelUpdate(<String, dynamic>{
+        'channel_id': 'c',
+        'bar_version': 1,
+        'added': [_entryJson('reading', '1')],
+        'removed': <dynamic>[],
+      });
+      handleSignalBarGatewayEvent(
+        container.read(_refProvider),
+        'CHANNEL_SIGNAL_BAR_UPDATE',
+        <String, dynamic>{'channel_id': 'c', 'enabled': false},
+      );
+      expect(signals().isEnabled('c'), isFalse);
+      expect(entries('c'), isEmpty);
+    },
+  );
+
+  test('a manager turning off someone else removes them locally', () async {
+    repository.entries = <SignalEntry>[
+      SignalEntry.fromJson(_entryJson('reading', '1')),
+      SignalEntry.fromJson(_entryJson('reading', '2')),
+    ];
+    await signals().loadChannel('c');
+    await signals().removeUser('c', 'reading', userId: '2');
+    expect(entries('c').map((e) => e.userId), ['1']);
+    expect(repository.calls, ['REMOVE c reading 2']);
   });
 
   test('removes the own entry locally when turning a signal off', () async {

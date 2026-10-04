@@ -370,6 +370,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Redefinir sinal para todos';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Desligar $name';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -738,4 +743,9 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get signalBarReset => 'Redefinir sinal para todos';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Desligar $name';
+  }
 }
