@@ -15655,6 +15655,11 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Redefinir sinal para todos';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Desligar $name';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -30808,4 +30813,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get signalBarReset => 'Redefinir sinal para todos';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Desligar $name';
+  }
 }

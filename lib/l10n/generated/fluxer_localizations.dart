@@ -26081,6 +26081,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Reset signal for everyone'**
   String get signalBarReset;
+
+  /// Action in the signal details sheet, for moderators, that turns one person's signal off. name is the persona or account name the signal is shown as.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off {name}'**
+  String signalBarTurnOff(String name);
 }
 
 class _FluxerLocalizationsDelegate

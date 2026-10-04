@@ -15725,4 +15725,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Nollaa signaali kaikilta';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Kytke $name pois';
+  }
 }

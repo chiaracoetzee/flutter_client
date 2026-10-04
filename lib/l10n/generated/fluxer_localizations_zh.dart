@@ -14739,6 +14739,11 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get signalBarReset => '为所有人重置信号';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return '关闭 $name';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -28834,4 +28839,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get signalBarReset => '為所有人重設訊號';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return '關閉 $name';
+  }
 }

@@ -15834,4 +15834,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Jelzés visszaállítása mindenkinél';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return '$name kikapcsolása';
+  }
 }

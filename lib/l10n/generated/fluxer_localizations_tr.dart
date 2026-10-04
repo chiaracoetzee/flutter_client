@@ -15685,4 +15685,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Sinyali herkes için sıfırla';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return '$name adına kapat';
+  }
 }

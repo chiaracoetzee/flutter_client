@@ -17474,5 +17474,6 @@
     "signalBarHide": "Skjul signallinje",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Ingen har dette signalet på",
-    "signalBarReset": "Tilbakestill signalet for alle"
+    "signalBarReset": "Tilbakestill signalet for alle",
+    "signalBarTurnOff": "Slå av {name}"
 }

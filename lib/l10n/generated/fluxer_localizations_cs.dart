@@ -15741,4 +15741,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Resetovat signál pro všechny';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Vypnout $name';
+  }
 }

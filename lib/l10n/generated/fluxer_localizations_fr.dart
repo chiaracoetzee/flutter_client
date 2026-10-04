@@ -15945,4 +15945,9 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Réinitialiser le signal pour tout le monde';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Désactiver $name';
+  }
 }

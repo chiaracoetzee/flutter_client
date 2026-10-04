@@ -15754,4 +15754,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Poništi signal za sve';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Isključi $name';
+  }
 }

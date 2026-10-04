@@ -15817,4 +15817,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Resetează semnalul pentru toți';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Dezactivează $name';
+  }
 }

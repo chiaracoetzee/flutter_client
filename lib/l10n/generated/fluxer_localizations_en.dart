@@ -15587,6 +15587,11 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Reset signal for everyone';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Turn off $name';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -30524,6 +30529,11 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get signalBarReset => 'Reset signal for everyone';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Turn off $name';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -45139,4 +45149,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get signalBarReset => 'Reset signal for everyone';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Turn off $name';
+  }
 }

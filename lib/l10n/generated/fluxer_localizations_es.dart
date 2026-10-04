@@ -15876,6 +15876,11 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Restablecer señal para todos';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Desactivar $name';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -31160,4 +31165,9 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get signalBarReset => 'Restablecer señal para todos';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Desactivar $name';
+  }
 }

@@ -17458,5 +17458,6 @@
     "signalBarHide": "Απόκρυψη γραμμής σημάτων",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Κανείς δεν έχει ενεργό αυτό το σήμα",
-    "signalBarReset": "Επαναφορά σήματος για όλους"
+    "signalBarReset": "Επαναφορά σήματος για όλους",
+    "signalBarTurnOff": "Απενεργοποίηση {name}"
 }

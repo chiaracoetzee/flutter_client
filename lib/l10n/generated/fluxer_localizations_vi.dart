@@ -15710,4 +15710,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Đặt lại tín hiệu cho mọi người';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Tắt $name';
+  }
 }

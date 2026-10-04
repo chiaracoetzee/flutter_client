@@ -15820,4 +15820,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
 
   @override
   String get signalBarReset => 'Сбросить сигнал для всех';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Выключить $name';
+  }
 }
