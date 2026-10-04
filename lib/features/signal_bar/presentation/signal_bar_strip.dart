@@ -205,72 +205,51 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     }
   }
 
-  /// Managers only: turn off one person's signal, or reset it for everyone.
-  void _showDetails(SignalBarSignal signal, List<SignalEntry> entries) {
+  /// Everyone sees who has the signal on, since the small badges do not always
+  /// identify people. Managers can also turn one person's signal off or reset
+  /// it for everyone.
+  void _showDetails(
+    SignalBarSignal signal,
+    List<SignalEntry> entries, {
+    required bool canManage,
+  }) {
     FluxerHaptics.light();
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String? currentUserId = ref.read(currentUserIdProvider);
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
       builder: (BuildContext sheetContext) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                title: Text(
-                  signal.displayLabel,
-                  style: sheetContext.textStyles.bodyMedium.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              if (entries.isEmpty)
-                ListTile(title: Text(l10n.fork.signalBarNobody))
-              else
-                for (final SignalEntry entry in entries)
-                  ListTile(
-                    leading: _SignalBadge(entry: entry, size: 28),
-                    title: Text(l10n.fork.signalBarTurnOff(entry.displayName)),
-                    onTap: () {
-                      Navigator.of(sheetContext).pop();
-                      if (entry.userId == currentUserId) {
-                        unawaited(
-                          _signals.deactivate(
-                            widget.channelId,
-                            signal.id,
-                            userId: entry.userId,
-                          ),
-                        );
-                      } else {
-                        unawaited(
-                          _signals.removeUser(
-                            widget.channelId,
-                            signal.id,
-                            userId: entry.userId,
-                          ),
-                        );
-                      }
-                    },
-                  ),
-              if (entries.isNotEmpty)
-                ListTile(
-                  leading: PhosphorIcon(
-                    PhosphorIconsRegular.trash,
-                    color: sheetContext.colors.statusDanger,
-                  ),
-                  title: Text(
-                    l10n.fork.signalBarReset,
-                    style: TextStyle(color: sheetContext.colors.statusDanger),
-                  ),
-                  onTap: () {
-                    Navigator.of(sheetContext).pop();
-                    unawaited(_signals.reset(widget.channelId, signal.id));
-                  },
-                ),
-            ],
-          ),
+        return SignalDetailsSheet(
+          signal: signal,
+          entries: entries,
+          onTurnOff: canManage
+              ? (SignalEntry entry) {
+                  Navigator.of(sheetContext).pop();
+                  if (entry.userId == currentUserId) {
+                    unawaited(
+                      _signals.deactivate(
+                        widget.channelId,
+                        signal.id,
+                        userId: entry.userId,
+                      ),
+                    );
+                  } else {
+                    unawaited(
+                      _signals.removeUser(
+                        widget.channelId,
+                        signal.id,
+                        userId: entry.userId,
+                      ),
+                    );
+                  }
+                }
+              : null,
+          onReset: canManage
+              ? () {
+                  Navigator.of(sheetContext).pop();
+                  unawaited(_signals.reset(widget.channelId, signal.id));
+                }
+              : null,
         );
       },
     );
@@ -328,7 +307,8 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
       backgroundColor: widget.backgroundColor,
       dividerColor: widget.dividerColor,
       onToggle: canToggle ? _toggle : null,
-      onDetails: canReset ? _showDetails : null,
+      onDetails: (SignalBarSignal signal, List<SignalEntry> entries) =>
+          _showDetails(signal, entries, canManage: canReset),
       onToggleCollapsed: ref.read(signalBarCollapsedProvider.notifier).toggle,
     );
   }
@@ -359,7 +339,7 @@ class SignalBarView extends StatelessWidget {
   /// Null when the user may not give signals in this channel.
   final void Function(SignalBarSignal signal, {required bool mine})? onToggle;
 
-  /// Null for people who may not manage signals; long-press then does nothing.
+  /// Opens the list of people who have the signal on.
   final void Function(SignalBarSignal signal, List<SignalEntry> entries)?
   onDetails;
   final VoidCallback onToggleCollapsed;
@@ -450,7 +430,7 @@ class _SignalButton extends StatelessWidget {
   final Color surface;
   final void Function(SignalBarSignal signal, {required bool mine})? onToggle;
 
-  /// Null for people who may not manage signals; long-press then does nothing.
+  /// Opens the list of people who have the signal on.
   final void Function(SignalBarSignal signal, List<SignalEntry> entries)?
   onDetails;
 
@@ -545,6 +525,75 @@ class _SignalButton extends StatelessWidget {
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Long-press sheet for one signal: its name and the people who have it on.
+///
+/// With [onTurnOff] and [onReset] null it is a plain list of names; managers
+/// get both and can act on the entries.
+class SignalDetailsSheet extends StatelessWidget {
+  const SignalDetailsSheet({
+    required this.signal,
+    required this.entries,
+    required this.onTurnOff,
+    required this.onReset,
+    super.key,
+  });
+
+  final SignalBarSignal signal;
+  final List<SignalEntry> entries;
+  final void Function(SignalEntry entry)? onTurnOff;
+  final VoidCallback? onReset;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final void Function(SignalEntry entry)? turnOff = onTurnOff;
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                signal.displayLabel,
+                style: context.textStyles.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            if (entries.isEmpty)
+              ListTile(title: Text(l10n.fork.signalBarNobody))
+            else
+              for (final SignalEntry entry in entries)
+                ListTile(
+                  key: ValueKey<String>('signal-details-${entry.userId}'),
+                  leading: _SignalBadge(entry: entry, size: 28),
+                  title: Text(
+                    turnOff == null
+                        ? entry.displayName
+                        : l10n.fork.signalBarTurnOff(entry.displayName),
+                  ),
+                  onTap: turnOff == null ? null : () => turnOff(entry),
+                ),
+            if (entries.isNotEmpty && onReset != null)
+              ListTile(
+                key: const ValueKey<String>('signal-details-reset'),
+                leading: PhosphorIcon(
+                  PhosphorIconsRegular.trash,
+                  color: context.colors.statusDanger,
+                ),
+                title: Text(
+                  l10n.fork.signalBarReset,
+                  style: TextStyle(color: context.colors.statusDanger),
+                ),
+                onTap: onReset,
+              ),
+          ],
         ),
       ),
     );
