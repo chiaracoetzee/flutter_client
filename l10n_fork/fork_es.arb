@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Añadir emoji",
     "personaSignatureEmojiAlreadyAdded": "Este emoji ya está añadido como emoji de firma",
     "personaRemoveSignatureEmoji": "Eliminar emoji de firma",
-    "personaSignatureEmojiAlreadyUsedByOther": "El emoji de firma ya está en uso por la persona \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "El emoji de firma ya está en uso por la persona \"{name}\"",
+    "signalBarLabel": "Barra de señales",
+    "signalBarShow": "Mostrar barra de señales",
+    "signalBarHide": "Ocultar barra de señales",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Nadie tiene esta señal activada",
+    "signalBarReset": "Restablecer señal para todos"
 }
