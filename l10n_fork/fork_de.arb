@@ -105,5 +105,6 @@
     "signalBarHide": "Signalleiste ausblenden",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Niemand hat dieses Signal eingeschaltet",
-    "signalBarReset": "Signal für alle zurücksetzen"
+    "signalBarReset": "Signal für alle zurücksetzen",
+    "signalBarTurnOff": "{name} ausschalten"
 }
