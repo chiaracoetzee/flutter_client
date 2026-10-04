@@ -338,4 +338,24 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => '시그니처 이모지 삭제';
+
+  @override
+  String get signalBarLabel => '시그널 바';
+
+  @override
+  String get signalBarShow => '시그널 바 표시';
+
+  @override
+  String get signalBarHide => '시그널 바 숨기기';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => '이 시그널을 켠 사람이 없어요';
+
+  @override
+  String get signalBarReset => '모두의 시그널 초기화';
 }
