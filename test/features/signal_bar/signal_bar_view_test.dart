@@ -45,6 +45,7 @@ void main() {
     List<SignalEntry> entries = const <SignalEntry>[],
     bool collapsed = false,
     bool canToggle = true,
+    bool canManage = true,
     double width = 400,
     List<SignalBarSignal> signals = const <SignalBarSignal>[_reading, _done],
   }) async {
@@ -66,9 +67,10 @@ void main() {
                     ? (SignalBarSignal signal, {required bool mine}) =>
                           toggles.add('${signal.id}:$mine')
                     : null,
-                onDetails:
-                    (SignalBarSignal signal, List<SignalEntry> entries) =>
-                        details.add('${signal.id}:${entries.length}'),
+                onDetails: canManage
+                    ? (SignalBarSignal signal, List<SignalEntry> entries) =>
+                          details.add('${signal.id}:${entries.length}')
+                    : null,
                 onToggleCollapsed: () => collapseTaps++,
               ),
             ),
@@ -128,20 +130,35 @@ void main() {
     expect(toggles, <String>['reading:true', 'done:false']);
   });
 
-  testWidgets('long press opens details and tap does nothing when read-only', (
+  testWidgets(
+    'long press opens details for managers; tap is inert when read-only',
+    (WidgetTester tester) async {
+      await pump(
+        tester,
+        entries: <SignalEntry>[_entry('reading', '2')],
+        canToggle: false,
+      );
+      await tester.tap(find.byKey(const ValueKey<String>('signal-reading')));
+      await tester.longPress(
+        find.byKey(const ValueKey<String>('signal-reading')),
+      );
+      expect(toggles, isEmpty);
+      expect(details, <String>['reading:1']);
+    },
+  );
+
+  testWidgets('long press does nothing for people who cannot manage signals', (
     WidgetTester tester,
   ) async {
     await pump(
       tester,
       entries: <SignalEntry>[_entry('reading', '2')],
-      canToggle: false,
+      canManage: false,
     );
-    await tester.tap(find.byKey(const ValueKey<String>('signal-reading')));
     await tester.longPress(
       find.byKey(const ValueKey<String>('signal-reading')),
     );
-    expect(toggles, isEmpty);
-    expect(details, <String>['reading:1']);
+    expect(details, isEmpty);
   });
 
   testWidgets('collapsed hides the signals and keeps the caret', (

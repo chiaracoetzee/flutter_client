@@ -105,5 +105,6 @@
     "signalBarHide": "隱藏訊號列",
     "signalBarSignalWithNames": "{label}：{names}",
     "signalBarNobody": "還沒有人開啟此訊號",
-    "signalBarReset": "為所有人重設訊號"
+    "signalBarReset": "為所有人重設訊號",
+    "signalBarTurnOff": "關閉 {name}"
 }
