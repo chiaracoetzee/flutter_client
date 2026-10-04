@@ -105,5 +105,6 @@
     "signalBarHide": "Ascunde bara de semnale",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nimeni nu are acest semnal activat",
-    "signalBarReset": "Resetează semnalul pentru toți"
+    "signalBarReset": "Resetează semnalul pentru toți",
+    "signalBarTurnOff": "Dezactivează {name}"
 }

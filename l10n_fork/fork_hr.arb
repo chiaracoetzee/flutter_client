@@ -105,5 +105,6 @@
     "signalBarHide": "Sakrij traku signala",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nitko nema uključen ovaj signal",
-    "signalBarReset": "Poništi signal za sve"
+    "signalBarReset": "Poništi signal za sve",
+    "signalBarTurnOff": "Isključi {name}"
 }

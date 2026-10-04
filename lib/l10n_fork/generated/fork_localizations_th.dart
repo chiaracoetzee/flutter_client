@@ -366,4 +366,9 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'รีเซ็ตสัญญาณสำหรับทุกคน';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'ปิด $name';
+  }
 }

@@ -105,5 +105,6 @@
     "signalBarHide": "הסתרת סרגל האותות",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "אף אחד לא הפעיל את האות הזה",
-    "signalBarReset": "איפוס האות לכולם"
+    "signalBarReset": "איפוס האות לכולם",
+    "signalBarTurnOff": "כיבוי {name}"
 }

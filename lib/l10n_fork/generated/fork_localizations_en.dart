@@ -366,6 +366,11 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Reset signal for everyone';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Turn off $name';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -730,6 +735,11 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get signalBarReset => 'Reset signal for everyone';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Turn off $name';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1094,4 +1104,9 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get signalBarReset => 'Reset signal for everyone';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Turn off $name';
+  }
 }
