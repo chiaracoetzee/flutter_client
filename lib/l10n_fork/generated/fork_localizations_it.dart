@@ -350,4 +350,24 @@ class ForkLocalizationsIt extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Rimuovi emoji distintiva';
+
+  @override
+  String get signalBarLabel => 'Barra dei segnali';
+
+  @override
+  String get signalBarShow => 'Mostra barra dei segnali';
+
+  @override
+  String get signalBarHide => 'Nascondi barra dei segnali';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Nessuno ha attivato questo segnale';
+
+  @override
+  String get signalBarReset => 'Reimposta il segnale per tutti';
 }

@@ -350,6 +350,26 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Remover emoji de assinatura';
+
+  @override
+  String get signalBarLabel => 'Barra de sinais';
+
+  @override
+  String get signalBarShow => 'Mostrar barra de sinais';
+
+  @override
+  String get signalBarHide => 'Ocultar barra de sinais';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Ninguém está com este sinal ligado';
+
+  @override
+  String get signalBarReset => 'Redefinir sinal para todos';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -698,4 +718,24 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaRemoveSignatureEmoji => 'Remover emoji de assinatura';
+
+  @override
+  String get signalBarLabel => 'Barra de sinais';
+
+  @override
+  String get signalBarShow => 'Mostrar barra de sinais';
+
+  @override
+  String get signalBarHide => 'Ocultar barra de sinais';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Ninguém está com este sinal ligado';
+
+  @override
+  String get signalBarReset => 'Redefinir sinal para todos';
 }
