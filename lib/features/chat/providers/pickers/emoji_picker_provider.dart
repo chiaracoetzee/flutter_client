@@ -74,6 +74,18 @@ String unicodeEmojiFavoriteKey(EmojiEntry emoji) =>
 String customEmojiFavoriteKey(GuildEmojiEntry emoji) =>
     'custom:${emoji.guildId}:${emoji.id}';
 
+int compareGuildEmojiEntriesByName(GuildEmojiEntry a, GuildEmojiEntry b) {
+  final diff = a.nameLower.compareTo(b.nameLower);
+  if (diff != 0) {
+    return diff;
+  }
+  final exactDiff = a.name.compareTo(b.name);
+  if (exactDiff != 0) {
+    return exactDiff;
+  }
+  return a.id.compareTo(b.id);
+}
+
 sealed class FrecentEmojiItem {
   const FrecentEmojiItem();
 }
@@ -231,6 +243,9 @@ Map<Guild, List<GuildEmojiEntry>> guildEmojiEntriesForPicker({
   final activeEmojis = emojis
       .where((emoji) => emoji.guildId == activeGuildId)
       .toList(growable: false);
+  // Fork: guild emojis are listed A to Z; a separate statement keeps upstream's above intact.
+  // ignore: cascade_invocations
+  activeEmojis.sort(compareGuildEmojiEntriesByName);
   if (activeEmojis.isEmpty) {
     return grouped;
   }
@@ -279,6 +294,7 @@ Map<Guild, List<GuildEmojiEntry>> _groupEmojiEntriesByGuild({
   for (final guild in guilds) {
     final guildEmojis = emojisByGuildId[guild.id];
     if (guildEmojis != null && guildEmojis.isNotEmpty) {
+      guildEmojis.sort(compareGuildEmojiEntriesByName);
       result[guild] = guildEmojis;
     }
   }
