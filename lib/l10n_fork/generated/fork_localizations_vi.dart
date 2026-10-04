@@ -347,4 +347,24 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Xóa biểu tượng cảm xúc đặc trưng';
+
+  @override
+  String get signalBarLabel => 'Thanh tín hiệu';
+
+  @override
+  String get signalBarShow => 'Hiện thanh tín hiệu';
+
+  @override
+  String get signalBarHide => 'Ẩn thanh tín hiệu';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Chưa ai bật tín hiệu này';
+
+  @override
+  String get signalBarReset => 'Đặt lại tín hiệu cho mọi người';
 }

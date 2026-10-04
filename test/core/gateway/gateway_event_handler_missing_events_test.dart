@@ -24,6 +24,37 @@ void main() {
       database = openTestDatabase();
     });
 
+    test('signal bar events are passed through unparsed', () async {
+      final List<String> seen = <String>[];
+      final handler = GatewayEventHandler(
+        database: database,
+        onSignalBarEvent: (String type, Map<String, dynamic> data) {
+          seen.add('$type:${data['channel_id'] ?? data['version']}');
+        },
+      );
+
+      await handler.handle(
+        const UnknownGatewayEvent(
+          eventType: 'CHANNEL_SIGNAL_UPDATE',
+          data: <String, dynamic>{'channel_id': 'c1'},
+        ),
+      );
+      await handler.handle(
+        const UnknownGatewayEvent(
+          eventType: 'SIGNAL_BAR_UPDATE',
+          data: <String, dynamic>{'version': 3},
+        ),
+      );
+      await handler.handle(
+        const UnknownGatewayEvent(
+          eventType: 'SOMETHING_ELSE',
+          data: <String, dynamic>{},
+        ),
+      );
+
+      expect(seen, <String>['CHANNEL_SIGNAL_UPDATE:c1', 'SIGNAL_BAR_UPDATE:3']);
+    });
+
     test('GUILD_COUNTS_UPDATE writes member and online counts', () async {
       await database.guildDao.upsertServer(
         ServersCompanion.insert(id: 'g1', name: 'Guild'),
