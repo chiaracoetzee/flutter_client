@@ -369,4 +369,9 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get signalBarReset => 'Resetovat signál pro všechny';
+
+  @override
+  String signalBarTurnOff(String name) {
+    return 'Vypnout $name';
+  }
 }

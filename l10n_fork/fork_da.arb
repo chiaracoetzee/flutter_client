@@ -105,5 +105,6 @@
     "signalBarHide": "Skjul signalbjælke",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Ingen har dette signal slået til",
-    "signalBarReset": "Nulstil signal for alle"
+    "signalBarReset": "Nulstil signal for alle",
+    "signalBarTurnOff": "Slå {name} fra"
 }
