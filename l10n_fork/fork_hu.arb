@@ -105,5 +105,6 @@
     "signalBarHide": "Jelzősáv elrejtése",
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Senkinél sincs bekapcsolva ez a jelzés",
-    "signalBarReset": "Jelzés visszaállítása mindenkinél"
+    "signalBarReset": "Jelzés visszaállítása mindenkinél",
+    "signalBarTurnOff": "{name} kikapcsolása"
 }

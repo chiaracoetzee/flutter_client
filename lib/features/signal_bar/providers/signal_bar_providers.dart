@@ -47,6 +47,7 @@ signalBarConfigProvider =
 /// Active signal entries for every channel loaded this session.
 class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   final Map<String, String?> _ownPersonaByChannel = <String, String?>{};
+  final Set<String> _disabledChannels = <String>{};
 
   @override
   Map<String, List<SignalEntry>> build() => const <String, List<SignalEntry>>{};
@@ -60,6 +61,11 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
       final result = await ref
           .read(signalBarRepositoryProvider)
           .fetchChannel(channelId);
+      if (result.enabled) {
+        _disabledChannels.remove(channelId);
+      } else {
+        _disabledChannels.add(channelId);
+      }
       _setChannel(channelId, result.entries);
       ref
           .read(signalBarConfigProvider.notifier)
@@ -72,6 +78,7 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
   /// Drops everything after a new gateway session; mounted bars reload.
   void invalidate() {
     _ownPersonaByChannel.clear();
+    _disabledChannels.clear();
     state = const <String, List<SignalEntry>>{};
   }
 
@@ -151,6 +158,56 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     }
   }
 
+  /// Whether the bar is switched on in a loaded channel. Channels that are
+  /// not loaded yet count as off.
+  bool isEnabled(String channelId) =>
+      state.containsKey(channelId) && !_disabledChannels.contains(channelId);
+
+  /// CHANNEL_SIGNAL_BAR_UPDATE: a manager switched the bar on or off.
+  void handleEnabledUpdate(Map<String, dynamic> data) {
+    final String? channelId = data['channel_id'] as String?;
+    if (channelId == null) {
+      return;
+    }
+    final bool enabled = data['enabled'] as bool? ?? false;
+    if (enabled) {
+      _disabledChannels.remove(channelId);
+      _setChannel(channelId, state[channelId] ?? const <SignalEntry>[]);
+    } else {
+      _disabledChannels.add(channelId);
+      _setChannel(channelId, const <SignalEntry>[]);
+    }
+  }
+
+  /// A manager turns one account's signal off.
+  Future<void> removeUser(
+    String channelId,
+    String signalId, {
+    required String userId,
+  }) async {
+    final List<SignalEntry>? current = state[channelId];
+    if (current != null) {
+      _setChannel(
+        channelId,
+        applySignalUpdate(
+          current,
+          added: const <SignalEntry>[],
+          removed: <({String signalId, String userId})>[
+            (signalId: signalId, userId: userId),
+          ],
+        ),
+      );
+    }
+    try {
+      await ref
+          .read(signalBarRepositoryProvider)
+          .removeUser(channelId, signalId, userId);
+    } on Exception catch (err) {
+      debugPrint('[SignalBar] Failed to turn off a signal: $err');
+      unawaited(loadChannel(channelId));
+    }
+  }
+
   Future<void> reset(String channelId, String signalId) async {
     try {
       await ref.read(signalBarRepositoryProvider).reset(channelId, signalId);
@@ -225,6 +282,8 @@ void handleSignalBarGatewayEvent(
 ) {
   if (eventType == 'CHANNEL_SIGNAL_UPDATE') {
     ref.read(channelSignalsProvider.notifier).handleChannelUpdate(data);
+  } else if (eventType == 'CHANNEL_SIGNAL_BAR_UPDATE') {
+    ref.read(channelSignalsProvider.notifier).handleEnabledUpdate(data);
   } else if (eventType == 'SIGNAL_BAR_UPDATE') {
     ref
         .read(signalBarConfigProvider.notifier)

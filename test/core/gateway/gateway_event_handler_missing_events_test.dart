@@ -47,12 +47,22 @@ void main() {
       );
       await handler.handle(
         const UnknownGatewayEvent(
+          eventType: 'CHANNEL_SIGNAL_BAR_UPDATE',
+          data: <String, dynamic>{'channel_id': 'c2'},
+        ),
+      );
+      await handler.handle(
+        const UnknownGatewayEvent(
           eventType: 'SOMETHING_ELSE',
           data: <String, dynamic>{},
         ),
       );
 
-      expect(seen, <String>['CHANNEL_SIGNAL_UPDATE:c1', 'SIGNAL_BAR_UPDATE:3']);
+      expect(seen, <String>[
+        'CHANNEL_SIGNAL_UPDATE:c1',
+        'SIGNAL_BAR_UPDATE:3',
+        'CHANNEL_SIGNAL_BAR_UPDATE:c2',
+      ]);
     });
 
     test('GUILD_COUNTS_UPDATE writes member and online counts', () async {
