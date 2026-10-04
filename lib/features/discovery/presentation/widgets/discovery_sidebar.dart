@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -17,9 +18,11 @@ class DiscoverySidebar extends StatelessWidget {
     return ColoredBox(
       color: colors.channelSidebarBackground,
       child: ListView(
-        padding: EdgeInsets.symmetric(
-          horizontal: layout.s2,
-          vertical: layout.s2,
+        padding: EdgeInsets.fromLTRB(
+          layout.s2,
+          layout.s2,
+          layout.s2,
+          isMobileLayout(context) ? 96 : layout.s2,
         ),
         children: <Widget>[
           _DiscoverySidebarItem(
