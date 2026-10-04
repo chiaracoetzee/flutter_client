@@ -76,7 +76,7 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
       await ref
           .read(guildExpressionsRepositoryProvider)
           .updateEmoji(guildId: guildId, emojiId: emojiId, name: name);
-      final List<GuildEmojiSettingsEntry> updatedEmojis = current.emojis
+      final List<GuildEmojiSettingsEntry> updatedEmojis = (current.emojis
           .map(
             (GuildEmojiSettingsEntry entry) => entry.id == emojiId
                 ? GuildEmojiSettingsEntry(
@@ -87,7 +87,8 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
                   )
                 : entry,
           )
-          .toList(growable: false);
+          .toList())
+        ..sort(compareGuildEmojiSettingsEntriesByName);
       final List<int> indices = filterGuildEmojiIndices(
         updatedEmojis,
         current.debouncedSearchQuery,
@@ -193,9 +194,10 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
       }
     }
     final GuildEmojiSettingsState latest = state.value ?? current;
-    final List<GuildEmojiSettingsEntry> merged = _sortNewestFirst(
-      await repository.listEmojis(guildId),
-    );
+    final List<GuildEmojiSettingsEntry> merged =
+        List<GuildEmojiSettingsEntry>.from(
+          await repository.listEmojis(guildId),
+        )..sort(compareGuildEmojiSettingsEntriesByName);
     final List<int> indices = filterGuildEmojiIndices(
       merged,
       latest.debouncedSearchQuery,
@@ -238,9 +240,12 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
 
   Future<GuildEmojiSettingsState> _loadState() async {
     try {
-      final List<GuildEmojiSettingsEntry> emojis = _sortNewestFirst(
-        await ref.read(guildExpressionsRepositoryProvider).listEmojis(guildId),
-      );
+      final List<GuildEmojiSettingsEntry> emojis =
+          List<GuildEmojiSettingsEntry>.from(
+            await ref
+                .read(guildExpressionsRepositoryProvider)
+                .listEmojis(guildId),
+          )..sort(compareGuildEmojiSettingsEntriesByName);
       final List<int> indices = filterGuildEmojiIndices(emojis, '');
       return GuildEmojiSettingsState(
         loadStatus: GuildEmojiSettingsLoadStatus.success,
@@ -261,6 +266,9 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
   }
 }
 
+// Fork: guild emojis are sorted A to Z (compareGuildEmojiSettingsEntriesByName); this
+// newest-first helper of upstream's is left as upstream has it.
+// ignore: unused_element
 List<GuildEmojiSettingsEntry> _sortNewestFirst(
   List<GuildEmojiSettingsEntry> emojis,
 ) {
