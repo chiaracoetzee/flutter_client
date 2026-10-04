@@ -87,6 +87,25 @@ void main() {
       expect(result.keys.map((guild) => guild.id), ['1']);
       expect(result.values.single.map((emoji) => emoji.id), ['a']);
     });
+
+    test('sorts guild emoji entries alphabetically by name case-insensitively', () {
+      final unsortedEmojis = <GuildEmojiEntry>[
+        GuildEmojiEntry(id: '1', name: 'zebra', animated: false, guildId: '1'),
+        GuildEmojiEntry(id: '2', name: 'Apple', animated: false, guildId: '1'),
+        GuildEmojiEntry(id: '3', name: 'banana', animated: false, guildId: '1'),
+      ];
+      final result = guildEmojiEntriesForPicker(
+        guilds: guilds,
+        emojis: unsortedEmojis,
+        activeGuildId: '1',
+        isPremium: false,
+      );
+
+      expect(
+        result[guilds.first]!.map((emoji) => emoji.name),
+        ['Apple', 'banana', 'zebra'],
+      );
+    });
   });
 
   test('lockedGuildEmojiEntriesForUpsell returns non-active guild emojis', () {
