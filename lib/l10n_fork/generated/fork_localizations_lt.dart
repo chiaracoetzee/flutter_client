@@ -348,4 +348,24 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Pašalinti parašo jaustuką';
+
+  @override
+  String get signalBarLabel => 'Signalų juosta';
+
+  @override
+  String get signalBarShow => 'Rodyti signalų juostą';
+
+  @override
+  String get signalBarHide => 'Slėpti signalų juostą';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Niekas neįjungė šio signalo';
+
+  @override
+  String get signalBarReset => 'Atstatyti signalą visiems';
 }

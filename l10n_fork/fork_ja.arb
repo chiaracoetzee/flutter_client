@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "絵文字を追加",
     "personaSignatureEmojiAlreadyAdded": "この絵文字はすでにシグネチャー絵文字として追加されています",
     "personaRemoveSignatureEmoji": "シグネチャー絵文字を削除",
-    "personaSignatureEmojiAlreadyUsedByOther": "シグネチャー絵文字はすでにペルソナ「{name}」で使用されています"
+    "personaSignatureEmojiAlreadyUsedByOther": "シグネチャー絵文字はすでにペルソナ「{name}」で使用されています",
+    "signalBarLabel": "シグナルバー",
+    "signalBarShow": "シグナルバーを表示",
+    "signalBarHide": "シグナルバーを隠す",
+    "signalBarSignalWithNames": "{label}：{names}",
+    "signalBarNobody": "このシグナルをオンにしている人はいません",
+    "signalBarReset": "全員のシグナルをリセット"
 }

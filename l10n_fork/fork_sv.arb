@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Lägg till emoji",
     "personaSignatureEmojiAlreadyAdded": "Den här emojin har redan lagts till som en signaturemoji",
     "personaRemoveSignatureEmoji": "Ta bort signaturemoji",
-    "personaSignatureEmojiAlreadyUsedByOther": "Signaturemojin används redan av personan \"{name}\""
+    "personaSignatureEmojiAlreadyUsedByOther": "Signaturemojin används redan av personan \"{name}\"",
+    "signalBarLabel": "Signalfält",
+    "signalBarShow": "Visa signalfältet",
+    "signalBarHide": "Dölj signalfältet",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Ingen har den här signalen på",
+    "signalBarReset": "Återställ signalen för alla"
 }

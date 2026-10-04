@@ -89,6 +89,7 @@ import 'package:fluxer_app/features/settings/providers/advanced_preferences_prov
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/signal_bar/presentation/signal_bar_strip.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -1107,6 +1108,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                if (editingMessage == null)
+                  SignalBarStrip(
+                    channelId: channelId,
+                    guildId: guildId,
+                    backgroundColor: composerBackgroundColor,
+                    dividerColor: wideComposerRingColor(context, focused: false),
+                  ),
                 if (slashParamBarVisible)
                   DecoratedBox(
                     decoration: BoxDecoration(
@@ -1161,6 +1169,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      if (editingMessage == null)
+                        SignalBarStrip(
+                          channelId: channelId,
+                          guildId: guildId,
+                          backgroundColor: composerBackgroundColor,
+                          dividerColor: wideComposerRingColor(
+                            context,
+                            focused: false,
+                          ),
+                        ),
                       if (hasWideActionStack)
                         _buildWideComposerActionStack(
                           context: context,

@@ -99,5 +99,11 @@
     "personaAddSignatureEmoji": "Emoji hinzufügen",
     "personaSignatureEmojiAlreadyAdded": "Dieses Emoji wurde bereits als Signatur-Emoji hinzugefügt",
     "personaRemoveSignatureEmoji": "Signatur-Emoji entfernen",
-    "personaSignatureEmojiAlreadyUsedByOther": "Signatur-Emoji wird bereits von Persona \"{name}\" verwendet"
+    "personaSignatureEmojiAlreadyUsedByOther": "Signatur-Emoji wird bereits von Persona \"{name}\" verwendet",
+    "signalBarLabel": "Signalleiste",
+    "signalBarShow": "Signalleiste einblenden",
+    "signalBarHide": "Signalleiste ausblenden",
+    "signalBarSignalWithNames": "{label}: {names}",
+    "signalBarNobody": "Niemand hat dieses Signal eingeschaltet",
+    "signalBarReset": "Signal für alle zurücksetzen"
 }

@@ -351,6 +351,26 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get personaRemoveSignatureEmoji => 'Eliminar emoji de firma';
+
+  @override
+  String get signalBarLabel => 'Barra de señales';
+
+  @override
+  String get signalBarShow => 'Mostrar barra de señales';
+
+  @override
+  String get signalBarHide => 'Ocultar barra de señales';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Nadie tiene esta señal activada';
+
+  @override
+  String get signalBarReset => 'Restablecer señal para todos';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -669,4 +689,24 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get userProfileTimezoneNone => 'Ninguno';
+
+  @override
+  String get signalBarLabel => 'Barra de señales';
+
+  @override
+  String get signalBarShow => 'Mostrar barra de señales';
+
+  @override
+  String get signalBarHide => 'Ocultar barra de señales';
+
+  @override
+  String signalBarSignalWithNames(String label, String names) {
+    return '$label: $names';
+  }
+
+  @override
+  String get signalBarNobody => 'Nadie tiene esta señal activada';
+
+  @override
+  String get signalBarReset => 'Restablecer señal para todos';
 }
