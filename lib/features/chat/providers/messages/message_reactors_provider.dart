@@ -15,14 +15,14 @@ class MessageReactorsState {
     this.errorMessage,
   });
 
-  final List<UserPartialResponse> users;
+  final List<ReactionUserItemResponse> users;
   final bool hasMore;
   final String? nextAfter;
   final bool isLoadingMore;
   final String? errorMessage;
 
   MessageReactorsState copyWith({
-    List<UserPartialResponse>? users,
+    List<ReactionUserItemResponse>? users,
     bool? hasMore,
     String? nextAfter,
     bool? isLoadingMore,
