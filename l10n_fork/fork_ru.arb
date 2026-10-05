@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Никто не включил этот сигнал",
     "signalBarReset": "Сбросить сигнал для всех",
-    "signalBarTurnOff": "Выключить {name}"
+    "signalBarTurnOff": "Выключить {name}",
+    "instanceUrlHelperDefault": "Используйте {domain} для инстанса по умолчанию или точный URL другого инстанса.",
+    "instanceResetToDefault": "Сбросить до инстанса по умолчанию"
 }

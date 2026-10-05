@@ -373,4 +373,12 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Dezactivează $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Folosește $domain pentru instanța implicită sau adresa URL exactă a altei instanțe.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Resetează la instanța implicită';
 }

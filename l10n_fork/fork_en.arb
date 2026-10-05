@@ -496,5 +496,18 @@
                 "type": "String"
             }
         }
+    },
+    "instanceUrlHelperDefault": "Use {domain} for the default instance, or the exact URL of another instance.",
+    "@instanceUrlHelperDefault": {
+        "description": "Helper text under the instance URL field on the login screen. domain is the host of this build's default instance.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "instanceResetToDefault": "Reset to default instance",
+    "@instanceResetToDefault": {
+        "description": "Button on the instance selector that switches back to this build's default instance."
     }
 }
