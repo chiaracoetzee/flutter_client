@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "이 시그널을 켠 사람이 없어요",
     "signalBarReset": "모두의 시그널 초기화",
-    "signalBarTurnOff": "{name} 끄기"
+    "signalBarTurnOff": "{name} 끄기",
+    "instanceUrlHelperDefault": "기본 인스턴스에는 {domain} 주소를 사용하고, 다른 인스턴스는 정확한 URL을 입력하세요.",
+    "instanceResetToDefault": "기본 인스턴스로 재설정"
 }
