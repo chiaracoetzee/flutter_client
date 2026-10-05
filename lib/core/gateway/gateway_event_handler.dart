@@ -50,7 +50,7 @@ typedef TypingCallback =
     void Function(
       String channelId,
       String userId, [
-      MessageSubprofileResponse? subprofile,
+      MessageSubprofileResponseSchema? subprofile,
     ]);
 typedef VoiceStateCallback = void Function(VoiceState state);
 typedef VoiceBulkCallback = void Function(List<VoiceState> states);
