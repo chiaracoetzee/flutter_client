@@ -642,7 +642,9 @@ class MessageRepository {
       channelId: channelId,
       messageId: messageId,
       emoji: emoji,
-      body: personaId != null ? {'persona_id': personaId} : null,
+      body: personaId != null
+          ? AddReactionBodySchema({'persona_id': personaId})
+          : null,
     );
   }
 
