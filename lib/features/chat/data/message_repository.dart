@@ -634,7 +634,9 @@ class MessageRepository {
       messageId: messageId,
       emoji: emoji,
       sessionId: _gatewaySessionId?.call(),
-      body: personaId != null ? {'persona_id': personaId} : null,
+      body: personaId != null
+          ? AddReactionBodySchema({'persona_id': personaId})
+          : null,
     );
   }
 
