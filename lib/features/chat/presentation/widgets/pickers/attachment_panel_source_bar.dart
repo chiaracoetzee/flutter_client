@@ -41,7 +41,8 @@ class AttachmentPanelSourceBar extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(layout.s1),
-        child: Row(
+        // Fork: a Row that scrolls sideways (see _ScrollableRow).
+        child: _ScrollableRow(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             FluxerButton.ghost(
@@ -79,4 +80,20 @@ class AttachmentPanelSourceBar extends StatelessWidget {
       ),
     );
   }
+}
+
+// Fork: four labelled buttons do not fit a narrow composer in every locale, so the row
+// scrolls sideways instead of overflowing. A widget of its own, so upstream's buttons
+// keep their place in the tree and their indentation.
+class _ScrollableRow extends StatelessWidget {
+  const _ScrollableRow({required this.mainAxisSize, required this.children});
+
+  final MainAxisSize mainAxisSize;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(mainAxisSize: mainAxisSize, children: children),
+  );
 }

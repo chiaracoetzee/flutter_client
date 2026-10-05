@@ -20,6 +20,13 @@ import 'package:path/path.dart' as path_lib;
 
 import '../../../../../helpers/pump_fluxer_app.dart';
 
+// Fork imports.
+// Fork: the fork's imports stay in this group, after upstream's, instead of sorted in among them.
+// ignore_for_file: directives_ordering
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+
 const Size _kGalleryViewport = Size(400, 520);
 
 Future<void> _waitForPendingItems(
@@ -226,6 +233,14 @@ Future<ScrollController> _pumpGallery(
         chatViewModelProvider.overrideWithValue(_chatState()),
         attachmentGallerySourceProvider.overrideWithValue(source),
         advancedPreferencesProvider.overrideWith(_NoPreuploadPreferences.new),
+        // The fork's voice button reads composer permissions and slowmode.
+        dmViewModelProvider.overrideWith(_FakeDmViewModel.new),
+        channelMessagePermissionsProvider(
+          'channel-1',
+        ).overrideWith((ref) => Future.value(ChannelMessagePermissions.all)),
+        isSlowmodeBlockedProvider(
+          'channel-1',
+        ).overrideWith((ref) => Stream<bool>.value(false)),
       ],
       child: MediaQuery(
         data: const MediaQueryData(
@@ -241,6 +256,16 @@ Future<ScrollController> _pumpGallery(
   await tester.pump();
   await tester.pump();
   return scrollController;
+}
+
+class _FakeDmViewModel extends DmViewModel {
+  @override
+  DmViewState build() => const DmViewState(
+    conversations: [],
+    friendsList: [],
+    activeTab: FriendsTab.online,
+    searchQuery: '',
+  );
 }
 
 ChatViewState _chatState() {
