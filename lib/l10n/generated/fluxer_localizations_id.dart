@@ -7717,6 +7717,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Hapus lampiran';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => 'Edit teks alternatif';
 
   @override

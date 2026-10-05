@@ -3065,12 +3065,14 @@ class _MessageListState extends ConsumerState<MessageList> {
                 ),
               ),
             ),
-            onDeleteAttachment: (Attachment attachment) => ref
-                .read(chatViewModelProvider.notifier)
-                .deleteMessageAttachment(
-                  messageId: message.id,
-                  attachmentId: attachment.id,
-                ),
+            onDeleteAttachment: (Attachment attachment) => unawaited(
+              showDeleteAttachmentConfirmSheet(
+                this.context,
+                ref,
+                messageId: message.id,
+                attachment: attachment,
+              ),
+            ),
             onEditAttachmentAltText: (Attachment attachment) => unawaited(
               editMessageAttachmentAltText(
                 this.context,

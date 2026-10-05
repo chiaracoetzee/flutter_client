@@ -7781,6 +7781,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Melléklet törlése';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText =>
       'Alternatív szöveg szerkesztése';
 

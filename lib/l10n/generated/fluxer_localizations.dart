@@ -12661,6 +12661,12 @@ abstract class FluxerLocalizations {
   /// **'Delete attachment'**
   String get chatMessageDeleteAttachment;
 
+  /// Body text for the delete attachment confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this attachment?'**
+  String get chatMessageDeleteAttachmentConfirmDescription;
+
   /// Action label for editing the alt text of a message attachment.
   ///
   /// In en, this message translates to:

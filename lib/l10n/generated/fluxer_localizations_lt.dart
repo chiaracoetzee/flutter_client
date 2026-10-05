@@ -7802,6 +7802,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Ištrinti priedą';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText =>
       'Redaguoti alternatyvųjį tekstą';
 

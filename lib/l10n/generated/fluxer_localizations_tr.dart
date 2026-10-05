@@ -7724,6 +7724,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Eki sil';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => 'Alternatif metni düzenle';
 
   @override

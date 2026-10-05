@@ -9741,6 +9741,10 @@
     "@chatMessageDeleteAttachment": {
         "description": "Action label for deleting an attachment from a sent message."
     },
+    "chatMessageDeleteAttachmentConfirmDescription": "Are you sure you want to delete this attachment?",
+    "@chatMessageDeleteAttachmentConfirmDescription": {
+        "description": "Body text for the delete attachment confirmation dialog."
+    },
     "chatMessageEditAttachmentAltText": "Edit alt text",
     "@chatMessageEditAttachmentAltText": {
         "description": "Action label for editing the alt text of a message attachment."

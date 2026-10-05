@@ -7729,6 +7729,10 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Slett vedlegg';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => 'Rediger alt-tekst';
 
   @override

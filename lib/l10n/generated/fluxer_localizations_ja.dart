@@ -7400,6 +7400,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => '添付ファイルを削除';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => '代替テキストを編集';
 
   @override

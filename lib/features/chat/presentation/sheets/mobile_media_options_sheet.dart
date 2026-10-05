@@ -249,7 +249,8 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
         callbacks: actionScope.callbacks,
         previewRoleGuildId: actionScope.previewRoleGuildId,
       );
-      if (!shouldCloseMediaViewerForMessageAction(action)) {
+      if (action == MessageAction.delete ||
+          !shouldCloseMediaViewerForMessageAction(action)) {
         return;
       }
       WidgetsBinding.instance.addPostFrameCallback((_) {

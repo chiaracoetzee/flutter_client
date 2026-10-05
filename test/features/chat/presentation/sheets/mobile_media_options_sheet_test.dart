@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -10,6 +11,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
@@ -36,6 +38,7 @@ Widget _wrap(Widget child, {List<Override> overrides = const []}) {
       ...overrides,
     ],
     child: MaterialApp(
+      navigatorKey: rootNavigatorKey,
       locale: kTestLocale,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -306,8 +309,19 @@ void main() {
                                               canSendMessages: true,
                                               developerMode: false,
                                             ),
-                                        callbacks:
-                                            const MessageActionCallbacks(),
+                                        callbacks: MessageActionCallbacks(
+                                          onDeleteAttachment:
+                                              (Attachment attachment) {
+                                                unawaited(
+                                                  showDeleteAttachmentConfirmSheet(
+                                                    dialogContext,
+                                                    ref,
+                                                    messageId: message.id,
+                                                    attachment: attachment,
+                                                  ),
+                                                );
+                                              },
+                                        ),
                                       ),
                                     ),
                                     onCloseViewer: () {
@@ -342,7 +356,11 @@ void main() {
     final Finder deleteAttachment = find.text('Delete attachment');
     await tester.ensureVisible(deleteAttachment);
     await tester.pumpAndSettle();
-    await tester.tap(deleteAttachment);
+    await tester.tap(deleteAttachment.first);
+    await tester.pumpAndSettle();
+
+    // Confirm the deletion via the confirm sheet
+    await tester.tap(deleteAttachment.last);
     await tester.pumpAndSettle();
 
     expect(viewerClosed, isTrue);

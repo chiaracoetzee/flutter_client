@@ -7755,6 +7755,10 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Elimina allegato';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => 'Modifica testo alternativo';
 
   @override

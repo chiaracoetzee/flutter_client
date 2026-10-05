@@ -7722,6 +7722,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Xóa tệp đính kèm';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => 'Chỉnh sửa văn bản thay thế';
 
   @override

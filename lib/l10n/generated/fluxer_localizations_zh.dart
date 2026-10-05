@@ -7219,6 +7219,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => '删除附件';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => '编辑替代文本';
 
   @override
