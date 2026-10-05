@@ -11,8 +11,11 @@ import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_gallery_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_source_bar.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -208,6 +211,14 @@ Future<ScrollController> _pumpGallery(
         chatViewModelProvider.overrideWithValue(_chatState()),
         attachmentGallerySourceProvider.overrideWithValue(source),
         advancedPreferencesProvider.overrideWith(_NoPreuploadPreferences.new),
+        // The fork's voice button reads composer permissions and slowmode.
+        dmViewModelProvider.overrideWith(_FakeDmViewModel.new),
+        channelMessagePermissionsProvider(
+          'channel-1',
+        ).overrideWith((ref) => Future.value(ChannelMessagePermissions.all)),
+        isSlowmodeBlockedProvider(
+          'channel-1',
+        ).overrideWith((ref) => Stream<bool>.value(false)),
       ],
       child: MediaQuery(
         data: const MediaQueryData(
@@ -223,6 +234,16 @@ Future<ScrollController> _pumpGallery(
   await tester.pump();
   await tester.pump();
   return scrollController;
+}
+
+class _FakeDmViewModel extends DmViewModel {
+  @override
+  DmViewState build() => const DmViewState(
+    conversations: [],
+    friendsList: [],
+    activeTab: FriendsTab.online,
+    searchQuery: '',
+  );
 }
 
 ChatViewState _chatState() {
