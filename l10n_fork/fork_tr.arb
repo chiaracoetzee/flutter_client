@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Bu sinyali açan kimse yok",
     "signalBarReset": "Sinyali herkes için sıfırla",
-    "signalBarTurnOff": "{name} adına kapat"
+    "signalBarTurnOff": "{name} adına kapat",
+    "instanceUrlHelperDefault": "Varsayılan sunucu için {domain} adresini veya başka bir sunucunun tam URL’sini kullanın.",
+    "instanceResetToDefault": "Varsayılan sunucuya sıfırla"
 }

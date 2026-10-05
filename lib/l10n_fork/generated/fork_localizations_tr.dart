@@ -374,4 +374,12 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return '$name adına kapat';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Varsayılan sunucu için $domain adresini veya başka bir sunucunun tam URL’sini kullanın.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Varsayılan sunucuya sıfırla';
 }
