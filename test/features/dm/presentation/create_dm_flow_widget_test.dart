@@ -49,6 +49,11 @@ import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../helpers/open_test_database.dart';
 
+// Fork imports.
+// Fork: upstream's imports above stay as upstream has them, though the fork's changes leave
+// some of them unused.
+// ignore_for_file: unused_import
+
 void main() {
   group('Create DM flow', () {
     testWidgets('opens bottom sheet and lists friends', (tester) async {
@@ -212,27 +217,6 @@ void main() {
       expect(find.text('Verify your email'), findsOneWidget);
       expect(find.text('Verify your email to start DMs.'), findsOneWidget);
       expect(find.text('Alice'), findsNothing);
-    });
-
-    testWidgets('dm list fab opens create dm sheet on mobile', (tester) async {
-      _setMobileSurface(tester);
-      final _RecordingDmSetup setup = _createRecordingRepository();
-      final GoRouter router = _buildRouter(home: const DMList());
-
-      await tester.pumpWidget(
-        _buildDmListHarness(
-          router: router,
-          setup: setup,
-          friends: _sampleFriends,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.bySemanticsLabel('New message'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Select friends'), findsOneWidget);
-      expect(find.text('Alice'), findsOneWidget);
     });
   });
 }
@@ -507,6 +491,9 @@ Widget _buildHarness({
   );
 }
 
+// Unused since the fork replaced the DM list compose button with the quick
+// switcher button; kept so this file stays close to upstream's.
+// ignore: unused_element
 Widget _buildDmListHarness({
   required GoRouter router,
   required _RecordingDmSetup setup,
