@@ -220,7 +220,7 @@ void main() {
     );
 
     test(
-      'migrateLegacyInstanceEndpoints rewrites official instance snapshots',
+      "migrateLegacyInstanceEndpoints leaves a stored upstream Fluxer account on its own endpoints",
       () async {
         const InstanceConfigSnapshot legacy = InstanceConfigSnapshot(
           apiBaseUrl: 'https://api.fluxer.app/v1',
@@ -241,15 +241,14 @@ void main() {
 
         final InstanceConfigSnapshot restored = await repository
             .resolveInstanceSnapshotForUser('user-1');
-        expect(restored.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-        expect(restored.gatewayUrl, InstanceConstants.defaultGatewayUrl);
-        expect(
-          restored.displayDomain,
-          InstanceConstants.defaultInstanceInputUrl,
-        );
+        // Rewriting these to this build's instance would send the account's
+        // Fluxer token to a different server.
+        expect(restored.apiBaseUrl, 'https://api.fluxer.app/v1');
+        expect(restored.gatewayUrl, 'wss://gateway.fluxer.app');
+        expect(restored.displayDomain, 'fluxer.app');
         expect(
           await tokenStorage.readApiBaseUrl('user-1'),
-          InstanceConstants.defaultApiBaseUrl,
+          'https://api.fluxer.app/v1',
         );
       },
     );
