@@ -1,0 +1,8 @@
+arb-dir: .
+template-arb-file: fork_en.arb
+output-class: ForkLocalizations
+output-localization-file: fork_localizations.dart
+output-dir: ../lib/l10n_fork/generated
+preferred-supported-locales: ["en"]
+nullable-getter: false
+format: true
