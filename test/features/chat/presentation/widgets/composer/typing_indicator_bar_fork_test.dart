@@ -2,6 +2,7 @@
 // upstream has it.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../helpers/open_test_database.dart';
@@ -34,7 +35,7 @@ void main() {
           .addTyping(
             'channel-1',
             forkKTyperUserId,
-            subprofile: const MessageSubprofileResponse(
+            subprofile: const MessageSubprofileResponseSchema(
               id: 'persona-1',
               name: 'Ruby Rose',
               avatar: 'avatars/ruby.png',
