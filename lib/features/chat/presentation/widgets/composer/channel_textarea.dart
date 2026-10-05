@@ -273,6 +273,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   bool _composerFocused = false;
   bool _composerReconnectReadOnly = false;
   String? _lastWireTextPushedToState;
+  Timer? _wireSyncDebounceTimer;
+  String? _wireSyncPendingWire;
   final ValueNotifier<bool> _showComposerCounter = ValueNotifier<bool>(false);
 
   Widget _wideComposerIconButton({
@@ -477,6 +479,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _syncStateFromController() {
+    if (_controller.value.composing.isValid) {
+      return;
+    }
     _syncComposerCounterPadding();
     if (_isApplyingWireText) {
       return;
@@ -493,6 +498,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (_isApplyingWireText) {
       return;
     }
+    if (_focusNode.hasFocus && _controller.value.composing.isValid) {
+      return;
+    }
     final String messageText = ref.read(chatViewModelProvider).messageText;
     if (messageText == _lastWireTextPushedToState) {
       return;
@@ -506,16 +514,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (_shouldDeferComposerStateWriteBack(wire)) {
       return;
     }
-    unawaited(_applyWireTextFromState(wire));
+
+    _wireSyncDebounceTimer?.cancel();
+    _wireSyncPendingWire = wire;
+    _wireSyncDebounceTimer = Timer(const Duration(milliseconds: 150), () {
+      final pendingWire = _wireSyncPendingWire;
+      if (pendingWire == null || pendingWire == _lastWireTextPushedToState) {
+        return;
+      }
+      unawaited(_applyWireTextFromState(pendingWire));
+    });
   }
 
   bool _shouldDeferComposerStateWriteBack(String wireFromState) {
     if (!_focusNode.hasFocus) {
       return false;
-    }
-    final TextEditingValue editing = _controller.value;
-    if (editing.composing.isValid) {
-      return true;
     }
     final String localWire = stripPrivateUseCharacters(
       _controller.toWireText(),
@@ -738,6 +751,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   @override
   void dispose() {
     _composerReconnectReadOnly = false;
+    _wireSyncDebounceTimer?.cancel();
     _chatKeybindEffectsSubscription?.close();
     _keyboardRestore.dispose();
     _composerFocus.unregister(_requestComposerFocus);

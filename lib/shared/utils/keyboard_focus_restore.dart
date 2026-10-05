@@ -69,25 +69,42 @@ void reconnectComposerKeyboard(
   });
 }
 
-/// read-only flash with a watchdog to avoid getting stuck.
+/// read-only flash with abort and fallback safety nets.
 void _readOnlyToggle(
   FocusNode node,
   void Function({required bool readOnly}) toggleReadOnly,
 ) {
-  Timer? watchdog;
+  final int id = _nextReconnectId++;
+
+  bool isAborted() => _activeReconnectId != id || !node.hasFocus;
+
+  _activeReconnectId = id;
   toggleReadOnly(readOnly: true);
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    toggleReadOnly(readOnly: false);
-    watchdog?.cancel();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _showKeyboard(node));
-  });
-  // safety net in case the post-frame callback is dropped
-  watchdog = Timer(const Duration(milliseconds: 500), () {
-    if (node.hasFocus) {
+
+  Future.delayed(const Duration(milliseconds: 50), () {
+    if (!isAborted()) {
       toggleReadOnly(readOnly: false);
     }
   });
+
+  Future.delayed(const Duration(milliseconds: 100), () {
+    if (!isAborted()) {
+      _showKeyboard(node);
+      _activeReconnectId = null;
+    }
+  });
+
+  Timer(const Duration(milliseconds: 400), () {
+    if (_activeReconnectId == id && node.hasFocus) {
+      toggleReadOnly(readOnly: false);
+      _showKeyboard(node);
+      _activeReconnectId = null;
+    }
+  });
 }
+
+int _nextReconnectId = 0;
+int? _activeReconnectId;
 
 /// Re-requests [focusNode] on resume when the keyboard was open before backgrounding.
 class KeyboardFocusRestoreHandle {
