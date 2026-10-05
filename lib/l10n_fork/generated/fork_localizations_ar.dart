@@ -370,4 +370,12 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'إيقاف $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'استخدم $domain للمثيل الافتراضي، أو عنوان URL الدقيق لمثيل آخر.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'إعادة الضبط إلى المثيل الافتراضي';
 }
