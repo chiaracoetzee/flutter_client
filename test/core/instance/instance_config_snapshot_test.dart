@@ -10,6 +10,11 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/well_known_fixture.dart';
 
+// Fork imports.
+// Fork: upstream's imports above stay as upstream has them, though the fork's changes leave
+// some of them unused.
+// ignore_for_file: unused_import
+
 void main() {
   group('InstanceConfigSnapshot.fromWellKnown', () {
     test('uses api_public for official Fluxer instead of api_client', () {
@@ -101,8 +106,8 @@ void main() {
             normalizer: const InstanceEndpointNormalizer(),
           );
 
-      expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-      expect(snapshot.gatewayUrl, InstanceConstants.defaultGatewayUrl);
+      expect(snapshot.apiBaseUrl, 'https://fluxer.com/api/v1');
+      expect(snapshot.gatewayUrl, 'wss://gateway.fluxer.com');
       expect(snapshot.displayDomain, 'fluxer.com');
     });
   });
