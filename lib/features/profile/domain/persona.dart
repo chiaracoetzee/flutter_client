@@ -244,7 +244,6 @@ class Persona {
       if (bannerHash != null) 'banner': bannerHash,
       if (effectiveColor != null) 'avatar_color': effectiveColor,
       if (trimmedTagText != null) 'display_tag_text': trimmedTagText,
-      if (trimmedTagText != null) 'system_name': trimmedTagText,
       if (trimmedTagIcon != null) 'display_tag_icon': trimmedTagIcon,
       if (pronouns != null) 'pronouns': pronouns,
       if (effectiveColor != null) 'color': effectiveColor,
