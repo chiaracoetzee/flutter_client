@@ -17,7 +17,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
-import 'package:fluxer_dart/models/message_subprofile_response.dart';
+import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -187,7 +187,7 @@ void main() {
     container.read(typingIndicatorsProvider.notifier).addTyping(
       'channel-1',
       _kTyperUserId,
-      subprofile: const MessageSubprofileResponse(
+      subprofile: const MessageSubprofileResponseSchema(
         id: 'persona-1',
         name: 'Ruby Rose',
         avatar: 'avatars/ruby.png',
