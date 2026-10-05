@@ -135,7 +135,7 @@ class InstanceRuntimeConfig {
           response.registration.adminRegistrationUrlsEnabled,
       collectDateOfBirth: response.appPublic.registration.collectDateOfBirth,
       serverListButtons: InstanceServerListButtons.fromJson(
-        response.community.serverListButtons,
+        response.community.serverListButtons?.toJson(),
       ),
     );
   }
