@@ -10,6 +10,10 @@ import 'package:fluxer_app/material_ui.dart';
 import '../../../../helpers/pump_fluxer_app.dart';
 import '../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class _FixedInstanceSelector extends InstanceSelector {
   _FixedInstanceSelector(this._state);
 
@@ -199,8 +203,15 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text(testL10n.instanceUrlHelper), findsOneWidget);
-    expect(find.text(testL10n.instanceUrlPlaceholder), findsWidgets);
+    expect(
+      find.text(
+        testL10n.fork.instanceUrlHelperDefault(
+          InstanceConstants.defaultInstanceInputUrl,
+        ),
+      ),
+      findsOneWidget,
+    );
+    expect(find.text(InstanceConstants.defaultInstanceInputUrl), findsWidgets);
     expect(find.text(testL10n.instanceConnect), findsOneWidget);
     expect(find.text(testL10n.recentInstances), findsOneWidget);
     expect(find.text('Chat'), findsOneWidget);

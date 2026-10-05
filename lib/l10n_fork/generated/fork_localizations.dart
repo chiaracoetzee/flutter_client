@@ -808,6 +808,18 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Turn off {name}'**
   String signalBarTurnOff(String name);
+
+  /// Helper text under the instance URL field on the login screen. domain is the host of this build's default instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Use {domain} for the default instance, or the exact URL of another instance.'**
+  String instanceUrlHelperDefault(String domain);
+
+  /// Button on the instance selector that switches back to this build's default instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default instance'**
+  String get instanceResetToDefault;
 }
 
 class _ForkLocalizationsDelegate
