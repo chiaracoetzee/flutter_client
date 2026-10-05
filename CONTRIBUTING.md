@@ -144,17 +144,21 @@ rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-and
 
 **Application ID / bundle ID:** `beta` and `stable` use `com.fluxer`. `canary` uses `com.fluxer.canary`
 
-**Android** uses two Gradle flavor dimensions: environment plus push (`fcm` or `unifiedpush`). The variant name combines both in camelCase (for example `stableFcm`, `betaUnifiedpush`). `PUSH_PROVIDER` must match the push dimension: `fcm` for Firebase Cloud Messaging (adds deps via `pubspec.firebase.deps.yaml`) or `unifiedpush` for UnifiedPush.
+**Android** uses two Gradle flavor dimensions: environment plus push (`fcm` or `unifiedpush`). The variant name combines both in camelCase (for example `stableFcm`, `betaUnifiedpush`). `PUSH_PROVIDER` must match the push dimension: `fcm` for Firebase Cloud Messaging or `unifiedpush` for UnifiedPush.
+
+Firebase is merged in only for FCM builds. Play billing deps live in `pubspec.yaml` for normal dev; OSS UnifiedPush builds strip them with `dart tool/configure_build.dart --profile=oss` (then `flutter pub get`). Other profiles: `android-fcm` (Firebase + FCM sources), `ios-store` (drop Firebase, keep billing).
 
 **iOS** uses schemes with the same environment names (`canary`, `beta`, `stable`). There is no push flavor dimension; push is always Apple Push Notification service, so use `PUSH_PROVIDER=apns`.
 
 Example (Android, stable with FCM):
 
 ```text
+dart tool/configure_build.dart --profile=android-fcm
+flutter pub get
 flutter run --flavor stableFcm --dart-define-from-file=tool/dart_defines/stable.json --dart-define=PUSH_PROVIDER=fcm
 ```
 
-For the same environment on iOS, swap the flavor for the scheme and set `PUSH_PROVIDER=apns`, for example `--flavor stable`, `--dart-define-from-file=tool/dart_defines/stable.json`, and `--dart-define=PUSH_PROVIDER=apns`.
+For iOS, use the scheme name as the flavor and `PUSH_PROVIDER=apns`:
 
 ```text
 flutter build ios --flavor canary --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=apns
