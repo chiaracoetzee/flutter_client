@@ -25,6 +25,10 @@ import '../../../helpers/open_test_database.dart';
 import '../../../helpers/pump_fluxer_app.dart';
 import '../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+
 class _PendingAppStartup extends AppStartup {
   @override
   Future<void> build() => Completer<void>().future;
@@ -231,7 +235,10 @@ void main() {
     await tester.pump();
 
     expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
-    expect(find.text('fluxer.com'), findsOneWidget);
+    expect(
+      find.text(InstanceConstants.defaultInstanceInputUrl),
+      findsOneWidget,
+    );
     await releaseTestWidgetTree(tester);
   });
 
