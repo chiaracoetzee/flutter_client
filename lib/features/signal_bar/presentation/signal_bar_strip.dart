@@ -276,7 +276,8 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     _schedulePersonaReport(_resolveComposerPersona());
     final bool enabled = ref.watch(
       channelSignalsProvider.select(
-        (_) => _signals.isEnabled(widget.channelId),
+        (Map<String, List<SignalEntry>> channels) =>
+            _signals.isEnabledIn(channels, widget.channelId),
       ),
     );
     if (config.signals.isEmpty || !enabled) {
