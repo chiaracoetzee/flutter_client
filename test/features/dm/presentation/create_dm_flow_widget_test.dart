@@ -23,7 +23,6 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/data/dm_repository.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/sheets/create_dm_bottom_sheet.dart';
-import 'package:fluxer_app/features/dm/presentation/widgets/dm_list.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
@@ -214,26 +213,6 @@ void main() {
       expect(find.text('Alice'), findsNothing);
     });
 
-    testWidgets('dm list fab opens create dm sheet on mobile', (tester) async {
-      _setMobileSurface(tester);
-      final _RecordingDmSetup setup = _createRecordingRepository();
-      final GoRouter router = _buildRouter(home: const DMList());
-
-      await tester.pumpWidget(
-        _buildDmListHarness(
-          router: router,
-          setup: setup,
-          friends: _sampleFriends,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.bySemanticsLabel('New message'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Select friends'), findsOneWidget);
-      expect(find.text('Alice'), findsOneWidget);
-    });
   });
 }
 
@@ -507,6 +486,9 @@ Widget _buildHarness({
   );
 }
 
+// Unused since the fork replaced the DM list compose button with the quick
+// switcher button; kept so this file stays close to upstream's.
+// ignore: unused_element
 Widget _buildDmListHarness({
   required GoRouter router,
   required _RecordingDmSetup setup,
