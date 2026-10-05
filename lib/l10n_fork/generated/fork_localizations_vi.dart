@@ -372,4 +372,12 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Tắt $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Dùng $domain cho máy chủ mặc định, hoặc URL chính xác của một máy chủ khác.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Đặt lại về máy chủ mặc định';
 }
