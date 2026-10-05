@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Κανείς δεν έχει ενεργό αυτό το σήμα",
     "signalBarReset": "Επαναφορά σήματος για όλους",
-    "signalBarTurnOff": "Απενεργοποίηση {name}"
+    "signalBarTurnOff": "Απενεργοποίηση {name}",
+    "instanceUrlHelperDefault": "Χρησιμοποιήστε το {domain} για την προεπιλεγμένη εγκατάσταση ή την ακριβή διεύθυνση URL μιας άλλης εγκατάστασης.",
+    "instanceResetToDefault": "Επαναφορά στην προεπιλεγμένη εγκατάσταση"
 }

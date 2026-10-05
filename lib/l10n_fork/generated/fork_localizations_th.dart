@@ -371,4 +371,12 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'ปิด $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'ใช้ $domain สำหรับอินสแตนซ์เริ่มต้น หรือใส่ URL ที่ถูกต้องของอินสแตนซ์อื่น';
+  }
+
+  @override
+  String get instanceResetToDefault => 'รีเซ็ตเป็นอินสแตนซ์เริ่มต้น';
 }

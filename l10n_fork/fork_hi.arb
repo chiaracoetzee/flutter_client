@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "किसी ने यह सिग्नल चालू नहीं किया है",
     "signalBarReset": "सभी के लिए सिग्नल रीसेट करें",
-    "signalBarTurnOff": "{name} बंद करें"
+    "signalBarTurnOff": "{name} बंद करें",
+    "instanceUrlHelperDefault": "डिफ़ॉल्ट इंस्टेंस के लिए {domain} का उपयोग करें, या किसी अन्य इंस्टेंस का सटीक URL दर्ज करें।",
+    "instanceResetToDefault": "डिफ़ॉल्ट इंस्टेंस पर रीसेट करें"
 }

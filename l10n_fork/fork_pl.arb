@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nikt nie ma włączonego tego sygnału",
     "signalBarReset": "Zresetuj sygnał dla wszystkich",
-    "signalBarTurnOff": "Wyłącz {name}"
+    "signalBarTurnOff": "Wyłącz {name}",
+    "instanceUrlHelperDefault": "Użyj {domain} dla domyślnej instancji lub podaj dokładny adres URL innej instancji.",
+    "instanceResetToDefault": "Przywróć domyślną instancję"
 }
