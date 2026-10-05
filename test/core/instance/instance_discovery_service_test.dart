@@ -191,7 +191,7 @@ void main() {
         );
 
         final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
-          'fluxer.com',
+          InstanceConstants.defaultInstanceInputUrl,
         );
 
         expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
@@ -201,19 +201,6 @@ void main() {
         );
       },
     );
-
-    test('connectToEndpoint short-circuits fluxer.app without HTTP', () async {
-      final InstanceDiscoveryService service = InstanceDiscoveryService(
-        dio: buildDio(responseJson: buildDiscovery()),
-      );
-
-      final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
-        'fluxer.app',
-      );
-
-      expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-      expect(snapshot.displayDomain, InstanceConstants.defaultInstanceInputUrl);
-    });
 
     test(
       'connectToEndpoint resolves official api_public from well-known',
@@ -226,11 +213,8 @@ void main() {
           'chat.example.com',
         );
 
-        expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-        expect(
-          snapshot.displayDomain,
-          InstanceConstants.defaultInstanceInputUrl,
-        );
+        expect(snapshot.apiBaseUrl, 'https://fluxer.com/api/v1');
+        expect(snapshot.displayDomain, 'fluxer.com');
       },
     );
   });
@@ -352,3 +336,8 @@ class _DiscoveryAdapter implements HttpClientAdapter {
   @override
   void close({bool force = false}) {}
 }
+
+// Fork: upstream's helpers that instance_discovery_service_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by instance_discovery_service_fork_test.dart.
+typedef ForkDiscoveryAdapter = _DiscoveryAdapter;
