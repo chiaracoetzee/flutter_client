@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Belum ada yang menyalakan sinyal ini",
     "signalBarReset": "Reset sinyal untuk semua orang",
-    "signalBarTurnOff": "Matikan {name}"
+    "signalBarTurnOff": "Matikan {name}",
+    "instanceUrlHelperDefault": "Gunakan {domain} untuk instans default, atau URL persis dari instans lain.",
+    "instanceResetToDefault": "Atur ulang ke instans default"
 }

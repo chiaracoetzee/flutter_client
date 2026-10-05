@@ -373,4 +373,13 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Απενεργοποίηση $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Χρησιμοποιήστε το $domain για την προεπιλεγμένη εγκατάσταση ή την ακριβή διεύθυνση URL μιας άλλης εγκατάστασης.';
+  }
+
+  @override
+  String get instanceResetToDefault =>
+      'Επαναφορά στην προεπιλεγμένη εγκατάσταση';
 }
