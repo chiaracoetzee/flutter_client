@@ -9,10 +9,10 @@ class InstanceLegacyEndpointMigrator {
 
   final InstanceEndpointNormalizer _normalizer;
 
-  static const Set<String> _legacyGatewayHosts = <String>{
-    'gateway.fluxer.app',
-    'gateway.canary.fluxer.app',
-  };
+  // The fork's default instance has never had a separate legacy gateway
+  // host. Upstream's (gateway.fluxer.app, ...) must not be listed: a stored
+  // snapshot for the real Fluxer would be rewritten to this build's instance.
+  static const Set<String> _legacyGatewayHosts = <String>{};
 
   InstanceConfigSnapshot? migrateOfficialSnapshotIfNeeded(
     InstanceConfigSnapshot snapshot,
@@ -116,14 +116,6 @@ class InstanceLegacyEndpointMigrator {
   }
 
   _OfficialTargets _targetsFor(String displayDomain) {
-    final String normalized = _normalizer.formatDisplayDomain(displayDomain);
-    if (normalized.startsWith('canary.')) {
-      return const _OfficialTargets(
-        apiBaseUrl: InstanceConstants.canaryApiBaseUrl,
-        gatewayUrl: InstanceConstants.defaultGatewayUrl,
-        displayDomain: InstanceConstants.canaryInstanceInputUrl,
-      );
-    }
     return const _OfficialTargets(
       apiBaseUrl: InstanceConstants.defaultApiBaseUrl,
       gatewayUrl: InstanceConstants.defaultGatewayUrl,
