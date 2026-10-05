@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Никой не е включил този сигнал",
     "signalBarReset": "Нулиране на сигнала за всички",
-    "signalBarTurnOff": "Изключване на {name}"
+    "signalBarTurnOff": "Изключване на {name}",
+    "instanceUrlHelperDefault": "Използвайте {domain} за инстанцията по подразбиране или точния URL адрес на друга инстанция.",
+    "instanceResetToDefault": "Възстановяване до инстанцията по подразбиране"
 }
