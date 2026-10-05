@@ -1500,7 +1500,13 @@ class ComposerAutocompleteFieldState
         ..addAll(next);
       _panelHeading = heading;
       _gifEmpty = gifEmpty;
-      _selectedIndex = next.isEmpty ? 0 : _firstSelectableRowIndex();
+      if (next.isEmpty) {
+        _selectedIndex = 0;
+      } else if (_selectedIndex >= next.length ||
+          next[_selectedIndex].isDivider ||
+          next[_selectedIndex].isSectionHeading) {
+        _selectedIndex = _firstSelectableRowIndex();
+      }
     });
     if (next.isEmpty && !gifEmpty) {
       _stopMentionAutocompleteWatches();
