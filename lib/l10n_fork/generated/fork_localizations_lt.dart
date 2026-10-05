@@ -373,4 +373,12 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Išjungti $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Numatytajam egzemplioriui naudokite $domain arba įveskite tikslų kito egzemplioriaus URL.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Atstatyti numatytąjį egzempliorių';
 }

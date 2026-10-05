@@ -374,4 +374,12 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Isključi $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Upotrijebite $domain za zadanu instancu ili točan URL druge instance.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Vrati na zadanu instancu';
 }
