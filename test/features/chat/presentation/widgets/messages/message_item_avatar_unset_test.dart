@@ -6,6 +6,7 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -33,7 +34,7 @@ const String _globalAvatarHash = 'global_avatar_hash';
 /// Default/blank avatar CDN URL FluxerAvatar derives when imageUrl is null.
 String get _defaultAvatarUrl {
   final index = BigInt.parse(_authorId) % BigInt.from(6);
-  return 'https://fluxerstatic.com/avatars/$index.png';
+  return '${InstanceEndpoints.defaultStaticCdn}/avatars/$index.png';
 }
 
 /// Global user avatar URL the message payload would produce without AVATAR_UNSET.
