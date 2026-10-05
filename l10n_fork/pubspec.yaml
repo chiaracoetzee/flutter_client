@@ -1,0 +1,8 @@
+# Stub so `flutter gen-l10n` can run with this directory's l10n.yaml (a project has only one).
+# Not a real package: the generated code is written into ../lib/l10n_fork/generated.
+name: fluxer_fork_l10n
+publish_to: none
+environment:
+  sdk: ^3.0.0
+flutter:
+  generate: true
