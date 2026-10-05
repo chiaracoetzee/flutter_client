@@ -7,7 +7,10 @@ import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_gallery_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_content.dart';
+import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/pump_fluxer_app.dart';
@@ -93,6 +96,14 @@ Future<ScrollController> _pumpGallery(
       overrides: [
         chatViewModelProvider.overrideWithValue(_chatState()),
         attachmentGallerySourceProvider.overrideWithValue(source),
+        // The fork's voice button reads composer permissions and slowmode.
+        dmViewModelProvider.overrideWith(_FakeDmViewModel.new),
+        channelMessagePermissionsProvider(
+          'channel-1',
+        ).overrideWith((ref) => Future.value(ChannelMessagePermissions.all)),
+        isSlowmodeBlockedProvider(
+          'channel-1',
+        ).overrideWith((ref) => Stream<bool>.value(false)),
       ],
       child: MediaQuery(
         data: const MediaQueryData(
@@ -108,6 +119,16 @@ Future<ScrollController> _pumpGallery(
   await tester.pump();
   await tester.pump();
   return scrollController;
+}
+
+class _FakeDmViewModel extends DmViewModel {
+  @override
+  DmViewState build() => const DmViewState(
+    conversations: [],
+    friendsList: [],
+    activeTab: FriendsTab.online,
+    searchQuery: '',
+  );
 }
 
 ChatViewState _chatState() {
