@@ -169,7 +169,7 @@ void main() {
         );
 
         final InstanceConfigSnapshot snapshot = await service.connectToEndpoint(
-          'fluxer.com',
+          InstanceConstants.defaultInstanceInputUrl,
         );
 
         expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
@@ -180,7 +180,9 @@ void main() {
       },
     );
 
-    test('connectToEndpoint short-circuits fluxer.app without HTTP', () async {
+    test('connectToEndpoint discovers fluxer.app like any other instance', () async {
+      // Upstream's hosts are not aliases for this build's instance: they go
+      // through discovery and use whatever endpoints the server returns.
       final InstanceDiscoveryService service = InstanceDiscoveryService(
         dio: buildDio(responseJson: buildDiscovery()),
       );
@@ -189,8 +191,12 @@ void main() {
         'fluxer.app',
       );
 
-      expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-      expect(snapshot.displayDomain, InstanceConstants.defaultInstanceInputUrl);
+      expect(snapshot.apiBaseUrl, 'https://chat.example.com/v1');
+      expect(snapshot.apiBaseUrl, isNot(InstanceConstants.defaultApiBaseUrl));
+      expect(
+        snapshot.displayDomain,
+        isNot(InstanceConstants.defaultInstanceInputUrl),
+      );
     });
 
     test(
@@ -204,11 +210,8 @@ void main() {
           'chat.example.com',
         );
 
-        expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-        expect(
-          snapshot.displayDomain,
-          InstanceConstants.defaultInstanceInputUrl,
-        );
+        expect(snapshot.apiBaseUrl, 'https://fluxer.com/api/v1');
+        expect(snapshot.displayDomain, 'fluxer.com');
       },
     );
   });
