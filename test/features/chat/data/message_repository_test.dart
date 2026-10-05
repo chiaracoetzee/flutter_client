@@ -620,7 +620,7 @@ void main() {
     expect(adapter.requestedBody, {'persona_id': 'p_bob'});
   });
 
-  test('addReaction sends null body when personaId is null (root user)', () async {
+  test('addReaction sends an empty body when personaId is null (root user)', () async {
     final db = openTestDatabase();
     final adapter = _ReactionAdapter();
     final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
@@ -635,7 +635,7 @@ void main() {
     );
 
     expect(adapter.requestedMethod, 'PUT');
-    expect(adapter.requestedBody, isNull);
+    expect(adapter.requestedBody, <String, dynamic>{});
   });
 
   test('removeReaction passes persona_id query parameter when provided', () async {
