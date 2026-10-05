@@ -1,0 +1,56 @@
+{
+    "locales": {
+        "de": [
+            "personaSectionTitle",
+            "personaTagSuffixLabel",
+            "userSettingsNavPersonas"
+        ],
+        "es": [
+            "personaModeManual",
+            "personaSectionTitle",
+            "userSettingsNavPersonas"
+        ],
+        "es_419": [
+            "personaModeManual",
+            "personaSectionTitle",
+            "userSettingsNavPersonas"
+        ],
+        "fr": [
+            "personaSectionTitle",
+            "personaVisibilityPublic",
+            "timestampPickerDateLabel",
+            "userSettingsNavPersonas"
+        ],
+        "id": [
+            "personaEditPersona",
+            "personaEditTitle",
+            "personaModeManual"
+        ],
+        "it": [
+            "personaSectionTitle",
+            "userSettingsNavPersonas"
+        ],
+        "pt": [
+            "personaModeManual",
+            "personaSectionTitle",
+            "userSettingsNavPersonas"
+        ],
+        "pt_BR": [
+            "personaModeManual",
+            "personaSectionTitle",
+            "userSettingsNavPersonas"
+        ],
+        "ro": [
+            "personaModeManual",
+            "personaSectionTitle",
+            "personaTagPrefixLabel",
+            "userSettingsNavPersonas"
+        ],
+        "sv": [
+            "personaSectionTitle",
+            "personaTagPrefixLabel",
+            "personaTagSuffixLabel",
+            "userSettingsNavPersonas"
+        ]
+    }
+}
