@@ -236,10 +236,10 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get personaTagsLabel => 'परसोना टैग';
 
   @override
-  String get personaTagPrefixLabel => 'Prefix';
+  String get personaTagPrefixLabel => 'उपसर्ग';
 
   @override
-  String get personaTagSuffixLabel => 'Suffix';
+  String get personaTagSuffixLabel => 'प्रत्यय';
 
   @override
   String get personaVisibilityLabel => 'विज़िबिलिटी';
