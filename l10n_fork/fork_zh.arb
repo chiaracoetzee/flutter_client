@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}：{names}",
     "signalBarNobody": "还没有人开启此信号",
     "signalBarReset": "为所有人重置信号",
-    "signalBarTurnOff": "关闭 {name}"
+    "signalBarTurnOff": "关闭 {name}",
+    "instanceUrlHelperDefault": "默认实例请使用 {domain}，或输入其他实例的准确 URL。",
+    "instanceResetToDefault": "重置为默认实例"
 }

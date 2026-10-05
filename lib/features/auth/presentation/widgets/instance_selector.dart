@@ -15,6 +15,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 class InstanceSelectorControl extends ConsumerStatefulWidget {
   const InstanceSelectorControl({
     required this.enabled,
@@ -152,8 +156,10 @@ class _InstanceSelectorControlState
             FluxerInput(
               controller: _controller,
               label: l10n.instanceUrlLabel,
-              hint: l10n.instanceUrlPlaceholder,
-              helperText: l10n.instanceUrlHelper,
+              hint: InstanceConstants.defaultInstanceInputUrl,
+              helperText: l10n.fork.instanceUrlHelperDefault(
+                InstanceConstants.defaultInstanceInputUrl,
+              ),
               enabled: widget.enabled,
               prefixIcon: InstanceDomainIcon(
                 isOfficial: isOfficial && !viewState.requiresDiscovery,
@@ -185,7 +191,7 @@ class _InstanceSelectorControlState
                   onPressed: canSubmit
                       ? () => unawaited(_resetToOfficialDefault())
                       : null,
-                  label: l10n.resetToDefaultInstance,
+                  label: l10n.fork.instanceResetToDefault,
                   fitContent: true,
                 ),
               ),
