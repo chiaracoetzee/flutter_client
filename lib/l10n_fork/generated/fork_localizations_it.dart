@@ -375,4 +375,12 @@ class ForkLocalizationsIt extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Disattiva $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Usa $domain per l’istanza predefinita, oppure l’URL esatto di un’altra istanza.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Ripristina l’istanza predefinita';
 }
