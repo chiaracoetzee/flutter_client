@@ -160,8 +160,12 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
 
   /// Whether the bar is switched on in a loaded channel. Channels that are
   /// not loaded yet count as off.
-  bool isEnabled(String channelId) =>
-      state.containsKey(channelId) && !_disabledChannels.contains(channelId);
+  bool isEnabled(String channelId) => isEnabledIn(state, channelId);
+
+  /// [isEnabled] against a given snapshot of the state. Selectors must use
+  /// this one: reading `state` inside a selector trips a Riverpod assertion.
+  bool isEnabledIn(Map<String, List<SignalEntry>> channels, String channelId) =>
+      channels.containsKey(channelId) && !_disabledChannels.contains(channelId);
 
   /// CHANNEL_SIGNAL_BAR_UPDATE: a manager switched the bar on or off.
   void handleEnabledUpdate(Map<String, dynamic> data) {
