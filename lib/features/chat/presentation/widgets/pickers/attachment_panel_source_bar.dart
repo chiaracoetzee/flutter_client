@@ -39,9 +39,13 @@ class AttachmentPanelSourceBar extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(layout.s1),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+        // Four labelled buttons do not fit a narrow composer in every locale;
+        // scroll sideways instead of overflowing.
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
             FluxerButton.ghost(
               icon: PhosphorIconsFill.image,
               label: l10n.chatAttachmentPanelPhotos,
@@ -72,7 +76,8 @@ class AttachmentPanelSourceBar extends StatelessWidget {
                 fitContent: true,
                 onPressed: onVoicePressed,
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );
