@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Ingen har den här signalen på",
     "signalBarReset": "Återställ signalen för alla",
-    "signalBarTurnOff": "Stäng av {name}"
+    "signalBarTurnOff": "Stäng av {name}",
+    "instanceUrlHelperDefault": "Använd {domain} för standardinstansen, eller den exakta URL:en till en annan instans.",
+    "instanceResetToDefault": "Återställ till standardinstansen"
 }

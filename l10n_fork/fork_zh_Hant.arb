@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}：{names}",
     "signalBarNobody": "還沒有人開啟此訊號",
     "signalBarReset": "為所有人重設訊號",
-    "signalBarTurnOff": "關閉 {name}"
+    "signalBarTurnOff": "關閉 {name}",
+    "instanceUrlHelperDefault": "預設執行個體請使用 {domain}，或輸入其他執行個體的確切 URL。",
+    "instanceResetToDefault": "重設為預設執行個體"
 }

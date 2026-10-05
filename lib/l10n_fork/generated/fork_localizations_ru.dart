@@ -374,4 +374,12 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Выключить $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Используйте $domain для инстанса по умолчанию или точный URL другого инстанса.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Сбросить до инстанса по умолчанию';
 }
