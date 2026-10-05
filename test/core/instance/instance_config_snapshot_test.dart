@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
@@ -101,8 +102,8 @@ void main() {
             normalizer: const InstanceEndpointNormalizer(),
           );
 
-      expect(snapshot.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-      expect(snapshot.gatewayUrl, InstanceConstants.defaultGatewayUrl);
+      expect(snapshot.apiBaseUrl, 'https://fluxer.com/api/v1');
+      expect(snapshot.gatewayUrl, 'wss://gateway.fluxer.com');
       expect(snapshot.displayDomain, 'fluxer.com');
     });
   });
