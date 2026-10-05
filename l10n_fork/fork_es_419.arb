@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nadie tiene esta señal activada",
     "signalBarReset": "Restablecer señal para todos",
-    "signalBarTurnOff": "Desactivar {name}"
+    "signalBarTurnOff": "Desactivar {name}",
+    "instanceUrlHelperDefault": "Usa {domain} para la instancia predeterminada o la URL exacta de otra instancia.",
+    "instanceResetToDefault": "Restablecer a la instancia predeterminada"
 }
