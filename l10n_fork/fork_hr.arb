@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nitko nema uključen ovaj signal",
     "signalBarReset": "Poništi signal za sve",
-    "signalBarTurnOff": "Isključi {name}"
+    "signalBarTurnOff": "Isključi {name}",
+    "instanceUrlHelperDefault": "Upotrijebite {domain} za zadanu instancu ili točan URL druge instance.",
+    "instanceResetToDefault": "Vrati na zadanu instancu"
 }

@@ -371,4 +371,12 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'כיבוי $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'השתמשו ב-$domain עבור המופע שמוגדר כברירת מחדל, או בכתובת ה-URL המדויקת של מופע אחר.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'איפוס למופע ברירת המחדל';
 }

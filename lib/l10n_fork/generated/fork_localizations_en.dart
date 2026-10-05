@@ -371,6 +371,14 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Turn off $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Use $domain for the default instance, or the exact URL of another instance.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Reset to default instance';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -740,6 +748,14 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String signalBarTurnOff(String name) {
     return 'Turn off $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Use $domain for the default instance, or the exact URL of another instance.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Reset to default instance';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1109,4 +1125,12 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String signalBarTurnOff(String name) {
     return 'Turn off $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Use $domain for the default instance, or the exact URL of another instance.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Reset to default instance';
 }

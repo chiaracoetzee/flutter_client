@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nimeni nu are acest semnal activat",
     "signalBarReset": "Resetează semnalul pentru toți",
-    "signalBarTurnOff": "Dezactivează {name}"
+    "signalBarTurnOff": "Dezactivează {name}",
+    "instanceUrlHelperDefault": "Folosește {domain} pentru instanța implicită sau adresa URL exactă a altei instanțe.",
+    "instanceResetToDefault": "Resetează la instanța implicită"
 }

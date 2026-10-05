@@ -373,4 +373,12 @@ class ForkLocalizationsDe extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return '$name ausschalten';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Verwende $domain für die Standardinstanz oder die genaue URL einer anderen Instanz.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Auf Standardinstanz zurücksetzen';
 }

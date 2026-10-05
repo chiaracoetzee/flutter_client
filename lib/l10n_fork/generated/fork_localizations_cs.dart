@@ -374,4 +374,12 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Vypnout $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Pro výchozí instanci použijte $domain, nebo zadejte přesnou adresu URL jiné instance.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Obnovit výchozí instanci';
 }

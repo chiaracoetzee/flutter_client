@@ -376,6 +376,15 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Desactivar $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Usa $domain para la instancia predeterminada o la URL exacta de otra instancia.';
+  }
+
+  @override
+  String get instanceResetToDefault =>
+      'Restablecer a la instancia predeterminada';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -750,4 +759,13 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String signalBarTurnOff(String name) {
     return 'Desactivar $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Usa $domain para la instancia predeterminada o la URL exacta de otra instancia.';
+  }
+
+  @override
+  String get instanceResetToDefault =>
+      'Restablecer a la instancia predeterminada';
 }

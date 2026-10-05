@@ -373,4 +373,12 @@ class ForkLocalizationsId extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Matikan $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Gunakan $domain untuk instans default, atau URL persis dari instans lain.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Atur ulang ke instans default';
 }

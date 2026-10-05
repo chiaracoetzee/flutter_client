@@ -375,4 +375,12 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Slå $name fra';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Brug $domain til standardinstansen, eller den nøjagtige URL til en anden instans.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Nulstil til standardinstansen';
 }

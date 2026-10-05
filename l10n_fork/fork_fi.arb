@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Kenelläkään ei ole tätä signaalia päällä",
     "signalBarReset": "Nollaa signaali kaikilta",
-    "signalBarTurnOff": "Kytke {name} pois"
+    "signalBarTurnOff": "Kytke {name} pois",
+    "instanceUrlHelperDefault": "Käytä oletusinstanssille osoitetta {domain} tai anna toisen instanssin tarkka URL-osoite.",
+    "instanceResetToDefault": "Palauta oletusinstanssi"
 }

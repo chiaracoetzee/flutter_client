@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Niemand heeft dit signaal aan staan",
     "signalBarReset": "Signaal voor iedereen resetten",
-    "signalBarTurnOff": "{name} uitzetten"
+    "signalBarTurnOff": "{name} uitzetten",
+    "instanceUrlHelperDefault": "Gebruik {domain} voor de standaardinstantie, of de exacte URL van een andere instantie.",
+    "instanceResetToDefault": "Terugzetten naar standaardinstantie"
 }

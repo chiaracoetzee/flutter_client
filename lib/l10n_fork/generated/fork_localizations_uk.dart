@@ -375,4 +375,12 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Вимкнути $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Використовуйте $domain для інстансу за замовчуванням або точну URL-адресу іншого інстансу.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Скинути до інстансу за замовчуванням';
 }

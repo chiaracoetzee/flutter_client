@@ -373,4 +373,13 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return '$name kikapcsolása';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Az alapértelmezett példányhoz használd ezt: $domain, vagy add meg egy másik példány pontos URL-címét.';
+  }
+
+  @override
+  String get instanceResetToDefault =>
+      'Visszaállítás az alapértelmezett példányra';
 }

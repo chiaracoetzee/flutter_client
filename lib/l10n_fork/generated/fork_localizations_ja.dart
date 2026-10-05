@@ -364,4 +364,12 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return '$name をオフにする';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'デフォルトのインスタンスには $domain を使用するか、別のインスタンスの正確なURLを入力してください。';
+  }
+
+  @override
+  String get instanceResetToDefault => 'デフォルトのインスタンスにリセット';
 }

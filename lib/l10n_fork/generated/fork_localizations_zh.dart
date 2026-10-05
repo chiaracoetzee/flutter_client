@@ -360,6 +360,14 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return '关闭 $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return '默认实例请使用 $domain，或输入其他实例的准确 URL。';
+  }
+
+  @override
+  String get instanceResetToDefault => '重置为默认实例';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -718,4 +726,12 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String signalBarTurnOff(String name) {
     return '關閉 $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return '預設執行個體請使用 $domain，或輸入其他執行個體的確切 URL。';
+  }
+
+  @override
+  String get instanceResetToDefault => '重設為預設執行個體';
 }

@@ -375,4 +375,12 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Slå av $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Bruk $domain for standardinstansen, eller den nøyaktige URL-en til en annen instans.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Tilbakestill til standardinstansen';
 }

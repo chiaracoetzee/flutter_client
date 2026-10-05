@@ -372,4 +372,12 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Stäng av $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Använd $domain för standardinstansen, eller den exakta URL:en till en annan instans.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Återställ till standardinstansen';
 }

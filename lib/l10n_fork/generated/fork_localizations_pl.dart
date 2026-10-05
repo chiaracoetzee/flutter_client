@@ -373,4 +373,12 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Wyłącz $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Użyj $domain dla domyślnej instancji lub podaj dokładny adres URL innej instancji.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Przywróć domyślną instancję';
 }

@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Chưa ai bật tín hiệu này",
     "signalBarReset": "Đặt lại tín hiệu cho mọi người",
-    "signalBarTurnOff": "Tắt {name}"
+    "signalBarTurnOff": "Tắt {name}",
+    "instanceUrlHelperDefault": "Dùng {domain} cho máy chủ mặc định, hoặc URL chính xác của một máy chủ khác.",
+    "instanceResetToDefault": "Đặt lại về máy chủ mặc định"
 }

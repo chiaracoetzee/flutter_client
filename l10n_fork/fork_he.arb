@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "אף אחד לא הפעיל את האות הזה",
     "signalBarReset": "איפוס האות לכולם",
-    "signalBarTurnOff": "כיבוי {name}"
+    "signalBarTurnOff": "כיבוי {name}",
+    "instanceUrlHelperDefault": "השתמשו ב-{domain} עבור המופע שמוגדר כברירת מחדל, או בכתובת ה-URL המדויקת של מופע אחר.",
+    "instanceResetToDefault": "איפוס למופע ברירת המחדל"
 }

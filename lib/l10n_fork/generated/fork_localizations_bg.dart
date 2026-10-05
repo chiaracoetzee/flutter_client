@@ -374,4 +374,13 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Изключване на $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Използвайте $domain за инстанцията по подразбиране или точния URL адрес на друга инстанция.';
+  }
+
+  @override
+  String get instanceResetToDefault =>
+      'Възстановяване до инстанцията по подразбиране';
 }
