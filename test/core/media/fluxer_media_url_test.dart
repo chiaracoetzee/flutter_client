@@ -2,6 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+
 void main() {
   group('FluxerMediaUrl.userAvatar', () {
     test('returns null when hash is null or empty', () {
@@ -189,7 +193,7 @@ void main() {
     test('includes lossless quality by default', () {
       expect(
         FluxerMediaUrl.customEmoji(id: '123'),
-        'https://fluxerusercontent.com/emojis/123.webp?quality=lossless',
+        '${InstanceEndpoints.defaultMedia}/emojis/123.webp?quality=lossless',
       );
     });
 
@@ -201,7 +205,7 @@ void main() {
       );
       expect(
         actual,
-        'https://fluxerusercontent.com/emojis/123.webp'
+        '${InstanceEndpoints.defaultMedia}/emojis/123.webp'
         '?animated=true&quality=lossless&size=48',
       );
     });
