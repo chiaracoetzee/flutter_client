@@ -86,7 +86,8 @@ class _AccountPickerOverlayBody extends ConsumerStatefulWidget {
       _AccountPickerOverlayBodyState();
 }
 
-class _AccountPickerOverlayBodyState extends ConsumerState<_AccountPickerOverlayBody>
+class _AccountPickerOverlayBodyState
+    extends ConsumerState<_AccountPickerOverlayBody>
     with TickerProviderStateMixin {
   late AnimationController _enterController;
   late AnimationController _exitController;
@@ -105,7 +106,10 @@ class _AccountPickerOverlayBodyState extends ConsumerState<_AccountPickerOverlay
       vsync: this,
       duration: _kEnterDuration,
     );
-    _exitController = AnimationController(vsync: this, duration: _kExitDuration);
+    _exitController = AnimationController(
+      vsync: this,
+      duration: _kExitDuration,
+    );
     _switchExitController = AnimationController(
       vsync: this,
       duration: _kSwitchExitDuration,
@@ -192,7 +196,9 @@ class _AccountPickerOverlayBodyState extends ConsumerState<_AccountPickerOverlay
       if (!mounted) {
         return;
       }
-      ref.read(toastProvider.notifier).show(
+      ref
+          .read(toastProvider.notifier)
+          .show(
             FluxerToast(
               message: FluxerLocalizations.of(context).accountSwitchFailed,
               variant: FluxerToastVariant.danger,
@@ -240,8 +246,9 @@ class _AccountPickerOverlayBodyState extends ConsumerState<_AccountPickerOverlay
 
   @override
   Widget build(BuildContext context) {
-    final List<StoredAccount> accounts =
-        ref.watch(accountManagerProvider).accounts;
+    final List<StoredAccount> accounts = ref
+        .watch(accountManagerProvider)
+        .accounts;
 
     final double maxPanelHeight = MediaQuery.sizeOf(context).height * 0.55;
 
@@ -260,8 +267,7 @@ class _AccountPickerOverlayBodyState extends ConsumerState<_AccountPickerOverlay
           final double visibility = _visibility();
           final bool switching = _switchAccount != null;
           final double switchT = switching ? _switchExitController.value : 0;
-          final double panelOffset =
-              switching ? 0 : 28 * (1 - visibility);
+          final double panelOffset = switching ? 0 : 28 * (1 - visibility);
           final Color backdropColor = Color.lerp(
             Colors.black.withValues(alpha: _kBackdropOpacity),
             colors.backgroundPrimary,
@@ -272,13 +278,9 @@ class _AccountPickerOverlayBodyState extends ConsumerState<_AccountPickerOverlay
             fit: StackFit.expand,
             children: [
               Opacity(
-                opacity: switching
-                    ? 1
-                    : _backdropEnter.value * visibility,
+                opacity: switching ? 1 : _backdropEnter.value * visibility,
                 child: FluxerGestureDetector(
-                  onTap: switching
-                      ? null
-                      : () => unawaited(_requestClose()),
+                  onTap: switching ? null : () => unawaited(_requestClose()),
                   child: ColoredBox(
                     color: backdropColor,
                     child: const SizedBox.expand(),
@@ -298,8 +300,9 @@ class _AccountPickerOverlayBodyState extends ConsumerState<_AccountPickerOverlay
                           child: Material(
                             color: Colors.transparent,
                             child: ConstrainedBox(
-                              constraints:
-                                  BoxConstraints(maxHeight: maxPanelHeight),
+                              constraints: BoxConstraints(
+                                maxHeight: maxPanelHeight,
+                              ),
                               child: _AccountPickerPanel(
                                 accounts: accounts,
                                 avatarMeasureKeyFor: _avatarMeasureKeyFor,
@@ -337,7 +340,7 @@ class _AccountPickerPanel extends ConsumerWidget {
   final AnimationController enterController;
   final Future<void> Function() onRequestClose;
   final Future<void> Function(StoredAccount account, Offset avatarCenter)
-      onSelectAccount;
+  onSelectAccount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -423,7 +426,7 @@ class _AccountPickerPanel extends ConsumerWidget {
     FluxerLocalizations l10n,
     GlobalKey avatarMeasureKey,
     Future<void> Function(StoredAccount account, Offset avatarCenter)
-        onSelectAccount,
+    onSelectAccount,
     Future<void> Function() onRequestClose,
   ) async {
     final String? currentUserId = ref.read(currentUserIdProvider);
@@ -511,47 +514,47 @@ class _AccountAvatarTile extends StatelessWidget {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: _pickerAvatarBorderColor(colors),
-                          width: _kAvatarBorderWidth,
-                        ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: _pickerAvatarBorderColor(colors),
+                        width: _kAvatarBorderWidth,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(_kAvatarInnerPadding),
-                        child: FluxerAvatar.user(
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(_kAvatarInnerPadding),
+                      child: FluxerAvatar.user(
+                        userId: account.userId,
+                        imageUrl: FluxerMediaUrl.userAvatar(
                           userId: account.userId,
-                          imageUrl: FluxerMediaUrl.userAvatar(
-                            userId: account.userId,
-                            hash: account.avatar,
-                            size: MediaProxySizes.avatarProfile,
-                          ),
-                          fallbackText: account.displayName,
-                          showStatus: false,
-                          size: _kGridAvatarSize -
-                              2 *
-                                  (_kAvatarBorderWidth + _kAvatarInnerPadding),
+                          hash: account.avatar,
+                          size: MediaProxySizes.avatarProfile,
+                        ),
+                        fallbackText: account.displayName,
+                        showStatus: false,
+                        size:
+                            _kGridAvatarSize -
+                            2 * (_kAvatarBorderWidth + _kAvatarInnerPadding),
+                      ),
+                    ),
+                  ),
+                  if (isCurrent)
+                    Positioned(
+                      top: -2,
+                      left: -2,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: colors.backgroundPrimary,
+                        ),
+                        child: PhosphorIcon(
+                          PhosphorIconsFill.checkCircle,
+                          size: 22,
+                          color: colors.textPositive,
                         ),
                       ),
                     ),
-                    if (isCurrent)
-                      Positioned(
-                        top: -2,
-                        left: -2,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: colors.backgroundPrimary,
-                          ),
-                          child: PhosphorIcon(
-                            PhosphorIconsFill.checkCircle,
-                            size: 22,
-                            color: colors.textPositive,
-                          ),
-                        ),
-                      ),
                 ],
               ),
             ),
@@ -644,7 +647,9 @@ class _SwitchingAvatarBadge extends StatelessWidget {
           ),
           fallbackText: displayName,
           showStatus: false,
-          size: _kGridAvatarSize - 2 * (_kAvatarBorderWidth + _kAvatarInnerPadding),
+          size:
+              _kGridAvatarSize -
+              2 * (_kAvatarBorderWidth + _kAvatarInnerPadding),
         ),
       ),
     );
