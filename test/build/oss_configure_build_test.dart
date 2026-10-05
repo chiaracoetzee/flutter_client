@@ -14,8 +14,9 @@ void main() {
   test('configure_build oss strips store billing artifacts', () async {
     await configureProjectBuild(projectRoot, BuildProfile.oss);
 
-    final String pubspec = File('${projectRoot.path}/pubspec.yaml')
-        .readAsStringSync();
+    final String pubspec = File(
+      '${projectRoot.path}/pubspec.yaml',
+    ).readAsStringSync();
     expect(pubspec, isNot(contains('in_app_purchase:')));
     expect(pubspec, isNot(contains('in_app_purchase_android:')));
 

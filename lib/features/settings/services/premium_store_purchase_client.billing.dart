@@ -35,8 +35,7 @@ class _ProductDetailsAdapter implements PremiumStorePricedProduct {
   ProductDetails get details => _details;
 }
 
-class AndroidPremiumStorePurchaseClient
-    implements PremiumStorePurchaseClient {
+class AndroidPremiumStorePurchaseClient implements PremiumStorePurchaseClient {
   AndroidPremiumStorePurchaseClient(this._billing);
 
   final InAppPurchase _billing;
@@ -74,10 +73,8 @@ class AndroidPremiumStorePurchaseClient
 
   @override
   Future<bool> buy(PremiumStoreProduct product) {
-    final ProductDetails? details = _detailsByKey[_productKey(
-      product.id,
-      product.basePlanId,
-    )];
+    final ProductDetails? details =
+        _detailsByKey[_productKey(product.id, product.basePlanId)];
     if (details == null) {
       return Future<bool>.value(false);
     }

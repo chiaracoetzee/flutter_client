@@ -58,15 +58,10 @@ BuildProfile parseBuildProfile(List<String> args) {
       };
     }
   }
-  throw ArgumentError(
-    'Missing --profile=oss|android-fcm|ios-store',
-  );
+  throw ArgumentError('Missing --profile=oss|android-fcm|ios-store');
 }
 
-Future<void> configureProjectBuild(
-  Directory root,
-  BuildProfile profile,
-) async {
+Future<void> configureProjectBuild(Directory root, BuildProfile profile) async {
   switch (profile) {
     case BuildProfile.oss:
       await _configureOss(root);
@@ -218,7 +213,10 @@ void _stripOptionalBlock(
     if (markerEndIndex < 0) {
       throw StateError('Missing $markerEnd marker in pubspec.yaml');
     }
-    final int removeEnd = content.indexOf('\n', markerEndIndex + markerEnd.length);
+    final int removeEnd = content.indexOf(
+      '\n',
+      markerEndIndex + markerEnd.length,
+    );
     final int rangeEnd = removeEnd >= 0 ? removeEnd + 1 : content.length;
     content = content.replaceRange(markerStartIndex, rangeEnd, '');
     print('Removed optional deps block: $markerStart');
@@ -323,7 +321,9 @@ void _verifyMainManifestOss(Directory root) {
       '$_mainManifestPath must not contain Firebase metadata in OSS builds',
     );
   }
-  if (content.contains('com.android.vending.billing.InAppBillingService.BIND')) {
+  if (content.contains(
+    'com.android.vending.billing.InAppBillingService.BIND',
+  )) {
     throw StateError(
       '$_mainManifestPath must not declare Play Billing queries in OSS builds',
     );
