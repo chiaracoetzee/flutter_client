@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Senkinél sincs bekapcsolva ez a jelzés",
     "signalBarReset": "Jelzés visszaállítása mindenkinél",
-    "signalBarTurnOff": "{name} kikapcsolása"
+    "signalBarTurnOff": "{name} kikapcsolása",
+    "instanceUrlHelperDefault": "Az alapértelmezett példányhoz használd ezt: {domain}, vagy add meg egy másik példány pontos URL-címét.",
+    "instanceResetToDefault": "Visszaállítás az alapértelmezett példányra"
 }

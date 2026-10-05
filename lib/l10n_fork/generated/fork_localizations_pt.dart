@@ -375,6 +375,14 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Desligar $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Use $domain para a instância predefinida ou o URL exato de outra instância.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Repor a instância predefinida';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -748,4 +756,12 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String signalBarTurnOff(String name) {
     return 'Desligar $name';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Use $domain para a instância padrão ou a URL exata de outra instância.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Redefinir para a instância padrão';
 }

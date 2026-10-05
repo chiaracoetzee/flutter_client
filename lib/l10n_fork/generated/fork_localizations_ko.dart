@@ -363,4 +363,12 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return '$name 끄기';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return '기본 인스턴스에는 $domain 주소를 사용하고, 다른 인스턴스는 정확한 URL을 입력하세요.';
+  }
+
+  @override
+  String get instanceResetToDefault => '기본 인스턴스로 재설정';
 }
