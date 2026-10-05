@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}：{names}",
     "signalBarNobody": "このシグナルをオンにしている人はいません",
     "signalBarReset": "全員のシグナルをリセット",
-    "signalBarTurnOff": "{name} をオフにする"
+    "signalBarTurnOff": "{name} をオフにする",
+    "instanceUrlHelperDefault": "デフォルトのインスタンスには {domain} を使用するか、別のインスタンスの正確なURLを入力してください。",
+    "instanceResetToDefault": "デフォルトのインスタンスにリセット"
 }
