@@ -373,4 +373,12 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String signalBarTurnOff(String name) {
     return 'Kytke $name pois';
   }
+
+  @override
+  String instanceUrlHelperDefault(String domain) {
+    return 'Käytä oletusinstanssille osoitetta $domain tai anna toisen instanssin tarkka URL-osoite.';
+  }
+
+  @override
+  String get instanceResetToDefault => 'Palauta oletusinstanssi';
 }
