@@ -569,7 +569,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
     _isApplyingWireText = true;
     try {
-      await _controller.applyWireText(wire, force: force);
+      await _controller
+          .applyWireText(wire, force: force)
+          .timeout(
+            const Duration(seconds: 1),
+            onTimeout: () {
+              // drop stale apply to avoid blocking the field
+            },
+          );
       _lastWireTextPushedToState = wire;
     } finally {
       _isApplyingWireText = false;

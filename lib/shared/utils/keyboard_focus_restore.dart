@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
@@ -56,17 +58,33 @@ void reconnectComposerKeyboard(
     return;
   }
   if (_useReadOnlyImeReconnect(toggleReadOnly)) {
-    toggleReadOnly!(readOnly: true);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      toggleReadOnly(readOnly: false);
-      WidgetsBinding.instance.addPostFrameCallback((_) => _showKeyboard(node));
-    });
+    _readOnlyToggle(node, toggleReadOnly!);
     return;
   }
   node.unfocus();
   WidgetsBinding.instance.addPostFrameCallback((_) {
     if (node.canRequestFocus && !node.hasFocus) {
       node.requestFocus();
+    }
+  });
+}
+
+/// read-only flash with a watchdog to avoid getting stuck.
+void _readOnlyToggle(
+  FocusNode node,
+  void Function({required bool readOnly}) toggleReadOnly,
+) {
+  Timer? watchdog;
+  toggleReadOnly(readOnly: true);
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    toggleReadOnly(readOnly: false);
+    watchdog?.cancel();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _showKeyboard(node));
+  });
+  // safety net in case the post-frame callback is dropped
+  watchdog = Timer(const Duration(milliseconds: 500), () {
+    if (node.hasFocus) {
+      toggleReadOnly(readOnly: false);
     }
   });
 }
