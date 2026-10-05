@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 
 void main() {
@@ -72,16 +73,31 @@ void main() {
   });
 
   group('isOfficialInstanceInput', () {
-    test('matches official web app host', () {
-      expect(normalizer.isOfficialInstanceInput('web.fluxer.app'), isTrue);
+    test("matches this build's own instance host", () {
+      expect(
+        normalizer.isOfficialInstanceInput(
+          InstanceConstants.defaultInstanceInputUrl,
+        ),
+        isTrue,
+      );
+      expect(
+        normalizer.isOfficialInstanceInput(InstanceConstants.defaultApiBaseUrl),
+        isTrue,
+      );
     });
 
-    test('matches official marketing host', () {
-      expect(normalizer.isOfficialInstanceInput('fluxer.app'), isTrue);
-    });
-
-    test('matches official fluxer.com host', () {
-      expect(normalizer.isOfficialInstanceInput('fluxer.com'), isTrue);
+    test("does not treat upstream's hosts as this build's instance", () {
+      for (final String host in <String>[
+        'fluxer.com',
+        'web.fluxer.com',
+        'canary.fluxer.com',
+        'fluxer.app',
+        'web.fluxer.app',
+        'canary.fluxer.app',
+        'https://fluxer.com/api/v1',
+      ]) {
+        expect(normalizer.isOfficialInstanceInput(host), isFalse, reason: host);
+      }
     });
 
     test('rejects self-hosted host', () {
@@ -90,13 +106,36 @@ void main() {
   });
 
   group('describeApiEndpoint', () {
-    test('maps official hosts to default instance url', () {
-      expect(normalizer.describeApiEndpoint('fluxer.com'), 'fluxer.com');
-      expect(normalizer.describeApiEndpoint('fluxer.app'), 'fluxer.com');
+    test('maps the default instance to its input url', () {
       expect(
-        normalizer.describeApiEndpoint('https://fluxer.com/api/v1'),
-        'fluxer.com',
+        normalizer.describeApiEndpoint(
+          InstanceConstants.defaultInstanceInputUrl,
+        ),
+        InstanceConstants.defaultInstanceInputUrl,
       );
+      expect(
+        normalizer.describeApiEndpoint(InstanceConstants.defaultApiBaseUrl),
+        InstanceConstants.defaultInstanceInputUrl,
+      );
+    });
+
+    test("never labels upstream's hosts as the default instance", () {
+      for (final String endpoint in <String>[
+        'fluxer.com',
+        'fluxer.app',
+        'https://fluxer.com/api/v1',
+      ]) {
+        expect(
+          normalizer.describeApiEndpoint(endpoint),
+          isNot(InstanceConstants.defaultInstanceInputUrl),
+          reason: endpoint,
+        );
+        expect(
+          normalizer.describeApiEndpoint(endpoint),
+          contains('fluxer.'),
+          reason: endpoint,
+        );
+      }
     });
 
     test('keeps self-hosted host and non-default path', () {
