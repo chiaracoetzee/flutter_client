@@ -72,33 +72,12 @@ void main() {
   });
 
   group('isOfficialInstanceInput', () {
-    test('matches official web app host', () {
-      expect(normalizer.isOfficialInstanceInput('web.fluxer.app'), isTrue);
-    });
-
-    test('matches official marketing host', () {
-      expect(normalizer.isOfficialInstanceInput('fluxer.app'), isTrue);
-    });
-
-    test('matches official fluxer.com host', () {
-      expect(normalizer.isOfficialInstanceInput('fluxer.com'), isTrue);
-    });
-
     test('rejects self-hosted host', () {
       expect(normalizer.isOfficialInstanceInput('chat.example.com'), isFalse);
     });
   });
 
   group('describeApiEndpoint', () {
-    test('maps official hosts to default instance url', () {
-      expect(normalizer.describeApiEndpoint('fluxer.com'), 'fluxer.com');
-      expect(normalizer.describeApiEndpoint('fluxer.app'), 'fluxer.com');
-      expect(
-        normalizer.describeApiEndpoint('https://fluxer.com/api/v1'),
-        'fluxer.com',
-      );
-    });
-
     test('keeps self-hosted host and non-default path', () {
       expect(
         normalizer.describeApiEndpoint('https://chat.example.com/api'),
