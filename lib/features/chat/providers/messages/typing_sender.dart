@@ -2,6 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_dart/models/indicate_typing_request_schema.dart';
+
 part 'typing_sender.g.dart';
 
 const Duration kTypingThrottle = Duration(seconds: 8);
@@ -38,8 +42,10 @@ class TypingSender extends _$TypingSender {
     _lastSentAt[channelId] = now;
     _lastSentPersonaId[channelId] = personaId;
     try {
-      final Map<String, dynamic>? body = personaData != null
-          ? <String, dynamic>{'subprofile': personaData}
+      final IndicateTypingRequestSchema? body = personaData != null
+          ? IndicateTypingRequestSchema.fromJson(<String, Object?>{
+              'subprofile': personaData,
+            })
           : null;
       await ref
           .read(fluxerClientProvider)
