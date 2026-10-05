@@ -32,13 +32,17 @@ import '../../../../../helpers/message_item_test_overrides.dart';
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
+
 const String _authorId = '123456789012345678';
 const String _guildId = 'g1';
 const String _globalAvatarHash = 'global_avatar_hash';
 
 String get _defaultAvatarUrl {
   final index = BigInt.parse(_authorId) % BigInt.from(6);
-  return 'https://fluxerstatic.com/avatars/$index.png';
+  return '${InstanceEndpoints.defaultStaticCdn}/avatars/$index.png';
 }
 
 String get _globalAvatarUrl => FluxerMediaUrl.userAvatar(
