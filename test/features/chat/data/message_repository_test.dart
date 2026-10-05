@@ -675,7 +675,7 @@ void main() {
   });
 
   test(
-    'addReaction sends null body when personaId is null (root user)',
+    'addReaction sends an empty body when personaId is null (root user)',
     () async {
       final db = openTestDatabase();
       final adapter = _ReactionAdapter();
@@ -691,7 +691,7 @@ void main() {
       );
 
       expect(adapter.requestedMethod, 'PUT');
-      expect(adapter.requestedBody, isNull);
+      expect(adapter.requestedBody, <String, dynamic>{});
     },
   );
 

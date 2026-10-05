@@ -28,7 +28,7 @@ import '../../../../../helpers/test_l10n.dart';
 
 // Fork imports.
 // ignore: directives_ordering
-import 'package:fluxer_dart/models/message_subprofile_response.dart';
+import 'package:fluxer_dart/models/message_subprofile_response_schema.dart';
 
 const String _kTyperUserId = 'user-1';
 
@@ -203,7 +203,7 @@ void main() {
           .addTyping(
             'channel-1',
             _kTyperUserId,
-            subprofile: const MessageSubprofileResponse(
+            subprofile: const MessageSubprofileResponseSchema(
               id: 'persona-1',
               name: 'Ruby Rose',
               avatar: 'avatars/ruby.png',

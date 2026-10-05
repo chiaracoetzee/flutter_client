@@ -336,7 +336,7 @@ class _ReactionTab extends StatelessWidget {
 class _ReactorRow extends ConsumerWidget {
   const _ReactorRow({required this.user, required this.guildId});
 
-  final UserPartialResponse user;
+  final ReactionUserItemResponse user;
   final String? guildId;
 
   @override
