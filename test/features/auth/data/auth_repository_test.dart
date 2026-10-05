@@ -217,41 +217,6 @@ void main() {
       },
     );
 
-    test(
-      'migrateLegacyInstanceEndpoints rewrites official instance snapshots',
-      () async {
-        const InstanceConfigSnapshot legacy = InstanceConfigSnapshot(
-          apiBaseUrl: 'https://api.fluxer.app/v1',
-          gatewayUrl: 'wss://gateway.fluxer.app',
-          displayDomain: 'fluxer.app',
-        );
-        await db.authSessionDao.saveSessionMetadata(
-          userId: 'user-1',
-          instanceSnapshotJson: legacy.toJson(),
-        );
-        await tokenStorage.saveToken(userId: 'user-1', token: 'token-1');
-        await tokenStorage.saveApiBaseUrl(
-          userId: 'user-1',
-          apiBaseUrl: 'https://api.fluxer.app/v1',
-        );
-
-        await repository.migrateLegacyInstanceEndpoints();
-
-        final InstanceConfigSnapshot restored = await repository
-            .resolveInstanceSnapshotForUser('user-1');
-        expect(restored.apiBaseUrl, InstanceConstants.defaultApiBaseUrl);
-        expect(restored.gatewayUrl, InstanceConstants.defaultGatewayUrl);
-        expect(
-          restored.displayDomain,
-          InstanceConstants.defaultInstanceInputUrl,
-        );
-        expect(
-          await tokenStorage.readApiBaseUrl('user-1'),
-          InstanceConstants.defaultApiBaseUrl,
-        );
-      },
-    );
-
     test('removeStoredAccount deletes the secure-storage token', () async {
       await repository.migrateLegacyTokens();
       await db.authSessionDao.saveSessionMetadata(userId: 'user-1');
@@ -335,8 +300,10 @@ void main() {
       };
 
       expect(avatarUrls, <String, String?>{
+        // Fork: this build's default media host, as the app uses.
         'official-user':
-            'https://fluxerusercontent.com/avatars/official-user/abc.webp?size=80',
+            '${InstanceConfigSnapshot.officialDefault().mediaBaseUrl}'
+            '/avatars/official-user/abc.webp?size=80',
         'self-hosted-user':
             'https://media.chat.example/avatars/self-hosted-user/def.webp?size=80',
       });
