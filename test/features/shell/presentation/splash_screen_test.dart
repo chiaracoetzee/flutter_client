@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
@@ -139,7 +140,10 @@ void main() {
     await tester.pump();
 
     expect(find.text(testL10n.profileTabMenuSwitchAccounts), findsOneWidget);
-    expect(find.text('fluxer.com'), findsOneWidget);
+    expect(
+      find.text(InstanceConstants.defaultInstanceInputUrl),
+      findsOneWidget,
+    );
   });
 
   testWidgets(
