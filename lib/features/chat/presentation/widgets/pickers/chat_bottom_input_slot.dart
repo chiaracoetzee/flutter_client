@@ -63,7 +63,7 @@ class BottomInputSpacer extends ConsumerWidget {
 
   double _keyboardSpacerHeight(BuildContext context, double slotHeight) {
     final double inset = resolvedKeyboardInsetBottom(context);
-    final double resolved = inset > 0 ? math.max(inset, slotHeight) : 0;
+    final double resolved = math.max(inset, slotHeight);
     if (resolved <= 0) {
       return 0;
     }

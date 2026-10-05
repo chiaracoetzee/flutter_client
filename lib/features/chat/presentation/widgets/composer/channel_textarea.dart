@@ -1262,7 +1262,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final bool showComposerSafeBar =
         MediaQuery.paddingOf(context).bottom > 0 &&
         bottomSlotHeight <= 0 &&
-        !isPanelOpen;
+        !isPanelOpen &&
+        resolvedKeyboardInsetBottom(context) <= 0;
     final Color composerBackgroundColor = mobileComposer
         ? context.colors.chatInputBackground
         : context.colors.backgroundSecondaryLighter;
