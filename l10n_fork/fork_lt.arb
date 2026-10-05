@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Niekas neįjungė šio signalo",
     "signalBarReset": "Atstatyti signalą visiems",
-    "signalBarTurnOff": "Išjungti {name}"
+    "signalBarTurnOff": "Išjungti {name}",
+    "instanceUrlHelperDefault": "Numatytajam egzemplioriui naudokite {domain} arba įveskite tikslų kito egzemplioriaus URL.",
+    "instanceResetToDefault": "Atstatyti numatytąjį egzempliorių"
 }

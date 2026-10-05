@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Nessuno ha attivato questo segnale",
     "signalBarReset": "Reimposta il segnale per tutti",
-    "signalBarTurnOff": "Disattiva {name}"
+    "signalBarTurnOff": "Disattiva {name}",
+    "instanceUrlHelperDefault": "Usa {domain} per l’istanza predefinita, oppure l’URL esatto di un’altra istanza.",
+    "instanceResetToDefault": "Ripristina l’istanza predefinita"
 }
