@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "Tento signál nemá nikdo zapnutý",
     "signalBarReset": "Resetovat signál pro všechny",
-    "signalBarTurnOff": "Vypnout {name}"
+    "signalBarTurnOff": "Vypnout {name}",
+    "instanceUrlHelperDefault": "Pro výchozí instanci použijte {domain}, nebo zadejte přesnou adresu URL jiné instance.",
+    "instanceResetToDefault": "Obnovit výchozí instanci"
 }

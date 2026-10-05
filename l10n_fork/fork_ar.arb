@@ -106,5 +106,7 @@
     "signalBarSignalWithNames": "{label}: {names}",
     "signalBarNobody": "لم يُفعّل أحد هذه الإشارة",
     "signalBarReset": "إعادة تعيين الإشارة للجميع",
-    "signalBarTurnOff": "إيقاف {name}"
+    "signalBarTurnOff": "إيقاف {name}",
+    "instanceUrlHelperDefault": "استخدم {domain} للمثيل الافتراضي، أو عنوان URL الدقيق لمثيل آخر.",
+    "instanceResetToDefault": "إعادة الضبط إلى المثيل الافتراضي"
 }
