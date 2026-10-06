@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build: OSS (UnifiedPush / APNs / CI default)",
+            "label": "build: OSS (UnifiedPush / CI default)",
             "detail": "Strip Firebase and Play billing from pubspec, restore push and billing stubs, then pub get.",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -55,7 +55,7 @@
         {
             "label": "firebase: OSS (UnifiedPush / APNs)",
             "detail": "Alias for build: OSS.",
-            "dependsOn": ["build: OSS (UnifiedPush / APNs / CI default)"],
+            "dependsOn": ["build: OSS (UnifiedPush / CI default)"],
             "problemMatcher": []
         },
         {

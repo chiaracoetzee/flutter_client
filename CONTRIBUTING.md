@@ -161,6 +161,8 @@ flutter run --flavor stableFcm --dart-define-from-file=tool/dart_defines/stable.
 For iOS, use the scheme name as the flavor and `PUSH_PROVIDER=apns`:
 
 ```text
+dart tool/configure_build.dart --profile=ios-store
+flutter pub get
 flutter build ios --flavor canary --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=apns
 ```
 
