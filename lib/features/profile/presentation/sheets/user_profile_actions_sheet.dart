@@ -534,6 +534,7 @@ class UserProfileActionsSheet {
   ) async {
     try {
       await action();
+      ref.invalidate(friendsListProvider);
     } on Object catch (e, st) {
       talker.error('[UserProfileActionsSheet] action failed: $e', e, st);
       ref
