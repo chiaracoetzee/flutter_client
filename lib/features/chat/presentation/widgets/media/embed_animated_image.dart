@@ -68,19 +68,32 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     if (controller == _controller) {
       return;
     }
-    _controller?.unregister(widget.visibilityKey);
+    _controller?.unregister(widget.visibilityKey, owner: this);
     _controller?.removeListener(_onControllerChanged);
     _controller = controller;
-    _controller?.register(widget.visibilityKey, _localVisible ? 1 : 0);
+    _controller?.register(
+      widget.visibilityKey,
+      _localVisible ? 1 : 0,
+      owner: this,
+    );
     _controller?.addListener(_onControllerChanged);
     _syncPlaying();
+    // An entry taken over from a replaced state keeps that state's
+    // visibility, and the detector stays silent for an image that mounts
+    // offscreen.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _localVisible) {
+        return;
+      }
+      _controller?.updateVisibility(widget.visibilityKey, 0, owner: this);
+    });
   }
 
   @override
   void dispose() {
     _hideScheduled = false;
     _controller?.removeListener(_onControllerChanged);
-    _controller?.unregister(widget.visibilityKey);
+    _controller?.unregister(widget.visibilityKey, owner: this);
     _playback.dispose();
     super.dispose();
   }
@@ -149,7 +162,11 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
 
   void _applyVisibility(VisibilityInfo info, {required bool visible}) {
     _localVisible = visible;
-    _controller?.updateVisibility(widget.visibilityKey, info.visibleFraction);
+    _controller?.updateVisibility(
+      widget.visibilityKey,
+      info.visibleFraction,
+      owner: this,
+    );
     _syncPlaying();
   }
 
