@@ -4,13 +4,14 @@ class _AnimatedImageCandidate {
   _AnimatedImageCandidate({required this.key});
 
   final String key;
+  Object? owner;
   double visibleFraction = 0;
   int visibleSince = 0;
   bool active = false;
 }
 
 /// Most animated images the chat list plays at once.
-const int kMaxActiveChatAnimatedImages = 3;
+const int kMaxActiveChatAnimatedImages = 4;
 
 /// Coordinates animated image playback in a scrollable feed.
 ///
@@ -41,21 +42,43 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
     _recompute();
   }
 
-  void register(String key, double visibleFraction) {
+  /// A re-parented row mounts its replacement before the old state is
+  /// disposed, so two states briefly share [key]. The latest [owner] to
+  /// register holds the entry; a stale owner can no longer remove or update it.
+  ///
+  /// A takeover keeps the entry's visibility, so mounting a replacement during
+  /// build never changes the active set. The new owner reports its own
+  /// visibility afterwards.
+  void register(String key, double visibleFraction, {Object? owner}) {
     final _AnimatedImageCandidate? existing = _candidates[key];
+    if (existing != null && existing.owner != owner) {
+      existing.owner = owner;
+      return;
+    }
     if (existing != null && existing.visibleFraction == visibleFraction) {
       return;
     }
     final _AnimatedImageCandidate candidate =
-        existing ?? _AnimatedImageCandidate(key: key);
+        (existing ?? _AnimatedImageCandidate(key: key))..owner = owner;
     _setVisibleFraction(candidate, visibleFraction);
     _candidates[key] = candidate;
     _recompute();
   }
 
-  void updateVisibility(String key, double visibleFraction) {
+  void updateVisibility(String key, double visibleFraction, {Object? owner}) {
     final _AnimatedImageCandidate? candidate = _candidates[key];
-    if (candidate == null || candidate.visibleFraction == visibleFraction) {
+    if (candidate == null) {
+      // An owned entry lost to another state's unregister comes back with
+      // its owner's next visibility report.
+      if (owner != null) {
+        register(key, visibleFraction, owner: owner);
+      }
+      return;
+    }
+    if (owner != null && candidate.owner != owner) {
+      return;
+    }
+    if (candidate.visibleFraction == visibleFraction) {
       return;
     }
     _setVisibleFraction(candidate, visibleFraction);
@@ -73,7 +96,11 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
     candidate.visibleFraction = visibleFraction;
   }
 
-  void unregister(String key) {
+  void unregister(String key, {Object? owner}) {
+    final _AnimatedImageCandidate? candidate = _candidates[key];
+    if (candidate == null || (owner != null && candidate.owner != owner)) {
+      return;
+    }
     _candidates.remove(key);
     _recompute();
   }
