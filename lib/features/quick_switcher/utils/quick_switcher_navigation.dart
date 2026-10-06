@@ -45,12 +45,16 @@ Future<void> openDmWithUserFromQuickSwitcher({
   required String userId,
   required VoidCallback onClose,
   String? dmChannelId,
+  bool isPersonalNotes = false,
 }) async {
   if (ref.read(instanceRuntimeConfigProvider).directMessagesDisabled) {
     return;
   }
   String? resolvedChannelId = dmChannelId;
-  if (resolvedChannelId == null || resolvedChannelId.isEmpty) {
+  if (isPersonalNotes) {
+    resolvedChannelId = userId;
+    await ref.read(dmRepositoryProvider).ensurePersonalNotesChannel(userId);
+  } else if (resolvedChannelId == null || resolvedChannelId.isEmpty) {
     try {
       resolvedChannelId = await ref
           .read(dmRepositoryProvider)
@@ -83,13 +87,18 @@ Future<void> executeQuickSwitcherResult({
   required VoidCallback onClose,
 }) async {
   switch (result) {
-    case QuickSwitcherUserResult(:final userId, :final dmChannelId):
+    case QuickSwitcherUserResult(
+      :final userId,
+      :final dmChannelId,
+      :final isPersonalNotes,
+    ):
       await openDmWithUserFromQuickSwitcher(
         context: context,
         ref: ref,
         userId: userId,
         onClose: onClose,
         dmChannelId: dmChannelId,
+        isPersonalNotes: isPersonalNotes,
       );
       return;
     default:
