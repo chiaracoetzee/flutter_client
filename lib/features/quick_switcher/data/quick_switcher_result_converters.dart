@@ -15,6 +15,7 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
       :final dmChannelId,
       :final avatar,
       :final avatarColor,
+      :final isPersonalNotes,
     ) =>
       QuickSwitcherUserResult(
         title: title,
@@ -23,6 +24,7 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
         dmChannelId: dmChannelId,
         avatar: avatar,
         avatarColor: avatarColor,
+        isPersonalNotes: isPersonalNotes,
       ),
     QuickSwitcherGroupDmCandidate(
       :final title,
