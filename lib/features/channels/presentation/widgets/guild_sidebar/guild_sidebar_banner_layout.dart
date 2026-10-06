@@ -25,7 +25,8 @@ double guildSidebarBannerCollapseRatio({
   required double scrollOffset,
   required double fullBannerHeight,
 }) {
-  final double collapseDistance = fullBannerHeight - kGuildSidebarHeaderMinHeight;
+  final double collapseDistance =
+      fullBannerHeight - kGuildSidebarHeaderMinHeight;
   if (collapseDistance <= 0) {
     return 1;
   }

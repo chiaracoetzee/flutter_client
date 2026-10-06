@@ -597,4 +597,3 @@ class _ChannelTile extends ConsumerWidget {
         );
   }
 }
-

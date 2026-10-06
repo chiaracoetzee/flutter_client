@@ -85,7 +85,6 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-
 part 'guild_sidebar_banner_layout.dart';
 part 'guild_sidebar_header.dart';
 part 'guild_sidebar_channel_list.dart';
@@ -153,9 +152,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         guild != null && guildId != null && guild.id == guildId;
 
     final bool showStaticHeader =
-        guildOutageUnavailable ||
-        !guildReady ||
-        !hasReceivedInitialChannelList;
+        guildOutageUnavailable || !guildReady || !hasReceivedInitialChannelList;
 
     return Container(
       width: isMobileLayout(context) ? null : context.layout.sidebarWidth,
@@ -182,7 +179,8 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
                     guild: guild,
                     onHeaderTap: guildOutageUnavailable
                         ? null
-                        : () => unawaited(_handleServerHeaderTap(context, guild)),
+                        : () =>
+                              unawaited(_handleServerHeaderTap(context, guild)),
                   ),
           ),
         ],
@@ -190,4 +188,3 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     );
   }
 }
-

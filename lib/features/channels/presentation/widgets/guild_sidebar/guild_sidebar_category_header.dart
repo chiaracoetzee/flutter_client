@@ -334,4 +334,3 @@ class _CategoryHeader extends ConsumerWidget {
     );
   }
 }
-

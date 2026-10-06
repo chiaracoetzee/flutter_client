@@ -294,61 +294,61 @@ class _GuildSidebarChannelListState
             SliverPadding(
               padding: const EdgeInsets.only(top: 12),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    final int entryIndex =
-                        showMembersEntry && index >= membersOffset
-                        ? index - membersOffset
-                        : index;
-                    if (showMembersEntry) {
-                      if (index == 0) {
-                        return _MembersSidebarTile(
-                          guildId: widget.guildId,
-                          isSelected: isMembersSelected,
-                        );
-                      }
-                      if (index == 1) {
-                        return Divider(
-                          height: 1,
-                          indent: 12,
-                          endIndent: 12,
-                          color: context.colors.borderColor,
-                        );
-                      }
+                delegate: SliverChildBuilderDelegate((
+                  BuildContext context,
+                  int index,
+                ) {
+                  final int entryIndex =
+                      showMembersEntry && index >= membersOffset
+                      ? index - membersOffset
+                      : index;
+                  if (showMembersEntry) {
+                    if (index == 0) {
+                      return _MembersSidebarTile(
+                        guildId: widget.guildId,
+                        isSelected: isMembersSelected,
+                      );
                     }
-                    final GuildSidebarEntry entry = sidebarEntries[entryIndex];
-                    switch (entry.kind) {
-                      case GuildSidebarEntryKind.categoryHeader:
-                        return _CategoryHeader(
-                          key: ValueKey<String>('cat:${entry.category!.id}'),
-                          category: entry.category!,
-                          isCollapsed: entry.isCategoryCollapsed,
-                          guildId: widget.guildId,
-                        );
-                      case GuildSidebarEntryKind.channel:
-                        final String channelId = entry.channel!.id;
-                        return RepaintBoundary(
-                          child: _ChannelTile(
-                            key: ValueKey<String>(channelId),
-                            tileKey: _channelKeys.putIfAbsent(
-                              channelId,
-                              GlobalKey.new,
-                            ),
-                            channel: entry.channel!,
-                            guildId: widget.guildId,
-                            guild: widget.guild,
+                    if (index == 1) {
+                      return Divider(
+                        height: 1,
+                        indent: 12,
+                        endIndent: 12,
+                        color: context.colors.borderColor,
+                      );
+                    }
+                  }
+                  final GuildSidebarEntry entry = sidebarEntries[entryIndex];
+                  switch (entry.kind) {
+                    case GuildSidebarEntryKind.categoryHeader:
+                      return _CategoryHeader(
+                        key: ValueKey<String>('cat:${entry.category!.id}'),
+                        category: entry.category!,
+                        isCollapsed: entry.isCategoryCollapsed,
+                        guildId: widget.guildId,
+                      );
+                    case GuildSidebarEntryKind.channel:
+                      final String channelId = entry.channel!.id;
+                      return RepaintBoundary(
+                        child: _ChannelTile(
+                          key: ValueKey<String>(channelId),
+                          tileKey: _channelKeys.putIfAbsent(
+                            channelId,
+                            GlobalKey.new,
                           ),
-                        );
-                      case GuildSidebarEntryKind.voiceParticipants:
-                        return VoiceChannelParticipantsList(
-                          key: ValueKey<String>('vp:${entry.channel!.id}'),
-                          guildId: entry.guildId!,
-                          channelId: entry.channel!.id,
-                        );
-                    }
-                  },
-                  childCount: membersOffset + sidebarEntries.length,
-                ),
+                          channel: entry.channel!,
+                          guildId: widget.guildId,
+                          guild: widget.guild,
+                        ),
+                      );
+                    case GuildSidebarEntryKind.voiceParticipants:
+                      return VoiceChannelParticipantsList(
+                        key: ValueKey<String>('vp:${entry.channel!.id}'),
+                        guildId: entry.guildId!,
+                        channelId: entry.channel!.id,
+                      );
+                  }
+                }, childCount: membersOffset + sidebarEntries.length),
               ),
             ),
           ],
@@ -370,4 +370,3 @@ class _GuildSidebarChannelListState
     return child;
   }
 }
-

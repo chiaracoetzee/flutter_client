@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar/guild_sidebar.dart';
+
 void main() {
   group('guildSidebarBannerCollapseRatio', () {
     test('is zero at scroll offset zero', () {

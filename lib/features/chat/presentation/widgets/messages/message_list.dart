@@ -42,6 +42,8 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_demand_source.dart';
 import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/messages/message_list_live_entrance.dart';
+import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_pin.dart';
@@ -310,6 +312,16 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _followDisarmed = false;
   bool _pinnedTailGlueScheduled = false;
   bool _pinnedTailGlueIgnorePin = false;
+  String? _liveTailEntranceMessageId;
+  bool _liveTailFollowAnimated = false;
+
+  void _refreshLiveTailFollowAnimated(BuildContext context) {
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _liveTailFollowAnimated = false;
+      return;
+    }
+    _liveTailFollowAnimated = !platformReducedMotionOf(ref, context);
+  }
 
   // Invalidates deferred scroll effects scheduled against a previous UI
   // world: bumped on channel reload and on every wholesale window
@@ -427,27 +439,8 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   @override
   Widget build(BuildContext context) {
+    _refreshLiveTailFollowAnimated(context);
     ref
-      ..listen<int>(
-        chatViewModelProvider.select(
-          (ChatViewState state) => state.scrollToBottomSignal,
-        ),
-        (int? previous, int next) {
-          if (next != previous) {
-            _onScrollToBottom();
-          }
-        },
-      )
-      ..listen<(String, int)?>(
-        chatViewModelProvider.select(
-          (ChatViewState s) => s.scrollToMessageSignal,
-        ),
-        ((String, int)? previous, (String, int)? next) {
-          if (next != null && next != previous) {
-            _onScrollToMessage(next.$1);
-          }
-        },
-      )
       ..listen<List<Message>>(
         chatViewModelProvider.select((ChatViewState s) => s.messages),
         (List<Message>? previous, List<Message> next) {
@@ -514,11 +507,33 @@ class _MessageListState extends ConsumerState<MessageList> {
               (origin == MessagesOrigin.liveCreate ||
                   origin == MessagesOrigin.ownSend ||
                   origin == MessagesOrigin.realtimeEvent)) {
-            _schedulePinnedTailGlue();
+            _scheduleLiveTailFollow(
+              entranceMessageId: _tailAppendedMessageId(previous, next),
+            );
           }
           // Every other origin: structurally scroll-stable by construction -
           // prepends/appends land at the far ends of the leading/trailing
           // slivers, away from the center.
+        },
+      )
+      ..listen<int>(
+        chatViewModelProvider.select(
+          (ChatViewState state) => state.scrollToBottomSignal,
+        ),
+        (int? previous, int next) {
+          if (next != previous) {
+            _onScrollToBottom();
+          }
+        },
+      )
+      ..listen<(String, int)?>(
+        chatViewModelProvider.select(
+          (ChatViewState s) => s.scrollToMessageSignal,
+        ),
+        ((String, int)? previous, (String, int)? next) {
+          if (next != null && next != previous) {
+            _onScrollToMessage(next.$1);
+          }
         },
       );
 
@@ -1661,10 +1676,50 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (_scrollController.hasClients) {
       _lastViewportDimension ??= _scrollController.position.viewportDimension;
     }
+    if (_tailFollowOwnsScroll()) {
+      return;
+    }
     _syncAnimatedImageScrollPause();
     _publishDemandGeometry();
     _signalFillerEntry();
     _syncReadViewport();
+  }
+
+  bool _tailFollowOwnsScroll() {
+    if (!_scrollController.hasClients) {
+      return false;
+    }
+    final ScrollPosition position = _scrollController.position;
+    return position is MessageListScrollPosition && position.isFollowingTail;
+  }
+
+  String? _tailAppendedMessageId(List<Message>? previous, List<Message> next) {
+    if (previous == null || next.isEmpty || next.length <= previous.length) {
+      return null;
+    }
+    return next.last.id;
+  }
+
+  bool _shouldFollowPinnedTailAppend(List<Message> messages, String newestId) {
+    final String? anchor = _anchorId;
+    if (!_anchorResolved ||
+        !_parkedAtLiveTail ||
+        anchor == null ||
+        anchor == newestId) {
+      return false;
+    }
+    final int anchorIndex = messages.indexWhere(
+      (Message message) => message.id == anchor,
+    );
+    return anchorIndex >= 0 && anchorIndex + 1 == messages.length - 1;
+  }
+
+  void _scheduleLiveTailFollow({required String? entranceMessageId}) {
+    _refreshLiveTailFollowAnimated(context);
+    if (_liveTailFollowAnimated && entranceMessageId != null) {
+      _liveTailEntranceMessageId = entranceMessageId;
+    }
+    _schedulePinnedTailGlue();
   }
 
   /// A user fling goes Drag -> Ballistic with no new ScrollStart, so the
@@ -1893,6 +1948,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       });
     }
     if (notification.depth != 0) {
+      return false;
+    }
+    if (_tailFollowOwnsScroll()) {
       return false;
     }
     if (notification is ScrollStartNotification) {
@@ -2570,6 +2628,9 @@ class _MessageListState extends ConsumerState<MessageList> {
   /// flag that can trigger an auto-ack - is withheld while a jump owns the
   /// viewport, since the position mid-jump is not where the user is reading.
   void _syncReadViewport({bool ignoreJumpTarget = false}) {
+    if (_tailFollowOwnsScroll()) {
+      return;
+    }
     if (!_anchorResolved) {
       return;
     }
@@ -2640,6 +2701,12 @@ class _MessageListState extends ConsumerState<MessageList> {
       _followDisarmed = false;
       _pin.onJumpToPresentLanded();
       _schedulePinnedTailGlue(ignorePin: true);
+      return;
+    }
+    if (newestId != null && _shouldFollowPinnedTailAppend(messages, newestId)) {
+      _followDisarmed = false;
+      _pin.onJumpToPresentLanded();
+      _scheduleLiveTailFollow(entranceMessageId: newestId);
       return;
     }
     _landAtLatestTail(messages);
@@ -2731,23 +2798,59 @@ class _MessageListState extends ConsumerState<MessageList> {
         if (!scheduledIgnorePin && (_followDisarmed || _isUserDrivenScroll)) {
           return;
         }
-        _jumpToLiveTailExtent(_scrollController.position);
-        _syncReadViewport();
+        _jumpToLiveTailExtent(
+          _scrollController.position,
+          instantGlue: scheduledIgnorePin,
+        );
+        if (!_tailFollowOwnsScroll()) {
+          _finishTailGlueSideEffects();
+        }
       });
     });
   }
 
-  void _jumpToLiveTailExtent(ScrollPosition position) {
+  void _jumpToLiveTailExtent(
+    ScrollPosition position, {
+    required bool instantGlue,
+  }) {
     final double tail = _loadedTailExtent(position);
-    if (position.pixels < tail) {
+    if (position.pixels >= tail - kMessageListMetricsEpsilon) {
+      return;
+    }
+    final double delta = tail - position.pixels;
+    final bool tallSnap = delta > position.viewportDimension;
+    final bool snap = instantGlue || tallSnap || !_liveTailFollowAnimated;
+    if (snap) {
+      _liveTailEntranceMessageId = null;
       position.jumpTo(tail);
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      return;
+    }
+    final MessageListScrollPosition? tailPosition =
+        position is MessageListScrollPosition ? position : null;
+    if (tailPosition == null) {
+      position.jumpTo(tail);
+      return;
+    }
+    tailPosition.followTailTo(
+      tail,
+      onComplete: () {
         if (!mounted) {
           return;
         }
-        VisibilityDetectorController.instance.notifyNow();
-      });
-    }
+        _finishTailGlueSideEffects();
+      },
+    );
+  }
+
+  void _finishTailGlueSideEffects() {
+    _publishDemandGeometry();
+    _syncReadViewport();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      VisibilityDetectorController.instance.notifyNow();
+    });
   }
 
   bool get _parkedAtLiveTail =>
@@ -3259,28 +3362,52 @@ class _MessageListState extends ConsumerState<MessageList> {
       _ when item.type.isCollapsedGroup => 'group-${item.groupKey}',
       _ => 'msg-${item.singleMessage?.id ?? dataIndex}',
     };
+    final String? messageId = item.singleMessage?.id;
     return KeyedSubtree(
       key: ValueKey<String>(keyValue),
-      child: _buildStreamItem(
-        context: context,
-        stream: stream,
-        dataIndex: dataIndex,
-        visualUnreadId: visualUnreadId,
-        highlightedMessageId: highlightedMessageId,
-        replyingToMessageId: replyingToMessageId,
-        currentUserId: currentUserId,
-        isDmChannel: isDmChannel,
-        guildId: guildId,
-        channelPermissionBits: channelPermissionBits,
-        channelCanSendMessages: channelCanSendMessages,
-        channelCanAddReactions: channelCanAddReactions,
-        channelCanPinMessage: channelCanPinMessage,
-        channelCanManageMessages: channelCanManageMessages,
-        renderSettings: renderSettings,
-        blockedUserIds: blockedUserIds,
-        revealedCollapsedGroupKey: revealedCollapsedGroupKey,
-        isGuildSendDisabled: isGuildSendDisabled,
+      child: _withLiveTailEntrance(
+        messageId: item.type == ChannelStreamType.message ? messageId : null,
+        child: _buildStreamItem(
+          context: context,
+          stream: stream,
+          dataIndex: dataIndex,
+          visualUnreadId: visualUnreadId,
+          highlightedMessageId: highlightedMessageId,
+          replyingToMessageId: replyingToMessageId,
+          currentUserId: currentUserId,
+          isDmChannel: isDmChannel,
+          guildId: guildId,
+          channelPermissionBits: channelPermissionBits,
+          channelCanSendMessages: channelCanSendMessages,
+          channelCanAddReactions: channelCanAddReactions,
+          channelCanPinMessage: channelCanPinMessage,
+          channelCanManageMessages: channelCanManageMessages,
+          renderSettings: renderSettings,
+          blockedUserIds: blockedUserIds,
+          revealedCollapsedGroupKey: revealedCollapsedGroupKey,
+          isGuildSendDisabled: isGuildSendDisabled,
+        ),
       ),
+    );
+  }
+
+  Widget _withLiveTailEntrance({
+    required String? messageId,
+    required Widget child,
+  }) {
+    if (messageId == null || messageId != _liveTailEntranceMessageId) {
+      return child;
+    }
+    return MessageListLiveEntrance(
+      onComplete: () {
+        if (!mounted || _liveTailEntranceMessageId != messageId) {
+          return;
+        }
+        setState(() {
+          _liveTailEntranceMessageId = null;
+        });
+      },
+      child: child,
     );
   }
 

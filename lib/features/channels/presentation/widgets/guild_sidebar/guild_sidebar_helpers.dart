@@ -30,4 +30,3 @@ Future<ChannelOverridesMuteConfig?> _loadChannelMuteConfig(
 bool _canMarkChannelRead(Channel channel) =>
     channel.type != ChannelType.guildCategory &&
     channel.type != ChannelType.guildLink;
-

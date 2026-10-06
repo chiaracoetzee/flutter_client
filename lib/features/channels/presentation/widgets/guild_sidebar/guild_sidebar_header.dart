@@ -16,8 +16,7 @@ class GuildSidebarHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool mobile = isMobileLayout(context);
     final Size viewport = MediaQuery.sizeOf(context);
-    final double width =
-        mobile ? viewport.width : context.layout.sidebarWidth;
+    final double width = mobile ? viewport.width : context.layout.sidebarWidth;
     final double fullHeight =
         guild != null && !outageUnavailable && guild!.banner != null
         ? guildSidebarBannerHeight(
@@ -116,8 +115,7 @@ class GuildSidebarHeaderBody extends StatelessWidget {
     final String headerTitle = outageUnavailable
         ? (guild?.name ?? l10n.communityTemporarilyUnavailable)
         : guild?.name ?? '';
-    final bool showBannerImage =
-        !outageUnavailable && guild?.banner != null;
+    final bool showBannerImage = !outageUnavailable && guild?.banner != null;
     final double bannerForeground = (1 - collapseRatio).clamp(0.0, 1.0);
     final Color sidebarBackground = context.colors.channelSidebarBackground;
     final Color titleColor = Color.lerp(
@@ -133,9 +131,9 @@ class GuildSidebarHeaderBody extends StatelessWidget {
     final List<Shadow> bannerShadows = bannerForeground > 0
         ? <Shadow>[
             Shadow(
-              color: const Color(0xCC000000).withValues(
-                alpha: 0.7 * bannerForeground,
-              ),
+              color: const Color(
+                0xCC000000,
+              ).withValues(alpha: 0.7 * bannerForeground),
               offset: const Offset(0, 1),
               blurRadius: 18,
             ),
@@ -149,15 +147,18 @@ class GuildSidebarHeaderBody extends StatelessWidget {
         children: [
           if (guild != null &&
               !outageUnavailable &&
-              (guild!.isPartnered || guild!.isVerified || guild!.isDiscoverable))
+              (guild!.isPartnered ||
+                  guild!.isVerified ||
+                  guild!.isDiscoverable))
             Padding(
               padding: const EdgeInsets.only(right: 4),
               child: FluxerGuildBadge(
                 features: guild!.features,
                 shadows: bannerShadows,
                 color: bannerForeground > 0.5 ? Colors.white : null,
-                forceBrightness:
-                    bannerForeground > 0.5 ? Brightness.dark : null,
+                forceBrightness: bannerForeground > 0.5
+                    ? Brightness.dark
+                    : null,
               ),
             ),
           Expanded(
@@ -195,9 +196,7 @@ class GuildSidebarHeaderBody extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: sidebarBackground,
-          border: Border(
-            bottom: BorderSide(color: context.colors.borderColor),
-          ),
+          border: Border(bottom: BorderSide(color: context.colors.borderColor)),
         ),
         child: ClipRect(
           child: Stack(
