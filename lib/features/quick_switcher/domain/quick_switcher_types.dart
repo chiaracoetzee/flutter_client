@@ -49,6 +49,7 @@ class QuickSwitcherUserResult extends QuickSwitcherResult {
     this.dmChannelId,
     this.avatar,
     this.avatarColor,
+    this.isPersonalNotes = false,
   });
 
   final String title;
@@ -57,6 +58,7 @@ class QuickSwitcherUserResult extends QuickSwitcherResult {
   final String? dmChannelId;
   final String? avatar;
   final int? avatarColor;
+  final bool isPersonalNotes;
 }
 
 class QuickSwitcherGroupDmResult extends QuickSwitcherResult {
