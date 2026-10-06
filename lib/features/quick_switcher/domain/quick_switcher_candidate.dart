@@ -33,12 +33,14 @@ class QuickSwitcherUserCandidate extends QuickSwitcherCandidate {
     this.dmChannelId,
     this.avatar,
     this.avatarColor,
+    this.isPersonalNotes = false,
   });
 
   final String userId;
   final String? dmChannelId;
   final String? avatar;
   final int? avatarColor;
+  final bool isPersonalNotes;
 }
 
 class QuickSwitcherGroupDmCandidate extends QuickSwitcherCandidate {
