@@ -32,6 +32,15 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
   final List<QuickSwitcherChannelCandidate> voiceChannels =
       <QuickSwitcherChannelCandidate>[];
   if (!input.directMessagesDisabled) {
+    // Personal notes live at the current user's id and may not have a local
+    // conversation row until first opened.
+    final String? currentUserId = input.currentUserId;
+    if (currentUserId != null && currentUserId.isNotEmpty) {
+      users[currentUserId] = quickSwitcherPersonalNotesCandidate(
+        userId: currentUserId,
+        l10n: input.l10n,
+      );
+    }
     for (final DmConversation convo in input.conversations) {
       if (convo.isGroup) {
         groupDms.add(
@@ -44,6 +53,11 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
         continue;
       }
       if (convo.isPersonalNotes) {
+        users[convo.id] = quickSwitcherPersonalNotesCandidate(
+          userId: convo.id,
+          l10n: input.l10n,
+          sortWeight: convo.lastMessageTime.millisecondsSinceEpoch,
+        );
         continue;
       }
       final String resolvedName = convo.displayNameWith(
@@ -255,6 +269,26 @@ QuickSwitcherGroupDmCandidate quickSwitcherGroupDmCandidate(
     groupMembers: convo.groupMembers,
     searchValues: <String>[title, ...participantNames, convo.id],
     sortWeight: convo.lastMessageTime.millisecondsSinceEpoch,
+  );
+}
+
+QuickSwitcherUserCandidate quickSwitcherPersonalNotesCandidate({
+  required String userId,
+  required FluxerLocalizations l10n,
+  int sortWeight = 0,
+}) {
+  return QuickSwitcherUserCandidate(
+    id: userId,
+    title: l10n.personalNotesTitle,
+    userId: userId,
+    dmChannelId: userId,
+    isPersonalNotes: true,
+    searchValues: <String>[
+      l10n.personalNotesTitle,
+      l10n.personalNotesComposerHint,
+      userId,
+    ],
+    sortWeight: sortWeight,
   );
 }
 
