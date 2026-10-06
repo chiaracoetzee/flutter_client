@@ -65,8 +65,6 @@ commit-template: "- $TITLE @$AUTHOR"
 change-title-escapes: '\<*_&'
 
 template: |
-  This is a Pre-release build for TestFlight and Android APK (FCM + OSS).
-
   ## What's New
 
   > Add custom changelog notes here! (remove this text)
