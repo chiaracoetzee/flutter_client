@@ -95,6 +95,10 @@ class QuickSwitcherResultRow extends StatelessWidget {
       height: _kLeadingSlotSize,
       child: Center(
         child: switch (result) {
+          QuickSwitcherUserResult(isPersonalNotes: true) => _phosphorIcon(
+            PhosphorIconsFill.notePencil,
+            color: iconColor,
+          ),
           QuickSwitcherUserResult(
             :final userId,
             :final avatar,
