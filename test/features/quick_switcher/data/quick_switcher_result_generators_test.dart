@@ -391,3 +391,18 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that quick_switcher_result_generators_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by quick_switcher_result_generators_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  QuickSwitcherChannelResolver Function({
+    required FluxerLocalizations l10n,
+    List<Channel> guildChannels,
+    List<DmConversation> conversations,
+    List<Guild> guilds,
+  })
+  resolver,
+});
+// ignore: unreachable_from_main // Fork: used by quick_switcher_result_generators_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (resolver: _resolver);
