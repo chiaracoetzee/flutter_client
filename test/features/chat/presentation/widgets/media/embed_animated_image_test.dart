@@ -736,3 +736,12 @@ void main() {
     });
   });
 }
+
+// Fork: upstream's helpers that embed_animated_image_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by embed_animated_image_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Widget Function(Widget child, {StickerAnimationOptions animateStickers}) wrap,
+});
+// ignore: unreachable_from_main // Fork: used by embed_animated_image_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (wrap: _wrap);
