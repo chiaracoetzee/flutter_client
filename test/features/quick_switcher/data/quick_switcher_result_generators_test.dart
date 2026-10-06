@@ -404,5 +404,83 @@ void main() {
         <String>['12', '13'],
       );
     });
+
+    test('includes personal notes without a local conversation row', () {
+      final FluxerLocalizations l10n = testL10n;
+      final QuickSwitcherCandidateSets sets = buildQuickSwitcherCandidateSets(
+        QuickSwitcherBuildInput(
+          l10n: l10n,
+          currentUserId: '1',
+          conversations: const [],
+          friends: const [],
+          guildChannels: const <Channel>[],
+          guilds: const <Guild>[],
+          guildMembers: const [],
+          hasFavorites: false,
+        ),
+      );
+
+      expect(sets.users, hasLength(1));
+      expect(sets.users.single.isPersonalNotes, isTrue);
+      expect(sets.users.single.dmChannelId, '1');
+
+      final List<QuickSwitcherResult> results =
+          generateQuickSwitcherGeneralResults(
+            search: 'notes',
+            sets: sets,
+            l10n: l10n,
+          );
+
+      expect(results, hasLength(2));
+      final QuickSwitcherUserResult result =
+          results.last as QuickSwitcherUserResult;
+      expect(result.title, l10n.personalNotesTitle);
+      expect(result.isPersonalNotes, isTrue);
+    });
+
+    test('omits personal notes when direct messages are disabled', () {
+      final QuickSwitcherCandidateSets sets = buildQuickSwitcherCandidateSets(
+        QuickSwitcherBuildInput(
+          l10n: testL10n,
+          currentUserId: '1',
+          conversations: const [],
+          friends: const [],
+          guildChannels: const <Channel>[],
+          guilds: const <Guild>[],
+          guildMembers: const [],
+          hasFavorites: false,
+          directMessagesDisabled: true,
+        ),
+      );
+
+      expect(sets.users, isEmpty);
+    });
+  });
+
+  group('QuickSwitcherChannelResolver', () {
+    test('resolves a recent personal notes visit', () {
+      final FluxerLocalizations l10n = testL10n;
+      final QuickSwitcherResult? result = _resolver(
+        l10n: l10n,
+        conversations: <DmConversation>[
+          DmConversation(
+            id: '1',
+            type: ChannelType.dmPersonalNotes.wireValue,
+            recipientId: '1',
+            recipientName: '',
+            lastMessage: '',
+            lastMessageTime: DateTime(2026),
+          ),
+        ],
+      ).resultForChannelId('1');
+
+      expect(result, isA<QuickSwitcherUserResult>());
+      final QuickSwitcherUserResult userResult =
+          result! as QuickSwitcherUserResult;
+      expect(userResult.isPersonalNotes, isTrue);
+      expect(userResult.title, l10n.personalNotesTitle);
+      expect(userResult.dmChannelId, '1');
+    });
+    });
   });
 }
