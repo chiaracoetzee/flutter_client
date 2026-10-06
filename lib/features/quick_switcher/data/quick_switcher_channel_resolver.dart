@@ -31,8 +31,19 @@ class QuickSwitcherChannelResolver {
       return _resultFromGuildChannel(guildChannel, viewContext);
     }
     final DmConversation? conversation = conversationsById[channelId];
-    if (conversation == null || conversation.isPersonalNotes) {
+    if (conversation == null) {
       return null;
+    }
+    if (conversation.isPersonalNotes) {
+      return candidateToQuickSwitcherResult(
+        quickSwitcherPersonalNotesCandidate(
+          userId: conversation.id,
+          l10n: l10n,
+          sortWeight: conversation.lastMessageTime.millisecondsSinceEpoch,
+        ),
+        l10n,
+        viewContext: viewContext,
+      );
     }
     if (conversation.isGroup) {
       return candidateToQuickSwitcherResult(

@@ -44,6 +44,7 @@ class QuickSwitcherUserCandidate extends QuickSwitcherCandidate {
     this.avatar,
     this.avatarColor,
     this.status,
+    this.isPersonalNotes = false,
   });
 
   final String userId;
@@ -51,6 +52,7 @@ class QuickSwitcherUserCandidate extends QuickSwitcherCandidate {
   final String? avatar;
   final int? avatarColor;
   final String? status;
+  final bool isPersonalNotes;
 
   @override
   QuickSwitcherCandidateType get candidateType =>

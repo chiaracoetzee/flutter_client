@@ -54,6 +54,7 @@ class QuickSwitcherUserResult extends QuickSwitcherResult {
     this.avatar,
     this.avatarColor,
     this.status,
+    this.isPersonalNotes = false,
   });
 
   final String id;
@@ -64,6 +65,7 @@ class QuickSwitcherUserResult extends QuickSwitcherResult {
   final String? avatar;
   final int? avatarColor;
   final String? status;
+  final bool isPersonalNotes;
 
   QuickSwitcherResultType get type => QuickSwitcherResultType.user;
 }

@@ -17,6 +17,7 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
       :final avatar,
       :final avatarColor,
       :final status,
+      :final isPersonalNotes,
     ) =>
       QuickSwitcherUserResult(
         id: id,
@@ -27,6 +28,7 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
         avatar: avatar,
         avatarColor: avatarColor,
         status: status,
+        isPersonalNotes: isPersonalNotes,
       ),
     QuickSwitcherGroupDmCandidate(
       :final id,
