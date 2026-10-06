@@ -39,14 +39,14 @@ void main() {
       expect(playing, 6);
     });
 
-    test('chat list plays at most 3 animated images at once', () {
+    test('chat list plays at most 4 animated images at once', () {
       final AnimatedImagePlaybackController controller =
           AnimatedImagePlaybackController(
             maxActiveVideos: kMaxActiveChatAnimatedImages,
             suppressWhileScrolling: true,
           );
 
-      for (int index = 0; index < 4; index += 1) {
+      for (int index = 0; index < 5; index += 1) {
         controller.register('gif-$index', 1);
       }
 
@@ -54,8 +54,9 @@ void main() {
         ..expectPlaying('gif-1', isTrue)
         ..expectPlaying('gif-2', isTrue)
         ..expectPlaying('gif-3', isTrue)
+        ..expectPlaying('gif-4', isTrue)
         ..expectPlaying('gif-0', isFalse)
-        ..unregister('gif-3')
+        ..unregister('gif-4')
         ..expectPlaying('gif-0', isTrue);
     });
 
@@ -222,6 +223,62 @@ void main() {
         ..updateVisibility('a', 1)
         ..expectPlaying('a', isTrue);
       expect(notificationCount, 1);
+    });
+
+    test('a stale owner cannot unregister its replacement', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController();
+      final Object oldOwner = Object();
+      final Object newOwner = Object();
+
+      controller
+        ..register('a', 1, owner: oldOwner)
+        ..register('a', 0, owner: newOwner)
+        ..unregister('a', owner: oldOwner)
+        ..expectPlaying('a', isTrue)
+        ..updateVisibility('a', 0, owner: newOwner)
+        ..expectPlaying('a', isFalse)
+        ..updateVisibility('a', 1, owner: newOwner)
+        ..expectPlaying('a', isTrue)
+        ..unregister('a', owner: newOwner)
+        ..expectPlaying('a', isFalse);
+    });
+
+    test('a stale owner cannot change its replacement visibility', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController();
+      final Object oldOwner = Object();
+      final Object newOwner = Object();
+
+      controller
+        ..register('a', 1, owner: oldOwner)
+        ..register('a', 1, owner: newOwner)
+        ..updateVisibility('a', 0, owner: oldOwner)
+        ..expectPlaying('a', isTrue);
+    });
+
+    test('a takeover does not notify listeners', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController();
+      int notificationCount = 0;
+      controller
+        ..register('a', 1, owner: Object())
+        ..addListener(() => notificationCount++)
+        ..register('a', 0, owner: Object());
+      expect(notificationCount, 0);
+    });
+
+    test('an owned visibility update restores a missing entry', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController();
+      final Object owner = Object();
+
+      controller
+        ..register('a', 1, owner: owner)
+        ..unregister('a')
+        ..expectPlaying('a', isFalse)
+        ..updateVisibility('a', 1, owner: owner)
+        ..expectPlaying('a', isTrue);
     });
   });
 }
