@@ -1800,6 +1800,35 @@ class _MessageListState extends ConsumerState<MessageList> {
   double _loadedTailExtent(ScrollPosition position) =>
       position.maxScrollExtent - _trailingFillerExtent;
 
+  /// Newest row height can grow after the first layout pass (wrap, embeds).
+  void _reconcilePinnedLiveTailScroll() {
+    if (!mounted || !_anchorResolved || !_scrollController.hasClients) {
+      return;
+    }
+    _refreshLiveTailFollowAnimated(context);
+    if (_followDisarmed || _isUserDrivenScroll || _unreadOpenLayout) {
+      return;
+    }
+    if (ref.read(chatViewModelProvider).hasMoreNewerMessages) {
+      return;
+    }
+    if (!_pin.pinned && !_tailFollowOwnsScroll()) {
+      return;
+    }
+    final ScrollPosition position = _scrollController.position;
+    final double tail = _loadedTailExtent(position);
+    if (position.pixels >= tail - kMessageListMetricsEpsilon) {
+      return;
+    }
+    if (_liveTailFollowAnimated &&
+        _tailFollowOwnsScroll() &&
+        position is MessageListScrollPosition) {
+      position.followTailTo(tail);
+      return;
+    }
+    position.jumpTo(tail);
+  }
+
   /// With skeleton filler past a loaded edge there is no hard wall to press
   /// into; a user-driven scroll carrying the reader onto the filler is the
   /// same "give me more" signal, collapsed per gesture upstream.
@@ -2429,6 +2458,11 @@ class _MessageListState extends ConsumerState<MessageList> {
     _lastViewportDimension = viewport;
     _lastMinScrollExtent = minExtent;
     _lastMaxScrollExtent = extent;
+    if (previousExtent != null &&
+        extent > previousExtent + kMessageListMetricsEpsilon &&
+        (_pin.pinned || _tailFollowOwnsScroll())) {
+      _reconcilePinnedLiveTailScroll();
+    }
     if (!pixelOnly) {
       // Keyboard, rotation, content-extent jump, or first attach. Pixel
       // slides already flow through _onScroll / ScrollUpdate.
@@ -2834,21 +2868,22 @@ class _MessageListState extends ConsumerState<MessageList> {
     tailPosition.followTailTo(
       tail,
       onComplete: () {
-        if (!mounted) {
-          return;
+        if (mounted) {
+          _finishTailGlueSideEffects();
         }
-        _finishTailGlueSideEffects();
       },
     );
   }
 
   void _finishTailGlueSideEffects() {
+    _reconcilePinnedLiveTailScroll();
     _publishDemandGeometry();
     _syncReadViewport();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
+      _reconcilePinnedLiveTailScroll();
       VisibilityDetectorController.instance.notifyNow();
     });
   }

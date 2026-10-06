@@ -32,10 +32,7 @@ class _MessageListLiveEntranceState extends State<MessageListLiveEntrance>
       duration: kMessageListLiveTailMotionDuration,
     );
     _controller = controller;
-    _fade = CurvedAnimation(
-      parent: controller,
-      curve: Curves.easeOutCubic,
-    );
+    _fade = CurvedAnimation(parent: controller, curve: Curves.easeOutCubic);
     _slide = Tween<double>(
       begin: kMessageListLiveTailSlidePx,
       end: 0,

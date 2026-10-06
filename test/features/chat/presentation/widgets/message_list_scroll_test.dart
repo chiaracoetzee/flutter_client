@@ -5716,6 +5716,58 @@ void main() {
 
       await disposeMessageList(tester);
     });
+
+    testWidgets('multi-line live append stays visible after tail follow', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        disableMessageListAnimations: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester);
+      position.jumpTo(position.maxScrollExtent);
+      await tester.pump();
+
+      final List<Message> old = chatViewModel.testState.messages;
+      final DateTime timestamp = old.last.timestamp.add(
+        const Duration(minutes: 1),
+      );
+      final String id = snowflakeForUtc(timestamp);
+      final String content = List<String>.generate(
+        12,
+        (int i) => 'live tail line $i with enough text to wrap in cozy mode',
+      ).join('\n');
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (
+          messages: <Message>[
+            ...old,
+            harnessMessage(id: id, content: content, timestamp: timestamp),
+          ],
+          origin: MessagesOrigin.liveCreate,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(kMessageListLiveTailMotionDuration);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump();
+      }
+
+      final Rect viewport = tester.getRect(messageListScrollable());
+      final Rect newest = tester.getRect(messageItemFor(id));
+      expect(
+        newest.bottom,
+        lessThanOrEqualTo(viewport.bottom + 8),
+        reason: 'multi-line newest must stay fully visible at the pinned tail',
+      );
+      expect(
+        position.pixels,
+        moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+      );
+
+      await disposeMessageList(tester);
+    });
   });
 }
 

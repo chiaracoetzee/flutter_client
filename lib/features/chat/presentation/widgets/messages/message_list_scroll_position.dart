@@ -57,13 +57,10 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
       return;
     }
     if (_tailFollowActive) {
-      _tailFollowFrom = pixels;
       _tailFollowTo = clampedTarget;
-      _tailFollowDuration = duration;
-      _tailFollowCurve = curve;
-      _tailFollowStartedAt = null;
-      _tailFollowOnComplete = onComplete;
-      _ensureTicker();
+      if (onComplete != null) {
+        _tailFollowOnComplete = onComplete;
+      }
       return;
     }
     _cancelSettle();
