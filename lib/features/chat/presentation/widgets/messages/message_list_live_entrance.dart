@@ -59,18 +59,20 @@ class _MessageListLiveEntranceState extends State<MessageListLiveEntrance>
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (BuildContext context, Widget? child) {
-          return Opacity(
-            opacity: _fade.value,
-            child: Transform.translate(
-              offset: Offset(0, _slide.value),
-              child: child,
-            ),
-          );
-        },
-        child: widget.child,
+      child: ClipRect(
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (BuildContext context, Widget? child) {
+            return Opacity(
+              opacity: _fade.value,
+              child: Transform.translate(
+                offset: Offset(0, _slide.value),
+                child: child,
+              ),
+            );
+          },
+          child: widget.child,
+        ),
       ),
     );
   }

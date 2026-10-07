@@ -57,6 +57,10 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
       return;
     }
     if (_tailFollowActive) {
+      if (clampedTarget > _tailFollowTo + _kSnapEpsilon) {
+        _tailFollowFrom = pixels;
+        _tailFollowStartedAt = null;
+      }
       _tailFollowTo = clampedTarget;
       if (onComplete != null) {
         _tailFollowOnComplete = onComplete;
@@ -91,7 +95,7 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
   }
 
   void _finishTailFollow() {
-    _applyPixels(_tailFollowTo);
+    _applyPixels(_tailFollowTo.clamp(minScrollExtent, maxScrollExtent));
     _tailFollowActive = false;
     _tailFollowStartedAt = null;
     final VoidCallback? callback = _tailFollowOnComplete;
