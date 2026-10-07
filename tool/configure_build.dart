@@ -53,12 +53,12 @@ BuildProfile parseBuildProfile(List<String> args) {
       return switch (value) {
         'oss' => BuildProfile.oss,
         'android-fcm' => BuildProfile.androidFcm,
-        'ios-store' => BuildProfile.iosStore,
+        'ios-store' || 'apns' => BuildProfile.iosStore,
         _ => throw ArgumentError('Unknown profile: $value'),
       };
     }
   }
-  throw ArgumentError('Missing --profile=oss|android-fcm|ios-store');
+  throw ArgumentError('Missing --profile=oss|android-fcm|ios-store|apns');
 }
 
 Future<void> configureProjectBuild(Directory root, BuildProfile profile) async {

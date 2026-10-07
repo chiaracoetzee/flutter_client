@@ -45,8 +45,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-runner-
 
-      - name: Configure OSS build tree
-        run: dart tool/configure_build.dart --profile=oss
+      - name: Configure APNs build tree
+        run: dart tool/configure_build.dart --profile=apns
 
       - name: Install dependencies
         run: flutter pub get
@@ -118,6 +118,9 @@ jobs:
 
       - name: Enable native asset build hooks
         run: flutter config --enable-native-assets
+
+      - name: Configure APNs build tree
+        run: dart tool/configure_build.dart --profile=apns
 
       - name: Install dependencies
         run: flutter pub get
