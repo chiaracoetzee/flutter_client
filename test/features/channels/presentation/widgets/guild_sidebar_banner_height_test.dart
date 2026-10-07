@@ -19,7 +19,7 @@ void main() {
     });
 
     test('never goes below the header minimum', () {
-      expect(guildSidebarBannerHeight(width: 100, viewportHeight: 200), 56);
+      expect(guildSidebarBannerHeight(width: 90, viewportHeight: 200), 56);
     });
 
     test('returns zero for non-positive width', () {

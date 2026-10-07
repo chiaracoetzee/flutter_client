@@ -586,7 +586,6 @@ void main() {
           overrides: <String, ChannelOverrides>{
             _textId: const ChannelOverrides(
               muted: true,
-              muteConfig: null,
               collapsed: false,
               messageNotifications: UserNotificationSettingsInput.inherit,
             ),
