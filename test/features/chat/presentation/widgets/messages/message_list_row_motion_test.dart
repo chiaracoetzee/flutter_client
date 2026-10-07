@@ -28,11 +28,7 @@ void main() {
       const MaterialApp(
         home: MediaQuery(
           data: MediaQueryData(disableAnimations: true),
-          child: Scaffold(
-            body: MessageListRowResize(
-              child: Text('hello'),
-            ),
-          ),
+          child: Scaffold(body: MessageListRowResize(child: Text('hello'))),
         ),
       ),
     );

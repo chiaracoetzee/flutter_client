@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
+import 'package:fluxer_app/core/deep_links/deep_link_log_sanitizer.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
@@ -62,7 +63,7 @@ class DeepLinkHandler extends _$DeepLinkHandler {
 
   void _handleDeepLink(Uri uri) {
     final Uri normalizedUri = normalizeIncomingDeepLinkUri(uri);
-    talker.info('[DeepLink] Received: $uri');
+    talker.info('[DeepLink] Received: ${sanitizeDeepLinkForLog(uri)}');
 
     if (_tryDeferOAuthDeepLinkToBrowser(uri)) {
       return;
@@ -105,7 +106,9 @@ class DeepLinkHandler extends _$DeepLinkHandler {
     )) {
       return false;
     }
-    talker.info('[DeepLink] Deferring OAuth URL to browser: $uri');
+    talker.info(
+      '[DeepLink] Deferring OAuth URL to browser: ${sanitizeDeepLinkForLog(uri)}',
+    );
     final browser = ref.read(defaultAppsPreferencesProvider);
     unawaited(openExternalUrl(uri, browser: browser));
     return true;
