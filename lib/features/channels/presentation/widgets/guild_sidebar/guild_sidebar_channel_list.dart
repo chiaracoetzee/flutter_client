@@ -360,6 +360,7 @@ class _GuildSidebarChannelListState
       child: GuildScrollIndicatorLayer(
         controller: _scrollIndicator,
         label: FluxerLocalizations.of(context).scrollIndicatorNewMessage,
+        topInset: kGuildSidebarScrollIndicatorTopInset,
         child: Opacity(
           opacity: _needsScrollClamp ? 0 : 1,
           child: channelListView,
