@@ -316,6 +316,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _pinnedTailGlueIgnorePin = false;
   String? _liveTailEntranceMessageId;
   bool _liveTailFollowAnimated = false;
+  bool _suppressPinnedTailReconcileOnNextExtentGrowth = false;
 
   void _refreshLiveTailFollowAnimated(BuildContext context) {
     if (MediaQuery.disableAnimationsOf(context)) {
@@ -453,6 +454,12 @@ class _MessageListState extends ConsumerState<MessageList> {
           final MessagesOrigin? origin = ref
               .read(chatViewModelProvider)
               .writeOriginFor(previous: previous, next: next);
+          if (origin != null &&
+              origin != MessagesOrigin.liveCreate &&
+              origin != MessagesOrigin.ownSend &&
+              origin != MessagesOrigin.realtimeEvent) {
+            _suppressPinnedTailReconcileOnNextExtentGrowth = true;
+          }
           if (origin == MessagesOrigin.windowSwap) {
             // EVERY wholesale replacement - jump landings AND network-refresh
             // reinstalls - invalidates deferred scroll effects scheduled
@@ -835,6 +842,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           '[MessageList] consume pending target $target'
           '${scrollId == target ? '' : ' via neighbour $scrollId'}',
         );
+        _pin.pinned = false;
         // Mid-build re-anchor: direct field writes - THIS build already
         // renders the new anchor (setState here would assert).
         _unreadOpenLayout = false;
@@ -2463,7 +2471,11 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (previousExtent != null &&
         extent > previousExtent + kMessageListMetricsEpsilon &&
         (_pin.pinned || _tailFollowOwnsScroll())) {
-      _reconcilePinnedLiveTailScroll();
+      if (_suppressPinnedTailReconcileOnNextExtentGrowth) {
+        _suppressPinnedTailReconcileOnNextExtentGrowth = false;
+      } else {
+        _reconcilePinnedLiveTailScroll();
+      }
     }
     if (!pixelOnly) {
       // Keyboard, rotation, content-extent jump, or first attach. Pixel
@@ -2986,6 +2998,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       talker.debug('[MessageList] pending target parked $messageId');
       return;
     }
+    _pin.pinned = false;
     if (scrollId != messageId) {
       talker.debug(
         '[MessageList] jump target $messageId missing; '

@@ -1008,7 +1008,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         Padding(padding: padding, child: child),
       ],
     );
-    if (!_animateJumpHighlight && !widget.isJumpHighlighted) {
+    if ((!_animateJumpHighlight && !widget.isJumpHighlighted) ||
+        MediaQuery.disableAnimationsOf(context)) {
       return DecoratedBox(decoration: decoration, child: stacked);
     }
     return AnimatedContainer(

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -230,6 +231,8 @@ void main() {
             ),
           );
 
+      await _flushRealtimeFrames();
+      await tester.pump();
       Rect? ackRect;
       var ackAppeared = false;
       for (int i = 0; i < 20; i++) {
@@ -281,6 +284,14 @@ Future<void> _emptyFuture() => Future<void>.value();
 
 Future<void> _yieldEventLoop(WidgetTester tester) {
   return tester.runAsync(_emptyFuture);
+}
+
+Future<void> _flushRealtimeFrames() async {
+  for (var i = 0; i < 8; i++) {
+    await pumpEventQueue();
+  }
+  SchedulerBinding.instance.handleBeginFrame(Duration.zero);
+  SchedulerBinding.instance.handleDrawFrame();
 }
 
 List<Override> _messageListUiOverrides() {

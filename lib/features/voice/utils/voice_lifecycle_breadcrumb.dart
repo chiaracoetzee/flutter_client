@@ -1,11 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String kVoiceLifecycleBreadcrumbEventKey = 'voice_lifecycle_breadcrumb_event';
+const String kVoiceLifecycleBreadcrumbEventKey =
+    'voice_lifecycle_breadcrumb_event';
 const String kVoiceLifecycleBreadcrumbGenerationKey =
     'voice_lifecycle_breadcrumb_generation';
 const String kVoiceLifecycleBreadcrumbReasonKey =
     'voice_lifecycle_breadcrumb_reason';
-const String kVoiceLifecycleBreadcrumbAtKey = 'voice_lifecycle_breadcrumb_at_ms';
+const String kVoiceLifecycleBreadcrumbAtKey =
+    'voice_lifecycle_breadcrumb_at_ms';
 
 Future<void> persistVoiceLifecycleBreadcrumb({
   required String event,
@@ -15,7 +17,10 @@ Future<void> persistVoiceLifecycleBreadcrumb({
   try {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(kVoiceLifecycleBreadcrumbEventKey, event);
-    await prefs.setInt(kVoiceLifecycleBreadcrumbGenerationKey, connectGeneration);
+    await prefs.setInt(
+      kVoiceLifecycleBreadcrumbGenerationKey,
+      connectGeneration,
+    );
     if (reason != null && reason.isNotEmpty) {
       await prefs.setString(kVoiceLifecycleBreadcrumbReasonKey, reason);
     } else {
@@ -37,7 +42,9 @@ Future<Map<String, String>?> readVoiceLifecycleBreadcrumb() async {
     if (event == null || event.isEmpty) {
       return null;
     }
-    final int? generation = prefs.getInt(kVoiceLifecycleBreadcrumbGenerationKey);
+    final int? generation = prefs.getInt(
+      kVoiceLifecycleBreadcrumbGenerationKey,
+    );
     final String? reason = prefs.getString(kVoiceLifecycleBreadcrumbReasonKey);
     final int? atMs = prefs.getInt(kVoiceLifecycleBreadcrumbAtKey);
     return <String, String>{
