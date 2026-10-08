@@ -45,9 +45,7 @@ class ChatNetworkImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
-        placeholderBuilder: placeholder == null
-            ? null
-            : (_) => placeholder!,
+        placeholderBuilder: placeholder == null ? null : (_) => placeholder!,
         errorBuilder: (_, _, _) => errorPlaceholder,
       );
     }
