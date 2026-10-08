@@ -543,8 +543,8 @@ String clearAllScopedThemeColorsForMode({
     return '';
   }
   final Map<String, Map<String, String>> scoped =
-      extractScopedThemeVariableOverrides(normalized);
-  scoped.remove(_scopeKeyForEditorMode(editingMode));
+      extractScopedThemeVariableOverrides(normalized)
+        ..remove(_scopeKeyForEditorMode(editingMode));
   final String built = _formatScopedCss(scoped);
   return built.isEmpty ? '' : built;
 }

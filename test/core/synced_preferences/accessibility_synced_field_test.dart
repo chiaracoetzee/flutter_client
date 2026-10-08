@@ -372,7 +372,7 @@ void main() {
           compactMessageGroupSpacing: 0,
           saturationFactor: 1,
           customThemeCss: localCss,
-          advanced: kDefaultAdvancedAccessibility,
+          advanced: _defaultAdvancedAccessibility,
         );
         final remote = AccessibilitySyncedField.fromProto(
           accessibility_pb.AccessibilitySettings(customThemeCss: wireCss),
