@@ -318,7 +318,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _pinnedTailGlueIgnorePin = false;
   String? _liveTailEntranceMessageId;
   bool _liveTailFollowAnimated = false;
-  bool _suppressPinnedTailReconcileOnNextExtentGrowth = false;
+  int _suppressPinnedTailReconcileExtentChanges = 0;
   final Map<String, Message> _collapsingMessageSnapshots = <String, Message>{};
   final Map<String, int> _collapsingMessageIndex = <String, int>{};
   final Set<String> _collapsingMessageIds = <String>{};
@@ -537,6 +537,8 @@ class _MessageListState extends ConsumerState<MessageList> {
               (origin == MessagesOrigin.localMutation ||
                   origin == MessagesOrigin.realtimeEvent) &&
               _tailAppendedMessageId(previous, next) == null &&
+              previous != null &&
+              next.length >= previous.length &&
               _isNearLiveTail()) {
             _schedulePinnedTailGlue();
           }
@@ -1756,13 +1758,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   void _armSuppressPinnedTailReconcile(MessagesOrigin? origin) {
-    if (origin == MessagesOrigin.olderPage ||
-        origin == MessagesOrigin.newerPage ||
-        origin == MessagesOrigin.windowSwap ||
-        origin == MessagesOrigin.boundaryFill ||
-        origin == MessagesOrigin.trim) {
-      _suppressPinnedTailReconcileOnNextExtentGrowth = true;
+    if (origin == MessagesOrigin.liveCreate ||
+        origin == MessagesOrigin.ownSend ||
+        origin == MessagesOrigin.realtimeEvent) {
+      return;
     }
+    _suppressPinnedTailReconcileExtentChanges += 2;
   }
 
   bool _shouldAnimateMessageRemoval(MessagesOrigin? origin) {
@@ -2692,8 +2693,8 @@ class _MessageListState extends ConsumerState<MessageList> {
       final bool extentShrank =
           extent < previousExtent - kMessageListMetricsEpsilon;
       if (extentGrew || extentShrank) {
-        if (_suppressPinnedTailReconcileOnNextExtentGrowth) {
-          _suppressPinnedTailReconcileOnNextExtentGrowth = false;
+        if (_suppressPinnedTailReconcileExtentChanges > 0) {
+          _suppressPinnedTailReconcileExtentChanges -= 1;
         } else {
           _reconcilePinnedLiveTailScroll();
         }
