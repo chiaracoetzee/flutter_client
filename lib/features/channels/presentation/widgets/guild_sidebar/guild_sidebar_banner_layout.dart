@@ -7,6 +7,24 @@ const double kGuildSidebarScrollIndicatorTopInset =
     kGuildSidebarHeaderMinHeight + 8;
 
 @visibleForTesting
+double guildSidebarBannerLayoutWidth(
+  BuildContext context,
+  BoxConstraints constraints,
+) {
+  if (constraints.hasBoundedWidth && constraints.maxWidth > 0) {
+    return constraints.maxWidth;
+  }
+  final layout = context.layout;
+  if (isMobileLayout(context)) {
+    return math.max(
+      layout.sidebarWidth,
+      MediaQuery.sizeOf(context).width - layout.guildListWidth,
+    );
+  }
+  return layout.sidebarWidth;
+}
+
+@visibleForTesting
 double guildSidebarBannerHeight({
   required double width,
   required double viewportHeight,
