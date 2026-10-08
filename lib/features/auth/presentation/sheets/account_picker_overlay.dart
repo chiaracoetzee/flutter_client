@@ -16,6 +16,8 @@ import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_ic
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/status_change_sheet.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -34,8 +36,16 @@ const Duration _kSwitchExitDuration = Duration(milliseconds: 400);
 const double _kBackdropOpacity = 0.88;
 const double _kAvatarBorderWidth = 2;
 const double _kAvatarInnerPadding = 2;
+const double _kCurrentAccountBadgeSize = 20;
+const double _kCurrentAccountBadgeBorderWidth = 2;
 
-Color _pickerAvatarBorderColor(FluxerColorTheme colors) {
+Color _pickerAvatarBorderColor(
+  FluxerColorTheme colors, {
+  bool isCurrent = false,
+}) {
+  if (isCurrent) {
+    return colors.textPositive;
+  }
   return colors.textPrimaryMuted.withValues(alpha: 0.55);
 }
 
@@ -391,10 +401,12 @@ class _AccountPickerPanel extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _ActionButton(
+              FluxerButton.mediaOverlay(
                 icon: PhosphorIconsBold.gear,
                 label: l10n.accountManageTitle,
-                onPressed: () async {
+                size: FluxerButtonSize.compact,
+                fitContent: true,
+                onPressedAsync: () async {
                   await onRequestClose();
                   if (context.mounted) {
                     unawaited(AccountSwitcherSheet.show(context));
@@ -402,10 +414,12 @@ class _AccountPickerPanel extends ConsumerWidget {
                 },
               ),
               SizedBox(width: layout.s3),
-              _ActionButton(
+              FluxerButton.mediaOverlay(
                 icon: PhosphorIconsBold.smiley,
                 label: l10n.statusChangeSheetTitle,
-                onPressed: () async {
+                size: FluxerButtonSize.compact,
+                fitContent: true,
+                onPressedAsync: () async {
                   await onRequestClose();
                   if (context.mounted) {
                     unawaited(StatusChangeSheet.show(context));
@@ -518,7 +532,10 @@ class _AccountAvatarTile extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: _pickerAvatarBorderColor(colors),
+                        color: _pickerAvatarBorderColor(
+                          colors,
+                          isCurrent: isCurrent,
+                        ),
                         width: _kAvatarBorderWidth,
                       ),
                     ),
@@ -541,17 +558,27 @@ class _AccountAvatarTile extends StatelessWidget {
                   ),
                   if (isCurrent)
                     Positioned(
-                      top: -2,
-                      left: -2,
+                      top: 0,
+                      left: 0,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: colors.backgroundPrimary,
-                        ),
-                        child: PhosphorIcon(
-                          PhosphorIconsFill.checkCircle,
-                          size: 22,
                           color: colors.textPositive,
+                          border: Border.all(
+                            color: colors.backgroundPrimary,
+                            width: _kCurrentAccountBadgeBorderWidth,
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: _kCurrentAccountBadgeSize,
+                          height: _kCurrentAccountBadgeSize,
+                          child: Center(
+                            child: PhosphorIcon(
+                              PhosphorIconsBold.check,
+                              size: 11,
+                              color: colors.brandPrimaryFill,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -650,49 +677,6 @@ class _SwitchingAvatarBadge extends StatelessWidget {
           size:
               _kGridAvatarSize -
               2 * (_kAvatarBorderWidth + _kAvatarInnerPadding),
-        ),
-      ),
-    );
-  }
-}
-
-class _ActionButton extends StatelessWidget {
-  const _ActionButton({
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-
-    return Material(
-      color: colors.backgroundSecondaryAlt.withValues(alpha: 0.85),
-      borderRadius: layout.radiusLg,
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onPressed,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: layout.s4, vertical: 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PhosphorIcon(icon, size: 18, color: colors.textPrimary),
-              SizedBox(width: layout.s2),
-              Text(
-                label,
-                style: context.textStyles.bodySmall.copyWith(
-                  color: colors.textPrimary,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
