@@ -240,6 +240,7 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
       context.layout.s4,
       context.layout.s2,
     );
+    final Color listBackground = context.colors.backgroundPrimary;
 
     final Widget scrollView = NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
@@ -248,121 +249,127 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
         }
         return false;
       },
-      child: CustomScrollView(
-        slivers: <Widget>[
-          if (!handheldLayout)
-            SliverToBoxAdapter(
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 960),
-                  child: Padding(
-                    padding: contentPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        ForumGuidelines(forum: forum),
-                        if (forum.topic?.trim().isNotEmpty ?? false)
-                          SizedBox(height: context.layout.s3),
-                        ForumDesktopToolbar(
-                          forum: forum,
-                          canPost: canPost,
-                          searchController: _searchController,
-                        ),
-                      ],
+      child: ColoredBox(
+        color: listBackground,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            if (!handheldLayout)
+              SliverToBoxAdapter(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 960),
+                    child: Padding(
+                      padding: contentPadding,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          ForumGuidelines(forum: forum),
+                          if (forum.topic?.trim().isNotEmpty ?? false)
+                            SizedBox(height: context.layout.s3),
+                          ForumDesktopToolbar(
+                            forum: forum,
+                            canPost: canPost,
+                            searchController: _searchController,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          if (handheldLayout && tags.isNotEmpty)
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _ForumTagFilterHeaderDelegate(
-                extent: ForumTagChip.pinnedHeaderExtent(context),
-                tags: tags,
-                selectedIds: view.tagFilter,
-                backgroundColor: context.colors.chatInputBackground,
-                onToggle: controller.toggleTag,
-              ),
-            ),
-          if (list.indexing)
-            SliverToBoxAdapter(
-              child: _ForumNotice(
-                icon: PhosphorIconsBold.hourglassMedium,
-                text: l10n.forumSearchIndexing,
-              ),
-            ),
-          if (ordered.isEmpty && list.loaded && !list.loading && !list.indexing)
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: _ForumEmptyState(
-                searching: view.isSearching || view.tagFilter.isNotEmpty,
-              ),
-            )
-          else if (layout == ForumLayout.gallery)
-            SliverPadding(
-              padding: EdgeInsets.symmetric(
-                horizontal: context.layout.s4,
-                vertical: context.layout.s1,
-              ),
-              sliver: SliverGrid.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 220,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                  childAspectRatio: 0.8,
+            if (handheldLayout && tags.isNotEmpty)
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _ForumTagFilterHeaderDelegate(
+                  extent: ForumTagChip.pinnedHeaderExtent(context),
+                  tags: tags,
+                  selectedIds: view.tagFilter,
+                  backgroundColor: listBackground,
+                  onToggle: controller.toggleTag,
                 ),
-                itemCount: ordered.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    _ForumPostItem(
-                      forum: forum,
-                      post: ordered[index],
-                      lastMessageId:
-                          storedPosts.lastMessageIds[ordered[index].id],
-                      snapshotAckId: _snapshotTaken ? _snapshotAckId : null,
-                      canAddReactions: canAddReactions,
-                      gallery: true,
-                    ),
               ),
-            )
-          else
-            SliverList.builder(
-              itemCount: ordered.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Channel post = ordered[index];
-                final bool firstArchived =
-                    posts.archived.isNotEmpty &&
-                    post.id == posts.archived.first.id;
-                final Widget item = _ForumPostItem(
-                  forum: forum,
-                  post: post,
-                  lastMessageId: storedPosts.lastMessageIds[post.id],
-                  snapshotAckId: _snapshotTaken ? _snapshotAckId : null,
-                  canAddReactions: canAddReactions,
-                  gallery: false,
-                );
-                if (!firstArchived || view.isSearching) {
-                  return item;
-                }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    _ForumSectionHeader(text: l10n.forumOlderPosts),
-                    item,
-                  ],
-                );
-              },
+            if (list.indexing)
+              SliverToBoxAdapter(
+                child: _ForumNotice(
+                  icon: PhosphorIconsBold.hourglassMedium,
+                  text: l10n.forumSearchIndexing,
+                ),
+              ),
+            if (ordered.isEmpty &&
+                list.loaded &&
+                !list.loading &&
+                !list.indexing)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: _ForumEmptyState(
+                  searching: view.isSearching || view.tagFilter.isNotEmpty,
+                ),
+              )
+            else if (layout == ForumLayout.gallery)
+              SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: context.layout.s4,
+                  vertical: context.layout.s1,
+                ),
+                sliver: SliverGrid.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 220,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    childAspectRatio: 0.8,
+                  ),
+                  itemCount: ordered.length,
+                  itemBuilder: (BuildContext context, int index) =>
+                      _ForumPostItem(
+                        forum: forum,
+                        post: ordered[index],
+                        lastMessageId:
+                            storedPosts.lastMessageIds[ordered[index].id],
+                        snapshotAckId: _snapshotTaken ? _snapshotAckId : null,
+                        canAddReactions: canAddReactions,
+                        gallery: true,
+                      ),
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: ordered.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final Channel post = ordered[index];
+                  final bool firstArchived =
+                      posts.archived.isNotEmpty &&
+                      post.id == posts.archived.first.id;
+                  final Widget item = _ForumPostItem(
+                    forum: forum,
+                    post: post,
+                    lastMessageId: storedPosts.lastMessageIds[post.id],
+                    snapshotAckId: _snapshotTaken ? _snapshotAckId : null,
+                    canAddReactions: canAddReactions,
+                    gallery: false,
+                  );
+                  if (!firstArchived || view.isSearching) {
+                    return item;
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      _ForumSectionHeader(text: l10n.forumOlderPosts),
+                      item,
+                    ],
+                  );
+                },
+              ),
+            SliverToBoxAdapter(
+              child: _ForumListFooter(
+                list: list,
+                onRetry: () => controller.retry(kind),
+              ),
             ),
-          SliverToBoxAdapter(
-            child: _ForumListFooter(
-              list: list,
-              onRetry: () => controller.retry(kind),
-            ),
-          ),
-          if (handheldLayout && showNewPostFab)
-            SliverToBoxAdapter(child: SizedBox(height: context.layout.s10)),
-        ],
+            if (handheldLayout && showNewPostFab)
+              SliverToBoxAdapter(child: SizedBox(height: context.layout.s10)),
+          ],
+        ),
       ),
     );
 
@@ -371,7 +378,7 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: listBackground,
       extendBody: true,
       floatingActionButton: ForumNewPostFab(forum: forum),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -633,13 +640,14 @@ class _ForumTagFilterHeaderDelegate extends SliverPersistentHeaderDelegate {
   ) {
     final double horizontal = context.layout.s4;
     final double gap = context.layout.s2;
+    final double top = context.layout.s2;
     final double bottom = context.layout.s2;
     return SizedBox(
       height: extent,
       child: ColoredBox(
         color: backgroundColor,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(horizontal, 0, horizontal, bottom),
+          padding: EdgeInsets.fromLTRB(horizontal, top, horizontal, bottom),
           child: Align(
             alignment: Alignment.centerLeft,
             child: SingleChildScrollView(

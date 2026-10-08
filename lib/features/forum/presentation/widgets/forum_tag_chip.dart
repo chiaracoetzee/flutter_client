@@ -76,7 +76,8 @@ class ForumTagChip extends StatelessWidget {
   }
 
   static double pinnedHeaderExtent(BuildContext context) {
-    return rowHeight(context) + context.layout.s2;
+    final layout = context.layout;
+    return layout.s2 + rowHeight(context) + layout.s2;
   }
 
   @override

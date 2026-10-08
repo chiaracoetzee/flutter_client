@@ -1,5 +1,6 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -16,6 +17,13 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+Color forumPostCardBackgroundColor(FluxerColorTheme colors) {
+  if (colors.backgroundSecondary == colors.backgroundPrimary) {
+    return colors.backgroundSecondaryAlt;
+  }
+  return colors.backgroundSecondary;
+}
 
 class ForumPostCardData {
   const ForumPostCardData({
@@ -120,6 +128,7 @@ class ForumPostCard extends StatelessWidget {
     );
     final Attachment? preview = _previewAttachment(message);
     final String? previewUrl = preview == null ? null : _previewUrl(preview);
+    final Color cardBackground = forumPostCardBackgroundColor(colors);
     return FluxerTappable(
       onTap: onTap,
       onLongPress: onLongPress,
@@ -133,7 +142,7 @@ class ForumPostCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: states.contains(WidgetState.pressed)
               ? colors.backgroundModifierSelected
-              : colors.backgroundSecondary,
+              : cardBackground,
           borderRadius: layout.radiusXl,
         ),
         child: Row(
@@ -201,6 +210,7 @@ class ForumPostTile extends StatelessWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final Attachment? preview = _previewAttachment(data.firstMessage);
     final String? previewUrl = preview == null ? null : _previewUrl(preview);
+    final Color cardBackground = forumPostCardBackgroundColor(colors);
     return FluxerTappable(
       onTap: onTap,
       onLongPress: onLongPress,
@@ -210,7 +220,7 @@ class ForumPostTile extends StatelessWidget {
         child: ColoredBox(
           color: states.contains(WidgetState.pressed)
               ? colors.backgroundModifierSelected
-              : colors.backgroundSecondary,
+              : cardBackground,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -476,6 +486,7 @@ class _DefaultReactionButton extends StatelessWidget {
     final bool me = current?.hasReacted ?? false;
     final int count = current?.count ?? 0;
     final colors = context.colors;
+    final Color cardBackground = forumPostCardBackgroundColor(colors);
     final bool light = Theme.of(context).brightness == Brightness.light;
     return Padding(
       padding: EdgeInsets.only(left: context.layout.s2),
@@ -487,30 +498,16 @@ class _DefaultReactionButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
           decoration: BoxDecoration(
             color: me
-                ? Color.lerp(
-                    colors.backgroundSecondary,
-                    colors.brandPrimary,
-                    0.36,
-                  )
+                ? Color.lerp(cardBackground, colors.brandPrimary, 0.36)
                 : light
-                ? Color.lerp(
-                    colors.backgroundSecondary,
-                    colors.brandPrimaryLight,
-                    0.06,
-                  )
-                : colors.backgroundSecondary == colors.backgroundPrimary
-                ? colors.backgroundSecondaryAlt
+                ? Color.lerp(cardBackground, colors.brandPrimaryLight, 0.06)
                 : colors.backgroundPrimary,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: me
                   ? colors.brandPrimary
                   : light
-                  ? Color.lerp(
-                      colors.backgroundSecondary,
-                      colors.brandPrimaryLight,
-                      0.10,
-                    )!
+                  ? Color.lerp(cardBackground, colors.brandPrimaryLight, 0.10)!
                   : Colors.transparent,
             ),
           ),
