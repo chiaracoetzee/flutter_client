@@ -32,8 +32,7 @@ class ForumSortViewPanel extends ConsumerWidget {
           FluxerBottomSheetMenuRadioItem(
             label: l10n.forumSortLatestActivity,
             isSelected: sortOrder == ForumSortOrder.latestActivity,
-            onTap: () =>
-                controller.setSortOrder(ForumSortOrder.latestActivity),
+            onTap: () => controller.setSortOrder(ForumSortOrder.latestActivity),
           ),
           FluxerBottomSheetMenuRadioItem(
             label: l10n.forumSortCreationTime,

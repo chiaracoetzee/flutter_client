@@ -18,7 +18,8 @@ class ForumMobileHeaderSearch extends ConsumerStatefulWidget {
       _ForumMobileHeaderSearchState();
 }
 
-class _ForumMobileHeaderSearchState extends ConsumerState<ForumMobileHeaderSearch> {
+class _ForumMobileHeaderSearchState
+    extends ConsumerState<ForumMobileHeaderSearch> {
   late final TextEditingController _controller;
   late final FocusNode _focusNode;
 

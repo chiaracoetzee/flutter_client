@@ -51,11 +51,7 @@ class FluxerCircleFab extends StatelessWidget {
             ],
           ),
           alignment: Alignment.center,
-          child: PhosphorIcon(
-            icon,
-            size: 24,
-            color: colors.textOnBrandPrimary,
-          ),
+          child: PhosphorIcon(icon, size: 24, color: colors.textOnBrandPrimary),
         );
       },
     );

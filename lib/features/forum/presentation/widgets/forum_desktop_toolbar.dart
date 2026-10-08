@@ -38,9 +38,8 @@ class ForumDesktopToolbar extends ConsumerWidget {
           forum: forum,
           canPost: canPost,
           searchController: searchController,
-          onCreatePost: () => unawaited(
-            showForumPostComposerSheet(context, ref, forum: forum),
-          ),
+          onCreatePost: () =>
+              unawaited(showForumPostComposerSheet(context, ref, forum: forum)),
         ),
         SizedBox(height: context.layout.s3),
         _ForumFilterRow(forum: forum),

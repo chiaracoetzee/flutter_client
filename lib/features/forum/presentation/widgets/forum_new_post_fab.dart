@@ -19,9 +19,8 @@ class ForumNewPostFab extends ConsumerWidget {
     return FluxerCircleFab(
       icon: PhosphorIconsBold.plus,
       semanticLabel: l10n.forumNewPost,
-      onTap: () => unawaited(
-        showForumPostComposerSheet(context, ref, forum: forum),
-      ),
+      onTap: () =>
+          unawaited(showForumPostComposerSheet(context, ref, forum: forum)),
     );
   }
 }
