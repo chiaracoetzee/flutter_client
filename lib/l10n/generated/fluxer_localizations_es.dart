@@ -16045,10 +16045,17 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
 
   @override
-  String get forumNoPosts => 'No posts yet.';
+  String get forumNoPosts => 'There are no posts yet';
 
   @override
-  String get forumNoSearchResults => 'No posts match your search.';
+  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+
+  @override
+  String get forumNoSearchResults => 'No posts match your search';
+
+  @override
+  String get forumNoSearchResultsHint =>
+      'Try different words or clear the tag filter.';
 
   @override
   String get forumCreateFirstPost => 'Create the first post';

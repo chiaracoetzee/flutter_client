@@ -12,16 +12,17 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/presentation/forum_post_actions.dart';
-import 'package:fluxer_app/features/forum/presentation/sheets/forum_post_composer_sheet.dart';
-import 'package:fluxer_app/features/forum/presentation/sheets/forum_view_options_sheet.dart';
+import 'package:fluxer_app/features/forum/presentation/widgets/forum_desktop_toolbar.dart';
+import 'package:fluxer_app/features/forum/presentation/widgets/forum_guidelines.dart';
+import 'package:fluxer_app/features/forum/presentation/widgets/forum_new_post_fab.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_post_card.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.dart';
 import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
 import 'package:fluxer_app/features/forum/providers/forum_post_unreads_provider.dart';
 import 'package:fluxer_app/features/forum/providers/forum_posts_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -190,9 +191,11 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
     final ThreadActor? actor = ref.watch(
       parentThreadActorProvider(forum.guildId, forum.id),
     );
-    final bool canPost =
-        actor != null &&
-        canCreateThread(actor, ThreadCreateKind.forumPost) == null;
+    final bool? mayCreateForumPost = actor == null
+        ? null
+        : canCreateThread(actor, ThreadCreateKind.forumPost) == null;
+    final bool canPost = mayCreateForumPost ?? false;
+    final bool showNewPostFab = mayCreateForumPost ?? true;
     final bool canAddReactions =
         actor != null &&
         (actor.permissions & Permission.addReactions.value) != 0;
@@ -230,7 +233,15 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
     ];
     _prefetch(forum, ordered);
 
-    return NotificationListener<ScrollNotification>(
+    final bool handheldLayout = isForumHandheldLayout(context);
+    final EdgeInsets contentPadding = EdgeInsets.fromLTRB(
+      context.layout.s4,
+      handheldLayout ? context.layout.s2 : context.layout.s4,
+      context.layout.s4,
+      context.layout.s2,
+    );
+
+    final Widget scrollView = NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
         if (notification.metrics.extentAfter < 600) {
           controller.loadMore(kind);
@@ -239,41 +250,40 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
       },
       child: CustomScrollView(
         slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: _ForumToolbar(
-              view: view,
-              canPost: canPost,
-              searchController: _searchController,
-              onOpenOptions: () =>
-                  unawaited(showForumViewOptionsSheet(context, forum: forum)),
-              onCreatePost: () => unawaited(
-                showForumPostComposerSheet(context, ref, forum: forum),
+          if (!handheldLayout)
+            SliverToBoxAdapter(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 960),
+                  child: Padding(
+                    padding: contentPadding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        ForumGuidelines(forum: forum),
+                        if (forum.topic?.trim().isNotEmpty ?? false)
+                          SizedBox(height: context.layout.s3),
+                        ForumDesktopToolbar(
+                          forum: forum,
+                          canPost: canPost,
+                          searchController: _searchController,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-          if (tags.isNotEmpty)
-            SliverToBoxAdapter(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.fromLTRB(
-                  context.layout.s4,
-                  0,
-                  context.layout.s4,
-                  context.layout.s2,
-                ),
-                child: Row(
-                  children: <Widget>[
-                    for (final (int index, ForumTagResponse tag)
-                        in tags.indexed) ...<Widget>[
-                      if (index > 0) SizedBox(width: context.layout.s2),
-                      ForumTagChip(
-                        tag: tag,
-                        selected: view.tagFilter.contains(tag.id),
-                        onTap: () => controller.toggleTag(tag.id),
-                      ),
-                    ],
-                  ],
-                ),
+          if (handheldLayout && tags.isNotEmpty)
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _ForumTagFilterHeaderDelegate(
+                extent: ForumTagChip.pinnedHeaderExtent(context),
+                tags: tags,
+                selectedIds: view.tagFilter,
+                backgroundColor: context.colors.chatInputBackground,
+                onToggle: controller.toggleTag,
               ),
             ),
           if (list.indexing)
@@ -287,11 +297,7 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: _ForumEmptyState(
-                searching: view.isSearching,
-                canPost: canPost,
-                onCreatePost: () => unawaited(
-                  showForumPostComposerSheet(context, ref, forum: forum),
-                ),
+                searching: view.isSearching || view.tagFilter.isNotEmpty,
               ),
             )
           else if (layout == ForumLayout.gallery)
@@ -354,8 +360,22 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
               onRetry: () => controller.retry(kind),
             ),
           ),
+          if (handheldLayout && showNewPostFab)
+            SliverToBoxAdapter(child: SizedBox(height: context.layout.s10)),
         ],
       ),
+    );
+
+    if (!handheldLayout || !showNewPostFab) {
+      return scrollView;
+    }
+
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBody: true,
+      floatingActionButton: ForumNewPostFab(forum: forum),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      body: scrollView,
     );
   }
 }
@@ -438,68 +458,6 @@ class _ForumPostItem extends ConsumerWidget {
   }
 }
 
-class _ForumToolbar extends StatelessWidget {
-  const _ForumToolbar({
-    required this.view,
-    required this.canPost,
-    required this.searchController,
-    required this.onOpenOptions,
-    required this.onCreatePost,
-  });
-
-  final ForumViewState view;
-  final bool canPost;
-  final TextEditingController searchController;
-  final VoidCallback onOpenOptions;
-  final VoidCallback onCreatePost;
-
-  @override
-  Widget build(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final layout = context.layout;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(layout.s4, layout.s3, layout.s4, layout.s2),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              child: view.searchUnavailable
-                  ? const SizedBox.shrink()
-                  : PickerSearchInput(
-                      controller: searchController,
-                      hintText: l10n.forumSearchPosts,
-                      horizontalPadding: 0,
-                      topPadding: 0,
-                      bottomPadding: 0,
-                    ),
-            ),
-            SizedBox(width: layout.s2),
-            AspectRatio(
-              aspectRatio: 1,
-              child: FluxerButton.secondary(
-                onPressed: onOpenOptions,
-                icon: PhosphorIconsBold.slidersHorizontal,
-                isSquare: true,
-                semanticLabel: l10n.forumViewOptions,
-              ),
-            ),
-            if (canPost) ...<Widget>[
-              SizedBox(width: layout.s2),
-              FluxerButton.primary(
-                onPressed: onCreatePost,
-                icon: PhosphorIconsBold.plus,
-                label: l10n.forumNewPost,
-                fitContent: true,
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _ForumNotice extends StatelessWidget {
   const _ForumNotice({required this.icon, required this.text});
 
@@ -557,15 +515,9 @@ class _ForumSectionHeader extends StatelessWidget {
 }
 
 class _ForumEmptyState extends StatelessWidget {
-  const _ForumEmptyState({
-    required this.searching,
-    required this.canPost,
-    required this.onCreatePost,
-  });
+  const _ForumEmptyState({required this.searching});
 
   final bool searching;
-  final bool canPost;
-  final VoidCallback onCreatePost;
 
   @override
   Widget build(BuildContext context) {
@@ -573,33 +525,36 @@ class _ForumEmptyState extends StatelessWidget {
     final colors = context.colors;
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(context.layout.s8),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.layout.s4,
+          vertical: context.layout.s12,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             PhosphorIcon(
-              searching
-                  ? PhosphorIconsBold.magnifyingGlass
-                  : PhosphorIconsBold.chats,
-              size: 40,
+              PhosphorIconsFill.chatsTeardrop,
+              size: 48,
               color: colors.textTertiary,
             ),
-            SizedBox(height: context.layout.s3),
+            SizedBox(height: context.layout.s2),
             Text(
               searching ? l10n.forumNoSearchResults : l10n.forumNoPosts,
               textAlign: TextAlign.center,
               style: context.textStyles.bodyMedium.copyWith(
-                color: colors.textSecondary,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: colors.textPrimary,
               ),
             ),
-            if (!searching && canPost) ...<Widget>[
-              SizedBox(height: context.layout.s4),
-              FluxerButton.primary(
-                onPressed: onCreatePost,
-                label: l10n.forumCreateFirstPost,
-                fitContent: true,
+            SizedBox(height: context.layout.s2),
+            Text(
+              searching ? l10n.forumNoSearchResultsHint : l10n.forumNoPostsHint,
+              textAlign: TextAlign.center,
+              style: context.textStyles.bodyMedium.copyWith(
+                color: colors.textPrimaryMuted,
               ),
-            ],
+            ),
           ],
         ),
       ),
@@ -646,5 +601,100 @@ class _ForumListFooter extends StatelessWidget {
       );
     }
     return SizedBox(height: context.layout.s8);
+  }
+}
+
+class _ForumTagFilterHeaderDelegate extends SliverPersistentHeaderDelegate {
+  _ForumTagFilterHeaderDelegate({
+    required this.extent,
+    required this.tags,
+    required this.selectedIds,
+    required this.backgroundColor,
+    required this.onToggle,
+  });
+
+  final double extent;
+  final List<ForumTagResponse> tags;
+  final List<String> selectedIds;
+  final Color backgroundColor;
+  final ValueChanged<String> onToggle;
+
+  @override
+  double get minExtent => extent;
+
+  @override
+  double get maxExtent => extent;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    final double horizontal = context.layout.s4;
+    final double gap = context.layout.s2;
+    final double bottom = context.layout.s2;
+    return SizedBox(
+      height: extent,
+      child: ColoredBox(
+        color: backgroundColor,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(horizontal, 0, horizontal, bottom),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  for (final (int index, ForumTagResponse tag)
+                      in tags.indexed) ...<Widget>[
+                    if (index > 0) SizedBox(width: gap),
+                    ForumTagChip(
+                      tag: tag,
+                      selected: selectedIds.contains(tag.id),
+                      onTap: () => onToggle(tag.id),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant _ForumTagFilterHeaderDelegate oldDelegate) {
+    return extent != oldDelegate.extent ||
+        backgroundColor != oldDelegate.backgroundColor ||
+        tags.length != oldDelegate.tags.length ||
+        selectedIds.length != oldDelegate.selectedIds.length ||
+        !_sameTagIds(tags, oldDelegate.tags) ||
+        !_sameIds(selectedIds, oldDelegate.selectedIds);
+  }
+
+  bool _sameTagIds(List<ForumTagResponse> a, List<ForumTagResponse> b) {
+    if (a.length != b.length) {
+      return false;
+    }
+    for (int i = 0; i < a.length; i++) {
+      if (a[i].id != b[i].id) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool _sameIds(List<String> a, List<String> b) {
+    if (a.length != b.length) {
+      return false;
+    }
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 }

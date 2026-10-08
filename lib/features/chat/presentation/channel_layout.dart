@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_header_search
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/forum/presentation/forum_channel_view.dart';
+import 'package:fluxer_app/features/forum/providers/forum_header_search_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_unavailable_screen.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/staff_only_guild_nagbar.dart';
@@ -80,6 +81,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
     ref
         .read(channelHeaderSearchProvider.notifier)
         .bindChannel(channelId: widget.channelId, guildId: widget.guildId);
+    ref.read(forumHeaderSearchProvider(widget.channelId).notifier).collapse();
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -53,6 +55,29 @@ class ForumTagChip extends StatelessWidget {
   final bool selected;
   final VoidCallback? onTap;
   final bool compact;
+
+  static double rowHeight(BuildContext context, {bool compact = false}) {
+    final TextStyle style = compact
+        ? context.textStyles.smallText
+        : context.textStyles.label;
+    final TextScaler scaler = MediaQuery.textScalerOf(context);
+    final TextPainter painter = TextPainter(
+      text: TextSpan(text: 'Ag', style: style),
+      textScaler: scaler,
+      textDirection: Directionality.of(context),
+      maxLines: 1,
+    )..layout();
+    final double lineHeight = painter.height;
+    painter.dispose();
+    final double verticalPadding = compact ? 4 : 16;
+    const double border = 2;
+    final double emojiSize = compact ? 12 : 14;
+    return math.max(lineHeight, emojiSize) + verticalPadding + border;
+  }
+
+  static double pinnedHeaderExtent(BuildContext context) {
+    return rowHeight(context) + context.layout.s2;
+  }
 
   @override
   Widget build(BuildContext context) {

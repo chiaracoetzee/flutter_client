@@ -26290,17 +26290,29 @@ abstract class FluxerLocalizations {
   /// **'Search is still being prepared for this community. Posts appear here as soon as it is ready.'**
   String get forumSearchIndexing;
 
-  /// Forum and media channel UI.
+  /// Title of the empty state in a forum channel without posts.
   ///
   /// In en, this message translates to:
-  /// **'No posts yet.'**
+  /// **'There are no posts yet'**
   String get forumNoPosts;
 
-  /// Forum and media channel UI.
+  /// Body of the empty state in a forum channel without posts.
   ///
   /// In en, this message translates to:
-  /// **'No posts match your search.'**
+  /// **'Be the first to start a conversation here.'**
+  String get forumNoPostsHint;
+
+  /// Title of the empty state in a forum channel when the search or tag filter finds nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts match your search'**
   String get forumNoSearchResults;
+
+  /// Body of the empty state in a forum channel when the search or tag filter finds nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Try different words or clear the tag filter.'**
+  String get forumNoSearchResultsHint;
 
   /// Forum and media channel UI.
   ///

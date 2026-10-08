@@ -18514,13 +18514,21 @@
     "@forumSearchIndexing": {
         "description": "Forum and media channel UI."
     },
-    "forumNoPosts": "No posts yet.",
+    "forumNoPosts": "There are no posts yet",
     "@forumNoPosts": {
-        "description": "Forum and media channel UI."
+        "description": "Title of the empty state in a forum channel without posts."
     },
-    "forumNoSearchResults": "No posts match your search.",
+    "forumNoPostsHint": "Be the first to start a conversation here.",
+    "@forumNoPostsHint": {
+        "description": "Body of the empty state in a forum channel without posts."
+    },
+    "forumNoSearchResults": "No posts match your search",
     "@forumNoSearchResults": {
-        "description": "Forum and media channel UI."
+        "description": "Title of the empty state in a forum channel when the search or tag filter finds nothing."
+    },
+    "forumNoSearchResultsHint": "Try different words or clear the tag filter.",
+    "@forumNoSearchResultsHint": {
+        "description": "Body of the empty state in a forum channel when the search or tag filter finds nothing."
     },
     "forumCreateFirstPost": "Create the first post",
     "@forumCreateFirstPost": {
