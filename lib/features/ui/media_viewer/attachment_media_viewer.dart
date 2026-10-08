@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -10,6 +9,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_preview_media_policy.dart';
@@ -756,12 +756,13 @@ class _AttachmentMediaViewerShellState
     final bool isPortrait = (item.height ?? 0) > (item.width ?? 0);
     final Widget image = imageUrl.isEmpty
         ? errorPlaceholder
-        : CachedNetworkImage(
+        : ChatNetworkImage(
             imageUrl: imageUrl,
-            fit: BoxFit.contain,
+            filename: item.filename,
+            contentType: item.contentType,
             memCacheWidth: isPortrait ? null : decodeCap,
             memCacheHeight: isPortrait ? decodeCap : null,
-            errorBuilder: (_, _, _) => errorPlaceholder,
+            errorPlaceholder: errorPlaceholder,
           );
     final Widget media = MatureMediaOverlay(
       channelId: widget.channelId,
@@ -1028,14 +1029,16 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder(showLabel: false);
     final int? decodeCap = _mayBeAnimated(item) ? null : decodeSide;
     final bool isLandscape = (item.width ?? 0) > (item.height ?? 0);
-    return CachedNetworkImage(
+    return ChatNetworkImage(
       imageUrl: imageUrl,
+      filename: item.filename,
+      contentType: item.contentType,
       fit: BoxFit.cover,
       width: double.infinity,
       height: double.infinity,
       memCacheWidth: isLandscape ? null : decodeCap,
       memCacheHeight: isLandscape ? decodeCap : null,
-      errorBuilder: (_, _, _) => errorPlaceholder,
+      errorPlaceholder: errorPlaceholder,
     );
   }
 }
