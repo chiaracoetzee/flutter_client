@@ -1514,8 +1514,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final channelId = ref.read(
       chatViewModelProvider.select((s) => s.channelId),
     );
-    final channelState = ref.read(channelListViewModelProvider);
-    final channel = findChannelById(channelState, channelId);
+    final Channel? channel = resolveGuildChannel(ref, channelId);
     if (channel != null) {
       return l10n.channelComposerHint(channel.name);
     }
