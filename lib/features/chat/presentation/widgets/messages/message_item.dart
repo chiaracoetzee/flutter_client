@@ -201,6 +201,7 @@ class MessageItem extends ConsumerStatefulWidget {
   final ValueChanged<Attachment>? onDeleteAttachment;
   final ValueChanged<Attachment>? onEditAttachmentAltText;
   final bool inboxPreviewMode;
+  final bool allowAuthorProfileInPreview;
   final bool hideMentionHighlight;
   final bool isJumpHighlighted;
   final bool isSendDisabled;
@@ -242,6 +243,7 @@ class MessageItem extends ConsumerStatefulWidget {
     this.onDeleteAttachment,
     this.onEditAttachmentAltText,
     this.inboxPreviewMode = false,
+    this.allowAuthorProfileInPreview = false,
     this.hideMentionHighlight = false,
     this.isJumpHighlighted = false,
     this.swipeToReplyEnabled = true,
@@ -346,7 +348,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   bool _canOpenAuthorProfile(Message msg) {
-    if (widget.inboxPreviewMode) {
+    if (widget.inboxPreviewMode && !widget.allowAuthorProfileInPreview) {
       return false;
     }
     if (msg.isCrosspostCopy) {

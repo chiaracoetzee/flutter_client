@@ -95,6 +95,7 @@ class ThreadStarterMessage extends ConsumerWidget {
         child: MessageItem(
           message: source,
           inboxPreviewMode: true,
+          allowAuthorProfileInPreview: true,
           hideMentionHighlight: true,
           previewRoleGuildId: guildId,
           currentUserId: ref.watch(currentUserIdProvider),
