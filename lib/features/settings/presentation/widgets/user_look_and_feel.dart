@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/chat_wallpaper
 import 'package:fluxer_app/features/settings/presentation/widgets/look_and_feel_messages_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_swatch_button.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/typing_indicator_preview.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_theme_colors.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -144,6 +145,13 @@ class UserLookAndFeel extends ConsumerWidget {
                 value: themePref.syncAcrossDevices && !isSystem,
                 enabled: !isSystem && swatchesEnabled,
                 onChanged: (value) => unawaited(changeSync(value: value)),
+              ),
+              FluxerSettingsConfigureRow(
+                title: l10n.lookAndFeelThemeColorsTitle,
+                description: l10n.lookAndFeelThemeColorsConfigureDescription,
+                configureLabel: l10n.advancedSettingsConfigure,
+                onConfigure: () =>
+                    unawaited(openUserThemeColorsSettings(context)),
               ),
             ],
           ),

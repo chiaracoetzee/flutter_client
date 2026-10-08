@@ -299,6 +299,9 @@ IconData? iconForUserSettingsSection(
   required bool isTouchPrimary,
   bool showGifts = true,
 }) {
+  if (section == UserSettingsSection.themeColors) {
+    return PhosphorIconsFill.palette;
+  }
   for (final UserSettingsDesktopNavEntry entry in buildUserSettingsDesktopNav(
     showBilling: showBilling,
     showGifts: showGifts,

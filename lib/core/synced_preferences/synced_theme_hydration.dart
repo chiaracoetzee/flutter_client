@@ -18,8 +18,9 @@ typedef SyncedThemeCustomizationApplier =
 
 Future<void> applyThemeCustomizationFromAccessibilityProto(
   pb.AccessibilitySettings accessibility,
-  SyncedThemeCustomizationApplier apply,
-) async {
+  SyncedThemeCustomizationApplier apply, {
+  bool skipCustomThemeCss = false,
+}) async {
   final bool hasSaturation = accessibility.hasSaturationFactor();
   final bool hasCustomThemeCssField = accessibility.hasCustomThemeCss();
   final bool hasFontSize = accessibility.hasFontSize();
@@ -41,7 +42,7 @@ Future<void> applyThemeCustomizationFromAccessibilityProto(
         ? clampLayoutZoomLevel(protoZoomLevelToFactor(accessibility.zoomLevel))
         : null,
     updateSaturationFactor: hasSaturation,
-    updateCustomThemeCss: hasCustomThemeCss,
+    updateCustomThemeCss: hasCustomThemeCss && !skipCustomThemeCss,
     updateChatFontSize: hasFontSize,
     updateScaleFactor: hasZoomLevel,
   );

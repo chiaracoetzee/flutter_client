@@ -209,6 +209,10 @@ class SyncedPreferencesStore {
         _ref
             .read(themePreferenceProvider.notifier)
             .applySyncedThemeCustomization;
+    final bool accessibilityDirty = _dirtyFields.contains(
+      SyncedPreferenceField.accessibility,
+    );
+    final ThemePreferenceState themePrefs = _ref.read(themePreferenceProvider);
     if (_local.hasAccessibility()) {
       final accessibility = _local.accessibility;
       final String? mergedCss = accessibility.hasCustomThemeCss()
@@ -218,15 +222,23 @@ class SyncedPreferencesStore {
         await applyThemeCustomizationFromAccessibilityProto(
           accessibility,
           apply,
+          skipCustomThemeCss: accessibilityDirty,
         );
         return;
       }
+    }
+    if (accessibilityDirty || !themePrefs.syncThemeColorsFromThemeStudio) {
+      return;
     }
     final String? wireCss = normalizeCustomThemeCss(readWireCustomThemeCss());
     if (wireCss == null) {
       return;
     }
-    await apply(customThemeCss: wireCss, updateSaturationFactor: false);
+    await apply(
+      customThemeCss: wireCss,
+      updateSaturationFactor: false,
+      updateCustomThemeCss: true,
+    );
   }
 
   Future<void> _reconcileRegisteredFields({

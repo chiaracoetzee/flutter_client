@@ -355,6 +355,32 @@ void main() {
       );
     });
 
+    test(
+      'mergeAccessibilityCustomThemeCss prefers local when css diverges',
+      () {
+        const wireCss = ':root { --brand-primary: #007fff; }';
+        const localCss = ':root { --brand-primary: #ff5500; }';
+        const local = AccessibilityLocalState(
+          hideKeyboardHints: false,
+          channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+          showSelectedChannelTypingIndicator: false,
+          showFadedUnreadOnMutedChannels: false,
+          dmMessagePreviewMode: DmMessagePreviewMode.all,
+          showFavorites: true,
+          useSystemLocaleForTimeFormat: false,
+          messageGroupSpacing: 16,
+          compactMessageGroupSpacing: 0,
+          saturationFactor: 1,
+          customThemeCss: localCss,
+          advanced: kDefaultAdvancedAccessibility,
+        );
+        final remote = AccessibilitySyncedField.fromProto(
+          accessibility_pb.AccessibilitySettings(customThemeCss: wireCss),
+        );
+        expect(mergeAccessibilityCustomThemeCss(local, remote), localCss);
+      },
+    );
+
     test('toProtoForPush keeps wire custom theme css when local has none', () {
       const local = AccessibilityLocalState(
         hideKeyboardHints: false,

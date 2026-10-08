@@ -7412,6 +7412,156 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t sync theme to your account. Please try again.'**
   String get lookAndFeelThemeSyncFailed;
 
+  /// Title for the theme color token editor page.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme colors'**
+  String get lookAndFeelThemeColorsTitle;
+
+  /// Description on the configure row that opens theme colors.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize individual theme colors for this device.'**
+  String get lookAndFeelThemeColorsConfigureDescription;
+
+  /// Subtitle showing which theme mode color overrides apply to.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing {mode}'**
+  String lookAndFeelThemeColorsEditingMode(String mode);
+
+  /// No description provided for @lookAndFeelThemeColorsSyncSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Studio sync'**
+  String get lookAndFeelThemeColorsSyncSectionTitle;
+
+  /// Toggle to apply custom CSS colors synced from desktop Theme Studio.
+  ///
+  /// In en, this message translates to:
+  /// **'Use colors from Theme Studio'**
+  String get lookAndFeelThemeColorsSyncFromStudioLabel;
+
+  /// Description for pulling theme colors from Theme Studio.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.'**
+  String get lookAndFeelThemeColorsSyncFromStudioDescription;
+
+  /// Toggle to push mobile theme color edits to synced preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Send color changes to Theme Studio'**
+  String get lookAndFeelThemeColorsSyncToStudioLabel;
+
+  /// Description for pushing theme colors to Theme Studio.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.'**
+  String get lookAndFeelThemeColorsSyncToStudioDescription;
+
+  /// Banner when pull from Theme Studio is disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Desktop Theme Studio color changes will not apply on this device.'**
+  String get lookAndFeelThemeColorsSyncFromStudioOffBanner;
+
+  /// Section for the most impactful theme color tokens.
+  ///
+  /// In en, this message translates to:
+  /// **'Essential colors'**
+  String get lookAndFeelThemeColorsEssentialSectionTitle;
+
+  /// Note under the chat background color picker when wallpaper may hide it.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have a chat wallpaper set, you won\'t see this color.'**
+  String get lookAndFeelThemeColorsChatBackgroundWallpaperNote;
+
+  /// Button to clear all scoped color overrides for a theme mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all colors for {mode}'**
+  String lookAndFeelThemeColorsResetForMode(String mode);
+
+  /// Title for reset-all theme colors confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset theme colors?'**
+  String get lookAndFeelThemeColorsResetConfirmTitle;
+
+  /// Body for reset-all theme colors confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'This removes your custom color overrides for {mode} on this device.'**
+  String lookAndFeelThemeColorsResetConfirmBody(String mode);
+
+  /// No description provided for @lookAndFeelThemeColorsGroupBrandButtons.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand & buttons'**
+  String get lookAndFeelThemeColorsGroupBrandButtons;
+
+  /// No description provided for @lookAndFeelThemeColorsGroupChatSurfaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat & messages'**
+  String get lookAndFeelThemeColorsGroupChatSurfaces;
+
+  /// No description provided for @lookAndFeelThemeColorsGroupSidebars.
+  ///
+  /// In en, this message translates to:
+  /// **'Sidebars & navigation'**
+  String get lookAndFeelThemeColorsGroupSidebars;
+
+  /// No description provided for @lookAndFeelThemeColorsGroupText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get lookAndFeelThemeColorsGroupText;
+
+  /// No description provided for @lookAndFeelThemeColorsGroupHeaders.
+  ///
+  /// In en, this message translates to:
+  /// **'Headers'**
+  String get lookAndFeelThemeColorsGroupHeaders;
+
+  /// No description provided for @lookAndFeelThemeColorsGroupStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get lookAndFeelThemeColorsGroupStatus;
+
+  /// No description provided for @lookAndFeelThemeColorsGroupEmbedsMarkup.
+  ///
+  /// In en, this message translates to:
+  /// **'Embeds & mentions'**
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup;
+
+  /// No description provided for @lookAndFeelThemeColorsGroupAccentsAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Accents & alerts'**
+  String get lookAndFeelThemeColorsGroupAccentsAlerts;
+
+  /// No description provided for @lookAndFeelThemeColorsGroupControls.
+  ///
+  /// In en, this message translates to:
+  /// **'Surfaces & controls'**
+  String get lookAndFeelThemeColorsGroupControls;
+
+  /// Search label for chat font size within the Messages section.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat font scaling'**
+  String get lookAndFeelChatFontScalingTitle;
+
+  /// Search description for chat font size.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust the font size in the chat area.'**
+  String get lookAndFeelChatFontScalingDescription;
+
   /// Label for the chat font size select in Look & Feel.
   ///
   /// In en, this message translates to:

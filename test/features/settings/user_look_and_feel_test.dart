@@ -207,6 +207,50 @@ void main() {
     expect(find.text('Favorites'), findsOneWidget);
   });
 
+  testWidgets('shows theme colors configure row', (tester) async {
+    _ignoreSliderOverflows();
+    tester.view.physicalSize = const Size(800, 2000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    final container = ProviderContainer(
+      overrides: [
+        instanceRuntimeConfigOverride(),
+        fluxerDatabaseProvider.overrideWithValue(db),
+        userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          theme: buildFluxerTheme(
+            colorTheme: buildDarkColorTheme(),
+            textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          home: Scaffold(
+            body: UserLookAndFeel(scrollController: ScrollController()),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Theme colors'), findsOneWidget);
+    expect(
+      find.text('Customize individual theme colors for this device.'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('tapping local-only wallpaper icon shows a toast', (
     tester,
   ) async {

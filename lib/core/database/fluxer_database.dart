@@ -145,7 +145,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 91;
+  int get schemaVersion => 92;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1533,6 +1533,28 @@ class FluxerDatabase extends _$FluxerDatabase {
           'CREATE INDEX IF NOT EXISTS idx_channels_guild_parent_type '
           'ON channels (guild_id, parent_id, type)',
         );
+      }
+      if (from < 92) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'sync_theme_colors_from_theme_studio',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.syncThemeColorsFromThemeStudio,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'sync_theme_colors_to_theme_studio',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.syncThemeColorsToThemeStudio,
+          );
+        }
       }
     },
   );

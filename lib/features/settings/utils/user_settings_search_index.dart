@@ -173,6 +173,16 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     ],
   ),
   _UserSettingsSearchOption(
+    id: 'look-and-feel:theme-colors',
+    section: UserSettingsSection.themeColors,
+    label: _l((l10n) => l10n.lookAndFeelThemeColorsTitle),
+    description: _l((l10n) => l10n.lookAndFeelThemeColorsConfigureDescription),
+    keywords: [
+      _l((l10n) => l10n.lookAndFeelThemeColorsTitle),
+      _l((l10n) => l10n.lookAndFeelThemeColorsConfigureDescription),
+    ],
+  ),
+  _UserSettingsSearchOption(
     id: 'look-and-feel:chat-wallpaper',
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'chat-wallpaper',

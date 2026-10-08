@@ -51,6 +51,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.d
 import 'package:fluxer_app/features/settings/presentation/widgets/user_security_login.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_shortcuts.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_theme_colors.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_frame.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -407,6 +408,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
 
   void _onSearchHitSelected(UserSettingsSearchHit? hit) {
     if (hit == null) {
+      return;
+    }
+    if (hit.section == UserSettingsSection.themeColors) {
+      unawaited(openUserThemeColorsSettings(context));
       return;
     }
     final bool showBilling = userSettingsShowBillingNav(ref);
@@ -843,6 +848,8 @@ Widget _buildUserSettingsSectionContent({
       );
     case UserSettingsSection.lookAndFeel:
       return UserLookAndFeel(scrollController: scrollController);
+    case UserSettingsSection.themeColors:
+      return UserThemeColors(scrollController: scrollController);
     case UserSettingsSection.securityLogin:
       return scrollController == null
           ? const UserSecurityLogin()
