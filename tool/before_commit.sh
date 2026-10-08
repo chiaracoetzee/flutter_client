@@ -35,6 +35,69 @@ save_editor_buffers() {
   source "${ROOT}/tool/save_editor_buffers.sh"
 }
 
+dart_fix_root_for() {
+  local file="$1"
+  case "${file}" in
+    packages/*/*)
+      printf '%s\n' "${file}" | cut -d/ -f1-2
+      ;;
+    lib/*)
+      printf 'lib\n'
+      ;;
+    test/*)
+      printf 'test\n'
+      ;;
+    tool/*)
+      printf 'tool\n'
+      ;;
+    integration_test/*)
+      printf 'integration_test\n'
+      ;;
+    *)
+      dirname "${file}"
+      ;;
+  esac
+}
+
+apply_dart_fix() {
+  local count="${#dart_files[@]}"
+  if ((count == 0)); then
+    return 0
+  fi
+  if ((count > 200)); then
+    dart fix --apply
+    return 0
+  fi
+  if ((count == 1)); then
+    dart fix --apply "${dart_files[0]}"
+    return 0
+  fi
+
+  local file root
+  local roots=()
+  for file in "${dart_files[@]}"; do
+    roots+=("$(dart_fix_root_for "${file}")")
+  done
+
+  local unique
+  unique="$(printf '%s\n' "${roots[@]}" | sort -u)"
+  local root_count=0
+  while IFS= read -r root; do
+    [[ -n "${root}" ]] || continue
+    root_count=$((root_count + 1))
+  done <<< "${unique}"
+
+  if ((root_count > 15)); then
+    dart fix --apply
+    return 0
+  fi
+
+  while IFS= read -r root; do
+    [[ -n "${root}" ]] || continue
+    dart fix --apply "${root}"
+  done <<< "${unique}"
+}
+
 dart_files=()
 while IFS= read -r line; do
   [[ -n "${line}" ]] || continue
@@ -68,10 +131,8 @@ _step "Saving editor buffers" save_editor_buffers
 fix_label="Applying dart fix (${#dart_files[@]} files)"
 if ((${#dart_files[@]} > 200)); then
   fix_label="Applying dart fix (full project; ${#dart_files[@]} files changed)"
-  _step "${fix_label}" dart fix --apply
-else
-  _step "${fix_label}" dart fix --apply "${dart_files[@]}"
 fi
+_step "${fix_label}" apply_dart_fix
 
 _step "Formatting ${#dart_files[@]} Dart files" dart format "${dart_files[@]}"
 
