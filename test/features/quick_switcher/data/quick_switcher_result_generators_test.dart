@@ -466,6 +466,5 @@ void main() {
       expect(userResult.title, l10n.personalNotesTitle);
       expect(userResult.dmChannelId, '1');
     });
-    });
   });
 }
