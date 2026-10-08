@@ -86,6 +86,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
@@ -270,6 +271,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required int pendingUnavailableCount,
     required List<GuildNavbarItem> organizedItems,
     required bool showAddCommunity,
+    required bool isStaff,
     required bool hideDirectMessages,
     required InstanceServerListButtons serverListButtons,
   }) {
@@ -325,7 +327,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     }
 
     final bool showExplore = serverListButtons.explore;
-    final bool showAdd = showAddCommunity && serverListButtons.createJoin;
+    final bool showAdd =
+        showAddCommunity && (serverListButtons.createJoin || isStaff);
     final bool showHelp = serverListButtons.help;
     if (showExplore) {
       entries.add(
@@ -481,6 +484,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       });
 
     final bool showAddCommunity = ref.watch(addGuildEnabledProvider);
+    final bool isStaff = ref.watch(
+      currentUserPrivateReadProvider.select((user) => user?.isStaff ?? false),
+    );
     final bool hideDirectMessages = ref.watch(
       instanceRuntimeConfigProvider.select(
         (config) => config.directMessagesDisabled,
@@ -500,6 +506,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       pendingUnavailableCount: pendingUnavailableCount,
       organizedItems: organizedItems,
       showAddCommunity: showAddCommunity,
+      isStaff: isStaff,
       hideDirectMessages: hideDirectMessages,
       serverListButtons: serverListButtons,
     );
