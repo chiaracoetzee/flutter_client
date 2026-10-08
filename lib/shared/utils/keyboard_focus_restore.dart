@@ -74,37 +74,68 @@ void _readOnlyToggle(
   FocusNode node,
   void Function({required bool readOnly}) toggleReadOnly,
 ) {
+  _cancelActiveReadOnlyReconnect(toggleReadOnly);
   final int id = _nextReconnectId++;
-
-  bool isAborted() => _activeReconnectId != id || !node.hasFocus;
-
   _activeReconnectId = id;
   toggleReadOnly(readOnly: true);
 
-  Future.delayed(const Duration(milliseconds: 50), () {
-    if (!isAborted()) {
-      toggleReadOnly(readOnly: false);
-    }
-  });
+  bool ownsThisReconnect() => _activeReconnectId == id;
 
-  Future.delayed(const Duration(milliseconds: 100), () {
-    if (!isAborted()) {
-      _showKeyboard(node);
+  void schedule(Duration delay, VoidCallback action) {
+    _readOnlyReconnectTimers.add(
+      Timer(delay, () {
+        if (!ownsThisReconnect()) {
+          return;
+        }
+        action();
+      }),
+    );
+  }
+
+  schedule(const Duration(milliseconds: 50), () {
+    toggleReadOnly(readOnly: false);
+    if (!node.hasFocus) {
       _activeReconnectId = null;
     }
   });
 
-  Timer(const Duration(milliseconds: 400), () {
-    if (_activeReconnectId == id && node.hasFocus) {
-      toggleReadOnly(readOnly: false);
-      _showKeyboard(node);
-      _activeReconnectId = null;
+  schedule(const Duration(milliseconds: 100), () {
+    if (!node.hasFocus) {
+      return;
     }
+    _showKeyboard(node);
+    _activeReconnectId = null;
+  });
+
+  schedule(const Duration(milliseconds: 400), () {
+    toggleReadOnly(readOnly: false);
+    if (node.hasFocus) {
+      _showKeyboard(node);
+    }
+    _activeReconnectId = null;
   });
 }
 
 int _nextReconnectId = 0;
 int? _activeReconnectId;
+final List<Timer> _readOnlyReconnectTimers = <Timer>[];
+
+/// True while a mobile read-only IME reconnect sequence is in flight.
+bool isActiveReadOnlyReconnect() => _activeReconnectId != null;
+
+void _cancelActiveReadOnlyReconnect(
+  void Function({required bool readOnly})? toggleReadOnly,
+) {
+  for (final Timer timer in _readOnlyReconnectTimers) {
+    timer.cancel();
+  }
+  _readOnlyReconnectTimers.clear();
+  if (_activeReconnectId == null) {
+    return;
+  }
+  _activeReconnectId = null;
+  toggleReadOnly?.call(readOnly: false);
+}
 
 /// Re-requests [focusNode] on resume when the keyboard was open before backgrounding.
 class KeyboardFocusRestoreHandle {
@@ -127,6 +158,12 @@ class KeyboardFocusRestoreHandle {
 
   void dispose() {
     _restoreGeneration++;
+    _cancelActiveReadOnlyReconnect(toggleReadOnly);
+  }
+
+  void cancelReadOnlyReconnect() {
+    _restoreGeneration++;
+    _cancelActiveReadOnlyReconnect(toggleReadOnly);
   }
 
   void reconnectOpenField() {

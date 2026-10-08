@@ -270,6 +270,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   final _stickerPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
 
   bool _isApplyingWireText = false;
+  bool _suppressControllerToStateSync = false;
   bool _composerFocused = false;
   bool _composerReconnectReadOnly = false;
   String? _lastWireTextPushedToState;
@@ -472,13 +473,19 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _setComposerReconnectReadOnly({required bool readOnly}) {
-    if (!mounted || _composerReconnectReadOnly == readOnly) {
+    if (_composerReconnectReadOnly == readOnly) {
       return;
     }
-    setState(() => _composerReconnectReadOnly = readOnly);
+    _composerReconnectReadOnly = readOnly;
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _syncStateFromController() {
+    if (_suppressControllerToStateSync) {
+      return;
+    }
     if (_controller.value.composing.isValid) {
       return;
     }
@@ -501,13 +508,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (_focusNode.hasFocus && _controller.value.composing.isValid) {
       return;
     }
-    final String messageText = ref.read(chatViewModelProvider).messageText;
-    if (messageText == _lastWireTextPushedToState) {
-      return;
-    }
-    final String wire = stripPrivateUseCharacters(messageText);
-    if (wire == _lastWireTextPushedToState ||
-        _controller.toWireText() == wire) {
+    final String wire = stripPrivateUseCharacters(
+      ref.read(chatViewModelProvider).messageText,
+    );
+    if (_controller.toWireText() == wire) {
       _lastWireTextPushedToState = wire;
       return;
     }
@@ -703,10 +707,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     }
     if (focused) {
       _maybeReserveUnmeasuredKeyboard();
-    } else if (mounted) {
-      ref
-          .read(mobileKeyboardMetricsProvider.notifier)
-          .clearUnmeasuredKeyboardReservation();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_composerReconnectReadOnly) {
+          return;
+        }
+        if (!isActiveReadOnlyReconnect()) {
+          _setComposerReconnectReadOnly(readOnly: false);
+        }
+      });
+    } else {
+      _keyboardRestore.cancelReadOnlyReconnect();
+      if (mounted) {
+        ref
+            .read(mobileKeyboardMetricsProvider.notifier)
+            .clearUnmeasuredKeyboardReservation();
+      }
     }
   }
 
@@ -740,12 +755,34 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   @override
   void deactivate() {
+    _keyboardRestore.cancelReadOnlyReconnect();
     if (mounted) {
       ref
           .read(mobileKeyboardMetricsProvider.notifier)
           .clearUnmeasuredKeyboardReservation();
     }
     super.deactivate();
+  }
+
+  void _onComposerChannelChanged() {
+    _keyboardRestore.cancelReadOnlyReconnect();
+    _wireSyncDebounceTimer?.cancel();
+    _wireSyncPendingWire = null;
+    _suppressControllerToStateSync = true;
+    final String wire = stripPrivateUseCharacters(
+      ref.read(chatViewModelProvider).messageText,
+    );
+    unawaited(
+      _applyWireTextFromState(wire, force: true).whenComplete(() {
+        if (!mounted) {
+          return;
+        }
+        _lastWireTextPushedToState = stripPrivateUseCharacters(
+          _controller.toWireText(),
+        );
+        _suppressControllerToStateSync = false;
+      }),
+    );
   }
 
   @override
@@ -1156,6 +1193,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         (String? previous, String next) {
           if (previous != null && previous != next && mounted) {
             _clearSlashSession();
+            _onComposerChannelChanged();
           }
           final DmConversation? nextDm = findDmById(
             ref.read(
@@ -2544,7 +2582,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       if (!mounted) {
         return;
       }
-      _focusNode.requestFocus();
+      if (_focusNode.canRequestFocus) {
+        _focusNode.requestFocus();
+      }
+      if (_focusNode.hasFocus) {
+        _keyboardRestore.reconnectOpenField();
+      } else {
+        _keyboardRestore.scheduleRestoreIfPending();
+      }
     });
   }
 

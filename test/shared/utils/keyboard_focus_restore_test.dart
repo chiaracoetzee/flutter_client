@@ -270,10 +270,109 @@ void main() {
     expect(focusNode.hasFocus, isFalse);
   });
 
+  testWidgets('isActiveReadOnlyReconnect tracks reconnect lifecycle', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    var composerReadOnly = false;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+
+    reconnectComposerKeyboard(
+      focusNode,
+      toggleReadOnly: ({required bool readOnly}) {
+        composerReadOnly = readOnly;
+      },
+    );
+    expect(isActiveReadOnlyReconnect(), isTrue);
+    expect(composerReadOnly, isTrue);
+
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(isActiveReadOnlyReconnect(), isFalse);
+    expect(composerReadOnly, isFalse);
+  });
+
   test('isAppBackgroundLifecycleState covers paused and hidden only', () {
     expect(isAppBackgroundLifecycleState(AppLifecycleState.inactive), isFalse);
     expect(isAppBackgroundLifecycleState(AppLifecycleState.paused), isTrue);
     expect(isAppBackgroundLifecycleState(AppLifecycleState.hidden), isTrue);
     expect(isAppBackgroundLifecycleState(AppLifecycleState.resumed), isFalse);
+  });
+
+  testWidgets('readOnly reconnect clears when focus is lost mid-toggle', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    var composerReadOnly = false;
+    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
+      focusNode: focusNode,
+      shouldTrackOnBackground: () => true,
+      canRestoreFocus: () => true,
+      toggleReadOnly: ({required bool readOnly}) {
+        composerReadOnly = readOnly;
+      },
+    );
+    addTearDown(handle.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    expect(focusNode.hasFocus, isTrue);
+
+    handle.reconnectOpenField();
+    await tester.pump();
+    expect(composerReadOnly, isTrue);
+
+    focusNode.unfocus();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 60));
+
+    expect(composerReadOnly, isFalse);
+    await tester.pump(const Duration(milliseconds: 500));
+  });
+
+  testWidgets('cancelReadOnlyReconnect clears stuck readOnly', (tester) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    var composerReadOnly = false;
+    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
+      focusNode: focusNode,
+      shouldTrackOnBackground: () => true,
+      canRestoreFocus: () => true,
+      toggleReadOnly: ({required bool readOnly}) {
+        composerReadOnly = readOnly;
+      },
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    handle.reconnectOpenField();
+    await tester.pump();
+    expect(composerReadOnly, isTrue);
+
+    handle.cancelReadOnlyReconnect();
+    expect(composerReadOnly, isFalse);
+    addTearDown(handle.dispose);
   });
 }
