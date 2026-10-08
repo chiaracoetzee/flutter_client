@@ -194,6 +194,7 @@ class EmbedRich extends StatelessWidget {
                             media: embed.image!,
                             dimensionSize: dimensionSize,
                             title: embed.title,
+                            embedPageUrl: embed.url,
                             embedIndex: embedIndex,
                             channelId: channelId,
                             messageId: messageId,
@@ -219,6 +220,7 @@ class EmbedRich extends StatelessWidget {
                             context,
                             media: embed.thumbnail!,
                             title: embed.title,
+                            embedPageUrl: embed.url,
                             embedIndex: embedIndex,
                             channelId: channelId,
                             messageId: messageId,
@@ -359,6 +361,7 @@ class _EmbedMediaImage extends StatelessWidget {
   final EmbedMedia media;
   final MediaDimensionSize dimensionSize;
   final String? title;
+  final String? embedPageUrl;
   final int embedIndex;
   final String? channelId;
   final String? messageId;
@@ -369,6 +372,7 @@ class _EmbedMediaImage extends StatelessWidget {
     required this.dimensionSize,
     required this.embedIndex,
     this.title,
+    this.embedPageUrl,
     this.channelId,
     this.messageId,
     this.actionScope,
@@ -441,6 +445,7 @@ class _EmbedMediaImage extends StatelessWidget {
               context,
               media: media,
               title: title,
+              embedPageUrl: embedPageUrl,
               embedIndex: embedIndex,
               channelId: channelId,
               messageId: messageId,

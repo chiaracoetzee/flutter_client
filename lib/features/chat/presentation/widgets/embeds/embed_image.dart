@@ -79,6 +79,7 @@ class EmbedImage extends ConsumerWidget {
                     context,
                     media: media,
                     title: embed.title,
+                    embedPageUrl: embed.url,
                     animated: animate,
                     embedIndex: embedIndex,
                     channelId: channelId,

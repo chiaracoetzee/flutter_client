@@ -120,6 +120,7 @@ class EmbedLink extends StatelessWidget {
                               context,
                               media: embed.thumbnail!,
                               title: embed.title,
+                              embedPageUrl: embed.url,
                               embedIndex: embedIndex,
                               channelId: channelId,
                               messageId: messageId,

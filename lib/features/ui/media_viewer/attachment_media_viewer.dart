@@ -38,6 +38,7 @@ class AttachmentMediaViewerItem {
     this.isMatureMedia = false,
     this.attachmentId,
     this.embedIndex,
+    this.linkUrl,
     this.proxyUrl,
     this.contentType,
     this.isExpired = false,
@@ -68,7 +69,14 @@ class AttachmentMediaViewerItem {
   final bool isMatureMedia;
   final String? attachmentId;
   final int? embedIndex;
+  final String? linkUrl;
   final String? proxyUrl;
+
+  String get shareableUrl {
+    final String resolved = linkUrl?.trim() ?? '';
+    return resolved.isNotEmpty ? resolved : url;
+  }
+
   final String? contentType;
   final bool isExpired;
   final String? contentHash;
