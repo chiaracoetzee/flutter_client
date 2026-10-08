@@ -10,10 +10,7 @@ const Set<String> _sensitiveDeepLinkQueryKeys = <String>{
   'client_secret',
 };
 
-const Set<String> _redactedPathSegmentRoots = <String>{
-  'invite',
-  'gift',
-};
+const Set<String> _redactedPathSegmentRoots = <String>{'invite', 'gift'};
 
 /// Safe deep-link string for logs. Omits the fragment and redacts secrets.
 String sanitizeDeepLinkForLog(Uri uri) {

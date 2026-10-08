@@ -181,9 +181,9 @@ class ChannelIcon extends StatelessWidget {
       case ChannelType.announcementThread:
       case ChannelType.publicThread:
       case ChannelType.privateThread:
-        return PhosphorIconsFill.chatsCircle;
-      case ChannelType.guildForum:
         return PhosphorIconsFill.chats;
+      case ChannelType.guildForum:
+        return PhosphorIconsFill.chatsCircle;
       case ChannelType.guildMedia:
         return PhosphorIconsFill.images;
       case ChannelType.dm:
