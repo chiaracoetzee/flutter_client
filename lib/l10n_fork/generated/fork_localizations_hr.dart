@@ -279,6 +279,9 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get chatInsertTimestamp => 'Umetni vremensku oznaku';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Pošalji glasovnu poruku';
+
+  @override
   String get timestampPickerTitle => 'Umetni vremensku oznaku';
 
   @override

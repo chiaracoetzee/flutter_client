@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Суффикс тега персоны должен содержать не более 32 символов",
     "personaTagCollisionError": "Тег «{tag}» уже используется персоной «{name}».",
     "chatInsertTimestamp": "Вставить метку времени",
+    "chatAttachmentSendVoiceMessage": "Отправить голосовое сообщение",
     "timestampPickerTitle": "Вставить метку времени",
     "timestampPickerInsert": "Вставить",
     "timestampCopied": "Метка времени скопирована",
