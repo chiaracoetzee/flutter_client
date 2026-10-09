@@ -82,6 +82,7 @@ void main() {
         .read(bottomInputSlotProvider.notifier)
         .beginKeyboardTransition(280);
     session.onComposerDeactivated();
+    await tester.pump();
     expect(
       widgetRef.read(bottomInputSlotProvider).transition,
       BottomInputTransition.idle,
@@ -130,6 +131,7 @@ void main() {
     );
 
     session.onChannelChanged();
+    await tester.pump();
     expect(
       widgetRef.read(bottomInputSlotProvider).transition,
       BottomInputTransition.idle,

@@ -65,13 +65,13 @@ class ComposerKeyboardSession {
 
   void onChannelChanged() {
     cancelImeReconnect();
-    _resetLayoutProviders();
+    _scheduleResetLayoutProviders();
     _endImeReconnectStateIfNeeded();
   }
 
   void onComposerDeactivated() {
     cancelImeReconnect();
-    _resetLayoutProviders();
+    _scheduleResetLayoutProviders();
     _endImeReconnectStateIfNeeded();
   }
 
@@ -84,6 +84,15 @@ class ComposerKeyboardSession {
       if (_focusNode.hasFocus) {
         maybeReserveUnmeasuredKeyboard();
       }
+    });
+  }
+
+  void _scheduleResetLayoutProviders() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_isMounted()) {
+        return;
+      }
+      _resetLayoutProviders();
     });
   }
 
