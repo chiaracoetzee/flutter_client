@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "페르소나 태그 접미사는 32자 이하여야 합니다",
     "personaTagCollisionError": "'{tag}' 태그는 이미 '{name}'에서 사용 중입니다.",
     "chatInsertTimestamp": "타임스탬프 삽입",
+    "chatAttachmentSendVoiceMessage": "음성 메시지 보내기",
     "timestampPickerTitle": "타임스탬프 삽입",
     "timestampPickerInsert": "삽입",
     "timestampCopied": "타임스탬프가 복사되었습니다",

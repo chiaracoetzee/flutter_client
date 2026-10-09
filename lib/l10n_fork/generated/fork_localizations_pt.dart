@@ -280,6 +280,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get chatInsertTimestamp => 'Inserir carimbo de data/hora';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Enviar mensagem de voz';
+
+  @override
   String get timestampPickerTitle => 'Inserir carimbo de data/hora';
 
   @override
@@ -659,6 +662,9 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get chatInsertTimestamp => 'Inserir carimbo de data/hora';
+
+  @override
+  String get chatAttachmentSendVoiceMessage => 'Enviar mensagem de voz';
 
   @override
   String get timestampPickerTitle => 'Inserir carimbo de data/hora';
