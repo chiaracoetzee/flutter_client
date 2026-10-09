@@ -280,6 +280,10 @@ class ForkLocalizationsUk extends ForkLocalizations {
   String get chatInsertTimestamp => 'Вставити мітку часу';
 
   @override
+  String get chatAttachmentSendVoiceMessage =>
+      'Надіслати голосове повідомлення';
+
+  @override
   String get timestampPickerTitle => 'Вставити мітку часу';
 
   @override
