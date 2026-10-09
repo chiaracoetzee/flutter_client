@@ -276,6 +276,9 @@ class ForkLocalizationsHe extends ForkLocalizations {
   String get chatInsertTimestamp => 'הוספת חותמת זמן';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'שלח הודעה קולית';
+
+  @override
   String get timestampPickerTitle => 'הוספת חותמת זמן';
 
   @override
