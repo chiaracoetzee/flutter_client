@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_lis
 import 'package:fluxer_app/features/favorites/providers/favorite_channel_groups_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/favorites/utils/favorite_entry_subtitle.dart';
+import 'package:fluxer_app/features/favorites/utils/favorite_entry_unread.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
@@ -350,8 +351,14 @@ class _FavoriteChannelTile extends ConsumerWidget {
     final subtitle = favoriteEntrySubtitle(entry, l10n);
     final unreadAsync = ref.watch(channelUnreadProvider(entry.channelId));
     final unread = unreadAsync.value;
-    final hasUnreadMessages = unread?.hasUnreadMessages ?? false;
-    final mentionCount = unread?.mentionCount ?? 0;
+    final hasUnreadMessages = favoriteEntryShowsUnreadMessages(
+      entry,
+      hasUnreadMessages: unread?.hasUnreadMessages ?? false,
+    );
+    final mentionCount = favoriteEntryMentionCount(
+      entry,
+      unread?.mentionCount ?? 0,
+    );
     final guildId = entry.guildId;
     final mutedSet = guildId == null || guildId.isEmpty
         ? const <String>{}
