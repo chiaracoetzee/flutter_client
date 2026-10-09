@@ -464,6 +464,7 @@ InstanceConfigSnapshot _snapshot({
         legal: InstanceAppPublicSchemaLegal(
           termsUrl: termsUrl,
           privacyUrl: privacyUrl,
+          guidelinesUrl: null,
         ),
         registration: InstanceAppPublicSchemaRegistration(
           collectDateOfBirth: collectDateOfBirth,

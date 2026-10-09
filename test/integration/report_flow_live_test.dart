@@ -11,7 +11,8 @@ import 'package:fluxer_app/features/moderation/data/report_flow_repository.dart'
 import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
 import 'package:fluxer_app/features/moderation/domain/report_flow.dart';
 import 'package:fluxer_app/features/moderation/domain/report_flow_walk.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart'
+    hide ReportFlowStep, ReportFlowTargetType;
 
 import '../helpers/report_flow_test_walks.dart';
 
