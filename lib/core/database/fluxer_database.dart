@@ -31,6 +31,7 @@ import 'package:fluxer_app/core/database/daos/user_guild_settings_dao.dart';
 import 'package:fluxer_app/core/database/daos/user_notes_dao.dart';
 import 'package:fluxer_app/core/database/daos/user_preferences_dao.dart';
 import 'package:fluxer_app/core/database/daos/user_settings_dao.dart';
+import 'package:fluxer_app/core/database/fork_schema.dart';
 import 'package:fluxer_app/core/database/sqlite_connection.dart';
 import 'package:fluxer_app/core/database/tables/auth_sessions.dart';
 import 'package:fluxer_app/core/database/tables/channels.dart';
@@ -152,6 +153,12 @@ class FluxerDatabase extends _$FluxerDatabase {
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) => m.createAll(),
+    // Fork: the fork's columns are not tied to a schema version (fork_schema.dart).
+    beforeOpen: (details) async {
+      if (!details.wasCreated) {
+        await ensureForkSchema(this, createMigrator());
+      }
+    },
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.addColumn(messages, messages.authorName);
@@ -1475,34 +1482,6 @@ class FluxerDatabase extends _$FluxerDatabase {
         if (!await _tableHasColumn(
           m.database,
           tableName: 'messages',
-          columnName: 'persona_id',
-        )) {
-          await m.addColumn(messages, messages.personaId);
-        }
-        if (!await _tableHasColumn(
-          m.database,
-          tableName: 'messages',
-          columnName: 'persona_name',
-        )) {
-          await m.addColumn(messages, messages.personaName);
-        }
-        if (!await _tableHasColumn(
-          m.database,
-          tableName: 'messages',
-          columnName: 'persona_avatar',
-        )) {
-          await m.addColumn(messages, messages.personaAvatar);
-        }
-        if (!await _tableHasColumn(
-          m.database,
-          tableName: 'messages',
-          columnName: 'persona_tag',
-        )) {
-          await m.addColumn(messages, messages.personaTag);
-        }
-        if (!await _tableHasColumn(
-          m.database,
-          tableName: 'messages',
           columnName: 'thread_json',
         )) {
           await m.addColumn(messages, messages.threadJson);
@@ -1530,15 +1509,6 @@ class FluxerDatabase extends _$FluxerDatabase {
           'CREATE INDEX IF NOT EXISTS idx_channels_guild_parent_type '
           'ON channels (guild_id, parent_id, type)',
         );
-      }
-      if (from < 92) {
-        if (!await _tableHasColumn(
-          m.database,
-          tableName: 'messages',
-          columnName: 'persona_tag_icon',
-        )) {
-          await m.addColumn(messages, messages.personaTagIcon);
-        }
       }
       if (from < 92) {
         if (!await _tableHasColumn(
