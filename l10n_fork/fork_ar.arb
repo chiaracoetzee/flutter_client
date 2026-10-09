@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "يجب أن تكون لاحقة علامة الشخصية 32 حرفًا أو أقل",
     "personaTagCollisionError": "العلامة '{tag}' مستخدمة بالفعل بواسطة '{name}'.",
     "chatInsertTimestamp": "إدراج طابع زمني",
+    "chatAttachmentSendVoiceMessage": "إرسال رسالة صوتية",
     "timestampPickerTitle": "إدراج طابع زمني",
     "timestampPickerInsert": "إدراج",
     "timestampCopied": "تم نسخ الطابع الزمني",

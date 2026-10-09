@@ -69,6 +69,7 @@
     "personaTagSuffixTooLong": "O sufixo da tag da persona deve ter 32 carateres ou menos",
     "personaTagCollisionError": "A tag '{tag}' já está a ser usada por '{name}'.",
     "chatInsertTimestamp": "Inserir carimbo de data/hora",
+    "chatAttachmentSendVoiceMessage": "Enviar mensagem de voz",
     "timestampPickerTitle": "Inserir carimbo de data/hora",
     "timestampPickerInsert": "Inserir",
     "timestampCopied": "Carimbo de data/hora copiado",
