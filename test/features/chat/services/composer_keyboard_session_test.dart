@@ -46,6 +46,49 @@ void main() {
     session.dispose();
   });
 
+  testWidgets('onComposerDeactivated resets bottom slot transition state', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    late ComposerKeyboardSession session;
+    late WidgetRef widgetRef;
+
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(
+            body: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? _) {
+                widgetRef = ref;
+                session = ComposerKeyboardSession(
+                  ref: ref,
+                  focusNode: focusNode,
+                  isMounted: () => true,
+                  isMobileLayout: () => true,
+                  isSlashSessionActive: () => false,
+                  composerEntryFocused: () => focusNode.hasFocus,
+                );
+                return TextField(focusNode: focusNode);
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    widgetRef
+        .read(bottomInputSlotProvider.notifier)
+        .beginKeyboardTransition(280);
+    session.onComposerDeactivated();
+    expect(
+      widgetRef.read(bottomInputSlotProvider).transition,
+      BottomInputTransition.idle,
+    );
+    session.dispose();
+  });
+
   testWidgets('onChannelChanged resets bottom slot transition state', (
     tester,
   ) async {

@@ -576,6 +576,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   @override
+  void activate() {
+    super.activate();
+    _keyboardSession.onComposerActivated(context);
+  }
+
+  @override
   void deactivate() {
     _keyboardSession.deactivate();
     super.deactivate();

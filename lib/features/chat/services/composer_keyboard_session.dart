@@ -65,10 +65,36 @@ class ComposerKeyboardSession {
 
   void onChannelChanged() {
     cancelImeReconnect();
+    _resetLayoutProviders();
+    _endImeReconnectStateIfNeeded();
+  }
+
+  void onComposerDeactivated() {
+    cancelImeReconnect();
+    _resetLayoutProviders();
+    _endImeReconnectStateIfNeeded();
+  }
+
+  void onComposerActivated(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_isMounted()) {
+        return;
+      }
+      resyncViewInsetsFromContext(context);
+      if (_focusNode.hasFocus) {
+        maybeReserveUnmeasuredKeyboard();
+      }
+    });
+  }
+
+  void _resetLayoutProviders() {
     _ref
         .read(mobileKeyboardMetricsProvider.notifier)
         .resetTransientLayoutState();
     _ref.read(bottomInputSlotProvider.notifier).resetAfterChannelChange();
+  }
+
+  void _endImeReconnectStateIfNeeded() {
     if (_keyboardState == ComposerKeyboardState.imeReconnecting) {
       _keyboardState = _resolveIdleKeyboardState();
       _recordDebugBreadcrumb();
@@ -88,20 +114,7 @@ class ComposerKeyboardSession {
         );
   }
 
-  void deactivate() {
-    cancelImeReconnect();
-    if (!_isMounted()) {
-      return;
-    }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_isMounted()) {
-        return;
-      }
-      _ref
-          .read(mobileKeyboardMetricsProvider.notifier)
-          .clearUnmeasuredKeyboardReservation();
-    });
-  }
+  void deactivate() => onComposerDeactivated();
 
   void handleAppLifecycle(AppLifecycleState state) {
     if (_isSlashSessionActive()) {
