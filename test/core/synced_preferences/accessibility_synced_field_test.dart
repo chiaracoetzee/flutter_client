@@ -398,7 +398,7 @@ void main() {
           scaleFactor: 1,
           hasMobileFontSizeInProto: true,
           hasMobileMessageGroupSpacingInProto: true,
-          advanced: kDefaultAdvancedAccessibility,
+          advanced: _defaultAdvancedAccessibility,
         );
         final remote = AccessibilitySyncedField.fromProto(
           accessibility_pb.AccessibilitySettings(
