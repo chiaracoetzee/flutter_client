@@ -279,6 +279,9 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get chatInsertTimestamp => 'Vložit časové razítko';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Odeslat hlasovou zprávu';
+
+  @override
   String get timestampPickerTitle => 'Vložit časové razítko';
 
   @override

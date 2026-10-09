@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "परसोना टैग प्रत्यय 32 वर्ण या उससे कम होना चाहिए",
     "personaTagCollisionError": "टैग '{tag}' पहले से ही '{name}' द्वारा उपयोग में है।",
     "chatInsertTimestamp": "समय टिकट डालें",
+    "chatAttachmentSendVoiceMessage": "वॉइस मैसेज भेजें",
     "timestampPickerTitle": "समय टिकट डालें",
     "timestampPickerInsert": "डालें",
     "timestampCopied": "समय टिकट कॉपी किया गया",
