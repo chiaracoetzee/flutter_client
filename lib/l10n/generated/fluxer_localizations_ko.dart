@@ -10367,6 +10367,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get instanceConnectFailed => '인스턴스에 연결하지 못했습니다';
 
   @override
+  String get instanceInvalidDiscoveryResponse =>
+      'This client cannot connect to this instance. The instance is likely out of date. If the instance is up to date, try updating this app.';
+
+  @override
   String get recentInstances => '최근 인스턴스';
 
   @override

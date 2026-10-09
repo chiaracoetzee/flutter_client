@@ -12821,6 +12821,10 @@
     "@instanceConnectFailed": {
         "description": "Fallback error when instance discovery fails."
     },
+    "instanceInvalidDiscoveryResponse": "This client cannot connect to this instance. The instance is likely out of date. If the instance is up to date, try updating this app.",
+    "@instanceInvalidDiscoveryResponse": {
+        "description": "Error when the instance discovery document cannot be read, usually because the instance is behind this client."
+    },
     "recentInstances": "Recent instances",
     "@recentInstances": {
         "description": "Label for the recent self-hosted instances list."

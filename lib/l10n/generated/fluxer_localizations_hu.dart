@@ -10943,6 +10943,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get instanceConnectFailed => 'Nem sikerült csatlakozni az instanchoz';
 
   @override
+  String get instanceInvalidDiscoveryResponse =>
+      'This client cannot connect to this instance. The instance is likely out of date. If the instance is up to date, try updating this app.';
+
+  @override
   String get recentInstances => 'Legutóbbi instanciák';
 
   @override

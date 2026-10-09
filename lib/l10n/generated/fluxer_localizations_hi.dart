@@ -10822,6 +10822,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get instanceConnectFailed => 'इंस्टेंस से कनेक्ट करने में विफल';
 
   @override
+  String get instanceInvalidDiscoveryResponse =>
+      'This client cannot connect to this instance. The instance is likely out of date. If the instance is up to date, try updating this app.';
+
+  @override
   String get recentInstances => 'हाल के इंस्टेंस';
 
   @override

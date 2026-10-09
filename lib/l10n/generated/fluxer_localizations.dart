@@ -17969,6 +17969,12 @@ abstract class FluxerLocalizations {
   /// **'Failed to connect to instance'**
   String get instanceConnectFailed;
 
+  /// Error when the instance discovery document cannot be read, usually because the instance is behind this client.
+  ///
+  /// In en, this message translates to:
+  /// **'This client cannot connect to this instance. The instance is likely out of date. If the instance is up to date, try updating this app.'**
+  String get instanceInvalidDiscoveryResponse;
+
   /// Label for the recent self-hosted instances list.
   ///
   /// In en, this message translates to:

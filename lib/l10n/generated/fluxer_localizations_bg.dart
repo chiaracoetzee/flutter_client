@@ -10958,6 +10958,10 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get instanceConnectFailed => 'Неуспешно свързване към инстанция';
 
   @override
+  String get instanceInvalidDiscoveryResponse =>
+      'This client cannot connect to this instance. The instance is likely out of date. If the instance is up to date, try updating this app.';
+
+  @override
   String get recentInstances => 'Последни инстанции';
 
   @override
