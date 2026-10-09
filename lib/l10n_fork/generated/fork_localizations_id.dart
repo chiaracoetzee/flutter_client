@@ -278,6 +278,9 @@ class ForkLocalizationsId extends ForkLocalizations {
   String get chatInsertTimestamp => 'Sisipkan stempel waktu';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Kirim pesan suara';
+
+  @override
   String get timestampPickerTitle => 'Sisipkan stempel waktu';
 
   @override

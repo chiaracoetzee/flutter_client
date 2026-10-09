@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "ペルソナタグの接尾辞は32文字以内で入力してください",
     "personaTagCollisionError": "タグ「{tag}」は既に「{name}」によって使用されています。",
     "chatInsertTimestamp": "タイムスタンプを挿入",
+    "chatAttachmentSendVoiceMessage": "ボイスメッセージを送信",
     "timestampPickerTitle": "タイムスタンプを挿入",
     "timestampPickerInsert": "挿入",
     "timestampCopied": "タイムスタンプをコピーしました",

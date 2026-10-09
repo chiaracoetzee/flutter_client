@@ -278,6 +278,9 @@ class ForkLocalizationsPl extends ForkLocalizations {
   String get chatInsertTimestamp => 'Wstaw znacznik czasu';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Wyślij wiadomość głosową';
+
+  @override
   String get timestampPickerTitle => 'Wstaw znacznik czasu';
 
   @override

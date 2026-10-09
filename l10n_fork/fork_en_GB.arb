@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Persona tag suffix must be 32 characters or less",
     "personaTagCollisionError": "The tag '{tag}' is already in use by '{name}'.",
     "chatInsertTimestamp": "Insert timestamp",
+    "chatAttachmentSendVoiceMessage": "Send voice message",
     "timestampPickerTitle": "Insert Timestamp",
     "timestampPickerInsert": "Insert",
     "timestampCopied": "Timestamp copied",

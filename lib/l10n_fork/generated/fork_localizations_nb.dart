@@ -280,6 +280,9 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String get chatInsertTimestamp => 'Sett inn tidsstempel';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Send talemelding';
+
+  @override
   String get timestampPickerTitle => 'Sett inn tidsstempel';
 
   @override

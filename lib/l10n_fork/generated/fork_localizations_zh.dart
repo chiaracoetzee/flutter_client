@@ -268,6 +268,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get chatInsertTimestamp => '插入时间戳';
 
   @override
+  String get chatAttachmentSendVoiceMessage => '发送语音消息';
+
+  @override
   String get timestampPickerTitle => '插入时间戳';
 
   @override
@@ -632,6 +635,9 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get chatInsertTimestamp => '插入時間戳記';
+
+  @override
+  String get chatAttachmentSendVoiceMessage => '傳送語音訊息';
 
   @override
   String get timestampPickerTitle => '插入時間戳記';

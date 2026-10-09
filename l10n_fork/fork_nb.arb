@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Persona-taggsuffikset kan maksimalt være 32 tegn",
     "personaTagCollisionError": "Taggen '{tag}' er allerede i bruk av '{name}'.",
     "chatInsertTimestamp": "Sett inn tidsstempel",
+    "chatAttachmentSendVoiceMessage": "Send talemelding",
     "timestampPickerTitle": "Sett inn tidsstempel",
     "timestampPickerInsert": "Sett inn",
     "timestampCopied": "Tidsstempel kopiert",

@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Το επίθημα ετικέτας persona πρέπει να περιέχει έως 32 χαρακτήρες",
     "personaTagCollisionError": "Η ετικέτα '{tag}' χρησιμοποιείται ήδη από την persona '{name}'.",
     "chatInsertTimestamp": "Εισαγωγή χρονικής σήμανσης",
+    "chatAttachmentSendVoiceMessage": "Αποστολή φωνητικού μηνύματος",
     "timestampPickerTitle": "Εισαγωγή χρονικής σήμανσης",
     "timestampPickerInsert": "Εισαγωγή",
     "timestampCopied": "Η χρονική σήμανση αντιγράφηκε",

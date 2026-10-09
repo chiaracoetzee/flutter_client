@@ -278,6 +278,9 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get chatInsertTimestamp => 'Inserează marcaj de timp';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Trimite mesaj vocal';
+
+  @override
   String get timestampPickerTitle => 'Inserează marcaj de timp';
 
   @override

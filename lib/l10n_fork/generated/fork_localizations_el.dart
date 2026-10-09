@@ -278,6 +278,9 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String get chatInsertTimestamp => 'Εισαγωγή χρονικής σήμανσης';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Αποστολή φωνητικού μηνύματος';
+
+  @override
   String get timestampPickerTitle => 'Εισαγωγή χρονικής σήμανσης';
 
   @override

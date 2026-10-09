@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Persona etiket soneki en fazla 32 karakter olmalıdır",
     "personaTagCollisionError": "'{tag}' etiketi zaten '{name}' tarafından kullanılıyor.",
     "chatInsertTimestamp": "Zaman damgası ekle",
+    "chatAttachmentSendVoiceMessage": "Sesli mesaj gönder",
     "timestampPickerTitle": "Zaman damgası ekle",
     "timestampPickerInsert": "Ekle",
     "timestampCopied": "Zaman damgası kopyalandı",
