@@ -30,11 +30,11 @@ class UserSettingsSearchField extends StatelessWidget {
     final colors = context.colors;
     final layout = context.layout;
     final bool showClear = controller.text.isNotEmpty;
-    final InputDecorationTheme baseTheme = Theme.of(
+    final InputDecorationThemeData baseTheme = Theme.of(
       context,
     ).inputDecorationTheme;
     final BorderRadius cardRadius = layout.radiusXl;
-    final InputDecorationTheme searchTheme = baseTheme.copyWith(
+    final InputDecorationThemeData searchTheme = baseTheme.copyWith(
       border: OutlineInputBorder(
         borderRadius: cardRadius,
         borderSide: BorderSide(color: colors.backgroundModifierAccent),
