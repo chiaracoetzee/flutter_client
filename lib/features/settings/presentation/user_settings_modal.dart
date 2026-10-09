@@ -49,6 +49,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_plutonium
 import 'package:fluxer_app/features/settings/presentation/widgets/user_privacy_dashboard.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_security_login.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_mobile_profile_nav_item.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_shortcuts.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_theme_colors.dart';
@@ -616,6 +617,10 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
         instanceRuntimeConfigProvider.select((config) => config.productName),
       ),
     );
+    final UserSettingsViewState settingsState = ref.watch(
+      userSettingsViewModelProvider,
+    );
+
     return FluxerSettingsNavList(
       controller: widget.scrollController,
       padding: EdgeInsets.fromLTRB(
@@ -629,6 +634,15 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
         onChanged: onSearchQueryChanged,
         onClear: clearSearchQuery,
       ),
+      profileSection: isSettingsSearchActive
+          ? null
+          : UserSettingsMobileProfileNavItem(
+              displayName: settingsState.displayName,
+              userId: settingsState.userId,
+              avatarUrl: settingsState.avatarUrl,
+              avatarColor: settingsState.avatarColor,
+              onTap: () => _openSettingsPage(UserSettingsSection.profile),
+            ),
       groups: isSettingsSearchActive
           ? buildUserSettingsSearchNavGroups(
               l10n: l10n,
