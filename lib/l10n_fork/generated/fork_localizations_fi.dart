@@ -278,6 +278,9 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String get chatInsertTimestamp => 'Lisää aikaleima';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Lähetä ääniviesti';
+
+  @override
   String get timestampPickerTitle => 'Lisää aikaleima';
 
   @override

@@ -280,6 +280,9 @@ class ForkLocalizationsFr extends ForkLocalizations {
   String get chatInsertTimestamp => 'Insérer un horodatage';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Envoyer un message vocal';
+
+  @override
   String get timestampPickerTitle => 'Insérer un horodatage';
 
   @override
