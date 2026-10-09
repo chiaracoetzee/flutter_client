@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Das Persona-Tag-Suffix darf maximal 32 Zeichen lang sein",
     "personaTagCollisionError": "Das Tag „{tag}“ wird bereits von „{name}“ verwendet.",
     "chatInsertTimestamp": "Zeitstempel einfügen",
+    "chatAttachmentSendVoiceMessage": "Sprachnachricht senden",
     "timestampPickerTitle": "Zeitstempel einfügen",
     "timestampPickerInsert": "Einfügen",
     "timestampCopied": "Zeitstempel kopiert",

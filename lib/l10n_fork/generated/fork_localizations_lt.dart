@@ -278,6 +278,9 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get chatInsertTimestamp => 'Įterpti laiko žymą';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Siųsti balso žinutę';
+
+  @override
   String get timestampPickerTitle => 'Įterpti laiko žymą';
 
   @override

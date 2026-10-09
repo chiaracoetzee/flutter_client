@@ -276,6 +276,9 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get chatInsertTimestamp => 'แทรกการประทับเวลา';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'ส่งข้อความเสียง';
+
+  @override
   String get timestampPickerTitle => 'แทรกการประทับเวลา';
 
   @override
