@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Суфікс тегу персони має містити не більше 32 символів",
     "personaTagCollisionError": "Тег '{tag}' уже використовується персоною '{name}'.",
     "chatInsertTimestamp": "Вставити мітку часу",
+    "chatAttachmentSendVoiceMessage": "Надіслати голосове повідомлення",
     "timestampPickerTitle": "Вставити мітку часу",
     "timestampPickerInsert": "Вставити",
     "timestampCopied": "Мітку часу скопійовано",
