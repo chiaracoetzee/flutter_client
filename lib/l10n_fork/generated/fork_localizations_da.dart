@@ -280,6 +280,9 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String get chatInsertTimestamp => 'Indsæt tidsstempel';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Send talebesked';
+
+  @override
   String get timestampPickerTitle => 'Indsæt tidsstempel';
 
   @override

@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Le suffixe de balise de persona doit comporter 32 caractères ou moins",
     "personaTagCollisionError": "La balise « {tag} » est déjà utilisée par « {name} ».",
     "chatInsertTimestamp": "Insérer un horodatage",
+    "chatAttachmentSendVoiceMessage": "Envoyer un message vocal",
     "timestampPickerTitle": "Insérer un horodatage",
     "timestampPickerInsert": "Insérer",
     "timestampCopied": "Horodatage copié",

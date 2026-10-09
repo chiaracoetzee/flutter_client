@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "A persona címke utótagja legfeljebb 32 karakter lehet",
     "personaTagCollisionError": "A(z) '{tag}' címkét már használja '{name}'.",
     "chatInsertTimestamp": "Időbélyegző beszúrása",
+    "chatAttachmentSendVoiceMessage": "Hangüzenet küldése",
     "timestampPickerTitle": "Időbélyegző beszúrása",
     "timestampPickerInsert": "Beszúrás",
     "timestampCopied": "Időbélyegző másolva",
