@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "คำต่อท้ายแท็ก Persona ต้องมีความยาวไม่เกิน 32 ตัวอักษร",
     "personaTagCollisionError": "แท็ก '{tag}' ถูกใช้งานโดย '{name}' แล้ว",
     "chatInsertTimestamp": "แทรกการประทับเวลา",
+    "chatAttachmentSendVoiceMessage": "ส่งข้อความเสียง",
     "timestampPickerTitle": "แทรกการประทับเวลา",
     "timestampPickerInsert": "แทรก",
     "timestampCopied": "คัดลอกการประทับเวลาแล้ว",

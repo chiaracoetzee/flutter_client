@@ -78,6 +78,7 @@
     "personaTagSuffixTooLong": "El sufijo de la etiqueta debe tener 32 caracteres o menos",
     "personaTagCollisionError": "La etiqueta '{tag}' ya está en uso por '{name}'.",
     "chatInsertTimestamp": "Insertar marca de tiempo",
+    "chatAttachmentSendVoiceMessage": "Enviar mensaje de voz",
     "timestampPickerTitle": "Insertar marca de tiempo",
     "timestampPickerInsert": "Insertar",
     "timestampCopied": "Marca de tiempo copiada",

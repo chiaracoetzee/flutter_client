@@ -276,6 +276,9 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get chatInsertTimestamp => 'Insert timestamp';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+
+  @override
   String get timestampPickerTitle => 'Insert Timestamp';
 
   @override
@@ -653,6 +656,9 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get chatInsertTimestamp => 'Insert timestamp';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+
+  @override
   String get timestampPickerTitle => 'Insert Timestamp';
 
   @override
@@ -1028,6 +1034,9 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get chatInsertTimestamp => 'Insert timestamp';
+
+  @override
+  String get chatAttachmentSendVoiceMessage => 'Send voice message';
 
   @override
   String get timestampPickerTitle => 'Insert Timestamp';
