@@ -129,6 +129,7 @@ UserSettingsResponse _settingsResponseWithTheme(String theme) =>
       'staff_dm_access_user_ids': <String>[],
       'synced_preferences': '',
       'profile_privacy': 0,
+      'privacy_setup_version': 0,
       'default_share_voice_activity': false,
       'custom_status': null,
     });

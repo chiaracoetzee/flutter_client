@@ -52,6 +52,7 @@ class _FakeUsersApi implements UsersApi {
       'synced_preferences': body?.syncedPreferences.value ?? '',
       'render_embeds': true,
       'profile_privacy': 0,
+      'privacy_setup_version': 0,
       'restricted_guilds': <String>[],
       'bot_restricted_guilds': <String>[],
       'default_guilds_restricted': false,
@@ -111,6 +112,7 @@ UserSettingsResponse _testUserSettings({required String syncedPreferences}) {
     'synced_preferences': syncedPreferences,
     'render_embeds': true,
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],
     'default_guilds_restricted': false,
@@ -268,6 +270,7 @@ void main() {
           cssVariable: '--brand-primary',
           color: const Color(0xFFFF5500),
         );
+        await themeNotifier.flushPendingThemeColorPersist();
 
         await store.hydrateFromUserSettings(
           _testUserSettings(

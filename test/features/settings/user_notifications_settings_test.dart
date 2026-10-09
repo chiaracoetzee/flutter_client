@@ -71,6 +71,7 @@ UserSettingsResponse _settingsResponse() {
     'suppress_unprivileged_self_mentions_bypass_user_ids': <String>[],
     'staff_dm_access_user_ids': <String>[],
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'synced_preferences': '',
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],

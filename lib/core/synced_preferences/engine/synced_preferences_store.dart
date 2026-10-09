@@ -703,7 +703,13 @@ class SyncedPreferencesStore {
     Object? local, {
     required pb.SyncedPreferences wire,
   }) {
-    return adapter.encodePushValueBytes(local);
+    if (adapter.fieldPushWireType != 2) {
+      return adapter.encodePushValueBytes(local);
+    }
+    final wireSubMessage = adapter.readWireSubMessage(wire);
+    return adapter
+        .toProtoMessageForPush(local, wireSubMessage: wireSubMessage)
+        .writeToBuffer();
   }
 
   pb.SyncedPreferences _applyAdapterToProto(

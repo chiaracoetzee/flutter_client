@@ -355,6 +355,10 @@ class ThemePreference extends _$ThemePreference {
 
   @override
   ThemePreferenceState build() {
+    ref.onDispose(() {
+      _themeColorPersistTimer?.cancel();
+      _themeColorPersistTimer = null;
+    });
     ref.listen<AsyncValue<UserSettingsResponse?>>(
       userSettingsStatusStreamProvider,
       (
@@ -730,7 +734,13 @@ class ThemePreference extends _$ThemePreference {
   Future<void> _flushThemeColorPersist() async {
     _themeColorPersistTimer?.cancel();
     _themeColorPersistTimer = null;
+    if (!ref.mounted) {
+      return;
+    }
     await _persist();
+    if (!ref.mounted) {
+      return;
+    }
     _markAccessibilityDirty();
   }
 
