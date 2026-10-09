@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Personataggens suffix får vara högst 32 tecken",
     "personaTagCollisionError": "Taggen '{tag}' används redan av '{name}'.",
     "chatInsertTimestamp": "Infoga tidsstämpel",
+    "chatAttachmentSendVoiceMessage": "Skicka röstmeddelande",
     "timestampPickerTitle": "Infoga tidsstämpel",
     "timestampPickerInsert": "Infoga",
     "timestampCopied": "Tidsstämpel kopierad",

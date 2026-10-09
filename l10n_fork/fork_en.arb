@@ -363,6 +363,10 @@
     "@chatInsertTimestamp": {
         "description": "Menu action to insert a timestamp markdown pill into composer."
     },
+    "chatAttachmentSendVoiceMessage": "Send voice message",
+    "@chatAttachmentSendVoiceMessage": {
+        "description": "Menu item to open the voice message recorder."
+    },
     "timestampPickerTitle": "Insert Timestamp",
     "@timestampPickerTitle": {
         "description": "Title of the timestamp picker modal/sheet."

@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "סיומת התגית של הפרסונה חייבת להכיל עד 32 תווים",
     "personaTagCollisionError": "התגית '{tag}' כבר בשימוש על ידי '{name}'.",
     "chatInsertTimestamp": "הוספת חותמת זמן",
+    "chatAttachmentSendVoiceMessage": "שלח הודעה קולית",
     "timestampPickerTitle": "הוספת חותמת זמן",
     "timestampPickerInsert": "הוספה",
     "timestampCopied": "חותמת הזמן הועתקה",

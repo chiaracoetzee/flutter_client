@@ -279,6 +279,9 @@ class ForkLocalizationsTr extends ForkLocalizations {
   String get chatInsertTimestamp => 'Zaman damgası ekle';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Sesli mesaj gönder';
+
+  @override
   String get timestampPickerTitle => 'Zaman damgası ekle';
 
   @override

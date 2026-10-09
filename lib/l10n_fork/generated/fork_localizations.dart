@@ -635,6 +635,12 @@ abstract class ForkLocalizations {
   /// **'Insert timestamp'**
   String get chatInsertTimestamp;
 
+  /// Menu item to open the voice message recorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Send voice message'**
+  String get chatAttachmentSendVoiceMessage;
+
   /// Title of the timestamp picker modal/sheet.
   ///
   /// In en, this message translates to:

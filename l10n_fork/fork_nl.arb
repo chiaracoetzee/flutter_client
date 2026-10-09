@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Persona-tagachtervoegsel mag maximaal 32 tekens bevatten",
     "personaTagCollisionError": "De tag '{tag}' is al in gebruik door '{name}'.",
     "chatInsertTimestamp": "Tijdstempel invoegen",
+    "chatAttachmentSendVoiceMessage": "Spraakbericht verzenden",
     "timestampPickerTitle": "Tijdstempel invoegen",
     "timestampPickerInsert": "Invoegen",
     "timestampCopied": "Tijdstempel gekopieerd",

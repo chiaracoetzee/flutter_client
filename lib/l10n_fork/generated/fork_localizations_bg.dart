@@ -279,6 +279,9 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String get chatInsertTimestamp => 'Вмъкване на клеймо за време';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Изпращане на гласово съобщение';
+
+  @override
   String get timestampPickerTitle => 'Вмъкване на клеймо за време';
 
   @override
