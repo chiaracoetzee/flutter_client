@@ -46,6 +46,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
@@ -750,6 +751,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ref.watch(physicalKeyboardConnectedProvider);
     }
     ref
+      ..listen<MobileKeyboardMetricsState>(mobileKeyboardMetricsProvider, (
+        _,
+        _,
+      ) {
+        _keyboardSession.onKeyboardMetricsChanged();
+      })
       ..listen<String>(
         chatViewModelProvider.select((state) => state.messageText),
         (_, String _) => _textSession.syncFromViewModelIfNeeded(),

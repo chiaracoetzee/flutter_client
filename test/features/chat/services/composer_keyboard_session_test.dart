@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/services/composer_keyboard_session.dart';
 import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 
@@ -48,4 +49,65 @@ void main() {
     expect(isActiveReadOnlyReconnect(), isFalse);
     session.dispose();
   });
+
+  testWidgets(
+    'composer tap skips readOnly reconnect when keyboard metrics show open',
+    (tester) async {
+      final FocusNode focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+      late ComposerKeyboardSession session;
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            mobileKeyboardMetricsProvider.overrideWith(
+              _OpenKeyboardMetrics.new,
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? _) {
+                  session = ComposerKeyboardSession(
+                    ref: ref,
+                    focusNode: focusNode,
+                    isMounted: () => true,
+                    isMobileLayout: () => true,
+                    isSlashSessionActive: () => false,
+                    composerEntryFocused: () => focusNode.hasFocus,
+                    requestRebuild: () {},
+                  );
+                  return TextField(focusNode: focusNode);
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      focusNode.requestFocus();
+      await tester.pumpAndSettle();
+
+      session.onComposerFieldTap(tester.element(find.byType(TextField)));
+      await tester.pump();
+
+      expect(session.reconnectReadOnly, isFalse);
+      expect(isActiveReadOnlyReconnect(), isFalse);
+      session.dispose();
+    },
+  );
+}
+
+class _OpenKeyboardMetrics extends MobileKeyboardMetrics {
+  @override
+  MobileKeyboardMetricsState build() {
+    return const MobileKeyboardMetricsState(
+      liveKeyboardHeight: 320,
+      isKeyboardVisible: true,
+      safeAreaBottom: 0,
+      fallbackKeyboardHeight: 300,
+      isPortrait: true,
+      unmeasuredKeyboardReserved: true,
+    );
+  }
 }

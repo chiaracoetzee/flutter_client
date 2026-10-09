@@ -46,6 +46,13 @@ void _showKeyboard(FocusNode node) {
 
 /// Reopens the IME for [node]. On mobile, a brief read-only toggle recreates the
 /// TextInputConnection without dismissing the keyboard. Elsewhere, focus cycles.
+void nudgeComposerKeyboardOpen(FocusNode node) {
+  if (!node.canRequestFocus || !node.hasFocus) {
+    return;
+  }
+  _showKeyboard(node);
+}
+
 void reconnectComposerKeyboard(
   FocusNode node, {
   void Function({required bool readOnly})? toggleReadOnly,

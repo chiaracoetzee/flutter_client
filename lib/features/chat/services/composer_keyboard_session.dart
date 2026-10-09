@@ -146,6 +146,10 @@ class ComposerKeyboardSession {
       return;
     }
     if (_focusNode.hasFocus && resolvedKeyboardInsetBottom(context) <= 0) {
+      if (_keyboardMetricsIndicateOpen()) {
+        nudgeComposerKeyboardOpen(_focusNode);
+        return;
+      }
       _keyboardState = ComposerKeyboardState.imeReconnecting;
       _keyboardRestore.reconnectOpenField();
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -154,6 +158,24 @@ class ComposerKeyboardSession {
         }
       });
     }
+  }
+
+  void onKeyboardMetricsChanged() {
+    if (!_isMounted() || !_focusNode.hasFocus) {
+      return;
+    }
+    if (_reconnectReadOnly && !isActiveReadOnlyReconnect()) {
+      _setReconnectReadOnly(readOnly: false);
+    }
+  }
+
+  bool _keyboardMetricsIndicateOpen() {
+    final MobileKeyboardMetricsState metrics = _ref.read(
+      mobileKeyboardMetricsProvider,
+    );
+    return metrics.isKeyboardVisible ||
+        metrics.unmeasuredKeyboardReserved ||
+        metrics.liveKeyboardHeight > 0;
   }
 
   void closePanelsAndFocusComposer() {
