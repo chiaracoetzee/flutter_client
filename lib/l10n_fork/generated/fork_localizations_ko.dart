@@ -270,6 +270,9 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get chatInsertTimestamp => '타임스탬프 삽입';
 
   @override
+  String get chatAttachmentSendVoiceMessage => '음성 메시지 보내기';
+
+  @override
   String get timestampPickerTitle => '타임스탬프 삽입';
 
   @override

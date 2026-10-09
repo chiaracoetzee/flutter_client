@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Akhiran tag persona harus 32 karakter atau kurang",
     "personaTagCollisionError": "Tag '{tag}' sudah digunakan oleh '{name}'.",
     "chatInsertTimestamp": "Sisipkan stempel waktu",
+    "chatAttachmentSendVoiceMessage": "Kirim pesan suara",
     "timestampPickerTitle": "Sisipkan stempel waktu",
     "timestampPickerInsert": "Sisipkan",
     "timestampCopied": "Stempel waktu disalin",

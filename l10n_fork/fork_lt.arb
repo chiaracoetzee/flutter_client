@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Personos žymos galūnė negali viršyti 32 simbolių",
     "personaTagCollisionError": "Žymą „{tag}“ jau naudoja „{name}“.",
     "chatInsertTimestamp": "Įterpti laiko žymą",
+    "chatAttachmentSendVoiceMessage": "Siųsti balso žinutę",
     "timestampPickerTitle": "Įterpti laiko žymą",
     "timestampPickerInsert": "Įterpti",
     "timestampCopied": "Laiko žyma nukopijuota",
