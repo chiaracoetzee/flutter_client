@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/services/composer_keyboard_session.dart';
-import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 
 void main() {
-  testWidgets('cancelReadOnlyReconnect clears reconnect readOnly flag', (
-    tester,
-  ) async {
+  testWidgets('cancelImeReconnect ends ime reconnect state', (tester) async {
     final FocusNode focusNode = FocusNode();
     addTearDown(focusNode.dispose);
     late ComposerKeyboardSession session;
@@ -26,7 +25,6 @@ void main() {
                   isMobileLayout: () => true,
                   isSlashSessionActive: () => false,
                   composerEntryFocused: () => focusNode.hasFocus,
-                  requestRebuild: () {},
                 );
                 return TextField(focusNode: focusNode);
               },
@@ -41,17 +39,63 @@ void main() {
 
     session.reconnectOpenField();
     await tester.pump();
-    expect(session.reconnectReadOnly, isTrue);
     expect(session.keyboardState, ComposerKeyboardState.imeReconnecting);
 
-    session.cancelReadOnlyReconnect();
-    expect(session.reconnectReadOnly, isFalse);
-    expect(isActiveReadOnlyReconnect(), isFalse);
+    session.cancelImeReconnect();
+    expect(session.keyboardState, isNot(ComposerKeyboardState.imeReconnecting));
+    session.dispose();
+  });
+
+  testWidgets('onChannelChanged resets bottom slot transition state', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    late ComposerKeyboardSession session;
+    late WidgetRef widgetRef;
+
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(
+            body: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? _) {
+                widgetRef = ref;
+                session = ComposerKeyboardSession(
+                  ref: ref,
+                  focusNode: focusNode,
+                  isMounted: () => true,
+                  isMobileLayout: () => true,
+                  isSlashSessionActive: () => false,
+                  composerEntryFocused: () => focusNode.hasFocus,
+                );
+                return TextField(focusNode: focusNode);
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    widgetRef
+        .read(bottomInputSlotProvider.notifier)
+        .beginKeyboardTransition(280);
+    expect(
+      widgetRef.read(bottomInputSlotProvider).transition,
+      BottomInputTransition.lockingToKeyboard,
+    );
+
+    session.onChannelChanged();
+    expect(
+      widgetRef.read(bottomInputSlotProvider).transition,
+      BottomInputTransition.idle,
+    );
     session.dispose();
   });
 
   testWidgets(
-    'composer tap skips readOnly reconnect when keyboard metrics show open',
+    'composer tap nudges keyboard when metrics show open but insets are zero',
     (tester) async {
       final FocusNode focusNode = FocusNode();
       addTearDown(focusNode.dispose);
@@ -75,7 +119,6 @@ void main() {
                     isMobileLayout: () => true,
                     isSlashSessionActive: () => false,
                     composerEntryFocused: () => focusNode.hasFocus,
-                    requestRebuild: () {},
                   );
                   return TextField(focusNode: focusNode);
                 },
@@ -91,8 +134,10 @@ void main() {
       session.onComposerFieldTap(tester.element(find.byType(TextField)));
       await tester.pump();
 
-      expect(session.reconnectReadOnly, isFalse);
-      expect(isActiveReadOnlyReconnect(), isFalse);
+      expect(
+        session.keyboardState,
+        isNot(ComposerKeyboardState.imeReconnecting),
+      );
       session.dispose();
     },
   );

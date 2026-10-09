@@ -93,7 +93,7 @@ dependencies:
   sensors_plus: ^7.1.0
   shared_preferences: ^2.5.5
   skeletonizer: ^3.0.0
-  smart_keyboard_insets: ^0.2.0
+  smart_keyboard_insets: ^0.3.0
   sqlite3: ^3.5.2
   super_clipboard: ^0.9.1
   talker: ^5.1.20

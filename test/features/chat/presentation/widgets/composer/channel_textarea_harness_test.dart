@@ -58,7 +58,6 @@ class _ComposerInputFieldHarnessState
       minLines: 1,
       maxLines: 6,
       enterSends: false,
-      reconnectReadOnly: false,
       showComposerCounter: widget.showCounter,
       sendableWireLength: 0,
       hintSemanticsLabel: 'Message',

@@ -2420,10 +2420,10 @@ packages:
     dependency: "direct main"
     description:
       name: smart_keyboard_insets
-      sha256: e2329ce99574996ea6957a97547d13a534dbc2cda292adcdab419d901b9e5fe4
+      sha256: d8f3771c6eeab0c2d0eb9a7bdb16752a2bcdaff8d5bc74e8471537701d248069
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0"
   source_gen:
     dependency: transitive
     description:

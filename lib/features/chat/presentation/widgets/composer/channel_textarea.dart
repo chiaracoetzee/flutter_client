@@ -398,11 +398,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       isMobileLayout: () => isMobileLayout(context),
       isSlashSessionActive: () => _slashSession.isActive,
       composerEntryFocused: _composerEntryFocused,
-      requestRebuild: () {
-        if (mounted) {
-          setState(() {});
-        }
-      },
     );
     _focusNode.onKeyEvent = _handleComposerFieldKeyEvent;
     _composerFocused = _focusNode.hasFocus;
@@ -457,6 +452,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   void _onComposerChannelChanged() {
     _keyboardSession.onChannelChanged();
     _textSession.onChannelChanged();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _keyboardSession.resyncViewInsetsFromContext(context);
+    });
   }
 
   void _onSlashSessionChanged() {
@@ -729,7 +730,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         minLines: minLines,
         maxLines: maxLines,
         enterSends: _enterSends,
-        reconnectReadOnly: _keyboardSession.reconnectReadOnly,
         showComposerCounter: _showComposerCounter,
         sendableWireLength: _composerContentLength(_sendableWireText()),
         hintSemanticsLabel: _resolveHintText(),
@@ -757,6 +757,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ) {
         _keyboardSession.onKeyboardMetricsChanged();
       })
+      ..listen<int>(
+        chatViewModelProvider.select(
+          (ChatViewState state) => state.messages.length,
+        ),
+        (int? previous, int next) {
+          if (previous != null && next > previous && _focusNode.hasFocus) {
+            _keyboardSession.onComposerLayoutChurn();
+          }
+        },
+      )
       ..listen<String>(
         chatViewModelProvider.select((state) => state.messageText),
         (_, String _) => _textSession.syncFromViewModelIfNeeded(),

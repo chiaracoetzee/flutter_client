@@ -109,6 +109,7 @@ bool shouldClearUnmeasuredKeyboardReservation({
   required double previousLiveHeight,
   required double mergedHeight,
   required bool hadKeyboardInsetWhileReserved,
+  bool composerEntryFocused = false,
 }) {
   if (!unmeasuredKeyboardReserved) {
     return false;
@@ -117,7 +118,10 @@ bool shouldClearUnmeasuredKeyboardReservation({
     return true;
   }
   if (previousLiveHeight > 0 && mergedHeight <= 0) {
-    return true;
+    return !composerEntryFocused;
+  }
+  if (composerEntryFocused) {
+    return false;
   }
   return hadKeyboardInsetWhileReserved && mergedHeight <= 0;
 }

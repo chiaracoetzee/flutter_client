@@ -10,22 +10,15 @@ void main() {
   });
 
   test('persist and read breadcrumb', () async {
-    await persistComposerKeyboardBreadcrumb(
-      keyboardState: 'keyboardOpen',
-      reconnectReadOnly: false,
-    );
+    await persistComposerKeyboardBreadcrumb(keyboardState: 'keyboardOpen');
     final Map<String, String>? snapshot =
         await readComposerKeyboardBreadcrumb();
     expect(snapshot?['composer.keyboard.state'], 'keyboardOpen');
-    expect(snapshot?['composer.keyboard.read_only'], 'false');
     expect(snapshot?['composer.keyboard.at_ms'], isNotNull);
   });
 
   test('clear removes stored breadcrumb', () async {
-    await persistComposerKeyboardBreadcrumb(
-      keyboardState: 'imeReconnecting',
-      reconnectReadOnly: true,
-    );
+    await persistComposerKeyboardBreadcrumb(keyboardState: 'imeReconnecting');
     await clearComposerKeyboardBreadcrumb();
     expect(await readComposerKeyboardBreadcrumb(), isNull);
   });

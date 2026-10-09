@@ -169,6 +169,15 @@ class BottomInputSlot extends _$BottomInputSlot {
     state = _resolveState();
   }
 
+  void resetAfterChannelChange() {
+    _transitionTimeout?.cancel();
+    _heldSlotHeightOverride = null;
+    state = _resolveState(
+      transition: BottomInputTransition.idle,
+      lockedHeight: 0,
+    );
+  }
+
   void settlePanelHeight(double height) {
     final MobileKeyboardMetricsState metrics = ref.read(
       mobileKeyboardMetricsProvider,

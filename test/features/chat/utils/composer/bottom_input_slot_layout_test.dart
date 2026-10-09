@@ -151,6 +151,22 @@ void main() {
     });
 
     test(
+      'keeps reservation when composer stays focused during inset flicker',
+      () {
+        expect(
+          shouldClearUnmeasuredKeyboardReservation(
+            unmeasuredKeyboardReserved: true,
+            previousLiveHeight: 302,
+            mergedHeight: 0,
+            hadKeyboardInsetWhileReserved: true,
+            composerEntryFocused: true,
+          ),
+          isFalse,
+        );
+      },
+    );
+
+    test(
       'clears when inset was seen then keyboard hides without live height',
       () {
         expect(

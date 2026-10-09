@@ -32,7 +32,6 @@ class ComposerInputField extends ConsumerWidget {
     required this.minLines,
     required this.maxLines,
     required this.enterSends,
-    required this.reconnectReadOnly,
     required this.showComposerCounter,
     required this.sendableWireLength,
     required this.hintSemanticsLabel,
@@ -59,7 +58,6 @@ class ComposerInputField extends ConsumerWidget {
   final int minLines;
   final int maxLines;
   final bool enterSends;
-  final bool reconnectReadOnly;
   final ValueNotifier<bool> showComposerCounter;
   final int sendableWireLength;
   final String hintSemanticsLabel;
@@ -133,7 +131,6 @@ class ComposerInputField extends ConsumerWidget {
                                     controller: controller,
                                     focusNode: fieldFocusNode,
                                     scrollController: composerScrollController,
-                                    readOnly: reconnectReadOnly,
                                     enabled: perms.isComposerEnabled,
                                     style: context.textStyles.inputText,
                                     strutStyle: boundedStrutFor(
