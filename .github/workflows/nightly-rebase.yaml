@@ -29,6 +29,11 @@ on:
         required: false
         default: false
         type: boolean
+      smoke:
+        description: 'Smoke run: skip the baseline gate, rebase and update submodules, then stop before the test gate. Runs even if 0 commits behind. Never pushes.'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -111,6 +116,9 @@ jobs:
           fi
           if [ "${{ inputs.force_tests }}" = "true" ] || [ "${{ inputs.force_test_agent }}" = "true" ]; then
             FLAGS="$FLAGS --force-tests"
+          fi
+          if [ "${{ inputs.smoke }}" = "true" ]; then
+            FLAGS="$FLAGS --force-tests --skip-baseline --stop-after-codegen"
           fi
           python /tmp/rebase_tools/rebase/rebase_orchestrator.py --profile flutter --time-budget-minutes 140 $FLAGS
 
