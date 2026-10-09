@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Sufiks oznake persone mora imati najviše 32 znaka",
     "personaTagCollisionError": "Oznaku '{tag}' već koristi '{name}'.",
     "chatInsertTimestamp": "Umetni vremensku oznaku",
+    "chatAttachmentSendVoiceMessage": "Pošalji glasovnu poruku",
     "timestampPickerTitle": "Umetni vremensku oznaku",
     "timestampPickerInsert": "Umetni",
     "timestampCopied": "Vremenska oznaka kopirana",

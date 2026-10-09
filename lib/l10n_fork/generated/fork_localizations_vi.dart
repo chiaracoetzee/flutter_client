@@ -277,6 +277,9 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get chatInsertTimestamp => 'Chèn dấu thời gian';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Gửi tin nhắn thoại';
+
+  @override
   String get timestampPickerTitle => 'Chèn dấu thời gian';
 
   @override

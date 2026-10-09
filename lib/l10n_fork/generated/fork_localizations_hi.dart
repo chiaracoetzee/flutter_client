@@ -277,6 +277,9 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get chatInsertTimestamp => 'समय टिकट डालें';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'वॉइस मैसेज भेजें';
+
+  @override
   String get timestampPickerTitle => 'समय टिकट डालें';
 
   @override

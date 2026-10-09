@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Přípona tagu persony musí mít maximálně 32 znaků",
     "personaTagCollisionError": "Tag '{tag}' již používá '{name}'.",
     "chatInsertTimestamp": "Vložit časové razítko",
+    "chatAttachmentSendVoiceMessage": "Odeslat hlasovou zprávu",
     "timestampPickerTitle": "Vložit časové razítko",
     "timestampPickerInsert": "Vložit",
     "timestampCopied": "Časové razítko zkopírováno",

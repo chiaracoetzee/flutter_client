@@ -278,6 +278,9 @@ class ForkLocalizationsDe extends ForkLocalizations {
   String get chatInsertTimestamp => 'Zeitstempel einfügen';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Sprachnachricht senden';
+
+  @override
   String get timestampPickerTitle => 'Zeitstempel einfügen';
 
   @override

@@ -277,6 +277,9 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String get chatInsertTimestamp => 'Infoga tidsstämpel';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Skicka röstmeddelande';
+
+  @override
   String get timestampPickerTitle => 'Infoga tidsstämpel';
 
   @override

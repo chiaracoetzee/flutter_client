@@ -278,6 +278,9 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get chatInsertTimestamp => 'Időbélyegző beszúrása';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Hangüzenet küldése';
+
+  @override
   String get timestampPickerTitle => 'Időbélyegző beszúrása';
 
   @override
