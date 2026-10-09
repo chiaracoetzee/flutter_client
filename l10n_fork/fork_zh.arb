@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "人格标签后缀不能超过 32 个字符",
     "personaTagCollisionError": "标签“{tag}”已被“{name}”使用。",
     "chatInsertTimestamp": "插入时间戳",
+    "chatAttachmentSendVoiceMessage": "发送语音消息",
     "timestampPickerTitle": "插入时间戳",
     "timestampPickerInsert": "插入",
     "timestampCopied": "时间戳已复制",

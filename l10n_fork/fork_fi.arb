@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Persoonatunnisteen jälkiliite saa olla enintään 32 merkkiä",
     "personaTagCollisionError": "Tunniste '{tag}' on jo käytössä persoonalla '{name}'.",
     "chatInsertTimestamp": "Lisää aikaleima",
+    "chatAttachmentSendVoiceMessage": "Lähetä ääniviesti",
     "timestampPickerTitle": "Lisää aikaleima",
     "timestampPickerInsert": "Lisää",
     "timestampCopied": "Aikaleima kopioitu",

@@ -270,6 +270,9 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get chatInsertTimestamp => 'タイムスタンプを挿入';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'ボイスメッセージを送信';
+
+  @override
   String get timestampPickerTitle => 'タイムスタンプを挿入';
 
   @override
