@@ -18,12 +18,10 @@ void main() {
       RecentChannelVisit(
         channelId: 'ch-1',
         guildId: 'g-1',
-        visitedAt: DateTime(2026, 1, 1),
       ),
       RecentChannelVisit(
         channelId: 'ch-2',
         guildId: 'g-1',
-        visitedAt: DateTime(2026, 1, 2),
       ),
     ];
     SharedPreferences.setMockInitialValues({
@@ -54,7 +52,6 @@ void main() {
         RecentChannelVisit(
           channelId: 'older-ch',
           guildId: 'g-1',
-          visitedAt: DateTime(2026, 1, 1),
         ),
       ];
       SharedPreferences.setMockInitialValues({
