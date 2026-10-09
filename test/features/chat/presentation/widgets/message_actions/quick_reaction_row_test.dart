@@ -30,57 +30,57 @@ void main() {
     );
   }
 
-  testWidgets('renders animated and static custom emojis with correct properties', (
-    tester,
-  ) async {
-    final items = [
-      const UnicodeQuickReaction('👍'),
-      CustomQuickReaction(
-        GuildEmojiEntry(
-          id: 'custom_animated',
-          name: 'blobwave',
-          animated: true,
-          guildId: 'g1',
+  testWidgets(
+    'renders animated and static custom emojis with correct properties',
+    (tester) async {
+      final items = [
+        const UnicodeQuickReaction('👍'),
+        CustomQuickReaction(
+          GuildEmojiEntry(
+            id: 'custom_animated',
+            name: 'blobwave',
+            animated: true,
+            guildId: 'g1',
+          ),
         ),
-      ),
-      CustomQuickReaction(
-        GuildEmojiEntry(
-          id: 'custom_static',
-          name: 'pepe',
-          animated: false,
-          guildId: 'g1',
+        CustomQuickReaction(
+          GuildEmojiEntry(
+            id: 'custom_static',
+            name: 'pepe',
+            animated: false,
+            guildId: 'g1',
+          ),
         ),
-      ),
-    ];
+      ];
 
-    await tester.pumpWidget(
-      buildApp(
-        QuickReactionRow(
-          items: items,
-          onReaction: (_) {},
-        ),
-      ),
-    );
-    await tester.pump();
+      await tester.pumpWidget(
+        buildApp(QuickReactionRow(items: items, onReaction: (_) {})),
+      );
+      await tester.pump();
 
-    expect(find.byType(UnicodeEmojiWidget), findsOneWidget);
-    final emojiWidgets = tester.widgetList<CachedEmojiImage>(find.byType(CachedEmojiImage)).toList();
-    expect(emojiWidgets, hasLength(2));
+      expect(find.byType(UnicodeEmojiWidget), findsOneWidget);
+      final emojiWidgets = tester
+          .widgetList<CachedEmojiImage>(find.byType(CachedEmojiImage))
+          .toList();
+      expect(emojiWidgets, hasLength(2));
 
-    final animatedEmoji = emojiWidgets.firstWhere((w) => w.emojiId == 'custom_animated');
-    expect(animatedEmoji.animated, isTrue);
-    expect(animatedEmoji.pauseWhenOffscreen, isFalse);
+      final animatedEmoji = emojiWidgets.firstWhere(
+        (w) => w.emojiId == 'custom_animated',
+      );
+      expect(animatedEmoji.animated, isTrue);
+      expect(animatedEmoji.pauseWhenOffscreen, isFalse);
 
-    final staticEmoji = emojiWidgets.firstWhere((w) => w.emojiId == 'custom_static');
-    expect(staticEmoji.animated, isFalse);
-    expect(staticEmoji.pauseWhenOffscreen, isFalse);
-  });
+      final staticEmoji = emojiWidgets.firstWhere(
+        (w) => w.emojiId == 'custom_static',
+      );
+      expect(staticEmoji.animated, isFalse);
+      expect(staticEmoji.pauseWhenOffscreen, isFalse);
+    },
+  );
 
   testWidgets('triggers onLongPressReaction on long press', (tester) async {
     QuickReactionItem? longPressedItem;
-    final items = [
-      const UnicodeQuickReaction('👍'),
-    ];
+    final items = [const UnicodeQuickReaction('👍')];
 
     await tester.pumpWidget(
       buildApp(
@@ -93,7 +93,11 @@ void main() {
     );
     await tester.pump();
 
-    await tester.longPress(find.byType(UnicodeEmojiWidget));
+    // The glyph no longer takes pointer events itself; the press lands on the button around it.
+    await tester.longPress(
+      find.byType(UnicodeEmojiWidget),
+      warnIfMissed: false,
+    );
     await tester.pumpAndSettle();
 
     expect(longPressedItem, isA<UnicodeQuickReaction>());
