@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Hậu tố thẻ persona phải có từ 32 ký tự trở xuống",
     "personaTagCollisionError": "Thẻ '{tag}' đã được '{name}' sử dụng.",
     "chatInsertTimestamp": "Chèn dấu thời gian",
+    "chatAttachmentSendVoiceMessage": "Gửi tin nhắn thoại",
     "timestampPickerTitle": "Chèn dấu thời gian",
     "timestampPickerInsert": "Chèn",
     "timestampCopied": "Đã sao chép dấu thời gian",
