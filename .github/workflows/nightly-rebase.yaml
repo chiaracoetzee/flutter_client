@@ -37,7 +37,7 @@ permissions:
 jobs:
   nightly-rebase:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 150
 
     steps:
       - name: Checkout features/subprofiles-mobile
@@ -112,7 +112,7 @@ jobs:
           if [ "${{ inputs.force_tests }}" = "true" ] || [ "${{ inputs.force_test_agent }}" = "true" ]; then
             FLAGS="$FLAGS --force-tests"
           fi
-          python /tmp/rebase_tools/rebase/rebase_orchestrator.py --profile flutter --time-budget-minutes 80 $FLAGS
+          python /tmp/rebase_tools/rebase/rebase_orchestrator.py --profile flutter --time-budget-minutes 140 $FLAGS
 
       - name: Upload AI Agent Logs & Artifacts
         if: always()
