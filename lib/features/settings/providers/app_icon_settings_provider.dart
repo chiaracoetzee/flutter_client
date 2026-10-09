@@ -1,4 +1,5 @@
 import 'package:dynamic_app_icon_flutter_plus/dynamic_app_icon_flutter_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/features/settings/domain/app_icon_catalog.dart';
@@ -79,6 +80,7 @@ class AppIconSettings extends _$AppIconSettings {
     try {
       await DynamicAppIconFlutterPlus.setAlternateIconName(
         choice.alternateIconName,
+        deferUntilBackground: defaultTargetPlatform == TargetPlatform.android,
       );
     } on PlatformException {
       return;

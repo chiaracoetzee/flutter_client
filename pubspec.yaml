@@ -160,6 +160,7 @@ flutter:
     - assets/images/connections/
     - assets/images/browsers/
     - assets/images/app_icon_previews/ios/
+    - assets/images/app_icon_previews/android/
     - assets/emojis.json
     - assets/emoji-sprites/
 

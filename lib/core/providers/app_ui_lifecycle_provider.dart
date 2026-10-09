@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dynamic_app_icon_flutter_plus/dynamic_app_icon_flutter_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
@@ -96,6 +97,9 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
         state == AppLifecycleState.hidden) {
       clearFluxerImageCache();
       unawaited(MediaKitPlayerLifecycleCoordinator.instance.pauseAll());
+      if (Platform.isAndroid) {
+        unawaited(DynamicAppIconFlutterPlus.applyPendingIcon());
+      }
     }
     final bool wasForeground = ref.read(appUiForegroundProvider);
     final bool isForeground = isAppUiForegroundLifecycle(state);
