@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Il suffisso del tag della persona deve contenere massimo 32 caratteri",
     "personaTagCollisionError": "Il tag '{tag}' è già utilizzato da '{name}'.",
     "chatInsertTimestamp": "Inserisci timestamp",
+    "chatAttachmentSendVoiceMessage": "Invia messaggio vocale",
     "timestampPickerTitle": "Inserisci timestamp",
     "timestampPickerInsert": "Inserisci",
     "timestampCopied": "Timestamp copiato",
