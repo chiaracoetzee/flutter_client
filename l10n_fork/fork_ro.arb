@@ -70,6 +70,7 @@
     "personaTagSuffixTooLong": "Sufixul etichetei personei trebuie să aibă maximum 32 de caractere",
     "personaTagCollisionError": "Eticheta '{tag}' este deja folosită de '{name}'.",
     "chatInsertTimestamp": "Inserează marcaj de timp",
+    "chatAttachmentSendVoiceMessage": "Trimite mesaj vocal",
     "timestampPickerTitle": "Inserează marcaj de timp",
     "timestampPickerInsert": "Inserează",
     "timestampCopied": "Marcaj de timp copiat",

@@ -47,7 +47,7 @@ Future<ComposerAttachSource?> showComposerAttachSourceMenu(
         ),
         if (showVoice)
           FluxerMenuItem(
-            label: l10n.chatAttachmentSendVoiceMessage,
+            label: l10n.fork.chatAttachmentSendVoiceMessage,
             icon: PhosphorIconsFill.microphone,
             onPressed: () {
               selected = ComposerAttachSource.voice;

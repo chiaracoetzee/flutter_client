@@ -279,6 +279,9 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String get chatInsertTimestamp => 'Вставить метку времени';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Отправить голосовое сообщение';
+
+  @override
   String get timestampPickerTitle => 'Вставить метку времени';
 
   @override

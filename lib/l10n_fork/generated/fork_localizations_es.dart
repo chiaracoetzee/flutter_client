@@ -281,6 +281,9 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String get chatInsertTimestamp => 'Insertar marca de tiempo';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'Enviar mensaje de voz';
+
+  @override
   String get timestampPickerTitle => 'Insertar marca de tiempo';
 
   @override
@@ -662,6 +665,9 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get chatInsertTimestamp => 'Insertar marca de tiempo';
+
+  @override
+  String get chatAttachmentSendVoiceMessage => 'Enviar mensaje de voz';
 
   @override
   String get timestampPickerTitle => 'Insertar marca de tiempo';
