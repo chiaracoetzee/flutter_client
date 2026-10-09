@@ -450,6 +450,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _onComposerChannelChanged() {
+    final bool restoreKeyboardFocus = _focusNode.hasFocus;
+    if (restoreKeyboardFocus) {
+      _focusNode.unfocus();
+    }
     _keyboardSession.onChannelChanged();
     _textSession.onChannelChanged();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -457,7 +461,30 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         return;
       }
       _keyboardSession.resyncViewInsetsFromContext(context);
+      if (restoreKeyboardFocus && _focusNode.canRequestFocus) {
+        _focusNode.requestFocus();
+      }
     });
+  }
+
+  void _dropComposerFocusWhileChatWindowCatchesUp() {
+    _keyboardSession.cancelImeReconnect();
+    if (_focusNode.hasFocus) {
+      _focusNode.unfocus();
+    }
+  }
+
+  String _composerDisplayChannelId() {
+    final String vmChannelId = ref.read(
+      chatViewModelProvider.select((ChatViewState state) => state.channelId),
+    );
+    final String? routeChannelId = ref.read(activeChannelIdProvider);
+    if (routeChannelId != null &&
+        routeChannelId.isNotEmpty &&
+        routeChannelId != vmChannelId) {
+      return routeChannelId;
+    }
+    return vmChannelId;
   }
 
   void _onSlashSessionChanged() {
@@ -875,6 +902,22 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           _clearComposerForBlockedAccess();
         }
       })
+      ..listen<String?>(activeChannelIdProvider, (
+        String? previous,
+        String? next,
+      ) {
+        if (!mounted || next == null || next.isEmpty) {
+          return;
+        }
+        final String vmChannelId = ref.read(
+          chatViewModelProvider.select(
+            (ChatViewState state) => state.channelId,
+          ),
+        );
+        if (vmChannelId != next) {
+          _dropComposerFocusWhileChatWindowCatchesUp();
+        }
+      })
       ..listen<String>(
         chatViewModelProvider.select((ChatViewState state) => state.channelId),
         (String? previous, String next) {
@@ -1198,9 +1241,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (isEditing) {
       return l10n.chatEditMessageHint;
     }
-    final channelId = ref.read(
-      chatViewModelProvider.select((s) => s.channelId),
-    );
+    final String channelId = _composerDisplayChannelId();
     final Channel? channel = resolveGuildChannel(ref, channelId);
     if (channel != null) {
       return l10n.channelComposerHint(channel.name);
