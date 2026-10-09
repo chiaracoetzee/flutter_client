@@ -563,7 +563,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (_composerFocused != focused) {
       setState(() => _composerFocused = focused);
     }
-    _keyboardSession.handleFocusChange(focused);
+    _keyboardSession.handleFocusChange(focused: focused);
   }
 
   bool _composerEntryFocused() {
@@ -2222,10 +2222,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   void _closeComposerPanelsAndFocusComposer() {
     _keyboardSession.closePanelsAndFocusComposer();
-  }
-
-  void _beginComposerPanelToKeyboardTransition() {
-    _keyboardSession.beginPanelToKeyboardTransition();
   }
 
   void _prepareComposerPanelFromKeyboard() {

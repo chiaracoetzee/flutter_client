@@ -110,7 +110,7 @@ class ComposerKeyboardSession {
     }
   }
 
-  void handleFocusChange(bool focused) {
+  void handleFocusChange({required bool focused}) {
     if (focused) {
       maybeReserveUnmeasuredKeyboard();
       WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -17,7 +17,6 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:protobuf/protobuf.dart' as $pb;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'synced_preferences_store.g.dart';
@@ -705,15 +704,6 @@ class SyncedPreferencesStore {
     required pb.SyncedPreferences wire,
   }) {
     return adapter.encodePushValueBytes(local);
-  }
-
-  $pb.GeneratedMessage _buildProtoForPush(
-    SyncedFieldAdapter<Object?> adapter,
-    Object? local, {
-    required pb.SyncedPreferences wire,
-  }) {
-    final wireSubMessage = adapter.readWireSubMessage(wire);
-    return adapter.toProtoMessageForPush(local, wireSubMessage: wireSubMessage);
   }
 
   pb.SyncedPreferences _applyAdapterToProto(

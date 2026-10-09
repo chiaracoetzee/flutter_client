@@ -20,7 +20,9 @@ Future<void> persistComposerKeyboardBreadcrumb({
       kComposerKeyboardAtKey,
       DateTime.now().millisecondsSinceEpoch,
     );
-  } on Object {}
+  } on Object {
+    // Throw error
+  }
 }
 
 Future<Map<String, String>?> readComposerKeyboardBreadcrumb() async {
@@ -54,5 +56,7 @@ Future<void> clearComposerKeyboardBreadcrumb() async {
     await prefs.remove(kComposerKeyboardStateKey);
     await prefs.remove(kComposerKeyboardReadOnlyKey);
     await prefs.remove(kComposerKeyboardAtKey);
-  } on Object {}
+  } on Object {
+    // Throw error
+  }
 }

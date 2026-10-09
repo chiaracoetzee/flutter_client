@@ -115,10 +115,10 @@ List<Override> composerChannelTextareaOverrides({
     maxMessageLengthProvider.overrideWithValue(2000),
     channelMessagePermissionsProvider(
       kComposerHarnessChannelA,
-    ).overrideWith((ref) async => ChannelMessagePermissions.all),
+    ).overrideWith((ref) => ChannelMessagePermissions.all),
     channelMessagePermissionsProvider(
       kComposerHarnessChannelB,
-    ).overrideWith((ref) async => ChannelMessagePermissions.all),
+    ).overrideWith((ref) => ChannelMessagePermissions.all),
   ];
 }
 
