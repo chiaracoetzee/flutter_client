@@ -275,6 +275,9 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get chatInsertTimestamp => 'إدراج طابع زمني';
 
   @override
+  String get chatAttachmentSendVoiceMessage => 'إرسال رسالة صوتية';
+
+  @override
   String get timestampPickerTitle => 'إدراج طابع زمني';
 
   @override
