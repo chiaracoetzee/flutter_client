@@ -9592,6 +9592,24 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get appIconOptionSweden => '스웨덴';
 
   @override
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+
+  @override
   String get appIconUnsupported => '이 기기에서는 앱 아이콘을 변경할 수 없습니다.';
 
   @override

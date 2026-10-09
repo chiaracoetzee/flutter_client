@@ -9599,6 +9599,24 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get appIconOptionSweden => 'スウェーデン';
 
   @override
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+
+  @override
   String get appIconUnsupported => 'このデバイスではアプリアイコンの変更はできません。';
 
   @override

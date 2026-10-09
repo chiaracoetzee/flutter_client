@@ -10125,6 +10125,24 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get appIconOptionSweden => 'Σουηδία';
 
   @override
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+
+  @override
   String get appIconUnsupported =>
       'Η αλλαγή του εικονιδίου της εφαρμογής δεν είναι διαθέσιμη σε αυτήν τη συσκευή.';
 

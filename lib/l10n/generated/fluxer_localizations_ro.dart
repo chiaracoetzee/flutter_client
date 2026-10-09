@@ -10074,6 +10074,24 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get appIconOptionSweden => 'Suedia';
 
   @override
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+
+  @override
   String get appIconUnsupported =>
       'Schimbarea pictogramei aplicației nu este disponibilă pe acest dispozitiv.';
 

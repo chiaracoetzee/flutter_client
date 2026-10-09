@@ -12265,6 +12265,30 @@
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
     },
+    "appIconOptionGreyscale": "Greyscale",
+    "@appIconOptionGreyscale": {
+        "description": "App icon option for the greyscale alternate icon."
+    },
+    "appIconOptionRainbow": "Rainbow",
+    "@appIconOptionRainbow": {
+        "description": "App icon option for the rainbow alternate icon."
+    },
+    "appIconOptionWaves": "Waves",
+    "@appIconOptionWaves": {
+        "description": "App icon option for the waves alternate icon."
+    },
+    "appIconOptionChromaticAberration": "Chromatic aberration",
+    "@appIconOptionChromaticAberration": {
+        "description": "App icon option for the chromatic aberration alternate icon."
+    },
+    "appIconOptionDefaultBrutalist": "Brutalist",
+    "@appIconOptionDefaultBrutalist": {
+        "description": "App icon option for the default brutalist alternate icon."
+    },
+    "appIconOptionGreyscaleBrutalist": "Greyscale brutalist",
+    "@appIconOptionGreyscaleBrutalist": {
+        "description": "App icon option for the greyscale brutalist alternate icon."
+    },
     "appIconUnsupported": "Changing the app icon is not available on this device.",
     "@appIconUnsupported": {
         "description": "Shown when alternate app icons cannot be used on the current platform."

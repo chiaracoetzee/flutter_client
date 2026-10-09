@@ -16563,6 +16563,42 @@ abstract class FluxerLocalizations {
   /// **'Sweden'**
   String get appIconOptionSweden;
 
+  /// App icon option for the greyscale alternate icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Greyscale'**
+  String get appIconOptionGreyscale;
+
+  /// App icon option for the rainbow alternate icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Rainbow'**
+  String get appIconOptionRainbow;
+
+  /// App icon option for the waves alternate icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Waves'**
+  String get appIconOptionWaves;
+
+  /// App icon option for the chromatic aberration alternate icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Chromatic aberration'**
+  String get appIconOptionChromaticAberration;
+
+  /// App icon option for the default brutalist alternate icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Brutalist'**
+  String get appIconOptionDefaultBrutalist;
+
+  /// App icon option for the greyscale brutalist alternate icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Greyscale brutalist'**
+  String get appIconOptionGreyscaleBrutalist;
+
   /// Shown when alternate app icons cannot be used on the current platform.
   ///
   /// In en, this message translates to:

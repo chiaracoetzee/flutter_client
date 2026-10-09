@@ -9930,6 +9930,24 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get appIconOptionSweden => 'สวีเดน';
 
   @override
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+
+  @override
   String get appIconUnsupported =>
       'การเปลี่ยนไอคอนแอปไม่สามารถใช้งานได้บนอุปกรณ์นี้';
 
