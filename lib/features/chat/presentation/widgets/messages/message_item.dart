@@ -56,6 +56,7 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/double_tap_action_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -682,6 +683,25 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final bool dimMessagePartsExceptAttachments =
         isSending && hasUploadingPlaceholderAttachments;
 
+    final bool canEditOwnMessage =
+        widget.onEdit != null &&
+        msg.authorId == widget.currentUserId &&
+        msg.isUserMessage &&
+        msg.messageSnapshots.isEmpty;
+    final doubleTapAction = ref
+        .watch(doubleTapActionPreferencesProvider)
+        .effectiveAction;
+    final bool doubleTapEnabled =
+        !widget.inboxPreviewMode &&
+        !isFailed &&
+        !isSending &&
+        messageDoubleTapEnabled(
+          action: doubleTapAction,
+          canAddReactions: widget.canAddReactions,
+          onReaction: widget.onReaction,
+          canEditOwnMessage: canEditOwnMessage,
+          onEdit: widget.onEdit,
+        );
     final body = FluxerGestureDetector(
       onLongPressStart: useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) {
@@ -692,13 +712,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       onSecondaryTapUp: !useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) => _showContextMenu(context, details.globalPosition)
           : null,
-      onDoubleTap:
-          !widget.inboxPreviewMode &&
-              widget.canAddReactions &&
-              widget.onReaction != null &&
-              !isFailed &&
-              !isSending
-          ? () => dispatchStoredDoubleTapReaction(ref, widget.onReaction)
+      onDoubleTap: doubleTapEnabled
+          ? () => dispatchDoubleTapMessageAction(
+              ref: ref,
+              action: doubleTapAction,
+              onReaction: widget.onReaction,
+              onEdit: canEditOwnMessage ? widget.onEdit : null,
+            )
           : null,
       child: MouseRegion(
         onEnter: (_) => _hovered.value = true,
@@ -900,11 +920,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       );
     }
-    final bool canEditOwnMessage =
-        widget.onEdit != null &&
-        msg.authorId == widget.currentUserId &&
-        msg.isUserMessage &&
-        msg.messageSnapshots.isEmpty;
     return _wrapMessageSendingDim(
       dim: dimEntireMessage,
       child: _wrapKeyboardFocus(

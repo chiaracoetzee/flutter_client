@@ -8422,6 +8422,42 @@
     "@doubleTapReactionEditSubtitle": {
         "description": "Subtitle of the double-tap default emoji picker sheet."
     },
+    "messagesMediaDoubleTapSectionTitle": "Double tap",
+    "@messagesMediaDoubleTapSectionTitle": {
+        "description": "Title for double-tap message action settings on mobile."
+    },
+    "messagesMediaDoubleTapSectionDescription": "Choose what happens when you double tap a message.",
+    "@messagesMediaDoubleTapSectionDescription": {
+        "description": "Description for double-tap message action settings on mobile."
+    },
+    "messagesMediaDoubleTapActionLabel": "Double tap action",
+    "@messagesMediaDoubleTapActionLabel": {
+        "description": "Label for the double-tap action radio group."
+    },
+    "messagesMediaDoubleTapActionReactName": "Add reaction",
+    "@messagesMediaDoubleTapActionReactName": {
+        "description": "Double tap adds the default reaction emoji."
+    },
+    "messagesMediaDoubleTapActionReactDescription": "Adds your default double-tap emoji as a reaction.",
+    "@messagesMediaDoubleTapActionReactDescription": {
+        "description": "Help text for the react double-tap action."
+    },
+    "messagesMediaDoubleTapActionEditName": "Edit message",
+    "@messagesMediaDoubleTapActionEditName": {
+        "description": "Double tap edits your own message."
+    },
+    "messagesMediaDoubleTapActionEditDescription": "Opens the editor on messages you sent. Other messages are unchanged.",
+    "@messagesMediaDoubleTapActionEditDescription": {
+        "description": "Help text for the edit double-tap action."
+    },
+    "messagesMediaDoubleTapActionNoneName": "Nothing",
+    "@messagesMediaDoubleTapActionNoneName": {
+        "description": "Double tap does nothing."
+    },
+    "messagesMediaDoubleTapActionNoneDescription": "Double tap is disabled.",
+    "@messagesMediaDoubleTapActionNoneDescription": {
+        "description": "Help text for the none double-tap action."
+    },
     "chatMessageEdit": "Edit message",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."

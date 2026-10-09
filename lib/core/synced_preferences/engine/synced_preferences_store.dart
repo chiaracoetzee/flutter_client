@@ -659,6 +659,7 @@ class SyncedPreferencesStore {
         ? SyncedPreferencesEngine.createEmpty()
         : SyncedPreferencesEngine.decodeLenient(_wireBlob);
     final fieldMessages = <int, Uint8List>{};
+    final fieldWireTypes = <int, int>{};
     for (final field in fieldsToEncode) {
       if (!_ref.mounted) {
         return '';
@@ -668,15 +669,17 @@ class SyncedPreferencesStore {
         continue;
       }
       final Object? local = await adapter.readLocalValue();
-      fieldMessages[adapter.fieldNumber] = _buildProtoForPush(
+      fieldMessages[adapter.fieldNumber] = _buildPushValueBytes(
         adapter,
         local,
         wire: wire,
-      ).writeToBuffer();
+      );
+      fieldWireTypes[adapter.fieldNumber] = adapter.fieldPushWireType;
     }
     return SyncedPreferencesWireCodec.encodeSnapshotIntoWire(
       currentWire: _wireBlob.isEmpty ? null : _wireBlob,
       fieldMessages: fieldMessages,
+      fieldWireTypes: fieldWireTypes,
     );
   }
 
@@ -691,12 +694,17 @@ class SyncedPreferencesStore {
     return SyncedPreferencesWireCodec.encodeFieldIntoWire(
       currentWire: currentWire,
       fieldNumber: adapter.fieldNumber,
-      fieldMessageBytes: _buildProtoForPush(
-        adapter,
-        local,
-        wire: wire,
-      ).writeToBuffer(),
+      fieldMessageBytes: _buildPushValueBytes(adapter, local, wire: wire),
+      fieldWireType: adapter.fieldPushWireType,
     );
+  }
+
+  Uint8List _buildPushValueBytes(
+    SyncedFieldAdapter<Object?> adapter,
+    Object? local, {
+    required pb.SyncedPreferences wire,
+  }) {
+    return adapter.encodePushValueBytes(local);
   }
 
   $pb.GeneratedMessage _buildProtoForPush(
@@ -718,11 +726,8 @@ class SyncedPreferencesStore {
       SyncedPreferencesWireCodec.encodeFieldIntoWire(
         currentWire: null,
         fieldNumber: adapter.fieldNumber,
-        fieldMessageBytes: _buildProtoForPush(
-          adapter,
-          local,
-          wire: wire,
-        ).writeToBuffer(),
+        fieldMessageBytes: _buildPushValueBytes(adapter, local, wire: wire),
+        fieldWireType: adapter.fieldPushWireType,
       ),
     );
     return SyncedPreferencesEngine.copyField(

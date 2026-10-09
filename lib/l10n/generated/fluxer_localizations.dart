@@ -10855,6 +10855,60 @@ abstract class FluxerLocalizations {
   /// **'Choose double tap emoji'**
   String get doubleTapReactionEditSubtitle;
 
+  /// Title for double-tap message action settings on mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Double tap'**
+  String get messagesMediaDoubleTapSectionTitle;
+
+  /// Description for double-tap message action settings on mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose what happens when you double tap a message.'**
+  String get messagesMediaDoubleTapSectionDescription;
+
+  /// Label for the double-tap action radio group.
+  ///
+  /// In en, this message translates to:
+  /// **'Double tap action'**
+  String get messagesMediaDoubleTapActionLabel;
+
+  /// Double tap adds the default reaction emoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reaction'**
+  String get messagesMediaDoubleTapActionReactName;
+
+  /// Help text for the react double-tap action.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds your default double-tap emoji as a reaction.'**
+  String get messagesMediaDoubleTapActionReactDescription;
+
+  /// Double tap edits your own message.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit message'**
+  String get messagesMediaDoubleTapActionEditName;
+
+  /// Help text for the edit double-tap action.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens the editor on messages you sent. Other messages are unchanged.'**
+  String get messagesMediaDoubleTapActionEditDescription;
+
+  /// Double tap does nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing'**
+  String get messagesMediaDoubleTapActionNoneName;
+
+  /// Help text for the none double-tap action.
+  ///
+  /// In en, this message translates to:
+  /// **'Double tap is disabled.'**
+  String get messagesMediaDoubleTapActionNoneDescription;
+
   /// Action label for editing a sent message.
   ///
   /// In en, this message translates to:

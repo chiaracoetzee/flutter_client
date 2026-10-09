@@ -397,6 +397,13 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     keywords: [_l((l10n) => l10n.messagesMediaCameraUploadsSectionTitle)],
   ),
   _UserSettingsSearchOption(
+    id: 'chat:double-tap-action',
+    section: UserSettingsSection.chat,
+    fieldId: 'media',
+    label: _l((l10n) => l10n.messagesMediaDoubleTapActionLabel),
+    keywords: [_l((l10n) => l10n.messagesMediaDoubleTapSectionTitle)],
+  ),
+  _UserSettingsSearchOption(
     id: 'chat:expression-autocomplete',
     section: UserSettingsSection.chat,
     fieldId: 'input',

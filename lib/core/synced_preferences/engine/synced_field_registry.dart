@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.d
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_overrides_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/chat_input_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/double_tap_action_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/double_tap_reaction_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/expression_picker_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/favorite_gifs_synced_field.dart';
@@ -45,4 +46,5 @@ void registerDefaultSyncedFieldAdapters({
   registerAdapter(FavoriteGifsSyncedField(ref));
   registerAdapter(ChatInputSyncedField(ref));
   registerAdapter(DoubleTapReactionSyncedField(ref));
+  registerAdapter(DoubleTapActionSyncedField(ref));
 }
