@@ -46,6 +46,28 @@ class KeyboardSpamHarnessState extends ConsumerState<KeyboardSpamHarness> {
         );
   }
 
+  void showKeyboard({required double keyboardHeight, required double viewInset}) {
+    applyNative(keyboardHeight: keyboardHeight, visible: true);
+    applyViewInset(viewInset);
+  }
+
+  void hideKeyboard({required double keyboardHeight}) {
+    applyNative(keyboardHeight: keyboardHeight, visible: false);
+  }
+
+  void resetKeyboardLayoutState() {
+    ref
+      ..read(mobileKeyboardMetricsProvider.notifier)
+          .resetTransientLayoutState()
+      ..read(bottomInputSlotProvider.notifier)
+          .resetAfterChannelChange();
+  }
+
+  void resetLayoutAndHideKeyboard({required double keyboardHeight}) {
+    resetKeyboardLayoutState();
+    hideKeyboard(keyboardHeight: keyboardHeight);
+  }
+
   Future<void> runOpenCloseSpamCycles(int count) async {
     for (int i = 0; i < count; i++) {
       applyNative(keyboardHeight: 336, visible: true);
@@ -91,7 +113,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final KeyboardSpamHarnessState harness = harnessKey.currentState!;
-    harness.runOpenCloseSpamCycles(6);
+    await harness.runOpenCloseSpamCycles(6);
     for (int i = 0; i < 6 * 4 + 2; i++) {
       await tester.pump();
     }
@@ -128,31 +150,24 @@ void main() {
     focusNode.requestFocus();
     await tester.pumpAndSettle();
 
-    final KeyboardSpamHarnessState harness = harnessKey.currentState!;
-    harness.applyNative(keyboardHeight: 336, visible: true);
-    harness.applyViewInset(oldHeight);
+    KeyboardSpamHarnessState harness() => harnessKey.currentState!;
+
+    harness().showKeyboard(keyboardHeight: 336, viewInset: oldHeight);
     await tester.pump();
 
-    harness.ref
-        .read(mobileKeyboardMetricsProvider.notifier)
-        .resetTransientLayoutState();
-    harness.ref
-        .read(bottomInputSlotProvider.notifier)
-        .resetAfterChannelChange();
-    harness.applyNative(keyboardHeight: 336, visible: false);
+    harness().resetLayoutAndHideKeyboard(keyboardHeight: 336);
     await tester.pump();
-    expect(harness.ref.read(bottomInputSlotProvider).slotHeight, 0);
+    expect(harness().ref.read(bottomInputSlotProvider).slotHeight, 0);
 
-    harness.applyNative(keyboardHeight: 310, visible: true);
-    harness.applyViewInset(newHeight);
+    harness().showKeyboard(keyboardHeight: 310, viewInset: newHeight);
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextField), 'abc');
     await tester.pump();
     expect(find.text('abc'), findsOneWidget);
-    expect(harness.ref.read(bottomInputSlotProvider).slotHeight, newHeight);
+    expect(harness().ref.read(bottomInputSlotProvider).slotHeight, newHeight);
     expect(
-      harness.ref.read(bottomInputSlotProvider).slotHeight,
+      harness().ref.read(bottomInputSlotProvider).slotHeight,
       isNot(oldHeight),
     );
   });

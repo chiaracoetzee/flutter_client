@@ -103,6 +103,6 @@ class AppIconSettings extends _$AppIconSettings {
     } on PlatformException {
       return;
     }
-    await AndroidAppRestart.restart();
+    await restartAndroidApp();
   }
 }
