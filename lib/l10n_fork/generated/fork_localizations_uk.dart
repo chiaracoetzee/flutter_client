@@ -142,6 +142,16 @@ class ForkLocalizationsUk extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Надсилання як $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Публікація як $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Надсилання як @$username';
   }
