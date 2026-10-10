@@ -17,6 +17,39 @@ const List<String> _themeStudioColumns = <String>[
   'sync_theme_colors_to_theme_studio',
 ];
 
+/// What upstream's step 91 adds, per table.
+const Map<String, List<String>> _threadColumns = <String, List<String>>{
+  'channels': <String>[
+    'owner_id',
+    'flags',
+    'thread_archived',
+    'thread_locked',
+    'thread_invitable',
+    'thread_auto_archive_duration',
+    'thread_archive_timestamp',
+    'thread_create_timestamp',
+    'message_count',
+    'total_message_sent',
+    'member_count',
+    'applied_tags_json',
+    'default_auto_archive_duration',
+    'default_thread_rate_limit_per_user',
+    'available_tags_json',
+    'default_reaction_emoji_json',
+    'default_sort_order',
+    'default_forum_layout',
+    'default_tag_setting',
+  ],
+  'servers': <String>['thread_channels_active'],
+  'messages': <String>['thread_json'],
+  'read_states': <String>['flags', 'missing_since'],
+};
+
+bool _hasTable(Database raw, String table) => raw.select(
+  "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?",
+  <Object?>[table],
+).isNotEmpty;
+
 Set<String> _columns(Database raw, String table) => raw
     .select('PRAGMA table_info($table)')
     .map((Row row) => row['name'] as String)
@@ -86,6 +119,49 @@ void main() {
         containsAll(_themeStudioColumns),
       );
       expect(_columns(raw, 'messages'), containsAll(_personaColumns));
+    });
+
+    test('an earlier fork build that used versions 91 and 92 for its own '
+        'columns gains the thread tables of the upstream step it skipped, '
+        'and can store a sync', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      // Take the database back to what such a build left: the fork's columns,
+      // nothing from upstream's steps 91 and 92, and already at version 92.
+      raw
+        ..execute('DROP INDEX IF EXISTS idx_channels_guild_parent_type')
+        ..execute('DROP TABLE thread_members');
+      for (final MapEntry<String, List<String>> entry
+          in _threadColumns.entries) {
+        for (final String column in entry.value) {
+          raw.execute('ALTER TABLE ${entry.key} DROP COLUMN $column');
+        }
+      }
+      for (final String column in _themeStudioColumns) {
+        raw.execute('ALTER TABLE user_preferences DROP COLUMN $column');
+      }
+      raw.execute('PRAGMA user_version = 92');
+      expect(_hasTable(raw, 'thread_members'), isFalse);
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+      // The statement the first sync failed on.
+      await db.delete(db.threadMembers).go();
+
+      expect(_hasTable(raw, 'thread_members'), isTrue);
+      for (final MapEntry<String, List<String>> entry
+          in _threadColumns.entries) {
+        expect(_columns(raw, entry.key), containsAll(entry.value));
+      }
+      expect(
+        _columns(raw, 'user_preferences'),
+        containsAll(_themeStudioColumns),
+      );
+      expect(_columns(raw, 'messages'), containsAll(_personaColumns));
+      expect(raw.select('PRAGMA user_version').single['user_version'], 92);
     });
 
     test('opening twice changes nothing the second time', () async {
