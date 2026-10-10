@@ -336,6 +336,10 @@ String userSettingsTabLabel(FluxerLocalizations l10n, String tab) {
       return userSettingsSectionLabel(l10n, UserSettingsSection.linkedDevices);
     case 'shortcuts':
       return userSettingsSectionLabel(l10n, UserSettingsSection.shortcuts);
+    case 'default_apps':
+      return userSettingsSectionLabel(l10n, UserSettingsSection.defaultApps);
+    case 'app_icon':
+      return userSettingsSectionLabel(l10n, UserSettingsSection.appIcon);
     default:
       return l10n.userAreaUserSettings;
   }

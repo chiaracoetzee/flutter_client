@@ -8901,6 +8901,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Không tìm thấy cài đặt nào';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Hồ sơ';
 
   @override

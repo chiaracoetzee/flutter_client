@@ -8828,6 +8828,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'ไม่พบการตั้งค่า';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'โปรไฟล์';
 
   @override

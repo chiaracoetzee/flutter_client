@@ -8969,6 +8969,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Налаштувань не знайдено';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Профіль';
 
   @override

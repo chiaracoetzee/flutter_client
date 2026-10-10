@@ -8978,6 +8978,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Nustatymų nerasta';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Profilis';
 
   @override

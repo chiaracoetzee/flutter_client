@@ -9024,6 +9024,12 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Aucun paramètre trouvé';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Profil';
 
   @override

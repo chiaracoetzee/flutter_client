@@ -8927,6 +8927,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Nema pronađenih postavki';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Profil';
 
   @override

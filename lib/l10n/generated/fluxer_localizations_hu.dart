@@ -8975,6 +8975,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Nem található beállítás';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Profil';
 
   @override

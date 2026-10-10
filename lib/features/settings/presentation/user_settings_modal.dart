@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
+import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -59,6 +60,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/settings/utils/confirm_user_settings_logout.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_utils.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_deep_link_scope.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_search.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_section_scroll.dart';
@@ -349,6 +351,28 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                                     )
                                   : context.textStyles.heading,
                             ),
+                            if (!isSettingsSearchActive &&
+                                selectedEntry.section != null) ...[
+                              Builder(
+                                builder: (context) {
+                                  final String? pageLink =
+                                      userSettingsPageDeepLinkHref(
+                                        selectedEntry.section!,
+                                      );
+                                  if (pageLink == null) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: FluxerSettingsHeadingLinkButton(
+                                      href: pageLink,
+                                      target:
+                                          FluxerSettingsHeadingLinkTarget.page,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                             const Spacer(),
                             _buildCloseButton(
                               color: storePane ? PremiumStoreStyle.ink : null,
@@ -699,11 +723,18 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final bool storePage =
         section == UserSettingsSection.fluxerPlutonium &&
         isPremiumStorePageActive();
+    final String? pageLink = userSettingsPageDeepLinkHref(section);
     final canDismiss = ValueNotifier<bool>(true);
     unawaited(
       FluxerPageSheet.showScrollable<void>(
         context,
         title: userSettingsSectionLabel(l10n, section),
+        titleTrailing: pageLink == null
+            ? null
+            : FluxerSettingsHeadingLinkButton(
+                href: pageLink,
+                target: FluxerSettingsHeadingLinkTarget.page,
+              ),
         backgroundColor: storePage ? PremiumStoreStyle.spaceTop : null,
         foregroundColor: storePage ? PremiumStoreStyle.ink : null,
         canDismissNotifier: canDismiss,
@@ -849,6 +880,43 @@ Widget _buildUserSettingsSectionContent({
   )) {
     return const SizedBox.shrink();
   }
+  final String? settingsTab = userSettingsDeepLinkTabForPage(section);
+  if (settingsTab == null) {
+    return _buildUserSettingsSectionBody(
+      context: context,
+      ref: ref,
+      state: state,
+      section: section,
+      isTouchPrimary: isTouchPrimary,
+      scrollController: scrollController,
+      onNavigateSection: onNavigateSection,
+    );
+  }
+  return UserSettingsDeepLinkScope(
+    settingsTab: settingsTab,
+    pageSection: section,
+    isTouchPrimary: isTouchPrimary,
+    child: _buildUserSettingsSectionBody(
+      context: context,
+      ref: ref,
+      state: state,
+      section: section,
+      isTouchPrimary: isTouchPrimary,
+      scrollController: scrollController,
+      onNavigateSection: onNavigateSection,
+    ),
+  );
+}
+
+Widget _buildUserSettingsSectionBody({
+  required BuildContext context,
+  required WidgetRef ref,
+  required UserSettingsViewState state,
+  required UserSettingsSection section,
+  required bool isTouchPrimary,
+  ScrollController? scrollController,
+  void Function(UserSettingsSection section)? onNavigateSection,
+}) {
   switch (section) {
     case UserSettingsSection.profile:
       return FluxerSettingsSheet(

@@ -14655,6 +14655,18 @@ abstract class FluxerLocalizations {
   /// **'No settings found'**
   String get userSettingsSearchNoResults;
 
+  /// Tooltip and accessibility label for copying a deep link to a settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link to section'**
+  String get userSettingsCopyLinkToSection;
+
+  /// Tooltip and accessibility label for copying a deep link to a settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link to page'**
+  String get userSettingsCopyLinkToPage;
+
   /// User settings navigation item for profile settings.
   ///
   /// In en, this message translates to:

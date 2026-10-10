@@ -8978,6 +8978,12 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Няма намерени настройки';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Профил';
 
   @override

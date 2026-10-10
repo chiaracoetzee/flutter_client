@@ -212,6 +212,9 @@ void main() {
           ),
         ),
       );
+      await _waitForDebounce(store);
+      usersApi.pushCount = 0;
+      usersApi.lastPushBody = null;
 
       await container
           .read(appearancePreferencesProvider.notifier)

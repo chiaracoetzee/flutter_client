@@ -8933,6 +8933,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Nenalezena žádná nastavení';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Profil';
 
   @override

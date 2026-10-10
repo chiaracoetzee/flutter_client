@@ -9002,6 +9002,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Δεν βρέθηκαν ρυθμίσεις';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Προφίλ';
 
   @override

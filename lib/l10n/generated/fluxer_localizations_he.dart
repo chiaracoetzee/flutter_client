@@ -8776,6 +8776,12 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'לא נמצאו הגדרות';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'פרופיל';
 
   @override

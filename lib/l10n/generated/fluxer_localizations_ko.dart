@@ -8533,6 +8533,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsSearchNoResults => '설정 없음';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => '프로필';
 
   @override

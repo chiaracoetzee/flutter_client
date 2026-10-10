@@ -8915,6 +8915,12 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Asetuksia ei löytynyt';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Profiili';
 
   @override

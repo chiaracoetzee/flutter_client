@@ -8919,6 +8919,12 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Inga inställningar hittades';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Profil';
 
   @override

@@ -8901,6 +8901,12 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'Ingen indstillinger fundet';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Profil';
 
   @override

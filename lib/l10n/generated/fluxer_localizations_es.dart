@@ -8993,6 +8993,12 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get userSettingsSearchNoResults => 'No se encontraron ajustes';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'Perfil';
 
   @override

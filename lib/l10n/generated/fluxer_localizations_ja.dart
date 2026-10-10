@@ -8541,6 +8541,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsSearchNoResults => '設定が見つかりませんでした';
 
   @override
+  String get userSettingsCopyLinkToSection => 'Copy link to section';
+
+  @override
+  String get userSettingsCopyLinkToPage => 'Copy link to page';
+
+  @override
   String get userSettingsNavProfile => 'プロフィール';
 
   @override
