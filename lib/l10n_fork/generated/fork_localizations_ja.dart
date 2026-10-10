@@ -136,6 +136,16 @@ class ForkLocalizationsJa extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return '$name として送信中';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return '$name として投稿中';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return '@$username として送信中';
   }

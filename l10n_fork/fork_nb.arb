@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Personanavn",
     "personaSendingAsTag": "Sender som {name} (matchet via tag)",
     "personaSendingAsLatched": "Sender som {name} (låst)",
+    "personaSendingAs": "Sender som {name}",
+    "personaPostingAs": "Publiserer som {name}",
     "personaSendingAsRoot": "Sender som @{username}",
     "personaMainAccount": "Hovedkonto",
     "personaEditPersona": "Rediger persona",

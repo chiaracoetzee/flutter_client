@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Nom du persona",
     "personaSendingAsTag": "Envoi en tant que {name} (Associé par balise)",
     "personaSendingAsLatched": "Envoi en tant que {name} (Verrouillé)",
+    "personaSendingAs": "Envoi en tant que {name}",
+    "personaPostingAs": "Publication en tant que {name}",
     "personaSendingAsRoot": "Envoi en tant que @{username}",
     "personaMainAccount": "Compte principal",
     "personaEditPersona": "Modifier le persona",
