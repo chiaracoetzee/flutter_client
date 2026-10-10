@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Ime persone",
     "personaSendingAsTag": "Šalje se kao {name} (Upareno po oznaci)",
     "personaSendingAsLatched": "Šalje se kao {name} (Zaključano)",
+    "personaSendingAs": "Šalje se kao {name}",
+    "personaPostingAs": "Objavljuje se kao {name}",
     "personaSendingAsRoot": "Šalje se kao @{username}",
     "personaMainAccount": "Glavni račun",
     "personaEditPersona": "Uredi personu",
