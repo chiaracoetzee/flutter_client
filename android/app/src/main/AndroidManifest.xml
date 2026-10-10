@@ -143,7 +143,7 @@
             </intent-filter>
         </activity>
         <activity-alias
-            android:name="com.fluxer.MainActivity.default"
+            android:name="${appIconAliasPrefix}.default"
             android:targetActivity=".MainActivity"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
@@ -155,7 +155,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.fluxer.MainActivity.greyscale"
+            android:name="${appIconAliasPrefix}.greyscale"
             android:targetActivity=".MainActivity"
             android:exported="true"
             android:icon="@mipmap/fluxer_icon_greyscale"
@@ -167,7 +167,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.fluxer.MainActivity.rainbow"
+            android:name="${appIconAliasPrefix}.rainbow"
             android:targetActivity=".MainActivity"
             android:exported="true"
             android:icon="@mipmap/fluxer_icon_rainbow"
@@ -179,7 +179,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.fluxer.MainActivity.chromatic_aberration"
+            android:name="${appIconAliasPrefix}.chromatic_aberration"
             android:targetActivity=".MainActivity"
             android:exported="true"
             android:icon="@mipmap/fluxer_icon_chromatic_aberration"
@@ -191,7 +191,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.fluxer.MainActivity.default_brutalist"
+            android:name="${appIconAliasPrefix}.default_brutalist"
             android:targetActivity=".MainActivity"
             android:exported="true"
             android:icon="@mipmap/fluxer_icon_default_brutalist"
@@ -203,7 +203,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.fluxer.MainActivity.greyscale_brutalist"
+            android:name="${appIconAliasPrefix}.greyscale_brutalist"
             android:targetActivity=".MainActivity"
             android:exported="true"
             android:icon="@mipmap/fluxer_icon_greyscale_brutalist"

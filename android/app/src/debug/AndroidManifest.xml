@@ -15,7 +15,7 @@
         </activity>
 
         <activity-alias
-            android:name="com.fluxer.MainActivity.default"
+            android:name="${appIconAliasPrefix}.default"
             android:targetActivity=".MainActivity"
             android:enabled="false"
             tools:replace="android:enabled" />
