@@ -39,6 +39,8 @@ String? userSettingsDeepLinkTabForPage(UserSettingsSection section) {
       return 'blocked_users';
     case UserSettingsSection.linkedDevices:
       return 'devices';
+    case UserSettingsSection.personas:
+      return 'personas';
     case UserSettingsSection.privacyDashboard:
       return 'privacy_safety';
     case UserSettingsSection.lookAndFeel:
