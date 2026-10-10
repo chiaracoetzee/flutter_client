@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Persona adı",
     "personaSendingAsTag": "{name} olarak gönderiliyor (Etiketle eşleşti)",
     "personaSendingAsLatched": "{name} olarak gönderiliyor (Kilitli)",
+    "personaSendingAs": "{name} olarak gönderiliyor",
+    "personaPostingAs": "{name} olarak gönderi paylaşılıyor",
     "personaSendingAsRoot": "@{username} olarak gönderiliyor",
     "personaMainAccount": "Ana hesap",
     "personaEditPersona": "Personayı düzenle",
