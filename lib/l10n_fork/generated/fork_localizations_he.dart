@@ -139,6 +139,16 @@ class ForkLocalizationsHe extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'שולח בתור $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'מפרסם בתור $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'שולח בתור @$username';
   }

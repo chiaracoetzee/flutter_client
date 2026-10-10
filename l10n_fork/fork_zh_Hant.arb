@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "人格名稱",
     "personaSendingAsTag": "以 {name} 的身分傳送 (透過標籤比對)",
     "personaSendingAsLatched": "以 {name} 的身分傳送 (已鎖定)",
+    "personaSendingAs": "以 {name} 的身分傳送",
+    "personaPostingAs": "以 {name} 的身分發佈",
     "personaSendingAsRoot": "以 @{username} 的身分傳送",
     "personaMainAccount": "主帳號",
     "personaEditPersona": "編輯人格",

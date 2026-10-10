@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "ペルソナ名",
     "personaSendingAsTag": "{name} として送信中 (タグで一致)",
     "personaSendingAsLatched": "{name} として送信中 (固定)",
+    "personaSendingAs": "{name} として送信中",
+    "personaPostingAs": "{name} として投稿中",
     "personaSendingAsRoot": "@{username} として送信中",
     "personaMainAccount": "メインアカウント",
     "personaEditPersona": "ペルソナを編集",

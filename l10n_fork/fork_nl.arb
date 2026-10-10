@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Personanaam",
     "personaSendingAsTag": "Verzenden als {name} (Gekoppeld via tag)",
     "personaSendingAsLatched": "Verzenden als {name} (Vastgezet)",
+    "personaSendingAs": "Verzenden als {name}",
+    "personaPostingAs": "Plaatsen als {name}",
     "personaSendingAsRoot": "Verzenden als @{username}",
     "personaMainAccount": "Hoofdaccount",
     "personaEditPersona": "Persona bewerken",

@@ -32,16 +32,19 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
   required String rawText,
   required String channelId,
   bool allowEmptyContent = false,
+  bool? hasAttachments,
 }) async {
   final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
   final activeState = ref.read(activePersonaProvider);
+  // A composer that keeps its own files (the forum post sheet) says so itself.
   final bool hasPendingAttachments =
+      hasAttachments ??
       channelId.isNotEmpty &&
-      ref.read(
-        cloudUploadControllerProvider(
-          channelId,
-        ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
-      );
+          ref.read(
+            cloudUploadControllerProvider(
+              channelId,
+            ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
+          );
 
   final String? latchedId = activeState.isLatched
       ? activeState.activePersonaId

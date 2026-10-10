@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Nama persona",
     "personaSendingAsTag": "Mengirim sebagai {name} (Cocok dengan tag)",
     "personaSendingAsLatched": "Mengirim sebagai {name} (Terkunci)",
+    "personaSendingAs": "Mengirim sebagai {name}",
+    "personaPostingAs": "Memposting sebagai {name}",
     "personaSendingAsRoot": "Mengirim sebagai @{username}",
     "personaMainAccount": "Akun utama",
     "personaEditPersona": "Edit persona",

@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "人格名称",
     "personaSendingAsTag": "以 {name} 发送 (通过标签匹配)",
     "personaSendingAsLatched": "以 {name} 发送 (已锁定)",
+    "personaSendingAs": "以 {name} 发送",
+    "personaPostingAs": "以 {name} 发布",
     "personaSendingAsRoot": "以 @{username} 发送",
     "personaMainAccount": "主账户",
     "personaEditPersona": "编辑人格",
