@@ -140,6 +140,16 @@ class ForkLocalizationsSv extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Skickar som $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Publicerar som $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Skickar som @$username';
   }

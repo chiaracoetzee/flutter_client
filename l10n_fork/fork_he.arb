@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "שם הפרסונה",
     "personaSendingAsTag": "שולח בתור {name} (הותאם לפי תגית)",
     "personaSendingAsLatched": "שולח בתור {name} (נעול)",
+    "personaSendingAs": "שולח בתור {name}",
+    "personaPostingAs": "מפרסם בתור {name}",
     "personaSendingAsRoot": "שולח בתור @{username}",
     "personaMainAccount": "חשבון ראשי",
     "personaEditPersona": "ערוך פרסונה",

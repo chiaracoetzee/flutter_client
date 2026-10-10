@@ -14,9 +14,11 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_sending_as_row.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
@@ -198,6 +200,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
     required ThreadsRepository repo,
     required String name,
     required bool private,
+    String? personaId,
   }) async {
     final Channel parent = widget.parent;
     final Message? source = widget.sourceMessage;
@@ -212,6 +215,9 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
               autoArchiveDuration: duration == null
                   ? null
                   : ThreadAutoArchiveDurationSchema.fromJson(duration),
+              personaId: personaId == null
+                  ? const JsonNullable<SnowflakeType>.undefined()
+                  : JsonNullable<SnowflakeType>.of(personaId),
             ),
           )
         : await repo.start(
@@ -223,6 +229,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
                   ? ChannelType.privateThread.wireValue
                   : publicThreadTypeFor(parent.type).wireValue,
               'auto_archive_duration': ?duration,
+              'persona_id': ?personaId,
             }),
           );
     final Object json = response is ThreadChannelResponse
@@ -239,7 +246,19 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       return;
     }
     final Channel parent = widget.parent;
-    final String content = _message.text.trim();
+    // Fork: the thread is started, and its first message sent, as the persona
+    // the picker shows, as a message from the channel composer would be.
+    final OutgoingMessageResolution outgoing = await resolveOutgoingPersona(
+      ref: ref,
+      rawText: _message.text.trim(),
+      channelId: '',
+      hasAttachments: false,
+    );
+    if (!mounted) {
+      return;
+    }
+    final String content = outgoing.text.trim();
+    final Map<String, dynamic>? personaData = outgoing.personaData;
     setState(() => _submitting = true);
     final Map<String, Object?> json;
     try {
@@ -247,6 +266,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
         repo: ref.read(threadsRepositoryProvider),
         name: name,
         private: private,
+        personaId: personaData?['id'] as String?,
       );
     } on Object catch (error) {
       if (!mounted) {
@@ -302,7 +322,11 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       unawaited(
         ref
             .read(messageRepositoryProvider)
-            .sendMessage(channelId: created.id, content: content)
+            .sendMessage(
+              channelId: created.id,
+              content: content,
+              personaData: personaData,
+            )
             .then<void>(
               (_) {},
               onError: (Object error) => toasts.show(
@@ -441,6 +465,11 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
             ),
           ],
           SizedBox(height: context.layout.s3),
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: _message,
+            builder: (_, TextEditingValue value, _) =>
+                PersonaSendingAsRow(text: value.text),
+          ),
           FluxerInput(
             controller: _message,
             label: l10n.threadStarterMessage,
