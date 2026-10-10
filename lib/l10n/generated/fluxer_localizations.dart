@@ -16569,6 +16569,30 @@ abstract class FluxerLocalizations {
   /// **'Choose which icon appears on your home screen.'**
   String get appIconSectionDescription;
 
+  /// Description for the app icon settings section on Android.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which icon appears on your home screen. Changing the icon restarts the app.'**
+  String get appIconSectionDescriptionAndroid;
+
+  /// Title for the confirmation sheet before changing the app icon on Android.
+  ///
+  /// In en, this message translates to:
+  /// **'Change app icon?'**
+  String get appIconAndroidChangeTitle;
+
+  /// Body for the confirmation sheet before changing the app icon on Android.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer will restart to apply the new home screen icon.'**
+  String get appIconAndroidChangeDescription;
+
+  /// Confirm button for changing the app icon on Android.
+  ///
+  /// In en, this message translates to:
+  /// **'Change icon'**
+  String get appIconAndroidChangeConfirm;
+
   /// App icon option for the build default icon (release or canary).
   ///
   /// In en, this message translates to:

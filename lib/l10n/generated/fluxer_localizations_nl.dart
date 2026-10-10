@@ -10056,6 +10056,20 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Kies welk pictogram op je beginscherm verschijnt.';
 
   @override
+  String get appIconSectionDescriptionAndroid =>
+      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+
+  @override
+  String get appIconAndroidChangeTitle => 'Change app icon?';
+
+  @override
+  String get appIconAndroidChangeDescription =>
+      'Fluxer will restart to apply the new home screen icon.';
+
+  @override
+  String get appIconAndroidChangeConfirm => 'Change icon';
+
+  @override
   String get appIconOptionDefault => 'Standaard';
 
   @override

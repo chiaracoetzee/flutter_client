@@ -1,7 +1,7 @@
 import 'package:dynamic_app_icon_flutter_plus/dynamic_app_icon_flutter_plus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
+import 'package:fluxer_app/core/platform/android_app_restart.dart';
 import 'package:fluxer_app/features/settings/domain/app_icon_catalog.dart';
 import 'package:fluxer_app/features/settings/domain/app_icon_choice.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -80,12 +80,29 @@ class AppIconSettings extends _$AppIconSettings {
     try {
       await DynamicAppIconFlutterPlus.setAlternateIconName(
         choice.alternateIconName,
-        deferUntilBackground: defaultTargetPlatform == TargetPlatform.android,
       );
     } on PlatformException {
       return;
     }
     ref.invalidateSelf();
     await future;
+  }
+
+  Future<void> setChoiceWithRestart(AppIconChoice choice) async {
+    if (!isAlternateAppIconSettingsAvailable) {
+      return;
+    }
+    final AppIconSettingsState current = await future;
+    if (choice.alternateIconName == current.selectedAlternateName) {
+      return;
+    }
+    try {
+      await DynamicAppIconFlutterPlus.setAlternateIconName(
+        choice.alternateIconName,
+      );
+    } on PlatformException {
+      return;
+    }
+    await AndroidAppRestart.restart();
   }
 }

@@ -10160,6 +10160,20 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Choisissez l’icône qui apparaît sur votre écran d’accueil.';
 
   @override
+  String get appIconSectionDescriptionAndroid =>
+      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+
+  @override
+  String get appIconAndroidChangeTitle => 'Change app icon?';
+
+  @override
+  String get appIconAndroidChangeDescription =>
+      'Fluxer will restart to apply the new home screen icon.';
+
+  @override
+  String get appIconAndroidChangeConfirm => 'Change icon';
+
+  @override
   String get appIconOptionDefault => 'Par défaut';
 
   @override

@@ -9395,6 +9395,20 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get appIconSectionDescription => '选择在主屏幕上显示的图标。';
 
   @override
+  String get appIconSectionDescriptionAndroid =>
+      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+
+  @override
+  String get appIconAndroidChangeTitle => 'Change app icon?';
+
+  @override
+  String get appIconAndroidChangeDescription =>
+      'Fluxer will restart to apply the new home screen icon.';
+
+  @override
+  String get appIconAndroidChangeConfirm => 'Change icon';
+
+  @override
   String get appIconOptionDefault => '默认';
 
   @override

@@ -12269,6 +12269,22 @@
     "@appIconSectionDescription": {
         "description": "Description for the app icon settings section."
     },
+    "appIconSectionDescriptionAndroid": "Choose which icon appears on your home screen. Changing the icon restarts the app.",
+    "@appIconSectionDescriptionAndroid": {
+        "description": "Description for the app icon settings section on Android."
+    },
+    "appIconAndroidChangeTitle": "Change app icon?",
+    "@appIconAndroidChangeTitle": {
+        "description": "Title for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconAndroidChangeDescription": "Fluxer will restart to apply the new home screen icon.",
+    "@appIconAndroidChangeDescription": {
+        "description": "Body for the confirmation sheet before changing the app icon on Android."
+    },
+    "appIconAndroidChangeConfirm": "Change icon",
+    "@appIconAndroidChangeConfirm": {
+        "description": "Confirm button for changing the app icon on Android."
+    },
     "appIconOptionDefault": "Default",
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."

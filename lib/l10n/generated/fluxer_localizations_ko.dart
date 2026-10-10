@@ -9596,6 +9596,20 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get appIconSectionDescription => '홈 화면에 표시될 아이콘을 선택하세요.';
 
   @override
+  String get appIconSectionDescriptionAndroid =>
+      'Choose which icon appears on your home screen. Changing the icon restarts the app.';
+
+  @override
+  String get appIconAndroidChangeTitle => 'Change app icon?';
+
+  @override
+  String get appIconAndroidChangeDescription =>
+      'Fluxer will restart to apply the new home screen icon.';
+
+  @override
+  String get appIconAndroidChangeConfirm => 'Change icon';
+
+  @override
   String get appIconOptionDefault => '기본';
 
   @override
