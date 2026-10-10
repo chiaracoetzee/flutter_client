@@ -301,3 +301,14 @@ void main() {
     }
   });
 }
+
+// Fork: upstream's helpers that forum_repository_fork_test.dart uses, named here so they stay private
+// and are not copied.
+// ignore: unreachable_from_main // Fork: used by forum_repository_fork_test.dart.
+typedef ForkAdapter = _Adapter;
+// ignore: unreachable_from_main // Fork: used by forum_repository_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  Map<String, Object?> Function(String id, {bool archived}) thread,
+});
+// ignore: unreachable_from_main // Fork: used by forum_repository_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (thread: _thread);

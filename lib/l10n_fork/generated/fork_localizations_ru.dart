@@ -141,6 +141,16 @@ class ForkLocalizationsRu extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Отправка от имени $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Публикация от имени $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Отправка как @$username';
   }

@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Persoonan nimi",
     "personaSendingAsTag": "Lähetetään nimellä {name} (yhdistetty tunnisteella)",
     "personaSendingAsLatched": "Lähetetään nimellä {name} (lukittu)",
+    "personaSendingAs": "Lähetetään nimellä {name}",
+    "personaPostingAs": "Julkaistaan nimellä {name}",
     "personaSendingAsRoot": "Lähetetään tunnuksella @{username}",
     "personaMainAccount": "Päätili",
     "personaEditPersona": "Muokkaa persoonaa",
