@@ -29,6 +29,16 @@ Future<void> ensureForkSchema(
     }
   }
 
+  if (!(await _columnsOf(
+    database,
+    'channels',
+  )).contains(database.channels.ownerPersonaId.name)) {
+    await migrator.addColumn(
+      database.channels,
+      database.channels.ownerPersonaId,
+    );
+  }
+
   // Fork builds before the rebase of 9 October 2026 numbered their own steps 91
   // and 92. Upstream then used those numbers for its thread tables and for two
   // user_preferences columns, so an install coming from such a build is already
