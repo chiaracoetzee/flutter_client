@@ -8,7 +8,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
-import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
@@ -16,6 +15,7 @@ import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
@@ -134,7 +134,7 @@ _identityContainer({String? accountIdentity}) {
   final container = ProviderContainer(
     overrides: [
       authRepositoryProvider.overrideWithValue(repository),
-      instanceRuntimeConfigProvider.overrideWithValue(
+      authInstanceRuntimeConfigProvider.overrideWithValue(
         InstanceRuntimeConfig.fromWellKnown(
           wellKnownFixture(
             media: 'https://chat.example/media',
