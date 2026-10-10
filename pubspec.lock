@@ -345,6 +345,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.4"
+  chrono_dart:
+    dependency: "direct main"
+    description:
+      name: chrono_dart
+      sha256: ac121aeec8c8ea22765d6eff5bf5bc8caae3fda1473d996bb5ee915e1b4b8a9d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   cli_config:
     dependency: transitive
     description:
@@ -521,6 +529,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
+  day:
+    dependency: transitive
+    description:
+      name: day
+      sha256: "1e7068deb2f825a8b705d01d1116cc485ddc32531b43dc8c4bf58c5a1b87cd48"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.0"
   dbus:
     dependency: transitive
     description:
@@ -657,6 +673,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: "3bce007a596ff8b3119c45d68aaef631272537c03d30e5d4534dd24bf4c5eaa2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   extension_discovery:
     dependency: transitive
     description:
@@ -1031,6 +1055,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0+1"
+  flutter_timezone:
+    dependency: "direct main"
+    description:
+      name: flutter_timezone
+      sha256: "869677426fde92dbe170fb7d2d4929f2a8343c2f5f62f08b0bb64f908630b073"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   flutter_tts:
     dependency: "direct main"
     description:
