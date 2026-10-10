@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "페르소나 이름",
     "personaSendingAsTag": "{name} 님으로 보내는 중 (태그로 일치)",
     "personaSendingAsLatched": "{name} 님으로 보내는 중 (고정됨)",
+    "personaSendingAs": "{name} 님으로 보내는 중",
+    "personaPostingAs": "{name} 님으로 게시하는 중",
     "personaSendingAsRoot": "@{username} 님으로 보내는 중",
     "personaMainAccount": "기본 계정",
     "personaEditPersona": "페르소나 편집",

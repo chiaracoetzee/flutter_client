@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Όνομα persona",
     "personaSendingAsTag": "Αποστολή ως {name} (Ταιριάζει με ετικέτα)",
     "personaSendingAsLatched": "Αποστολή ως {name} (Κλειδωμένο)",
+    "personaSendingAs": "Αποστολή ως {name}",
+    "personaPostingAs": "Δημοσίευση ως {name}",
     "personaSendingAsRoot": "Αποστολή ως @{username}",
     "personaMainAccount": "Κύριος λογαριασμός",
     "personaEditPersona": "Επεξεργασία persona",
