@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#F39F06</color>
+    <!-- Fork: upstream colours its canary builds #F39F06. This fork ships the canary flavour as its
+         release, so it keeps the regular colour (the one in src/main). -->
+    <color name="ic_launcher_background">#4641D9</color>
 </resources>
