@@ -10689,6 +10689,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Partecipa a Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Licenze app';
 
   @override

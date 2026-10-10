@@ -10662,6 +10662,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Word lid van Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'App-licenties';
 
   @override

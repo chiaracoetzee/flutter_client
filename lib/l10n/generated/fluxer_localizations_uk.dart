@@ -10709,6 +10709,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Приєднатися до Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Ліцензії додатків';
 
   @override

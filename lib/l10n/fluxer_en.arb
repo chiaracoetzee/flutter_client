@@ -12526,6 +12526,10 @@
     "@userSettingsJoinFluxerLabs": {
         "description": "User settings What's New action to join the Fluxer Labs community."
     },
+    "userSettingsGiveFeedback": "Give feedback",
+    "@userSettingsGiveFeedback": {
+        "description": "User settings navigation action to open the Fluxer feedback site."
+    },
     "userSettingsNavAppLicenses": "App licenses",
     "@userSettingsNavAppLicenses": {
         "description": "User settings navigation item to open open-source app licenses."

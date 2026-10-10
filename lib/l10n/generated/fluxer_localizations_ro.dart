@@ -10695,6 +10695,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Alătură-te Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Licențe aplicație';
 
   @override

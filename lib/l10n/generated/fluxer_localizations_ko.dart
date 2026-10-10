@@ -10147,6 +10147,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Fluxer Labs 가입하기';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => '앱 라이선스';
 
   @override

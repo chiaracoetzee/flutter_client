@@ -10714,6 +10714,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Csatlakozz a Fluxer Labshoz';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Alkalmazáslicencek';
 
   @override

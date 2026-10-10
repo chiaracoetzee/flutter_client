@@ -10708,6 +10708,9 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Присоединиться к Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Лицензии приложений';
 
   @override

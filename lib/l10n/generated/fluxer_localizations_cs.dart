@@ -10653,6 +10653,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Připojte se k Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Licence aplikací';
 
   @override

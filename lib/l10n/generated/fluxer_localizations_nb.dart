@@ -10621,6 +10621,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Bli med i Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'App-lisenser';
 
   @override

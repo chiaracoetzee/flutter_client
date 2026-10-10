@@ -10617,6 +10617,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Fluxer Labs\'a Katıl';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Uygulama Lisansları';
 
   @override

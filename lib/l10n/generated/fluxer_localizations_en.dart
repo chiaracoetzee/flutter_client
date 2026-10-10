@@ -10553,6 +10553,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'App licenses';
 
   @override
@@ -38717,6 +38720,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get userSettingsJoinFluxerLabs => 'Join Fluxer Labs';
+
+  @override
+  String get userSettingsGiveFeedback => 'Give feedback';
 
   @override
   String get userSettingsNavAppLicenses => 'App licenses';

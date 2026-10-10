@@ -9934,6 +9934,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => '加入 Fluxer 实验室';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => '应用许可';
 
   @override

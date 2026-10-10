@@ -10630,6 +10630,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Liity Fluxer Labsiin';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Sovelluksen lisenssit';
 
   @override

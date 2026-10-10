@@ -17561,6 +17561,12 @@ abstract class FluxerLocalizations {
   /// **'Join Fluxer Labs'**
   String get userSettingsJoinFluxerLabs;
 
+  /// User settings navigation action to open the Fluxer feedback site.
+  ///
+  /// In en, this message translates to:
+  /// **'Give feedback'**
+  String get userSettingsGiveFeedback;
+
   /// User settings navigation item to open open-source app licenses.
   ///
   /// In en, this message translates to:

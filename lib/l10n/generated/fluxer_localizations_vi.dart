@@ -10620,6 +10620,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Tham gia Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Giấy phép ứng dụng';
 
   @override

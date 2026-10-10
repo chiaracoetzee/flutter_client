@@ -10749,6 +10749,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsJoinFluxerLabs => 'Εγγραφή στο Fluxer Labs';
 
   @override
+  String get userSettingsGiveFeedback => 'Give feedback';
+
+  @override
   String get userSettingsNavAppLicenses => 'Άδειες εφαρμογής';
 
   @override
