@@ -142,6 +142,16 @@ class ForkLocalizationsBg extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Изпращане като $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Публикуване като $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Изпращане като @$username';
   }

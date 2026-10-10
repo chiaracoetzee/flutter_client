@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Persona-Name",
     "personaSendingAsTag": "Senden als {name} (Über Tag zugeordnet)",
     "personaSendingAsLatched": "Senden als {name} (Fixiert)",
+    "personaSendingAs": "Senden als {name}",
+    "personaPostingAs": "Posten als {name}",
     "personaSendingAsRoot": "Senden als @{username}",
     "personaMainAccount": "Hauptaccount",
     "personaEditPersona": "Persona bearbeiten",

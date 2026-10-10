@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "परसोना का नाम",
     "personaSendingAsTag": "{name} के तौर पर भेज रहे हैं (टैग द्वारा मैच किया गया)",
     "personaSendingAsLatched": "{name} के तौर पर भेज रहे हैं (लॉक किया गया)",
+    "personaSendingAs": "{name} के तौर पर भेज रहे हैं",
+    "personaPostingAs": "{name} के तौर पर पोस्ट कर रहे हैं",
     "personaSendingAsRoot": "@{username} के तौर पर भेज रहे हैं",
     "personaMainAccount": "मेन अकाउंट",
     "personaEditPersona": "परसोना एडिट करें",

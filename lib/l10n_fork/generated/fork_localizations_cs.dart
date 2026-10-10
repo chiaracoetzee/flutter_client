@@ -142,6 +142,16 @@ class ForkLocalizationsCs extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Odesílá se jako $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Publikuje se jako $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Odesílá se jako @$username';
   }

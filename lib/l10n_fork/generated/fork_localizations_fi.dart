@@ -141,6 +141,16 @@ class ForkLocalizationsFi extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Lähetetään nimellä $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Julkaistaan nimellä $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Lähetetään tunnuksella @$username';
   }

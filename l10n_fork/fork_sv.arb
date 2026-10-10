@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Personanamn",
     "personaSendingAsTag": "Skickar som {name} (matchad av tagg)",
     "personaSendingAsLatched": "Skickar som {name} (låst)",
+    "personaSendingAs": "Skickar som {name}",
+    "personaPostingAs": "Publicerar som {name}",
     "personaSendingAsRoot": "Skickar som @{username}",
     "personaMainAccount": "Huvudkonto",
     "personaEditPersona": "Redigera persona",

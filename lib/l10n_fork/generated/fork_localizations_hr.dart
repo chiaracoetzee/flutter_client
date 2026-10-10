@@ -142,6 +142,16 @@ class ForkLocalizationsHr extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Šalje se kao $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Objavljuje se kao $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Šalje se kao @$username';
   }
