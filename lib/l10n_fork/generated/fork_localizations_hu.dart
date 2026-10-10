@@ -140,6 +140,16 @@ class ForkLocalizationsHu extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Küldés mint $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Közzététel mint $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Küldés mint @$username';
   }
