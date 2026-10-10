@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Име на персоната",
     "personaSendingAsTag": "Изпращане като {name} (Разпознато по таг)",
     "personaSendingAsLatched": "Изпращане като {name} (Фиксирано)",
+    "personaSendingAs": "Изпращане като {name}",
+    "personaPostingAs": "Публикуване като {name}",
     "personaSendingAsRoot": "Изпращане като @{username}",
     "personaMainAccount": "Основен акаунт",
     "personaEditPersona": "Редактиране на персона",

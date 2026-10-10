@@ -136,6 +136,16 @@ class ForkLocalizationsKo extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return '$name 님으로 보내는 중';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return '$name 님으로 게시하는 중';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return '@$username 님으로 보내는 중';
   }

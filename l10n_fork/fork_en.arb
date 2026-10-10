@@ -176,6 +176,24 @@
             }
         }
     },
+    "personaSendingAs": "Sending as {name}",
+    "@personaSendingAs": {
+        "description": "Row in the new thread sheet saying who the thread and its first message are sent as. name is a persona's name, or @username for the account.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "personaPostingAs": "Posting as {name}",
+    "@personaPostingAs": {
+        "description": "Row in the new forum post sheet saying who the post is made as. name is a persona's name, or @username for the account.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "personaSendingAsRoot": "Sending as @{username}",
     "@personaSendingAsRoot": {
         "description": "Tooltip when composer will send as root user account.",
