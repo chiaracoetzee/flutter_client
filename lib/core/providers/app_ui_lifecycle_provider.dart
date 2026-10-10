@@ -33,7 +33,10 @@ class AppUiForeground extends _$AppUiForeground {
   @override
   bool build() {
     final AppLifecycleState? s = WidgetsBinding.instance.lifecycleState;
-    return s == null || isAppUiForegroundLifecycle(s);
+    if (s == null) {
+      return false;
+    }
+    return isAppUiForegroundLifecycle(s);
   }
 
   // Keep the notifier API stable for tests and lifecycle call sites.
