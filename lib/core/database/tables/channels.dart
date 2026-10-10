@@ -28,6 +28,10 @@ class Channels extends Table {
   TextColumn get rtcRegion => text().nullable()();
   IntColumn get voiceConnectionLimit => integer().nullable()();
   TextColumn get ownerId => text().nullable()();
+
+  /// Fork: the persona a thread was started as. Added by fork_schema.dart, not
+  /// by a numbered upgrade step.
+  TextColumn get ownerPersonaId => text().nullable()();
   IntColumn get flags => integer().nullable()();
   BoolColumn get threadArchived => boolean().nullable()();
   BoolColumn get threadLocked => boolean().nullable()();

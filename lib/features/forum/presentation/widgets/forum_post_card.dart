@@ -1,4 +1,5 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -10,6 +11,7 @@ import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart'
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.dart';
+import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -360,13 +362,7 @@ class _ForumPostSnippet extends StatelessWidget {
       if (!data.firstMessageLoaded) {
         return const SizedBox(height: 16);
       }
-      return Text(
-        l10n.forumPostStarterDeleted,
-        style: context.textStyles.bodySmall.copyWith(
-          color: colors.textTertiary,
-          fontStyle: FontStyle.italic,
-        ),
-      );
+      return _ForumPostStarterDeleted(post: data.post);
     }
     final String snippet = _snippet(message);
     // Fork: a post made as a persona is listed under the persona.
@@ -561,4 +557,37 @@ Reaction? forumDefaultReactionState(
     }
   }
   return null;
+}
+
+/// Fork: the line of a card whose first message was deleted. A post made as a
+/// persona still names the persona, which the deleted message can no longer do.
+class _ForumPostStarterDeleted extends ConsumerWidget {
+  const _ForumPostStarterDeleted({required this.post});
+
+  final Channel post;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? ownerId = post.ownerId;
+    final String? personaName = ownerId == null
+        ? null
+        : ref
+              .watch(
+                threadOwnerPersonaNameProvider((
+                  threadId: post.id,
+                  ownerId: ownerId,
+                )),
+              )
+              .value;
+    return Text(
+      personaName == null
+          ? l10n.forumPostStarterDeleted
+          : l10n.forumPostSnippet(personaName, l10n.forumPostStarterDeleted),
+      style: context.textStyles.bodySmall.copyWith(
+        color: context.colors.textTertiary,
+        fontStyle: FontStyle.italic,
+      ),
+    );
+  }
 }
