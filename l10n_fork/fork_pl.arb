@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Nazwa persony",
     "personaSendingAsTag": "Wysyłanie jako {name} (dopasowane przez tag)",
     "personaSendingAsLatched": "Wysyłanie jako {name} (zablokowane)",
+    "personaSendingAs": "Wysyłanie jako {name}",
+    "personaPostingAs": "Publikowanie jako {name}",
     "personaSendingAsRoot": "Wysyłanie jako @{username}",
     "personaMainAccount": "Konto główne",
     "personaEditPersona": "Edytuj personę",

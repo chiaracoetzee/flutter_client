@@ -141,6 +141,16 @@ class ForkLocalizationsEl extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Αποστολή ως $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Δημοσίευση ως $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Αποστολή ως @$username';
   }

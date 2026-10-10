@@ -37,6 +37,8 @@
     "personaDisplayNameHint": "Nombre de la persona",
     "personaSendingAsTag": "Enviando como {name} (Coincidencia por etiqueta)",
     "personaSendingAsLatched": "Enviando como {name} (Fijada)",
+    "personaSendingAs": "Enviando como {name}",
+    "personaPostingAs": "Publicando como {name}",
     "personaSendingAsRoot": "Enviando como @{username}",
     "personaMainAccount": "Cuenta principal",
     "personaEditPersona": "Editar persona",

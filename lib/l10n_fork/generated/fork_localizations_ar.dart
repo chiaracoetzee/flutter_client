@@ -139,6 +139,16 @@ class ForkLocalizationsAr extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'إرسال باسم $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'النشر باسم $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'إرسال باسم @$username';
   }

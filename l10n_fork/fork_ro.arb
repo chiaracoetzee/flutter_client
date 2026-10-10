@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Numele personei",
     "personaSendingAsTag": "Se trimite ca {name} (Potrivire după etichetă)",
     "personaSendingAsLatched": "Se trimite ca {name} (Fixată)",
+    "personaSendingAs": "Se trimite ca {name}",
+    "personaPostingAs": "Se postează ca {name}",
     "personaSendingAsRoot": "Se trimite ca @{username}",
     "personaMainAccount": "Contul principal",
     "personaEditPersona": "Editează persona",
