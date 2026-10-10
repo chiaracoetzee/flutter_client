@@ -30,6 +30,16 @@ const InstanceConfigSnapshot _originalInstance = InstanceConfigSnapshot(
   displayDomain: 'a.example',
 );
 
+InstanceRuntimeConfig _emailAuthRuntimeConfig() {
+  return InstanceRuntimeConfig.fromWellKnown(
+    wellKnownFixture(
+      media: 'https://chat.example/media',
+      staticCdn: 'https://chat.example/static',
+      accountIdentity: 'email',
+    ),
+  );
+}
+
 class _FakeAuthRepository implements AuthRepository {
   _FakeAuthRepository({this.failure, this.passkeyException});
 
@@ -116,6 +126,9 @@ ProviderContainer _containerFor(AuthFailure failure) {
     overrides: [
       authRepositoryProvider.overrideWithValue(
         _FakeAuthRepository(failure: failure),
+      ),
+      authInstanceRuntimeConfigProvider.overrideWithValue(
+        _emailAuthRuntimeConfig(),
       ),
     ],
   );
@@ -445,6 +458,9 @@ ProviderContainer _approvalModeContainer() {
           MapAuthTokenStorage(),
           readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
         ),
+      ),
+      authInstanceRuntimeConfigProvider.overrideWithValue(
+        _emailAuthRuntimeConfig(),
       ),
     ],
   );

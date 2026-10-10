@@ -43,6 +43,18 @@ class _PendingUsernameInstanceSelector extends InstanceSelector {
   }
 }
 
+class _ResolvedInstanceSelector extends InstanceSelector {
+  @override
+  Future<InstanceSelectorState> build() async {
+    return const InstanceSelectorState(
+      instanceUrl: 'https://a.example/api',
+      status: InstanceDiscoveryStatus.success,
+      recentInstances: <RecentInstance>[],
+      requiresDiscovery: false,
+    );
+  }
+}
+
 void main() {
   test(
     'reads username sign-in from the pending auth instance, not the active one',
@@ -83,6 +95,7 @@ void main() {
     () {
       final ProviderContainer container = ProviderContainer(
         overrides: [
+          instanceSelectorProvider.overrideWith(_ResolvedInstanceSelector.new),
           instanceRuntimeConfigProvider.overrideWithValue(
             InstanceRuntimeConfig.defaults,
           ),
