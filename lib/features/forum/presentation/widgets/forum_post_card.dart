@@ -22,6 +22,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
 Color forumPostCardBackgroundColor(FluxerColorTheme colors) {
@@ -367,13 +369,7 @@ class _ForumPostSnippet extends StatelessWidget {
       if (!data.firstMessageLoaded) {
         return const SizedBox(height: 16);
       }
-      return Text(
-        l10n.forumPostStarterDeleted,
-        style: context.textStyles.bodySmall.copyWith(
-          color: colors.textTertiary,
-          fontStyle: FontStyle.italic,
-        ),
-      );
+      return _ForumPostStarterDeleted(post: data.post);
     }
     final String snippet = _snippet(message);
     // Fork: a post made as a persona is listed under the persona.
@@ -568,4 +564,37 @@ Reaction? forumDefaultReactionState(
     }
   }
   return null;
+}
+
+/// Fork: the line of a card whose first message was deleted. A post made as a
+/// persona still names the persona, which the deleted message can no longer do.
+class _ForumPostStarterDeleted extends ConsumerWidget {
+  const _ForumPostStarterDeleted({required this.post});
+
+  final Channel post;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? ownerId = post.ownerId;
+    final String? personaName = ownerId == null
+        ? null
+        : ref
+              .watch(
+                threadOwnerPersonaNameProvider((
+                  threadId: post.id,
+                  ownerId: ownerId,
+                )),
+              )
+              .value;
+    return Text(
+      personaName == null
+          ? l10n.forumPostStarterDeleted
+          : l10n.forumPostSnippet(personaName, l10n.forumPostStarterDeleted),
+      style: context.textStyles.bodySmall.copyWith(
+        color: context.colors.textTertiary,
+        fontStyle: FontStyle.italic,
+      ),
+    );
+  }
 }

@@ -14,19 +14,16 @@ Future<void> ensureForkSchema(
   FluxerDatabase database,
   Migrator migrator,
 ) async {
-  final Set<String> messageColumns = await _columnsOf(database, 'messages');
-  final List<GeneratedColumn<Object>> personaColumns =
-      <GeneratedColumn<Object>>[
-        database.messages.personaId,
-        database.messages.personaName,
-        database.messages.personaAvatar,
-        database.messages.personaTag,
-        database.messages.personaTagIcon,
-      ];
-  for (final GeneratedColumn<Object> column in personaColumns) {
-    if (!messageColumns.contains(column.name)) {
-      await migrator.addColumn(database.messages, column);
-    }
+  await ensureForkMessageColumns(database, migrator);
+
+  if (!(await _columnsOf(
+    database,
+    'channels',
+  )).contains(database.channels.ownerPersonaId.name)) {
+    await migrator.addColumn(
+      database.channels,
+      database.channels.ownerPersonaId,
+    );
   }
 
   // Fork builds before the rebase of 9 October 2026 numbered their own steps 91
@@ -44,6 +41,29 @@ Future<void> ensureForkSchema(
       _lastStepSharedWithEarlierForkBuilds,
       database.schemaVersion,
     );
+  }
+}
+
+/// Fork: adds the persona columns to `messages` when they are missing. Also run
+/// by upstream's step 98 before it rebuilds the table from its definition,
+/// which includes these columns (fluxer_database.dart).
+Future<void> ensureForkMessageColumns(
+  FluxerDatabase database,
+  Migrator migrator,
+) async {
+  final Set<String> messageColumns = await _columnsOf(database, 'messages');
+  final List<GeneratedColumn<Object>> personaColumns =
+      <GeneratedColumn<Object>>[
+        database.messages.personaId,
+        database.messages.personaName,
+        database.messages.personaAvatar,
+        database.messages.personaTag,
+        database.messages.personaTagIcon,
+      ];
+  for (final GeneratedColumn<Object> column in personaColumns) {
+    if (!messageColumns.contains(column.name)) {
+      await migrator.addColumn(database.messages, column);
+    }
   }
 }
 
