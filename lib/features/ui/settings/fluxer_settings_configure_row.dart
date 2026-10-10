@@ -13,7 +13,10 @@ class FluxerSettingsConfigureRow extends StatelessWidget {
     this.description,
     this.configureLabel,
     this.trailing,
-  }) : assert(configureLabel != null || trailing != null);
+  }) : assert(
+         configureLabel != null || trailing != null,
+         'Provide configureLabel or trailing',
+       );
 
   final String title;
   final String? description;

@@ -118,6 +118,24 @@ dependencies:
   wakelock_plus: ^1.8.0
   window_manager: ^0.5.2
 dependency_overrides:
+  # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.
+  analyzer: ^14.4.0
+  analyzer_plugin: ^0.14.0
+  dart_style: 3.1.13
+  device_info_plus: ^13.2.0
+  # Xcode 26.4+ rejects the ASWebAuthenticationPresentationContextProviding
+  # witness in flutter_inappwebview_* 1.2.0-beta.3. Remove once upstream ships
+  # https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809
+  flutter_inappwebview_ios:
+    git:
+      url: https://github.com/wangqiang1588/flutter_inappwebview
+      path: flutter_inappwebview_ios
+      ref: fc33a449b9290b127a471808e22eb7b0edebad92
+  flutter_inappwebview_macos:
+    git:
+      url: https://github.com/wangqiang1588/flutter_inappwebview
+      path: flutter_inappwebview_macos
+      ref: fc33a449b9290b127a471808e22eb7b0edebad92
   # Temp: fluxerapp/media-kit fork (revert with the dependencies above).
   media_kit:
     git:
@@ -143,27 +161,9 @@ dependency_overrides:
     git:
       url: https://github.com/fluxerapp/media-kit
       path: libs/windows/media_kit_libs_windows_video
+  mockito: 5.8.1
   # Fork pins wakelock_plus ^1.8.1 (dbus ^0.8); keep 1.8.0 for desktop_drop.
   wakelock_plus: 1.8.0
-  # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.
-  analyzer: ^14.4.0
-  analyzer_plugin: ^0.14.0
-  dart_style: 3.1.13
-  device_info_plus: ^13.2.0
-  # Xcode 26.4+ rejects the ASWebAuthenticationPresentationContextProviding
-  # witness in flutter_inappwebview_* 1.2.0-beta.3. Remove once upstream ships
-  # https://github.com/pichillilorenzo/flutter_inappwebview/pull/2809
-  flutter_inappwebview_ios:
-    git:
-      url: https://github.com/wangqiang1588/flutter_inappwebview
-      path: flutter_inappwebview_ios
-      ref: fc33a449b9290b127a471808e22eb7b0edebad92
-  flutter_inappwebview_macos:
-    git:
-      url: https://github.com/wangqiang1588/flutter_inappwebview
-      path: flutter_inappwebview_macos
-      ref: fc33a449b9290b127a471808e22eb7b0edebad92
-  mockito: 5.8.1
 
 dev_dependencies:
   accessibility_radar: ^0.3.0
