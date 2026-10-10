@@ -139,6 +139,16 @@ class ForkLocalizationsTh extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'กำลังส่งในชื่อ $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'กำลังโพสต์ในชื่อ $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'กำลังส่งในชื่อ @$username';
   }

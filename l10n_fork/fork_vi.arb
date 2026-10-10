@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Tên persona",
     "personaSendingAsTag": "Đang gửi dưới dạng {name} (Khớp theo thẻ)",
     "personaSendingAsLatched": "Đang gửi dưới dạng {name} (Đã khóa)",
+    "personaSendingAs": "Đang gửi dưới dạng {name}",
+    "personaPostingAs": "Đang đăng dưới dạng {name}",
     "personaSendingAsRoot": "Đang gửi dưới dạng @{username}",
     "personaMainAccount": "Tài khoản chính",
     "personaEditPersona": "Chỉnh sửa persona",
