@@ -87,6 +87,9 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? sequentialFileSend,
     $core.bool? mobileSplashZoomAnimation,
     $core.bool? showAltTextOnImages,
+    $core.double? mobileFontSize,
+    $core.double? mobileMessageGroupSpacing,
+    $core.double? mobileCompactMessageGroupSpacing,
   }) {
     final result = AccessibilitySettings._();
     if (saturationFactor != null) result.saturationFactor = saturationFactor;
@@ -210,6 +213,12 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.mobileSplashZoomAnimation = mobileSplashZoomAnimation;
     if (showAltTextOnImages != null)
       result.showAltTextOnImages = showAltTextOnImages;
+    if (mobileFontSize != null) result.mobileFontSize = mobileFontSize;
+    if (mobileMessageGroupSpacing != null)
+      result.mobileMessageGroupSpacing = mobileMessageGroupSpacing;
+    if (mobileCompactMessageGroupSpacing != null)
+      result.mobileCompactMessageGroupSpacing =
+          mobileCompactMessageGroupSpacing;
     return result;
   }
 
@@ -301,6 +310,9 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(63, _omitFieldNames ? '' : 'sequentialFileSend')
     ..aOB(64, _omitFieldNames ? '' : 'mobileSplashZoomAnimation')
     ..aOB(65, _omitFieldNames ? '' : 'showAltTextOnImages')
+    ..aD(66, _omitFieldNames ? '' : 'mobileFontSize')
+    ..aD(67, _omitFieldNames ? '' : 'mobileMessageGroupSpacing')
+    ..aD(68, _omitFieldNames ? '' : 'mobileCompactMessageGroupSpacing')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -922,6 +934,34 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   $core.bool hasShowAltTextOnImages() => $_has(64);
   @$pb.TagNumber(65)
   void clearShowAltTextOnImages() => $_clearField(65);
+
+  @$pb.TagNumber(66)
+  $core.double get mobileFontSize => $_getN(65);
+  @$pb.TagNumber(66)
+  set mobileFontSize($core.double value) => $_setDouble(65, value);
+  @$pb.TagNumber(66)
+  $core.bool hasMobileFontSize() => $_has(65);
+  @$pb.TagNumber(66)
+  void clearMobileFontSize() => $_clearField(66);
+
+  @$pb.TagNumber(67)
+  $core.double get mobileMessageGroupSpacing => $_getN(66);
+  @$pb.TagNumber(67)
+  set mobileMessageGroupSpacing($core.double value) => $_setDouble(66, value);
+  @$pb.TagNumber(67)
+  $core.bool hasMobileMessageGroupSpacing() => $_has(66);
+  @$pb.TagNumber(67)
+  void clearMobileMessageGroupSpacing() => $_clearField(67);
+
+  @$pb.TagNumber(68)
+  $core.double get mobileCompactMessageGroupSpacing => $_getN(67);
+  @$pb.TagNumber(68)
+  set mobileCompactMessageGroupSpacing($core.double value) =>
+      $_setDouble(67, value);
+  @$pb.TagNumber(68)
+  $core.bool hasMobileCompactMessageGroupSpacing() => $_has(67);
+  @$pb.TagNumber(68)
+  void clearMobileCompactMessageGroupSpacing() => $_clearField(68);
 }
 
 class AccessibilityOverrides extends $pb.GeneratedMessage {
