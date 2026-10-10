@@ -39,6 +39,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_comp
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/chat/providers/composer/composer_watch_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
@@ -70,7 +71,6 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_scroll.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_sendable_content.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
-import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
@@ -846,11 +846,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final channelId = ref.watch(
       chatViewModelProvider.select((s) => s.channelId),
     );
-    final dm = findDmById(
-      ref.watch(dmViewModelProvider.select((s) => s.conversations)),
-      channelId,
-    );
-    if (dm != null && isSystemDmConversation(dm)) {
+    final ComposerWatch? dm = ref.watch(composerWatchProvider(channelId));
+    if (dm != null && dm.isSystemDm) {
       return const SystemDmComposerBarrier();
     }
     final bool directMessagesDisabled = ref.watch(
@@ -906,14 +903,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             _clearSlashSession();
             _onComposerChannelChanged();
           }
-          final DmConversation? nextDm = findDmById(
-            ref.read(
-              dmViewModelProvider.select(
-                (DmViewState state) => state.conversations,
-              ),
-            ),
-            next,
-          );
+          final ComposerWatch? nextDm = ref.read(composerWatchProvider(next));
           if (nextDm == null || nextDm.isGroup || nextDm.isPersonalNotes) {
             return;
           }
@@ -1227,10 +1217,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (channel != null) {
       return l10n.channelComposerHint(channel.name);
     }
-    final conversations = ref.read(
-      dmViewModelProvider.select((s) => s.conversations),
-    );
-    final dm = findDmById(conversations, channelId);
+    final ComposerWatch? dm = ref.read(composerWatchProvider(channelId));
     if (dm != null) {
       if (dm.isPersonalNotes) {
         return l10n.personalNotesComposerHint;

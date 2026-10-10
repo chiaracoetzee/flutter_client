@@ -1,3 +1,4 @@
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
@@ -9,6 +10,44 @@ import 'package:shared_preferences/shared_preferences.dart';
 const double _kOpenHeight = 302;
 const double _kNativeGross = 336;
 const double _kNativeSafe = 34;
+
+ProviderContainer _openFocusedKeyboard() {
+  final ComposerFocusCoordinator coordinator = ComposerFocusCoordinator()
+    ..register(requestFocus: () {}, readText: () => '', hasFocus: () => true);
+  final ProviderContainer container =
+      ProviderContainer(
+          overrides: [
+            composerFocusCoordinatorProvider.overrideWith(
+              (Ref ref) => coordinator,
+            ),
+          ],
+        )
+        ..listen(
+          mobileKeyboardMetricsProvider,
+          (_, _) {},
+          fireImmediately: true,
+        )
+        ..listen(bottomInputSlotProvider, (_, _) {}, fireImmediately: true);
+  container.read(mobileKeyboardMetricsProvider.notifier)
+    ..updateLayout(screenHeight: 800, isPortrait: true, isIos: false)
+    ..debugApplyNativeMetrics(
+      keyboardHeight: _kNativeGross,
+      isKeyboardVisible: true,
+      nativeSafeAreaBottom: _kNativeSafe,
+    )
+    ..syncViewInsets(_kOpenHeight, safeAreaBottom: 0);
+  return container;
+}
+
+void _hideKeyboard(ProviderContainer container) {
+  container.read(mobileKeyboardMetricsProvider.notifier)
+    ..syncViewInsets(0, safeAreaBottom: 0)
+    ..debugApplyNativeMetrics(
+      keyboardHeight: 0,
+      isKeyboardVisible: false,
+      nativeSafeAreaBottom: _kNativeSafe,
+    );
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +61,7 @@ void main() {
     late MobileKeyboardMetrics notifier;
 
     setUp(() async {
-      container = ProviderContainer();
-      container
+      container = ProviderContainer()
         ..listen(
           mobileKeyboardMetricsProvider,
           (_, _) {},
@@ -79,17 +117,18 @@ void main() {
     }
 
     void closeOutOfOrder() {
-      notifier.syncViewInsets(0, safeAreaBottom: 0);
-      notifier.debugApplyNativeMetrics(
-        keyboardHeight: _kNativeGross,
-        isKeyboardVisible: true,
-        nativeSafeAreaBottom: _kNativeSafe,
-      );
-      notifier.debugApplyNativeMetrics(
-        keyboardHeight: 0,
-        isKeyboardVisible: false,
-        nativeSafeAreaBottom: _kNativeSafe,
-      );
+      notifier
+        ..syncViewInsets(0, safeAreaBottom: 0)
+        ..debugApplyNativeMetrics(
+          keyboardHeight: _kNativeGross,
+          isKeyboardVisible: true,
+          nativeSafeAreaBottom: _kNativeSafe,
+        )
+        ..debugApplyNativeMetrics(
+          keyboardHeight: 0,
+          isKeyboardVisible: false,
+          nativeSafeAreaBottom: _kNativeSafe,
+        );
     }
 
     test('in-order spam settles at 0 or 302 every toggle', () {
@@ -166,47 +205,71 @@ void main() {
     });
 
     test('android back clears reservation while composer focused', () {
-      final ComposerFocusCoordinator coordinator = ComposerFocusCoordinator();
-      coordinator.register(
-        requestFocus: () {},
-        readText: () => '',
-        hasFocus: () => true,
-      );
-      final ProviderContainer focused = ProviderContainer(
-        overrides: [
-          composerFocusCoordinatorProvider.overrideWith(
-            (Ref ref) => coordinator,
-          ),
-        ],
-      );
-      addTearDown(focused.dispose);
-      focused
-        ..listen(
-          mobileKeyboardMetricsProvider,
-          (_, _) {},
-          fireImmediately: true,
-        )
-        ..listen(bottomInputSlotProvider, (_, _) {}, fireImmediately: true);
-      final MobileKeyboardMetrics metricsNotifier = focused.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      metricsNotifier
-        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: false)
-        ..syncViewInsets(_kOpenHeight, safeAreaBottom: 0)
-        ..reserveUnmeasuredKeyboard()
-        ..syncViewInsets(0, safeAreaBottom: 0)
-        ..debugApplyNativeMetrics(
-          keyboardHeight: 0,
-          isKeyboardVisible: false,
-          nativeSafeAreaBottom: _kNativeSafe,
-        );
+      fakeAsync((FakeAsync async) {
+        final ProviderContainer focused = _openFocusedKeyboard();
+        try {
+          focused
+              .read(mobileKeyboardMetricsProvider.notifier)
+              .reserveUnmeasuredKeyboard();
+          _hideKeyboard(focused);
 
-      expect(
-        focused.read(mobileKeyboardMetricsProvider).unmeasuredKeyboardReserved,
-        isFalse,
-      );
-      expect(focused.read(bottomInputSlotProvider).slotHeight, 0);
-      focused.dispose();
+          expect(
+            focused.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+            _kOpenHeight,
+          );
+          async.elapse(kFocusedKeyboardDismissHold);
+          expect(
+            focused
+                .read(mobileKeyboardMetricsProvider)
+                .unmeasuredKeyboardReserved,
+            isFalse,
+          );
+          expect(focused.read(bottomInputSlotProvider).slotHeight, 0);
+          expect(
+            focused.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+            0,
+          );
+        } finally {
+          focused.dispose();
+        }
+      });
+    });
+
+    test('focused composer keeps height through a one-sample inset drop', () {
+      fakeAsync((FakeAsync async) {
+        final ProviderContainer focused = _openFocusedKeyboard();
+        try {
+          _hideKeyboard(focused);
+
+          expect(
+            focused.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+            _kOpenHeight,
+          );
+          expect(
+            focused.read(bottomInputSlotProvider).slotHeight,
+            _kOpenHeight,
+          );
+
+          focused.read(mobileKeyboardMetricsProvider.notifier)
+            ..debugApplyNativeMetrics(
+              keyboardHeight: _kNativeGross,
+              isKeyboardVisible: true,
+              nativeSafeAreaBottom: _kNativeSafe,
+            )
+            ..syncViewInsets(_kOpenHeight, safeAreaBottom: 0);
+          async.elapse(kFocusedKeyboardDismissHold);
+          expect(
+            focused.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+            _kOpenHeight,
+          );
+          expect(
+            focused.read(bottomInputSlotProvider).slotHeight,
+            _kOpenHeight,
+          );
+        } finally {
+          focused.dispose();
+        }
+      });
     });
 
     test('open flicker keeps native-visible height until inset arrives', () {
