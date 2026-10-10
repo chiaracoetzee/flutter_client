@@ -29,23 +29,43 @@ Future<void> ensureForkSchema(
     }
   }
 
-  // Fork builds before the rebase of 9 October 2026 used schema version 92 for
-  // `persona_tag_icon`. Upstream then used 92 for the two columns below, so
-  // those installs never ran upstream's step.
+  // Fork builds before the rebase of 9 October 2026 numbered their own steps 91
+  // and 92. Upstream then used those numbers for its thread tables and for two
+  // user_preferences columns, so an install coming from such a build is already
+  // "at 92" and never ran upstream's steps: it has no thread_members table and
+  // cannot store the first sync.
+  //
+  // Those builds match upstream up to step 90, and upstream's steps check for
+  // each column and table before adding it. So run upstream's own upgrade again
+  // from 90 rather than keep a copy of what its steps add.
+  if (await _skippedUpstreamSteps(database)) {
+    await database.migration.onUpgrade(
+      migrator,
+      _lastStepSharedWithEarlierForkBuilds,
+      database.schemaVersion,
+    );
+  }
+}
+
+const int _lastStepSharedWithEarlierForkBuilds = 90;
+
+Future<bool> _skippedUpstreamSteps(FluxerDatabase database) async {
+  final List<QueryRow> threadMembers = await database
+      .customSelect(
+        "SELECT 1 FROM sqlite_master WHERE type = 'table' "
+        "AND name = 'thread_members'",
+      )
+      .get();
+  if (threadMembers.isEmpty) {
+    return true;
+  }
   final Set<String> preferenceColumns = await _columnsOf(
     database,
     'user_preferences',
   );
-  final List<GeneratedColumn<Object>> skippedUpstreamColumns =
-      <GeneratedColumn<Object>>[
-        database.userPreferencesTable.syncThemeColorsFromThemeStudio,
-        database.userPreferencesTable.syncThemeColorsToThemeStudio,
-      ];
-  for (final GeneratedColumn<Object> column in skippedUpstreamColumns) {
-    if (!preferenceColumns.contains(column.name)) {
-      await migrator.addColumn(database.userPreferencesTable, column);
-    }
-  }
+  return !preferenceColumns.contains(
+    database.userPreferencesTable.syncThemeColorsToThemeStudio.name,
+  );
 }
 
 Future<Set<String>> _columnsOf(FluxerDatabase database, String table) async {
