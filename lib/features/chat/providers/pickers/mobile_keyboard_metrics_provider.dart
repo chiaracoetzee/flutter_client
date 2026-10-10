@@ -96,6 +96,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   Timer? _unmeasuredReservationTimer;
   Timer? _nativeOnlyTimer;
   Timer? _shortInsetTimer;
+  bool _acceptVisibleNativeSamples = true;
 
   @override
   MobileKeyboardMetricsState build() {
@@ -211,6 +212,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     if (_viewInsetsKeyboardHeight > 0) {
       _sawViewInsets = true;
       _ignoreNativeUntilHidden = false;
+      _acceptVisibleNativeSamples = true;
     }
     _commitMergedHeights(safeAreaBottom: safeAreaBottom);
   }
@@ -240,10 +242,12 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       nativeHeight: _nativeKeyboardHeight,
       viewInsetsHeight: _viewInsetsKeyboardHeight,
     );
-    final double mergedHeight =
-        _preferNativeIme && nativeImeOnly > mergedFromSources
+    double mergedHeight = _preferNativeIme && nativeImeOnly > mergedFromSources
         ? nativeImeOnly
         : mergedFromSources;
+    if (_viewInsetsKeyboardHeight <= 0 && !_nativeKeyboardVisible) {
+      mergedHeight = 0;
+    }
     final double anchorSample = _preferNativeIme && nativeImeOnly > 0
         ? nativeImeOnly
         : (_viewInsetsKeyboardHeight > 0
@@ -340,6 +344,12 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void _setNativeKeyboardHeight(double height, {required bool visible}) {
+    if (visible &&
+        height > 0 &&
+        !_acceptVisibleNativeSamples &&
+        _viewInsetsKeyboardHeight <= 0) {
+      return;
+    }
     _nativeKeyboardVisible = visible && height > 0;
     if (!visible || height <= 0) {
       _ignoreNativeUntilHidden = false;
@@ -474,6 +484,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     _nativeKeyboardHeight = 0;
     _nativeKeyboardVisible = false;
     _sawViewInsets = false;
+    _acceptVisibleNativeSamples = false;
     if (!ref.mounted) {
       return;
     }

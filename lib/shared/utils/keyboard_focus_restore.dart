@@ -47,12 +47,6 @@ void reconnectComposerKeyboard(FocusNode node) {
     return;
   }
   nudgeComposerKeyboardOpen(node);
-  node.unfocus();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (node.canRequestFocus && !node.hasFocus) {
-      node.requestFocus();
-    }
-  });
 }
 
 /// Re-requests [focusNode] on resume when the keyboard was open before backgrounding.

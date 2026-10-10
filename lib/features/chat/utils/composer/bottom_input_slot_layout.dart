@@ -246,6 +246,21 @@ double resolveTransitionLockHeight({
   return math.max(liveKeyboardHeight, anchorHeight);
 }
 
+double resolveKeyboardSpacerRawHeight({
+  required double viewInsetBottom,
+  required double slotHeight,
+  required bool keyboardLayoutActive,
+}) {
+  if (!keyboardLayoutActive) {
+    if (viewInsetBottom <= 0) {
+      return 0;
+    }
+    return viewInsetBottom;
+  }
+  final double resolved = math.max(viewInsetBottom, slotHeight);
+  return resolved > 0 ? resolved : 0;
+}
+
 bool hasKeyboardFullyDismissed({
   required double liveKeyboardHeight,
   required bool isKeyboardVisible,

@@ -93,6 +93,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kComposerDisabledOpacity = 0.6;
@@ -450,10 +451,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _onComposerChannelChanged() {
-    final bool restoreKeyboardFocus = _focusNode.hasFocus;
-    if (restoreKeyboardFocus) {
-      _focusNode.unfocus();
-    }
+    final bool hadKeyboardFocus = _focusNode.hasFocus;
     _keyboardSession.onChannelChanged();
     _textSession.onChannelChanged();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -461,8 +459,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         return;
       }
       _keyboardSession.resyncViewInsetsFromContext(context);
-      if (restoreKeyboardFocus && _focusNode.canRequestFocus) {
-        _focusNode.requestFocus();
+      if (hadKeyboardFocus && _focusNode.hasFocus) {
+        nudgeComposerKeyboardOpen(_focusNode);
       }
     });
   }

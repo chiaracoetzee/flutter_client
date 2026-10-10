@@ -173,12 +173,7 @@ class ComposerKeyboardSession {
       return;
     }
     if (_focusNode.hasFocus && resolvedKeyboardInsetBottom(context) <= 0) {
-      if (_keyboardMetricsIndicateOpen()) {
-        nudgeComposerKeyboardOpen(_focusNode);
-        return;
-      }
-      _beginImeReconnect();
-      _keyboardRestore.reconnectOpenField();
+      nudgeComposerKeyboardOpen(_focusNode);
     }
   }
 
@@ -194,15 +189,6 @@ class ComposerKeyboardSession {
         !metrics.isKeyboardVisible) {
       maybeReserveUnmeasuredKeyboard();
     }
-  }
-
-  bool _keyboardMetricsIndicateOpen() {
-    final MobileKeyboardMetricsState metrics = _ref.read(
-      mobileKeyboardMetricsProvider,
-    );
-    return metrics.isKeyboardVisible ||
-        metrics.unmeasuredKeyboardReserved ||
-        metrics.liveKeyboardHeight > 0;
   }
 
   void closePanelsAndFocusComposer() {
@@ -224,8 +210,9 @@ class ComposerKeyboardSession {
         _focusNode.requestFocus();
       }
       if (_focusNode.hasFocus) {
-        _beginImeReconnect();
-        _keyboardRestore.reconnectOpenField();
+        nudgeComposerKeyboardOpen(_focusNode);
+        _keyboardState = ComposerKeyboardState.keyboardOpen;
+        _recordDebugBreadcrumb();
       } else {
         _keyboardRestore.scheduleRestoreIfPending();
         _keyboardState = _resolveIdleKeyboardState();

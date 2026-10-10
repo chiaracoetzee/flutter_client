@@ -277,35 +277,6 @@ void main() {
     expect(isAppBackgroundLifecycleState(AppLifecycleState.resumed), isFalse);
   });
 
-  testWidgets('reconnectOpenField refocuses after unfocus nudge', (
-    tester,
-  ) async {
-    final FocusNode focusNode = FocusNode();
-    addTearDown(focusNode.dispose);
-    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
-      focusNode: focusNode,
-      shouldTrackOnBackground: () => true,
-      canRestoreFocus: () => true,
-    );
-    addTearDown(handle.dispose);
-
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(body: TextField(focusNode: focusNode)),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    focusNode.requestFocus();
-    await tester.pumpAndSettle();
-    expect(focusNode.hasFocus, isTrue);
-
-    handle.reconnectOpenField();
-    await tester.pump();
-    await tester.pump();
-    expect(focusNode.hasFocus, isTrue);
-  });
-
   testWidgets('cancelImeReconnect drops pending background restore', (
     tester,
   ) async {
