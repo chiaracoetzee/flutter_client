@@ -161,7 +161,11 @@ void main() {
         containsAll(_themeStudioColumns),
       );
       expect(_columns(raw, 'messages'), containsAll(_personaColumns));
-      expect(raw.select('PRAGMA user_version').single['user_version'], 92);
+      // Opening also runs any step upstream has added since.
+      expect(
+        raw.select('PRAGMA user_version').single['user_version'],
+        db.schemaVersion,
+      );
     });
 
     test('an existing database gains the column for the persona a thread '
