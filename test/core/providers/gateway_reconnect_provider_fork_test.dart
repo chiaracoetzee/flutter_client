@@ -48,6 +48,8 @@ void main() {
           gatewayConnectionProvider.overrideWithValue(connection),
         ],
       )..read(gatewayReconnectBannerListenerProvider);
+      // The banner only shows while the app is in the foreground.
+      container.read(appUiForegroundProvider.notifier).setResumed(true);
 
       connection
         ..emit(GatewayState.connected)
@@ -114,6 +116,8 @@ void main() {
             gatewayConnectionProvider.overrideWithValue(connection),
           ],
         )..read(gatewayReconnectBannerListenerProvider);
+        // The banner only shows while the app is in the foreground.
+        container.read(appUiForegroundProvider.notifier).setResumed(true);
 
         container.read(gatewayReconnectBannerProvider.notifier).showConnected();
         expect(
