@@ -56,7 +56,7 @@ Set<String> knownUserSettingsFieldIdsForTab(String tab) {
         'motion',
       };
     case 'chat_settings':
-      return {'display', 'input', 'media'};
+      return {'display', 'gestures', 'input', 'media'};
     case 'voice_video':
       return {'audio', 'video'};
     case 'notifications':
@@ -175,6 +175,8 @@ String? _scrollFieldLabel(FluxerLocalizations l10n, String scrollId) {
       return l10n.messagesMediaDisplayGroupTitle;
     case 'media':
       return l10n.messagesMediaMediaGroupTitle;
+    case 'gestures':
+      return l10n.messagesMediaGesturesSectionTitle;
     case 'input':
       return l10n.messagesMediaInputGroupTitle;
     case 'audio':

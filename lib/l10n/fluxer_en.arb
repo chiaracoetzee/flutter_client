@@ -8422,40 +8422,48 @@
     "@doubleTapReactionEditSubtitle": {
         "description": "Subtitle of the double-tap default emoji picker sheet."
     },
-    "messagesMediaDoubleTapSectionTitle": "Double tap",
-    "@messagesMediaDoubleTapSectionTitle": {
-        "description": "Title for double-tap message action settings on mobile."
+    "messagesMediaGesturesSectionTitle": "Gestures",
+    "@messagesMediaGesturesSectionTitle": {
+        "description": "Title for message gesture settings on mobile."
     },
-    "messagesMediaDoubleTapSectionDescription": "Choose what happens when you double tap a message.",
-    "@messagesMediaDoubleTapSectionDescription": {
-        "description": "Description for double-tap message action settings on mobile."
+    "messagesMediaGesturesSectionDescription": "Configure double tap on messages.",
+    "@messagesMediaGesturesSectionDescription": {
+        "description": "Description for message gesture settings on mobile."
     },
-    "messagesMediaDoubleTapActionLabel": "Double tap action",
-    "@messagesMediaDoubleTapActionLabel": {
+    "messagesMediaGesturesReactionLabel": "Reaction emoji",
+    "@messagesMediaGesturesReactionLabel": {
+        "description": "Label for choosing the default double-tap reaction emoji."
+    },
+    "messagesMediaGesturesReactionDescription": "Used when double tap is set to add a reaction.",
+    "@messagesMediaGesturesReactionDescription": {
+        "description": "Help text for the double-tap reaction emoji setting."
+    },
+    "messagesMediaGesturesDoubleTapActionLabel": "Double tap action",
+    "@messagesMediaGesturesDoubleTapActionLabel": {
         "description": "Label for the double-tap action radio group."
     },
-    "messagesMediaDoubleTapActionReactName": "Add reaction",
-    "@messagesMediaDoubleTapActionReactName": {
+    "messagesMediaGesturesDoubleTapActionReactName": "Add reaction",
+    "@messagesMediaGesturesDoubleTapActionReactName": {
         "description": "Double tap adds the default reaction emoji."
     },
-    "messagesMediaDoubleTapActionReactDescription": "Adds your default double-tap emoji as a reaction.",
-    "@messagesMediaDoubleTapActionReactDescription": {
+    "messagesMediaGesturesDoubleTapActionReactDescription": "Adds your default double-tap emoji as a reaction.",
+    "@messagesMediaGesturesDoubleTapActionReactDescription": {
         "description": "Help text for the react double-tap action."
     },
-    "messagesMediaDoubleTapActionEditName": "Edit message",
-    "@messagesMediaDoubleTapActionEditName": {
+    "messagesMediaGesturesDoubleTapActionEditName": "Edit message",
+    "@messagesMediaGesturesDoubleTapActionEditName": {
         "description": "Double tap edits your own message."
     },
-    "messagesMediaDoubleTapActionEditDescription": "Opens the editor on messages you sent. Other messages are unchanged.",
-    "@messagesMediaDoubleTapActionEditDescription": {
+    "messagesMediaGesturesDoubleTapActionEditDescription": "Opens the editor on messages you sent. Other messages are unchanged.",
+    "@messagesMediaGesturesDoubleTapActionEditDescription": {
         "description": "Help text for the edit double-tap action."
     },
-    "messagesMediaDoubleTapActionNoneName": "Nothing",
-    "@messagesMediaDoubleTapActionNoneName": {
+    "messagesMediaGesturesDoubleTapActionNoneName": "Nothing",
+    "@messagesMediaGesturesDoubleTapActionNoneName": {
         "description": "Double tap does nothing."
     },
-    "messagesMediaDoubleTapActionNoneDescription": "Double tap is disabled.",
-    "@messagesMediaDoubleTapActionNoneDescription": {
+    "messagesMediaGesturesDoubleTapActionNoneDescription": "Double tap is disabled.",
+    "@messagesMediaGesturesDoubleTapActionNoneDescription": {
         "description": "Help text for the none double-tap action."
     },
     "chatMessageEdit": "Edit message",

@@ -8,15 +8,17 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 class FluxerSettingsConfigureRow extends StatelessWidget {
   const FluxerSettingsConfigureRow({
     required this.title,
-    required this.configureLabel,
     required this.onConfigure,
     super.key,
     this.description,
-  });
+    this.configureLabel,
+    this.trailing,
+  }) : assert(configureLabel != null || trailing != null);
 
   final String title;
   final String? description;
-  final String configureLabel;
+  final String? configureLabel;
+  final Widget? trailing;
   final VoidCallback onConfigure;
 
   @override
@@ -72,13 +74,16 @@ class FluxerSettingsConfigureRow extends StatelessWidget {
                 ),
               ),
               SizedBox(width: layout.s4),
-              FluxerButton.secondary(
-                size: FluxerButtonSize.compact,
-                fitContent: true,
-                onPressed: onConfigure,
-                label: configureLabel,
-                icon: PhosphorIconsBold.gear,
-              ),
+              if (trailing != null)
+                trailing!
+              else
+                FluxerButton.secondary(
+                  size: FluxerButtonSize.compact,
+                  fitContent: true,
+                  onPressed: onConfigure,
+                  label: configureLabel,
+                  icon: PhosphorIconsBold.gear,
+                ),
             ],
           ),
         );

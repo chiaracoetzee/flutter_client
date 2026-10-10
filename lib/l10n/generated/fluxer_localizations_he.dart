@@ -6581,34 +6581,41 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get doubleTapReactionEditSubtitle => 'בחר אימוג\'י להקשה כפולה';
 
   @override
-  String get messagesMediaDoubleTapSectionTitle => 'Double tap';
+  String get messagesMediaGesturesSectionTitle => 'Gestures';
 
   @override
-  String get messagesMediaDoubleTapSectionDescription =>
-      'Choose what happens when you double tap a message.';
+  String get messagesMediaGesturesSectionDescription =>
+      'Configure double tap on messages.';
 
   @override
-  String get messagesMediaDoubleTapActionLabel => 'Double tap action';
+  String get messagesMediaGesturesReactionLabel => 'Reaction emoji';
 
   @override
-  String get messagesMediaDoubleTapActionReactName => 'Add reaction';
+  String get messagesMediaGesturesReactionDescription =>
+      'Used when double tap is set to add a reaction.';
 
   @override
-  String get messagesMediaDoubleTapActionReactDescription =>
+  String get messagesMediaGesturesDoubleTapActionLabel => 'Double tap action';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionReactName => 'Add reaction';
+
+  @override
+  String get messagesMediaGesturesDoubleTapActionReactDescription =>
       'Adds your default double-tap emoji as a reaction.';
 
   @override
-  String get messagesMediaDoubleTapActionEditName => 'Edit message';
+  String get messagesMediaGesturesDoubleTapActionEditName => 'Edit message';
 
   @override
-  String get messagesMediaDoubleTapActionEditDescription =>
+  String get messagesMediaGesturesDoubleTapActionEditDescription =>
       'Opens the editor on messages you sent. Other messages are unchanged.';
 
   @override
-  String get messagesMediaDoubleTapActionNoneName => 'Nothing';
+  String get messagesMediaGesturesDoubleTapActionNoneName => 'Nothing';
 
   @override
-  String get messagesMediaDoubleTapActionNoneDescription =>
+  String get messagesMediaGesturesDoubleTapActionNoneDescription =>
       'Double tap is disabled.';
 
   @override
