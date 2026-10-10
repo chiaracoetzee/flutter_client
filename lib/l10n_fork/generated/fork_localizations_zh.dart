@@ -136,6 +136,16 @@ class ForkLocalizationsZh extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return '以 $name 发送';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return '以 $name 发布';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return '以 @$username 发送';
   }
@@ -502,6 +512,16 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   @override
   String personaSendingAsLatched(String name) {
     return '以 $name 的身分傳送 (已鎖定)';
+  }
+
+  @override
+  String personaSendingAs(String name) {
+    return '以 $name 的身分傳送';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return '以 $name 的身分發佈';
   }
 
   @override

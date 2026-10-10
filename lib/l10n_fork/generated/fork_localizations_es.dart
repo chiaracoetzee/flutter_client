@@ -142,6 +142,16 @@ class ForkLocalizationsEs extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Enviando como $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Publicando como $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Enviando como @$username';
   }
@@ -525,6 +535,16 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String personaSendingAsLatched(String name) {
     return 'Enviando como $name (Fijada)';
+  }
+
+  @override
+  String personaSendingAs(String name) {
+    return 'Enviando como $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Publicando como $name';
   }
 
   @override

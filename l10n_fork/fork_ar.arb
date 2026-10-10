@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "اسم الشخصية",
     "personaSendingAsTag": "إرسال باسم {name} (تمت المطابقة بواسطة العلامة)",
     "personaSendingAsLatched": "إرسال باسم {name} (مثبّت)",
+    "personaSendingAs": "إرسال باسم {name}",
+    "personaPostingAs": "النشر باسم {name}",
     "personaSendingAsRoot": "إرسال باسم @{username}",
     "personaMainAccount": "الحساب الرئيسي",
     "personaEditPersona": "تعديل الشخصية",

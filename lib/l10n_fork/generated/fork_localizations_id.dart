@@ -141,6 +141,16 @@ class ForkLocalizationsId extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Mengirim sebagai $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Memposting sebagai $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Mengirim sebagai @$username';
   }
