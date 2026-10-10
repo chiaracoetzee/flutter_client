@@ -24,6 +24,11 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_sending_as_row.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
+
 Future<void> showForumPostComposerSheet(
   BuildContext context,
   WidgetRef hostRef, {
@@ -145,6 +150,32 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       setState(() => _error = error);
       return;
     }
+    // Fork: the post is made as the persona the picker shows, as a message from
+    // the channel composer would be. The tag comes out of the text first, so a
+    // tag with nothing after it is not a message.
+    final OutgoingMessageResolution outgoing = await resolveOutgoingPersona(
+      ref: ref,
+      rawText: _content.text,
+      channelId: '',
+      allowEmptyContent: _files.isNotEmpty,
+      hasAttachments: _files.isNotEmpty,
+    );
+    if (!mounted) {
+      return;
+    }
+    final String? strippedError = forumPostDraftError(
+      forum: widget.forum,
+      title: _title.text,
+      content: outgoing.text,
+      tags: _tags,
+      attachmentCount: _files.length,
+      moderator: actor != null && isThreadModeratorFor(actor),
+      l10n: l10n,
+    );
+    if (strippedError != null) {
+      setState(() => _error = strippedError);
+      return;
+    }
     setState(() {
       _submitting = true;
       _error = null;
@@ -159,7 +190,8 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
             forumId: forum.id,
             draft: ForumPostDraft(
               name: _title.text,
-              content: _content.text,
+              content: outgoing.text,
+              personaData: outgoing.personaData,
               appliedTags: _tags,
               files: _files,
               autoArchiveDuration: forum.defaultAutoArchiveDuration,
@@ -263,6 +295,11 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
               onChanged: (_) => setState(() => _error = null),
             ),
             SizedBox(height: layout.s3),
+            PersonaSendingAsRow(
+              text: _content.text,
+              hasAttachments: _files.isNotEmpty,
+              posting: true,
+            ),
             FluxerInput.multiline(
               label: l10n.forumPostMessage,
               hint: isMediaChannel(forum)

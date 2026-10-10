@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Persona neve",
     "personaSendingAsTag": "Küldés mint {name} (Címke alapján)",
     "personaSendingAsLatched": "Küldés mint {name} (Rögzítve)",
+    "personaSendingAs": "Küldés mint {name}",
+    "personaPostingAs": "Közzététel mint {name}",
     "personaSendingAsRoot": "Küldés mint @{username}",
     "personaMainAccount": "Fő fiók",
     "personaEditPersona": "Persona szerkesztése",

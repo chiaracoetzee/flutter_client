@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Personos vardas",
     "personaSendingAsTag": "Siunčiama kaip {name} (Atskirta pagal žymą)",
     "personaSendingAsLatched": "Siunčiama kaip {name} (Užfiksuota)",
+    "personaSendingAs": "Siunčiama kaip {name}",
+    "personaPostingAs": "Skelbiama kaip {name}",
     "personaSendingAsRoot": "Siunčiama kaip @{username}",
     "personaMainAccount": "Pagrindinė paskyra",
     "personaEditPersona": "Redaguoti personą",

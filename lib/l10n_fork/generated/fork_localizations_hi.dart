@@ -140,6 +140,16 @@ class ForkLocalizationsHi extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return '$name के तौर पर भेज रहे हैं';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return '$name के तौर पर पोस्ट कर रहे हैं';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return '@$username के तौर पर भेज रहे हैं';
   }
