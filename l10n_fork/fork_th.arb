@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "ชื่อ Persona",
     "personaSendingAsTag": "กำลังส่งในชื่อ {name} (ตรงกับแท็ก)",
     "personaSendingAsLatched": "กำลังส่งในชื่อ {name} (ล็อคแล้ว)",
+    "personaSendingAs": "กำลังส่งในชื่อ {name}",
+    "personaPostingAs": "กำลังโพสต์ในชื่อ {name}",
     "personaSendingAsRoot": "กำลังส่งในชื่อ @{username}",
     "personaMainAccount": "บัญชีหลัก",
     "personaEditPersona": "แก้ไข Persona",

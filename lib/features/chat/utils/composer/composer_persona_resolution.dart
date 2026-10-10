@@ -32,18 +32,23 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
   required String rawText,
   required String channelId,
   bool allowEmptyContent = false,
+  bool? hasAttachments,
 }) async {
   final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
   final activeState = ref.read(activePersonaProvider);
-  final bool hasPendingAttachments = channelId.isNotEmpty &&
-      ref.read(
-        cloudUploadControllerProvider(channelId).select(
-          (CloudComposerAttachments a) => a.items.isNotEmpty,
-        ),
-      );
+  // A composer that keeps its own files (the forum post sheet) says so itself.
+  final bool hasPendingAttachments =
+      hasAttachments ??
+      channelId.isNotEmpty &&
+          ref.read(
+            cloudUploadControllerProvider(
+              channelId,
+            ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
+          );
 
-  final String? latchedId =
-      activeState.isLatched ? activeState.activePersonaId : null;
+  final String? latchedId = activeState.isLatched
+      ? activeState.activePersonaId
+      : null;
   final MatchResult matchResult = matchPersona(
     rawText,
     personas,
@@ -57,21 +62,21 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
     await ref.read(activePersonaProvider.notifier).unlatch();
   } else if (matchResult.matched && matchResult.persona != null) {
     unawaited(
-      ref.read(activePersonaProvider.notifier).recordUsage(matchResult.persona!.id),
+      ref
+          .read(activePersonaProvider.notifier)
+          .recordUsage(matchResult.persona!.id),
     );
     if (activeState.mode == PersonaMode.last &&
         activeState.activePersonaId != matchResult.persona!.id) {
-      await ref.read(activePersonaProvider.notifier).setActivePersona(
-            matchResult.persona!.id,
-            mode: PersonaMode.last,
-          );
+      await ref
+          .read(activePersonaProvider.notifier)
+          .setActivePersona(matchResult.persona!.id, mode: PersonaMode.last);
     }
   }
 
-  final String finalOutgoingText =
-      matchResult.matched || matchResult.wasEscaped
-          ? matchResult.strippedContent
-          : rawText;
+  final String finalOutgoingText = matchResult.matched || matchResult.wasEscaped
+      ? matchResult.strippedContent
+      : rawText;
 
   Map<String, dynamic>? personaData;
   if (matchResult.matched && matchResult.persona != null) {

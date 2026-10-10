@@ -78,8 +78,11 @@ class ForumPostDraft {
     this.appliedTags = const <String>[],
     this.files = const <ComposerUploadFile>[],
     this.autoArchiveDuration,
+    this.personaData,
   });
 
+  /// Fork: the persona the post is made as, in the form a message carries it.
+  final Map<String, dynamic>? personaData;
   final String name;
   final String content;
   final List<String> appliedTags;
@@ -309,6 +312,7 @@ class ForumRepository {
               'title': _uploadName(draft.files[i]),
             },
         ],
+      'subprofile': ?draft.personaData,
     };
     final Map<String, dynamic> payload = <String, dynamic>{
       'name': draft.name.trim(),
