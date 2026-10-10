@@ -164,6 +164,18 @@ void main() {
       expect(raw.select('PRAGMA user_version').single['user_version'], 92);
     });
 
+    test('an existing database gains the column for the persona a thread '
+        'was started as', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      raw.execute('ALTER TABLE channels DROP COLUMN owner_persona_id');
+
+      await _open(raw);
+
+      expect(_columns(raw, 'channels'), contains('owner_persona_id'));
+    });
+
     test('opening twice changes nothing the second time', () async {
       final Database raw = sqlite3.openInMemory();
       addTearDown(raw.close);

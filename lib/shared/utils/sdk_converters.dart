@@ -130,6 +130,11 @@ db.ChannelsCompanion channelFromSdk(ChannelResponse sdk, String guildId) {
     rtcP2p: Value(sdk.rtcP2p ?? false),
     voiceConnectionLimit: Value(sdk.voiceConnectionLimit),
     ownerId: Value(sdk.ownerId),
+    // Fork: only threads started as a persona carry it, and later updates to a
+    // thread may leave it out, so its absence never clears what is stored.
+    ownerPersonaId: sdk.ownerPersonaId == null
+        ? const Value.absent()
+        : Value(sdk.ownerPersonaId),
     flags: Value(sdk.flags),
     threadArchived: Value(meta?.archived),
     threadLocked: Value(meta?.locked),

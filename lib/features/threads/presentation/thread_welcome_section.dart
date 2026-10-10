@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
+import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -39,13 +40,25 @@ class ThreadWelcomeSection extends ConsumerWidget {
         isPost &&
         (ref.watch(threadStarterMissingProvider(thread.id)).value ?? false);
     final String? ownerId = thread.ownerId;
+    // Fork: a thread started as a persona is credited to the persona.
+    final String? ownerPersonaName = ownerId == null
+        ? null
+        : ref
+              .watch(
+                threadOwnerPersonaNameProvider((
+                  threadId: thread.id,
+                  ownerId: ownerId,
+                )),
+              )
+              .value;
     final String? ownerName = ownerId == null
         ? null
-        : watchMentionUserDisplayName(
-            ref: ref,
-            userId: ownerId,
-            guildId: thread.guildId,
-          );
+        : ownerPersonaName ??
+              watchMentionUserDisplayName(
+                ref: ref,
+                userId: ownerId,
+                guildId: thread.guildId,
+              );
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 32),
       child: Column(
