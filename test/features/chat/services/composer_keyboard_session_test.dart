@@ -186,6 +186,66 @@ void main() {
       session.dispose();
     },
   );
+
+  testWidgets('a closed keyboard stays closed while the composer keeps focus', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    late ComposerKeyboardSession session;
+    late WidgetRef widgetRef;
+
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(
+            body: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? _) {
+                widgetRef = ref;
+                session = ComposerKeyboardSession(
+                  ref: ref,
+                  focusNode: focusNode,
+                  isMounted: () => true,
+                  isMobileLayout: () => true,
+                  isSlashSessionActive: () => false,
+                  composerEntryFocused: () => focusNode.hasFocus,
+                );
+                return TextField(focusNode: focusNode);
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    session.handleFocusChange(focused: true);
+
+    widgetRef.read(mobileKeyboardMetricsProvider.notifier)
+      ..updateLayout(screenHeight: 800, isPortrait: true, isIos: false)
+      ..debugApplyNativeMetrics(
+        keyboardHeight: 336,
+        isKeyboardVisible: true,
+        nativeSafeAreaBottom: 34,
+      )
+      ..syncViewInsets(302, safeAreaBottom: 0)
+      ..debugApplyNativeMetrics(
+        keyboardHeight: 0,
+        isKeyboardVisible: false,
+        nativeSafeAreaBottom: 34,
+      )
+      ..syncViewInsets(0, safeAreaBottom: 0)
+      ..syncViewInsets(0, safeAreaBottom: 0);
+
+    expect(focusNode.hasFocus, isTrue);
+    expect(
+      widgetRef.read(mobileKeyboardMetricsProvider).unmeasuredKeyboardReserved,
+      isFalse,
+    );
+    expect(widgetRef.read(bottomInputSlotProvider).slotHeight, 0);
+    session.dispose();
+  });
 }
 
 class _OpenKeyboardMetrics extends MobileKeyboardMetrics {

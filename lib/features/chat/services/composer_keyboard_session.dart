@@ -177,20 +177,6 @@ class ComposerKeyboardSession {
     }
   }
 
-  void onKeyboardMetricsChanged() {
-    if (!_isMounted() || !_focusNode.hasFocus) {
-      return;
-    }
-    final MobileKeyboardMetricsState metrics = _ref.read(
-      mobileKeyboardMetricsProvider,
-    );
-    if (metrics.liveKeyboardHeight <= 0 &&
-        !metrics.unmeasuredKeyboardReserved &&
-        !metrics.isKeyboardVisible) {
-      maybeReserveUnmeasuredKeyboard();
-    }
-  }
-
   void closePanelsAndFocusComposer() {
     if (!isComposerPanelOpen(
       expressionPanelOpen: _ref.read(expressionPanelProvider),
@@ -289,13 +275,6 @@ class ComposerKeyboardSession {
       _keyboardState = _resolveIdleKeyboardState();
       _recordDebugBreadcrumb();
     }
-  }
-
-  void onComposerLayoutChurn() {
-    if (!_isMounted() || !_focusNode.hasFocus) {
-      return;
-    }
-    maybeReserveUnmeasuredKeyboard();
   }
 
   void reconnectOpenField() {
