@@ -389,6 +389,18 @@ abstract class ForkLocalizations {
   /// **'Sending as {name} (Latched)'**
   String personaSendingAsLatched(String name);
 
+  /// Row in the new thread sheet saying who the thread and its first message are sent as. name is a persona's name, or @username for the account.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending as {name}'**
+  String personaSendingAs(String name);
+
+  /// Row in the new forum post sheet saying who the post is made as. name is a persona's name, or @username for the account.
+  ///
+  /// In en, this message translates to:
+  /// **'Posting as {name}'**
+  String personaPostingAs(String name);
+
   /// Tooltip when composer will send as root user account.
   ///
   /// In en, this message translates to:

@@ -140,6 +140,16 @@ class ForkLocalizationsVi extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Đang gửi dưới dạng $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Đang đăng dưới dạng $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Đang gửi dưới dạng @$username';
   }
