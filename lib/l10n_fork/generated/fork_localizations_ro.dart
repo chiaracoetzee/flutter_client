@@ -140,6 +140,16 @@ class ForkLocalizationsRo extends ForkLocalizations {
   }
 
   @override
+  String personaSendingAs(String name) {
+    return 'Se trimite ca $name';
+  }
+
+  @override
+  String personaPostingAs(String name) {
+    return 'Se postează ca $name';
+  }
+
+  @override
   String personaSendingAsRoot(String username) {
     return 'Se trimite ca @$username';
   }

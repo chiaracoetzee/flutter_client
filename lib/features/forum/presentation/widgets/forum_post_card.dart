@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -368,24 +369,30 @@ class _ForumPostSnippet extends StatelessWidget {
       );
     }
     final String snippet = _snippet(message);
+    // Fork: a post made as a persona is listed under the persona.
+    final GuildUserDisplay? persona = message.isPersona
+        ? resolveMessageAuthorDisplay(message: message, guildId: null)
+        : null;
+    final String authorName = persona?.displayName ?? message.authorName;
     return Row(
       children: <Widget>[
         FluxerAvatar(
           imageUrl:
+              persona?.avatarUrl ??
               FluxerMediaUrl.userAvatar(
                 userId: message.authorId,
                 hash: message.authorAvatar,
               ) ??
               FluxerMediaUrl.defaultAvatar(userId: message.authorId),
-          fallbackText: message.authorName,
+          fallbackText: authorName,
           size: 16,
         ),
         SizedBox(width: context.layout.s1),
         Flexible(
           child: Text(
             snippet.isEmpty
-                ? message.authorName
-                : l10n.forumPostSnippet(message.authorName, snippet),
+                ? authorName
+                : l10n.forumPostSnippet(authorName, snippet),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: context.textStyles.bodySmall.copyWith(

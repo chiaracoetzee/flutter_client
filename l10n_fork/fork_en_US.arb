@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Persona name",
     "personaSendingAsTag": "Sending as {name} (Matched by tag)",
     "personaSendingAsLatched": "Sending as {name} (Latched)",
+    "personaSendingAs": "Sending as {name}",
+    "personaPostingAs": "Posting as {name}",
     "personaSendingAsRoot": "Sending as @{username}",
     "personaMainAccount": "Main account",
     "personaEditPersona": "Edit persona",

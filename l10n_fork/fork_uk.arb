@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Ім'я персони",
     "personaSendingAsTag": "Надсилання як {name} (за тегом)",
     "personaSendingAsLatched": "Надсилання як {name} (закріплено)",
+    "personaSendingAs": "Надсилання як {name}",
+    "personaPostingAs": "Публікація як {name}",
     "personaSendingAsRoot": "Надсилання як @{username}",
     "personaMainAccount": "Основний обліковий запис",
     "personaEditPersona": "Редагувати персону",

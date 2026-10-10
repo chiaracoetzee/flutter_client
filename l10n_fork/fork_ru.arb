@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Имя персоны",
     "personaSendingAsTag": "Отправка от имени {name} (по тегу)",
     "personaSendingAsLatched": "Отправка от имени {name} (зафиксировано)",
+    "personaSendingAs": "Отправка от имени {name}",
+    "personaPostingAs": "Публикация от имени {name}",
     "personaSendingAsRoot": "Отправка как @{username}",
     "personaMainAccount": "Основной аккаунт",
     "personaEditPersona": "Редактировать персону",

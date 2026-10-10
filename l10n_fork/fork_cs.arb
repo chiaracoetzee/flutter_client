@@ -29,6 +29,8 @@
     "personaDisplayNameHint": "Jméno persony",
     "personaSendingAsTag": "Odesílá se jako {name} (Přiřazeno podle značky)",
     "personaSendingAsLatched": "Odesílá se jako {name} (Uzamčeno)",
+    "personaSendingAs": "Odesílá se jako {name}",
+    "personaPostingAs": "Publikuje se jako {name}",
     "personaSendingAsRoot": "Odesílá se jako @{username}",
     "personaMainAccount": "Hlavní účet",
     "personaEditPersona": "Upravit personu",

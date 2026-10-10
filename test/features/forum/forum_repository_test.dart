@@ -254,6 +254,31 @@ void main() {
     expect(await db.channelDao.getChannelById('p9'), isNotNull);
   });
 
+  // Fork: personas.
+  test('a post made as a persona carries it on the first message', () async {
+    gate.apply('g1', active: true);
+    adapter
+      ..status = 201
+      ..body = _thread('p9');
+    const Map<String, dynamic> fox = <String, dynamic>{
+      'id': '9',
+      'name': 'Fox',
+    };
+    await repository.createPost(
+      guildId: 'g1',
+      forumId: 'f1',
+      draft: const ForumPostDraft(
+        name: 'Title',
+        content: 'bao',
+        personaData: fox,
+      ),
+    );
+    expect(
+      (jsonDecode(adapter.bodies.single) as Map<String, Object?>)['message'],
+      <String, Object?>{'content': 'bao', 'subprofile': fox},
+    );
+  });
+
   test('a post carries the forum default archive duration', () async {
     gate.apply('g1', active: true);
     adapter
