@@ -79,6 +79,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
 
   /// Last height reported by smart_keyboard_insets (0 when that source is hidden).
   double _nativeKeyboardHeight = 0;
+  bool _nativeKeyboardVisible = false;
 
   /// Last height reported by MediaQuery.viewInsets (0 when that source is hidden).
   double _viewInsetsKeyboardHeight = 0;
@@ -100,6 +101,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   MobileKeyboardMetricsState build() {
     ref.onDispose(_disposeListeners);
     _nativeKeyboardHeight = 0;
+    _nativeKeyboardVisible = false;
     _viewInsetsKeyboardHeight = 0;
     _nativeSafeAreaBottom = 0;
     _hadKeyboardInsetWhileReserved = false;
@@ -262,6 +264,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
           mergedHeight: mergedHeight,
           hadKeyboardInsetWhileReserved: _hadKeyboardInsetWhileReserved,
           composerEntryFocused: composerEntryFocused,
+          nativeKeyboardVisible: _nativeKeyboardVisible,
         );
     if (clearUnmeasuredReservation) {
       _unmeasuredReservationTimer?.cancel();
@@ -337,6 +340,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void _setNativeKeyboardHeight(double height, {required bool visible}) {
+    _nativeKeyboardVisible = visible && height > 0;
     if (!visible || height <= 0) {
       _ignoreNativeUntilHidden = false;
       _nativeKeyboardHeight = 0;
@@ -468,6 +472,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     _sessionPeak = 0;
     _viewInsetsKeyboardHeight = 0;
     _nativeKeyboardHeight = 0;
+    _nativeKeyboardVisible = false;
     _sawViewInsets = false;
     if (!ref.mounted) {
       return;
