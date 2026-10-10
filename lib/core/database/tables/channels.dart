@@ -29,6 +29,10 @@ class Channels extends Table {
   BoolColumn get rtcP2p => boolean().withDefault(const Constant(false))();
   IntColumn get voiceConnectionLimit => integer().nullable()();
   TextColumn get ownerId => text().nullable()();
+
+  /// Fork: the persona a thread was started as. Added by fork_schema.dart, not
+  /// by a numbered upgrade step.
+  TextColumn get ownerPersonaId => text().nullable()();
   IntColumn get flags => integer().nullable()();
   BoolColumn get threadArchived => boolean().nullable()();
   BoolColumn get threadLocked => boolean().nullable()();
