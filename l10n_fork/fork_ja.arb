@@ -111,5 +111,11 @@
     "signalBarReset": "全員のシグナルをリセット",
     "signalBarTurnOff": "{name} をオフにする",
     "instanceUrlHelperDefault": "デフォルトのインスタンスには {domain} を使用するか、別のインスタンスの正確なURLを入力してください。",
-    "instanceResetToDefault": "デフォルトのインスタンスにリセット"
+    "instanceResetToDefault": "デフォルトのインスタンスにリセット",
+    "personaScopeTitle": "ペルソナの適用範囲",
+    "personaScopeGlobal": "すべての場所",
+    "personaScopeGlobalDescription": "すべてのチャンネルで1つのペルソナ。",
+    "personaScopeChannel": "チャンネルごと",
+    "personaScopeChannelDescription": "各チャンネルがそれぞれのペルソナを保持します。新しいチャンネルはアカウントから始まります。",
+    "personaPickerChannelOnly": "このチャンネルのみ"
 }

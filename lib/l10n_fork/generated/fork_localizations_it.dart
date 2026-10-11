@@ -396,4 +396,24 @@ class ForkLocalizationsIt extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Ripristina l’istanza predefinita';
+
+  @override
+  String get personaScopeTitle => 'La persona si applica a';
+
+  @override
+  String get personaScopeGlobal => 'Ovunque';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Una sola persona per tutti i canali.';
+
+  @override
+  String get personaScopeChannel => 'In ogni canale';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Ogni canale mantiene la propria persona. I nuovi canali partono con il tuo account.';
+
+  @override
+  String get personaPickerChannelOnly => 'Solo per questo canale';
 }

@@ -111,5 +111,11 @@
     "signalBarReset": "為所有人重設訊號",
     "signalBarTurnOff": "關閉 {name}",
     "instanceUrlHelperDefault": "預設執行個體請使用 {domain}，或輸入其他執行個體的確切 URL。",
-    "instanceResetToDefault": "重設為預設執行個體"
+    "instanceResetToDefault": "重設為預設執行個體",
+    "personaScopeTitle": "人格適用範圍",
+    "personaScopeGlobal": "所有地方",
+    "personaScopeGlobalDescription": "所有頻道使用同一個人格。",
+    "personaScopeChannel": "每個頻道",
+    "personaScopeChannelDescription": "每個頻道保留各自的人格。新頻道以你的帳號開始。",
+    "personaPickerChannelOnly": "僅限此頻道"
 }

@@ -34,9 +34,14 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
   required String channelId,
   bool allowEmptyContent = false,
   bool? hasAttachments,
+  String? personaChannelId,
 }) async {
   final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
   final activeState = ref.read(activePersonaProvider);
+  // Whose selection applies. The composer of a thread or post that does not
+  // exist yet has no channel of its own to send in ([channelId] is empty) and
+  // names the channel it is opened from here.
+  final String selectionChannelId = personaChannelId ?? channelId;
   // A composer that keeps its own files (the forum post sheet) says so itself.
   final bool hasPendingAttachments =
       hasAttachments ??
@@ -47,9 +52,7 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
             ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
           );
 
-  final String? latchedId = activeState.isLatched
-      ? activeState.activePersonaId
-      : null;
+  final String? latchedId = activeState.latchedIdFor(selectionChannelId);
   final MatchResult matchResult = matchPersona(
     rawText,
     personas,
@@ -69,7 +72,9 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
 
   if (matchResult.clearedLatch ||
       (matchResult.wasEscaped && activeState.mode == PersonaMode.last)) {
-    await ref.read(activePersonaProvider.notifier).unlatch();
+    await ref
+        .read(activePersonaProvider.notifier)
+        .unlatch(channelId: selectionChannelId);
   } else if (matchResult.matched && matchResult.persona != null) {
     unawaited(
       ref
@@ -77,10 +82,14 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
           .recordUsage(matchResult.persona!.id),
     );
     if (activeState.mode == PersonaMode.last &&
-        activeState.activePersonaId != matchResult.persona!.id) {
+        latchedId != matchResult.persona!.id) {
       await ref
           .read(activePersonaProvider.notifier)
-          .setActivePersona(matchResult.persona!.id, mode: PersonaMode.last);
+          .setActivePersona(
+            matchResult.persona!.id,
+            mode: PersonaMode.last,
+            channelId: selectionChannelId,
+          );
     }
   }
 
