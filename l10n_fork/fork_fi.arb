@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Yksi persoona kaikille kanaville.",
     "personaScopeChannel": "Kullakin kanavalla",
     "personaScopeChannelDescription": "Jokainen kanava säilyttää oman persoonansa. Uudet kanavat alkavat tilinäsi.",
-    "personaPickerChannelOnly": "Vain tälle kanavalle"
+    "personaPickerChannelOnly": "Vain tälle kanavalle",
+    "personaProfilePrivate": "Tämän persoonan profiili on yksityinen."
 }

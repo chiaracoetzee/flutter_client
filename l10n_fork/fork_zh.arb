@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "所有频道使用同一个人格。",
     "personaScopeChannel": "每个频道",
     "personaScopeChannelDescription": "每个频道保留各自的人格。新频道以你的账户开始。",
-    "personaPickerChannelOnly": "仅限此频道"
+    "personaPickerChannelOnly": "仅限此频道",
+    "personaProfilePrivate": "此人格的个人资料为私密。"
 }

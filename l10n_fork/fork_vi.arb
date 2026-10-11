@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Một persona cho mọi kênh.",
     "personaScopeChannel": "Trong từng kênh",
     "personaScopeChannelDescription": "Mỗi kênh giữ persona riêng của mình. Kênh mới bắt đầu bằng tài khoản của bạn.",
-    "personaPickerChannelOnly": "Chỉ cho kênh này"
+    "personaPickerChannelOnly": "Chỉ cho kênh này",
+    "personaProfilePrivate": "Hồ sơ của persona này ở chế độ riêng tư."
 }

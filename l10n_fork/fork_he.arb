@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "פרסונה אחת לכל הערוצים.",
     "personaScopeChannel": "בכל ערוץ",
     "personaScopeChannelDescription": "כל ערוץ שומר על הפרסונה שלו. ערוצים חדשים מתחילים כחשבון שלכם.",
-    "personaPickerChannelOnly": "רק לערוץ הזה"
+    "personaPickerChannelOnly": "רק לערוץ הזה",
+    "personaProfilePrivate": "הפרופיל של הפרסונה הזו פרטי."
 }
