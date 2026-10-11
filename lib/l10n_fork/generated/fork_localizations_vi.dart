@@ -393,4 +393,23 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Đặt lại về máy chủ mặc định';
+
+  @override
+  String get personaScopeTitle => 'Persona áp dụng cho';
+
+  @override
+  String get personaScopeGlobal => 'Mọi nơi';
+
+  @override
+  String get personaScopeGlobalDescription => 'Một persona cho mọi kênh.';
+
+  @override
+  String get personaScopeChannel => 'Trong từng kênh';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Mỗi kênh giữ persona riêng của mình. Kênh mới bắt đầu bằng tài khoản của bạn.';
+
+  @override
+  String get personaPickerChannelOnly => 'Chỉ cho kênh này';
 }

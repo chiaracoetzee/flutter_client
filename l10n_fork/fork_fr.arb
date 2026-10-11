@@ -111,5 +111,11 @@
     "signalBarReset": "Réinitialiser le signal pour tout le monde",
     "signalBarTurnOff": "Désactiver {name}",
     "instanceUrlHelperDefault": "Utilisez {domain} pour l’instance par défaut, ou l’URL exacte d’une autre instance.",
-    "instanceResetToDefault": "Réinitialiser à l’instance par défaut"
+    "instanceResetToDefault": "Réinitialiser à l’instance par défaut",
+    "personaScopeTitle": "Le persona s’applique à",
+    "personaScopeGlobal": "Partout",
+    "personaScopeGlobalDescription": "Un seul persona pour tous les salons.",
+    "personaScopeChannel": "Dans chaque salon",
+    "personaScopeChannelDescription": "Chaque salon conserve son propre persona. Les nouveaux salons commencent avec votre compte.",
+    "personaPickerChannelOnly": "Uniquement pour ce salon"
 }

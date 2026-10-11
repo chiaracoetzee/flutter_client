@@ -391,4 +391,23 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'إعادة الضبط إلى المثيل الافتراضي';
+
+  @override
+  String get personaScopeTitle => 'الشخصية تنطبق على';
+
+  @override
+  String get personaScopeGlobal => 'في كل مكان';
+
+  @override
+  String get personaScopeGlobalDescription => 'شخصية واحدة لكل القنوات.';
+
+  @override
+  String get personaScopeChannel => 'في كل قناة';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'كل قناة تحتفظ بشخصيتها الخاصة. القنوات الجديدة تبدأ بحسابك.';
+
+  @override
+  String get personaPickerChannelOnly => 'لهذه القناة فقط';
 }
