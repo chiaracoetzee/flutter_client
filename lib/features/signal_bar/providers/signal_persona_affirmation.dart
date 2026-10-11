@@ -103,8 +103,7 @@ Persona? composerSignalPersona(
   ).persona;
 }
 
-/// The persona latched for the composer, if any.
-String? latchedSignalPersonaId(SignalProviderReader read) {
-  final ActivePersonaState active = read(activePersonaProvider);
-  return active.isLatched ? active.activePersonaId : null;
+/// The persona selected for the composer of [channelId], if any.
+String? latchedSignalPersonaId(SignalProviderReader read, String channelId) {
+  return read(activePersonaProvider).latchedIdFor(channelId);
 }

@@ -4,6 +4,7 @@ class PersonaSettings {
   const PersonaSettings({
     this.userId = '',
     this.activePersonaMode = 'manual',
+    this.activePersonaScope = 'global',
     this.activePersonaId,
     this.isLatched = false,
     this.displayTagText = '',
@@ -12,6 +13,10 @@ class PersonaSettings {
 
   final String userId;
   final String activePersonaMode;
+
+  /// `global`: one selected persona for every channel. `channel`: each channel
+  /// remembers its own.
+  final String activePersonaScope;
   final String? activePersonaId;
   final bool isLatched;
   final String displayTagText;
@@ -21,6 +26,9 @@ class PersonaSettings {
     return PersonaSettings(
       userId: (json['user_id'] as String?) ?? '',
       activePersonaMode: (json['active_persona_mode'] as String?) ?? 'manual',
+      activePersonaScope: (json['active_persona_scope'] as String?) == 'channel'
+          ? 'channel'
+          : 'global',
       activePersonaId: json['active_persona_id'] as String?,
       isLatched: (json['is_latched'] as bool?) ?? false,
       displayTagText: (json['display_tag_text'] as String?) ?? '',
@@ -32,6 +40,7 @@ class PersonaSettings {
     return <String, dynamic>{
       'user_id': userId,
       'active_persona_mode': activePersonaMode,
+      'active_persona_scope': activePersonaScope,
       if (activePersonaId != null) 'active_persona_id': activePersonaId,
       'is_latched': isLatched,
       'display_tag_text': displayTagText,
@@ -42,6 +51,7 @@ class PersonaSettings {
   PersonaSettings copyWith({
     String? userId,
     String? activePersonaMode,
+    String? activePersonaScope,
     String? Function()? activePersonaId,
     bool? isLatched,
     String? displayTagText,
@@ -50,6 +60,7 @@ class PersonaSettings {
     return PersonaSettings(
       userId: userId ?? this.userId,
       activePersonaMode: activePersonaMode ?? this.activePersonaMode,
+      activePersonaScope: activePersonaScope ?? this.activePersonaScope,
       activePersonaId: activePersonaId != null
           ? activePersonaId()
           : this.activePersonaId,
@@ -68,6 +79,7 @@ class PersonaSettings {
           runtimeType == other.runtimeType &&
           userId == other.userId &&
           activePersonaMode == other.activePersonaMode &&
+          activePersonaScope == other.activePersonaScope &&
           activePersonaId == other.activePersonaId &&
           isLatched == other.isLatched &&
           displayTagText == other.displayTagText &&
@@ -77,6 +89,7 @@ class PersonaSettings {
   int get hashCode => Object.hash(
     userId,
     activePersonaMode,
+    activePersonaScope,
     activePersonaId,
     isLatched,
     displayTagText,

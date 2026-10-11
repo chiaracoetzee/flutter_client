@@ -393,4 +393,23 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Återställ till standardinstansen';
+
+  @override
+  String get personaScopeTitle => 'Persona gäller för';
+
+  @override
+  String get personaScopeGlobal => 'Överallt';
+
+  @override
+  String get personaScopeGlobalDescription => 'En persona för alla kanaler.';
+
+  @override
+  String get personaScopeChannel => 'I varje kanal';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Varje kanal behåller sin egen persona. Nya kanaler börjar som ditt konto.';
+
+  @override
+  String get personaPickerChannelOnly => 'Endast för den här kanalen';
 }

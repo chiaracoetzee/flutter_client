@@ -111,5 +111,11 @@
     "signalBarReset": "איפוס האות לכולם",
     "signalBarTurnOff": "כיבוי {name}",
     "instanceUrlHelperDefault": "השתמשו ב-{domain} עבור המופע שמוגדר כברירת מחדל, או בכתובת ה-URL המדויקת של מופע אחר.",
-    "instanceResetToDefault": "איפוס למופע ברירת המחדל"
+    "instanceResetToDefault": "איפוס למופע ברירת המחדל",
+    "personaScopeTitle": "הפרסונה חלה על",
+    "personaScopeGlobal": "בכל מקום",
+    "personaScopeGlobalDescription": "פרסונה אחת לכל הערוצים.",
+    "personaScopeChannel": "בכל ערוץ",
+    "personaScopeChannelDescription": "כל ערוץ שומר על הפרסונה שלו. ערוצים חדשים מתחילים כחשבון שלכם.",
+    "personaPickerChannelOnly": "רק לערוץ הזה"
 }
