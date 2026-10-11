@@ -784,6 +784,7 @@ class GatewayEventHandler {
             event.eventType == 'USER_PERSONA_DELETE' ||
             event.eventType == 'USER_PERSONAS_UPDATE' ||
             event.eventType == 'USER_PERSONA_SETTINGS_UPDATE' ||
+            event.eventType == 'USER_PERSONA_CHANNEL_STATE_UPDATE' ||
             event.eventType == 'GUILD_PERSONAS_DIRTY') {
           _emit(() => onUserPersonasUpdate?.call(event.eventType, event.data));
         } else if (event.eventType == 'CHANNEL_SIGNAL_UPDATE' ||

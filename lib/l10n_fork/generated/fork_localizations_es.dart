@@ -398,6 +398,26 @@ class ForkLocalizationsEs extends ForkLocalizations {
   @override
   String get instanceResetToDefault =>
       'Restablecer a la instancia predeterminada';
+
+  @override
+  String get personaScopeTitle => 'La persona se aplica a';
+
+  @override
+  String get personaScopeGlobal => 'En todas partes';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Una persona para todos los canales.';
+
+  @override
+  String get personaScopeChannel => 'En cada canal';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Cada canal conserva su propia persona. Los canales nuevos empiezan como tu cuenta.';
+
+  @override
+  String get personaPickerChannelOnly => 'Solo para este canal';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -794,4 +814,24 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   @override
   String get instanceResetToDefault =>
       'Restablecer a la instancia predeterminada';
+
+  @override
+  String get personaScopeTitle => 'La persona se aplica a';
+
+  @override
+  String get personaScopeGlobal => 'En todas partes';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Una persona para todos los canales.';
+
+  @override
+  String get personaScopeChannel => 'En cada canal';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Cada canal conserva su propia persona. Los canales nuevos empiezan como tu cuenta.';
+
+  @override
+  String get personaPickerChannelOnly => 'Solo para este canal';
 }

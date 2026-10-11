@@ -392,4 +392,23 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'รีเซ็ตเป็นอินสแตนซ์เริ่มต้น';
+
+  @override
+  String get personaScopeTitle => 'Persona มีผลกับ';
+
+  @override
+  String get personaScopeGlobal => 'ทุกที่';
+
+  @override
+  String get personaScopeGlobalDescription => 'Persona เดียวสำหรับทุกช่อง';
+
+  @override
+  String get personaScopeChannel => 'ในแต่ละช่อง';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'แต่ละช่องเก็บ Persona ของตัวเอง ช่องใหม่จะเริ่มต้นเป็นบัญชีของคุณ';
+
+  @override
+  String get personaPickerChannelOnly => 'เฉพาะช่องนี้';
 }

@@ -381,6 +381,24 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => '重置为默认实例';
+
+  @override
+  String get personaScopeTitle => '人格适用范围';
+
+  @override
+  String get personaScopeGlobal => '所有地方';
+
+  @override
+  String get personaScopeGlobalDescription => '所有频道使用同一个人格。';
+
+  @override
+  String get personaScopeChannel => '每个频道';
+
+  @override
+  String get personaScopeChannelDescription => '每个频道保留各自的人格。新频道以你的账户开始。';
+
+  @override
+  String get personaPickerChannelOnly => '仅限此频道';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -760,4 +778,22 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get instanceResetToDefault => '重設為預設執行個體';
+
+  @override
+  String get personaScopeTitle => '人格適用範圍';
+
+  @override
+  String get personaScopeGlobal => '所有地方';
+
+  @override
+  String get personaScopeGlobalDescription => '所有頻道使用同一個人格。';
+
+  @override
+  String get personaScopeChannel => '每個頻道';
+
+  @override
+  String get personaScopeChannelDescription => '每個頻道保留各自的人格。新頻道以你的帳號開始。';
+
+  @override
+  String get personaPickerChannelOnly => '僅限此頻道';
 }

@@ -28,8 +28,13 @@ class PersonaSendingAsRow extends ConsumerWidget {
     required this.text,
     this.hasAttachments = false,
     this.posting = false,
+    this.personaChannelId,
     super.key,
   });
+
+  /// The channel the thread or post is opened from: its persona selection is
+  /// the one shown and changed here.
+  final String? personaChannelId;
 
   /// The message as typed so far: a persona tag in it changes who it is sent as.
   final String text;
@@ -50,9 +55,7 @@ class PersonaSendingAsRow extends ConsumerWidget {
     final String username = ref.watch(
       userSettingsViewModelProvider.select((settings) => settings.username),
     );
-    final String? latchedId = activeState.isLatched
-        ? activeState.activePersonaId
-        : null;
+    final String? latchedId = activeState.latchedIdFor(personaChannelId);
     final PreviewResult preview = previewPersona(
       text,
       personas,
@@ -71,7 +74,12 @@ class PersonaSendingAsRow extends ConsumerWidget {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           FluxerHaptics.light();
-          unawaited(PersonaPickerSheet.show(context));
+          unawaited(
+            PersonaPickerSheet.show(
+              context,
+              personaChannelId: personaChannelId,
+            ),
+          );
         },
         child: Padding(
           padding: EdgeInsets.only(bottom: context.layout.s2),
@@ -81,6 +89,7 @@ class PersonaSendingAsRow extends ConsumerWidget {
                 child: PersonaComposerPill(
                   text: text,
                   hasAttachments: hasAttachments,
+                  personaChannelId: personaChannelId,
                 ),
               ),
               SizedBox(width: context.layout.s2),

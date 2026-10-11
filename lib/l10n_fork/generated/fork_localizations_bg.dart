@@ -396,4 +396,23 @@ class ForkLocalizationsBg extends ForkLocalizations {
   @override
   String get instanceResetToDefault =>
       'Възстановяване до инстанцията по подразбиране';
+
+  @override
+  String get personaScopeTitle => 'Персоната важи за';
+
+  @override
+  String get personaScopeGlobal => 'Навсякъде';
+
+  @override
+  String get personaScopeGlobalDescription => 'Една персона за всички канали.';
+
+  @override
+  String get personaScopeChannel => 'Във всеки канал';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Всеки канал пази своя персона. Новите канали започват с вашия акаунт.';
+
+  @override
+  String get personaPickerChannelOnly => 'Само за този канал';
 }

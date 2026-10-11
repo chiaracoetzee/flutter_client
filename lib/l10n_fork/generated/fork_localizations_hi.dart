@@ -393,4 +393,23 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'डिफ़ॉल्ट इंस्टेंस पर रीसेट करें';
+
+  @override
+  String get personaScopeTitle => 'परसोना यहाँ लागू होता है';
+
+  @override
+  String get personaScopeGlobal => 'हर जगह';
+
+  @override
+  String get personaScopeGlobalDescription => 'सभी चैनलों के लिए एक परसोना।';
+
+  @override
+  String get personaScopeChannel => 'हर चैनल में';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'हर चैनल अपना परसोना रखता है। नए चैनल आपके अकाउंट से शुरू होते हैं।';
+
+  @override
+  String get personaPickerChannelOnly => 'केवल इस चैनल के लिए';
 }

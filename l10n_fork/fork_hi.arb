@@ -111,5 +111,11 @@
     "signalBarReset": "सभी के लिए सिग्नल रीसेट करें",
     "signalBarTurnOff": "{name} बंद करें",
     "instanceUrlHelperDefault": "डिफ़ॉल्ट इंस्टेंस के लिए {domain} का उपयोग करें, या किसी अन्य इंस्टेंस का सटीक URL दर्ज करें।",
-    "instanceResetToDefault": "डिफ़ॉल्ट इंस्टेंस पर रीसेट करें"
+    "instanceResetToDefault": "डिफ़ॉल्ट इंस्टेंस पर रीसेट करें",
+    "personaScopeTitle": "परसोना यहाँ लागू होता है",
+    "personaScopeGlobal": "हर जगह",
+    "personaScopeGlobalDescription": "सभी चैनलों के लिए एक परसोना।",
+    "personaScopeChannel": "हर चैनल में",
+    "personaScopeChannelDescription": "हर चैनल अपना परसोना रखता है। नए चैनल आपके अकाउंट से शुरू होते हैं।",
+    "personaPickerChannelOnly": "केवल इस चैनल के लिए"
 }

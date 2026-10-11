@@ -111,5 +111,11 @@
     "signalBarReset": "Atstatyti signalą visiems",
     "signalBarTurnOff": "Išjungti {name}",
     "instanceUrlHelperDefault": "Numatytajam egzemplioriui naudokite {domain} arba įveskite tikslų kito egzemplioriaus URL.",
-    "instanceResetToDefault": "Atstatyti numatytąjį egzempliorių"
+    "instanceResetToDefault": "Atstatyti numatytąjį egzempliorių",
+    "personaScopeTitle": "Persona taikoma",
+    "personaScopeGlobal": "Visur",
+    "personaScopeGlobalDescription": "Viena persona visiems kanalams.",
+    "personaScopeChannel": "Kiekviename kanale",
+    "personaScopeChannelDescription": "Kiekvienas kanalas išlaiko savo personą. Nauji kanalai prasideda kaip jūsų paskyra.",
+    "personaPickerChannelOnly": "Tik šiam kanalui"
 }
