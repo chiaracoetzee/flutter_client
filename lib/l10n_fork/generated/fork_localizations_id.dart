@@ -394,4 +394,24 @@ class ForkLocalizationsId extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Atur ulang ke instans default';
+
+  @override
+  String get personaScopeTitle => 'Persona berlaku untuk';
+
+  @override
+  String get personaScopeGlobal => 'Di Mana Saja';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Satu persona untuk semua saluran.';
+
+  @override
+  String get personaScopeChannel => 'Di setiap saluran';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Setiap saluran menyimpan personanya sendiri. Saluran baru dimulai sebagai akunmu.';
+
+  @override
+  String get personaPickerChannelOnly => 'Hanya untuk saluran ini';
 }

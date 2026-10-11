@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/presentation/widgets/forum_tag_chip.dart';
 import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
@@ -156,6 +157,7 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
       channelId: '',
       allowEmptyContent: _files.isNotEmpty,
       hasAttachments: _files.isNotEmpty,
+      personaChannelId: widget.forum.id,
     );
     if (!mounted) {
       return;
@@ -195,6 +197,11 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
             ),
           );
       postId = result.postId;
+      // Fork: with a persona remembered per channel, the new post starts as
+      // whoever opened it.
+      ref
+          .read(activePersonaProvider.notifier)
+          .startChannelAs(postId, outgoing.personaData?['id'] as String?);
       final Message? firstMessage = result.firstMessage;
       if (firstMessage != null) {
         ref.read(forumFirstMessagesProvider.notifier).put(firstMessage);
@@ -296,6 +303,7 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
               text: _content.text,
               hasAttachments: _files.isNotEmpty,
               posting: true,
+              personaChannelId: widget.forum.id,
             ),
             FluxerInput.multiline(
               label: l10n.forumPostMessage,
