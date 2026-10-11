@@ -555,5 +555,9 @@
     "personaPickerChannelOnly": "Only for this channel",
     "@personaPickerChannelOnly": {
         "description": "Note in the persona picker when personas are remembered per channel: the persona picked is used in the current channel only."
+    },
+    "personaProfilePrivate": "This persona’s profile is private.",
+    "@personaProfilePrivate": {
+        "description": "Shown on a persona's profile card in place of its bio and banner when the owner has made the persona private."
     }
 }

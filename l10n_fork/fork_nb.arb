@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Én persona for alle kanaler.",
     "personaScopeChannel": "I hver kanal",
     "personaScopeChannelDescription": "Hver kanal beholder sin egen persona. Nye kanaler starter som kontoen din.",
-    "personaPickerChannelOnly": "Bare for denne kanalen"
+    "personaPickerChannelOnly": "Bare for denne kanalen",
+    "personaProfilePrivate": "Profilen til denne personaen er privat."
 }

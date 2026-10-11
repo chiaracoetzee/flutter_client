@@ -113,4 +113,94 @@ void main() {
       expect(result, isNull);
     });
   });
+
+  group('personaProfilePrivateProvider', () {
+    ResponseBody jsonBody(Object body, int status) => ResponseBody.fromString(
+      jsonEncode(body),
+      status,
+      headers: {
+        Headers.contentTypeHeader: [Headers.jsonContentType],
+      },
+    );
+
+    ProviderContainer containerFor(
+      ResponseBody Function(RequestOptions options) handler,
+    ) {
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDioProvider.overrideWithValue(_createMockDio(handler)),
+        ],
+      );
+      addTearDown(container.dispose);
+      return container;
+    }
+
+    test('is true when the server refuses the profile as private', () async {
+      final container = containerFor(
+        (options) => jsonBody({'code': 'PRIVATE_PERSONA'}, 403),
+      );
+      const key = (userId: 'u_private', personaId: 'p_private');
+
+      expect(await container.read(publicPersonaProvider(key).future), isNull);
+      expect(
+        await container.read(personaProfilePrivateProvider(key).future),
+        isTrue,
+      );
+    });
+
+    test(
+      'is false for a profile that is given, unknown or otherwise refused',
+      () async {
+        final container = containerFor((options) {
+          if (options.path.endsWith('/p_public')) {
+            return jsonBody({'id': 'p_public', 'name': 'Fox'}, 200);
+          }
+          if (options.path.endsWith('/p_unknown')) {
+            return jsonBody({'code': 'UNKNOWN_PERSONA'}, 404);
+          }
+          return jsonBody({'code': 'MISSING_ACCESS'}, 403);
+        });
+
+        for (final personaId in ['p_public', 'p_unknown', 'p_refused']) {
+          expect(
+            await container.read(
+              personaProfilePrivateProvider((
+                userId: 'u_other',
+                personaId: personaId,
+              )).future,
+            ),
+            isFalse,
+            reason: personaId,
+          );
+        }
+      },
+    );
+
+    test('follows the profile when it is fetched again', () async {
+      var isPrivate = true;
+      final container = containerFor(
+        (options) => isPrivate
+            ? jsonBody({'code': 'PRIVATE_PERSONA'}, 403)
+            : jsonBody({'id': 'p_1', 'name': 'Fox', 'bio': 'Now shown'}, 200),
+      );
+      const key = (userId: 'u_changes', personaId: 'p_1');
+
+      expect(
+        await container.read(personaProfilePrivateProvider(key).future),
+        isTrue,
+      );
+
+      isPrivate = false;
+      container.invalidate(publicPersonaProvider(key));
+
+      expect(
+        await container.read(personaProfilePrivateProvider(key).future),
+        isFalse,
+      );
+      expect(
+        (await container.read(publicPersonaProvider(key).future))?.bio,
+        'Now shown',
+      );
+    });
+  });
 }
