@@ -167,7 +167,6 @@ class _PersonaReactAsBodyState extends ConsumerState<_PersonaReactAsBody> {
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
 
-    final personasAsync = ref.watch(myPersonasProvider);
     final rankedPersonas = ref.watch(rankedPersonasProvider);
     final userSettings = ref.watch(userSettingsViewModelProvider);
     final chatState = ref.watch(chatViewModelProvider);
@@ -181,7 +180,7 @@ class _PersonaReactAsBodyState extends ConsumerState<_PersonaReactAsBody> {
 
     final bool isRootReacted = reaction?.hasPersonaReacted(null) ?? false;
 
-    final personas = personasAsync.asData?.value ?? const [];
+    final personas = ref.watch(sortedPersonasProvider);
 
     final filteredPersonas = personas.where((p) {
       if (_query.isEmpty) {

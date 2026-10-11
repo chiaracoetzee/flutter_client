@@ -166,6 +166,111 @@ void main() {
     });
   });
 
+  group('personaSortName', () {
+    test('skips leading decoration but keeps accented and styled letters', () {
+      expect(personaSortName('✨Alice'), 'Alice');
+      expect(personaSortName('  🌙 Luna '), 'Luna');
+      expect(personaSortName('[Mika]'), 'Mika]');
+      expect(personaSortName('★ 2B'), '2B');
+      expect(personaSortName('✨Élodie'), 'Élodie');
+      expect(personaSortName('𝓐𝓶𝔂'), '𝓐𝓶𝔂');
+      expect(personaSortName('Ⓑⓔⓝ'), 'Ⓑⓔⓝ');
+      expect(personaSortName('✨✨'), '✨✨');
+    });
+
+    test('plain order files decorated names under their first letter', () {
+      final personas = [
+        for (final (index, name) in ['Zoe', '✨Bea', 'alice', '🌙 Luna'].indexed)
+          Persona(id: 'p$index', name: name),
+      ]..sort(comparePersonasByName);
+      expect(
+        personas.map((p) => p.name),
+        ['alice', '✨Bea', '🌙 Luna', 'Zoe'],
+      );
+    });
+  });
+
+  group('sortedPersonasProvider', () {
+    Future<ProviderContainer> containerWith(
+      PersonaNameCollator collator,
+    ) async {
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDioProvider.overrideWithValue(_createMockDio()),
+          personaNameCollatorProvider.overrideWithValue(collator),
+        ],
+      );
+      addTearDown(container.dispose);
+      final notifier = container.read(myPersonasProvider.notifier);
+      // Let the initial load against the mock client finish first.
+      await pumpEventQueue();
+      notifier.reset();
+      for (final (id, name) in [
+        ('p1', 'mallory'),
+        ('p2', 'Zed'),
+        ('p3', 'alice'),
+        ('p4', 'Bob'),
+      ]) {
+        notifier.upsertPersona(Persona(id: id, name: name));
+      }
+      return container;
+    }
+
+    List<String> sortedNames(ProviderContainer container) => [
+          for (final p in container.read(sortedPersonasProvider)) p.name,
+        ];
+
+    test('uses the plain name order when the device cannot sort', () async {
+      final container =
+          await containerWith((_) async => throw StateError('none'));
+      final sub = container.listen(sortedPersonasProvider, (_, _) {});
+      addTearDown(sub.close);
+
+      expect(sortedNames(container), ['alice', 'Bob', 'mallory', 'Zed']);
+      await pumpEventQueue();
+      expect(sortedNames(container), ['alice', 'Bob', 'mallory', 'Zed']);
+      expect(
+        container.read(myPersonasProvider).asData?.value.map((p) => p.name),
+        ['mallory', 'Zed', 'alice', 'Bob'],
+      );
+    });
+
+    test('adopts the device order once it arrives', () async {
+      final container =
+          await containerWith((_) async => ['p2', 'p4', 'p1', 'p3']);
+      final sub = container.listen(sortedPersonasProvider, (_, _) {});
+      addTearDown(sub.close);
+
+      expect(sortedNames(container), ['alice', 'Bob', 'mallory', 'Zed']);
+      await pumpEventQueue();
+      expect(sortedNames(container), ['Zed', 'Bob', 'mallory', 'alice']);
+    });
+
+    test('falls back while a new persona is missing from the device order',
+        () async {
+      var calls = 0;
+      final container = await containerWith((personas) async {
+        calls++;
+        return calls == 1
+            ? ['p2', 'p4', 'p1', 'p3']
+            : throw StateError('none');
+      });
+      final sub = container.listen(sortedPersonasProvider, (_, _) {});
+      addTearDown(sub.close);
+      await pumpEventQueue();
+
+      container
+          .read(myPersonasProvider.notifier)
+          .upsertPersona(const Persona(id: 'p5', name: 'Carol'));
+      await pumpEventQueue();
+
+      expect(
+        sortedNames(container),
+        ['alice', 'Bob', 'Carol', 'mallory', 'Zed'],
+      );
+    });
+  });
+
   group('ActivePersonaNotifier', () {
     test('syncFromSettings updates active persona and latch state', () {
       final container = ProviderContainer();

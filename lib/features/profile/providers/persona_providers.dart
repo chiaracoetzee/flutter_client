@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
+import 'package:native_natural_sort/native_natural_sort.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum PersonaMode {
@@ -344,6 +345,81 @@ final activePersonaOrNullProvider = Provider<Persona?>((ref) {
         (p) => p?.id == activeState.activePersonaId,
         orElse: () => null,
       );
+});
+
+final _leadingDecoration = RegExp(r'^[^\p{Alphabetic}\p{N}]+', unicode: true);
+
+/// The name as it is filed in sorted lists: without leading symbols or emoji,
+/// so "✨Alice" sits with the A's.
+String personaSortName(String name) {
+  final trimmed = name.trim();
+  final stripped = trimmed.replaceFirst(_leadingDecoration, '');
+  return stripped.isEmpty ? trimmed : stripped;
+}
+
+int comparePersonasByName(Persona a, Persona b) {
+  final byName = personaSortName(a.name)
+      .toLowerCase()
+      .compareTo(personaSortName(b.name).toLowerCase());
+  return byName != 0 ? byName : a.id.compareTo(b.id);
+}
+
+/// Returns the ids of [personas] ordered by name the way the device's language
+/// sorts text.
+typedef PersonaNameCollator = Future<List<String>> Function(
+  List<Persona> personas,
+);
+
+Future<List<String>> _collatePersonaNamesOnDevice(
+  List<Persona> personas,
+) async {
+  final sorter = NativeSort();
+  await sorter.config(const SortOptions());
+  final sorted = await sorter.sort([
+    for (final p in personas) SortItem(id: p.id, value: personaSortName(p.name)),
+  ]);
+  return [for (final item in sorted) item.id];
+}
+
+final personaNameCollatorProvider = Provider<PersonaNameCollator>(
+  (ref) => _collatePersonaNamesOnDevice,
+);
+
+/// Position of each persona id in the device's name order, or null when the
+/// device could not sort them.
+final _personaNameOrderProvider = FutureProvider<Map<String, int>?>((ref) async {
+  final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
+  if (personas.length < 2) {
+    return null;
+  }
+  try {
+    final ids = await ref.watch(personaNameCollatorProvider)(personas);
+    return {for (final (index, id) in ids.indexed) id: index};
+  } catch (err, st) {
+    talker.warning(
+      '[sortedPersonasProvider] Device sort failed, using plain order: $err',
+      err,
+      st,
+    );
+    return null;
+  }
+});
+
+/// Personas by name, for the lists people browse. [myPersonasProvider] keeps
+/// the order they were loaded in.
+///
+/// The order comes from the device's own collator, so it follows the device
+/// language like the web client follows the browser's. That answer arrives
+/// asynchronously; until it covers every persona this uses
+/// [comparePersonasByName].
+final sortedPersonasProvider = Provider<List<Persona>>((ref) {
+  final personas = ref.watch(myPersonasProvider).asData?.value ?? const [];
+  final order = ref.watch(_personaNameOrderProvider).value;
+  final sorted = List<Persona>.from(personas);
+  if (order == null || personas.any((p) => !order.containsKey(p.id))) {
+    return sorted..sort(comparePersonasByName);
+  }
+  return sorted..sort((a, b) => order[a.id]!.compareTo(order[b.id]!));
 });
 
 final rankedPersonasProvider = Provider<List<Persona>>((ref) {

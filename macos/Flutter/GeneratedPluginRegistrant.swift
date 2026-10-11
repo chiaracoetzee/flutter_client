@@ -30,6 +30,7 @@ import livekit_client
 import local_translation
 import media_kit_libs_macos_video
 import media_kit_video
+import native_natural_sort
 import package_info_plus
 import passkeys_darwin
 import photo_manager
@@ -70,6 +71,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   LocalTranslationPlugin.register(with: registry.registrar(forPlugin: "LocalTranslationPlugin"))
   MediaKitLibsMacosVideoPlugin.register(with: registry.registrar(forPlugin: "MediaKitLibsMacosVideoPlugin"))
   MediaKitVideoPlugin.register(with: registry.registrar(forPlugin: "MediaKitVideoPlugin"))
+  NativeNaturalSortPlugin.register(with: registry.registrar(forPlugin: "NativeNaturalSortPlugin"))
   FPPPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FPPPackageInfoPlusPlugin"))
   PasskeysPlugin.register(with: registry.registrar(forPlugin: "PasskeysPlugin"))
   PhotoManagerPlugin.register(with: registry.registrar(forPlugin: "PhotoManagerPlugin"))

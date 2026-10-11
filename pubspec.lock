@@ -1690,6 +1690,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.8.1"
+  native_natural_sort:
+    dependency: "direct main"
+    description:
+      name: native_natural_sort
+      sha256: "44dfb5e067cd68000a4a240dc7ffa2f92b9b02262619bab4cc27bd5a7b774af8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4"
   native_toolchain_c:
     dependency: transitive
     description:
