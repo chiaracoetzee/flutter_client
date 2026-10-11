@@ -397,4 +397,23 @@ class ForkLocalizationsUk extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Скинути до інстансу за замовчуванням';
+
+  @override
+  String get personaScopeTitle => 'Персона діє';
+
+  @override
+  String get personaScopeGlobal => 'Усюди';
+
+  @override
+  String get personaScopeGlobalDescription => 'Одна персона для всіх каналів.';
+
+  @override
+  String get personaScopeChannel => 'У кожному каналі';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Кожен канал зберігає свою персону. Нові канали починаються з вашого облікового запису.';
+
+  @override
+  String get personaPickerChannelOnly => 'Лише для цього каналу';
 }

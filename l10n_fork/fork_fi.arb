@@ -111,5 +111,11 @@
     "signalBarReset": "Nollaa signaali kaikilta",
     "signalBarTurnOff": "Kytke {name} pois",
     "instanceUrlHelperDefault": "Käytä oletusinstanssille osoitetta {domain} tai anna toisen instanssin tarkka URL-osoite.",
-    "instanceResetToDefault": "Palauta oletusinstanssi"
+    "instanceResetToDefault": "Palauta oletusinstanssi",
+    "personaScopeTitle": "Persoona koskee",
+    "personaScopeGlobal": "Kaikkialla",
+    "personaScopeGlobalDescription": "Yksi persoona kaikille kanaville.",
+    "personaScopeChannel": "Kullakin kanavalla",
+    "personaScopeChannelDescription": "Jokainen kanava säilyttää oman persoonansa. Uudet kanavat alkavat tilinäsi.",
+    "personaPickerChannelOnly": "Vain tälle kanavalle"
 }

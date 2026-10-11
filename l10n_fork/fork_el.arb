@@ -111,5 +111,11 @@
     "signalBarReset": "Επαναφορά σήματος για όλους",
     "signalBarTurnOff": "Απενεργοποίηση {name}",
     "instanceUrlHelperDefault": "Χρησιμοποιήστε το {domain} για την προεπιλεγμένη εγκατάσταση ή την ακριβή διεύθυνση URL μιας άλλης εγκατάστασης.",
-    "instanceResetToDefault": "Επαναφορά στην προεπιλεγμένη εγκατάσταση"
+    "instanceResetToDefault": "Επαναφορά στην προεπιλεγμένη εγκατάσταση",
+    "personaScopeTitle": "Η persona ισχύει για",
+    "personaScopeGlobal": "Παντού",
+    "personaScopeGlobalDescription": "Μία persona για όλα τα κανάλια.",
+    "personaScopeChannel": "Σε κάθε κανάλι",
+    "personaScopeChannelDescription": "Κάθε κανάλι κρατά τη δική του persona. Τα νέα κανάλια ξεκινούν με τον λογαριασμό σας.",
+    "personaPickerChannelOnly": "Μόνο για αυτό το κανάλι"
 }

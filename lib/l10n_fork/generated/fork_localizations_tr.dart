@@ -395,4 +395,23 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Varsayılan sunucuya sıfırla';
+
+  @override
+  String get personaScopeTitle => 'Personanın geçerli olduğu yer';
+
+  @override
+  String get personaScopeGlobal => 'Her Yerde';
+
+  @override
+  String get personaScopeGlobalDescription => 'Tüm kanallar için tek persona.';
+
+  @override
+  String get personaScopeChannel => 'Her kanalda';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Her kanal kendi personasını korur. Yeni kanallar hesabınla başlar.';
+
+  @override
+  String get personaPickerChannelOnly => 'Yalnızca bu kanal için';
 }

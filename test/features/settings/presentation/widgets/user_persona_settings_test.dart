@@ -97,6 +97,7 @@ class _FakePersonaSettingsNotifier extends PersonaSettingsNotifier {
   @override
   Future<void> updateSettings({
     String? activePersonaMode,
+    String? activePersonaScope,
     String? Function()? activePersonaId,
     bool? isLatched,
     String? displayTagText,

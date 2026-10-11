@@ -385,16 +385,14 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     final composerText =
         ref.watch(chatViewModelProvider.select((s) => s.messageText));
     final activeState = ref.watch(activePersonaProvider);
-    final String? latchedId =
-        activeState.isLatched ? activeState.activePersonaId : null;
+    final String? latchedId = activeState.latchedIdFor(
+      ref.watch(chatViewModelProvider.select((s) => s.channelId)),
+    );
     final preview = previewPersona(composerText, personas, latchedId, false);
     if (preview.isFromTag && preview.persona != null) {
       return preview.persona!.id;
     }
-    if (activeState.isLatched && activeState.activePersonaId != null) {
-      return activeState.activePersonaId;
-    }
-    return null;
+    return latchedId;
   }
 
   String? _readEffectivePersonaId() {
@@ -406,16 +404,14 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
     final composerText = ref.read(chatViewModelProvider).messageText;
     final activeState = ref.read(activePersonaProvider);
-    final String? latchedId =
-        activeState.isLatched ? activeState.activePersonaId : null;
+    final String? latchedId = activeState.latchedIdFor(
+      ref.read(chatViewModelProvider).channelId,
+    );
     final preview = previewPersona(composerText, personas, latchedId, false);
     if (preview.isFromTag && preview.persona != null) {
       return preview.persona!.id;
     }
-    if (activeState.isLatched && activeState.activePersonaId != null) {
-      return activeState.activePersonaId;
-    }
-    return null;
+    return latchedId;
   }
 
   void _onEmojiSelected(EmojiEntry emoji) {

@@ -384,4 +384,23 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => '기본 인스턴스로 재설정';
+
+  @override
+  String get personaScopeTitle => '페르소나 적용 범위';
+
+  @override
+  String get personaScopeGlobal => '모든 곳';
+
+  @override
+  String get personaScopeGlobalDescription => '모든 채널에 하나의 페르소나.';
+
+  @override
+  String get personaScopeChannel => '채널마다';
+
+  @override
+  String get personaScopeChannelDescription =>
+      '각 채널이 자신의 페르소나를 유지합니다. 새 채널은 내 계정으로 시작합니다.';
+
+  @override
+  String get personaPickerChannelOnly => '이 채널에서만';
 }
