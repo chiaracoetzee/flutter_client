@@ -5,16 +5,11 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
-import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
-import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
-import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/signal_bar/domain/signal_bar_models.dart';
 import 'package:fluxer_app/features/signal_bar/providers/signal_bar_providers.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
@@ -73,8 +68,6 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
   late final ChannelSignalsNotifier _signals;
   late final SignalBarConfigNotifier _config;
   String? _loadingChannelId;
-  bool _personaReportScheduled = false;
-  SignalPersona? _pendingPersona;
 
   @override
   void initState() {
@@ -94,19 +87,12 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
   void didUpdateWidget(SignalBarStrip oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.channelId != widget.channelId) {
-      _signals.forgetOwnPersona(oldWidget.channelId);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           _loadChannelIfNeeded();
         }
       });
     }
-  }
-
-  @override
-  void dispose() {
-    _signals.forgetOwnPersona(widget.channelId);
-    super.dispose();
   }
 
   void _loadChannelIfNeeded() {
@@ -128,62 +114,6 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
     );
   }
 
-  /// Provider writes must not happen during build, so the composer's current
-  /// persona is reported after the frame.
-  void _schedulePersonaReport(SignalPersona? persona) {
-    _pendingPersona = persona;
-    if (_personaReportScheduled) {
-      return;
-    }
-    _personaReportScheduled = true;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _personaReportScheduled = false;
-      if (!mounted) {
-        return;
-      }
-      final String? userId = ref.read(currentUserIdProvider);
-      if (userId == null) {
-        return;
-      }
-      _signals.reportOwnPersona(
-        widget.channelId,
-        userId: userId,
-        persona: _pendingPersona,
-      );
-    });
-  }
-
-  SignalPersona? _resolveComposerPersona() {
-    final List<Persona> personas =
-        ref.watch(myPersonasProvider).asData?.value ?? const <Persona>[];
-    if (personas.isEmpty) {
-      return null;
-    }
-    final activeState = ref.watch(activePersonaProvider);
-    final String text = ref.watch(
-      chatViewModelProvider.select((state) => state.messageText),
-    );
-    final bool hasAttachments = ref.watch(
-      cloudUploadControllerProvider(widget.channelId).select(
-        (CloudComposerAttachments attachments) => attachments.items.isNotEmpty,
-      ),
-    );
-    final Persona? persona = previewPersona(
-      text,
-      personas,
-      activeState.isLatched ? activeState.activePersonaId : null,
-      hasAttachments,
-    ).persona;
-    if (persona == null) {
-      return null;
-    }
-    return SignalPersona(
-      id: persona.id,
-      name: persona.name,
-      avatar: persona.avatarHash,
-    );
-  }
-
   void _toggle(SignalBarSignal signal, {required bool mine}) {
     final String? userId = ref.read(currentUserIdProvider);
     if (userId == null) {
@@ -195,11 +125,18 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
         _signals.deactivate(widget.channelId, signal.id, userId: userId),
       );
     } else {
+      // Lighting a signal is done in this channel, so it names whoever the
+      // composer here is writing as. Afterwards only typing, a pick or a
+      // message in this channel changes that.
       unawaited(
         _signals.activate(
           widget.channelId,
           signal.id,
-          personaId: _pendingPersona?.id,
+          personaId: composerSignalPersona(
+            ref.read,
+            widget.channelId,
+            latchedPersonaId: latchedSignalPersonaId(ref.read),
+          )?.id,
         ),
       );
     }
@@ -273,7 +210,6 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
         },
       );
     final SignalBarConfig config = ref.watch(signalBarConfigProvider);
-    _schedulePersonaReport(_resolveComposerPersona());
     final bool enabled = ref.watch(
       channelSignalsProvider.select(
         (Map<String, List<SignalEntry>> channels) =>

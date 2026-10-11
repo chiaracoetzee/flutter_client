@@ -20,11 +20,16 @@ class PersonaComposerPill extends ConsumerWidget {
   const PersonaComposerPill({
     required this.text,
     this.hasAttachments = false,
+    this.channelId,
     super.key,
   });
 
   final String text;
   final bool hasAttachments;
+
+  /// The channel this pill's composer writes to. Left out by composers for a
+  /// thread or post that does not exist yet.
+  final String? channelId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,7 +84,9 @@ class PersonaComposerPill extends ConsumerWidget {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           FluxerHaptics.light();
-          unawaited(PersonaPickerSheet.show(context));
+          unawaited(
+            PersonaPickerSheet.show(context, signalChannelId: channelId),
+          );
         },
         child: Container(
           width: 34,
