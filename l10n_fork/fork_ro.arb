@@ -111,5 +111,11 @@
     "signalBarReset": "Resetează semnalul pentru toți",
     "signalBarTurnOff": "Dezactivează {name}",
     "instanceUrlHelperDefault": "Folosește {domain} pentru instanța implicită sau adresa URL exactă a altei instanțe.",
-    "instanceResetToDefault": "Resetează la instanța implicită"
+    "instanceResetToDefault": "Resetează la instanța implicită",
+    "personaScopeTitle": "Persona se aplică pentru",
+    "personaScopeGlobal": "Peste tot",
+    "personaScopeGlobalDescription": "O singură persona pentru toate canalele.",
+    "personaScopeChannel": "În fiecare canal",
+    "personaScopeChannelDescription": "Fiecare canal își păstrează propria persona. Canalele noi pornesc cu contul tău.",
+    "personaPickerChannelOnly": "Doar pentru acest canal"
 }

@@ -111,5 +111,11 @@
     "signalBarReset": "Reset signal for everyone",
     "signalBarTurnOff": "Turn off {name}",
     "instanceUrlHelperDefault": "Use {domain} for the default instance, or the exact URL of another instance.",
-    "instanceResetToDefault": "Reset to default instance"
+    "instanceResetToDefault": "Reset to default instance",
+    "personaScopeTitle": "Persona applies to",
+    "personaScopeGlobal": "Everywhere",
+    "personaScopeGlobalDescription": "One persona for all channels.",
+    "personaScopeChannel": "In each channel",
+    "personaScopeChannelDescription": "Each channel keeps its own persona. New channels start as your account.",
+    "personaPickerChannelOnly": "Only for this channel"
 }
