@@ -395,4 +395,23 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Vrati na zadanu instancu';
+
+  @override
+  String get personaScopeTitle => 'Persona vrijedi za';
+
+  @override
+  String get personaScopeGlobal => 'Svugdje';
+
+  @override
+  String get personaScopeGlobalDescription => 'Jedna persona za sve kanale.';
+
+  @override
+  String get personaScopeChannel => 'U svakom kanalu';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Svaki kanal zadržava svoju personu. Novi kanali počinju kao vaš račun.';
+
+  @override
+  String get personaPickerChannelOnly => 'Samo za ovaj kanal';
 }

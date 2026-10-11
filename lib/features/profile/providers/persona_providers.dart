@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_settings.dart';
+import 'package:fluxer_dart/models/persona_channel_state_update_request_schema.dart';
 import 'package:native_natural_sort/native_natural_sort.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,24 +27,63 @@ enum PersonaMode {
   String toPrefString() => name;
 }
 
+/// Where the selected persona applies: one for every channel, or one
+/// remembered per channel.
+enum PersonaScope {
+  global,
+  channel;
+
+  static PersonaScope fromString(String? value) {
+    return value == 'channel' ? PersonaScope.channel : PersonaScope.global;
+  }
+
+  String toWire() => name;
+}
+
 class ActivePersonaState {
   const ActivePersonaState({
     this.mode = PersonaMode.manual,
     this.activePersonaId,
     this.isLatched = false,
     this.frecencyUsage = const {},
+    this.scope = PersonaScope.global,
+    this.channelPersonaIds = const <String, String>{},
   });
 
   final PersonaMode mode;
   final String? activePersonaId;
   final bool isLatched;
   final Map<String, ({int count, int lastUsedAtMs})> frecencyUsage;
+  final PersonaScope scope;
+
+  /// With [PersonaScope.channel]: the persona selected in each channel. A
+  /// channel that is not here is used as the account itself.
+  final Map<String, String> channelPersonaIds;
+
+  /// The persona selected for a channel: what an untagged message there is
+  /// sent as, and what its composer shows. Everything that acts in a channel
+  /// asks this, never [activePersonaId], which is only the selection for
+  /// every channel and says nothing about one channel when selections are
+  /// kept per channel. Without a channel there is nothing per channel to look
+  /// up: the answer is the selection for every channel, or nobody when
+  /// selections are per channel.
+  String? latchedIdFor(String? channelId) {
+    if (scope == PersonaScope.channel) {
+      if (channelId == null || channelId.isEmpty) {
+        return null;
+      }
+      return channelPersonaIds[channelId];
+    }
+    return isLatched ? activePersonaId : null;
+  }
 
   ActivePersonaState copyWith({
     PersonaMode? mode,
     String? Function()? activePersonaId,
     bool? isLatched,
     Map<String, ({int count, int lastUsedAtMs})>? frecencyUsage,
+    PersonaScope? scope,
+    Map<String, String>? channelPersonaIds,
   }) {
     return ActivePersonaState(
       mode: mode ?? this.mode,
@@ -52,6 +92,8 @@ class ActivePersonaState {
           : this.activePersonaId,
       isLatched: isLatched ?? this.isLatched,
       frecencyUsage: frecencyUsage ?? this.frecencyUsage,
+      scope: scope ?? this.scope,
+      channelPersonaIds: channelPersonaIds ?? this.channelPersonaIds,
     );
   }
 }
@@ -190,9 +232,11 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
         } catch (_) {}
       }
 
-      state = ActivePersonaState(
+      // The scope and the per-channel selections come from the server only.
+      // Keep whatever has arrived from there while the preferences were read.
+      state = state.copyWith(
         mode: PersonaMode.fromString(modeStr),
-        activePersonaId: idStr != null && idStr.isNotEmpty ? idStr : null,
+        activePersonaId: () => idStr != null && idStr.isNotEmpty ? idStr : null,
         isLatched: latched,
         frecencyUsage: frecency,
       );
@@ -205,12 +249,101 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
     required PersonaMode mode,
     required String? activeId,
     required bool isLatched,
+    PersonaScope? scope,
   }) {
     state = state.copyWith(
       mode: mode,
       activePersonaId: () => activeId,
       isLatched: isLatched,
+      scope: scope,
     );
+  }
+
+  Future<void> setScope(PersonaScope scope) async {
+    if (state.scope == scope) {
+      return;
+    }
+    final PersonaScope previous = state.scope;
+    state = state.copyWith(scope: scope);
+    try {
+      await ref
+          .read(personaSettingsProvider.notifier)
+          .updateSettings(activePersonaScope: scope.toWire());
+    } on Exception catch (err) {
+      talker.warning('[ActivePersonaNotifier] Failed to save the scope: $err');
+      state = state.copyWith(scope: previous);
+    }
+  }
+
+  /// Replaces the per-channel selections with what the server holds.
+  Future<void> loadChannelStates() async {
+    try {
+      final response = await ref
+          .read(fluxerClientProvider)
+          .personas
+          .listMyPersonaChannelStates();
+      if (!ref.mounted) {
+        return;
+      }
+      state = state.copyWith(
+        channelPersonaIds: <String, String>{
+          for (final entry in response.states)
+            if (entry.personaId != null) entry.channelId: entry.personaId!,
+        },
+      );
+    } on Exception catch (err) {
+      talker.warning(
+        '[ActivePersonaNotifier] Failed to load channel personas: $err',
+      );
+    }
+  }
+
+  /// Another session of this account selected a persona in a channel, or the
+  /// server cleared one.
+  void applyChannelState(String channelId, String? personaId) {
+    if (channelId.isEmpty) {
+      return;
+    }
+    final Map<String, String> next = Map<String, String>.of(
+      state.channelPersonaIds,
+    );
+    if (personaId == null || personaId.isEmpty) {
+      next.remove(channelId);
+    } else {
+      next[channelId] = personaId;
+    }
+    state = state.copyWith(channelPersonaIds: next);
+  }
+
+  /// A thread or post that was just created starts as whoever opened it, when
+  /// personas are kept per channel: they have just spoken there.
+  void startChannelAs(String channelId, String? personaId) {
+    if (state.scope == PersonaScope.channel &&
+        channelId.isNotEmpty &&
+        personaId != null &&
+        personaId.isNotEmpty) {
+      unawaited(_selectInChannel(channelId, personaId));
+    }
+  }
+
+  Future<void> _selectInChannel(String channelId, String? personaId) async {
+    applyChannelState(channelId, personaId);
+    try {
+      await ref
+          .read(fluxerClientProvider)
+          .personas
+          .setMyPersonaChannelState(
+            channelId: channelId,
+            body: PersonaChannelStateUpdateRequestSchema(personaId: personaId),
+          );
+    } on Exception catch (err) {
+      talker.warning(
+        '[ActivePersonaNotifier] Failed to save the channel persona: $err',
+      );
+      // Ask the server what holds now, instead of putting back a value that
+      // may itself be stale.
+      await loadChannelStates();
+    }
   }
 
   Future<void> setMode(PersonaMode mode) async {
@@ -231,11 +364,24 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
     } catch (_) {}
   }
 
+  /// Selects a persona. With the per-channel scope and a [channelId], the
+  /// selection is that channel's alone and the one for every channel is left
+  /// as it is.
   Future<void> setActivePersona(
     String? id, {
     bool latch = true,
     PersonaMode? mode,
+    String? channelId,
   }) async {
+    if (state.scope == PersonaScope.channel &&
+        channelId != null &&
+        channelId.isNotEmpty) {
+      await _selectInChannel(
+        channelId,
+        id != null && id.isNotEmpty && latch ? id : null,
+      );
+      return;
+    }
     final effectiveMode = mode ?? state.mode;
     state = state.copyWith(
       mode: effectiveMode,
@@ -266,7 +412,13 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
     } catch (_) {}
   }
 
-  Future<void> unlatch({bool preserveMode = false}) async {
+  Future<void> unlatch({bool preserveMode = false, String? channelId}) async {
+    if (state.scope == PersonaScope.channel &&
+        channelId != null &&
+        channelId.isNotEmpty) {
+      await _selectInChannel(channelId, null);
+      return;
+    }
     final newMode = state.mode;
     state = state.copyWith(
       mode: newMode,
@@ -337,17 +489,25 @@ final activePersonaProvider =
 // Helper Providers
 // -----------------------------------------------------------------------------
 
-final activePersonaOrNullProvider = Provider<Persona?>((ref) {
-  final activeState = ref.watch(activePersonaProvider);
-  if (!activeState.isLatched || activeState.activePersonaId == null) {
+/// The persona selected for [channelId], as [ActivePersonaState.latchedIdFor]
+/// has it, or null for the account itself. A selection whose persona no
+/// longer exists counts as the account.
+Persona? latchedPersonaFor(
+  ActivePersonaState active,
+  List<Persona> personas,
+  String? channelId,
+) {
+  final String? id = active.latchedIdFor(channelId);
+  if (id == null) {
     return null;
   }
-  final personasAsync = ref.watch(myPersonasProvider);
-  return personasAsync.asData?.value.cast<Persona?>().firstWhere(
-    (p) => p?.id == activeState.activePersonaId,
-    orElse: () => null,
-  );
-});
+  for (final Persona persona in personas) {
+    if (persona.id == id) {
+      return persona;
+    }
+  }
+  return null;
+}
 
 final _leadingDecoration = RegExp(r'^[^\p{Alphabetic}\p{N}]+', unicode: true);
 
@@ -569,6 +729,8 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
         state = AsyncValue.data(settings);
         _syncToLegacyProviders(settings);
       }
+      // The per-channel selections travel with the settings.
+      unawaited(ref.read(activePersonaProvider.notifier).loadChannelStates());
     } catch (err, st) {
       talker.warning(
         '[PersonaSettingsNotifier] Failed to load persona settings: $err',
@@ -597,6 +759,7 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
           mode: PersonaMode.fromString(settings.activePersonaMode),
           activeId: settings.activePersonaId,
           isLatched: settings.isLatched,
+          scope: PersonaScope.fromString(settings.activePersonaScope),
         );
     ref
         .read(systemDisplayTagProvider.notifier)
@@ -608,6 +771,7 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
 
   Future<void> updateSettings({
     String? activePersonaMode,
+    String? activePersonaScope,
     String? Function()? activePersonaId,
     bool? isLatched,
     String? displayTagText,
@@ -616,6 +780,7 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
     final current = state.asData?.value ?? const PersonaSettings();
     final updated = current.copyWith(
       activePersonaMode: activePersonaMode,
+      activePersonaScope: activePersonaScope,
       activePersonaId: activePersonaId,
       isLatched: isLatched,
       displayTagText: displayTagText,
@@ -628,6 +793,7 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
       final Dio dio = ref.read(fluxerDioProvider);
       final body = <String, dynamic>{
         'active_persona_mode': ?activePersonaMode,
+        'active_persona_scope': ?activePersonaScope,
         if (activePersonaId != null) 'active_persona_id': activePersonaId(),
         'is_latched': ?isLatched,
         'display_tag_text': ?displayTagText,

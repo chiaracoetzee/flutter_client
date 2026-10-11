@@ -111,5 +111,11 @@
     "signalBarReset": "Нулиране на сигнала за всички",
     "signalBarTurnOff": "Изключване на {name}",
     "instanceUrlHelperDefault": "Използвайте {domain} за инстанцията по подразбиране или точния URL адрес на друга инстанция.",
-    "instanceResetToDefault": "Възстановяване до инстанцията по подразбиране"
+    "instanceResetToDefault": "Възстановяване до инстанцията по подразбиране",
+    "personaScopeTitle": "Персоната важи за",
+    "personaScopeGlobal": "Навсякъде",
+    "personaScopeGlobalDescription": "Една персона за всички канали.",
+    "personaScopeChannel": "Във всеки канал",
+    "personaScopeChannelDescription": "Всеки канал пази своя персона. Новите канали започват с вашия акаунт.",
+    "personaPickerChannelOnly": "Само за този канал"
 }
