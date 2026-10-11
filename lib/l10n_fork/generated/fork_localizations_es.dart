@@ -418,6 +418,9 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Solo para este canal';
+
+  @override
+  String get personaProfilePrivate => 'El perfil de esta persona es privado.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -834,4 +837,7 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get personaPickerChannelOnly => 'Solo para este canal';
+
+  @override
+  String get personaProfilePrivate => 'El perfil de esta persona es privado.';
 }

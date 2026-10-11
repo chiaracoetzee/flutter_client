@@ -6330,7 +6330,6 @@ class ChatViewModel extends _$ChatViewModel {
       'id': message.personaId,
       if (message.personaName != null) 'name': message.personaName,
       if (message.personaAvatar != null) 'avatar': message.personaAvatar,
-      if (message.personaBanner != null) 'banner': message.personaBanner,
       'display_tag_text': ?pTag,
       if (message.personaTagIcon != null) 'display_tag_icon': message.personaTagIcon,
       if (message.authorAvatarColor != null) 'avatar_color': message.authorAvatarColor,
@@ -7936,7 +7935,6 @@ class ChatViewModel extends _$ChatViewModel {
     final String? pId = personaData?['id'] as String?;
     final String? pName = personaData?['name'] as String?;
     final String? pAvatar = personaData?['avatar'] as String?;
-    final String? pBanner = personaData?['banner'] as String?;
     final String? pTag = personaData?['display_tag_text'] as String?;
     final String? pTagIcon = personaData?['display_tag_icon'] as String?;
 
@@ -7966,7 +7964,6 @@ class ChatViewModel extends _$ChatViewModel {
       personaId: pId,
       personaName: pName,
       personaAvatar: pAvatar,
-      personaBanner: pBanner,
       personaTag: pTag,
       personaTagIcon: pTagIcon,
     );

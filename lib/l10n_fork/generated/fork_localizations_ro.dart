@@ -414,4 +414,7 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Doar pentru acest canal';
+
+  @override
+  String get personaProfilePrivate => 'Profilul acestei persona este privat.';
 }

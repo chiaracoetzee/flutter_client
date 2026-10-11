@@ -413,4 +413,7 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Tik šiam kanalui';
+
+  @override
+  String get personaProfilePrivate => 'Šios personos profilis yra privatus.';
 }

@@ -414,4 +414,7 @@ class ForkLocalizationsHu extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Csak ehhez a csatornához';
+
+  @override
+  String get personaProfilePrivate => 'Ennek a personának a profilja privát.';
 }
