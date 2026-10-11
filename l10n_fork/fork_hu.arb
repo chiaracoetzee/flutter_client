@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Egy persona minden csatornához.",
     "personaScopeChannel": "Minden csatornában",
     "personaScopeChannelDescription": "Minden csatorna megtartja a saját personáját. Az új csatornák a fiókoddal indulnak.",
-    "personaPickerChannelOnly": "Csak ehhez a csatornához"
+    "personaPickerChannelOnly": "Csak ehhez a csatornához",
+    "personaProfilePrivate": "Ennek a personának a profilja privát."
 }

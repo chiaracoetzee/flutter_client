@@ -412,4 +412,7 @@ class ForkLocalizationsSv extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Endast för den här kanalen';
+
+  @override
+  String get personaProfilePrivate => 'Den här personans profil är privat.';
 }

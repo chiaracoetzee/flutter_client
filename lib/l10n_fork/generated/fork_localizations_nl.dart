@@ -413,4 +413,7 @@ class ForkLocalizationsNl extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Alleen voor dit kanaal';
+
+  @override
+  String get personaProfilePrivate => 'Het profiel van deze persona is privé.';
 }
