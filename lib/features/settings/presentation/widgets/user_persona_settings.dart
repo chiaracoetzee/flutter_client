@@ -251,7 +251,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
       }
     });
 
-    final List<Persona> personas = personasAsync.asData?.value ?? const [];
+    final List<Persona> personas = ref.watch(sortedPersonasProvider);
 
     final List<Persona> filteredPersonas = personas.where((p) {
       if (_searchQuery.isEmpty) {
