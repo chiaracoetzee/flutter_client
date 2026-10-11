@@ -19,6 +19,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   livekit_client
   media_kit_libs_windows_video
   media_kit_video
+  native_natural_sort
   passkeys_windows
   permission_handler_windows
   record_windows
