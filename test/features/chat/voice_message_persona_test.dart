@@ -57,7 +57,6 @@ void main() {
         personaId: 'persona_alice',
         personaName: 'Alice',
         personaAvatar: 'https://example.com/alice.png',
-        personaBanner: 'https://example.com/alice_banner.png',
         personaTag: 'ALICE_TAG',
         personaTagIcon: 'https://example.com/alice_icon.png',
         authorAvatarColor: 0x123456,
@@ -71,7 +70,6 @@ void main() {
               'id': failedMessage.personaId,
               if (failedMessage.personaName != null) 'name': failedMessage.personaName,
               if (failedMessage.personaAvatar != null) 'avatar': failedMessage.personaAvatar,
-              if (failedMessage.personaBanner != null) 'banner': failedMessage.personaBanner,
               if (pTag != null) 'display_tag_text': pTag,
               if (failedMessage.personaTagIcon != null)
                 'display_tag_icon': failedMessage.personaTagIcon,
@@ -86,7 +84,7 @@ void main() {
       expect(retryPersonaData!['id'], equals('persona_alice'));
       expect(retryPersonaData['name'], equals('Alice'));
       expect(retryPersonaData['avatar'], equals('https://example.com/alice.png'));
-      expect(retryPersonaData['banner'], equals('https://example.com/alice_banner.png'));
+      expect(retryPersonaData.containsKey('banner'), isFalse);
       expect(retryPersonaData['display_tag_text'], equals('ALICE_TAG'));
       expect(retryPersonaData['display_tag_icon'], equals('https://example.com/alice_icon.png'));
       expect(retryPersonaData['color'], equals(0x123456));
