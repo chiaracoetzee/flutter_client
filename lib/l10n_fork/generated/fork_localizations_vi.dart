@@ -412,4 +412,8 @@ class ForkLocalizationsVi extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Chỉ cho kênh này';
+
+  @override
+  String get personaProfilePrivate =>
+      'Hồ sơ của persona này ở chế độ riêng tư.';
 }

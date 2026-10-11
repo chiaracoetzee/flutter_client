@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Одна персона для всіх каналів.",
     "personaScopeChannel": "У кожному каналі",
     "personaScopeChannelDescription": "Кожен канал зберігає свою персону. Нові канали починаються з вашого облікового запису.",
-    "personaPickerChannelOnly": "Лише для цього каналу"
+    "personaPickerChannelOnly": "Лише для цього каналу",
+    "personaProfilePrivate": "Профіль цієї персони приватний."
 }

@@ -874,6 +874,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Only for this channel'**
   String get personaPickerChannelOnly;
+
+  /// Shown on a persona's profile card in place of its bio and banner when the owner has made the persona private.
+  ///
+  /// In en, this message translates to:
+  /// **'This persona’s profile is private.'**
+  String get personaProfilePrivate;
 }
 
 class _ForkLocalizationsDelegate
