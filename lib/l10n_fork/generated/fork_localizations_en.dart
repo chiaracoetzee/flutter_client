@@ -392,6 +392,25 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Reset to default instance';
+
+  @override
+  String get personaScopeTitle => 'Persona applies to';
+
+  @override
+  String get personaScopeGlobal => 'Everywhere';
+
+  @override
+  String get personaScopeGlobalDescription => 'One persona for all channels.';
+
+  @override
+  String get personaScopeChannel => 'In each channel';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Each channel keeps its own persona. New channels start as your account.';
+
+  @override
+  String get personaPickerChannelOnly => 'Only for this channel';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -782,6 +801,25 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get instanceResetToDefault => 'Reset to default instance';
+
+  @override
+  String get personaScopeTitle => 'Persona applies to';
+
+  @override
+  String get personaScopeGlobal => 'Everywhere';
+
+  @override
+  String get personaScopeGlobalDescription => 'One persona for all channels.';
+
+  @override
+  String get personaScopeChannel => 'In each channel';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Each channel keeps its own persona. New channels start as your account.';
+
+  @override
+  String get personaPickerChannelOnly => 'Only for this channel';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1172,4 +1210,23 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get instanceResetToDefault => 'Reset to default instance';
+
+  @override
+  String get personaScopeTitle => 'Persona applies to';
+
+  @override
+  String get personaScopeGlobal => 'Everywhere';
+
+  @override
+  String get personaScopeGlobalDescription => 'One persona for all channels.';
+
+  @override
+  String get personaScopeChannel => 'In each channel';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Each channel keeps its own persona. New channels start as your account.';
+
+  @override
+  String get personaPickerChannelOnly => 'Only for this channel';
 }
