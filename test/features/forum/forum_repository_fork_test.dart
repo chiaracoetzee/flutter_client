@@ -47,7 +47,7 @@ void main() {
     );
     expect(
       (jsonDecode(adapter.bodies.single) as Map<String, Object?>)['message'],
-      <String, Object?>{'content': 'bao', 'subprofile': fox},
+      <String, Object?>{'content': 'bao', 'persona_id': '9'},
     );
   });
 }
