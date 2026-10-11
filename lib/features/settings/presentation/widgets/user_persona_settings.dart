@@ -357,6 +357,34 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
             ],
           ),
 
+          // Where the selected persona applies
+          FluxerSettingsSection(
+            sectionId: 'persona-settings-scope',
+            title: l10n.fork.personaScopeTitle,
+            children: [
+              FluxerRadioGroup<PersonaScope>(
+                value: activeState.scope,
+                items: [
+                  FluxerRadioItem(
+                    value: PersonaScope.global,
+                    label: l10n.fork.personaScopeGlobal,
+                    description: l10n.fork.personaScopeGlobalDescription,
+                  ),
+                  FluxerRadioItem(
+                    value: PersonaScope.channel,
+                    label: l10n.fork.personaScopeChannel,
+                    description: l10n.fork.personaScopeChannelDescription,
+                  ),
+                ],
+                onChanged: (scope) {
+                  unawaited(
+                    ref.read(activePersonaProvider.notifier).setScope(scope),
+                  );
+                },
+              ),
+            ],
+          ),
+
           // Section 2: System Display Tag
           FluxerSettingsSection(
             sectionId: 'persona-settings-display-tag',
@@ -633,7 +661,11 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                     context,
                     persona,
                     userId: currentUser?.id,
+                    // With a persona per channel there is no single active
+                    // one to show or set from here.
+                    canSetActive: activeState.scope == PersonaScope.global,
                     isThisActive:
+                        activeState.scope == PersonaScope.global &&
                         activeState.isLatched &&
                         activeState.activePersonaId == persona.id,
                   ),
@@ -657,6 +689,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
     BuildContext context,
     Persona persona, {
     required bool isThisActive,
+    required bool canSetActive,
     String? userId,
   }) {
     final colors = context.colors;
@@ -790,7 +823,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              if (isThisActive)
+              if (canSetActive && isThisActive)
                 FluxerButton.secondary(
                   size: FluxerButtonSize.small,
                   fitContent: true,
@@ -799,7 +832,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                   onPressed: () =>
                       ref.read(activePersonaProvider.notifier).unlatch(),
                 )
-              else
+              else if (canSetActive)
                 FluxerButton.secondary(
                   size: FluxerButtonSize.small,
                   fitContent: true,
@@ -809,7 +842,7 @@ class _UserPersonaSettingsState extends ConsumerState<UserPersonaSettings> {
                       .read(activePersonaProvider.notifier)
                       .setActivePersona(persona.id),
                 ),
-              SizedBox(width: layout.s2),
+              if (canSetActive) SizedBox(width: layout.s2),
               FluxerButton.secondary(
                 size: FluxerButtonSize.small,
                 isSquare: true,

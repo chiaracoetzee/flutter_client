@@ -394,4 +394,23 @@ class ForkLocalizationsNl extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Terugzetten naar standaardinstantie';
+
+  @override
+  String get personaScopeTitle => 'Persona geldt voor';
+
+  @override
+  String get personaScopeGlobal => 'Overal';
+
+  @override
+  String get personaScopeGlobalDescription => 'Eén persona voor alle kanalen.';
+
+  @override
+  String get personaScopeChannel => 'In elk kanaal';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Elk kanaal houdt zijn eigen persona. Nieuwe kanalen beginnen als je account.';
+
+  @override
+  String get personaPickerChannelOnly => 'Alleen voor dit kanaal';
 }

@@ -111,5 +111,11 @@
     "signalBarReset": "รีเซ็ตสัญญาณสำหรับทุกคน",
     "signalBarTurnOff": "ปิด {name}",
     "instanceUrlHelperDefault": "ใช้ {domain} สำหรับอินสแตนซ์เริ่มต้น หรือใส่ URL ที่ถูกต้องของอินสแตนซ์อื่น",
-    "instanceResetToDefault": "รีเซ็ตเป็นอินสแตนซ์เริ่มต้น"
+    "instanceResetToDefault": "รีเซ็ตเป็นอินสแตนซ์เริ่มต้น",
+    "personaScopeTitle": "Persona มีผลกับ",
+    "personaScopeGlobal": "ทุกที่",
+    "personaScopeGlobalDescription": "Persona เดียวสำหรับทุกช่อง",
+    "personaScopeChannel": "ในแต่ละช่อง",
+    "personaScopeChannelDescription": "แต่ละช่องเก็บ Persona ของตัวเอง ช่องใหม่จะเริ่มต้นเป็นบัญชีของคุณ",
+    "personaPickerChannelOnly": "เฉพาะช่องนี้"
 }
