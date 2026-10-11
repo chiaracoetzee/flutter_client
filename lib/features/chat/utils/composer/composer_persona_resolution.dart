@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controlle
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
 
 class OutgoingMessageResolution {
   const OutgoingMessageResolution({
@@ -55,6 +56,15 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
     latchedId,
     hasPendingAttachments,
     allowEmptyContent: allowEmptyContent,
+  );
+
+  // The message is being sent in this channel, so the signals lit in it name
+  // whoever it goes out as. A thread or post that does not exist yet passes no
+  // channel and changes nothing.
+  affirmSignalPersona(
+    ref.read,
+    channelId,
+    matchResult.matched ? matchResult.persona : null,
   );
 
   if (matchResult.clearedLatch ||

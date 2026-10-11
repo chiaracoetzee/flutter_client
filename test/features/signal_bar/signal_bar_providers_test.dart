@@ -214,48 +214,65 @@ void main() {
     expect(repository.calls, ['DELETE c reading']);
   });
 
-  test('follows the composer persona only when it changes', () async {
-    repository.entries = <SignalEntry>[
-      SignalEntry.fromJson(_entryJson('reading', '1')),
-      SignalEntry.fromJson(_entryJson('reading', '2')),
-    ];
-    await signals().loadChannel('c');
+  test(
+    'shows the own signals of one channel as the persona it is given',
+    () async {
+      repository.entries = <SignalEntry>[
+        SignalEntry.fromJson(_entryJson('reading', '1')),
+        SignalEntry.fromJson(_entryJson('reading', '2')),
+      ];
+      await signals().loadChannel('c');
+      await signals().loadChannel('elsewhere');
 
-    signals().reportOwnPersona('c', userId: '1', persona: null);
-    expect(repository.calls, isEmpty);
+      signals().affirmPersona(
+        'c',
+        userId: '1',
+        persona: const SignalPersona(id: '9', name: 'Kitsune', avatar: 'hash'),
+      );
+      expect(repository.calls, ['PUT c reading 9']);
+      expect(entries('c').first.personaId, '9');
+      expect(entries('c').first.displayName, 'Kitsune');
+      // Another account's signal, and the same account's in another channel,
+      // are not touched.
+      expect(entries('c').last.personaId, isNull);
+      expect(entries('elsewhere').first.personaId, isNull);
 
-    signals().reportOwnPersona(
-      'c',
-      userId: '1',
-      persona: const SignalPersona(id: '9', name: 'Kitsune', avatar: 'hash'),
-    );
-    expect(repository.calls, ['PUT c reading 9']);
-    expect(entries('c').first.personaId, '9');
-    expect(entries('c').first.displayName, 'Kitsune');
-    expect(entries('c').last.personaId, isNull);
+      // Already showing that persona: nothing to send.
+      signals().affirmPersona(
+        'c',
+        userId: '1',
+        persona: const SignalPersona(id: '9', name: 'Kitsune'),
+      );
+      expect(repository.calls, hasLength(1));
 
-    signals().reportOwnPersona(
-      'c',
+      signals().affirmPersona('c', userId: '1', persona: null);
+      expect(repository.calls.last, 'PUT c reading -');
+      expect(entries('c').first.personaId, isNull);
+    },
+  );
+
+  test('leaves a channel that was never loaded alone', () {
+    signals().affirmPersona(
+      'unloaded',
       userId: '1',
       persona: const SignalPersona(id: '9', name: 'Kitsune'),
     );
-    expect(repository.calls, hasLength(1));
-
-    signals().reportOwnPersona('c', userId: '1', persona: null);
-    expect(repository.calls.last, 'PUT c reading -');
-    expect(entries('c').first.personaId, isNull);
+    expect(repository.calls, isEmpty);
+    expect(entries('unloaded'), isEmpty);
   });
 
   test(
-    'a first persona report never re-sends, so devices do not fight',
+    'loading a channel never re-sends a signal lit as someone else',
     () async {
+      // The signal was lit as a persona. Opening the channel later, with any
+      // other persona active, is not something done in the channel.
       repository.entries = <SignalEntry>[
         SignalEntry.fromJson(
           _entryJson('reading', '1', personaId: '9', personaName: 'Kitsune'),
         ),
       ];
       await signals().loadChannel('c');
-      signals().reportOwnPersona('c', userId: '1', persona: null);
+      await signals().loadChannel('c');
       expect(repository.calls, isEmpty);
       expect(entries('c').single.personaId, '9');
     },
