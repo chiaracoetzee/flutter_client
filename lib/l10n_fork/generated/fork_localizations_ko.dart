@@ -403,4 +403,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => '이 채널에서만';
+
+  @override
+  String get personaProfilePrivate => '이 페르소나의 프로필은 비공개입니다.';
 }
