@@ -104,11 +104,11 @@ jobs:
       - name: Enable native assets
         run: flutter config --enable-native-assets
 
-      - name: Run Autonomous Rebase & Test Repair Pipeline
-        id: rebase_pipeline
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+      # The pipeline runs as one step per phase, so this page shows which phase is
+      # running, how long each took, and whether the repair agent was needed (its
+      # steps are skipped when it was not). The phases share their state through
+      # /tmp/rebase_pipeline_state.json; see rebase_orchestrator.py --phase.
+      - name: Pipeline settings
         run: |
           FLAGS=""
           if [ "${{ inputs.dry_run }}" = "true" ]; then
@@ -120,7 +120,78 @@ jobs:
           if [ "${{ inputs.smoke }}" = "true" ]; then
             FLAGS="$FLAGS --force-tests --skip-baseline --stop-after-codegen"
           fi
-          python /tmp/rebase_tools/rebase/rebase_orchestrator.py --profile flutter --time-budget-minutes 140 $FLAGS
+          echo "REBASE_ARGS=--profile flutter --time-budget-minutes 140 $FLAGS" >> "$GITHUB_ENV"
+
+      - name: "1. Check upstream and tag a backup"
+        id: prepare
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase prepare
+
+      - name: "2. Baseline tests (before the rebase)"
+        id: baseline
+        if: ${{ steps.prepare.outputs.skip_rebase != 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase baseline
+
+      - name: "3. Rebase onto upstream"
+        id: rebase
+        if: ${{ steps.prepare.outputs.skip_rebase != 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase rebase
+
+      - name: "3a. Agent: resolve conflicts"
+        id: resolve_conflicts
+        if: ${{ steps.prepare.outputs.skip_rebase != 'true' && steps.rebase.outputs.needs_agent == 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase resolve-conflicts
+
+      - name: "4. Dependencies and code generation"
+        id: codegen
+        if: ${{ steps.prepare.outputs.skip_rebase != 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase codegen
+
+      - name: "4a. Agent: repair code generation"
+        id: repair_codegen
+        if: ${{ steps.prepare.outputs.skip_rebase != 'true' && steps.codegen.outputs.needs_agent == 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase repair-codegen
+
+      - name: "5. Tests and analysis"
+        id: unit
+        if: ${{ steps.prepare.outputs.skip_rebase != 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase unit
+
+      - name: "5a. Agent: repair tests"
+        id: repair_unit
+        if: ${{ steps.prepare.outputs.skip_rebase != 'true' && steps.unit.outputs.needs_agent == 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase repair-unit
+
+      - name: "6. Push and start the next repository"
+        id: push
+        if: ${{ steps.prepare.outputs.skip_rebase != 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN || secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: python /tmp/rebase_tools/rebase/rebase_orchestrator.py $REBASE_ARGS --phase push
 
       - name: Upload AI Agent Logs & Artifacts
         if: always()
