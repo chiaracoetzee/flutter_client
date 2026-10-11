@@ -111,5 +111,11 @@
     "signalBarReset": "Сбросить сигнал для всех",
     "signalBarTurnOff": "Выключить {name}",
     "instanceUrlHelperDefault": "Используйте {domain} для инстанса по умолчанию или точный URL другого инстанса.",
-    "instanceResetToDefault": "Сбросить до инстанса по умолчанию"
+    "instanceResetToDefault": "Сбросить до инстанса по умолчанию",
+    "personaScopeTitle": "Персона действует",
+    "personaScopeGlobal": "Везде",
+    "personaScopeGlobalDescription": "Одна персона для всех каналов.",
+    "personaScopeChannel": "В каждом канале",
+    "personaScopeChannelDescription": "Каждый канал хранит свою персону. Новые каналы начинаются с вашего аккаунта.",
+    "personaPickerChannelOnly": "Только для этого канала"
 }

@@ -111,5 +111,11 @@
     "signalBarReset": "Signaal voor iedereen resetten",
     "signalBarTurnOff": "{name} uitzetten",
     "instanceUrlHelperDefault": "Gebruik {domain} voor de standaardinstantie, of de exacte URL van een andere instantie.",
-    "instanceResetToDefault": "Terugzetten naar standaardinstantie"
+    "instanceResetToDefault": "Terugzetten naar standaardinstantie",
+    "personaScopeTitle": "Persona geldt voor",
+    "personaScopeGlobal": "Overal",
+    "personaScopeGlobalDescription": "Eén persona voor alle kanalen.",
+    "personaScopeChannel": "In elk kanaal",
+    "personaScopeChannelDescription": "Elk kanaal houdt zijn eigen persona. Nieuwe kanalen beginnen als je account.",
+    "personaPickerChannelOnly": "Alleen voor dit kanaal"
 }

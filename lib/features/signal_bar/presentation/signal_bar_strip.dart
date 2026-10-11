@@ -135,7 +135,10 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
           personaId: composerSignalPersona(
             ref.read,
             widget.channelId,
-            latchedPersonaId: latchedSignalPersonaId(ref.read),
+            latchedPersonaId: latchedSignalPersonaId(
+              ref.read,
+              widget.channelId,
+            ),
           )?.id,
         ),
       );

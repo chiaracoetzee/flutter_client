@@ -111,5 +111,11 @@
     "signalBarReset": "Nulstil signal for alle",
     "signalBarTurnOff": "Slå {name} fra",
     "instanceUrlHelperDefault": "Brug {domain} til standardinstansen, eller den nøjagtige URL til en anden instans.",
-    "instanceResetToDefault": "Nulstil til standardinstansen"
+    "instanceResetToDefault": "Nulstil til standardinstansen",
+    "personaScopeTitle": "Persona gælder for",
+    "personaScopeGlobal": "Overalt",
+    "personaScopeGlobalDescription": "Én persona for alle kanaler.",
+    "personaScopeChannel": "I hver kanal",
+    "personaScopeChannelDescription": "Hver kanal beholder sin egen persona. Nye kanaler starter som din konto.",
+    "personaPickerChannelOnly": "Kun for denne kanal"
 }
