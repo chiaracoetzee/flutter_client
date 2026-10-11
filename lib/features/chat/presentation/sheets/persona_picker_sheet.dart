@@ -31,6 +31,7 @@ class PersonaPickerSheet {
     VoidCallback? onSelectRoot,
     String? title,
     String? signalChannelId,
+    String? personaChannelId,
   }) {
     final l10n = FluxerLocalizations.of(context);
     return FluxerBottomSheet.showScrollable<void>(
@@ -47,6 +48,7 @@ class PersonaPickerSheet {
           onSelectPersona: onSelectPersona,
           onSelectRoot: onSelectRoot,
           signalChannelId: signalChannelId,
+          personaChannelId: personaChannelId,
         );
       },
     );
@@ -62,6 +64,7 @@ class _PersonaPickerBody extends ConsumerStatefulWidget {
     this.onSelectPersona,
     this.onSelectRoot,
     this.signalChannelId,
+    this.personaChannelId,
   });
 
   final ScrollController scrollController;
@@ -73,6 +76,10 @@ class _PersonaPickerBody extends ConsumerStatefulWidget {
 
   /// The channel whose composer opened the picker, when one did.
   final String? signalChannelId;
+
+  /// The channel whose persona selection the picker shows and changes when
+  /// personas are remembered per channel.
+  final String? personaChannelId;
 
   @override
   ConsumerState<_PersonaPickerBody> createState() => _PersonaPickerBodyState();
@@ -115,7 +122,9 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
       }
     } else {
       unawaited(
-        ref.read(activePersonaProvider.notifier).setActivePersona(personaId),
+        ref
+            .read(activePersonaProvider.notifier)
+            .setActivePersona(personaId, channelId: widget.personaChannelId),
       );
       _affirmPick(personaId);
     }
@@ -127,7 +136,11 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
     if (widget.onSelectRoot != null) {
       widget.onSelectRoot!();
     } else {
-      unawaited(ref.read(activePersonaProvider.notifier).unlatch());
+      unawaited(
+        ref
+            .read(activePersonaProvider.notifier)
+            .unlatch(channelId: widget.personaChannelId),
+      );
       _affirmPick(null);
     }
     widget.onClose();
@@ -200,13 +213,13 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
     final bool isRootActive = isCustomSelection
         ? (widget.selectedPersonaId == null ||
               widget.selectedPersonaId!.isEmpty)
-        : (!activeState.isLatched || activeState.activePersonaId == null);
+        : activeState.latchedIdFor(widget.personaChannelId) == null;
 
     bool isPersonaActive(String id) {
       if (isCustomSelection) {
         return widget.selectedPersonaId == id;
       }
-      return activeState.isLatched && activeState.activePersonaId == id;
+      return activeState.latchedIdFor(widget.personaChannelId) == id;
     }
 
     final modeIndex = switch (activeState.mode) {
@@ -284,6 +297,17 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
               : null,
         ),
         SizedBox(height: layout.s3),
+
+        // A pick is this channel's alone when personas are kept per channel.
+        if (activeState.scope == PersonaScope.channel &&
+            (widget.personaChannelId ?? '').isNotEmpty &&
+            !isCustomSelection) ...[
+          Text(
+            l10n.fork.personaPickerChannelOnly,
+            style: textStyles.label.copyWith(color: colors.textSecondary),
+          ),
+          SizedBox(height: layout.s2),
+        ],
 
         // Mode Segmented Tabs & Dynamic Microcopy
         if (widget.showModes) ...[
