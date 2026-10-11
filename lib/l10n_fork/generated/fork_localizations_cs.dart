@@ -395,4 +395,24 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Obnovit výchozí instanci';
+
+  @override
+  String get personaScopeTitle => 'Persona platí pro';
+
+  @override
+  String get personaScopeGlobal => 'Všude';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Jedna persona pro všechny kanály.';
+
+  @override
+  String get personaScopeChannel => 'V každém kanálu';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Každý kanál si drží vlastní personu. Nové kanály začínají jako váš účet.';
+
+  @override
+  String get personaPickerChannelOnly => 'Jen pro tento kanál';
 }

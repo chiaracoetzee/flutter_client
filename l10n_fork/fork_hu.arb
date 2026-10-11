@@ -111,5 +111,11 @@
     "signalBarReset": "Jelzés visszaállítása mindenkinél",
     "signalBarTurnOff": "{name} kikapcsolása",
     "instanceUrlHelperDefault": "Az alapértelmezett példányhoz használd ezt: {domain}, vagy add meg egy másik példány pontos URL-címét.",
-    "instanceResetToDefault": "Visszaállítás az alapértelmezett példányra"
+    "instanceResetToDefault": "Visszaállítás az alapértelmezett példányra",
+    "personaScopeTitle": "A persona érvényessége",
+    "personaScopeGlobal": "Mindenhol",
+    "personaScopeGlobalDescription": "Egy persona minden csatornához.",
+    "personaScopeChannel": "Minden csatornában",
+    "personaScopeChannelDescription": "Minden csatorna megtartja a saját personáját. Az új csatornák a fiókoddal indulnak.",
+    "personaPickerChannelOnly": "Csak ehhez a csatornához"
 }

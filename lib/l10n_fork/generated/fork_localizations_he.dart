@@ -392,4 +392,23 @@ class ForkLocalizationsHe extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'איפוס למופע ברירת המחדל';
+
+  @override
+  String get personaScopeTitle => 'הפרסונה חלה על';
+
+  @override
+  String get personaScopeGlobal => 'בכל מקום';
+
+  @override
+  String get personaScopeGlobalDescription => 'פרסונה אחת לכל הערוצים.';
+
+  @override
+  String get personaScopeChannel => 'בכל ערוץ';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'כל ערוץ שומר על הפרסונה שלו. ערוצים חדשים מתחילים כחשבון שלכם.';
+
+  @override
+  String get personaPickerChannelOnly => 'רק לערוץ הזה';
 }

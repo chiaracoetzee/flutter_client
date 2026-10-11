@@ -2357,8 +2357,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final String trimmed = baseContent.trim();
     if (trimmed == r'\\') {
       final activeState = ref.read(activePersonaProvider);
-      if (activeState.isLatched || activeState.activePersonaId != null) {
-        await ref.read(activePersonaProvider.notifier).unlatch();
+      if (activeState.latchedIdFor(channelId) != null) {
+        await ref
+            .read(activePersonaProvider.notifier)
+            .unlatch(channelId: channelId);
         _clearSlashSession();
         _controller.clear();
         vm.updateMessageText('');

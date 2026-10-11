@@ -111,5 +111,11 @@
     "signalBarReset": "Återställ signalen för alla",
     "signalBarTurnOff": "Stäng av {name}",
     "instanceUrlHelperDefault": "Använd {domain} för standardinstansen, eller den exakta URL:en till en annan instans.",
-    "instanceResetToDefault": "Återställ till standardinstansen"
+    "instanceResetToDefault": "Återställ till standardinstansen",
+    "personaScopeTitle": "Persona gäller för",
+    "personaScopeGlobal": "Överallt",
+    "personaScopeGlobalDescription": "En persona för alla kanaler.",
+    "personaScopeChannel": "I varje kanal",
+    "personaScopeChannelDescription": "Varje kanal behåller sin egen persona. Nya kanaler börjar som ditt konto.",
+    "personaPickerChannelOnly": "Endast för den här kanalen"
 }

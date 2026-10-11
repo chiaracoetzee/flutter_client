@@ -838,6 +838,42 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'Reset to default instance'**
   String get instanceResetToDefault;
+
+  /// Title of the setting that chooses whether the selected persona applies in every channel or is remembered per channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Persona applies to'**
+  String get personaScopeTitle;
+
+  /// Option of the persona scope setting: one persona for every channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Everywhere'**
+  String get personaScopeGlobal;
+
+  /// Helper text for the Everywhere option of the persona scope setting.
+  ///
+  /// In en, this message translates to:
+  /// **'One persona for all channels.'**
+  String get personaScopeGlobalDescription;
+
+  /// Option of the persona scope setting: each channel remembers its own persona.
+  ///
+  /// In en, this message translates to:
+  /// **'In each channel'**
+  String get personaScopeChannel;
+
+  /// Helper text for the In each channel option of the persona scope setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Each channel keeps its own persona. New channels start as your account.'**
+  String get personaScopeChannelDescription;
+
+  /// Note in the persona picker when personas are remembered per channel: the persona picked is used in the current channel only.
+  ///
+  /// In en, this message translates to:
+  /// **'Only for this channel'**
+  String get personaPickerChannelOnly;
 }
 
 class _ForkLocalizationsDelegate
