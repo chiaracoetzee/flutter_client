@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Una persona para todos los canales.",
     "personaScopeChannel": "En cada canal",
     "personaScopeChannelDescription": "Cada canal conserva su propia persona. Los canales nuevos empiezan como tu cuenta.",
-    "personaPickerChannelOnly": "Solo para este canal"
+    "personaPickerChannelOnly": "Solo para este canal",
+    "personaProfilePrivate": "El perfil de esta persona es privado."
 }

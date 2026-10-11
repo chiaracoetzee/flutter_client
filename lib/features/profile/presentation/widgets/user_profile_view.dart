@@ -761,6 +761,16 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             : const AsyncValue<PublicPersona?>.data(null);
     final PublicPersona? publicPersona =
         ownPersona?.toPublicPersona() ?? publicPersonaAsync.value;
+    // Fork: the owner keeps this persona's profile to themselves.
+    final bool personaProfileIsPrivate =
+        (!isCurrentUser && effectivePersonaId.isNotEmpty) && (ref
+                    .watch(
+                      personaProfilePrivateProvider(
+                        (userId: effectiveUserId, personaId: effectivePersonaId),
+                      ),
+                    )
+                    .value ??
+                false);
 
     final AsyncValue<UserProfileFullResponse?> rootProfileAsync = ref.watch(
       userProfileProvider(userId: effectiveUserId, guildId: widget.guildId),
@@ -777,9 +787,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final String? rawPersonaAvatar = publicPersona != null
         ? publicPersona.avatarHash
         : message?.personaAvatar;
-    final String? rawPersonaBanner = publicPersona != null
-        ? publicPersona.bannerHash
-        : message?.personaBanner;
+    // Fork: the banner and the bio are the profile's, and the profile is only
+    // ever what the server gives this viewer.
+    final String? rawPersonaBanner = publicPersona?.bannerHash;
     final String? personaTag =
         publicPersona?.displayTagText ?? message?.personaTag;
     final String? rawPersonaTagIcon =
@@ -984,6 +994,15 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     decoration: BoxDecoration(
                       color: colors.backgroundSecondary,
                       borderRadius: layout.radiusSm,
+                    ),
+                  ),
+                ] else if (personaProfileIsPrivate) ...[
+                  SizedBox(height: layout.s3),
+                  Text(
+                    l10n.fork.personaProfilePrivate,
+                    key: const ValueKey<String>('persona-profile-private'),
+                    style: textStyles.bodySmall.copyWith(
+                      color: colors.textPrimaryMuted,
                     ),
                   ),
                 ] else if (personaBio != null &&
