@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "सभी चैनलों के लिए एक परसोना।",
     "personaScopeChannel": "हर चैनल में",
     "personaScopeChannelDescription": "हर चैनल अपना परसोना रखता है। नए चैनल आपके अकाउंट से शुरू होते हैं।",
-    "personaPickerChannelOnly": "केवल इस चैनल के लिए"
+    "personaPickerChannelOnly": "केवल इस चैनल के लिए",
+    "personaProfilePrivate": "इस परसोना की प्रोफ़ाइल निजी है।"
 }
