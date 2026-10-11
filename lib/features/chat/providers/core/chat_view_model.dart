@@ -7091,6 +7091,12 @@ class ChatViewModel extends _$ChatViewModel {
         latchedId,
         hasPendingAttachments,
       );
+      // Fork: the text may still become another persona's tag. Until it is one
+      // or stops looking like one, neither the signals nor the typing notice
+      // say who is typing.
+      if (isUnfinishedPersonaTag(text, personas, preview.persona?.id)) {
+        return;
+      }
       if (preview.persona != null) {
         final p = preview.persona!;
         final systemTag = ref.read(systemDisplayTagProvider);
