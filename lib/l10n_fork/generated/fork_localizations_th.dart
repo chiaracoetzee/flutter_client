@@ -411,4 +411,7 @@ class ForkLocalizationsTh extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'เฉพาะช่องนี้';
+
+  @override
+  String get personaProfilePrivate => 'โปรไฟล์ของ Persona นี้เป็นส่วนตัว';
 }
