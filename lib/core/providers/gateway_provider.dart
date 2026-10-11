@@ -632,6 +632,24 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         return;
       }
 
+      if (eventType == 'USER_PERSONA_CHANNEL_STATE_UPDATE') {
+        // Another session of this account selected a persona in a channel,
+        // or the server cleared one.
+        if (data is Map) {
+          final Object? channelId = data['channel_id'];
+          final Object? personaId = data['persona_id'];
+          if (channelId is String) {
+            ref
+                .read(activePersonaProvider.notifier)
+                .applyChannelState(
+                  channelId,
+                  personaId is String ? personaId : null,
+                );
+          }
+        }
+        return;
+      }
+
       if (eventType == 'USER_PERSONA_SETTINGS_UPDATE') {
         final Map<String, dynamic> payload = data is Map<String, dynamic>
             ? data

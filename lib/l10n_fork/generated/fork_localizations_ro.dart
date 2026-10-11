@@ -394,4 +394,24 @@ class ForkLocalizationsRo extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Resetează la instanța implicită';
+
+  @override
+  String get personaScopeTitle => 'Persona se aplică pentru';
+
+  @override
+  String get personaScopeGlobal => 'Peste tot';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'O singură persona pentru toate canalele.';
+
+  @override
+  String get personaScopeChannel => 'În fiecare canal';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Fiecare canal își păstrează propria persona. Canalele noi pornesc cu contul tău.';
+
+  @override
+  String get personaPickerChannelOnly => 'Doar pentru acest canal';
 }

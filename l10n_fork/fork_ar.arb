@@ -111,5 +111,11 @@
     "signalBarReset": "إعادة تعيين الإشارة للجميع",
     "signalBarTurnOff": "إيقاف {name}",
     "instanceUrlHelperDefault": "استخدم {domain} للمثيل الافتراضي، أو عنوان URL الدقيق لمثيل آخر.",
-    "instanceResetToDefault": "إعادة الضبط إلى المثيل الافتراضي"
+    "instanceResetToDefault": "إعادة الضبط إلى المثيل الافتراضي",
+    "personaScopeTitle": "الشخصية تنطبق على",
+    "personaScopeGlobal": "في كل مكان",
+    "personaScopeGlobalDescription": "شخصية واحدة لكل القنوات.",
+    "personaScopeChannel": "في كل قناة",
+    "personaScopeChannelDescription": "كل قناة تحتفظ بشخصيتها الخاصة. القنوات الجديدة تبدأ بحسابك.",
+    "personaPickerChannelOnly": "لهذه القناة فقط"
 }

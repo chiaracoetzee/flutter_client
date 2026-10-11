@@ -531,5 +531,29 @@
     "instanceResetToDefault": "Reset to default instance",
     "@instanceResetToDefault": {
         "description": "Button on the instance selector that switches back to this build's default instance."
+    },
+    "personaScopeTitle": "Persona applies to",
+    "@personaScopeTitle": {
+        "description": "Title of the setting that chooses whether the selected persona applies in every channel or is remembered per channel."
+    },
+    "personaScopeGlobal": "Everywhere",
+    "@personaScopeGlobal": {
+        "description": "Option of the persona scope setting: one persona for every channel."
+    },
+    "personaScopeGlobalDescription": "One persona for all channels.",
+    "@personaScopeGlobalDescription": {
+        "description": "Helper text for the Everywhere option of the persona scope setting."
+    },
+    "personaScopeChannel": "In each channel",
+    "@personaScopeChannel": {
+        "description": "Option of the persona scope setting: each channel remembers its own persona."
+    },
+    "personaScopeChannelDescription": "Each channel keeps its own persona. New channels start as your account.",
+    "@personaScopeChannelDescription": {
+        "description": "Helper text for the In each channel option of the persona scope setting."
+    },
+    "personaPickerChannelOnly": "Only for this channel",
+    "@personaPickerChannelOnly": {
+        "description": "Note in the persona picker when personas are remembered per channel: the persona picked is used in the current channel only."
     }
 }

@@ -111,5 +111,11 @@
     "signalBarReset": "Đặt lại tín hiệu cho mọi người",
     "signalBarTurnOff": "Tắt {name}",
     "instanceUrlHelperDefault": "Dùng {domain} cho máy chủ mặc định, hoặc URL chính xác của một máy chủ khác.",
-    "instanceResetToDefault": "Đặt lại về máy chủ mặc định"
+    "instanceResetToDefault": "Đặt lại về máy chủ mặc định",
+    "personaScopeTitle": "Persona áp dụng cho",
+    "personaScopeGlobal": "Mọi nơi",
+    "personaScopeGlobalDescription": "Một persona cho mọi kênh.",
+    "personaScopeChannel": "Trong từng kênh",
+    "personaScopeChannelDescription": "Mỗi kênh giữ persona riêng của mình. Kênh mới bắt đầu bằng tài khoản của bạn.",
+    "personaPickerChannelOnly": "Chỉ cho kênh này"
 }
