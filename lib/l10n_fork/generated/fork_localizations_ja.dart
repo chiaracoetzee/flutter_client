@@ -404,4 +404,7 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'このチャンネルのみ';
+
+  @override
+  String get personaProfilePrivate => 'このペルソナのプロフィールは非公開です。';
 }

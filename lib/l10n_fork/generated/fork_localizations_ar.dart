@@ -410,4 +410,7 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'لهذه القناة فقط';
+
+  @override
+  String get personaProfilePrivate => 'الملف الشخصي لهذه الشخصية خاص.';
 }
