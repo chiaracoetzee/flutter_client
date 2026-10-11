@@ -415,4 +415,7 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Jen pro tento kanál';
+
+  @override
+  String get personaProfilePrivate => 'Profil této persony je soukromý.';
 }

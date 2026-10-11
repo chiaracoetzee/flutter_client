@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "شخصية واحدة لكل القنوات.",
     "personaScopeChannel": "في كل قناة",
     "personaScopeChannelDescription": "كل قناة تحتفظ بشخصيتها الخاصة. القنوات الجديدة تبدأ بحسابك.",
-    "personaPickerChannelOnly": "لهذه القناة فقط"
+    "personaPickerChannelOnly": "لهذه القناة فقط",
+    "personaProfilePrivate": "الملف الشخصي لهذه الشخصية خاص."
 }
