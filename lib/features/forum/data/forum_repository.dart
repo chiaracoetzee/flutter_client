@@ -298,7 +298,7 @@ class ForumRepository {
               'title': _uploadName(draft.files[i]),
             },
         ],
-      'subprofile': ?draft.personaData,
+      'persona_id': ?draft.personaData?['id'],
     };
     final Map<String, dynamic> payload = <String, dynamic>{
       'name': draft.name.trim(),
