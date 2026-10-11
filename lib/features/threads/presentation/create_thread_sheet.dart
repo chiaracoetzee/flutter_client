@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/threads/data/threads_repository.dart';
 import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
@@ -253,6 +254,7 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       rawText: _message.text.trim(),
       channelId: '',
       hasAttachments: false,
+      personaChannelId: parent.id,
     );
     if (!mounted) {
       return;
@@ -289,6 +291,11 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
       return;
     }
     final ChannelResponse created = ChannelResponse.fromJson(json);
+    // Fork: with a persona remembered per channel, the new thread starts as
+    // whoever opened it.
+    ref
+        .read(activePersonaProvider.notifier)
+        .startChannelAs(created.id, personaData?['id'] as String?);
     final Message? source = widget.sourceMessage;
     final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
     await database.transaction(() async {
@@ -468,7 +475,10 @@ class _CreateThreadBodyState extends ConsumerState<_CreateThreadBody> {
           ValueListenableBuilder<TextEditingValue>(
             valueListenable: _message,
             builder: (_, TextEditingValue value, _) =>
-                PersonaSendingAsRow(text: value.text),
+                PersonaSendingAsRow(
+                  text: value.text,
+                  personaChannelId: widget.parent.id,
+                ),
           ),
           FluxerInput(
             controller: _message,

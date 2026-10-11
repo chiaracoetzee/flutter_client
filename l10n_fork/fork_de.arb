@@ -111,5 +111,11 @@
     "signalBarReset": "Signal für alle zurücksetzen",
     "signalBarTurnOff": "{name} ausschalten",
     "instanceUrlHelperDefault": "Verwende {domain} für die Standardinstanz oder die genaue URL einer anderen Instanz.",
-    "instanceResetToDefault": "Auf Standardinstanz zurücksetzen"
+    "instanceResetToDefault": "Auf Standardinstanz zurücksetzen",
+    "personaScopeTitle": "Persona gilt für",
+    "personaScopeGlobal": "Überall",
+    "personaScopeGlobalDescription": "Eine Persona für alle Kanäle.",
+    "personaScopeChannel": "In jedem Kanal",
+    "personaScopeChannelDescription": "Jeder Kanal behält seine eigene Persona. Neue Kanäle beginnen mit deinem Account.",
+    "personaPickerChannelOnly": "Nur für diesen Kanal"
 }

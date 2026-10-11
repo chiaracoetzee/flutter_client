@@ -394,4 +394,24 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Przywróć domyślną instancję';
+
+  @override
+  String get personaScopeTitle => 'Persona dotyczy';
+
+  @override
+  String get personaScopeGlobal => 'Wszędzie';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Jedna persona dla wszystkich kanałów.';
+
+  @override
+  String get personaScopeChannel => 'W każdym kanale';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Każdy kanał zachowuje własną personę. Nowe kanały zaczynają jako twoje konto.';
+
+  @override
+  String get personaPickerChannelOnly => 'Tylko dla tego kanału';
 }

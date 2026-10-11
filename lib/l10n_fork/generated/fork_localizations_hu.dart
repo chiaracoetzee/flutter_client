@@ -395,4 +395,23 @@ class ForkLocalizationsHu extends ForkLocalizations {
   @override
   String get instanceResetToDefault =>
       'Visszaállítás az alapértelmezett példányra';
+
+  @override
+  String get personaScopeTitle => 'A persona érvényessége';
+
+  @override
+  String get personaScopeGlobal => 'Mindenhol';
+
+  @override
+  String get personaScopeGlobalDescription => 'Egy persona minden csatornához.';
+
+  @override
+  String get personaScopeChannel => 'Minden csatornában';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Minden csatorna megtartja a saját personáját. Az új csatornák a fiókoddal indulnak.';
+
+  @override
+  String get personaPickerChannelOnly => 'Csak ehhez a csatornához';
 }

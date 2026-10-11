@@ -395,4 +395,23 @@ class ForkLocalizationsEl extends ForkLocalizations {
   @override
   String get instanceResetToDefault =>
       'Επαναφορά στην προεπιλεγμένη εγκατάσταση';
+
+  @override
+  String get personaScopeTitle => 'Η persona ισχύει για';
+
+  @override
+  String get personaScopeGlobal => 'Παντού';
+
+  @override
+  String get personaScopeGlobalDescription => 'Μία persona για όλα τα κανάλια.';
+
+  @override
+  String get personaScopeChannel => 'Σε κάθε κανάλι';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Κάθε κανάλι κρατά τη δική του persona. Τα νέα κανάλια ξεκινούν με τον λογαριασμό σας.';
+
+  @override
+  String get personaPickerChannelOnly => 'Μόνο για αυτό το κανάλι';
 }

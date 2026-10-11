@@ -111,5 +111,11 @@
     "signalBarReset": "Reset sinyal untuk semua orang",
     "signalBarTurnOff": "Matikan {name}",
     "instanceUrlHelperDefault": "Gunakan {domain} untuk instans default, atau URL persis dari instans lain.",
-    "instanceResetToDefault": "Atur ulang ke instans default"
+    "instanceResetToDefault": "Atur ulang ke instans default",
+    "personaScopeTitle": "Persona berlaku untuk",
+    "personaScopeGlobal": "Di Mana Saja",
+    "personaScopeGlobalDescription": "Satu persona untuk semua saluran.",
+    "personaScopeChannel": "Di setiap saluran",
+    "personaScopeChannelDescription": "Setiap saluran menyimpan personanya sendiri. Saluran baru dimulai sebagai akunmu.",
+    "personaPickerChannelOnly": "Hanya untuk saluran ini"
 }

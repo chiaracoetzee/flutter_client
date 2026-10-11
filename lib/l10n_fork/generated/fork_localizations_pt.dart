@@ -396,6 +396,26 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Repor a instância predefinida';
+
+  @override
+  String get personaScopeTitle => 'A persona se aplica a';
+
+  @override
+  String get personaScopeGlobal => 'Em todo lugar';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Uma persona para todos os canais.';
+
+  @override
+  String get personaScopeChannel => 'Em cada canal';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Cada canal mantém sua própria persona. Canais novos começam como sua conta.';
+
+  @override
+  String get personaPickerChannelOnly => 'Somente para este canal';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -790,4 +810,24 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get instanceResetToDefault => 'Redefinir para a instância padrão';
+
+  @override
+  String get personaScopeTitle => 'A persona se aplica a';
+
+  @override
+  String get personaScopeGlobal => 'Em todo lugar';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Uma persona para todos os canais.';
+
+  @override
+  String get personaScopeChannel => 'Em cada canal';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Cada canal mantém sua própria persona. Canais novos começam como sua conta.';
+
+  @override
+  String get personaPickerChannelOnly => 'Somente para este canal';
 }
