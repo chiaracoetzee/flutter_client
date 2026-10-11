@@ -93,6 +93,7 @@ import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -5288,6 +5289,7 @@ class ChatViewModel extends _$ChatViewModel {
         );
       }
     }
+    affirmSignalPersonaData(ref.read, channelId, resolvedPersonaData);
     final Message optimisticMessage = _buildOptimisticMessage(
       channelId: channelId,
       content: '',
@@ -7114,6 +7116,12 @@ class ChatViewModel extends _$ChatViewModel {
           'bio': ?p.bio,
         };
       }
+    }
+
+    // Fork: typing is done in this channel, so the signals lit in it follow
+    // whoever is typing. Nothing done in another channel reaches them.
+    if (state.editingMessage == null) {
+      affirmSignalPersonaData(ref.read, channelId, personaData);
     }
 
     unawaited(
