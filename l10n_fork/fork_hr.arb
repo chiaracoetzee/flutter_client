@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Jedna persona za sve kanale.",
     "personaScopeChannel": "U svakom kanalu",
     "personaScopeChannelDescription": "Svaki kanal zadržava svoju personu. Novi kanali počinju kao vaš račun.",
-    "personaPickerChannelOnly": "Samo za ovaj kanal"
+    "personaPickerChannelOnly": "Samo za ovaj kanal",
+    "personaProfilePrivate": "Profil ove persone je privatan."
 }

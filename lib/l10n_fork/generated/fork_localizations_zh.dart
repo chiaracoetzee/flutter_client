@@ -399,6 +399,9 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => '仅限此频道';
+
+  @override
+  String get personaProfilePrivate => '此人格的个人资料为私密。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -796,4 +799,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaPickerChannelOnly => '僅限此頻道';
+
+  @override
+  String get personaProfilePrivate => '此人格的個人檔案為私人。';
 }

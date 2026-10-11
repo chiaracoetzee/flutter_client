@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "모든 채널에 하나의 페르소나.",
     "personaScopeChannel": "채널마다",
     "personaScopeChannelDescription": "각 채널이 자신의 페르소나를 유지합니다. 새 채널은 내 계정으로 시작합니다.",
-    "personaPickerChannelOnly": "이 채널에서만"
+    "personaPickerChannelOnly": "이 채널에서만",
+    "personaProfilePrivate": "이 페르소나의 프로필은 비공개입니다."
 }
