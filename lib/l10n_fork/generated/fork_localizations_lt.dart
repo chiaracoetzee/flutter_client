@@ -394,4 +394,23 @@ class ForkLocalizationsLt extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Atstatyti numatytąjį egzempliorių';
+
+  @override
+  String get personaScopeTitle => 'Persona taikoma';
+
+  @override
+  String get personaScopeGlobal => 'Visur';
+
+  @override
+  String get personaScopeGlobalDescription => 'Viena persona visiems kanalams.';
+
+  @override
+  String get personaScopeChannel => 'Kiekviename kanale';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Kiekvienas kanalas išlaiko savo personą. Nauji kanalai prasideda kaip jūsų paskyra.';
+
+  @override
+  String get personaPickerChannelOnly => 'Tik šiam kanalui';
 }

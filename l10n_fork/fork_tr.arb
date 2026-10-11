@@ -111,5 +111,11 @@
     "signalBarReset": "Sinyali herkes için sıfırla",
     "signalBarTurnOff": "{name} adına kapat",
     "instanceUrlHelperDefault": "Varsayılan sunucu için {domain} adresini veya başka bir sunucunun tam URL’sini kullanın.",
-    "instanceResetToDefault": "Varsayılan sunucuya sıfırla"
+    "instanceResetToDefault": "Varsayılan sunucuya sıfırla",
+    "personaScopeTitle": "Personanın geçerli olduğu yer",
+    "personaScopeGlobal": "Her Yerde",
+    "personaScopeGlobalDescription": "Tüm kanallar için tek persona.",
+    "personaScopeChannel": "Her kanalda",
+    "personaScopeChannelDescription": "Her kanal kendi personasını korur. Yeni kanallar hesabınla başlar.",
+    "personaPickerChannelOnly": "Yalnızca bu kanal için"
 }

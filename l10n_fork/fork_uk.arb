@@ -111,5 +111,11 @@
     "signalBarReset": "Скинути сигнал для всіх",
     "signalBarTurnOff": "Вимкнути {name}",
     "instanceUrlHelperDefault": "Використовуйте {domain} для інстансу за замовчуванням або точну URL-адресу іншого інстансу.",
-    "instanceResetToDefault": "Скинути до інстансу за замовчуванням"
+    "instanceResetToDefault": "Скинути до інстансу за замовчуванням",
+    "personaScopeTitle": "Персона діє",
+    "personaScopeGlobal": "Усюди",
+    "personaScopeGlobalDescription": "Одна персона для всіх каналів.",
+    "personaScopeChannel": "У кожному каналі",
+    "personaScopeChannelDescription": "Кожен канал зберігає свою персону. Нові канали починаються з вашого облікового запису.",
+    "personaPickerChannelOnly": "Лише для цього каналу"
 }

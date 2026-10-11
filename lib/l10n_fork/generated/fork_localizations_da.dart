@@ -396,4 +396,23 @@ class ForkLocalizationsDa extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Nulstil til standardinstansen';
+
+  @override
+  String get personaScopeTitle => 'Persona gælder for';
+
+  @override
+  String get personaScopeGlobal => 'Overalt';
+
+  @override
+  String get personaScopeGlobalDescription => 'Én persona for alle kanaler.';
+
+  @override
+  String get personaScopeChannel => 'I hver kanal';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Hver kanal beholder sin egen persona. Nye kanaler starter som din konto.';
+
+  @override
+  String get personaPickerChannelOnly => 'Kun for denne kanal';
 }
