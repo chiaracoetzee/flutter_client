@@ -56,8 +56,11 @@ Map<String, dynamic> buildMessageCreateBody({
   if (content.isNotEmpty) {
     body['content'] = content;
   }
-  if (personaData != null) {
-    body['subprofile'] = personaData;
+  // Fork: the request names the persona by id. The rest of personaData is
+  // what the pending message is drawn with, and stays on the device.
+  final Object? personaId = personaData?['id'];
+  if (personaId != null) {
+    body['persona_id'] = personaId;
   }
   if (replyToId != null) {
     body['message_reference'] = <String, dynamic>{'message_id': replyToId};
@@ -881,7 +884,7 @@ class MessageRepository {
               '/channels/$channelId/messages/$messageId',
               data: <String, dynamic>{
                 'content': content,
-                'subprofile': personaData,
+                'persona_id': personaData?['id'],
               },
             );
         final Map<String, dynamic>? data = response.data;
@@ -973,7 +976,7 @@ class MessageRepository {
       final Response<Map<String, dynamic>> response = await _dio
           .patch<Map<String, dynamic>>(
             '/channels/$channelId/messages/$messageId',
-            data: <String, dynamic>{'subprofile': personaData},
+            data: <String, dynamic>{'persona_id': personaData?['id']},
           );
       final Map<String, dynamic>? data = response.data;
       if (data == null) {
