@@ -416,6 +416,9 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Somente para este canal';
+
+  @override
+  String get personaProfilePrivate => 'O perfil desta persona é privado.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -830,4 +833,7 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaPickerChannelOnly => 'Somente para este canal';
+
+  @override
+  String get personaProfilePrivate => 'O perfil desta persona é privado.';
 }

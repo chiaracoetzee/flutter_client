@@ -414,4 +414,7 @@ class ForkLocalizationsTr extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Yalnızca bu kanal için';
+
+  @override
+  String get personaProfilePrivate => 'Bu personanın profili özel.';
 }

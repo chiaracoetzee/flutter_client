@@ -415,4 +415,7 @@ class ForkLocalizationsBg extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Само за този канал';
+
+  @override
+  String get personaProfilePrivate => 'Профилът на тази персона е частен.';
 }
