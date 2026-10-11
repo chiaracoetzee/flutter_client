@@ -46,7 +46,6 @@ signalBarConfigProvider =
 
 /// Active signal entries for every channel loaded this session.
 class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
-  final Map<String, String?> _ownPersonaByChannel = <String, String?>{};
   final Set<String> _disabledChannels = <String>{};
 
   @override
@@ -77,7 +76,6 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
 
   /// Drops everything after a new gateway session; mounted bars reload.
   void invalidate() {
-    _ownPersonaByChannel.clear();
     _disabledChannels.clear();
     state = const <String, List<SignalEntry>>{};
   }
@@ -221,22 +219,20 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     }
   }
 
-  /// Called whenever the composer resolves who the account is acting as in
-  /// [channelId]. The first report for a channel is only remembered; a later
-  /// change re-sends the account's own signals as the new persona and updates
-  /// its badge locally straight away. Reacting to changes rather than to a
-  /// mismatch keeps two devices with different drafts from fighting.
-  void reportOwnPersona(
+  /// Shows the account's lit signals in [channelId] as [persona], or as the
+  /// account itself when it is null, and updates the badge locally straight
+  /// away.
+  ///
+  /// Call it only for something the person did in that channel: typing there,
+  /// picking a persona in its composer, sending a message. Everyone in the
+  /// channel sees a signal, so it must not change because the active persona
+  /// changed in another channel or on another device, or because the channel
+  /// was opened.
+  void affirmPersona(
     String channelId, {
     required String userId,
     required SignalPersona? persona,
   }) {
-    final bool known = _ownPersonaByChannel.containsKey(channelId);
-    final String? previous = _ownPersonaByChannel[channelId];
-    _ownPersonaByChannel[channelId] = persona?.id;
-    if (!known || previous == persona?.id) {
-      return;
-    }
     final List<SignalEntry>? current = state[channelId];
     if (current == null) {
       return;
@@ -262,13 +258,6 @@ class ChannelSignalsNotifier extends Notifier<Map<String, List<SignalEntry>>> {
     for (final SignalEntry entry in stale) {
       unawaited(activate(channelId, entry.signalId, personaId: persona?.id));
     }
-  }
-
-  /// The persona last reported by the composer for [channelId], if any.
-  String? ownPersonaId(String channelId) => _ownPersonaByChannel[channelId];
-
-  void forgetOwnPersona(String channelId) {
-    _ownPersonaByChannel.remove(channelId);
   }
 }
 
