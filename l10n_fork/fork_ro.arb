@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "O singură persona pentru toate canalele.",
     "personaScopeChannel": "În fiecare canal",
     "personaScopeChannelDescription": "Fiecare canal își păstrează propria persona. Canalele noi pornesc cu contul tău.",
-    "personaPickerChannelOnly": "Doar pentru acest canal"
+    "personaPickerChannelOnly": "Doar pentru acest canal",
+    "personaProfilePrivate": "Profilul acestei persona este privat."
 }

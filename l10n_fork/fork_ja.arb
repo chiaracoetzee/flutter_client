@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "すべてのチャンネルで1つのペルソナ。",
     "personaScopeChannel": "チャンネルごと",
     "personaScopeChannelDescription": "各チャンネルがそれぞれのペルソナを保持します。新しいチャンネルはアカウントから始まります。",
-    "personaPickerChannelOnly": "このチャンネルのみ"
+    "personaPickerChannelOnly": "このチャンネルのみ",
+    "personaProfilePrivate": "このペルソナのプロフィールは非公開です。"
 }

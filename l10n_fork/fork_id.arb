@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Satu persona untuk semua saluran.",
     "personaScopeChannel": "Di setiap saluran",
     "personaScopeChannelDescription": "Setiap saluran menyimpan personanya sendiri. Saluran baru dimulai sebagai akunmu.",
-    "personaPickerChannelOnly": "Hanya untuk saluran ini"
+    "personaPickerChannelOnly": "Hanya untuk saluran ini",
+    "personaProfilePrivate": "Profil persona ini bersifat pribadi."
 }

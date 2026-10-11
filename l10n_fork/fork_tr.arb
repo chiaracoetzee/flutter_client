@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Tüm kanallar için tek persona.",
     "personaScopeChannel": "Her kanalda",
     "personaScopeChannelDescription": "Her kanal kendi personasını korur. Yeni kanallar hesabınla başlar.",
-    "personaPickerChannelOnly": "Yalnızca bu kanal için"
+    "personaPickerChannelOnly": "Yalnızca bu kanal için",
+    "personaProfilePrivate": "Bu personanın profili özel."
 }

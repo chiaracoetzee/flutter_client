@@ -414,4 +414,7 @@ class ForkLocalizationsHr extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'Samo za ovaj kanal';
+
+  @override
+  String get personaProfilePrivate => 'Profil ove persone je privatan.';
 }
