@@ -235,6 +235,103 @@ void main() {
       });
     });
 
+    test('losing focus clears a held keyboard immediately', () {
+      fakeAsync((FakeAsync async) {
+        var focused = true;
+        final ComposerFocusCoordinator coordinator = ComposerFocusCoordinator()
+          ..register(
+            requestFocus: () {},
+            readText: () => '',
+            hasFocus: () => focused,
+          );
+        final ProviderContainer container =
+            ProviderContainer(
+              overrides: [
+                composerFocusCoordinatorProvider.overrideWith(
+                  (Ref ref) => coordinator,
+                ),
+              ],
+            )..listen(
+              mobileKeyboardMetricsProvider,
+              (_, _) {},
+              fireImmediately: true,
+            );
+        final MobileKeyboardMetrics notifier =
+            container.read(mobileKeyboardMetricsProvider.notifier)
+              ..updateLayout(screenHeight: 800, isPortrait: true, isIos: false)
+              ..debugApplyNativeMetrics(
+                keyboardHeight: _kNativeGross,
+                isKeyboardVisible: true,
+                nativeSafeAreaBottom: _kNativeSafe,
+              )
+              ..syncViewInsets(_kOpenHeight, safeAreaBottom: 0);
+        _hideKeyboard(container);
+        expect(
+          container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+          _kOpenHeight,
+        );
+        focused = false;
+        notifier.onComposerEntryFocusLost();
+        expect(
+          container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+          0,
+        );
+        async.elapse(kFocusedKeyboardDismissHold);
+        expect(
+          container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+          0,
+        );
+        container.dispose();
+      });
+    });
+
+    test('focused unmeasured reservation clears after one grace period', () {
+      fakeAsync((FakeAsync async) {
+        final ComposerFocusCoordinator coordinator = ComposerFocusCoordinator()
+          ..register(
+            requestFocus: () {},
+            readText: () => '',
+            hasFocus: () => true,
+          );
+        final ProviderContainer focused =
+            ProviderContainer(
+              overrides: [
+                composerFocusCoordinatorProvider.overrideWith(
+                  (Ref ref) => coordinator,
+                ),
+              ],
+            )..listen(
+              mobileKeyboardMetricsProvider,
+              (_, _) {},
+              fireImmediately: true,
+            );
+        focused
+            .read(mobileKeyboardMetricsProvider.notifier)
+            .reserveUnmeasuredKeyboard();
+        expect(
+          focused
+              .read(mobileKeyboardMetricsProvider)
+              .unmeasuredKeyboardReserved,
+          isTrue,
+        );
+        async.elapse(kUnmeasuredKeyboardReservationTimeout);
+        expect(
+          focused
+              .read(mobileKeyboardMetricsProvider)
+              .unmeasuredKeyboardReserved,
+          isTrue,
+        );
+        async.elapse(kUnmeasuredKeyboardReservationTimeout);
+        expect(
+          focused
+              .read(mobileKeyboardMetricsProvider)
+              .unmeasuredKeyboardReserved,
+          isFalse,
+        );
+        focused.dispose();
+      });
+    });
+
     test('focused composer keeps height through a one-sample inset drop', () {
       fakeAsync((FakeAsync async) {
         final ProviderContainer focused = _openFocusedKeyboard();

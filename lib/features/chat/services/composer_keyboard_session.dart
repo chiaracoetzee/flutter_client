@@ -45,7 +45,7 @@ class ComposerKeyboardSession {
   }
 
   final WidgetRef _ref;
-  final FocusNode _focusNode;
+  FocusNode _focusNode;
   final ComposerKeyboardMounted _isMounted;
   final ComposerKeyboardMobileLayout _isMobileLayout;
   final ComposerKeyboardSlashActive _isSlashSessionActive;
@@ -54,9 +54,17 @@ class ComposerKeyboardSession {
   late final KeyboardFocusRestoreHandle _keyboardRestore;
 
   ComposerKeyboardState _keyboardState = ComposerKeyboardState.idle;
+  int _layoutResetGeneration = 0;
 
   ComposerKeyboardState get keyboardState => _keyboardState;
   bool get hasPendingRestore => _keyboardRestore.hasPendingRestore;
+
+  FocusNode get focusNode => _focusNode;
+
+  set focusNode(FocusNode focusNode) {
+    _focusNode = focusNode;
+    _keyboardRestore.focusNode = focusNode;
+  }
 
   void dispose() {
     _keyboardRestore.dispose();
@@ -88,8 +96,9 @@ class ComposerKeyboardSession {
   }
 
   void _scheduleResetLayoutProviders() {
+    final int generation = ++_layoutResetGeneration;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_isMounted()) {
+      if (!_isMounted() || generation != _layoutResetGeneration) {
         return;
       }
       _resetLayoutProviders();
@@ -97,9 +106,16 @@ class ComposerKeyboardSession {
   }
 
   void _resetLayoutProviders() {
+    final bool preserveFocusedKeyboard =
+        _focusNode.hasFocus &&
+        isImeKeyboardHeight(
+          _ref.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+        );
     _ref
         .read(mobileKeyboardMetricsProvider.notifier)
-        .resetTransientLayoutState();
+        .resetTransientLayoutState(
+          preserveFocusedKeyboard: preserveFocusedKeyboard,
+        );
     _ref.read(bottomInputSlotProvider.notifier).resetAfterChannelChange();
   }
 
@@ -155,6 +171,9 @@ class ComposerKeyboardSession {
     } else {
       cancelImeReconnect();
       if (_isMounted()) {
+        _ref
+            .read(mobileKeyboardMetricsProvider.notifier)
+            .onComposerEntryFocusLost();
         _ref
             .read(mobileKeyboardMetricsProvider.notifier)
             .clearUnmeasuredKeyboardReservation();

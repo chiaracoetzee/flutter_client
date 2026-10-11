@@ -115,9 +115,9 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     if (!force && value.composing.isValid) {
       return;
     }
-    _endComposingForForcedApply(force);
     if (wire.isEmpty) {
       _applyWireTextGeneration++;
+      _endComposingForForcedApply(force);
       replaceWireDisplay(
         displayText: '',
         tokens: const <String, InlineToken>{},

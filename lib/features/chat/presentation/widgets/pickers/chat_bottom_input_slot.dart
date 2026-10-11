@@ -52,8 +52,14 @@ class BottomInputSpacer extends ConsumerWidget {
       return _animatedSpacer(context, reservedHeight);
     }
 
-    final MobileKeyboardMetricsState metrics = ref.watch(
-      mobileKeyboardMetricsProvider,
+    final ({double liveKeyboardHeight, bool unmeasuredKeyboardReserved})
+    metrics = ref.watch(
+      mobileKeyboardMetricsProvider.select(
+        (MobileKeyboardMetricsState state) => (
+          liveKeyboardHeight: state.liveKeyboardHeight,
+          unmeasuredKeyboardReserved: state.unmeasuredKeyboardReserved,
+        ),
+      ),
     );
     final bool keyboardLayoutActive =
         metrics.liveKeyboardHeight > 0 ||

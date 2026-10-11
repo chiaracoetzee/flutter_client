@@ -57,7 +57,7 @@ class KeyboardFocusRestoreHandle {
     required this.canRestoreFocus,
   });
 
-  final FocusNode focusNode;
+  FocusNode focusNode;
   final bool Function() shouldTrackOnBackground;
   final bool Function() canRestoreFocus;
 

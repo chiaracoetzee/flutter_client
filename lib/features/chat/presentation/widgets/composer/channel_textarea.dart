@@ -250,7 +250,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     with WidgetsBindingObserver {
   late final ComposerMentionController _controller;
   final ComposerSlashSession _slashSession = ComposerSlashSession();
-  final FocusNode _focusNode = FocusNode();
+  late FocusNode _focusNode;
   late final ComposerTextSession _textSession;
   late final ComposerKeyboardSession _keyboardSession;
   final ScrollController _composerScrollController = ScrollController();
@@ -263,6 +263,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   final _stickerPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
 
   bool _composerFocused = false;
+  bool _restoreComposerFocusAfterCatchUp = false;
   final ValueNotifier<bool> _showComposerCounter = ValueNotifier<bool>(false);
 
   Widget _wideComposerIconButton({
@@ -352,6 +353,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode();
     _composerFocus = ref.read(composerFocusCoordinatorProvider);
     _requestComposerFocus = () {
       if (_focusNode.canRequestFocus) {
@@ -451,6 +453,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   void _onComposerChannelChanged() {
     final bool hadKeyboardFocus = _focusNode.hasFocus;
+    if (_voiceRecording.isActive) {
+      unawaited(_voiceRecording.cancel());
+    }
     _keyboardSession.onChannelChanged();
     _textSession.onChannelChanged();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -458,7 +463,40 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         return;
       }
       _keyboardSession.resyncViewInsetsFromContext(context);
-      if (hadKeyboardFocus && _focusNode.hasFocus) {
+      if (_restoreComposerFocusAfterCatchUp) {
+        _restoreComposerFocusAfterCatchUp = false;
+        _requestComposerFocus();
+        if (_focusNode.hasFocus) {
+          nudgeComposerKeyboardOpen(_focusNode);
+        } else {
+          _replaceComposerFocusNode();
+        }
+      } else if (hadKeyboardFocus && _focusNode.hasFocus) {
+        nudgeComposerKeyboardOpen(_focusNode);
+      }
+    });
+  }
+
+  void _replaceComposerFocusNode() {
+    final FocusNode previous = _focusNode
+      ..removeListener(_handleComposerFocusChange)
+      ..onKeyEvent = null;
+    final FocusNode next = FocusNode()
+      ..onKeyEvent = _handleComposerFieldKeyEvent
+      ..addListener(_handleComposerFocusChange);
+    _focusNode = next;
+    _keyboardSession.focusNode = next;
+    _textSession.focusNode = next;
+    if (mounted) {
+      setState(() {});
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      previous.dispose();
+      if (!mounted) {
+        return;
+      }
+      _requestComposerFocus();
+      if (_focusNode.hasFocus) {
         nudgeComposerKeyboardOpen(_focusNode);
       }
     });
@@ -467,6 +505,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   void _dropComposerFocusWhileChatWindowCatchesUp() {
     _keyboardSession.cancelImeReconnect();
     if (_focusNode.hasFocus) {
+      _restoreComposerFocusAfterCatchUp = true;
       _focusNode.unfocus();
     }
   }
