@@ -298,6 +298,47 @@ MatchResult matchPersona(
   return MatchResult(matched: false, strippedContent: text);
 }
 
+/// Whether what has been typed so far could still become another persona's
+/// tag: it is the start of a tag that goes in front of a message, and not yet
+/// the whole of it.
+///
+/// Until that is settled, nobody else should be told who is typing. The text
+/// resolves to [currentPersonaId] for now (the latched persona, or nobody),
+/// and naming that persona would show them for a keystroke or two in front of
+/// a message that turns out to be someone else's.
+///
+/// Only a tag that is a prefix alone can be seen coming. A tag with a suffix
+/// is not known until its last character is typed, so those are not held
+/// back. Keep this in step with `isUnfinishedPersonaTag` in the monorepo's
+/// `PersonaMatcher.ts`; the two are tested against the same table of cases.
+bool isUnfinishedPersonaTag(
+  String text,
+  List<Persona> personas,
+  String? currentPersonaId,
+) {
+  final String typed = text.trim();
+  if (typed.isEmpty) {
+    return false;
+  }
+  for (final Persona persona in personas) {
+    if (persona.autoTagDisabled || persona.id == currentPersonaId) {
+      continue;
+    }
+    for (final PersonaTag tag in persona.personaTags) {
+      if ((tag.suffix ?? '').isNotEmpty) {
+        continue;
+      }
+      for (final String variant in _getAffixVariants(tag.prefix ?? '')) {
+        final String prefix = variant.trim();
+        if (typed.length < prefix.length && prefix.startsWith(typed)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
 PreviewResult previewPersona(
   String text,
   List<Persona> personas,
