@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_dart/models/indicate_typing_request_schema.dart';
+import 'package:fluxer_dart/models/json_nullable.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'typing_sender.g.dart';
@@ -39,10 +40,12 @@ class TypingSender extends _$TypingSender {
     _lastSentAt[channelId] = now;
     _lastSentPersonaId[channelId] = personaId;
     try {
-      final IndicateTypingRequestSchema? body = personaData != null
-          ? IndicateTypingRequestSchema.fromJson(<String, Object?>{
-              'subprofile': personaData,
-            })
+      // Built with the constructor: the generated fromJson of a model whose
+      // fields are all optional reads nothing, and the persona was lost.
+      final IndicateTypingRequestSchema? body = personaId != null
+          ? IndicateTypingRequestSchema(
+              personaId: JsonNullable<String>.of(personaId),
+            )
           : null;
       await ref
           .read(fluxerClientProvider)

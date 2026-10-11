@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constan
 void main() {
   group('Voice message and retry persona payload handling', () {
     test(
-      'buildMessageCreateBody includes subprofile for voice message with personaData',
+      'buildMessageCreateBody names the persona by id for a voice message with personaData',
       () {
         final personaData = <String, dynamic>{
           'id': 'persona_123',
@@ -28,7 +28,8 @@ void main() {
           clientNonce: '123456789',
         );
 
-        expect(body['subprofile'], equals(personaData));
+        expect(body['persona_id'], equals('persona_123'));
+        expect(body.containsKey('subprofile'), isFalse);
         expect(body['flags'], equals(kMessageFlagVoiceMessage));
         expect(body['nonce'], equals('123456789'));
         expect(body.containsKey('content'), isFalse);
@@ -36,7 +37,7 @@ void main() {
     );
 
     test(
-      'buildMessageCreateBody omits subprofile when personaData is null',
+      'buildMessageCreateBody names no persona when personaData is null',
       () {
         final body = buildMessageCreateBody(
           content: '',
@@ -44,6 +45,7 @@ void main() {
           clientNonce: '123456789',
         );
 
+        expect(body.containsKey('persona_id'), isFalse);
         expect(body.containsKey('subprofile'), isFalse);
         expect(body['flags'], equals(kMessageFlagVoiceMessage));
         expect(body['nonce'], equals('123456789'));
@@ -111,7 +113,8 @@ void main() {
           personaData: retryPersonaData,
         );
 
-        expect(body['subprofile'], equals(retryPersonaData));
+        expect(body['persona_id'], equals('persona_alice'));
+        expect(body.containsKey('subprofile'), isFalse);
         expect(body['content'], equals('Failed message'));
       },
     );
