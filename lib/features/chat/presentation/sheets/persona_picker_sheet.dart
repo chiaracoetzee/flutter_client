@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
@@ -29,6 +30,7 @@ class PersonaPickerSheet {
     ValueChanged<Persona>? onSelectPersona,
     VoidCallback? onSelectRoot,
     String? title,
+    String? signalChannelId,
   }) {
     final l10n = FluxerLocalizations.of(context);
     return FluxerBottomSheet.showScrollable<void>(
@@ -44,6 +46,7 @@ class PersonaPickerSheet {
           selectedPersonaId: selectedPersonaId,
           onSelectPersona: onSelectPersona,
           onSelectRoot: onSelectRoot,
+          signalChannelId: signalChannelId,
         );
       },
     );
@@ -58,6 +61,7 @@ class _PersonaPickerBody extends ConsumerStatefulWidget {
     this.selectedPersonaId,
     this.onSelectPersona,
     this.onSelectRoot,
+    this.signalChannelId,
   });
 
   final ScrollController scrollController;
@@ -66,6 +70,9 @@ class _PersonaPickerBody extends ConsumerStatefulWidget {
   final String? selectedPersonaId;
   final ValueChanged<Persona>? onSelectPersona;
   final VoidCallback? onSelectRoot;
+
+  /// The channel whose composer opened the picker, when one did.
+  final String? signalChannelId;
 
   @override
   ConsumerState<_PersonaPickerBody> createState() => _PersonaPickerBodyState();
@@ -110,6 +117,7 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
       unawaited(
         ref.read(activePersonaProvider.notifier).setActivePersona(personaId),
       );
+      _affirmPick(personaId);
     }
     widget.onClose();
   }
@@ -120,8 +128,28 @@ class _PersonaPickerBodyState extends ConsumerState<_PersonaPickerBody> {
       widget.onSelectRoot!();
     } else {
       unawaited(ref.read(activePersonaProvider.notifier).unlatch());
+      _affirmPick(null);
     }
     widget.onClose();
+  }
+
+  /// A pick for the composer is made in the channel it belongs to, so the
+  /// signals lit there follow what that composer shows next. Signals in other
+  /// channels keep the persona they were lit as.
+  void _affirmPick(String? latchedPersonaId) {
+    final String? channelId = widget.signalChannelId;
+    if (channelId == null || channelId.isEmpty) {
+      return;
+    }
+    affirmSignalPersona(
+      ref.read,
+      channelId,
+      composerSignalPersona(
+        ref.read,
+        channelId,
+        latchedPersonaId: latchedPersonaId,
+      ),
+    );
   }
 
   void _openManagePersonas() {
