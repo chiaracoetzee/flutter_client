@@ -5274,7 +5274,11 @@ class ChatViewModel extends _$ChatViewModel {
         );
     Map<String, dynamic>? resolvedPersonaData = personaData;
     if (resolvedPersonaData == null) {
-      final Persona? latchedPersona = ref.read(activePersonaOrNullProvider);
+      final Persona? latchedPersona = latchedPersonaFor(
+        ref.read(activePersonaProvider),
+        ref.read(myPersonasProvider).asData?.value ?? const <Persona>[],
+        channelId,
+      );
       if (latchedPersona != null) {
         resolvedPersonaData = _buildPersonaPayload(latchedPersona);
         unawaited(
@@ -7071,8 +7075,7 @@ class ChatViewModel extends _$ChatViewModel {
     final personas = ref.read(myPersonasProvider).asData?.value ?? const [];
     if (personas.isNotEmpty) {
       final activeState = ref.read(activePersonaProvider);
-      final String? latchedId =
-          activeState.isLatched ? activeState.activePersonaId : null;
+      final String? latchedId = activeState.latchedIdFor(channelId);
       final bool hasPendingAttachments =
           ref.read(cloudUploadControllerProvider(channelId)).items.isNotEmpty;
       final PreviewResult preview = previewPersona(
@@ -7676,16 +7679,15 @@ class ChatViewModel extends _$ChatViewModel {
     // 2. Composer proxy tag match
     final composerText = state.messageText;
     final activeState = ref.read(activePersonaProvider);
-    final String? latchedId =
-        activeState.isLatched ? activeState.activePersonaId : null;
+    final String? latchedId = activeState.latchedIdFor(state.channelId);
     final preview = previewPersona(composerText, personas, latchedId, false);
     if (preview.isFromTag && preview.persona != null) {
       return preview.persona!.id;
     }
 
-    // 3. Active latched persona
-    if (activeState.isLatched && activeState.activePersonaId != null) {
-      return activeState.activePersonaId;
+    // 3. The persona selected for this channel
+    if (latchedId != null) {
+      return latchedId;
     }
 
     // 4. Default: root account

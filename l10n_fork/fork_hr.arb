@@ -111,5 +111,11 @@
     "signalBarReset": "Poništi signal za sve",
     "signalBarTurnOff": "Isključi {name}",
     "instanceUrlHelperDefault": "Upotrijebite {domain} za zadanu instancu ili točan URL druge instance.",
-    "instanceResetToDefault": "Vrati na zadanu instancu"
+    "instanceResetToDefault": "Vrati na zadanu instancu",
+    "personaScopeTitle": "Persona vrijedi za",
+    "personaScopeGlobal": "Svugdje",
+    "personaScopeGlobalDescription": "Jedna persona za sve kanale.",
+    "personaScopeChannel": "U svakom kanalu",
+    "personaScopeChannelDescription": "Svaki kanal zadržava svoju personu. Novi kanali počinju kao vaš račun.",
+    "personaPickerChannelOnly": "Samo za ovaj kanal"
 }

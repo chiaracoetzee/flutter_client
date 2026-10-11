@@ -21,6 +21,7 @@ class PersonaComposerPill extends ConsumerWidget {
     required this.text,
     this.hasAttachments = false,
     this.channelId,
+    this.personaChannelId,
     super.key,
   });
 
@@ -30,6 +31,10 @@ class PersonaComposerPill extends ConsumerWidget {
   /// The channel this pill's composer writes to. Left out by composers for a
   /// thread or post that does not exist yet.
   final String? channelId;
+
+  /// The channel whose persona selection this pill shows and changes, when it
+  /// is not [channelId]: the channel a new thread or post is opened from.
+  final String? personaChannelId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,9 +50,8 @@ class PersonaComposerPill extends ConsumerWidget {
     final activeState = ref.watch(activePersonaProvider);
     final userSettings = ref.watch(userSettingsViewModelProvider);
 
-    final String? latchedId = activeState.isLatched
-        ? activeState.activePersonaId
-        : null;
+    final String? selectionChannelId = personaChannelId ?? channelId;
+    final String? latchedId = activeState.latchedIdFor(selectionChannelId);
     final PreviewResult preview = previewPersona(
       text,
       personas,
@@ -57,7 +61,7 @@ class PersonaComposerPill extends ConsumerWidget {
 
     final Persona? effectivePersona = preview.persona;
     final bool isFromTag = preview.isFromTag;
-    final bool isLatched = activeState.isLatched && latchedId != null;
+    final bool isLatched = latchedId != null;
 
     final colors = context.colors;
 
@@ -85,7 +89,11 @@ class PersonaComposerPill extends ConsumerWidget {
         onTap: () {
           FluxerHaptics.light();
           unawaited(
-            PersonaPickerSheet.show(context, signalChannelId: channelId),
+            PersonaPickerSheet.show(
+              context,
+              signalChannelId: channelId,
+              personaChannelId: selectionChannelId,
+            ),
           );
         },
         child: Container(

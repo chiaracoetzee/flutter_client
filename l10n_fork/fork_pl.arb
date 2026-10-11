@@ -111,5 +111,11 @@
     "signalBarReset": "Zresetuj sygnał dla wszystkich",
     "signalBarTurnOff": "Wyłącz {name}",
     "instanceUrlHelperDefault": "Użyj {domain} dla domyślnej instancji lub podaj dokładny adres URL innej instancji.",
-    "instanceResetToDefault": "Przywróć domyślną instancję"
+    "instanceResetToDefault": "Przywróć domyślną instancję",
+    "personaScopeTitle": "Persona dotyczy",
+    "personaScopeGlobal": "Wszędzie",
+    "personaScopeGlobalDescription": "Jedna persona dla wszystkich kanałów.",
+    "personaScopeChannel": "W każdym kanale",
+    "personaScopeChannelDescription": "Każdy kanał zachowuje własną personę. Nowe kanały zaczynają jako twoje konto.",
+    "personaPickerChannelOnly": "Tylko dla tego kanału"
 }

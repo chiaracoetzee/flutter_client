@@ -394,4 +394,24 @@ class ForkLocalizationsFi extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Palauta oletusinstanssi';
+
+  @override
+  String get personaScopeTitle => 'Persoona koskee';
+
+  @override
+  String get personaScopeGlobal => 'Kaikkialla';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Yksi persoona kaikille kanaville.';
+
+  @override
+  String get personaScopeChannel => 'Kullakin kanavalla';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Jokainen kanava säilyttää oman persoonansa. Uudet kanavat alkavat tilinäsi.';
+
+  @override
+  String get personaPickerChannelOnly => 'Vain tälle kanavalle';
 }
