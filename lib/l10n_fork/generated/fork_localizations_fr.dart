@@ -397,4 +397,24 @@ class ForkLocalizationsFr extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'Réinitialiser à l’instance par défaut';
+
+  @override
+  String get personaScopeTitle => 'Le persona s’applique à';
+
+  @override
+  String get personaScopeGlobal => 'Partout';
+
+  @override
+  String get personaScopeGlobalDescription =>
+      'Un seul persona pour tous les salons.';
+
+  @override
+  String get personaScopeChannel => 'Dans chaque salon';
+
+  @override
+  String get personaScopeChannelDescription =>
+      'Chaque salon conserve son propre persona. Les nouveaux salons commencent avec votre compte.';
+
+  @override
+  String get personaPickerChannelOnly => 'Uniquement pour ce salon';
 }

@@ -385,4 +385,23 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get instanceResetToDefault => 'デフォルトのインスタンスにリセット';
+
+  @override
+  String get personaScopeTitle => 'ペルソナの適用範囲';
+
+  @override
+  String get personaScopeGlobal => 'すべての場所';
+
+  @override
+  String get personaScopeGlobalDescription => 'すべてのチャンネルで1つのペルソナ。';
+
+  @override
+  String get personaScopeChannel => 'チャンネルごと';
+
+  @override
+  String get personaScopeChannelDescription =>
+      '各チャンネルがそれぞれのペルソナを保持します。新しいチャンネルはアカウントから始まります。';
+
+  @override
+  String get personaPickerChannelOnly => 'このチャンネルのみ';
 }
