@@ -412,4 +412,7 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get personaPickerChannelOnly => 'केवल इस चैनल के लिए';
+
+  @override
+  String get personaProfilePrivate => 'इस परसोना की प्रोफ़ाइल निजी है।';
 }

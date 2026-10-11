@@ -117,5 +117,6 @@
     "personaScopeGlobalDescription": "Viena persona visiems kanalams.",
     "personaScopeChannel": "Kiekviename kanale",
     "personaScopeChannelDescription": "Kiekvienas kanalas išlaiko savo personą. Nauji kanalai prasideda kaip jūsų paskyra.",
-    "personaPickerChannelOnly": "Tik šiam kanalui"
+    "personaPickerChannelOnly": "Tik šiam kanalui",
+    "personaProfilePrivate": "Šios personos profilis yra privatus."
 }
