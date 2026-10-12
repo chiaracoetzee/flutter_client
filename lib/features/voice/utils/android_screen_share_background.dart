@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter_background/flutter_background.dart';
 
+// Fork imports.
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+
 const Duration _kForegroundServiceVerifyDelay = Duration(milliseconds: 250);
 const int _kForegroundServiceVerifyAttempts = 4;
 
@@ -38,7 +41,7 @@ Future<bool> enableAndroidScreenShareBackground({
     if (!isRetry) {
       final FlutterBackgroundAndroidConfig androidConfig =
           FlutterBackgroundAndroidConfig(
-            notificationTitle: 'Fluxer',
+            notificationTitle: InstanceConstants.defaultProductName,
             notificationText: notificationText,
           );
       hasPermissions = await FlutterBackground.initialize(
