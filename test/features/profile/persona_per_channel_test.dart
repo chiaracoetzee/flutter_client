@@ -10,6 +10,8 @@ import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_dart/fluxer_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../fork_support/wait_until.dart';
+
 /// Answers the persona routes and remembers what was asked of it.
 class _Api implements HttpClientAdapter {
   final List<String> calls = <String>[];
@@ -91,18 +93,6 @@ void main() {
   List<String> puts() =>
       api.calls.where((String call) => call.startsWith('PUT ')).toList();
 
-  /// Waits for something that happens in the background, however long the
-  /// machine takes over it. A fixed pause is too short on a slow one.
-  Future<void> until(bool Function() done, String what) async {
-    final Stopwatch waited = Stopwatch()..start();
-    while (!done()) {
-      if (waited.elapsed > const Duration(seconds: 10)) {
-        fail('Timed out waiting for $what');
-      }
-      await Future<void>.delayed(const Duration(milliseconds: 1));
-    }
-  }
-
   Future<void> perChannel() async {
     // Let the settings finish loading first: their arrival sets the scope and
     // the selections from the server, as it does when the app starts. The
@@ -112,7 +102,7 @@ void main() {
     final Map<String, String> held = api.channelStates;
     api.channelStates = <String, String>{...held, marker: marker};
     container.read(personaSettingsProvider);
-    await until(
+    await waitUntil(
       () => state().channelPersonaIds.containsKey(marker),
       'the settings and the channel selections to load',
     );
@@ -198,7 +188,6 @@ void main() {
   });
 
   test('without the per-channel scope a channel changes nothing', () async {
-    await Future<void>.delayed(Duration.zero);
     await notifier().setActivePersona('alice', channelId: 'one');
     expect(state().activePersonaId, 'alice');
     expect(state().latchedIdFor('two'), 'alice');
@@ -231,16 +220,19 @@ void main() {
   });
 
   test('a new thread starts as whoever opened it, per channel only', () async {
-    await Future<void>.delayed(Duration.zero);
+    // Without the per-channel scope nothing is selected, so nothing is saved.
     notifier().startChannelAs('thread', 'bob');
-    await Future<void>.delayed(Duration.zero);
+    expect(state().channelPersonaIds, isEmpty);
     expect(puts(), isEmpty);
 
     await perChannel();
     notifier()
       ..startChannelAs('thread', 'bob')
       ..startChannelAs('other', null);
-    await until(() => puts().isNotEmpty, 'the thread selection to be saved');
+    await waitUntil(
+      () => puts().isNotEmpty,
+      'the thread selection to be saved',
+    );
     expect(state().latchedIdFor('thread'), 'bob');
     expect(state().latchedIdFor('other'), isNull);
     expect(puts(), hasLength(1));
