@@ -29,7 +29,7 @@ class ForkLocalizationsHr extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Provjera ažuriranja…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer je ažuran';
+  String get userSettingsAppUpToDate => 'Tyne je ažuran';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Dostupno ažuriranje';

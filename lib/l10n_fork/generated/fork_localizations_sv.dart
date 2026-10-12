@@ -28,7 +28,7 @@ class ForkLocalizationsSv extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Söker efter uppdateringar…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer är uppdaterad';
+  String get userSettingsAppUpToDate => 'Tyne är uppdaterad';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Uppdatering tillgänglig';

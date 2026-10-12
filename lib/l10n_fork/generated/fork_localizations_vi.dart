@@ -28,7 +28,7 @@ class ForkLocalizationsVi extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Đang kiểm tra cập nhật…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer đã được cập nhật';
+  String get userSettingsAppUpToDate => 'Tyne đã được cập nhật';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Có bản cập nhật mới';
