@@ -91,11 +91,33 @@ void main() {
   List<String> puts() =>
       api.calls.where((String call) => call.startsWith('PUT ')).toList();
 
+  /// Waits for something that happens in the background, however long the
+  /// machine takes over it. A fixed pause is too short on a slow one.
+  Future<void> until(bool Function() done, String what) async {
+    final Stopwatch waited = Stopwatch()..start();
+    while (!done()) {
+      if (waited.elapsed > const Duration(seconds: 10)) {
+        fail('Timed out waiting for $what');
+      }
+      await Future<void>.delayed(const Duration(milliseconds: 1));
+    }
+  }
+
   Future<void> perChannel() async {
     // Let the settings finish loading first: their arrival sets the scope and
-    // the selections from the server, as it does when the app starts.
+    // the selections from the server, as it does when the app starts. The
+    // selections are the last thing to arrive, so a marker among them shows
+    // that everything has.
+    const String marker = 'loaded-marker';
+    final Map<String, String> held = api.channelStates;
+    api.channelStates = <String, String>{...held, marker: marker};
     container.read(personaSettingsProvider);
-    await Future<void>.delayed(const Duration(milliseconds: 20));
+    await until(
+      () => state().channelPersonaIds.containsKey(marker),
+      'the settings and the channel selections to load',
+    );
+    api.channelStates = held;
+    notifier().applyChannelState(marker, null);
     notifier().syncFromSettings(
       mode: state().mode,
       activeId: state().activePersonaId,
@@ -218,7 +240,7 @@ void main() {
     notifier()
       ..startChannelAs('thread', 'bob')
       ..startChannelAs('other', null);
-    await Future<void>.delayed(const Duration(milliseconds: 20));
+    await until(() => puts().isNotEmpty, 'the thread selection to be saved');
     expect(state().latchedIdFor('thread'), 'bob');
     expect(state().latchedIdFor('other'), isNull);
     expect(puts(), hasLength(1));
