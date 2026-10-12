@@ -29,7 +29,7 @@ class ForkLocalizationsEl extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Έλεγχος για ενημερώσεις…';
 
   @override
-  String get userSettingsAppUpToDate => 'Το Fluxer είναι ενημερωμένο';
+  String get userSettingsAppUpToDate => 'Το Tyne είναι ενημερωμένο';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Διαθέσιμη ενημέρωση';

@@ -28,7 +28,7 @@ class ForkLocalizationsKo extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => '업데이트 확인 중…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer가 최신 상태입니다';
+  String get userSettingsAppUpToDate => 'Tyne가 최신 상태입니다';
 
   @override
   String get userSettingsUpdateAvailableTitle => '업데이트 사용 가능';
