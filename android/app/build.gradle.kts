@@ -110,6 +110,8 @@ android {
         manifestPlaceholders["appIconAliasPrefix"] = "com.fluxer.MainActivity"
         manifestPlaceholders["measureApiKey"] = measureApiKey
         manifestPlaceholders["measureApiUrl"] = measureApiUrl
+        // Fork: the scheme of the links the app opens (AndroidManifest.xml). Upstream's flavours keep fluxer.
+        manifestPlaceholders["deepLinkScheme"] = "fluxer"
     }
 
     productFlavors {
@@ -122,6 +124,9 @@ android {
             applicationId = "chat.tyne.app"
             versionNameSuffix = "-canary"
             manifestPlaceholders["appLabel"] = "Tyne"
+            // Fork: Tyne opens tyne:// links and leaves fluxer:// to the official app, so the two do not
+            // compete for each other's links when both are installed.
+            manifestPlaceholders["deepLinkScheme"] = "tyne"
             manifestPlaceholders["buildEnvironment"] = "canary"
             manifestPlaceholders["appIconAliasPrefix"] = "com.fluxer.canary.MainActivity"
         }
