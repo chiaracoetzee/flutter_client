@@ -8,6 +8,9 @@ import 'package:fluxer_app/features/voice/utils/voice_callkit_display_info.dart'
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
+// Fork imports.
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+
 const int kVoiceCallKitAudioType = 0;
 const String kVoiceCallKitAndroidRingtone = 'incoming_ring';
 const String kVoiceCallKitIosRingtone = 'incoming_ring.caf';
@@ -32,7 +35,7 @@ CallKitParams buildVoiceCallKitParams({
   return CallKitParams(
     id: callKitId,
     nameCaller: display.nameCaller,
-    appName: 'Fluxer',
+    appName: InstanceConstants.defaultProductName,
     avatar: display.avatar,
     handle: display.handle,
     type: kVoiceCallKitAudioType,
@@ -97,7 +100,7 @@ CallKitParams buildIncomingCallRingParams({
   return CallKitParams(
     id: callKitId,
     nameCaller: display.nameCaller,
-    appName: 'Fluxer',
+    appName: InstanceConstants.defaultProductName,
     avatar: display.avatar,
     handle: display.handle,
     type: kVoiceCallKitAudioType,
