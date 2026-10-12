@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Fork: Tyne's launcher icon. Written by fluxer-mobile-tools scripts/brand_icons.py; do not edit. -->
+<!-- Fork: Tyne's launcher icon. Written by tyne-tools scripts/brand_icons.py; do not edit. -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@color/ic_launcher_background"/>
     <foreground android:drawable="@mipmap/tyne_launcher_foreground"/>
