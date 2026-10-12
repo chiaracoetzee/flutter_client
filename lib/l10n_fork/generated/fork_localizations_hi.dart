@@ -28,7 +28,7 @@ class ForkLocalizationsHi extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'अपडेट की जाँच की जा रही है…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer अप-टू-डेट है';
+  String get userSettingsAppUpToDate => 'Tyne अप-टू-डेट है';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'अपडेट उपलब्ध है';

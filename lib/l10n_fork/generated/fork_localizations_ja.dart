@@ -28,7 +28,7 @@ class ForkLocalizationsJa extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'アップデートを確認中…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer は最新です';
+  String get userSettingsAppUpToDate => 'Tyne は最新です';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'アップデートが利用可能です';
