@@ -34,8 +34,7 @@ building the app.
 ## Getting Tyne
 
 APKs are on the [releases page](https://github.com/tyne-chat/tyne-mobile/releases). The app is
-`chat.tyne.app` and checks that page for updates itself. Only Android is built at the moment. The
-icon is a placeholder for now.
+`chat.tyne.app` and checks that page for updates itself. Only Android is built at the moment.
 
 ## Licence
 
