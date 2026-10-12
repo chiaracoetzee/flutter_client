@@ -331,6 +331,9 @@ class AuthRepository {
     }
     await _db.authSessionDao.removeSession(userId);
     await _tokenStorage.deleteToken(userId);
+    // Fork: the server drops a session's push subscriptions when the session
+    // ends, so a registration record kept past sign-out is always stale.
+    await _db.mobilePushRegistrationDao.clearForUser(userId);
     await _db.clearUserData();
   }
 
