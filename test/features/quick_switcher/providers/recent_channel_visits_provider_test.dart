@@ -6,6 +6,8 @@ import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.d
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../fork_support/wait_until.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -36,8 +38,11 @@ void main() {
     // Initial read
     container.read(recentChannelVisitsProvider);
 
-    // Give async _init() time to complete
-    await Future<void>.delayed(const Duration(milliseconds: 50));
+    // The saved visits are read in the background.
+    await waitUntil(
+      () => container.read(recentChannelVisitsProvider).length == 2,
+      'the saved visits to load',
+    );
 
     final state = container.read(recentChannelVisitsProvider);
     expect(state.length, 2);
@@ -76,8 +81,15 @@ void main() {
         'new-ch',
       );
 
-      // Give async _init() and _save() time to resolve
-      await Future<void>.delayed(const Duration(milliseconds: 50));
+      // The saved visits are read in the background and the merged list is
+      // then written back; the write is the last thing to happen.
+      final SharedPreferences saved = await SharedPreferences.getInstance();
+      await waitUntil(
+        () => (saved.getString('recent_channel_visits_v1') ?? '').contains(
+          'new-ch',
+        ),
+        'the merged visits to be saved',
+      );
 
       final state = container.read(recentChannelVisitsProvider);
       expect(state.length, 2);
