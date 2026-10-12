@@ -31,6 +31,9 @@ import 'package:image_picker_platform_interface/image_picker_platform_interface.
 import 'package:media_kit/media_kit.dart';
 import 'package:window_manager/window_manager.dart';
 
+// Fork imports.
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+
 Future<void> _showDesktopWindow() async {
   await windowManager.show();
   await windowManager.focus();
@@ -139,7 +142,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
           minimumSize: Size(200, 200),
           center: true,
           titleBarStyle: TitleBarStyle.hidden,
-          title: 'Fluxer',
+          title: InstanceConstants.defaultProductName,
         );
 
         await windowManager.waitUntilReadyToShow(windowOptions);
