@@ -2,9 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/recent_channel_visit.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../fork_support/wait_until.dart';
+
+// Recents are kept per account (recent_channel_visits_provider.dart).
+const String _kUserKey = 'recent_channel_visits_v1_u1';
+
+ProviderContainer _signedIn(String userId) => ProviderContainer(
+  overrides: [currentUserIdProvider.overrideWithValue(userId)],
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -19,19 +29,20 @@ void main() {
       const RecentChannelVisit(channelId: 'ch-2', guildId: 'g-1'),
     ];
     SharedPreferences.setMockInitialValues({
-      'recent_channel_visits_v1': jsonEncode(
-        existing.map((e) => e.toJson()).toList(),
-      ),
+      _kUserKey: jsonEncode(existing.map((e) => e.toJson()).toList()),
     });
 
-    final container = ProviderContainer();
+    final container = _signedIn('u1');
     addTearDown(container.dispose);
 
     // Initial read
     container.read(recentChannelVisitsProvider);
 
-    // Give async _init() time to complete
-    await Future<void>.delayed(const Duration(milliseconds: 50));
+    // The saved visits are read in the background.
+    await waitUntil(
+      () => container.read(recentChannelVisitsProvider).length == 2,
+      'the saved visits to load',
+    );
 
     final state = container.read(recentChannelVisitsProvider);
     expect(state.length, 2);
@@ -46,12 +57,10 @@ void main() {
         const RecentChannelVisit(channelId: 'older-ch', guildId: 'g-1'),
       ];
       SharedPreferences.setMockInitialValues({
-        'recent_channel_visits_v1': jsonEncode(
-          diskVisits.map((e) => e.toJson()).toList(),
-        ),
+        _kUserKey: jsonEncode(diskVisits.map((e) => e.toJson()).toList()),
       });
 
-      final container = ProviderContainer();
+      final container = _signedIn('u1');
       addTearDown(container.dispose);
 
       // Simulate cold boot: recordVisit is called synchronously on frame 1
@@ -66,8 +75,13 @@ void main() {
         'new-ch',
       );
 
-      // Give async _init() and _save() time to resolve
-      await Future<void>.delayed(const Duration(milliseconds: 50));
+      // The saved visits are read in the background and the merged list is
+      // then written back; the write is the last thing to happen.
+      final SharedPreferences saved = await SharedPreferences.getInstance();
+      await waitUntil(
+        () => (saved.getString(_kUserKey) ?? '').contains('new-ch'),
+        'the merged visits to be saved',
+      );
 
       final state = container.read(recentChannelVisitsProvider);
       expect(state.length, 2);
@@ -76,7 +90,7 @@ void main() {
 
       // Verify persisted state in SharedPreferences contains both channels
       final prefs = await SharedPreferences.getInstance();
-      final raw = prefs.getString('recent_channel_visits_v1');
+      final raw = prefs.getString(_kUserKey);
       expect(raw, isNotNull);
       final List<dynamic> decoded = jsonDecode(raw!) as List<dynamic>;
       expect(decoded.length, 2);
@@ -86,7 +100,7 @@ void main() {
   );
 
   test('caps at kMaxRecentChannelVisits = 20', () async {
-    final container = ProviderContainer();
+    final container = _signedIn('u1');
     addTearDown(container.dispose);
 
     for (int i = 0; i < 25; i++) {
@@ -99,5 +113,33 @@ void main() {
     expect(state.length, kMaxRecentChannelVisits);
     expect(state.first.channelId, 'ch-24');
     expect(state.last.channelId, 'ch-5');
+  });
+
+  test('another account does not see these visits', () async {
+    final String saved = jsonEncode(<Map<String, dynamic>>[
+      const RecentChannelVisit(channelId: 'ch-1', guildId: 'g-1').toJson(),
+    ]);
+    SharedPreferences.setMockInitialValues({_kUserKey: saved});
+    final container = _signedIn('u2');
+    addTearDown(container.dispose);
+
+    container
+        .read(recentChannelVisitsProvider.notifier)
+        .recordVisit(channelId: 'ch-9', guildId: 'g-2');
+    final prefs = await SharedPreferences.getInstance();
+    await waitUntil(
+      () => (prefs.getString('recent_channel_visits_v1_u2') ?? '').contains(
+        'ch-9',
+      ),
+      'the second account to save its visit',
+    );
+
+    expect(
+      container
+          .read(recentChannelVisitsProvider)
+          .map((RecentChannelVisit v) => v.channelId),
+      <String>['ch-9'],
+    );
+    expect(prefs.getString(_kUserKey), saved);
   });
 }
