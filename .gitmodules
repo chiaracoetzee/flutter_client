@@ -1,9 +1,9 @@
 [submodule "dart_sdk"]
 	path = dart_sdk
-	url = https://github.com/chiaracoetzee/dart_sdk.git
+	url = https://github.com/tyne-chat/tyne-dart-sdk.git
 	branch = features/subprofiles
 [submodule "fluxer"]
 	path = fluxer
-	url = https://github.com/chiaracoetzee/fluxer-subprofiles.git
+	url = https://github.com/tyne-chat/tyne.git
 	branch = features/subprofiles
 	shallow = true
