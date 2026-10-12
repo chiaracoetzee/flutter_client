@@ -74,13 +74,13 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="fluxer" android:host="channels" />
-                <data android:scheme="fluxer" android:host="invite" />
-                <data android:scheme="fluxer" android:host="gift" />
-                <data android:scheme="fluxer" android:host="users" />
-                <data android:scheme="fluxer" android:host="settings" android:pathPrefix="/user" />
-                <data android:scheme="fluxer" android:host="notifications" />
-                <data android:scheme="fluxer" android:host="you" />
+                <data android:scheme="${deepLinkScheme}" android:host="channels" />
+                <data android:scheme="${deepLinkScheme}" android:host="invite" />
+                <data android:scheme="${deepLinkScheme}" android:host="gift" />
+                <data android:scheme="${deepLinkScheme}" android:host="users" />
+                <data android:scheme="${deepLinkScheme}" android:host="settings" android:pathPrefix="/user" />
+                <data android:scheme="${deepLinkScheme}" android:host="notifications" />
+                <data android:scheme="${deepLinkScheme}" android:host="you" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
