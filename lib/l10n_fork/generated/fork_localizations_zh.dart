@@ -28,7 +28,7 @@ class ForkLocalizationsZh extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => '正在检查更新…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer 已是最新版本';
+  String get userSettingsAppUpToDate => 'Tyne 已是最新版本';
 
   @override
   String get userSettingsUpdateAvailableTitle => '有可用更新';
@@ -428,7 +428,7 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
   String get userSettingsCheckingForUpdates => '正在檢查更新…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer 已是最新版本';
+  String get userSettingsAppUpToDate => 'Tyne 已是最新版本';
 
   @override
   String get userSettingsUpdateAvailableTitle => '有可用更新';

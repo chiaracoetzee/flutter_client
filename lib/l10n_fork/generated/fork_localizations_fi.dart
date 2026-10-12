@@ -28,7 +28,7 @@ class ForkLocalizationsFi extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Tarkistetaan päivityksiä…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer on ajan tasalla';
+  String get userSettingsAppUpToDate => 'Tyne on ajan tasalla';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Päivitys saatavilla';

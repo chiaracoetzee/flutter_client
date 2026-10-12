@@ -28,7 +28,7 @@ class ForkLocalizationsTh extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'กำลังตรวจหาอัปเดต…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer เป็นเวอร์ชันล่าสุดแล้ว';
+  String get userSettingsAppUpToDate => 'Tyne เป็นเวอร์ชันล่าสุดแล้ว';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'มีอัปเดตใหม่';
