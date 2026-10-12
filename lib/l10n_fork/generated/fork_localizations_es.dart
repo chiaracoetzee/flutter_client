@@ -29,7 +29,7 @@ class ForkLocalizationsEs extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Buscando actualizaciones…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer está actualizado';
+  String get userSettingsAppUpToDate => 'Tyne está actualizado';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Actualización disponible';
@@ -448,7 +448,7 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
   String get userSettingsCheckingForUpdates => 'Buscando actualizaciones…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer está actualizado';
+  String get userSettingsAppUpToDate => 'Tyne está actualizado';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Actualización disponible';
