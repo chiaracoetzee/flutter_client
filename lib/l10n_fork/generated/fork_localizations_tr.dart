@@ -29,7 +29,7 @@ class ForkLocalizationsTr extends ForkLocalizations {
       'Güncellemeler kontrol ediliyor…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer güncel';
+  String get userSettingsAppUpToDate => 'Tyne güncel';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Güncelleme Mevcut';
