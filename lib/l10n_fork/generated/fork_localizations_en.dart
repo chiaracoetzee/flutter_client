@@ -28,7 +28,7 @@ class ForkLocalizationsEn extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Checking for updates…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+  String get userSettingsAppUpToDate => 'Tyne is up to date';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Update Available';
@@ -440,7 +440,7 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
   String get userSettingsCheckingForUpdates => 'Checking for updates…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+  String get userSettingsAppUpToDate => 'Tyne is up to date';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Update Available';
@@ -852,7 +852,7 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
   String get userSettingsCheckingForUpdates => 'Checking for updates…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer is up to date';
+  String get userSettingsAppUpToDate => 'Tyne is up to date';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Update Available';

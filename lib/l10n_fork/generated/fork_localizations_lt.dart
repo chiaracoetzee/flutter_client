@@ -29,7 +29,7 @@ class ForkLocalizationsLt extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Tikrinama, ar yra naujinimų…';
 
   @override
-  String get userSettingsAppUpToDate => '„Fluxer“ yra atnaujintas';
+  String get userSettingsAppUpToDate => '„Tyne“ yra atnaujintas';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Yra naujinimas';

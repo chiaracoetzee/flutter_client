@@ -28,7 +28,7 @@ class ForkLocalizationsRo extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Se caută actualizări…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer este la zi';
+  String get userSettingsAppUpToDate => 'Tyne este la zi';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Actualizare disponibilă';

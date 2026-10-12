@@ -200,7 +200,7 @@ abstract class ForkLocalizations {
   /// Toast message indicating that the app is already on the latest version.
   ///
   /// In en, this message translates to:
-  /// **'Fluxer is up to date'**
+  /// **'Tyne is up to date'**
   String get userSettingsAppUpToDate;
 
   /// Title of the modal sheet notifying the user that a new version of the app is available.
