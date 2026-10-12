@@ -5,6 +5,11 @@ import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 
 const String appProtocolScheme = 'fluxer';
 
+// Fork: the scheme of the links the system hands to this app, Tyne. `fluxer:` above stays the form
+// of links written inside messages, which is part of the message format every client reads, so
+// both are understood here.
+const String forkAppLinkScheme = 'tyne';
+
 const Set<String> kInviteShortLinkHosts = <String>{'fluxer.gg'};
 
 const Set<String> kOfficialAppLinkHosts = <String>{
@@ -33,7 +38,7 @@ String normalizeDeepLinkPath(String path) {
 /// - `fluxer://invite/abc` → `/invite/abc`
 /// - `fluxer:/channels/@me` → `/channels/@me`
 Uri normalizeAppProtocolDeepLinkUri(Uri uri) {
-  if (uri.scheme != appProtocolScheme) {
+  if (uri.scheme != appProtocolScheme && uri.scheme != forkAppLinkScheme) {
     return uri;
   }
   final String host = uri.host;
