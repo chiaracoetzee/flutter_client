@@ -28,7 +28,7 @@ class ForkLocalizationsHu extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Frissítések keresése…';
 
   @override
-  String get userSettingsAppUpToDate => 'A Fluxer naprakész';
+  String get userSettingsAppUpToDate => 'A Tyne naprakész';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Frissítés érhető el';
