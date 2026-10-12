@@ -29,7 +29,7 @@ class ForkLocalizationsDa extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Søger efter opdateringer…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer er opdateret';
+  String get userSettingsAppUpToDate => 'Tyne er opdateret';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Opdatering tilgængelig';

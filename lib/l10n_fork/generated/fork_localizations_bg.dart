@@ -29,7 +29,7 @@ class ForkLocalizationsBg extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Проверка за актуализации…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer е актуален';
+  String get userSettingsAppUpToDate => 'Tyne е актуален';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Налична е актуализация';
