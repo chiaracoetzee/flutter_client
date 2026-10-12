@@ -29,7 +29,7 @@ class ForkLocalizationsCs extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Kontrola aktualizací…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer je aktuální';
+  String get userSettingsAppUpToDate => 'Tyne je aktuální';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Je k dispozici aktualizace';

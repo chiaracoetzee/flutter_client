@@ -29,7 +29,7 @@ class ForkLocalizationsNb extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Ser etter oppdateringer…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer er oppdatert';
+  String get userSettingsAppUpToDate => 'Tyne er oppdatert';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Oppdatering tilgjengelig';
