@@ -30,7 +30,7 @@ class ForkLocalizationsIt extends ForkLocalizations {
       'Controllo aggiornamenti in corso…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer è aggiornato';
+  String get userSettingsAppUpToDate => 'Tyne è aggiornato';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Aggiornamento disponibile';

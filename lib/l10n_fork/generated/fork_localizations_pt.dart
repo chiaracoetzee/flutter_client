@@ -29,7 +29,7 @@ class ForkLocalizationsPt extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'A procurar atualizações…';
 
   @override
-  String get userSettingsAppUpToDate => 'O Fluxer está atualizado';
+  String get userSettingsAppUpToDate => 'O Tyne está atualizado';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Atualização disponível';
@@ -446,7 +446,7 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
   String get userSettingsCheckingForUpdates => 'Verificando atualizações…';
 
   @override
-  String get userSettingsAppUpToDate => 'O Fluxer está atualizado';
+  String get userSettingsAppUpToDate => 'O Tyne está atualizado';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Atualização disponível';
