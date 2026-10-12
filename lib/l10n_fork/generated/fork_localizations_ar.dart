@@ -28,7 +28,7 @@ class ForkLocalizationsAr extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'جارٍ التحقق من وجود تحديثات…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer محدّث لأحدث إصدار';
+  String get userSettingsAppUpToDate => 'Tyne محدّث لأحدث إصدار';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'تحديث متوفر';
