@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 
-const String kWebPushDefaultTitle = 'Fluxer';
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/instance/instance_constants.dart';
+
+const String kWebPushDefaultTitle = InstanceConstants.defaultProductName;
 
 const String kWebPushDefaultBody = 'New message';
 
