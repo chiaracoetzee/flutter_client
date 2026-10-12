@@ -12,7 +12,7 @@ class AppUpdateService {
 
   final Dio _dio;
 
-  static const String _kGitHubRepo = 'chiaracoetzee/flutter_client';
+  static const String _kGitHubRepo = 'tyne-chat/tyne-mobile';
   static const String _kLatestReleaseUrl =
       'https://api.github.com/repos/$_kGitHubRepo/releases/latest';
 
@@ -36,7 +36,7 @@ class AppUpdateService {
         _kLatestReleaseUrl,
         options: Options(
           headers: const <String, String>{
-            'User-Agent': 'FluxerApp',
+            'User-Agent': 'TyneApp',
             'Accept': 'application/vnd.github.v3+json',
           },
           responseType: ResponseType.json,
@@ -76,7 +76,7 @@ class AppUpdateService {
 
       final String downloadUrl =
           apkAsset['browser_download_url'] as String? ?? '';
-      final String fileName = apkAsset['name'] as String? ?? 'fluxer.apk';
+      final String fileName = apkAsset['name'] as String? ?? 'tyne.apk';
       final int fileSize = (apkAsset['size'] as num?)?.toInt() ?? 0;
 
       final (String latestVersion, int? latestBuild) = _parseTagVersion(
@@ -139,7 +139,7 @@ class AppUpdateService {
         },
         cancelToken: cancelToken,
         options: Options(
-          headers: const <String, String>{'User-Agent': 'FluxerApp'},
+          headers: const <String, String>{'User-Agent': 'TyneApp'},
         ),
       );
 

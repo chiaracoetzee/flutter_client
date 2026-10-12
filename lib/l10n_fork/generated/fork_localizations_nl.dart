@@ -28,7 +28,7 @@ class ForkLocalizationsNl extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Controleren op updates…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer is up-to-date';
+  String get userSettingsAppUpToDate => 'Tyne is up-to-date';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Update beschikbaar';

@@ -29,7 +29,7 @@ class ForkLocalizationsRu extends ForkLocalizations {
   String get userSettingsCheckingForUpdates => 'Проверка обновлений…';
 
   @override
-  String get userSettingsAppUpToDate => 'Fluxer обновлен до последней версии';
+  String get userSettingsAppUpToDate => 'Tyne обновлен до последней версии';
 
   @override
   String get userSettingsUpdateAvailableTitle => 'Доступно обновление';
