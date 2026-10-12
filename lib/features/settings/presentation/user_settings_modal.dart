@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/push/fork_push_sign_out_cleanup.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -494,6 +495,11 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
 
     final userId = ref.read(currentUserIdProvider) ?? '';
 
+    // Fork: push cleanup reads the current user id, which the invalidation
+    // below resets, so it has to run first. Otherwise the local registration
+    // record survives sign-out and blocks registering again after sign-in.
+    await ref.read(forkPushSignOutCleanupProvider)();
+
     await ref.read(gatewayConnectionProvider).disconnect();
     ref.read(gatewayReadyProvider.notifier).reset();
 
@@ -823,6 +829,11 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     }
 
     final userId = ref.read(currentUserIdProvider) ?? '';
+
+    // Fork: push cleanup reads the current user id, which the invalidation
+    // below resets, so it has to run first. Otherwise the local registration
+    // record survives sign-out and blocks registering again after sign-in.
+    await ref.read(forkPushSignOutCleanupProvider)();
 
     await ref.read(gatewayConnectionProvider).disconnect();
     ref.read(gatewayReadyProvider.notifier).reset();
