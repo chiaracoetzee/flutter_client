@@ -18,7 +18,7 @@
     "@userSettingsCheckingForUpdates": {
         "description": "Toast message indicating that the app is checking for updates."
     },
-    "userSettingsAppUpToDate": "Fluxer is up to date",
+    "userSettingsAppUpToDate": "Tyne is up to date",
     "@userSettingsAppUpToDate": {
         "description": "Toast message indicating that the app is already on the latest version."
     },

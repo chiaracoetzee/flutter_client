@@ -115,9 +115,13 @@ android {
     productFlavors {
         create("canary") {
             dimension = "environment"
-            applicationIdSuffix = ".canary"
+            // Fork: this flavour is what the fork ships, as "Tyne", an app of its own (upstream's name
+            // and marks policy). Its ID is under tyne.chat and must never change once a build has
+            // shipped: Android would take the app for a different one. Upstream's canary build is
+            // com.fluxer.canary, which the fork's builds used to share and could not be installed next to.
+            applicationId = "chat.tyne.app"
             versionNameSuffix = "-canary"
-            manifestPlaceholders["appLabel"] = "Fluxer Temple"
+            manifestPlaceholders["appLabel"] = "Tyne"
             manifestPlaceholders["buildEnvironment"] = "canary"
             manifestPlaceholders["appIconAliasPrefix"] = "com.fluxer.canary.MainActivity"
         }
