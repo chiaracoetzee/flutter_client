@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Fork: the background of Tyne's launcher icon. Written by tyne-tools
-         scripts/brand_icons.py; do not edit. -->
-    <color name="ic_launcher_background">#263238</color>
+    <color name="ic_launcher_background">#141012</color>
 </resources>
