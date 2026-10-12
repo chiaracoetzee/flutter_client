@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fork: Tyne's notification icon under the name upstream's code asks for. Written by
+     fluxer-mobile-tools scripts/brand_icons.py; do not edit. -->
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:src="@drawable/tyne_notification_glyph" />
