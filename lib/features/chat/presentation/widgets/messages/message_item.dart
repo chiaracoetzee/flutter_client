@@ -72,7 +72,9 @@ import 'package:fluxer_app/features/settings/providers/swipe_right_to_left_actio
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/domain/fork_original_poster.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
+import 'package:fluxer_app/features/threads/providers/thread_owner_persona_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -333,7 +335,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           thread: channel,
           parentChannel: parent,
           authorId: msg.authorId,
-        )) {
+        ) && _forkOpTagApplies(msg)) {
           tags.add(FluxerUserTag(isSystem: false, label: l10n.userTagOp));
         }
       }
@@ -410,6 +412,43 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         userId: msg.authorId,
         guildId: guildId,
       ),
+    );
+  }
+
+  /// Fork: the "OP" tag follows the identity the post was started as (a persona
+  /// or the account itself); see [forkOriginalPosterTagApplies].
+  bool _forkOpTagApplies(Message msg) {
+    return forkOriginalPosterTagApplies(
+      messagePersonaId: msg.isPersona ? msg.personaId : null,
+      threadOwnerPersonaId: ref
+          .watch(threadOwnerPersonaIdProvider(msg.channelId))
+          .value,
+    );
+  }
+
+  /// Fork: the "OP" tag for a persona message, shown next to the persona badge.
+  Widget? _personaOpTag(BuildContext context, Message msg) {
+    if (!msg.isPersona) {
+      return null;
+    }
+    final Channel? channel = ref
+        .watch(channelByIdProvider(msg.channelId))
+        .value;
+    final String? parentId = channel?.parentId;
+    if (channel == null || !channel.isThread || parentId == null) {
+      return null;
+    }
+    final Channel? parent = ref.watch(channelByIdProvider(parentId)).value;
+    if (!isForumPostOriginalPoster(
+          thread: channel,
+          parentChannel: parent,
+          authorId: msg.authorId,
+        ) ||
+        !_forkOpTagApplies(msg)) {
+      return null;
+    }
+    return FluxerUserTag(
+      label: FluxerLocalizations.of(context).userTagOp,
     );
   }
 
@@ -528,6 +567,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       authorIsSystem: msg.authorIsSystem,
     );
     final bool hasBadge = msg.isPersona || isBotOrSystem;
+    final Widget? personaOpTag = _personaOpTag(context, msg);
+    final String opTagText = FluxerLocalizations.of(context).userTagOp;
 
     Widget buildNameWidget({double? maxWidth}) {
       final textWidget = Text(
@@ -586,9 +627,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             children: [
               Flexible(child: buildNameWidget()),
               const SizedBox(width: 6),
-              if (msg.isPersona)
-                _buildPersonaAccountBadge(context, msg)
-              else
+              if (msg.isPersona) ...[
+                _buildPersonaAccountBadge(context, msg),
+                if (personaOpTag != null) ...[
+                  const SizedBox(width: 6),
+                  personaOpTag,
+                ],
+              ] else
                 FluxerUserTag(
                   isSystem: messageAuthorUserTagIsSystem(
                     authorIsSystem: msg.authorIsSystem,
@@ -626,6 +671,33 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             fullBadgeWidth = 16.0;
           } else {
             fullBadgeWidth = 16.0;
+          }
+
+          // The original poster's tag is shown only when the name, the full
+          // persona tag and it all fit; otherwise the layouts below apply.
+          if (personaOpTag != null) {
+            final TextPainter opPainter = TextPainter(
+              text: TextSpan(
+                text: opTagText.toUpperCase(),
+                style: context.textStyles.smallText.copyWith(fontSize: 10),
+              ),
+              maxLines: 1,
+              textDirection: Directionality.of(context),
+            )..layout();
+            final double opTagWidth = opPainter.width + 13.0;
+            if (naturalNameWidth + gap + fullBadgeWidth + gap + opTagWidth <=
+                maxAvailable) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(child: buildNameWidget()),
+                  const SizedBox(width: gap),
+                  _buildPersonaAccountBadge(context, msg),
+                  const SizedBox(width: gap),
+                  personaOpTag,
+                ],
+              );
+            }
           }
 
           // Priority 1: Full name and full tag fit completely without shortening name
@@ -1907,9 +1979,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       runSpacing: 2,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        if (msg.isPersona)
-          _buildPersonaAccountBadge(context, msg)
-        else
+        if (msg.isPersona) ...[
+          _buildPersonaAccountBadge(context, msg),
+          if (_personaOpTag(context, msg) case final Widget opTag) opTag,
+        ] else
           ..._authorTags(context, msg),
         if (showAvatar)
           _AuthorProfileTapTarget(
