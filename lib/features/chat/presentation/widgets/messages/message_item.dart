@@ -556,7 +556,19 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     }
 
     if (!hasBadge) {
-      return buildNameWidget();
+      // Upstream's other author tags (community crosspost, forum original
+      // poster), laid out as upstream lays them out.
+      final List<Widget> tags = _authorTags(context, msg);
+      if (tags.isEmpty) {
+        return buildNameWidget();
+      }
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(child: buildNameWidget()),
+          for (final Widget tag in tags) ...[const SizedBox(width: 6), tag],
+        ],
+      );
     }
 
     final String? personaTagText =
