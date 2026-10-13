@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/daos/mobile_push_registration_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
@@ -51,7 +50,10 @@ void main() {
     test('keeps other accounts and the cached VAPID key', () async {
       await saveRegistration('1');
       await saveRegistration('2');
-      await db.mobilePushRegistrationDao.saveGlobalVapidPublicKey('vapid');
+      await db.mobilePushRegistrationDao.saveVapidForInstance(
+        instanceId: 'instance.test',
+        vapidPublicKey: 'vapid',
+      );
 
       await repository.logout('1');
 
@@ -61,10 +63,8 @@ void main() {
         'subscription-2',
       );
       expect(
-        await db.mobilePushRegistrationDao.getForUser(
-          kUnifiedPushGlobalVapidUserId,
-        ),
-        isNotNull,
+        await db.mobilePushRegistrationDao.getVapidForInstance('instance.test'),
+        'vapid',
       );
     });
   });
