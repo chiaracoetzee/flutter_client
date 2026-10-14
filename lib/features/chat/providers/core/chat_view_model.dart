@@ -58,9 +58,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_fra
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessions_provider.dart';
-import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
 import 'package:fluxer_app/features/chat/providers/messages/typing_sender.dart';
-import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
@@ -88,12 +86,8 @@ import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.d
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
-import 'package:fluxer_app/features/profile/domain/persona.dart';
-import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
-import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
-import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
@@ -107,6 +101,16 @@ import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/data/persona_emoji_usage_store.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/features/profile/domain/persona.dart';
+import 'package:fluxer_app/features/profile/domain/persona_matcher.dart';
+import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
+import 'package:fluxer_app/features/signal_bar/providers/signal_persona_affirmation.dart';
+import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 part 'chat_view_model.g.dart';
 
@@ -7283,9 +7287,11 @@ class ChatViewModel extends _$ChatViewModel {
     if (editMatch.shouldUpdatePersona) {
       if (editMatch.persona != null) {
         personaData = _buildPersonaPayload(editMatch.persona!);
-        ref
-            .read(activePersonaProvider.notifier)
-            .recordUsage(editMatch.persona!.id);
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .recordUsage(editMatch.persona!.id),
+        );
       } else if (editMatch.isRootAccount) {
         personaData = null;
       }
@@ -7604,9 +7610,11 @@ class ChatViewModel extends _$ChatViewModel {
     if (editMatch.shouldUpdatePersona) {
       if (editMatch.persona != null) {
         personaData = _buildPersonaPayload(editMatch.persona!);
-        ref
-            .read(activePersonaProvider.notifier)
-            .recordUsage(editMatch.persona!.id);
+        unawaited(
+          ref
+              .read(activePersonaProvider.notifier)
+              .recordUsage(editMatch.persona!.id),
+        );
       } else if (editMatch.isRootAccount) {
         personaData = null;
       }

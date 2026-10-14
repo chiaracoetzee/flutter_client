@@ -49,7 +49,10 @@ class _FakeReactors extends MessageReactors {
     required String channelId,
     required String messageId,
     required String emoji,
-  }) async => MessageReactorsState(users: users, hasMore: false);
+  }) async => MessageReactorsState(
+    users: users.map(_forkReactionUser).toList(),
+    hasMore: false,
+  );
 }
 
 class _FakeUserNoteViewModel extends UserNoteViewModel {
@@ -226,3 +229,7 @@ void main() {
     await releaseTestWidgetTree(tester);
   });
 }
+
+// Fork: the fork's reactors are ReactionUserItemResponse, which carries personas.
+ReactionUserItemResponse _forkReactionUser(UserPartialResponse user) =>
+    ReactionUserItemResponse.fromJson(user.toJson());
