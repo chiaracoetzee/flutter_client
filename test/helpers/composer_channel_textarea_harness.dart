@@ -28,6 +28,10 @@ import 'instance_runtime_config_override.dart';
 import 'open_test_database.dart';
 import 'test_l10n.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
+
 const String kComposerHarnessChannelA = '1000000000000000100';
 const String kComposerHarnessChannelB = '1000000000000000101';
 const String kComposerHarnessUserId = '1000000000000000001';
@@ -83,7 +87,12 @@ class MutableChatViewModel extends ChatViewModel {
   final List<String?> sentTexts = <String?>[];
 
   @override
-  Future<void> sendMessage({String? text, bool tts = false}) async {
+  Future<void> sendMessage({
+    String? text,
+    bool tts = false,
+    // Fork: the persona the message is sent as.
+    Map<String, dynamic>? personaData,
+  }) async {
     sentTexts.add(text);
   }
 }
@@ -148,6 +157,11 @@ List<Override> composerChannelTextareaOverrides({
     wellKnownProvider.overrideWith(FakeWellKnown.new),
     instanceRuntimeConfigOverride(),
     maxMessageLengthProvider.overrideWithValue(2000),
+    // Fork: the fork's quick switcher button takes the mic's place in an empty
+    // composer; upstream's composer tests expect the mic.
+    quickSwitcherButtonPreferencesProvider.overrideWith(
+      _ForkQuickSwitcherButtonOff.new,
+    ),
     channelMessagePermissionsProvider(kComposerHarnessChannelA).overrideWith(
       (ref) => guildChannelPermissions ?? ChannelMessagePermissions.all,
     ),
@@ -208,4 +222,10 @@ MutableChatViewModel readMutableChatViewModel(ProviderContainer container) {
 
 Finder channelComposerField() {
   return find.byKey(const ValueKey<String>('channel-composer-field'));
+}
+
+// Fork: see composerChannelTextareaOverrides.
+class _ForkQuickSwitcherButtonOff extends QuickSwitcherButtonPreferences {
+  @override
+  bool build() => false;
 }
