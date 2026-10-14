@@ -224,4 +224,69 @@ void main() {
         .dy;
     expect(lastTop, greaterThan(firstTop));
   });
+
+  group('signalBarSignalSize', () {
+    test('keeps the default size while one row holds them all', () {
+      for (int count = 1; count <= 7; count++) {
+        expect(signalBarSignalSize(count: count, width: 355), 40);
+      }
+    });
+
+    test('keeps the default size when every row is at least half full', () {
+      // 7 and 5; 7, 7 and 7.
+      expect(signalBarSignalSize(count: 12, width: 355), 40);
+      expect(signalBarSignalSize(count: 21, width: 355), 40);
+    });
+
+    test('shrinks when that saves a row', () {
+      // 40 gives 7, 7 and 4; 30 gives 9 and 9.
+      expect(signalBarSignalSize(count: 18, width: 355), 30);
+    });
+
+    test('shrinks so fifteen signals make two rows instead of 7, 7, 1', () {
+      expect(signalBarSignalSize(count: 15, width: 355), 35);
+    });
+
+    test('shrinks to fit one row rather than leave one signal alone', () {
+      expect(signalBarSignalSize(count: 8, width: 355), 35);
+    });
+
+    test('grows when shrinking cannot fill the last row', () {
+      // 40 gives 7 and 3; 30 gives 9 and 1; 43 gives 6 and 4.
+      expect(signalBarSignalSize(count: 10, width: 355), 43);
+    });
+
+    test('stays in range and falls back to the default without a width', () {
+      for (int count = 1; count <= 60; count++) {
+        for (double width = 120; width <= 900; width += 37) {
+          final double size = signalBarSignalSize(count: count, width: width);
+          expect(size, inInclusiveRange(30, 48));
+        }
+      }
+      expect(signalBarSignalSize(count: 5, width: double.infinity), 40);
+      expect(signalBarSignalSize(count: 0, width: 355), 40);
+    });
+  });
+
+  testWidgets('fifteen signals on a phone leave no row less than half full', (
+    WidgetTester tester,
+  ) async {
+    final List<SignalBarSignal> fifteen = <SignalBarSignal>[
+      for (int i = 0; i < 15; i++)
+        SignalBarSignal(id: 's$i', emojiName: '✅', animated: false),
+    ];
+    await pump(tester, signals: fifteen, width: 411);
+    expect(tester.takeException(), isNull);
+    final Map<double, int> perRow = <double, int>{};
+    for (int i = 0; i < 15; i++) {
+      final Rect rect = tester.getRect(
+        find.byKey(ValueKey<String>('signal-s$i')),
+      );
+      expect(rect.width, lessThan(40));
+      perRow.update(rect.top, (int n) => n + 1, ifAbsent: () => 1);
+    }
+    expect(perRow.length, 2);
+    final List<int> counts = perRow.values.toList();
+    expect(counts.last * 2, greaterThanOrEqualTo(counts.first));
+  });
 }
