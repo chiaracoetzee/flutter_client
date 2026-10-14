@@ -16,10 +16,14 @@ import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
+import 'package:fluxer_app/shared/widgets/rebuild_safe_layout_builder.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kSignalSize = 40;
+const double _kMinSignalSize = 30;
+const double _kMaxSignalSize = 48;
+const double _kSignalSpacing = 10;
 const double _kBadgeSize = 14;
 const int _kMaxBadges = 3;
 const int _kSignalEmojiFetchSize = 128;
@@ -254,6 +258,63 @@ class _SignalBarStripState extends ConsumerState<SignalBarStrip> {
   }
 }
 
+/// How many signals of [size] fit on one row of [width].
+int _signalsPerRow(double size, double width) {
+  final int perRow =
+      ((width + _kSignalSpacing + 0.001) / (size + _kSignalSpacing)).floor();
+  return perRow < 1 ? 1 : perRow;
+}
+
+/// How full the last row is, from just above 0 to 1. A single row counts as
+/// full: growing the signals to fill it would only make them oversized.
+double _lastRowFill(int count, int perRow) {
+  if (count <= perRow) {
+    return 1;
+  }
+  final int last = count - (count - 1) ~/ perRow * perRow;
+  return last / perRow;
+}
+
+/// The signal size for [count] signals in a bar [width] wide. Signals that
+/// fit on one row keep the default 40. Past that, a size within 30 to 48 that
+/// leaves no row less than half full: of those, the one with the fewest rows,
+/// then the one nearest 40, so fifteen signals on a phone make two rows of 35
+/// rather than rows of 7, 7 and 1. When no size manages it, the one whose
+/// last row is fullest.
+double signalBarSignalSize({required int count, required double width}) {
+  if (count <= 0 || !width.isFinite || width <= 0) {
+    return _kSignalSize;
+  }
+  double best = _kSignalSize;
+  (double, int, double)? bestKey;
+  for (double size = _kMinSignalSize; size <= _kMaxSignalSize; size++) {
+    final int perRow = _signalsPerRow(size, width);
+    final double fill = _lastRowFill(count, perRow);
+    // Higher is better in every field: fill (capped at half full, so any
+    // size that meets the rule ties), then fewer rows, then nearer 40.
+    final (double, int, double) key = (
+      fill >= 0.5 ? 0.5 : fill,
+      -((count + perRow - 1) ~/ perRow),
+      -(size - _kSignalSize).abs(),
+    );
+    if (bestKey == null || _isBetter(key, bestKey)) {
+      best = size;
+      bestKey = key;
+    }
+  }
+  return best;
+}
+
+bool _isBetter((double, int, double) a, (double, int, double) b) {
+  if (a.$1 != b.$1) {
+    return a.$1 > b.$1;
+  }
+  if (a.$2 != b.$2) {
+    return a.$2 > b.$2;
+  }
+  return a.$3 > b.$3;
+}
+
 /// The strip itself, free of providers so it can be laid out and tested alone.
 class SignalBarView extends StatelessWidget {
   const SignalBarView({
@@ -311,24 +372,38 @@ class SignalBarView extends StatelessWidget {
               Expanded(
                 child: collapsed
                     ? const SizedBox.shrink()
-                    : Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: <Widget>[
-                          for (final SignalBarSignal signal in signals)
-                            _SignalButton(
-                              key: ValueKey<String>('signal-${signal.id}'),
-                              signal: signal,
-                              entries: <SignalEntry>[
-                                for (final SignalEntry entry in entries)
-                                  if (entry.signalId == signal.id) entry,
-                              ],
-                              currentUserId: currentUserId,
-                              surface: surface,
-                              onToggle: onToggle,
-                              onDetails: onDetails,
-                            ),
-                        ],
+                    : RebuildSafeLayoutBuilder(
+                        debugLabel: 'SignalBarView',
+                        builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                              final double size = signalBarSignalSize(
+                                count: signals.length,
+                                width: constraints.maxWidth,
+                              );
+                              return Wrap(
+                                spacing: _kSignalSpacing,
+                                runSpacing: _kSignalSpacing,
+                                children: <Widget>[
+                                  for (final SignalBarSignal signal in signals)
+                                    _SignalButton(
+                                      key: ValueKey<String>(
+                                        'signal-${signal.id}',
+                                      ),
+                                      signal: signal,
+                                      entries: <SignalEntry>[
+                                        for (final SignalEntry entry in entries)
+                                          if (entry.signalId == signal.id)
+                                            entry,
+                                      ],
+                                      currentUserId: currentUserId,
+                                      surface: surface,
+                                      size: size,
+                                      onToggle: onToggle,
+                                      onDetails: onDetails,
+                                    ),
+                                ],
+                              );
+                            },
                       ),
               ),
               IconButton(
@@ -359,6 +434,7 @@ class _SignalButton extends StatelessWidget {
     required this.entries,
     required this.currentUserId,
     required this.surface,
+    required this.size,
     required this.onToggle,
     required this.onDetails,
     super.key,
@@ -368,6 +444,7 @@ class _SignalButton extends StatelessWidget {
   final List<SignalEntry> entries;
   final String? currentUserId;
   final Color surface;
+  final double size;
   final void Function(SignalBarSignal signal, {required bool mine})? onToggle;
 
   /// Opens the list of people who have the signal on.
@@ -392,12 +469,9 @@ class _SignalButton extends StatelessWidget {
             emojiId: signal.emojiId!,
             animated: lit && signal.animated,
             requestSize: _kSignalEmojiFetchSize,
-            size: _kSignalSize,
+            size: size,
           )
-        : UnicodeEmojiWidget(
-            emoji: signal.emojiName,
-            size: _kSignalSize * 0.85,
-          );
+        : UnicodeEmojiWidget(emoji: signal.emojiName, size: size * 0.85);
     if (!lit) {
       emoji = Opacity(
         opacity: 0.4,
@@ -420,8 +494,8 @@ class _SignalButton extends StatelessWidget {
         onTap: toggle == null ? null : () => toggle(signal, mine: mine),
         onLongPress: details == null ? null : () => details(signal, entries),
         child: SizedBox(
-          width: _kSignalSize,
-          height: _kSignalSize,
+          width: size,
+          height: size,
           child: Stack(
             clipBehavior: Clip.none,
             alignment: Alignment.center,
