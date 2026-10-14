@@ -300,11 +300,14 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         ],
                       ),
                     ),
+                    // Fork: bounded, so the composer's field shows fewer lines
+                    // rather than growing under the keyboard.
+                    ConstrainedBox(constraints: BoxConstraints(maxHeight: constraints.maxHeight), child:
                     ChatComposerColumn(
                       autocompletePanelHost: _composerAutocompletePanelHost,
                       autocompletePanelScrollController:
                           _composerAutocompletePanelScroll,
-                    ),
+                    )),
                   ],
                 ),
                 if (isPanelOpen)

@@ -101,6 +101,9 @@ import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_fitted_lines.dart';
+
 const double _kComposerDisabledOpacity = 0.6;
 
 const double _kMobileComposerSuffixHorizontalPadding = 7;
@@ -1072,6 +1075,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           if (editingMessage != null)
             EditingInputBar(onCancel: chatNotifier.cancelEdit),
           ChannelAttachmentArea(channelId: channelId),
+          // Fork: Flexible (closed below), so a short space shrinks the field.
+          Flexible(child:
           DecoratedBox(
             decoration: BoxDecoration(
               color: composerBackgroundColor,
@@ -1112,6 +1117,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       onClear: _clearSlashSession,
                     ),
                   ),
+                // Fork: Flexible (closed below), so a short space shrinks the field.
+                Flexible(child:
                 Padding(
                   padding: const EdgeInsets.fromLTRB(
                     8,
@@ -1121,8 +1128,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   ),
                   child: composerInput,
                 ),
+                ),
               ],
             ),
+          ),
           ),
           ?composerSafeBar,
         ],
@@ -1830,16 +1839,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   },
                 ),
                 Expanded(
-                  child: _buildComposerField(
+                  // Fork: as many lines as fit above the keyboard, up to 6.
+                  child: ComposerFittedLines(maxLines: 6, decoration: mobileDecoration, counterShown: _showComposerCounter, builder: (BuildContext context, int fittedLines) =>
+                  _buildComposerField(
                     context: context,
                     channelId: channelId,
                     perms: perms,
                     maxMessageLength: maxMessageLength,
                     premiumMaxLength: premiumMaxLength,
                     minLines: 1,
-                    maxLines: 6,
+                    maxLines: fittedLines,
                     decoration: mobileDecoration,
-                  ),
+                  )),
                 ),
                 const SizedBox(width: 8),
                 ListenableBuilder(
