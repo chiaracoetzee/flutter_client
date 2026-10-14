@@ -442,7 +442,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       controller: _voiceRecording,
       startLockedRecording: _startLockedVoiceRecording,
     );
-    _activeVoiceCoordinator = ref.read(activeVoiceRecordingCoordinatorProvider);
+    _activeVoiceCoordinator = ref.read(
+      activeVoiceRecordingCoordinatorProvider,
+    );
     _activeVoiceCoordinator.register(_activeVoiceTarget);
     unawaited(FluxerHaptics.warmSend());
   }
@@ -865,21 +867,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         }
         _controller.deleteBackward();
       })
-      ..listen<({int epoch, String style})?>(pendingTimestampInsertProvider, (
-        _,
-        pending,
-      ) {
-        if (pending == null) {
-          return;
-        }
-        ref.read(pendingTimestampInsertProvider.notifier).consume();
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted) {
+      ..listen<({int epoch, String style})?>(
+        pendingTimestampInsertProvider,
+        (_, pending) {
+          if (pending == null) {
             return;
           }
-          _insertTimestamp(pending.epoch, pending.style);
-        });
-      })
+          ref.read(pendingTimestampInsertProvider.notifier).consume();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) {
+              return;
+            }
+            _insertTimestamp(pending.epoch, pending.style);
+          });
+        },
+      )
       ..listen<FluxerSelectedGif?>(pendingGifSelectionProvider, (_, pending) {
         if (pending == null) {
           return;
@@ -1098,11 +1100,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           isPanelOpen: isPanelOpen,
           mobileMaxHeight: mobileMaxHeight,
           mobileHeader:
-              mobileComposer &&
-                  (slashParamBarVisible ||
-                      replyTo != null ||
-                      editingMessage != null ||
-                      hasAttachments)
+              // Fork: the header also carries the signal bar, so on mobile it is always shown;
+              // it measures nothing when it has nothing in it.
+              mobileComposer
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -1111,10 +1111,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         channelId: channelId,
                         guildId: guildId,
                         backgroundColor: composerBackgroundColor,
-                        dividerColor: wideComposerRingColor(
-                          context,
-                          focused: false,
-                        ),
+                        dividerColor:
+                            wideComposerRingColor(context, focused: false),
                       ),
                     if (slashParamBarVisible)
                       SlashCommandParamBar(
@@ -1896,8 +1894,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                           }
                           final bool hasAttachments = ref.watch(
                             cloudUploadControllerProvider(channelId).select(
-                              (CloudComposerAttachments a) =>
-                                  a.items.isNotEmpty,
+                              (CloudComposerAttachments a) => a.items.isNotEmpty,
                             ),
                           );
                           return Padding(
@@ -2046,9 +2043,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     _controller.clear();
     ref.read(chatViewModelProvider.notifier).updateMessageText('');
     unawaited(
-      ref
-          .read(chatViewModelProvider.notifier)
-          .sendStickerMessage(sticker, personaData: resolution.personaData),
+      ref.read(chatViewModelProvider.notifier).sendStickerMessage(
+            sticker,
+            personaData: resolution.personaData,
+          ),
     );
     ref.read(expressionPanelProvider.notifier).close();
     _focusNode.requestFocus();
@@ -2091,7 +2089,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     } else if (perms.canShowAttachControls && perms.canShowEmbedControls) {
       await ref
           .read(chatViewModelProvider.notifier)
-          .sendFavoriteMemeMessage(meme, personaData: resolution?.personaData);
+          .sendFavoriteMemeMessage(
+            meme,
+            personaData: resolution?.personaData,
+          );
     } else {
       _insertGifUrl(meme.url);
     }
@@ -2365,18 +2366,20 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         _controller.clear();
         vm.updateMessageText('');
         FluxerHaptics.light();
-        ref
-            .read(toastProvider.notifier)
-            .show(const FluxerToast(message: 'Active persona cleared'));
+        ref.read(toastProvider.notifier).show(
+              const FluxerToast(
+                message: 'Active persona cleared',
+              ),
+            );
         return;
       }
     }
 
     // Match persona tags or active latched persona
     final bool hasPendingAttachments = ref.read(
-      cloudUploadControllerProvider(
-        channelId,
-      ).select((CloudComposerAttachments a) => a.items.isNotEmpty),
+      cloudUploadControllerProvider(channelId).select(
+        (CloudComposerAttachments a) => a.items.isNotEmpty,
+      ),
     );
 
     final OutgoingMessageResolution resolution = await resolveOutgoingPersona(
@@ -2387,10 +2390,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
 
     FluxerHaptics.send();
-    final bool proceed = await _confirmMentionsIfNeeded(
-      channelId,
-      resolution.text,
-    );
+    final bool proceed =
+        await _confirmMentionsIfNeeded(channelId, resolution.text);
     if (!proceed) {
       return;
     }
@@ -2627,7 +2628,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     final ChannelMessagePermissions perms =
         readChannelMessagePermissionsForComposer(ref, currentChannelId);
     final bool canUseVoice =
-        showQuickSwitcher && perms.isVoiceEnabled && perms.isComposerEnabled;
+        showQuickSwitcher &&
+        perms.isVoiceEnabled &&
+        perms.isComposerEnabled;
     if (!mounted) {
       return;
     }
@@ -2646,7 +2649,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       if (!context.mounted) {
         return;
       }
-      await TimestampPickerSheet.show(context, onInsert: _insertTimestamp);
+      await TimestampPickerSheet.show(
+        context,
+        onInsert: _insertTimestamp,
+      );
       return;
     }
     await _pickAttachments(source: source);
