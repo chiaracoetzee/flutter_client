@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_fitted_lines.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/composer_channel_textarea_harness.dart';
@@ -69,6 +70,8 @@ Future<void> _pumpComposerIn(WidgetTester tester, double height) async {
   await tester.pump();
   await tester.enterText(channelComposerField(), _longDraft);
   await tester.pump();
+  // Upstream's composer animates to its new height (MobileComposerTextGrowth).
+  await tester.pump(MobileComposerLayout.resize);
 }
 
 /// Lets the composer's typing timers run out on the fake clock, then
@@ -140,12 +143,12 @@ void main() {
     });
   });
 
-  testWidgets('a long draft shows six lines when there is room', (
+  testWidgets('a long draft shows the most lines when there is room', (
     WidgetTester tester,
   ) async {
     await _pumpComposerIn(tester, 700);
     expect(tester.takeException(), isNull);
-    expect(_fieldMaxLines(tester), 6);
+    expect(_fieldMaxLines(tester), MobileComposerLayout.maxLines);
     await _release(tester);
   });
 

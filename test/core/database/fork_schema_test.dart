@@ -40,7 +40,6 @@ const Map<String, List<String>> _threadColumns = <String, List<String>>{
     'default_forum_layout',
     'default_tag_setting',
   ],
-  'servers': <String>['thread_channels_active'],
   'messages': <String>['thread_json'],
   'read_states': <String>['flags', 'missing_since'],
 };

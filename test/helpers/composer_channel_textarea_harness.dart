@@ -23,6 +23,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import 'package:fluxer_app/features/settings/providers/quick_switcher_button_preferences_provider.dart';
+
 import 'fake_well_known.dart';
 import 'instance_runtime_config_override.dart';
 import 'open_test_database.dart';
@@ -138,6 +140,11 @@ List<Override> composerChannelTextareaOverrides({
     wellKnownProvider.overrideWith(FakeWellKnown.new),
     instanceRuntimeConfigOverride(),
     maxMessageLengthProvider.overrideWithValue(2000),
+    // Fork: the fork's quick switcher button takes the mic's place in an empty
+    // composer; upstream's composer tests expect the mic.
+    quickSwitcherButtonPreferencesProvider.overrideWith(
+      _ForkQuickSwitcherButtonOff.new,
+    ),
     channelMessagePermissionsProvider(
       kComposerHarnessChannelA,
     ).overrideWith((ref) => ChannelMessagePermissions.all),
@@ -193,4 +200,10 @@ MutableChatViewModel readMutableChatViewModel(ProviderContainer container) {
 
 Finder channelComposerField() {
   return find.byKey(const ValueKey<String>('channel-composer-field'));
+}
+
+// Fork: see composerChannelTextareaOverrides.
+class _ForkQuickSwitcherButtonOff extends QuickSwitcherButtonPreferences {
+  @override
+  bool build() => false;
 }

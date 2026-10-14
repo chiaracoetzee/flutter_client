@@ -25,9 +25,15 @@ int? retryAfterMsFromDioException(DioException error) {
 String? apiMessageFromDioException(DioException error) {
   final Object? data = error.response?.data;
   if (data is Map) {
-    // Fork: the first validation error with its field, from either response shape
-    // (e.g. Zod / InputValidationError). Runs before upstream's INVALID_FORM_BODY
-    // message below so persona forms keep naming the field.
+    if (data is Map<String, dynamic>) {
+      final String? fieldMessage = _invalidFormBodyMessage(data);
+      if (fieldMessage != null) {
+        return fieldMessage;
+      }
+    }
+    // Fork: the first validation error with its field, for the response shapes
+    // upstream's INVALID_FORM_BODY message above does not read (errors nested
+    // under data, or under another code).
     final dynamic nestedData = data['data'];
     final dynamic errors =
         nestedData is Map ? nestedData['errors'] : data['errors'];
@@ -45,12 +51,6 @@ String? apiMessageFromDioException(DioException error) {
       }
     }
 
-    if (data is Map<String, dynamic>) {
-      final String? fieldMessage = _invalidFormBodyMessage(data);
-      if (fieldMessage != null) {
-        return fieldMessage;
-      }
-    }
     final dynamic message = data['message'];
     if (message is String && message.isNotEmpty) {
       return message;

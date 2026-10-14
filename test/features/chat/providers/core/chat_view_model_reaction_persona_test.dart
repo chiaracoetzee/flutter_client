@@ -97,11 +97,10 @@ void main() {
       ],
     );
 
-    viewModel = container.read(chatViewModelProvider.notifier);
-  });
+    // Disposed before the database closes (openTestDatabase's tear-down).
+    addTearDown(container.dispose);
 
-  tearDown(() {
-    container.dispose();
+    viewModel = container.read(chatViewModelProvider.notifier);
   });
 
   group('ChatViewModel.resolveEffectiveReactionPersona', () {
