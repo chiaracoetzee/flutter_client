@@ -151,6 +151,12 @@ jobs:
             settings["CODE_SIGN_IDENTITY"] = "Apple Distribution"
             settings["CODE_SIGN_IDENTITY[sdk=iphoneos*]"] = "Apple Distribution"
             settings["PROVISIONING_PROFILE_SPECIFIER"] = profile
+            # The extensions carry their own version (1.0, 1); App Store Connect warns unless
+            # they match the app's, which comes from FLUTTER_BUILD_NAME and _NUMBER.
+            unless target.name == "Runner"
+              settings["MARKETING_VERSION"] = "$(FLUTTER_BUILD_NAME)"
+              settings["CURRENT_PROJECT_VERSION"] = "$(FLUTTER_BUILD_NUMBER)"
+            end
             signed << target.name
           end
           abort "signed #{signed.inspect}, expected four targets" unless signed.size == 4
@@ -235,9 +241,14 @@ jobs:
           mkdir -p "$RUNNER_TEMP/ipa" && cd "$RUNNER_TEMP/ipa"
           unzip -q "$IPA"
           app="$(ls -d Payload/*.app)"
+          app_version="$(plutil -extract CFBundleShortVersionString raw "$app/Info.plist") ($(plutil -extract CFBundleVersion raw "$app/Info.plist"))"
           for bundle in "$app" "$app"/PlugIns/*.appex; do
             echo "== $bundle: $(plutil -extract CFBundleIdentifier raw "$bundle/Info.plist") $(plutil -extract CFBundleShortVersionString raw "$bundle/Info.plist") ($(plutil -extract CFBundleVersion raw "$bundle/Info.plist"))"
             codesign -d --entitlements - --xml "$bundle" 2>/dev/null | plutil -p -
+            version="$(plutil -extract CFBundleShortVersionString raw "$bundle/Info.plist") ($(plutil -extract CFBundleVersion raw "$bundle/Info.plist"))"
+            if [ "$version" != "$app_version" ]; then
+              echo "::warning::$bundle is version $version, the app $app_version"
+            fi
           done
           aps="$(codesign -d --entitlements - --xml "$app" 2>/dev/null | plutil -extract aps-environment raw - || true)"
           if [ "$aps" != "production" ]; then
