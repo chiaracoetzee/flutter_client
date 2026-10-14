@@ -56,6 +56,7 @@ import 'package:fluxer_app/features/settings/providers/connections_view_model.da
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
