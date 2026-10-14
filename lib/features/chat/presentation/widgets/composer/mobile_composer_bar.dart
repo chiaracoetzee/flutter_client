@@ -68,8 +68,13 @@ class MobileComposerBar extends StatelessWidget {
     required this.child,
     this.header,
     this.headerMaxHeight = double.infinity,
+    this.flexibleChild = false,
     super.key,
   });
+
+  // Fork: lets [child] take only the height left under the header (the chat
+  // composer's field shows fewer lines rather than growing under the keyboard).
+  final bool flexibleChild;
 
   final Widget? header;
   final double headerMaxHeight;
@@ -109,7 +114,7 @@ class MobileComposerBar extends StatelessWidget {
                     ),
                   ),
           ),
-          child,
+          if (flexibleChild) Flexible(child: child) else child,
         ],
       ),
     );

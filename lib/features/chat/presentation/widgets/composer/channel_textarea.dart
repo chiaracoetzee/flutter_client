@@ -105,6 +105,9 @@ import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_fitted_lines.dart';
+
 const double _kComposerDisabledOpacity = 0.6;
 
 const double _kTouchComposerActionSpacing = 8;
@@ -1143,6 +1146,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Fork: Flexible (closed below), so a short space shrinks the field.
+          Flexible(child:
           Padding(
             padding: const EdgeInsets.fromLTRB(
               MobileComposerLayout.sideInset,
@@ -1151,6 +1156,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               MobileComposerLayout.bottomGap,
             ),
             child: composerInput,
+          ),
           ),
           if (showComposerSafeBar && mobileSafeBarHeight > 0)
             SizedBox(height: mobileSafeBarHeight),
@@ -1790,6 +1796,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           children: <Widget>[
             MobileComposerBar(
               key: const ValueKey<String>('mobile-composer-bar'),
+              // Fork: the field fits the space left above the keyboard.
+              flexibleChild: true,
               header: header,
               headerMaxHeight: mobileComposerHeaderMaxHeight(
                 screenHeight: MediaQuery.sizeOf(context).height,
@@ -1886,17 +1894,19 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                       ),
                       Expanded(
                         child: MobileComposerTextGrowth(
-                          child: _buildComposerField(
+                          // Fork: as many lines as fit above the keyboard, up to upstream's maximum.
+                          child: ComposerFittedLines(maxLines: MobileComposerLayout.maxLines, decoration: mobileDecoration, counterShown: _showComposerCounter, builder: (BuildContext context, int fittedLines) =>
+                          _buildComposerField(
                             context: context,
                             channelId: channelId,
                             perms: perms,
                             maxMessageLength: maxMessageLength,
                             premiumMaxLength: premiumMaxLength,
                             minLines: 1,
-                            maxLines: MobileComposerLayout.maxLines,
+                            maxLines: fittedLines,
                             decoration: mobileDecoration,
                             cursorColor: context.colors.interactiveNormal,
-                          ),
+                          )),
                         ),
                       ),
                       const SizedBox(width: MobileComposerLayout.trailingGap),
