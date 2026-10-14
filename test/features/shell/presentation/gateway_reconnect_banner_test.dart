@@ -85,6 +85,9 @@ void main() {
     'rapid background/foreground transitions dismiss banner cleanly without getting stuck',
     (tester) async {
       final ProviderContainer container = await pumpBanner(tester);
+      // Upstream's lifecycle starts in the background when the binding has no
+      // state yet, as in tests; the app is in the foreground here.
+      container.read(appUiForegroundProvider.notifier).setResumed(true);
 
       container.read(gatewayReconnectBannerProvider.notifier).showConnected();
       await tester.pump();
