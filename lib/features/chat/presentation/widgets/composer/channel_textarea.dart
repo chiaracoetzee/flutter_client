@@ -1099,11 +1099,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       channelId: channelId,
       isPanelOpen: isPanelOpen,
       mobileHeader:
-          mobileComposer &&
-              (slashParamBarVisible ||
-                  replyTo != null ||
-                  editingMessage != null ||
-                  hasAttachments)
+          // Fork: the header also carries the signal bar, so on mobile it is always shown;
+          // it measures nothing when it has nothing in it.
+          mobileComposer
           ? Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
