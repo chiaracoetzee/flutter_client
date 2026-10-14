@@ -171,6 +171,8 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        // Fork: Flexible (closed below), so a short space shrinks the field.
+        Flexible(child:
         RepaintBoundary(
           child: ThreadComposerGate(
             child: ChannelTextarea(
@@ -180,6 +182,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
                   widget.autocompletePanelScrollController,
             ),
           ),
+        ),
         ),
         if (isMobileLayout(context)) const BottomInputSpacer(),
       ],
