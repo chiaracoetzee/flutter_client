@@ -1,1 +1,1 @@
-{"APP_ENVIRONMENT": "canary", "FORK_APP_NAME": "Tyne"}
+{"APP_ENVIRONMENT": "canary", "FORK_APP_NAME": "Tyne", "FORK_APNS_RELAY_ORIGIN": "https://push.tyne.chat"}
