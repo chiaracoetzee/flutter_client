@@ -1583,6 +1583,9 @@ class FluxerDatabase extends _$FluxerDatabase {
         );
       }
       if (from < 98) {
+        // Fork: the rebuilt table copies the fork's columns, and the columns of
+        // upstream steps that early fork builds skipped (fork_schema.dart).
+        await ensureForkSchema(this, m);
         await m.alterTable(TableMigration(messages));
       }
     },
