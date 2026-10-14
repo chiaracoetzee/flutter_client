@@ -1100,7 +1100,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       isPanelOpen: isPanelOpen,
       mobileHeader:
           mobileComposer &&
-              (slashParamBarVisible ||
+              // Fork: the header also carries the signal bar, shown whenever no
+              // message is being edited; it measures nothing when it has no signals.
+              (editingMessage == null ||
+                  slashParamBarVisible ||
                   replyTo != null ||
                   editingMessage != null ||
                   hasAttachments)
