@@ -1114,7 +1114,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                   SignalBarStrip(
                     channelId: channelId,
                     guildId: guildId,
-                    backgroundColor: composerBackgroundColor,
+                    backgroundColor: context.colors.backgroundTextarea,
                     dividerColor: wideComposerRingColor(context, focused: false),
                   ),
                 if (slashParamBarVisible)
@@ -1195,7 +1195,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                         SignalBarStrip(
                           channelId: channelId,
                           guildId: guildId,
-                          backgroundColor: composerBackgroundColor,
+                          backgroundColor: context.colors.backgroundTextarea,
                           dividerColor: wideComposerRingColor(
                             context,
                             focused: false,

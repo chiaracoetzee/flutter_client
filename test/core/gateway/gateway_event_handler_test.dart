@@ -141,7 +141,7 @@ void main() {
     }
 
     Future<domain.Reaction?> loadReaction(FluxerDatabase database) async {
-      final row = await database.messageDao.getMessage(messageId);
+      final row = await database.messageDao.getMessage(channelId, messageId);
       expect(row, isNotNull);
       final reactions = (jsonDecode(row!.reactionsJson) as List<dynamic>)
           .cast<Map<String, dynamic>>();

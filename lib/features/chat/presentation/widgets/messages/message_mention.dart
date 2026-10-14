@@ -380,7 +380,6 @@ class UserMention extends ConsumerWidget {
           ),
         ),
         child: _MentionPill(
-          baseStyle: style,
           fillColor: fillColor,
           child: Text(
             '@$personaName',

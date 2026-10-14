@@ -346,6 +346,8 @@ void main() {
       expect(await db.messageDao.getMessage('ch', sourceId), isNotNull);
       expect(await db.messageDao.getMessage(sourceId, sourceId), isNotNull);
     });
+  });
+
   test('updatePersonaAttributes updates cached message persona attributes in SQLite', () async {
     final db = openTestDatabase();
     final Message msg1 = _msg(idA).copyWith(
@@ -369,8 +371,8 @@ void main() {
       personaTagIcon: 'icon2',
     );
 
-    final Message row1 = Message.fromRow((await db.messageDao.getMessage(idA))!);
-    final Message row2 = Message.fromRow((await db.messageDao.getMessage(idB))!);
+    final Message row1 = Message.fromRow((await db.messageDao.getMessage('ch', idA))!);
+    final Message row2 = Message.fromRow((await db.messageDao.getMessage('ch', idB))!);
 
     expect(row1.personaName, 'Alice New');
     expect(row1.personaAvatar, 'avatar2');

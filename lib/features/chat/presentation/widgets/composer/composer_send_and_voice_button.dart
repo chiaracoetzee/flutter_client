@@ -196,7 +196,7 @@ class _ComposerSendAndVoiceButtonState
         controller: widget.voiceRecording,
         holdToRecord: widget.useHoldToRecord,
         buttonSize: voiceSize,
-        restingChild: useHoldToRecord
+        restingChild: widget.useHoldToRecord
             ? const MobileComposerGlyph(icon: PhosphorIconsFill.microphone)
             : null,
       ),

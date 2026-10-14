@@ -84,7 +84,7 @@ void main() {
                   body: QuickSwitcherFriendsList(
                     searchQuery: '',
                     scrollController: scrollController,
-                    onFriendSelected: () {
+                    onNavigatedAway: () {
                       friendSelectedCalled = true;
                     },
                   ),
@@ -215,7 +215,7 @@ void main() {
                   body: QuickSwitcherFriendsList(
                     searchQuery: '',
                     scrollController: scrollController,
-                    onFriendSelected: () {},
+                    onNavigatedAway: () {},
                   ),
                 );
               },

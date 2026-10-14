@@ -371,7 +371,7 @@ class _ForumPostSnippet extends StatelessWidget {
     final String snippet = _snippet(message);
     // Fork: a post made as a persona is listed under the persona.
     final GuildUserDisplay? persona = message.isPersona
-        ? resolveMessageAuthorDisplay(message: message, guildId: null)
+        ? resolveMessageAuthorDisplay(message: message)
         : null;
     final String authorName = persona?.displayName ?? message.authorName;
     return Row(

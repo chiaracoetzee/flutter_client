@@ -83,7 +83,12 @@ class MutableChatViewModel extends ChatViewModel {
   final List<String?> sentTexts = <String?>[];
 
   @override
-  Future<void> sendMessage({String? text, bool tts = false}) async {
+  Future<void> sendMessage({
+    String? text,
+    bool tts = false,
+    // Fork: the persona the message is sent as.
+    Map<String, dynamic>? personaData,
+  }) async {
     sentTexts.add(text);
   }
 }

@@ -210,7 +210,6 @@ void main() {
 
   // Fork: personas.
   test('a post made as a persona carries it on the first message', () async {
-    gate.apply('g1', active: true);
     adapter
       ..status = 201
       ..body = _thread('p9');

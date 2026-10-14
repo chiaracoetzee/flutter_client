@@ -623,7 +623,6 @@ void main() {
                 child: EmbedAnimatedImage(
                   animatedUrl: 'https://x/a.webp',
                   staticUrl: 'https://x/a.png',
-                  visibilityKey: 'v1',
                 ),
               ),
             ),
