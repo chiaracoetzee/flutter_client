@@ -132,6 +132,22 @@ class ChannelPersonaMentionCache {
     _cache.clear();
   }
 
+  /// Every persona fetched for any channel so far, once each; message search
+  /// resolves persona names typed without picking them against these.
+  List<Map<String, dynamic>> get cachedItems {
+    final Map<String, Map<String, dynamic>> byId =
+        <String, Map<String, dynamic>>{};
+    for (final _ChannelPersonaMentionCacheEntry entry in _cache.values) {
+      for (final Map<String, dynamic> item in entry.items) {
+        final String? id = item['id'] as String?;
+        if (id != null && id.isNotEmpty) {
+          byId[id] = item;
+        }
+      }
+    }
+    return byId.values.toList();
+  }
+
   void setChannelPersonas(
     String channelId,
     List<Map<String, dynamic>> items, {
