@@ -49,8 +49,8 @@ class _MockDioAdapter implements HttpClientAdapter {
 }
 
 Dio _createMockDio() {
-  final dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'));
-  dio.httpClientAdapter = _MockDioAdapter();
+  final dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'))
+    ..httpClientAdapter = _MockDioAdapter();
   return dio;
 }
 
@@ -129,8 +129,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      final notifier = container.read(myPersonasProvider.notifier);
-      notifier.reset();
+      final notifier = container.read(myPersonasProvider.notifier)..reset();
       expect(container.read(myPersonasProvider).asData?.value, isEmpty);
 
       const p1 = Persona(id: 'p1', name: 'Alice');
@@ -271,12 +270,13 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final notifier = container.read(activePersonaProvider.notifier);
-      notifier.syncFromSettings(
-        mode: PersonaMode.last,
-        activeId: 'p123',
-        isLatched: true,
-      );
+      container
+          .read(activePersonaProvider.notifier)
+          .syncFromSettings(
+            mode: PersonaMode.last,
+            activeId: 'p123',
+            isLatched: true,
+          );
 
       final state = container.read(activePersonaProvider);
       expect(state.mode, PersonaMode.last);
@@ -293,15 +293,15 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      final notifier = container.read(personaSettingsProvider.notifier);
-      notifier.updateFromGateway({
-        'user_id': 'u100',
-        'active_persona_mode': 'last',
-        'active_persona_id': 'p200',
-        'is_latched': true,
-        'display_tag_text': 'Wonderland',
-        'display_tag_icon': 'hash_xyz',
-      });
+      final notifier = container.read(personaSettingsProvider.notifier)
+        ..updateFromGateway({
+          'user_id': 'u100',
+          'active_persona_mode': 'last',
+          'active_persona_id': 'p200',
+          'is_latched': true,
+          'display_tag_text': 'Wonderland',
+          'display_tag_icon': 'hash_xyz',
+        });
 
       final settings = container.read(personaSettingsProvider).asData?.value;
       expect(settings, isNotNull);
