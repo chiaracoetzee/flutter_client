@@ -57,7 +57,7 @@ Future<OutgoingMessageResolution> resolveOutgoingPersona({
     rawText,
     personas,
     latchedId,
-    hasPendingAttachments,
+    hasAttachments: hasPendingAttachments,
     allowEmptyContent: allowEmptyContent,
   );
 

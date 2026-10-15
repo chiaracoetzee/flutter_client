@@ -84,8 +84,8 @@ class _CandidateMatch {
 MatchResult matchPersona(
   String text,
   List<Persona> personas,
-  String? activeLatchedPersonaId,
-  bool hasAttachments, {
+  String? activeLatchedPersonaId, {
+  required bool hasAttachments,
   bool allowEmptyContent = false,
 }) {
   Persona? latchedPersona;
@@ -342,14 +342,14 @@ bool isUnfinishedPersonaTag(
 PreviewResult previewPersona(
   String text,
   List<Persona> personas,
-  String? activeLatchedPersonaId,
-  bool hasAttachments,
-) {
+  String? activeLatchedPersonaId, {
+  required bool hasAttachments,
+}) {
   final result = matchPersona(
     text,
     personas,
     activeLatchedPersonaId,
-    hasAttachments,
+    hasAttachments: hasAttachments,
     allowEmptyContent: true,
   );
 
@@ -413,7 +413,7 @@ EditMatchResult matchEditMessage({
     content,
     personas,
     null,
-    hasAttachments,
+    hasAttachments: hasAttachments,
     allowEmptyContent: true,
   );
 
