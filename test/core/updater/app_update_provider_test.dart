@@ -58,7 +58,7 @@ void main() {
     AppUpdateService.platformOverride = true;
   });
 
-  tearDown(() async {
+  tearDown(() {
     AppUpdateService.platformOverride = null;
     final dir = tempDir;
     if (dir != null && dir.existsSync()) {
@@ -160,8 +160,8 @@ void main() {
     test(
       'startDownload transitions to readyToInstall and triggers install on success',
       () async {
-        final testFile = File('${tempDir!.path}/downloaded.apk');
-        testFile.writeAsStringSync('binary-data');
+        final testFile = File('${tempDir!.path}/downloaded.apk')
+          ..writeAsStringSync('binary-data');
 
         final fakeService = _FakeAppUpdateService()
           ..updateInfoResult = testInfo
@@ -207,8 +207,8 @@ void main() {
     test(
       'install requests permission settings when canRequestPackageInstalls is false',
       () async {
-        final testFile = File('${tempDir!.path}/downloaded.apk');
-        testFile.writeAsStringSync('binary-data');
+        final testFile = File('${tempDir!.path}/downloaded.apk')
+          ..writeAsStringSync('binary-data');
 
         final fakeService = _FakeAppUpdateService()
           ..updateInfoResult = testInfo

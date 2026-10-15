@@ -53,7 +53,7 @@ void main() {
     );
   });
 
-  tearDown(() async {
+  tearDown(() {
     AppUpdateService.platformOverride = null;
     const pathChannel = MethodChannel('plugins.flutter.io/path_provider');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
@@ -251,16 +251,16 @@ void main() {
 
     test('returns null when response data is not a Map', () async {
       AppUpdateService.platformOverride = true;
-      final dio = Dio();
-      dio.httpClientAdapter = _MockDioAdapter((options) {
-        return ResponseBody.fromString(
-          '["not", "a", "map"]',
-          200,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
-        );
-      });
+      final dio = Dio()
+        ..httpClientAdapter = _MockDioAdapter((options) {
+          return ResponseBody.fromString(
+            '["not", "a", "map"]',
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
+        });
 
       final service = AppUpdateService(dio: dio);
       final result = await service.checkForUpdate();
@@ -269,31 +269,31 @@ void main() {
 
     test('returns null when assets do not contain an .apk file', () async {
       AppUpdateService.platformOverride = true;
-      final dio = Dio();
-      dio.httpClientAdapter = _MockDioAdapter((options) {
-        final payload = {
-          'tag_name': 'v2.0.0',
-          'name': 'Release 2.0.0',
-          'body': 'Notes',
-          'assets': [
-            {
-              'name': 'fluxer.tar.gz',
-              'browser_download_url': 'https://example.com/app.tar.gz',
+      final dio = Dio()
+        ..httpClientAdapter = _MockDioAdapter((options) {
+          final payload = {
+            'tag_name': 'v2.0.0',
+            'name': 'Release 2.0.0',
+            'body': 'Notes',
+            'assets': [
+              {
+                'name': 'fluxer.tar.gz',
+                'browser_download_url': 'https://example.com/app.tar.gz',
+              },
+              {
+                'name': 'source.zip',
+                'browser_download_url': 'https://example.com/source.zip',
+              },
+            ],
+          };
+          return ResponseBody.fromString(
+            jsonEncode(payload),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
             },
-            {
-              'name': 'source.zip',
-              'browser_download_url': 'https://example.com/source.zip',
-            },
-          ],
-        };
-        return ResponseBody.fromString(
-          jsonEncode(payload),
-          200,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
-        );
-      });
+          );
+        });
 
       final service = AppUpdateService(dio: dio);
       final result = await service.checkForUpdate();
@@ -304,28 +304,28 @@ void main() {
       'returns null when release tag is not newer than current package version',
       () async {
         AppUpdateService.platformOverride = true;
-        final dio = Dio();
-        dio.httpClientAdapter = _MockDioAdapter((options) {
-          final payload = {
-            'tag_name': 'v0.9.0',
-            'name': 'Release 0.9.0',
-            'body': 'Older release',
-            'assets': [
-              {
-                'name': 'fluxer.apk',
-                'browser_download_url': 'https://example.com/fluxer.apk',
-                'size': 123456,
+        final dio = Dio()
+          ..httpClientAdapter = _MockDioAdapter((options) {
+            final payload = {
+              'tag_name': 'v0.9.0',
+              'name': 'Release 0.9.0',
+              'body': 'Older release',
+              'assets': [
+                {
+                  'name': 'fluxer.apk',
+                  'browser_download_url': 'https://example.com/fluxer.apk',
+                  'size': 123456,
+                },
+              ],
+            };
+            return ResponseBody.fromString(
+              jsonEncode(payload),
+              200,
+              headers: {
+                Headers.contentTypeHeader: [Headers.jsonContentType],
               },
-            ],
-          };
-          return ResponseBody.fromString(
-            jsonEncode(payload),
-            200,
-            headers: {
-              Headers.contentTypeHeader: [Headers.jsonContentType],
-            },
-          );
-        });
+            );
+          });
 
         final service = AppUpdateService(dio: dio);
         final result = await service.checkForUpdate();
@@ -335,13 +335,13 @@ void main() {
 
     test('returns null when dio throws an error', () async {
       AppUpdateService.platformOverride = true;
-      final dio = Dio();
-      dio.httpClientAdapter = _MockDioAdapter((options) {
-        throw DioException(
-          requestOptions: options,
-          error: 'Connection refused',
-        );
-      });
+      final dio = Dio()
+        ..httpClientAdapter = _MockDioAdapter((options) {
+          throw DioException(
+            requestOptions: options,
+            error: 'Connection refused',
+          );
+        });
 
       final service = AppUpdateService(dio: dio);
       final result = await service.checkForUpdate();
@@ -352,30 +352,30 @@ void main() {
       'returns populated AppUpdateInfo when newer release with APK is found',
       () async {
         AppUpdateService.platformOverride = true;
-        final dio = Dio();
-        dio.httpClientAdapter = _MockDioAdapter((options) {
-          final payload = {
-            'tag_name': 'v2.0.0+15',
-            'name': 'Fluxer v2.0.0',
-            'body': 'Exciting new features and bugfixes.',
-            'published_at': '2026-09-20T12:00:00Z',
-            'assets': [
-              {
-                'name': 'fluxer-release.apk',
-                'browser_download_url':
-                    'https://github.com/fluxer/releases/fluxer-release.apk',
-                'size': 45 * 1024 * 1024,
+        final dio = Dio()
+          ..httpClientAdapter = _MockDioAdapter((options) {
+            final payload = {
+              'tag_name': 'v2.0.0+15',
+              'name': 'Fluxer v2.0.0',
+              'body': 'Exciting new features and bugfixes.',
+              'published_at': '2026-09-20T12:00:00Z',
+              'assets': [
+                {
+                  'name': 'fluxer-release.apk',
+                  'browser_download_url':
+                      'https://github.com/fluxer/releases/fluxer-release.apk',
+                  'size': 45 * 1024 * 1024,
+                },
+              ],
+            };
+            return ResponseBody.fromString(
+              jsonEncode(payload),
+              200,
+              headers: {
+                Headers.contentTypeHeader: [Headers.jsonContentType],
               },
-            ],
-          };
-          return ResponseBody.fromString(
-            jsonEncode(payload),
-            200,
-            headers: {
-              Headers.contentTypeHeader: [Headers.jsonContentType],
-            },
-          );
-        });
+            );
+          });
 
         final service = AppUpdateService(dio: dio);
         final result = await service.checkForUpdate();
@@ -414,8 +414,8 @@ void main() {
         });
 
         // Pre-create the file to test overwrite deletion branch
-        final existingFile = File('${tempDir!.path}/fluxer.apk');
-        existingFile.writeAsStringSync('old-content');
+        final existingFile = File('${tempDir!.path}/fluxer.apk')
+          ..writeAsStringSync('old-content');
         expect(existingFile.existsSync(), isTrue);
 
         const info = AppUpdateInfo(
@@ -452,10 +452,13 @@ void main() {
     );
 
     test('returns null when download fails with error', () async {
-      final dio = Dio();
-      dio.httpClientAdapter = _MockDioAdapter((options) {
-        throw DioException(requestOptions: options, error: 'Download timeout');
-      });
+      final dio = Dio()
+        ..httpClientAdapter = _MockDioAdapter((options) {
+          throw DioException(
+            requestOptions: options,
+            error: 'Download timeout',
+          );
+        });
 
       const info = AppUpdateInfo(
         tagName: 'v2.0.0',
@@ -493,12 +496,12 @@ void main() {
         expect(await service.canRequestPackageInstalls(), isTrue);
 
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .setMockMethodCallHandler(installChannel, (call) async {
-              throw PlatformException(
-                code: 'ERR_PERMISSION',
-                message: 'Failed',
-              );
-            });
+            .setMockMethodCallHandler(
+              installChannel,
+              (call) => Future<Object?>.error(
+                PlatformException(code: 'ERR_PERMISSION', message: 'Failed'),
+              ),
+            );
         expect(await service.canRequestPackageInstalls(), isFalse);
       },
     );
@@ -522,9 +525,12 @@ void main() {
         expect(await service.openInstallPermissionSettings(), isTrue);
 
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .setMockMethodCallHandler(installChannel, (call) async {
-              throw PlatformException(code: 'ERR_SETTINGS', message: 'Failed');
-            });
+            .setMockMethodCallHandler(
+              installChannel,
+              (call) => Future<Object?>.error(
+                PlatformException(code: 'ERR_SETTINGS', message: 'Failed'),
+              ),
+            );
         expect(await service.openInstallPermissionSettings(), isFalse);
       },
     );
@@ -550,9 +556,12 @@ void main() {
       expect(passedArguments, {'filePath': '/data/local/tmp/app.apk'});
 
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(installChannel, (call) async {
-            throw PlatformException(code: 'ERR_INSTALL', message: 'Failed');
-          });
+          .setMockMethodCallHandler(
+            installChannel,
+            (call) => Future<Object?>.error(
+              PlatformException(code: 'ERR_INSTALL', message: 'Failed'),
+            ),
+          );
       expect(await service.installUpdate('/data/local/tmp/app.apk'), isFalse);
     });
   });
