@@ -25,6 +25,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_persona_suggestions.dart';
+
 const Duration _kUserSuggestionDebounce = Duration(milliseconds: 150);
 const int _kUserSuggestionLimit = 12;
 
@@ -363,7 +367,16 @@ class _ChannelSearchFilterSuggestionsState
     final ({String title, List<Widget> rows}) section = switch (kind) {
       ChannelSearchTokenKind.from || ChannelSearchTokenKind.mentions => (
         title: l10n.channelHeaderSearchUsersTitle,
-        rows: _userRows(context, l10n, kind),
+        rows: <Widget>[
+          ..._userRows(context, l10n, kind),
+          ChannelSearchPersonaSuggestions(
+            channelId: widget.channelId,
+            guildId: widget.guildId,
+            kind: kind,
+            query: _userQuery,
+            onPick: widget.onPick,
+          ),
+        ],
       ),
       ChannelSearchTokenKind.channel => (
         title: l10n.channelHeaderSearchChannelsTitle,
