@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/persona_picker_sheet.dart';
@@ -319,7 +320,9 @@ void main() {
           findsNWidgets(2),
         ); // Once in recents, once in all personas
 
-        final dynamic listTileText = tester.firstWidget(nameFinder.last);
+        final widgets.Text listTileText = tester.firstWidget<widgets.Text>(
+          nameFinder.last,
+        );
         expect(listTileText.style?.color?.a, 1.0);
         expect(listTileText.style?.color, isNot(const Color(0x00FF8A2E)));
       },

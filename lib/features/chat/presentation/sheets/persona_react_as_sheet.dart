@@ -124,30 +124,34 @@ class _PersonaReactAsBodyState extends ConsumerState<_PersonaReactAsBody> {
 
   void _reactAsPersona(String personaId) {
     FluxerHaptics.light();
-    ref
-        .read(chatViewModelProvider.notifier)
-        .toggleReaction(
-          widget.messageId,
-          widget.emoji,
-          emojiId: widget.emojiId,
-          animated: widget.animated,
-          personaId: personaId,
-        );
+    unawaited(
+      ref
+          .read(chatViewModelProvider.notifier)
+          .toggleReaction(
+            widget.messageId,
+            widget.emoji,
+            emojiId: widget.emojiId,
+            animated: widget.animated,
+            personaId: personaId,
+          ),
+    );
     widget.onClose();
     widget.onReacted?.call();
   }
 
   void _reactAsRoot() {
     FluxerHaptics.light();
-    ref
-        .read(chatViewModelProvider.notifier)
-        .toggleReaction(
-          widget.messageId,
-          widget.emoji,
-          emojiId: widget.emojiId,
-          animated: widget.animated,
-          explicitRoot: true,
-        );
+    unawaited(
+      ref
+          .read(chatViewModelProvider.notifier)
+          .toggleReaction(
+            widget.messageId,
+            widget.emoji,
+            emojiId: widget.emojiId,
+            animated: widget.animated,
+            explicitRoot: true,
+          ),
+    );
     widget.onClose();
     widget.onReacted?.call();
   }
