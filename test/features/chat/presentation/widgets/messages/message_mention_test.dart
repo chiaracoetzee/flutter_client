@@ -2,6 +2,7 @@
 // ProviderScope written inline in pumpWidget.
 // ignore_for_file: riverpod_lint/scoped_providers_should_specify_dependencies
 
+import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -109,10 +110,12 @@ void main() {
               userId: _kTestUserId,
               personaId: _kTestPersonaId,
             )).overrideWith(
-              (ref) async => const PublicPersona(
-                id: _kTestPersonaId,
-                name: 'Bob the Fox',
-                color: 0xFF5500,
+              (ref) => Future.value(
+                const PublicPersona(
+                  id: _kTestPersonaId,
+                  name: 'Bob the Fox',
+                  color: 0xFF5500,
+                ),
               ),
             ),
           ],
@@ -144,10 +147,12 @@ void main() {
               userId: _kTestUserId,
               personaId: _kTestPersonaId,
             )).overrideWith(
-              (ref) async => const PublicPersona(
-                id: _kTestPersonaId,
-                name: 'Color Persona',
-                color: customColor,
+              (ref) => Future.value(
+                const PublicPersona(
+                  id: _kTestPersonaId,
+                  name: 'Color Persona',
+                  color: customColor,
+                ),
               ),
             ),
           ],
@@ -159,11 +164,10 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final textWidget = tester.firstWidget(find.text('@Color Persona'));
-      expect(
-        (textWidget as dynamic).style?.color,
-        const Color(customColor | 0xFF000000),
+      final widgets.Text textWidget = tester.firstWidget<widgets.Text>(
+        find.text('@Color Persona'),
       );
+      expect(textWidget.style?.color, const Color(customColor | 0xFF000000));
     },
   );
 
@@ -177,7 +181,7 @@ void main() {
             publicPersonaProvider((
               userId: _kTestUserId,
               personaId: _kTestPersonaId,
-            )).overrideWith((ref) async => null),
+            )).overrideWith((ref) => Future<PublicPersona?>.value()),
             myPersonasProvider.overrideWith(
               () => _FakeMyPersonasNotifier([
                 const Persona(

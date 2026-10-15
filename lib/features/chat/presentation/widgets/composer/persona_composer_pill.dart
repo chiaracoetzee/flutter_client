@@ -56,7 +56,7 @@ class PersonaComposerPill extends ConsumerWidget {
       text,
       personas,
       latchedId,
-      hasAttachments,
+      hasAttachments: hasAttachments,
     );
 
     final Persona? effectivePersona = preview.persona;
