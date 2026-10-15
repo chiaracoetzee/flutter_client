@@ -94,12 +94,12 @@ void main() {
       expect(raw, isNotNull);
       final List<dynamic> decoded = jsonDecode(raw!) as List<dynamic>;
       expect(decoded.length, 2);
-      expect(decoded[0]['channelId'], 'new-ch');
-      expect(decoded[1]['channelId'], 'older-ch');
+      expect((decoded[0] as Map<String, dynamic>)['channelId'], 'new-ch');
+      expect((decoded[1] as Map<String, dynamic>)['channelId'], 'older-ch');
     },
   );
 
-  test('caps at kMaxRecentChannelVisits = 20', () async {
+  test('caps at kMaxRecentChannelVisits = 20', () {
     final container = _signedIn('u1');
     addTearDown(container.dispose);
 

@@ -60,7 +60,7 @@ class PersonaSendingAsRow extends ConsumerWidget {
       text,
       personas,
       latchedId,
-      hasAttachments,
+      hasAttachments: hasAttachments,
     );
     final Persona? persona = preview.persona;
     final String name = persona?.name ?? '@$username';

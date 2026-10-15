@@ -7094,7 +7094,7 @@ class ChatViewModel extends _$ChatViewModel {
         text,
         personas,
         latchedId,
-        hasPendingAttachments,
+        hasAttachments: hasPendingAttachments,
       );
       // Fork: the text may still become another persona's tag. Until it is one
       // or stops looking like one, neither the signals nor the typing notice
@@ -7703,7 +7703,12 @@ class ChatViewModel extends _$ChatViewModel {
     final composerText = state.messageText;
     final activeState = ref.read(activePersonaProvider);
     final String? latchedId = activeState.latchedIdFor(state.channelId);
-    final preview = previewPersona(composerText, personas, latchedId, false);
+    final preview = previewPersona(
+      composerText,
+      personas,
+      latchedId,
+      hasAttachments: false,
+    );
     if (preview.isFromTag && preview.persona != null) {
       return preview.persona!.id;
     }
