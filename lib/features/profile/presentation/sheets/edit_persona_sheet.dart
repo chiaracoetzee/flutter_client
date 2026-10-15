@@ -375,9 +375,10 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
         data: <String, dynamic>{'avatar': dataUri},
       );
       final dynamic data = response.data;
-      final newHash = (data is Map) ? (data['avatar_hash'] as String?) : null;
+      final Map<dynamic, dynamic>? map = data is Map ? data : null;
+      final newHash = map?['avatar_hash'] as String?;
       if (newHash != null) {
-        final newColor = (data['avatar_color'] as num?)?.toInt();
+        final newColor = (map!['avatar_color'] as num?)?.toInt();
         if (_avatarHash != null && _avatarHash != newHash) {
           unawaited(CachedNetworkImage.evictFromCache(_avatarHash!));
         }
@@ -466,68 +467,71 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
   }
 
   void _addSignatureEmoji() {
-    FluxerEmojiPickerSheet.show(
-      context,
-      visibleTabs: const [ExpressionPickerTab.emojis],
-      onEmojiSelected: (selectedEmoji) {
-        final emojiName = selectedEmoji.isCustom
-            ? selectedEmoji.name
-            : selectedEmoji.surrogates;
-        final emojiId = selectedEmoji.isCustom ? selectedEmoji.emojiId : null;
+    unawaited(
+      FluxerEmojiPickerSheet.show(
+        context,
+        visibleTabs: const [ExpressionPickerTab.emojis],
+        onEmojiSelected: (selectedEmoji) {
+          final emojiName = selectedEmoji.isCustom
+              ? selectedEmoji.name
+              : selectedEmoji.surrogates;
+          final emojiId = selectedEmoji.isCustom ? selectedEmoji.emojiId : null;
 
-        // Intra-persona duplicate check
-        final alreadyAdded = _signatureEmojis.any(
-          (s) => s.matches(emojiName: emojiName, emojiId: emojiId),
-        );
-        if (alreadyAdded) {
-          ref
-              .read(toastProvider.notifier)
-              .show(
-                FluxerToast(
-                  message: FluxerLocalizations.of(
-                    context,
-                  ).fork.personaSignatureEmojiAlreadyAdded,
-                  variant: FluxerToastVariant.danger,
-                ),
-              );
-          return;
-        }
-
-        // Cross-persona duplicate collision check
-        final existingPersonas =
-            ref.read(myPersonasProvider).asData?.value ?? const [];
-        final currentId = widget.persona?.id;
-        for (final other in existingPersonas) {
-          if (currentId != null && other.id == currentId) continue;
-          final conflict = other.signatureEmojis.any(
+          // Intra-persona duplicate check
+          final alreadyAdded = _signatureEmojis.any(
             (s) => s.matches(emojiName: emojiName, emojiId: emojiId),
           );
-          if (conflict) {
+          if (alreadyAdded) {
             ref
                 .read(toastProvider.notifier)
                 .show(
                   FluxerToast(
                     message: FluxerLocalizations.of(
                       context,
-                    ).fork.personaSignatureEmojiAlreadyUsedByOther(other.name),
+                    ).fork.personaSignatureEmojiAlreadyAdded,
                     variant: FluxerToastVariant.danger,
                   ),
                 );
             return;
           }
-        }
 
-        setState(() {
-          _signatureEmojis.add(
-            SignatureEmoji(
-              id: emojiId,
-              name: emojiName,
-              animated: selectedEmoji.animated,
-            ),
-          );
-        });
-        _onFieldChanged();
-      },
+          // Cross-persona duplicate collision check
+          final existingPersonas =
+              ref.read(myPersonasProvider).asData?.value ?? const [];
+          final currentId = widget.persona?.id;
+          for (final other in existingPersonas) {
+            if (currentId != null && other.id == currentId) {
+              continue;
+            }
+            final conflict = other.signatureEmojis.any(
+              (s) => s.matches(emojiName: emojiName, emojiId: emojiId),
+            );
+            if (conflict) {
+              ref
+                  .read(toastProvider.notifier)
+                  .show(
+                    FluxerToast(
+                      message: FluxerLocalizations.of(context).fork
+                          .personaSignatureEmojiAlreadyUsedByOther(other.name),
+                      variant: FluxerToastVariant.danger,
+                    ),
+                  );
+              return;
+            }
+          }
+
+          setState(() {
+            _signatureEmojis.add(
+              SignatureEmoji(
+                id: emojiId,
+                name: emojiName,
+                animated: selectedEmoji.animated,
+              ),
+            );
+          });
+          _onFieldChanged();
+        },
+      ),
     );
   }
 
@@ -654,7 +658,9 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     // Client-side duplicate signature emoji collision check against own personas
     for (final sig in _signatureEmojis) {
       for (final other in existingPersonas) {
-        if (currentId != null && other.id == currentId) continue;
+        if (currentId != null && other.id == currentId) {
+          continue;
+        }
         if (other.signatureEmojis.any(
           (s) => s.matches(emojiName: sig.name, emojiId: sig.id),
         )) {

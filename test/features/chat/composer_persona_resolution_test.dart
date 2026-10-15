@@ -33,8 +33,8 @@ class _MockDioAdapter implements HttpClientAdapter {
 }
 
 Dio _createMockDio() {
-  final dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'));
-  dio.httpClientAdapter = _MockDioAdapter();
+  final dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid'))
+    ..httpClientAdapter = _MockDioAdapter();
   return dio;
 }
 

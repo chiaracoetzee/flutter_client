@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
-import 'package:riverpod/src/providers/future_provider.dart';
 
 typedef PersonaProfileKey = ({String userId, String personaId});
 
@@ -58,7 +58,7 @@ publicPersonaProvider = FutureProvider.family<PublicPersona?, PersonaProfileKey>
       err,
       st,
     );
-  } catch (err, st) {
+  } on Object catch (err, st) {
     _refusedAsPrivate.remove(key);
     talker.warning(
       '[publicPersonaProvider] Failed to fetch persona ${arg.personaId} for user ${arg.userId}: $err',

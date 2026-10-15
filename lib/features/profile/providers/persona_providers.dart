@@ -105,7 +105,7 @@ class ActivePersonaState {
 class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
   @override
   AsyncValue<List<Persona>> build() {
-    _loadPersonas();
+    unawaited(_loadPersonas());
     return const AsyncValue.loading();
   }
 
@@ -139,15 +139,19 @@ class MyPersonasNotifier extends Notifier<AsyncValue<List<Persona>>> {
           .where((p) => !p.isDeleted)
           .toList();
 
-      if (!ref.mounted) return;
+      if (!ref.mounted) {
+        return;
+      }
       state = AsyncValue.data(personas);
-    } catch (err, st) {
+    } on Object catch (err, st) {
       talker.warning(
         '[MyPersonasNotifier] Failed to load personas: $err',
         err,
         st,
       );
-      if (!ref.mounted) return;
+      if (!ref.mounted) {
+        return;
+      }
       state = AsyncValue.error(err, st);
     }
   }
@@ -206,7 +210,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
 
   @override
   ActivePersonaState build() {
-    _initFromPrefs();
+    unawaited(_initFromPrefs());
     return const ActivePersonaState();
   }
 
@@ -229,7 +233,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
               lastUsedAtMs: (val['last_used'] as num?)?.toInt() ?? 0,
             );
           }
-        } catch (_) {}
+        } on Object catch (_) {}
       }
 
       // The scope and the per-channel selections come from the server only.
@@ -240,7 +244,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
         isLatched: latched,
         frecencyUsage: frecency,
       );
-    } catch (e) {
+    } on Object catch (e) {
       talker.warning('[ActivePersonaNotifier] Error reading prefs: $e');
     }
   }
@@ -361,7 +365,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
             .read(personaSettingsProvider.notifier)
             .updateSettings(activePersonaMode: mode.toPrefString()),
       );
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 
   /// Selects a persona. With the per-channel scope and a [channelId], the
@@ -409,7 +413,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
               activePersonaMode: effectiveMode.toPrefString(),
             ),
       );
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 
   Future<void> unlatch({bool preserveMode = false, String? channelId}) async {
@@ -440,7 +444,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
               activePersonaMode: newMode.toPrefString(),
             ),
       );
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 
   Future<void> recordUsage(String personaId) async {
@@ -465,7 +469,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
         };
       }
       await prefs.setString(_kPrefFrecency, jsonEncode(serializable));
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 
   Future<void> reset() async {
@@ -476,7 +480,7 @@ class ActivePersonaNotifier extends Notifier<ActivePersonaState> {
       await prefs.remove(_kPrefId);
       await prefs.remove(_kPrefLatched);
       await prefs.remove(_kPrefFrecency);
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 }
 
@@ -559,7 +563,7 @@ final _personaNameOrderProvider = FutureProvider<Map<String, int>?>((
   try {
     final ids = await ref.watch(personaNameCollatorProvider)(personas);
     return {for (final (index, id) in ids.indexed) id: index};
-  } catch (err, st) {
+  } on Object catch (err, st) {
     talker.warning(
       '[sortedPersonasProvider] Device sort failed, using plain order: $err',
       err,
@@ -649,7 +653,7 @@ class SystemDisplayTagNotifier extends Notifier<SystemDisplayTag> {
       if ((cachedText != null || cachedIcon != null) && state.isEmpty) {
         state = SystemDisplayTag(text: cachedText, iconUrl: cachedIcon);
       }
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 
   Future<void> _saveToPrefs(String? text, String? icon) async {
@@ -665,7 +669,7 @@ class SystemDisplayTagNotifier extends Notifier<SystemDisplayTag> {
       } else {
         await prefs.remove(_kPrefTagIcon);
       }
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 
   void syncFromSettings({required String? text, required String? iconUrl}) {
@@ -690,7 +694,7 @@ class SystemDisplayTagNotifier extends Notifier<SystemDisplayTag> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_kPrefTagText);
       await prefs.remove(_kPrefTagIcon);
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 }
 
@@ -706,7 +710,7 @@ final systemDisplayTagProvider =
 class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
   @override
   AsyncValue<PersonaSettings> build() {
-    _loadSettings();
+    unawaited(_loadSettings());
     return const AsyncValue.loading();
   }
 
@@ -717,7 +721,9 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
         '/users/@me/personas/settings',
       );
       final dynamic data = response.data;
-      if (!ref.mounted) return;
+      if (!ref.mounted) {
+        return;
+      }
       if (data is Map<String, dynamic>) {
         final settings = PersonaSettings.fromJson(data);
         state = AsyncValue.data(settings);
@@ -731,13 +737,15 @@ class PersonaSettingsNotifier extends Notifier<AsyncValue<PersonaSettings>> {
       }
       // The per-channel selections travel with the settings.
       unawaited(ref.read(activePersonaProvider.notifier).loadChannelStates());
-    } catch (err, st) {
+    } on Object catch (err, st) {
       talker.warning(
         '[PersonaSettingsNotifier] Failed to load persona settings: $err',
         err,
         st,
       );
-      if (!ref.mounted) return;
+      if (!ref.mounted) {
+        return;
+      }
       state = AsyncValue.error(err, st);
     }
   }

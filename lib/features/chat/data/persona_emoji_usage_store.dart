@@ -24,7 +24,7 @@ class PersonaEmojiUsageStore {
           if (decoded is Map<String, dynamic>) {
             rootMap = decoded;
           }
-        } catch (_) {}
+        } on Object catch (_) {}
       }
 
       final Map<String, dynamic> pMap =
@@ -40,7 +40,7 @@ class PersonaEmojiUsageStore {
 
       rootMap[personaId] = pMap;
       await prefs.setString(_kPrefPersonaUsage, jsonEncode(rootMap));
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 
   /// Returns the top ranked emoji keys for a persona sorted by frecency score.
@@ -64,7 +64,7 @@ class PersonaEmojiUsageStore {
         if (decoded is Map<String, dynamic>) {
           rootMap = decoded;
         }
-      } catch (_) {
+      } on Object catch (_) {
         return const [];
       }
       final Map<String, dynamic>? pMap =
@@ -78,7 +78,9 @@ class PersonaEmojiUsageStore {
 
       for (final entry in pMap.entries) {
         final val = entry.value as Map<String, dynamic>?;
-        if (val == null) continue;
+        if (val == null) {
+          continue;
+        }
         final count = (val['count'] as num?)?.toInt() ?? 0;
         final lastUsed = (val['last_used'] as num?)?.toInt() ?? now;
 
@@ -91,7 +93,7 @@ class PersonaEmojiUsageStore {
 
       entries.sort((a, b) => b.value.compareTo(a.value));
       return entries.map((e) => e.key).take(limit).toList();
-    } catch (_) {
+    } on Object catch (_) {
       return const [];
     }
   }
@@ -101,6 +103,6 @@ class PersonaEmojiUsageStore {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_kPrefPersonaUsage);
-    } catch (_) {}
+    } on Object catch (_) {}
   }
 }
