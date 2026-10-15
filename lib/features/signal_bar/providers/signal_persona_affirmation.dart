@@ -99,7 +99,7 @@ Persona? composerSignalPersona(
     text,
     personas,
     latchedPersonaId,
-    hasAttachments,
+    hasAttachments: hasAttachments,
   ).persona;
 }
 
