@@ -12,6 +12,10 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/data/persona_search_ids.dart';
+
 String watchChannelSearchTokenValueLabel(
   WidgetRef ref,
   FluxerLocalizations l10n,
@@ -21,6 +25,9 @@ String watchChannelSearchTokenValueLabel(
   switch (token.kind) {
     case ChannelSearchTokenKind.from:
     case ChannelSearchTokenKind.mentions:
+      if (isPersonaSearchId(token.value)) {
+        return token.label ?? '';
+      }
       final GuildUserDisplay? display = ref
           .watch(guildUserDisplayProvider((token.value, guildId)))
           .value;
