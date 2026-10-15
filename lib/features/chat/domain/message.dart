@@ -1340,6 +1340,11 @@ class Message {
       clientNonce: sdk.nonce,
       call: messageCallFromSearchSdk(sdk.call),
       threadJson: _encodeThread(sdk.thread),
+      personaId: sdk.subprofile?.id,
+      personaName: sdk.subprofile?.name,
+      personaAvatar: sdk.subprofile?.avatar,
+      personaTag: sdk.subprofile?.displayTagText,
+      personaTagIcon: sdk.subprofile?.displayTagIcon,
     );
   }
 
