@@ -415,7 +415,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     final String? latchedId = activeState.latchedIdFor(
       ref.watch(chatViewModelProvider.select((s) => s.channelId)),
     );
-    final preview = previewPersona(composerText, personas, latchedId, false);
+    final preview = previewPersona(composerText, personas, latchedId, hasAttachments: false);
     if (preview.isFromTag && preview.persona != null) {
       return preview.persona!.id;
     }
@@ -434,7 +434,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     final String? latchedId = activeState.latchedIdFor(
       ref.read(chatViewModelProvider).channelId,
     );
-    final preview = previewPersona(composerText, personas, latchedId, false);
+    final preview = previewPersona(composerText, personas, latchedId, hasAttachments: false);
     if (preview.isFromTag && preview.persona != null) {
       return preview.persona!.id;
     }
