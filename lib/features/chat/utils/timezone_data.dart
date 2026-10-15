@@ -829,17 +829,15 @@ String _formatSearchText(String ianaName, String label, String abbreviation) {
 List<TimezoneOption> _buildTimezoneOptions() {
   tz.initializeTimeZones();
 
-  final List<TimezoneOption> options = <TimezoneOption>[];
-
-  // Always include UTC as first-class entry.
-  options.add(
+  final List<TimezoneOption> options = <TimezoneOption>[
+    // Always include UTC as first-class entry.
     const TimezoneOption(
       value: 'UTC',
       label: 'UTC+00:00 UTC',
       searchText: 'UTC Etc/UTC GMT Coordinated Universal Time',
       offsetMinutes: 0,
     ),
-  );
+  ];
 
   final Map<String, tz.Location> locations = tz.timeZoneDatabase.locations;
 
@@ -878,7 +876,9 @@ List<TimezoneOption> _buildTimezoneOptions() {
   // Sort by offset first, then alphabetically by label.
   options.sort((TimezoneOption a, TimezoneOption b) {
     final int cmp = a.offsetMinutes.compareTo(b.offsetMinutes);
-    if (cmp != 0) return cmp;
+    if (cmp != 0) {
+      return cmp;
+    }
     return a.label.compareTo(b.label);
   });
 

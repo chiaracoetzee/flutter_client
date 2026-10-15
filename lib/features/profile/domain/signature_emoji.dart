@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:flutter/foundation.dart';
+
+@immutable
 class SignatureEmoji {
   const SignatureEmoji({required this.name, this.id, this.animated});
 
@@ -39,9 +42,15 @@ class SignatureEmoji {
       return id == emojiId;
     }
     if ((id == null || id!.isEmpty) && (emojiId == null || emojiId.isEmpty)) {
-      if (name == emojiName) return true;
-      if (surrogates != null && name == surrogates) return true;
-      if (emojiName == surrogates) return true;
+      if (name == emojiName) {
+        return true;
+      }
+      if (surrogates != null && name == surrogates) {
+        return true;
+      }
+      if (emojiName == surrogates) {
+        return true;
+      }
     }
     return false;
   }
