@@ -24,6 +24,10 @@ class QuickSwitcherFab extends ConsumerWidget {
         final colors = context.colors;
         final motion = context.motion;
         final isHovered = states.contains(WidgetState.hovered);
+        final Color? borderColor = FluxerButtonVariant.primary.borderColor(
+          colors,
+          hovered: isHovered,
+        );
 
         return AnimatedContainer(
           duration: motion.fast,
@@ -33,12 +37,8 @@ class QuickSwitcherFab extends ConsumerWidget {
           decoration: BoxDecoration(
             color: isHovered ? colors.brandSecondary : colors.brandPrimary,
             shape: BoxShape.circle,
-            border: Border.all(
-              color: FluxerButtonVariant.primary.borderColor(
-                colors,
-                hovered: isHovered,
-              )!,
-            ),
+            // Primary buttons have no border on phones (the variant returns null there).
+            border: borderColor == null ? null : Border.all(color: borderColor),
             boxShadow: const [
               BoxShadow(
                 color: Color(0x33000000),
