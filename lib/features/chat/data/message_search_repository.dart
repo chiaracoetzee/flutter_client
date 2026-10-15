@@ -7,6 +7,10 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/data/persona_search_ids.dart';
+
 const int kMessageSearchPageSize = 25;
 
 enum MessageSearchScopeFilter {
@@ -300,10 +304,16 @@ GlobalSearchMessagesRequest buildGlobalSearchMessagesRequest(
     exactPhrases: _nonEmptyList(parsed.exactPhrases),
     channelIds: _nonEmptyList(parsed.channelIds),
     excludeChannelId: _nonEmptyList(parsed.excludeChannelIds),
-    authorId: _nonEmptyList(parsed.authorIds),
-    excludeAuthorId: _nonEmptyList(parsed.excludeAuthorIds),
-    mentions: _nonEmptyList(parsed.mentions),
-    excludeMentions: _nonEmptyList(parsed.excludeMentions),
+    authorId: _nonEmptyList(accountSearchIds(parsed.authorIds)),
+    excludeAuthorId: _nonEmptyList(accountSearchIds(parsed.excludeAuthorIds)),
+    mentions: _nonEmptyList(accountSearchIds(parsed.mentions)),
+    excludeMentions: _nonEmptyList(accountSearchIds(parsed.excludeMentions)),
+    personaId: _nonEmptyList(personaSearchIds(parsed.authorIds)),
+    excludePersonaId: _nonEmptyList(personaSearchIds(parsed.excludeAuthorIds)),
+    personaMentions: _nonEmptyList(personaSearchIds(parsed.mentions)),
+    excludePersonaMentions: _nonEmptyList(
+      personaSearchIds(parsed.excludeMentions),
+    ),
     mentionEveryone: parsed.mentionEveryone,
     pinned: parsed.pinned,
     has: _mapHasFilters(parsed.has),
