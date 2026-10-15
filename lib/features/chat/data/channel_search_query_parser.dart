@@ -2,6 +2,9 @@ import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/channel_search_segments.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
+// Fork imports.
+import 'package:fluxer_app/features/chat/data/persona_search_ids.dart';
+
 class ChannelSearchParseHints {
   const ChannelSearchParseHints({
     this.usersByTag = const <String, String>{},
@@ -840,7 +843,8 @@ String? _resolveUserId(
   if (_snowflakeIdPattern.hasMatch(trimmed)) {
     return trimmed;
   }
-  return context.resolveUserByTag?.call(trimmed);
+  return context.resolveUserByTag?.call(trimmed) ??
+      resolvePersonaSearchName(trimmed);
 }
 
 String? _resolveChannelId(
