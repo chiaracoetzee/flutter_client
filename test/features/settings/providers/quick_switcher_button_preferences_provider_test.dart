@@ -10,7 +10,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  test('defaults to true when no value saved', () async {
+  test('defaults to true when no value saved', () {
     final container = ProviderContainer();
     addTearDown(container.dispose);
 

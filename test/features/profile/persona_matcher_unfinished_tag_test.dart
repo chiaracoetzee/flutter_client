@@ -90,7 +90,12 @@ void main() {
         ),
       ];
       for (final String text in <String>['c:', 'c: ', 'c:hello', 'c: hello']) {
-        final PreviewResult preview = previewPersona(text, only, null, false);
+        final PreviewResult preview = previewPersona(
+          text,
+          only,
+          null,
+          hasAttachments: false,
+        );
         expect(preview.persona?.id, 'caly');
         expect(
           isUnfinishedPersonaTag(text, only, preview.persona?.id),
