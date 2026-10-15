@@ -1047,7 +1047,9 @@ class _FluxerDraggableScrollableSheetState
   @override
   void didUpdateWidget(FluxerDraggableScrollableSheet oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.bottomInset <= 0 && widget.bottomInset > 0) {
+    // Fork: Android reports an opening keyboard's inset growing over many
+    // frames, so expand on every increase, not only on the first.
+    if (widget.bottomInset > oldWidget.bottomInset) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _expandForKeyboard());
     } else if (widget.bottomInset < oldWidget.bottomInset) {
       _scheduleFit();
