@@ -16,6 +16,10 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
+
 class QuickSwitcherBottomSheet {
   QuickSwitcherBottomSheet._();
 
@@ -26,6 +30,10 @@ class QuickSwitcherBottomSheet {
       context,
       useRootNavigator: true,
       minChildSize: 0.5,
+      // Fork: open at full height, as the emoji picker does. The search field
+      // opens the keyboard straight away, and a sheet sized to its content
+      // would change size as results come and go while typing.
+      sheetHeight: reactionPickerSheetHeight(context),
       builder: (sheetContext, scrollController, close) {
         return _QuickSwitcherSheetBody(
           scrollController: scrollController,
