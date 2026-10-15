@@ -33,6 +33,12 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/chat/data/persona_search_ids.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_persona_suggestions.dart';
+import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
+
 const double kChannelHeaderSearchFieldWidth = 244;
 
 enum _ChannelSearchAutocompleteMode {
@@ -66,7 +72,7 @@ class ChannelHeaderSearchField extends ConsumerStatefulWidget {
 
 class _ChannelHeaderSearchFieldState
     extends ConsumerState<ChannelHeaderSearchField>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, ChannelHeaderPersonaSuggestions {
   static const Duration _kUserSearchDebounce = Duration(milliseconds: 300);
 
   final TextEditingController _controller = TextEditingController();
@@ -303,6 +309,7 @@ class _ChannelHeaderSearchFieldState
   }
 
   void _scheduleUserSearch(String query) {
+    schedulePersonaSuggestions(query, onLoaded: _showOverlayIfNeeded);
     _userSearchDebounce?.cancel();
     final String trimmed = query.trim();
     if (trimmed.isEmpty) {
@@ -461,12 +468,17 @@ class _ChannelHeaderSearchFieldState
       case _ChannelSearchAutocompleteMode.history:
         return _historyEntries(l10n);
       case _ChannelSearchAutocompleteMode.users:
-        return _sectionedEntries(
+        final List<ChannelSearchAutocompleteEntry> users = _sectionedEntries(
           section: ChannelSearchAutocompleteSection.users,
           title: l10n.channelHeaderSearchUsersTitle,
           icon: PhosphorIconsBold.magnifyingGlass,
           items: _userEntries(),
         );
+        // Fork: the persona section follows the users.
+        return <ChannelSearchAutocompleteEntry>[
+          ...users,
+          ...personaSectionEntries(l10n.fork.personaSectionTitle),
+        ];
       case _ChannelSearchAutocompleteMode.channels:
         return _sectionedEntries(
           section: ChannelSearchAutocompleteSection.channels,
@@ -977,7 +989,7 @@ class _ChannelHeaderSearchFieldState
           filterKey: _activeFilter?.key ?? 'from',
           value: entry.value ?? entry.label,
           userId: entry.userId,
-          userTagAlias: entry.subtitle,
+          userTagAlias: isPersonaSearchId(entry.userId) ? null : entry.subtitle,
         );
       case ChannelSearchAutocompleteSection.channels:
         _insertFilterValue(
