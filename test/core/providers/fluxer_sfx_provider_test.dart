@@ -20,6 +20,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../helpers/message_realtime_test_helpers.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'dart:async';
+
 class _TestNotificationPreferences extends NotificationPreferences {
   @override
   NotificationPreferencesState build() {
@@ -36,6 +40,16 @@ class _TestSoundPreferences extends SoundPreferences {
 
 class _RecordingSfx implements FluxerSFX {
   final List<FluxerSfxClip> played = <FluxerSfxClip>[];
+  final StreamController<void> _plays = StreamController<void>.broadcast();
+
+  // Fork: waits for the sound itself. The binding holds a first sound for the
+  // scheduler's 120 ms debounce after evaluating the message, so a fixed wait
+  // of 200 ms after the event left too little room on a busy test runner.
+  Future<void> waitForPlays(int count) async {
+    while (played.length < count) {
+      await _plays.stream.first.timeout(const Duration(seconds: 5));
+    }
+  }
 
   @override
   Future<void> playOneShot(
@@ -44,6 +58,7 @@ class _RecordingSfx implements FluxerSFX {
     bool ignoreRingerPolicy = false,
   }) async {
     played.add(clip);
+    _plays.add(null);
   }
 
   @override
@@ -168,8 +183,7 @@ void main() {
           .read(messageRealtimeBusProvider)
           .emit(testMessageCreated(_createEvent('1')));
 
-      await pumpEventQueue();
-      await Future<void>.delayed(const Duration(milliseconds: 200));
+      await sfx.waitForPlays(1);
 
       expect(sfx.played, <FluxerSfxClip>[FluxerSfxClip.message]);
     },
@@ -183,7 +197,7 @@ void main() {
       container
           .read(messageRealtimeBusProvider)
           .emit(testMessageCreated(_createEvent('10')));
-      await _settle();
+      await sfx.waitForPlays(1);
 
       expect(sfx.played, <FluxerSfxClip>[FluxerSfxClip.message]);
     },
@@ -254,7 +268,7 @@ void main() {
     container
         .read(messageRealtimeBusProvider)
         .emit(testMessageCreated(_createEvent('15'), snapshot: _dmSnapshot));
-    await _settle();
+    await sfx.waitForPlays(1);
 
     expect(sfx.played, <FluxerSfxClip>[FluxerSfxClip.directMessage]);
   });
