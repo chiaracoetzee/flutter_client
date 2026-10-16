@@ -7,6 +7,10 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/ui/input/fork_search_field_keyboard.dart';
+
 const double kPickerSearchInputHeight = 40;
 
 class PickerSearchInput extends StatefulWidget {
@@ -171,7 +175,8 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                           maxLengthEnforcement: MaxLengthEnforcement.enforced,
                           textInputAction: TextInputAction.search,
                           autocorrect: false,
-                          enableSuggestions: false,
+                          // Fork: Gboard's password layout on Android otherwise.
+                          enableSuggestions: forkSearchFieldEnableSuggestions,
                           cursorColor: colors.textPrimary,
                           style: context.textStyles.inputText.copyWith(
                             color: colors.textPrimary,
