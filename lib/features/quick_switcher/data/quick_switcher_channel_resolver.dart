@@ -8,6 +8,10 @@ import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.d
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/quick_switcher/data/fork_quick_switcher_threads.dart';
+
 class QuickSwitcherChannelResolver {
   const QuickSwitcherChannelResolver({
     required this.l10n,
@@ -77,6 +81,17 @@ class QuickSwitcherChannelResolver {
     Channel channel,
     String? viewContext,
   ) {
+    // Fork: threads, forum posts and forums are listed too.
+    final QuickSwitcherResult? forkThread = forkQuickSwitcherThreadResult(
+      channel,
+      l10n: l10n,
+      guildChannelsById: guildChannelsById,
+      guildsById: guildsById,
+      viewContext: viewContext,
+    );
+    if (forkThread != null) {
+      return forkThread;
+    }
     if (!isGuildTextBasedChannelType(channel.type) &&
         channel.type != ChannelType.unknown) {
       return null;
