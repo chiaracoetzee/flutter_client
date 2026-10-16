@@ -34,7 +34,7 @@ void _expectSearchKeyboard(Map<String, dynamic> request) {
 }
 
 void main() {
-  final TargetPlatformVariant platforms = TargetPlatformVariant(
+  const TargetPlatformVariant platforms = TargetPlatformVariant(
     <TargetPlatform>{TargetPlatform.android, TargetPlatform.iOS},
   );
 
