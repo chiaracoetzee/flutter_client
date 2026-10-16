@@ -101,7 +101,6 @@ class QuickSwitcher extends _$QuickSwitcher {
       const <QuickSwitcherUnreadChannel>[];
   List<Channel> _guildChannels = const <Channel>[];
   List<DmConversation> _conversations = const <DmConversation>[];
-  String? _excludedParentChannelId;
 
   /// Pre-warmed cache of guild [Channel] objects for channels in the recent
   /// visits list. Populated proactively at boot and on each navigation so
@@ -131,7 +130,6 @@ class QuickSwitcher extends _$QuickSwitcher {
     _unreadChannels = const <QuickSwitcherUnreadChannel>[];
     _guildChannels = const <Channel>[];
     _conversations = const <DmConversation>[];
-    _excludedParentChannelId = null;
     state = QuickSwitcherState(isOpen: true, l10n: l10n);
     _showInstantResults();
     unawaited(_warmCandidatesAndRecompute());
@@ -188,7 +186,6 @@ class QuickSwitcher extends _$QuickSwitcher {
     _unreadChannels = const <QuickSwitcherUnreadChannel>[];
     _guildChannels = const <Channel>[];
     _conversations = const <DmConversation>[];
-    _excludedParentChannelId = null;
     state = const QuickSwitcherState();
   }
 
@@ -273,14 +270,6 @@ class QuickSwitcher extends _$QuickSwitcher {
           for (final QuickSwitcherUnreadChannel entry in unreadChannels)
             entry.channelId: entry,
         };
-    final String? currentChannelId = ref.read(activeChannelIdProvider);
-    if (currentChannelId != null && currentChannelId.isNotEmpty) {
-      _excludedParentChannelId = await ref
-          .read(quickSwitcherRepositoryProvider)
-          .getChannelParentId(currentChannelId);
-    } else {
-      _excludedParentChannelId = null;
-    }
     state = state.copyWith(
       candidateSets: sets,
       unreadByChannelId: unreadByChannelId,
@@ -397,11 +386,9 @@ class QuickSwitcher extends _$QuickSwitcher {
     if (currentChannelId == null || currentChannelId.isEmpty) {
       return excluded;
     }
+    // Fork: the channel or forum a thread belongs to stays listed. On a phone
+    // the thread covers it, so the quick switcher is the way back to it.
     excluded.add(currentChannelId);
-    final String? parentId = _excludedParentChannelId;
-    if (parentId != null && parentId.isNotEmpty) {
-      excluded.add(parentId);
-    }
     return excluded;
   }
 
