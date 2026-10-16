@@ -9,6 +9,10 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/ui/input/fork_search_field_keyboard.dart';
+
 const double kChannelSearchFieldHeight = 42;
 
 class ChannelSearchField extends StatefulWidget {
@@ -215,7 +219,8 @@ class _ChannelSearchFieldState extends State<ChannelSearchField> {
               focusNode: focusNode,
               textInputAction: TextInputAction.search,
               autocorrect: false,
-              enableSuggestions: false,
+              // Fork: Gboard's password layout on Android otherwise.
+              enableSuggestions: forkSearchFieldEnableSuggestions,
               cursorColor: colors.textPrimary,
               onSubmitted: widget.onSubmitted,
               contextMenuBuilder: clipboardScope.buildContextMenu,
