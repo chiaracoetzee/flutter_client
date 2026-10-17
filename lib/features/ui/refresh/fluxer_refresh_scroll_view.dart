@@ -57,6 +57,13 @@ class FluxerRefreshScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (_forkUsesMaterialRefresh(context)) {
+      return _ForkMaterialRefreshScrollView(
+        onRefresh: onRefresh,
+        controller: controller,
+        slivers: slivers,
+      );
+    }
     return CustomScrollView(
       controller: controller,
       physics: const AlwaysScrollableScrollPhysics(),
@@ -123,4 +130,52 @@ Widget fluxerRefreshScrollViewPreview() {
       ),
     ),
   );
+}
+
+// Fork: the pull to refresh above needs scrolling that bounces past the top,
+// which iOS has and Android does not (nor does any platform with reduced
+// motion, which clamps scrolling), so on Android it could not be pulled at all.
+// Where scrolling does not bounce, the list takes Android's own pull to
+// refresh instead, which works with clamped scrolling. A list in a bottom sheet
+// stays without one, as above.
+bool _forkUsesMaterialRefresh(BuildContext context) {
+  if (FluxerBottomSheet.isInSheet(context)) {
+    return false;
+  }
+  ScrollPhysics? physics = ScrollConfiguration.of(
+    context,
+  ).getScrollPhysics(context);
+  while (physics != null) {
+    if (physics is BouncingScrollPhysics) {
+      return false;
+    }
+    physics = physics.parent;
+  }
+  return true;
+}
+
+class _ForkMaterialRefreshScrollView extends StatelessWidget {
+  const _ForkMaterialRefreshScrollView({
+    required this.onRefresh,
+    required this.slivers,
+    this.controller,
+  });
+
+  final Future<void> Function() onRefresh;
+  final List<Widget> slivers;
+  final ScrollController? controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      color: context.colors.brandPrimary,
+      backgroundColor: context.colors.backgroundSecondary,
+      child: CustomScrollView(
+        controller: controller,
+        physics: const AlwaysScrollableScrollPhysics(),
+        slivers: slivers,
+      ),
+    );
+  }
 }
