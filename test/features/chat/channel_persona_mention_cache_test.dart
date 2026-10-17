@@ -1,7 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 
 void main() {
+  var requests = 0;
   group('calculatePersonaFrecencyScore', () {
     test('calculates higher frecency score for recently used personas', () {
       final DateTime now = DateTime.now();
@@ -210,6 +212,136 @@ void main() {
         'Seed',
       );
       expect(local.length, equals(1));
+    });
+  });
+
+  group('ChannelPersonaMentionCache contents', () {
+    late ChannelPersonaMentionCache cache;
+
+    setUp(() {
+      cache = ChannelPersonaMentionCache.instance..clear();
+    });
+
+    Map<String, dynamic> cached(String id) =>
+        cache.cachedItems.singleWhere((item) => item['id'] == id);
+
+    test(
+      'merges the same persona, keeping its latest use and highest count',
+      () {
+        cache
+          ..setChannelPersonas('ch1', <Map<String, dynamic>>[
+            <String, dynamic>{
+              'id': 'p1',
+              'name': 'Old name',
+              'last_used_at_ms': '2000',
+              'use_count': 7,
+            },
+          ])
+          ..setChannelPersonas('ch1', <Map<String, dynamic>>[
+            <String, dynamic>{
+              'id': 'p1',
+              'name': 'New name',
+              'last_used_at_ms': 1000,
+              'use_count': 3,
+            },
+          ]);
+
+        final Map<String, dynamic> p1 = cached('p1');
+        expect(p1['name'], 'New name');
+        expect(p1['last_used_at_ms'], 2000);
+        expect(p1['use_count'], 7);
+      },
+    );
+
+    test('takes a newer use from the server', () {
+      cache
+        ..setChannelPersonas('ch1', <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'p1', 'last_used_at_ms': 1000},
+        ])
+        ..setChannelPersonas('ch1', <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'p1', 'last_used_at_ms': 5000},
+        ]);
+
+      expect(cached('p1')['last_used_at_ms'], 5000);
+      expect(cached('p1')['use_count'], 0);
+    });
+
+    test("forgets one community's channels, and channels of no community", () {
+      cache
+        ..setChannelPersonas('a', <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'pa'},
+        ], guildId: 'g1')
+        ..setChannelPersonas('b', <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'pb'},
+        ], guildId: 'g2')
+        ..setChannelPersonas('dm', <Map<String, dynamic>>[
+          <String, dynamic>{'id': 'pdm'},
+        ])
+        ..invalidate('g1');
+
+      expect(cache.cachedItems.map((item) => item['id']), <String>['pb']);
+    });
+
+    Dio dioAnswering(
+      void Function(RequestOptions, RequestInterceptorHandler) answer,
+    ) {
+      requests = 0;
+      return Dio()
+        ..interceptors.add(
+          InterceptorsWrapper(
+            onRequest: (options, handler) {
+              requests++;
+              answer(options, handler);
+            },
+          ),
+        );
+    }
+
+    test('answers from a fresh cache without asking the server', () async {
+      final Dio dio = dioAnswering(
+        (options, handler) => handler.resolve(
+          Response<dynamic>(
+            requestOptions: options,
+            data: <dynamic>[
+              <String, dynamic>{'id': 'p1', 'name': 'Alice'},
+            ],
+          ),
+        ),
+      );
+
+      await cache.getChannelPersonas(dio: dio, channelId: 'ch1');
+      expect(requests, 1);
+      final List<Map<String, dynamic>> again = await cache.getChannelPersonas(
+        dio: dio,
+        channelId: 'ch1',
+        query: 'ali',
+      );
+
+      expect(requests, 1);
+      expect(again.map((item) => item['id']), <String>['p1']);
+    });
+
+    test('falls back to what it has when the server fails', () async {
+      final Dio failing = dioAnswering(
+        (options, handler) =>
+            handler.reject(DioException(requestOptions: options)),
+      );
+      cache.setChannelPersonas('ch1', <Map<String, dynamic>>[
+        <String, dynamic>{'id': 'p1', 'name': 'Alice'},
+      ], fromServer: false);
+
+      final List<Map<String, dynamic>> known = await cache.getChannelPersonas(
+        dio: failing,
+        channelId: 'ch1',
+      );
+      final List<Map<String, dynamic>> unknown = await cache.getChannelPersonas(
+        dio: failing,
+        channelId: 'ch2',
+      );
+
+      expect(requests, 2);
+      expect(known.map((item) => item['id']), <String>['p1']);
+      expect(unknown, isEmpty);
     });
   });
 }
