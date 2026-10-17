@@ -5,6 +5,8 @@
 import 'package:flutter/widgets.dart' as widgets;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show KnownPersona;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -13,6 +15,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_mention.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -55,11 +58,18 @@ ChatViewState _chatState() {
   );
 }
 
-Widget _testApp({required Widget child, List<Override> overrides = const []}) {
+Widget _testApp({
+  required Widget child,
+  List<Override> overrides = const [],
+  Map<String, KnownPersona> known = const <String, KnownPersona>{},
+}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
       instanceRuntimeConfigOverride(),
+      knownPersonaProvider.overrideWith(
+        (ref, String personaId) => Stream.value(known[personaId]),
+      ),
       chatViewModelProvider.overrideWithValue(_chatState()),
       guildUserDisplayFromDbProvider((_kTestUserId, null)).overrideWith(
         (ref) => const AsyncValue.data(
@@ -105,20 +115,13 @@ void main() {
     (WidgetTester tester) async {
       await tester.pumpWidget(
         _testApp(
-          overrides: [
-            publicPersonaProvider((
-              userId: _kTestUserId,
-              personaId: _kTestPersonaId,
-            )).overrideWith(
-              (ref) => Future.value(
-                const PublicPersona(
-                  id: _kTestPersonaId,
-                  name: 'Bob the Fox',
-                  color: 0xFF5500,
-                ),
-              ),
+          known: const <String, KnownPersona>{
+            _kTestPersonaId: KnownPersona(
+              id: _kTestPersonaId,
+              name: 'Bob the Fox',
+              color: 0xFF5500,
             ),
-          ],
+          },
           child: const UserMention(
             userId: _kTestUserId,
             personaId: _kTestPersonaId,
@@ -142,20 +145,13 @@ void main() {
 
       await tester.pumpWidget(
         _testApp(
-          overrides: [
-            publicPersonaProvider((
-              userId: _kTestUserId,
-              personaId: _kTestPersonaId,
-            )).overrideWith(
-              (ref) => Future.value(
-                const PublicPersona(
-                  id: _kTestPersonaId,
-                  name: 'Color Persona',
-                  color: customColor,
-                ),
-              ),
+          known: const <String, KnownPersona>{
+            _kTestPersonaId: KnownPersona(
+              id: _kTestPersonaId,
+              name: 'Color Persona',
+              color: customColor,
             ),
-          ],
+          },
           child: const UserMention(
             userId: _kTestUserId,
             personaId: _kTestPersonaId,
@@ -204,4 +200,66 @@ void main() {
       expect(find.text('@$_kTestUserId'), findsNothing);
     },
   );
+
+  group('a persona this device knows', () {
+    late int lookups;
+
+    Override lookup(PublicPersona? found) =>
+        publicPersonaProvider((
+          userId: _kTestUserId,
+          personaId: _kTestPersonaId,
+        )).overrideWith((ref) {
+          lookups++;
+          return Future.value(found);
+        });
+
+    setUp(() => lookups = 0);
+
+    testWidgets('is named from what the device knows, without asking', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        _testApp(
+          known: const <String, KnownPersona>{
+            _kTestPersonaId: KnownPersona(
+              id: _kTestPersonaId,
+              name: 'Bob the Fox',
+            ),
+          },
+          overrides: [
+            lookup(const PublicPersona(id: _kTestPersonaId, name: 'Other')),
+          ],
+          child: const UserMention(
+            userId: _kTestUserId,
+            personaId: _kTestPersonaId,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('@Bob the Fox'), findsOneWidget);
+      expect(lookups, 0);
+    });
+
+    testWidgets(
+      'shows the account, without asking, when the device knows nothing of it',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          _testApp(
+            overrides: [
+              lookup(const PublicPersona(id: _kTestPersonaId, name: 'Other')),
+            ],
+            child: const UserMention(
+              userId: _kTestUserId,
+              personaId: _kTestPersonaId,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('@msubizo'), findsOneWidget);
+        expect(lookups, 0);
+      },
+    );
+  });
 }

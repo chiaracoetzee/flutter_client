@@ -36,6 +36,10 @@ import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
+
 const int _messageTypeThreadStarter = 21;
 const int _cachedMessagesKeptPerChannel = 100;
 
@@ -1689,6 +1693,7 @@ class GatewayEventHandler {
       );
       unawaited(upsertMentionUsersFromSdk(database, event.message.mentions));
       unawaited(upsertSupplementalUsersFromSdk(database, event.message.users));
+      unawaited(upsertKnownPersonasFromSdk(database, [event.message]));
     }
 
     final ReadStateIncomingMessageDecision decision =
@@ -2100,6 +2105,7 @@ class GatewayEventHandler {
       );
       unawaited(upsertMentionUsersFromSdk(database, event.message.mentions));
       unawaited(upsertSupplementalUsersFromSdk(database, event.message.users));
+      unawaited(upsertKnownPersonasFromSdk(database, [event.message]));
     }
     await database.transaction(() async {
       await database.messageDao.upsertMessage(msg.toCompanion());
@@ -2126,6 +2132,7 @@ class GatewayEventHandler {
       );
       unawaited(upsertMentionUsersFromSdk(database, event.message.mentions));
       unawaited(upsertSupplementalUsersFromSdk(database, event.message.users));
+      unawaited(upsertKnownPersonasFromSdk(database, [event.message]));
     }
     final db.MessagesCompanion companion = msg
         .copyWith(isMentioned: mentionsCurrentUser)

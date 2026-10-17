@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/public_persona.dart';
 
 typedef PersonaProfileKey = ({String userId, String personaId});
@@ -41,11 +43,24 @@ publicPersonaProvider = FutureProvider.family<PublicPersona?, PersonaProfileKey>
     );
     _refusedAsPrivate.remove(key);
     final dynamic data = response.data;
-    if (data is Map<String, dynamic>) {
-      return PublicPersona.fromJson(data);
-    }
     if (data is Map) {
-      return PublicPersona.fromJson(Map<String, dynamic>.from(data));
+      final PublicPersona persona = PublicPersona.fromJson(
+        data is Map<String, dynamic> ? data : Map<String, dynamic>.from(data),
+      );
+      // Kept, so the persona is not asked for again (known_personas.dart).
+      try {
+        await upsertKnownPersonaFromPublic(
+          ref.read(fluxerDatabaseProvider),
+          persona,
+        );
+      } on Object catch (err, st) {
+        talker.warning(
+          '[publicPersonaProvider] Could not keep persona ${persona.id}: $err',
+          err,
+          st,
+        );
+      }
+      return persona;
     }
   } on DioException catch (err, st) {
     if (_isPrivatePersonaRefusal(err)) {
