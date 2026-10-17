@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
@@ -26,6 +27,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/persona_sending_as_row.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_persona_resolution.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
@@ -124,14 +127,25 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
     if (!mounted || picked.isEmpty) {
       return;
     }
+    final int maxAttachments = ref.read(
+      instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+    );
     setState(() {
       _files = <ComposerUploadFile>[
         ..._files,
         ...picked,
-      ].take(kMaxAttachmentsPerMessage).toList(growable: false);
+      ].take(maxAttachments).toList(growable: false);
       _error = null;
     });
   }
+
+  // Fork: upstream's picker allows a fixed 10 files.
+  Future<List<ComposerUploadFile>> _forkPickGalleryUploads() =>
+      pickNativeGalleryUploads(
+        limit: ref.read(
+          instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+        ),
+      );
 
   Future<void> _submit() async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -351,7 +365,7 @@ class _ForumPostComposerState extends ConsumerState<_ForumPostComposer> {
                 FluxerButton.secondary(
                   onPressed: _submitting
                       ? null
-                      : () => unawaited(_pick(pickNativeGalleryUploads)),
+                      : () => unawaited(_pick(_forkPickGalleryUploads)),
                   icon: PhosphorIconsBold.image,
                   label: l10n.forumPostAddMedia,
                   fitContent: true,

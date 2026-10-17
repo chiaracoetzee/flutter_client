@@ -118,5 +118,6 @@
     "personaScopeChannel": "Σε κάθε κανάλι",
     "personaScopeChannelDescription": "Κάθε κανάλι κρατά τη δική του persona. Τα νέα κανάλια ξεκινούν με τον λογαριασμό σας.",
     "personaPickerChannelOnly": "Μόνο για αυτό το κανάλι",
-    "personaProfilePrivate": "Το προφίλ αυτής της persona είναι ιδιωτικό."
+    "personaProfilePrivate": "Το προφίλ αυτής της persona είναι ιδιωτικό.",
+    "imageFileTooLargeMaxSize": "Το αρχείο εικόνας είναι πολύ μεγάλο. Επιλέξτε ένα αρχείο μικρότερο από {maxSize}."
 }

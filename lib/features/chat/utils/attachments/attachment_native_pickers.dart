@@ -38,18 +38,27 @@ Future<List<ComposerUploadFile>> pickNativeGalleryUploads({int? limit}) async {
 
 Future<GallerySelectionChange> pickNativeGallerySelection({
   required List<PendingAttachment> attachments,
+  int maxAttachments = kMaxAttachmentsPerMessage,
 }) async {
   if (defaultTargetPlatform != TargetPlatform.iOS) {
     return (
       added: await pickNativeGalleryUploads(
-        limit: remainingAttachmentPickLimit(attachments.length),
+        limit: remainingAttachmentPickLimit(
+          attachments.length,
+          maxAttachments: maxAttachments,
+        ),
       ),
       removedAssetIds: const <String>{},
     );
   }
   final List<String> selected = selectedGalleryAssetIds(attachments).toList();
   return _pickIosPhotos(
-    limit: remainingAttachmentPickLimit(attachments.length) + selected.length,
+    limit:
+        remainingAttachmentPickLimit(
+          attachments.length,
+          maxAttachments: maxAttachments,
+        ) +
+        selected.length,
     selected: selected,
   );
 }
@@ -108,6 +117,9 @@ Future<List<ComposerUploadFile>> pickNativeFileUploads() async {
   return composerUploadFilesFromPlatformFiles(result);
 }
 
-int remainingAttachmentPickLimit(int currentCount) {
-  return kMaxAttachmentsPerMessage - currentCount;
+int remainingAttachmentPickLimit(
+  int currentCount, {
+  int maxAttachments = kMaxAttachmentsPerMessage,
+}) {
+  return maxAttachments - currentCount;
 }

@@ -113,7 +113,9 @@ Future<_ClipboardFileRead?> _readClipboardFile(
   return completer.future;
 }
 
-Future<List<XFile>> readClipboardAttachmentFiles() async {
+Future<List<XFile>> readClipboardAttachmentFiles({
+  int maxFiles = kMaxAttachmentsPerMessage,
+}) async {
   final SystemClipboard? clipboard = SystemClipboard.instance;
   if (clipboard == null) {
     return <XFile>[];
@@ -121,7 +123,7 @@ Future<List<XFile>> readClipboardAttachmentFiles() async {
   final ClipboardReader reader = await clipboard.read();
   final List<XFile> result = <XFile>[];
   for (final ClipboardDataReader item in reader.items) {
-    if (result.length >= kMaxAttachmentsPerMessage) {
+    if (result.length >= maxFiles) {
       break;
     }
     final List<DataFormat<Object>> available = orderClipboardFileFormats(

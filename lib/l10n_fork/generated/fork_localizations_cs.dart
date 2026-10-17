@@ -418,4 +418,9 @@ class ForkLocalizationsCs extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'Profil této persony je soukromý.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'Soubor obrázku je příliš velký. Vyberte soubor menší než $maxSize.';
+  }
 }

@@ -414,6 +414,11 @@ class ForkLocalizationsEn extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'This persona’s profile is private.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'Image file is too large. Please choose a file smaller than $maxSize.';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -826,6 +831,11 @@ class ForkLocalizationsEnGb extends ForkLocalizationsEn {
 
   @override
   String get personaProfilePrivate => 'This persona’s profile is private.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'Image file is too large. Please choose a file smaller than $maxSize.';
+  }
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -1238,4 +1248,9 @@ class ForkLocalizationsEnUs extends ForkLocalizationsEn {
 
   @override
   String get personaProfilePrivate => 'This persona’s profile is private.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'Image file is too large. Please choose a file smaller than $maxSize.';
+  }
 }

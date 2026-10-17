@@ -419,6 +419,11 @@ class ForkLocalizationsPt extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'O perfil desta persona é privado.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'O arquivo de imagem é muito grande. Por favor, escolha um arquivo menor que $maxSize.';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -836,4 +841,9 @@ class ForkLocalizationsPtBr extends ForkLocalizationsPt {
 
   @override
   String get personaProfilePrivate => 'O perfil desta persona é privado.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'O arquivo de imagem é muito grande. Por favor, escolha um arquivo menor que $maxSize.';
+  }
 }

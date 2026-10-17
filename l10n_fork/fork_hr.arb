@@ -118,5 +118,6 @@
     "personaScopeChannel": "U svakom kanalu",
     "personaScopeChannelDescription": "Svaki kanal zadržava svoju personu. Novi kanali počinju kao vaš račun.",
     "personaPickerChannelOnly": "Samo za ovaj kanal",
-    "personaProfilePrivate": "Profil ove persone je privatan."
+    "personaProfilePrivate": "Profil ove persone je privatan.",
+    "imageFileTooLargeMaxSize": "Datoteka slike je prevelika. Odaberite datoteku manju od {maxSize}."
 }

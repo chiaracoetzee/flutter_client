@@ -559,5 +559,15 @@
     "personaProfilePrivate": "This persona’s profile is private.",
     "@personaProfilePrivate": {
         "description": "Shown on a persona's profile card in place of its bio and banner when the owner has made the persona private."
+    },
+    "imageFileTooLargeMaxSize": "Image file is too large. Please choose a file smaller than {maxSize}.",
+    "@imageFileTooLargeMaxSize": {
+        "description": "Error shown when a picked avatar, banner or icon is larger than the instance's image upload limit.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String",
+                "example": "10 MB"
+            }
+        }
     }
 }

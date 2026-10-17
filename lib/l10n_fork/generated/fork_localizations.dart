@@ -880,6 +880,12 @@ abstract class ForkLocalizations {
   /// In en, this message translates to:
   /// **'This persona’s profile is private.'**
   String get personaProfilePrivate;
+
+  /// Error shown when a picked avatar, banner or icon is larger than the instance's image upload limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Image file is too large. Please choose a file smaller than {maxSize}.'**
+  String imageFileTooLargeMaxSize(String maxSize);
 }
 
 class _ForkLocalizationsDelegate

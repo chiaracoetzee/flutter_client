@@ -118,5 +118,6 @@
     "personaScopeChannel": "In elk kanaal",
     "personaScopeChannelDescription": "Elk kanaal houdt zijn eigen persona. Nieuwe kanalen beginnen als je account.",
     "personaPickerChannelOnly": "Alleen voor dit kanaal",
-    "personaProfilePrivate": "Het profiel van deze persona is privé."
+    "personaProfilePrivate": "Het profiel van deze persona is privé.",
+    "imageFileTooLargeMaxSize": "Bestand te groot. Kies een bestand van minder dan {maxSize}."
 }

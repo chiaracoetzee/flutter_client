@@ -119,3 +119,12 @@ PendingAttachment _attachment(int id, {String? galleryAssetId}) {
     galleryAssetId: galleryAssetId,
   );
 }
+
+// Fork: upstream's helpers that attachment_native_pickers_fork_test.dart uses, named here so they
+// stay private and are not copied.
+// ignore: unreachable_from_main // Fork: used by attachment_native_pickers_fork_test.dart.
+typedef ForkUpstreamHelpers = ({
+  PendingAttachment Function(int id, {String? galleryAssetId}) attachment,
+});
+// ignore: unreachable_from_main // Fork: used by attachment_native_pickers_fork_test.dart.
+const ForkUpstreamHelpers forkUpstream = (attachment: _attachment);

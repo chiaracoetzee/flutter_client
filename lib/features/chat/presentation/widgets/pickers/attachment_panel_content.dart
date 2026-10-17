@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_gallery_co
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_native_pickers.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validation_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
@@ -27,6 +28,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Fork imports.
 // ignore: directives_ordering
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/timestamp_picker_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
@@ -91,7 +94,9 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     final FileUploadValidationCopy? copy = fileUploadValidationCopy(
       FluxerLocalizations.of(context),
       result,
-      maxAttachments: kMaxAttachmentsPerMessage,
+      maxAttachments: ref.read(
+        instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+      ),
       maxFileBytes: ref.read(maxAttachmentFileBytesProvider),
     );
     if (copy == null) {

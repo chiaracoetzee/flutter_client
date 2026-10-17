@@ -30,6 +30,10 @@ import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
+
 class ApplicationDetail extends ConsumerStatefulWidget {
   const ApplicationDetail({
     required this.onBack,
@@ -320,12 +324,15 @@ class _ApplicationDetailState extends ConsumerState<ApplicationDetail> {
     if (picked == null || !mounted) {
       return;
     }
-    if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+    if (isImageOverUploadLimit(ref, picked.bytes)) {
       ref
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
-              message: FluxerLocalizations.of(context).imageFileTooLarge,
+              message: imageFileTooLargeMessage(
+                FluxerLocalizations.of(context),
+                ref,
+              ),
               variant: FluxerToastVariant.danger,
             ),
           );
