@@ -19,6 +19,7 @@ import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 // Fork imports.
 // ignore: directives_ordering
 import 'package:fluxer_app/features/chat/services/timestamp_inline_token.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 
@@ -35,6 +36,13 @@ String _composerMentionUserLabel(
           return p.name;
         }
       }
+    }
+    final String? knownName = ref
+        .read(knownPersonaProvider(personaId))
+        .value
+        ?.name;
+    if (knownName != null) {
+      return knownName;
     }
     final publicPersona = ref
         .read(publicPersonaProvider((userId: userId, personaId: personaId)))
