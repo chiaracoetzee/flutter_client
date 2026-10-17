@@ -226,4 +226,83 @@ void main() {
       expect(epoch, utc.millisecondsSinceEpoch ~/ 1000);
     });
   });
+
+  group('names it does not know', () {
+    const String unknown = 'Mars/Olympus_Mons';
+
+    test('picks the option whose offset is closest to the one given', () {
+      final TimezoneOption kolkata = findTimezoneOption('Asia/Kolkata');
+      expect(
+        findTimezoneOption(unknown, kolkata.offsetMinutes).offsetMinutes,
+        kolkata.offsetMinutes,
+      );
+      expect(
+        findTimezoneOption(unknown, kolkata.offsetMinutes + 1).offsetMinutes,
+        kolkata.offsetMinutes,
+      );
+    });
+
+    test('prefers the device zone over the offset', () {
+      expect(findTimezoneOption(unknown, 0, 'Asia/Tokyo').value, 'Asia/Tokyo');
+      expect(findTimezoneOption(unknown, 0, 'Etc/UTC').value, 'UTC');
+    });
+
+    test("shift a time by the fallback option's offset", () {
+      final DateTime instant = DateTime.utc(2026, 1, 15, 12);
+      final int offset = findTimezoneOption(unknown).offsetMinutes;
+
+      expect(
+        adjustToViewerTimezone(instant, unknown),
+        DateTime(2026, 1, 15, 12).add(Duration(minutes: offset)),
+      );
+    });
+
+    test('turn a wall-clock time into an epoch with the fallback offset', () {
+      final int offset = findTimezoneOption(unknown).offsetMinutes;
+
+      expect(
+        calculateEpochFromWallClock(
+          wallClockDate: DateTime(2026, 1, 15),
+          hour: 12,
+          minute: 30,
+          timezoneIana: unknown,
+        ),
+        DateTime.utc(2026, 1, 15, 12, 30).millisecondsSinceEpoch ~/ 1000 -
+            offset * 60,
+      );
+    });
+
+    test("give the wall clock at the option's offset", () {
+      const TimezoneOption option = TimezoneOption(
+        value: unknown,
+        label: 'Mars',
+        searchText: 'mars',
+        offsetMinutes: 90,
+      );
+      final DateTime expected = DateTime.now().toUtc().add(
+        const Duration(minutes: 90),
+      );
+
+      final DateTime wallClock = getCurrentWallClockTime(option);
+
+      final DateTime asNaive = DateTime(
+        expected.year,
+        expected.month,
+        expected.day,
+        expected.hour,
+        expected.minute,
+        expected.second,
+      );
+      expect(wallClock.difference(asNaive).inSeconds.abs(), lessThan(5));
+    });
+  });
+
+  test(
+    'reports UTC when the platform cannot say which zone the device is in',
+    () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+
+      expect(await getDeviceIanaTimezone(), 'UTC');
+    },
+  );
 }
