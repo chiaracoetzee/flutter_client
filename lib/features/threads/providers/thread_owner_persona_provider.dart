@@ -37,9 +37,9 @@ final threadOwnerPersonaIdProvider = StreamProvider.autoDispose
 /// so callers fall back to the account's name.
 ///
 /// A thread carries only the persona's ID. The name comes from what this
-/// device already knows: the user's own personas, then any stored message the
-/// owner sent as that persona (which is how a private persona gets its name),
-/// and failing that one lookup.
+/// device already knows: the user's own personas, the personas it has been
+/// told about (known_personas.dart), then any stored message the owner sent
+/// as that persona, and failing that one lookup.
 // Riverpod's family type cannot be written out here; the right-hand side states it.
 // ignore: specify_nonobvious_property_types
 final threadOwnerPersonaNameProvider = FutureProvider.autoDispose
@@ -58,6 +58,12 @@ final threadOwnerPersonaNameProvider = FutureProvider.autoDispose
         }
       }
       final FluxerDatabase db = ref.watch(fluxerDatabaseProvider);
+      final KnownPersona? known = await (db.select(
+        db.knownPersonas,
+      )..where((t) => t.id.equals(personaId))).getSingleOrNull();
+      if (known != null) {
+        return known.name;
+      }
       final QueryRow? sent = await db
           .customSelect(
             'SELECT persona_name FROM messages '

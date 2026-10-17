@@ -2,6 +2,8 @@ import 'package:drift/drift.dart' as drift;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart'
+    show MessageDeliveryState;
 import 'package:sqlite3/sqlite3.dart';
 
 const List<String> _personaColumns = <String>[
@@ -64,6 +66,41 @@ Future<int> _open(Database raw) async {
   await db.close();
   return version;
 }
+
+/// Caches messages as the app does, keyed by id, in channel `c1` unless told.
+Future<void> _cache(
+  Database raw,
+  Map<String, String> contentById, {
+  String channelId = 'c1',
+  String embedsJson = '[]',
+  String snapshotsJson = '[]',
+  MessageDeliveryState state = MessageDeliveryState.sent,
+}) async {
+  final FluxerDatabase db = FluxerDatabase.forTesting(
+    NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+  );
+  await db.batch((drift.Batch batch) {
+    batch.insertAll(db.messages, <MessagesCompanion>[
+      for (final MapEntry<String, String> entry in contentById.entries)
+        MessagesCompanion.insert(
+          id: entry.key,
+          channelId: channelId,
+          authorId: 'u1',
+          content: entry.value,
+          timestamp: DateTime.utc(2026, 10, 16),
+          embedsJson: drift.Value(embedsJson),
+          messageSnapshotsJson: drift.Value(snapshotsJson),
+          deliveryState: drift.Value(state.index),
+        ),
+    ]);
+  });
+  await db.close();
+}
+
+Set<String> _cachedIds(Database raw) => raw
+    .select('SELECT id FROM messages')
+    .map((Row row) => row['id'] as String)
+    .toSet();
 
 void main() {
   drift.driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -179,6 +216,17 @@ void main() {
       expect(_columns(raw, 'channels'), contains('owner_persona_id'));
     });
 
+    test('an existing database gains the table of known personas', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      raw.execute('DROP TABLE known_personas');
+
+      await _open(raw);
+
+      expect(_columns(raw, 'known_personas'), contains('name'));
+    });
+
     test('opening twice changes nothing the second time', () async {
       final Database raw = sqlite3.openInMemory();
       addTearDown(raw.close);
@@ -188,6 +236,118 @@ void main() {
       final Set<String> afterFirst = _columns(raw, 'messages');
       await _open(raw);
       expect(_columns(raw, 'messages'), afterFirst);
+    });
+  });
+
+  group('cached messages from before the table of known personas', () {
+    // A database with messages cached, as the app caches them.
+    Future<Database> cachedDatabase() async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      return raw;
+    }
+
+    // What a build without the table left. Run after caching: opening the
+    // database to cache creates the table again.
+    void withoutKnownPersonas(Database raw) =>
+        raw.execute('DROP TABLE known_personas');
+
+    test('lose the messages that mention a persona, so the server sends them '
+        'again with the persona named', () async {
+      final Database raw = await cachedDatabase();
+      await _cache(raw, <String, String>{
+        'content': 'hi <@1:2>',
+        'nick-form': 'hi <@!1:2>',
+        'account': 'hi <@1>',
+        'plain': 'hello',
+        'zero-width': 'hi <@1:> or <@:2>',
+      });
+      await _cache(raw, <String, String>{
+        'embed': 'link',
+      }, embedsJson: '[{"description":"by <@3:4>"}]');
+      await _cache(raw, <String, String>{
+        'forward': '',
+      }, snapshotsJson: '[{"content":"<@5:6> said"}]');
+      await _cache(raw, <String, String>{
+        'other-channel': '<@7:8>',
+      }, channelId: 'c2');
+
+      withoutKnownPersonas(raw);
+      await _open(raw);
+
+      expect(_columns(raw, 'known_personas'), contains('name'));
+      expect(_cachedIds(raw), <String>{'account', 'plain', 'zero-width'});
+    });
+
+    test('keep a message still being sent or that failed to send', () async {
+      final Database raw = await cachedDatabase();
+      await _cache(raw, <String, String>{
+        'sending': 'hi <@1:2>',
+      }, state: MessageDeliveryState.sending);
+      await _cache(raw, <String, String>{
+        'failed': 'hi <@1:2>',
+      }, state: MessageDeliveryState.failed);
+
+      await _cache(raw, <String, String>{'sent': 'hi <@1:2>'});
+      withoutKnownPersonas(raw);
+      await _open(raw);
+
+      expect(_cachedIds(raw), <String>{'sending', 'failed'});
+    });
+
+    test('are all dropped, however many there are', () async {
+      final Database raw = await cachedDatabase();
+      await _cache(raw, <String, String>{
+        for (var i = 0; i < 1201; i++) '$i': '<@1:$i>',
+        'kept': 'hello',
+      });
+
+      withoutKnownPersonas(raw);
+      await _open(raw);
+
+      expect(_cachedIds(raw), <String>{'kept'});
+    });
+
+    test(
+      'are dropped once: later messages that mention a persona stay',
+      () async {
+        final Database raw = await cachedDatabase();
+        await _cache(raw, <String, String>{'earlier': 'hi <@1:2>'});
+        withoutKnownPersonas(raw);
+        await _open(raw);
+        await _cache(raw, <String, String>{'later': 'hi <@1:2>'});
+
+        await _open(raw);
+
+        expect(_cachedIds(raw), <String>{'later'});
+      },
+    );
+
+    test('are dropped by an install that also takes upstream steps', () async {
+      final Database raw = await cachedDatabase();
+      await _cache(raw, <String, String>{
+        'persona': 'hi <@1:2>',
+        'plain': 'hello',
+      });
+      withoutKnownPersonas(raw);
+      raw.execute('PRAGMA user_version = 97');
+
+      await _open(raw);
+
+      expect(_cachedIds(raw), <String>{'plain'});
+      expect(_columns(raw, 'known_personas'), contains('name'));
+    });
+
+    test('are not touched in a new database', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _open(raw);
+      await _cache(raw, <String, String>{'new': 'hi <@1:2>'});
+
+      await _open(raw);
+
+      expect(_cachedIds(raw), <String>{'new'});
     });
   });
 }

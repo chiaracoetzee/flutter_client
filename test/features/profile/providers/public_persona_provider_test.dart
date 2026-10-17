@@ -4,10 +4,19 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
+
+FluxerDatabase _memoryDatabase() {
+  final FluxerDatabase db = FluxerDatabase.forTesting(NativeDatabase.memory());
+  addTearDown(db.close);
+  return db;
+}
 
 class _MockDioAdapter implements HttpClientAdapter {
   _MockDioAdapter(this.handler);
@@ -72,14 +81,26 @@ void main() {
         );
       });
 
+      final FluxerDatabase db = _memoryDatabase();
       final container = ProviderContainer(
-        overrides: [fluxerDioProvider.overrideWithValue(dio)],
+        overrides: [
+          fluxerDioProvider.overrideWithValue(dio),
+          fluxerDatabaseProvider.overrideWithValue(db),
+        ],
       );
       addTearDown(container.dispose);
 
       final result = await container.read(
         publicPersonaProvider((userId: 'u_123', personaId: 'p_456')).future,
       );
+      // Fork: kept, so it is not asked for again (known_personas.dart).
+      final KnownPersona? kept =
+          await (db.select(db.knownPersonas)
+                ..where((t) => t.id.equals('p_456')))
+              .watchSingleOrNull()
+              .firstWhere((KnownPersona? row) => row != null)
+              .timeout(const Duration(seconds: 10));
+      expect(kept?.name, 'Public Alter');
 
       expect(result, isNotNull);
       expect(result?.id, 'p_456');
@@ -129,6 +150,7 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           fluxerDioProvider.overrideWithValue(_createMockDio(handler)),
+          fluxerDatabaseProvider.overrideWithValue(_memoryDatabase()),
         ],
       );
       addTearDown(container.dispose);

@@ -1,13 +1,22 @@
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+FluxerDatabase _memoryDatabase() {
+  final FluxerDatabase db = FluxerDatabase.forTesting(NativeDatabase.memory());
+  addTearDown(db.close);
+  return db;
+}
 
 class _MockDioAdapter implements HttpClientAdapter {
   @override
@@ -332,7 +341,10 @@ void main() {
     test('returns null when userId or personaId is empty', () async {
       final dio = _createMockDio();
       final container = ProviderContainer(
-        overrides: [fluxerDioProvider.overrideWithValue(dio)],
+        overrides: [
+          fluxerDioProvider.overrideWithValue(dio),
+          fluxerDatabaseProvider.overrideWithValue(_memoryDatabase()),
+        ],
       );
       addTearDown(container.dispose);
 
@@ -350,7 +362,10 @@ void main() {
     test('resolves PublicPersona on successful response', () async {
       final dio = _createMockDio();
       final container = ProviderContainer(
-        overrides: [fluxerDioProvider.overrideWithValue(dio)],
+        overrides: [
+          fluxerDioProvider.overrideWithValue(dio),
+          fluxerDatabaseProvider.overrideWithValue(_memoryDatabase()),
+        ],
       );
       addTearDown(container.dispose);
 
@@ -365,7 +380,10 @@ void main() {
     test('returns null on dio failure without throwing', () async {
       final dio = _createMockDio();
       final container = ProviderContainer(
-        overrides: [fluxerDioProvider.overrideWithValue(dio)],
+        overrides: [
+          fluxerDioProvider.overrideWithValue(dio),
+          fluxerDatabaseProvider.overrideWithValue(_memoryDatabase()),
+        ],
       );
       addTearDown(container.dispose);
 

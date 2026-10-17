@@ -127,6 +127,16 @@ void main() {
       expect(lookups, 0);
     });
 
+    test('comes from the personas the device has been told about', () async {
+      await store(_thread(ownerPersonaId: 'p9'));
+      await db
+          .into(db.knownPersonas)
+          .insert(KnownPersonasCompanion.insert(id: 'p9', name: 'Known'));
+
+      expect(await name(), 'Known');
+      expect(lookups, 0);
+    });
+
     test('comes from a stored message the owner sent as the persona', () async {
       await store(_thread(ownerPersonaId: 'p9'));
       await db.messageDao.upsertMessages([

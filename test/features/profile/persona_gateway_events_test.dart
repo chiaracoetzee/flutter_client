@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase, KnownPersona;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -112,6 +116,7 @@ void main() {
   late _RecordingPersonaSettings settings;
   late Map<String, int> lookups;
   late Ref ref;
+  late FluxerDatabase db;
 
   setUp(() {
     SharedPreferences.setMockInitialValues({});
@@ -119,8 +124,11 @@ void main() {
     mine = _RecordingMyPersonas();
     settings = _RecordingPersonaSettings();
     lookups = <String, int>{};
+    db = FluxerDatabase.forTesting(NativeDatabase.memory());
+    addTearDown(db.close);
     container = ProviderContainer(
       overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
         currentUserIdProvider.overrideWithValue('me'),
         chatViewModelProvider.overrideWith(() => chat),
         myPersonasProvider.overrideWith(() => mine),
@@ -149,6 +157,14 @@ void main() {
     container.listen(publicPersonaProvider(key), (_, _) {});
     await container.read(publicPersonaProvider(key).future);
   }
+
+  // The handler keeps the persona without waiting; wait for it here.
+  Future<String> keptName(String personaId) async =>
+      (await (db.select(db.knownPersonas)..where((t) => t.id.equals(personaId)))
+              .watchSingleOrNull()
+              .firstWhere((KnownPersona? row) => row != null)
+              .timeout(const Duration(seconds: 10)))!
+          .name;
 
   void handle(String eventType, Object? data) =>
       handlePersonaGatewayEvent(ref, eventType, data, sessionUserId: 'me');
@@ -191,6 +207,7 @@ void main() {
         ChannelPersonaMentionCache.instance.cachedItems.map((p) => p['id']),
         <String>['p8'],
       );
+      expect(await keptName('p9'), 'Bob');
     });
 
     test('leaves the messages of a deleted persona as they were', () async {
@@ -245,19 +262,29 @@ void main() {
     expect(chat.personaUpdates, isEmpty);
   });
 
-  test('keeps an edited persona of the account and renames its messages', () {
-    handle('USER_PERSONA_UPDATE', <String, dynamic>{
-      'persona': <String, dynamic>{
-        'id': 'p1',
-        'user_id': 'me',
-        'name': 'Ada',
-        'avatar_hash': 'a1',
-      },
-    });
+  test(
+    'keeps an edited persona of the account and renames its messages',
+    () async {
+      handle('USER_PERSONA_UPDATE', <String, dynamic>{
+        'persona': <String, dynamic>{
+          'id': 'p1',
+          'user_id': 'me',
+          'name': 'Ada',
+          'avatar_hash': 'a1',
+        },
+      });
 
-    expect(mine.upserted.single.name, 'Ada');
-    expect(chat.personaUpdates, [
-      (personaId: 'p1', name: 'Ada', avatar: 'a1', tag: 'SYS', tagIcon: 'icon'),
-    ]);
-  });
+      expect(mine.upserted.single.name, 'Ada');
+      expect(chat.personaUpdates, [
+        (
+          personaId: 'p1',
+          name: 'Ada',
+          avatar: 'a1',
+          tag: 'SYS',
+          tagIcon: 'icon',
+        ),
+      ]);
+      expect(await keptName('p1'), 'Ada');
+    },
+  );
 }

@@ -3,10 +3,12 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/data/channel_persona_mention_cache.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/profile/data/known_personas.dart';
 import 'package:fluxer_app/features/profile/domain/persona.dart';
 import 'package:fluxer_app/features/profile/providers/persona_providers.dart';
 import 'package:fluxer_app/features/profile/providers/public_persona_provider.dart';
@@ -47,6 +49,12 @@ void handlePersonaGatewayEvent(
         // A deleted persona keeps showing on its messages as it was (the server
         // keeps it as a tombstone), so only an edit renames them.
         if (action != 'delete' && persona is Map) {
+          unawaited(
+            upsertKnownPersonaFromJson(
+              ref.read(fluxerDatabaseProvider),
+              persona,
+            ),
+          );
           final String? name = persona['name']?.toString();
           final String? avatar = (persona['avatar_hash'] ?? persona['avatar'])
               ?.toString();
@@ -148,6 +156,9 @@ void handlePersonaGatewayEvent(
             : Map<String, dynamic>.from(persona);
         final p = Persona.fromJson(map);
         ref.read(myPersonasProvider.notifier).upsertPersona(p);
+        unawaited(
+          upsertKnownPersonaFromJson(ref.read(fluxerDatabaseProvider), map),
+        );
 
         final userPersonaSettings = ref
             .read(personaSettingsProvider)
