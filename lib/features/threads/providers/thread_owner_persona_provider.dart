@@ -40,6 +40,7 @@ final threadOwnerPersonaIdProvider = StreamProvider.autoDispose
 /// device already knows: the user's own personas, then any stored message the
 /// owner sent as that persona (which is how a private persona gets its name),
 /// and failing that one lookup.
+// Riverpod's family type cannot be written out here; the right-hand side states it.
 // ignore: specify_nonobvious_property_types
 final threadOwnerPersonaNameProvider = FutureProvider.autoDispose
     .family<String?, ({String threadId, String ownerId})>((ref, arg) async {
