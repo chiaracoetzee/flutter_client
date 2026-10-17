@@ -280,6 +280,7 @@ class TypingIndicators extends _$TypingIndicators {
 }
 
 /// Returns the active typing subprofile for a user in a channel if any.
+// Riverpod's family type cannot be written out here; the right-hand side states it.
 // ignore: specify_nonobvious_property_types
 final channelTypingSubprofileProvider =
     Provider.family<
