@@ -44,17 +44,9 @@ void handlePersonaGatewayEvent(
           );
         }
 
-        if (action == 'delete') {
-          ref
-              .read(chatViewModelProvider.notifier)
-              .onPersonaUpdated(
-                personaId: personaId,
-                name: 'Deleted Persona',
-                avatar: null,
-                tag: null,
-                tagIcon: null,
-              );
-        } else if (persona is Map) {
+        // A deleted persona keeps showing on its messages as it was (the server
+        // keeps it as a tombstone), so only an edit renames them.
+        if (action != 'delete' && persona is Map) {
           final String? name = persona['name']?.toString();
           final String? avatar = (persona['avatar_hash'] ?? persona['avatar'])
               ?.toString();
@@ -143,16 +135,9 @@ void handlePersonaGatewayEvent(
       }
 
       if (eventType == 'USER_PERSONA_DELETE') {
+        // Gone from the account's own list; its messages keep showing it as
+        // it was.
         ref.read(myPersonasProvider.notifier).removePersona(id);
-        ref
-            .read(chatViewModelProvider.notifier)
-            .onPersonaUpdated(
-              personaId: id,
-              name: 'Deleted Persona',
-              avatar: null,
-              tag: null,
-              tagIcon: null,
-            );
       }
     }
 
