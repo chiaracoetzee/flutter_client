@@ -193,16 +193,19 @@ void main() {
       );
     });
 
-    test('marks the messages of a deleted persona', () {
+    test('leaves the messages of a deleted persona as they were', () async {
+      await lookUp('u2', 'p9');
+
       handle('GUILD_PERSONAS_DIRTY', <String, dynamic>{
         'guild_id': 'g1',
         'user_id': 'u2',
         'action': 'delete',
         'persona_id': 'p9',
       });
+      await lookUp('u2', 'p9');
 
-      expect(chat.personaUpdates.single.name, 'Deleted Persona');
-      expect(chat.personaUpdates.single.avatar, isNull);
+      expect(chat.personaUpdates, isEmpty);
+      expect(lookups['u2:p9'], 2);
     });
   });
 
@@ -234,12 +237,12 @@ void main() {
     ]);
   });
 
-  test('removes a deleted persona of the account and marks its messages', () {
+  test('drops a deleted persona from the account but leaves its messages', () {
     handle('USER_PERSONA_DELETE', <String, dynamic>{'persona_id': 'p1'});
 
     expect(mine.reloads, 1);
     expect(mine.removed, ['p1']);
-    expect(chat.personaUpdates.single.name, 'Deleted Persona');
+    expect(chat.personaUpdates, isEmpty);
   });
 
   test('keeps an edited persona of the account and renames its messages', () {
