@@ -87,6 +87,9 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? sequentialFileSend,
     $core.bool? mobileSplashZoomAnimation,
     $core.bool? showAltTextOnImages,
+    $core.double? mobileFontSize,
+    $core.double? mobileMessageGroupSpacing,
+    $core.double? mobileCompactMessageGroupSpacing,
   }) {
     final result = AccessibilitySettings._();
     if (saturationFactor != null) result.saturationFactor = saturationFactor;
@@ -210,6 +213,12 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
       result.mobileSplashZoomAnimation = mobileSplashZoomAnimation;
     if (showAltTextOnImages != null)
       result.showAltTextOnImages = showAltTextOnImages;
+    if (mobileFontSize != null) result.mobileFontSize = mobileFontSize;
+    if (mobileMessageGroupSpacing != null)
+      result.mobileMessageGroupSpacing = mobileMessageGroupSpacing;
+    if (mobileCompactMessageGroupSpacing != null)
+      result.mobileCompactMessageGroupSpacing =
+          mobileCompactMessageGroupSpacing;
     return result;
   }
 
@@ -300,7 +309,10 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     ..aOB(62, _omitFieldNames ? '' : 'dimStrikethroughText')
     ..aOB(63, _omitFieldNames ? '' : 'sequentialFileSend')
     ..aOB(64, _omitFieldNames ? '' : 'mobileSplashZoomAnimation')
-    ..aOB(65, _omitFieldNames ? '' : 'showAltTextOnImages')
+    ..aOB(2223, _omitFieldNames ? '' : 'showAltTextOnImages')
+    ..aD(2224, _omitFieldNames ? '' : 'mobileFontSize')
+    ..aD(2225, _omitFieldNames ? '' : 'mobileMessageGroupSpacing')
+    ..aD(2226, _omitFieldNames ? '' : 'mobileCompactMessageGroupSpacing')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -914,14 +926,48 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   @$pb.TagNumber(64)
   void clearMobileSplashZoomAnimation() => $_clearField(64);
 
-  @$pb.TagNumber(65)
+  /// Fork fields. The fork numbers its own fields from 2200 up, in this block; never give a
+  /// fork field the next number after upstream's last one. Upstream numbers its fields in
+  /// sequence, and the settings are stored by number, so a fork field in that range is read
+  /// as upstream's next field once upstream adds it (field 65 did that on 2026-10-16).
+  /// show_alt_text_on_images is 65 in upstream's mobile app, which upstream's web app uses for
+  /// double_click_message_actions; the fork follows the monorepo's numbering for both.
+  @$pb.TagNumber(2223)
   $core.bool get showAltTextOnImages => $_getBF(64);
-  @$pb.TagNumber(65)
+  @$pb.TagNumber(2223)
   set showAltTextOnImages($core.bool value) => $_setBool(64, value);
-  @$pb.TagNumber(65)
+  @$pb.TagNumber(2223)
   $core.bool hasShowAltTextOnImages() => $_has(64);
-  @$pb.TagNumber(65)
-  void clearShowAltTextOnImages() => $_clearField(65);
+  @$pb.TagNumber(2223)
+  void clearShowAltTextOnImages() => $_clearField(2223);
+
+  @$pb.TagNumber(2224)
+  $core.double get mobileFontSize => $_getN(65);
+  @$pb.TagNumber(2224)
+  set mobileFontSize($core.double value) => $_setDouble(65, value);
+  @$pb.TagNumber(2224)
+  $core.bool hasMobileFontSize() => $_has(65);
+  @$pb.TagNumber(2224)
+  void clearMobileFontSize() => $_clearField(2224);
+
+  @$pb.TagNumber(2225)
+  $core.double get mobileMessageGroupSpacing => $_getN(66);
+  @$pb.TagNumber(2225)
+  set mobileMessageGroupSpacing($core.double value) => $_setDouble(66, value);
+  @$pb.TagNumber(2225)
+  $core.bool hasMobileMessageGroupSpacing() => $_has(66);
+  @$pb.TagNumber(2225)
+  void clearMobileMessageGroupSpacing() => $_clearField(2225);
+
+  @$pb.TagNumber(2226)
+  $core.double get mobileCompactMessageGroupSpacing => $_getN(67);
+  @$pb.TagNumber(2226)
+  set mobileCompactMessageGroupSpacing($core.double value) =>
+      $_setDouble(67, value);
+  @$pb.TagNumber(2226)
+  $core.bool hasMobileCompactMessageGroupSpacing() => $_has(67);
+  @$pb.TagNumber(2226)
+  void clearMobileCompactMessageGroupSpacing() => $_clearField(2226);
 }
 
 class AccessibilityOverrides extends $pb.GeneratedMessage {
