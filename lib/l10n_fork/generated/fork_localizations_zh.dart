@@ -402,6 +402,11 @@ class ForkLocalizationsZh extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => '此人格的个人资料为私密。';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return '图片文件过大。请选择小于 $maxSize 的文件。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -802,4 +807,9 @@ class ForkLocalizationsZhHant extends ForkLocalizationsZh {
 
   @override
   String get personaProfilePrivate => '此人格的個人檔案為私人。';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return '圖片檔案過大。請選擇小於 $maxSize 的檔案。';
+  }
 }

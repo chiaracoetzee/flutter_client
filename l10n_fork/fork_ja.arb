@@ -118,5 +118,6 @@
     "personaScopeChannel": "チャンネルごと",
     "personaScopeChannelDescription": "各チャンネルがそれぞれのペルソナを保持します。新しいチャンネルはアカウントから始まります。",
     "personaPickerChannelOnly": "このチャンネルのみ",
-    "personaProfilePrivate": "このペルソナのプロフィールは非公開です。"
+    "personaProfilePrivate": "このペルソナのプロフィールは非公開です。",
+    "imageFileTooLargeMaxSize": "画像ファイルが大きすぎます。{maxSize}未満のファイルを選択してください。"
 }

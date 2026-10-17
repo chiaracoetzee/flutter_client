@@ -415,4 +415,9 @@ class ForkLocalizationsHi extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'इस परसोना की प्रोफ़ाइल निजी है।';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'छवि फ़ाइल बहुत बड़ी है। कृपया $maxSize से छोटी फ़ाइल चुनें।';
+  }
 }

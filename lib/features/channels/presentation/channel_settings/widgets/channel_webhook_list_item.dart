@@ -26,6 +26,10 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
+
 typedef WebhookListItemUpdateCallback =
     void Function(
       String webhookId, {
@@ -178,14 +182,14 @@ class _ChannelWebhookListItemState
     if (picked == null || !mounted) {
       return;
     }
-    if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+    if (isImageOverUploadLimit(ref, picked.bytes)) {
       if (!mounted) {
         return;
       }
       await showErrorDialog(
         context,
         title: l10n.errorSomethingWentWrongTitle,
-        body: l10n.imageFileTooLarge,
+        body: imageFileTooLargeMessage(l10n, ref),
       );
       return;
     }

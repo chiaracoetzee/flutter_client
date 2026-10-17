@@ -407,4 +407,9 @@ class ForkLocalizationsJa extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'このペルソナのプロフィールは非公開です。';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return '画像ファイルが大きすぎます。$maxSize未満のファイルを選択してください。';
+  }
 }

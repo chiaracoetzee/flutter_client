@@ -118,5 +118,6 @@
     "personaScopeChannel": "每個頻道",
     "personaScopeChannelDescription": "每個頻道保留各自的人格。新頻道以你的帳號開始。",
     "personaPickerChannelOnly": "僅限此頻道",
-    "personaProfilePrivate": "此人格的個人檔案為私人。"
+    "personaProfilePrivate": "此人格的個人檔案為私人。",
+    "imageFileTooLargeMaxSize": "圖片檔案過大。請選擇小於 {maxSize} 的檔案。"
 }

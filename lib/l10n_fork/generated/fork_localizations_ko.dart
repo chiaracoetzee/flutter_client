@@ -406,4 +406,9 @@ class ForkLocalizationsKo extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => '이 페르소나의 프로필은 비공개입니다.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return '이미지 파일이 너무 큽니다. $maxSize 미만의 파일을 선택하세요.';
+  }
 }

@@ -118,5 +118,6 @@
     "personaScopeChannel": "Kullakin kanavalla",
     "personaScopeChannelDescription": "Jokainen kanava säilyttää oman persoonansa. Uudet kanavat alkavat tilinäsi.",
     "personaPickerChannelOnly": "Vain tälle kanavalle",
-    "personaProfilePrivate": "Tämän persoonan profiili on yksityinen."
+    "personaProfilePrivate": "Tämän persoonan profiili on yksityinen.",
+    "imageFileTooLargeMaxSize": "Kuvatiedosto on liian suuri. Valitse tiedosto, joka on pienempi kuin {maxSize}."
 }

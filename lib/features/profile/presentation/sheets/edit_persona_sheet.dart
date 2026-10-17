@@ -26,6 +26,7 @@ import 'package:fluxer_app/l10n_fork/fork_localizations_x.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
+import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -333,12 +334,12 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     }
 
     final l10n = FluxerLocalizations.of(context);
-    if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+    if (isImageOverUploadLimit(ref, picked.bytes)) {
       ref
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
-              message: l10n.imageFileTooLarge,
+              message: imageFileTooLargeMessage(l10n, ref),
               variant: FluxerToastVariant.danger,
             ),
           );
@@ -406,12 +407,12 @@ class _EditPersonaBodyState extends ConsumerState<_EditPersonaBody> {
     }
 
     final l10n = FluxerLocalizations.of(context);
-    if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+    if (isImageOverUploadLimit(ref, picked.bytes)) {
       ref
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
-              message: l10n.imageFileTooLarge,
+              message: imageFileTooLargeMessage(l10n, ref),
               variant: FluxerToastVariant.danger,
             ),
           );

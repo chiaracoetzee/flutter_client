@@ -419,4 +419,9 @@ class ForkLocalizationsUk extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'Профіль цієї персони приватний.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'Файл зображення занадто великий. Будь ласка, виберіть файл розміром менше $maxSize.';
+  }
 }

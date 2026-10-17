@@ -11,6 +11,11 @@ import 'package:fluxer_app/features/ui/input/fluxer_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
+
 export 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart'
     show readClipboardPlainText;
 
@@ -38,7 +43,11 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
   if (!await readClipboardLikelyHasFileAttachments()) {
     return null;
   }
-  final List<XFile> files = await readClipboardAttachmentFiles();
+  final List<XFile> files = await readClipboardAttachmentFiles(
+    maxFiles: ref.read(
+      instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+    ),
+  );
   if (files.isEmpty) {
     return null;
   }

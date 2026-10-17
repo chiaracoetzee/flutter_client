@@ -416,4 +416,9 @@ class ForkLocalizationsVi extends ForkLocalizations {
   @override
   String get personaProfilePrivate =>
       'Hồ sơ của persona này ở chế độ riêng tư.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'Tệp ảnh quá lớn. Vui lòng chọn tệp có dung lượng nhỏ hơn $maxSize.';
+  }
 }

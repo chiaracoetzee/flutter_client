@@ -118,5 +118,6 @@
     "personaScopeChannel": "V každém kanálu",
     "personaScopeChannelDescription": "Každý kanál si drží vlastní personu. Nové kanály začínají jako váš účet.",
     "personaPickerChannelOnly": "Jen pro tento kanál",
-    "personaProfilePrivate": "Profil této persony je soukromý."
+    "personaProfilePrivate": "Profil této persony je soukromý.",
+    "imageFileTooLargeMaxSize": "Soubor obrázku je příliš velký. Vyberte soubor menší než {maxSize}."
 }

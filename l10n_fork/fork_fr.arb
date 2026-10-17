@@ -118,5 +118,6 @@
     "personaScopeChannel": "Dans chaque salon",
     "personaScopeChannelDescription": "Chaque salon conserve son propre persona. Les nouveaux salons commencent avec votre compte.",
     "personaPickerChannelOnly": "Uniquement pour ce salon",
-    "personaProfilePrivate": "Le profil de cette persona est privé."
+    "personaProfilePrivate": "Le profil de cette persona est privé.",
+    "imageFileTooLargeMaxSize": "Le fichier image est trop volumineux. Veuillez choisir un fichier de moins de {maxSize}."
 }

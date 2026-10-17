@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessi
 import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_filename_utils.dart';
+// ignore: unused_import // Fork: upstream's import, unused since the fork's changes.
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart'
     show
@@ -28,6 +29,11 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dar
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:path/path.dart' as path_lib;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 
 part 'cloud_upload_controller.g.dart';
 
@@ -71,7 +77,9 @@ class CloudUploadController extends _$CloudUploadController {
     }
     final int maxFileBytes = ref.read(maxAttachmentFileBytesProvider);
     final FileUploadValidator validator = FileUploadValidator(
-      maxAttachments: kMaxAttachmentsPerMessage,
+      maxAttachments: ref.read(
+        instanceLimitProvider(LimitKeys.maxAttachmentsPerMessage),
+      ),
       maxFileBytes: maxFileBytes,
       maxMultipartRequestBytes: maxFileBytes,
     );

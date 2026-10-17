@@ -21,6 +21,10 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
+
 class GuildOverviewWidget extends ConsumerStatefulWidget {
   const GuildOverviewWidget({
     required this.guildId,
@@ -917,12 +921,15 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
     if (picked == null || !mounted) {
       return;
     }
-    if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+    if (isImageOverUploadLimit(ref, picked.bytes)) {
       ref
           .read(toastProvider.notifier)
           .show(
             FluxerToast(
-              message: FluxerLocalizations.of(context).imageFileTooLarge,
+              message: imageFileTooLargeMessage(
+                FluxerLocalizations.of(context),
+                ref,
+              ),
               variant: FluxerToastVariant.danger,
             ),
           );

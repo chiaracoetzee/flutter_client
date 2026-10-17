@@ -28,6 +28,10 @@ import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
+
 Future<String?> pickAddGuildIconDataUri({
   required BuildContext context,
   required WidgetRef ref,
@@ -37,12 +41,12 @@ Future<String?> pickAddGuildIconDataUri({
   if (picked == null || !context.mounted) {
     return null;
   }
-  if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+  if (isImageOverUploadLimit(ref, picked.bytes)) {
     ref
         .read(toastProvider.notifier)
         .show(
           FluxerToast(
-            message: l10n.imageFileTooLarge,
+            message: imageFileTooLargeMessage(l10n, ref),
             variant: FluxerToastVariant.danger,
           ),
         );

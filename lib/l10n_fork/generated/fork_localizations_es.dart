@@ -421,6 +421,11 @@ class ForkLocalizationsEs extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'El perfil de esta persona es privado.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'El archivo de imagen es demasiado grande. Por favor, elige un archivo de menos de $maxSize.';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
@@ -840,4 +845,9 @@ class ForkLocalizationsEs419 extends ForkLocalizationsEs {
 
   @override
   String get personaProfilePrivate => 'El perfil de esta persona es privado.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'El archivo de imagen es demasiado grande. Por favor, elige un archivo inferior a $maxSize.';
+  }
 }

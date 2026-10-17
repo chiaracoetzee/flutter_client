@@ -118,5 +118,6 @@
     "personaScopeChannel": "În fiecare canal",
     "personaScopeChannelDescription": "Fiecare canal își păstrează propria persona. Canalele noi pornesc cu contul tău.",
     "personaPickerChannelOnly": "Doar pentru acest canal",
-    "personaProfilePrivate": "Profilul acestei persona este privat."
+    "personaProfilePrivate": "Profilul acestei persona este privat.",
+    "imageFileTooLargeMaxSize": "Fișierul imagine este prea mare. Alege un fișier mai mic de {maxSize}."
 }

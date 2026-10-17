@@ -118,5 +118,6 @@
     "personaScopeChannel": "ในแต่ละช่อง",
     "personaScopeChannelDescription": "แต่ละช่องเก็บ Persona ของตัวเอง ช่องใหม่จะเริ่มต้นเป็นบัญชีของคุณ",
     "personaPickerChannelOnly": "เฉพาะช่องนี้",
-    "personaProfilePrivate": "โปรไฟล์ของ Persona นี้เป็นส่วนตัว"
+    "personaProfilePrivate": "โปรไฟล์ของ Persona นี้เป็นส่วนตัว",
+    "imageFileTooLargeMaxSize": "ไฟล์รูปภาพมีขนาดใหญ่เกินไป โปรดเลือกไฟล์ที่มีขนาดเล็กกว่า {maxSize}"
 }

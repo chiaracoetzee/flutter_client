@@ -118,5 +118,6 @@
     "personaScopeChannel": "In each channel",
     "personaScopeChannelDescription": "Each channel keeps its own persona. New channels start as your account.",
     "personaPickerChannelOnly": "Only for this channel",
-    "personaProfilePrivate": "This persona’s profile is private."
+    "personaProfilePrivate": "This persona’s profile is private.",
+    "imageFileTooLargeMaxSize": "Image file is too large. Please choose a file smaller than {maxSize}."
 }

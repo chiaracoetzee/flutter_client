@@ -413,4 +413,9 @@ class ForkLocalizationsAr extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'الملف الشخصي لهذه الشخصية خاص.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'ملف الصورة كبير جدًا. يرجى اختيار ملف أصغر من $maxSize.';
+  }
 }

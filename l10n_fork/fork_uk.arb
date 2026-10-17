@@ -118,5 +118,6 @@
     "personaScopeChannel": "У кожному каналі",
     "personaScopeChannelDescription": "Кожен канал зберігає свою персону. Нові канали починаються з вашого облікового запису.",
     "personaPickerChannelOnly": "Лише для цього каналу",
-    "personaProfilePrivate": "Профіль цієї персони приватний."
+    "personaProfilePrivate": "Профіль цієї персони приватний.",
+    "imageFileTooLargeMaxSize": "Файл зображення занадто великий. Будь ласка, виберіть файл розміром менше {maxSize}."
 }

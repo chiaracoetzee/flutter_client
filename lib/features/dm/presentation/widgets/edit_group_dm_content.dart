@@ -16,6 +16,10 @@ import 'package:fluxer_app/shared/utils/api_error_presentation.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+// Fork imports.
+// ignore: directives_ordering
+import 'package:fluxer_app/shared/utils/fork_image_upload_limit.dart';
+
 class EditGroupDmContent extends ConsumerStatefulWidget {
   const EditGroupDmContent({
     required this.dm,
@@ -35,8 +39,6 @@ class EditGroupDmContent extends ConsumerStatefulWidget {
 class _EditGroupDmContentState extends ConsumerState<EditGroupDmContent> {
   static const int _maxNameLength = 100;
   static const double _iconPreviewSize = 80;
-  static const String _maxIconSizeLabel = '10 MB';
-
   late final TextEditingController _nameController;
   String? _pendingIconUri;
   bool _iconCleared = false;
@@ -73,10 +75,12 @@ class _EditGroupDmContentState extends ConsumerState<EditGroupDmContent> {
       if (picked == null || !mounted) {
         return;
       }
-      if (ImageUtils.isOverSizeLimit(picked.bytes)) {
+      if (isImageOverUploadLimit(ref, picked.bytes)) {
         await _showIconErrorModal(
           title: l10n.groupDmIconFileTooLargeTitle,
-          message: l10n.groupDmIconFileTooLargeBody(_maxIconSizeLabel),
+          message: l10n.groupDmIconFileTooLargeBody(
+            imageUploadMaxSizeLabel(ref),
+          ),
         );
         return;
       }

@@ -417,4 +417,9 @@ class ForkLocalizationsPl extends ForkLocalizations {
 
   @override
   String get personaProfilePrivate => 'Profil tej persony jest prywatny.';
+
+  @override
+  String imageFileTooLargeMaxSize(String maxSize) {
+    return 'Plik obrazu jest za duży. Wybierz plik mniejszy niż $maxSize.';
+  }
 }
